@@ -19,15 +19,13 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
-  # - /home/wolfv/miniconda3/conda-bld/linux-64/repodata.json
-  # - /home/ubuntu/miniconda3/conda-bld/linux-64/repodata.json
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   # - catkin
-  - message_runtime
+  # - message_runtime
   # - roscpp
-  # - ros_core
+  - ros_core
   # - ros_base
   # - rviz_visual_tools
   # - rviz
