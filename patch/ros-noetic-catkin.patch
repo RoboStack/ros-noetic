@@ -1,0 +1,127 @@
+diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
+index df36e236..475eb975 100644
+--- a/cmake/catkin_package.cmake
++++ b/cmake/catkin_package.cmake
+@@ -254,6 +254,17 @@ function(_catkin_package)
+     list(APPEND _PKG_CONFIG_LIBRARIES ${PROJECT_DEPENDENCIES_LIBRARIES})
+   endif()
+ 
++  set(_CONDA_ADJUSTED_PKG_CONFIG "")
++  foreach(library ${_PKG_CONFIG_LIBRARIES})
++    get_filename_component(library_fn "${library}" NAME_WE)
++    if ("${library_fn}" MATCHES "lib(pthread|rt|dl)$")
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${CMAKE_MATCH_1})
++    else()
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${library})
++    endif()
++  endforeach()
++  set(_PKG_CONFIG_LIBRARIES ${_CONDA_ADJUSTED_PKG_CONFIG})
++
+   # resolve imported library targets
+   catkin_replace_imported_library_targets(_PKG_CONFIG_LIBRARIES ${_PKG_CONFIG_LIBRARIES})
+ 
+diff --git a/cmake/templates/_setup_util.py.in b/cmake/templates/_setup_util.py.in
+index 0b0d6dda..33ac6d47 100755
+--- a/cmake/templates/_setup_util.py.in
++++ b/cmake/templates/_setup_util.py.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON_EXECUTABLE@
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+@@ -59,12 +59,14 @@ if IS_WINDOWS:
+ # subfolder of workspace prepended to CMAKE_PREFIX_PATH
+ ENV_VAR_SUBFOLDERS = {
+     'CMAKE_PREFIX_PATH': '',
+-    'LD_LIBRARY_PATH' if not IS_DARWIN else 'DYLD_LIBRARY_PATH': @CATKIN_LIB_ENVIRONMENT_PATHS@,
++    # 'LD_LIBRARY_PATH' if not IS_DARWIN else 'DYLD_LIBRARY_PATH': @CATKIN_LIB_ENVIRONMENT_PATHS@,
+     'PATH': PATH_TO_ADD_SUFFIX,
+     'PKG_CONFIG_PATH': @CATKIN_PKGCONFIG_ENVIRONMENT_PATHS@,
+-    'PYTHONPATH': '@PYTHON_INSTALL_DIR@',
++    # 'PYTHONPATH': '@PYTHON_INSTALL_DIR@',
+ }
+ 
++if IS_WINDOWS:
++    ENV_VAR_SUBFOLDERS['PYTHONPATH'] = '@PYTHON_INSTALL_DIR@'
+ 
+ def rollback_env_variables(environ, env_var_subfolders):
+     """
+@@ -268,7 +270,7 @@ if __name__ == '__main__':
+ 
+         if not args.local:
+             # environment at generation time
+-            CMAKE_PREFIX_PATH = '@CMAKE_PREFIX_PATH_AS_IS@'.split(';')
++            CMAKE_PREFIX_PATH = r'@CMAKE_PREFIX_PATH_AS_IS@'.split(';')
+         else:
+             # don't consider any other prefix path than this one
+             CMAKE_PREFIX_PATH = []
+diff --git a/cmake/templates/pkgConfig.cmake.in b/cmake/templates/pkgConfig.cmake.in
+index 4e52046d..899a0c07 100644
+--- a/cmake/templates/pkgConfig.cmake.in
++++ b/cmake/templates/pkgConfig.cmake.in
+@@ -119,7 +119,7 @@ endif()
+ set(libraries "@PKG_CONFIG_LIBRARIES@")
+ foreach(library ${libraries})
+   # keep build configuration keywords, target names and absolute libraries as-is
+-  if("${library}" MATCHES "^(debug|optimized|general)$")
++  if("${library}" MATCHES "^(debug|optimized|general|rt|pthread|dl)$")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+   elseif(${library} MATCHES "^-l")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+diff --git a/cmake/templates/setup.sh.in b/cmake/templates/setup.sh.in
+index 07e52769..97cb4600 100644
+--- a/cmake/templates/setup.sh.in
++++ b/cmake/templates/setup.sh.in
+@@ -11,13 +11,29 @@
+ 
+ # since this file is sourced either use the provided _CATKIN_SETUP_DIR
+ # or fall back to the destination set at configure time
++# _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
++
++if [[ ! -z "$ZSH_VERSION" ]]; then
++  CATKIN_SHELL=zsh
++elif [[ ! -z "$BASH_VERSION" ]]; then
++  CATKIN_SHELL=bash
++else
++  CATKIN_SHELL=sh
++fi
++
+ : ${_CATKIN_SETUP_DIR:=@SETUP_DIR@}
++: ${_CONDA_SETUP_DIR:=$CONDA_PREFIX/etc/conda/activate.d/}
+ _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
++
+ unset _CATKIN_SETUP_DIR
+ 
+ if [ ! -f "$_SETUP_UTIL" ]; then
+-  echo "Missing Python script: $_SETUP_UTIL"
+-  return 22
++  _SETUP_UTIL="$_CONDA_SETUP_DIR/ros_setup_util.py"
++
++  if [ ! -f "$_SETUP_UTIL" ]; then
++    echo "Missing Python script: $_SETUP_UTIL"
++    return 22
++  fi
+ fi
+ 
+ # detect if running on Darwin platform
+diff --git a/cmake/tools/rt.cmake b/cmake/tools/rt.cmake
+index da5ed7db..5fb71d58 100644
+--- a/cmake/tools/rt.cmake
++++ b/cmake/tools/rt.cmake
+@@ -34,14 +34,5 @@
+ get_property(ENABLED_LANGUAGES_LIST GLOBAL PROPERTY ENABLED_LANGUAGES)
+ list(FIND ENABLED_LANGUAGES_LIST "CXX" _cxx_index)
+ if(NOT (APPLE OR WIN32 OR MINGW OR ANDROID) AND "${_cxx_index}" GREATER -1)
+-  if (${CMAKE_VERSION} VERSION_LESS 2.8.4)
+-    # cmake later than 2.8.0 appears to have a better find_library
+-    # that knows about the ABI of the compiler.  For lucid we just
+-    # depend on the linker to find it for us.
+-    set(RT_LIBRARY rt CACHE FILEPATH "Hacked find of rt for cmake < 2.8.4")
+-  else()
+-    find_library(RT_LIBRARY rt)
+-    assert_file_exists(${RT_LIBRARY} "RT Library")
+-  endif()
+-  #message(STATUS "RT_LIBRARY: ${RT_LIBRARY}")
++  set(RT_LIBRARY rt)
+ endif()

@@ -1,0 +1,34 @@
+rmw_cyclonedds_cpp:
+  conda-forge: []
+rmw_opensplice_cpp:
+  conda-forge: []
+rmw_connext_cpp:
+  conda-forge: []
+gmock_vendor:
+  conda-forge: []
+gtest_vendor:
+  conda-forge: []
+libyaml_vendor:
+  conda-forge: []
+connext_cmake_module:
+  conda-forge: []
+opensplice_cmake_module:
+  conda-forge: []
+rosidl_typesupport_connext_c:
+  conda-forge: []
+rosidl_typesupport_connext_cpp:
+  conda-forge: []
+rosidl_typesupport_opensplice_cpp:
+  conda-forge: []
+rosidl_typesupport_opensplice_c:
+  conda-forge: []
+test_msgs:
+  conda-forge: []
+rttest:
+  conda-forge: []
+tlsf:
+  conda-forge: []
+tlsf_cpp:
+  conda-forge: []
+pendulum_control:
+  conda-forge: []

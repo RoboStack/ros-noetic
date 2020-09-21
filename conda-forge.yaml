@@ -1,0 +1,447 @@
+pkg-config:
+  conda-forge: [pkg-config]
+python-rospkg:
+  conda-forge: [rospkg]
+python3-rospkg:
+  conda-forge: [rospkg]
+python-rospkg-modules:
+  conda-forge: [rospkg]
+python3-rospkg-modules:
+  conda-forge: [rospkg]
+boost:
+  conda-forge: [boost]
+python-argparse:
+  conda-forge: []
+python-catkin-pkg:
+  conda-forge: [catkin_pkg]
+python3-catkin-pkg:
+  conda-forge: [catkin_pkg]
+python:
+  conda-forge: [python]
+python3:
+  conda-forge: [python]
+python3-dev:
+  conda-forge: [python]
+python-rosdep:
+  conda-forge: [rosdep]
+python3-rosdep:
+  conda-forge: [rosdep]
+python-empy:
+  conda-forge: [empy]
+python3-empy:
+  conda-forge: [empy]
+tinyxml:
+  conda-forge: [tinyxml]
+tinyxml2:
+  conda-forge: [tinyxml2]
+gtest:
+  conda-forge: [gtest]
+cmake:
+  conda-forge: [cmake]
+google-mock:
+  conda-forge: [gmock]
+python-mock:
+  conda-forge: [mock]
+python3-mock:
+  conda-forge: [mock]
+python-nose:
+  conda-forge: [nose]
+python3-nose:
+  conda-forge: [nose]
+python-coverage:
+  conda-forge: [coverage]
+python3-coverage:
+  conda-forge: [coverage]
+libconsole-bridge-dev:
+  conda-forge: [console_bridge]
+python-yaml:
+  conda-forge: [pyyaml]
+python3-yaml:
+  conda-forge: [pyyaml]
+python-setuptools:
+  conda-forge: [setuptools]
+python3-setuptools:
+  conda-forge: [setuptools]
+python-catkin-pkg-modules:
+  conda-forge: [catkin_pkg]
+python3-catkin-pkg-modules:
+  conda-forge: [catkin_pkg]
+python-rosdep-modules:
+  conda-forge: ['rosdep']
+python3-rosdep-modules:
+  conda-forge: [rosdep]
+libboost-system-dev:
+  conda-forge: [boost-cpp]
+libboost-date-time-dev:
+  conda-forge: [boost-cpp]
+libboost-thread-dev:
+  conda-forge: [boost-cpp]
+libpoco-dev:
+  conda-forge: [poco]
+python-gnupg:
+  conda-forge: [python-gnupg]
+python3-gnupg:
+  conda-forge: [python-gnupg]
+python-imaging:
+  conda-forge: [pillow]
+python3-pil:
+  conda-forge: [pillow]
+python-crypto:
+  conda-forge: [pycrypto]
+bzip2:
+  conda-forge: [bzip2]
+libssl-dev:
+  conda-forge: [openssl]
+libgpgme-dev:
+  conda-forge:
+    win64: []
+    unix: [gpgme]
+log4cxx:
+  conda-forge: [log4cxx]
+apr:
+  conda-forge: [apr]
+python-netifaces:
+  conda-forge: [netifaces]
+python3-netifaces:
+  conda-forge: [netifaces]
+python-paramiko:
+  conda-forge: [paramiko]
+python3-paramiko:
+  conda-forge: [paramiko]
+sbcl:
+  conda-forge:
+    win64: []
+    unix: [sbcl]
+lz4:
+  conda-forge: [lz4]
+python-defusedxml:
+  conda-forge: [defusedxml]
+python3-defusedxml:
+  conda-forge: [defusedxml]
+python-numpy:
+  conda-forge:
+    win64: ['numpy']
+    unix: ['numpy']
+python3-numpy:
+  conda-forge:
+    win64: ['numpy']
+    unix: ['numpy']
+python3-pytest:
+  conda-forge: [pytest]
+python3-rosdistro-modules:
+  conda-forge: [rosdistro]
+python3-lark-parser:
+  conda-forge: [lark-parser]
+cppcheck:
+  conda-forge: [cppcheck]
+python3-mypy:
+  conda-forge: [mypy]
+zlib:
+  conda-forge: [zlib]
+python3-pkg-resources:
+  conda-forge: []
+python3-cryptography:
+  conda-forge: [cryptography]
+python3-ifcfg:
+  conda-forge: [ifcfg]
+python3-flake8:
+  conda-forge: [flake8]
+python3-pytest-mock:
+  conda-forge: [pytest-mock]
+yaml:
+  conda-forge: [yaml]
+asio:
+  conda-forge: [asio]
+git:
+  conda-forge: [git]
+spdlog:
+  conda-forge: [spdlog]
+pcre:
+  conda-forge: [pcre]
+pydocstyle:
+  conda-forge: [pydocstyle]
+libxml2-utils:
+  conda-forge: [libxml2]
+libcunit-dev:
+  conda-forge: []
+uncrustify:
+  conda-forge: [uncrustify]
+python-lxml:
+  conda-forge: [lxml]
+python3-lxml:
+  conda-forge: [lxml]
+openssl:
+  conda-forge: [openssl]
+eigen:
+  conda-forge:
+    win64: [eigen]
+    unix: ['eigen']
+assimp:
+  conda-forge: [assimp]
+assimp-dev:
+  conda-forge: [assimp]
+libqt5-opengl:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
+libqt5-opengl-dev:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
+libqt5-widgets:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
+curl:
+  conda-forge: [libcurl]
+qtbase5-dev:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
+libqt5-gui:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
+libqt5-core:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1]
+    osx: [qt 5.12]
+libfreetype6-dev:
+  conda-forge: [freetype]
+libfreetype6:
+  conda-forge: [freetype]
+opengl:
+  conda-forge:
+    win64: []
+    unix: [REQUIRE_OPENGL]
+libxaw:
+  conda-forge:
+    win64: []
+    unix: ['xorg-libxaw']
+libx11-dev:
+  conda-forge: []
+libxrandr:
+  conda-forge:
+    win64: []
+    unix: [xorg-libxrandr]
+libopencv-dev:
+  conda-forge: [py-opencv 4.2, libopencv 4.2]
+python-opencv:
+  conda-forge: [py-opencv 4.2, libopencv 4.2]
+python3-opencv:
+  conda-forge: [py-opencv 4.2, libopencv 4.2]
+qt5-qmake:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1]
+    osx: [qt 5.12]
+python-pydot:
+  conda-forge: [pydot]
+python3-pydot:
+  conda-forge: [pydot]
+python-matplotlib:
+  conda-forge: [matplotlib-base]
+python3-matplotlib:
+  conda-forge: [matplotlib-base]
+python-qt5-bindings:
+  conda-forge:
+    win64: [pyqt]
+    osx: [pyqt 5.12]
+    linux: [pyqt 5.12.3 py36haa643ae_3]
+python3-qt5-bindings:
+  conda-forge:
+    win64: [pyqt]
+    osx: [pyqt 5.12]
+    linux: [pyqt 5.12.3 py36haa643ae_3]
+python3-qt5-bindings-webkit:
+  conda-forge:
+    win64: [pyqt]
+    osx: [pyqt 5.12]
+    linux: [pyqt 5.12.3 py36haa643ae_3]
+python3-qt5-bindings-gl:
+  conda-forge:
+    win64: [pyqt]
+    osx: [pyqt 5.12]
+    linux: [pyqt 5.12.3 py36haa643ae_3]
+python-psutil:
+  conda-forge: [psutil]
+python3-psutil:
+  conda-forge: [psutil]
+sdl-image:
+  conda-forge: [sdl_image]
+graphicsmagick:
+  conda-forge: [graphicsmagick]
+libboost-program-options:
+  conda-forge: [boost-cpp]
+sdl:
+  conda-forge: [sdl]
+libzmq3-dev:
+  conda-forge: [zeromq]
+libboost-program-options-dev:
+  conda-forge:
+    win64: [boost]
+    unix: ['boost-cpp']
+libboost-filesystem-dev:
+  conda-forge: ['boost-cpp']
+libboost-regex-dev:
+  conda-forge: ['boost-cpp']
+libboost-chrono-dev:
+  conda-forge: ['boost-cpp']
+libboost-dev:
+  conda-forge: ['boost-cpp']
+python-cairo:
+  conda-forge: [pycairo]
+python3-cairo:
+  conda-forge: [pycairo]
+python-pygraphviz:
+  conda-forge:
+    win64: []
+    unix: [pygraphviz]
+python3-pygraphviz:
+  conda-forge:
+    win64: []
+    unix: [pygraphviz]
+python-opengl:
+  conda-forge: [pyopengl]
+python3-opengl:
+  conda-forge: [pyopengl]
+libogre-dev:
+  conda-forge:
+    # ogre has to be pinned here exactly, otherwise GL is missing
+    # can't do this in conda_build_config unfortunately
+    # unix: [ogre 1.12.6]  # see https://github.com/conda-forge/gazebo-feedstock/issues/15
+    linux: [ogre 1.10.12 h6508522_5]
+    osx: [ogre 1.10.12 ha54188d_5]
+    win64: [ogre 1.10]
+libogre:
+  conda-forge:
+    # ogre has to be pinned here exactly, otherwise GL is missing
+    # can't do this in conda_build_config unfortunately
+    # unix: [ogre 1.12.6]  # see https://github.com/conda-forge/gazebo-feedstock/issues/15
+    linux: [ogre 1.10.12 h6508522_5]
+    osx: [ogre 1.10.12 ha54188d_5]
+    win64: [ogre 1.10]
+liburdfdom-dev:
+  conda-forge: ['urdfdom 1.0.4']
+liburdfdom-tools:
+  conda-forge: ['urdfdom 1.0.4']
+liburdfdom-headers-dev:
+  conda-forge: ['urdfdom_headers 1.0.4']
+yaml-cpp:
+  conda-forge: ['yaml-cpp']
+python-wxtools:
+  conda-forge: ['wxpython']
+python-pycryptodome:
+  conda-forge: ['pycryptodome', 'pycryptodomex']
+python3-pycryptodome:
+  conda-forge: ['pycryptodome', 'pycryptodomex']
+graphviz:
+  # disabling graphviz for now, to make tf build without conflicts
+  # conda-forge: ['graphviz']
+  conda-forge: []
+uuid:
+  conda-forge:
+    win64: []
+    linux: [libuuid]
+    osx: []  # see https://github.com/regro/cf-scripts/issues/417
+python-sip:
+  conda-forge: [sip]
+cppunit:
+  conda-forge:
+    win64: []
+    unix: [cppunit]
+libfcl-dev:
+  conda-forge:
+    win64: []
+    unix: [fcl]
+libqhull:
+  conda-forge: [qhull]
+lcov:
+  conda-forge: [lcov]
+glut:
+  conda-forge: [freeglut]
+doxygen:
+  conda-forge: [doxygen]
+libglew-dev:
+  conda-forge: [glew]
+python-pyassimp:
+  conda-forge: [assimp]
+python3-pyassimp:
+  conda-forge: [assimp]
+libpcl-all-dev:
+  conda-forge: [pcl]
+libogg:
+  conda-forge: [libogg]
+gtk3:
+  conda-forge: [gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
+libtheora:
+  conda-forge: [libtheora]
+liborocos-kdl:
+  conda-forge: [orocos-kdl]
+liborocos-kdl-dev:
+  conda-forge: [orocos-kdl]
+python3-pykdl:
+  conda-forge: [python-orocos-kdl]
+gtk2:
+  conda-forge: [gtk2]
+gazebo11:
+  conda-forge:
+    - "gazebo 11.*"
+libgazebo11-dev:
+  conda-forge:
+    - "gazebo 11.*"
+gazebo9:
+  conda-forge:
+    - "gazebo 9.*"
+libgazebo9-dev:
+  conda-forge:
+    - "gazebo 9.*"
+libfltk-dev:
+  conda-forge:
+    - fltk
+libjpeg:
+  conda-forge:
+    - libjpeg-turbo
+libtool:
+  conda-forge:
+    - libtool
+python-autobahn:
+  conda-forge: [autobahn]
+python-tornado:
+  conda-forge: [tornado]
+python-bson:
+  conda-forge: [pymongo]
+python-twisted-core:
+  conda-forge: [twisted]
+bullet:
+  conda-forge: [bullet]
+suitesparse:
+  conda-forge: [suitesparse]
+libpcap:
+  conda-forge: [libpcap]
+libblas-dev:
+  conda-forge: [libcblas]
+liblapack-dev:
+  conda-forge: [liblapack]
+libceres-dev:
+  conda-forge: [ceres-solver]
+tbb:
+  conda-forge: [tbb, tbb-devel]
+libsqlite3-dev:
+  conda-forge: ["sqlite 3.*"]
+proj:
+  conda-forge: [proj]
+libvtk-qt:
+  conda-forge: [vtk]
+libfreenect-dev:
+  conda-forge: []
+libopenni-dev:
+  conda-forge: []
+tango-icon-theme:
+  conda-forge: []

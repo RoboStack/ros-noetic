@@ -1,0 +1,95 @@
+ros_distro: noetic
+
+# mapping for package keys
+conda_index:
+  - conda-forge.yaml
+  - packages-ignore.yaml
+
+build_number: 0
+
+skip_all_deps: false
+
+packages_skip_by_deps:
+  # - ros_core
+  # - rosbridge_suite
+  # - tf2_web_republisher
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  # - https://conda.anaconda.org/robostack/
+  # - /home/wolfv/miniconda3/conda-bld/linux-64/repodata.json
+  # - /home/ubuntu/miniconda3/conda-bld/linux-64/repodata.json
+
+packages_select_by_deps:
+  # - catkin
+  - message_runtime
+  # - roscpp
+  # - ros_core
+  # - ros_base
+  # - rviz_visual_tools
+  # - rviz
+  # - tf2
+  # - desktop
+
+  # - rviz
+
+  # - rosbridge_suite
+  # - tf2_web_republisher
+
+  # - moveit
+
+  # - class_loader
+  # - libfranka
+
+  # - niryo_one_simulation
+  # - franka_ros # doesn't work on osx
+
+  # - cv_bridge
+
+  # - teb_local_planner
+
+  # - plotjuggler
+  # - robot_localization  # works!
+  # - slam_toolbox  # works now!
+  # - imu_tools  # works
+  # - velodyne  # works!
+  # - perception_pcl  # works!
+  # - urg_node  # works
+
+  # - actionlib_tutorials
+  # - desktop
+
+  # - turtlebot3
+  # - turtlebot3_fake
+
+  # - gazebo_dev
+  # - gazebo_ros
+  # PROBLEMS:
+  # - lib/diagnostic_analysis/sparse_csv.py  # need to fix for Python 3 print statements
+  # - lib/diagnostic_common_diagnostics/sensors_monitor.py  # need to fix for Python 3 print statements
+
+  # - rtabmap_ros  # openni is missing, and need to find names for
+    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # - behavior_tree  # isn't released?
+
+  # - eigenpy
+  # - ros_comm
+  # - message_runtime
+  # - moveit
+  # - rostime
+  # - libfranka
+  # - python_orocos_kdl
+  # - python_qt_binding
+  # - franka_gripper
+  # - franka_control
+  # - resource_retriever
+  # - rviz
+
+  # - joy
+  # - ros_control
+  # - ros_controllers
+
+patch_dir: patch
