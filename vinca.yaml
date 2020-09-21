@@ -25,8 +25,8 @@ packages_select_by_deps:
   # - catkin
   # - message_runtime
   # - roscpp
-  - ros_core
-  # - ros_base
+  # - ros_core
+  - ros_base
   # - rviz_visual_tools
   # - rviz
   # - tf2
