@@ -29,9 +29,9 @@ packages_select_by_deps:
   # - ros_core
   # - ros_base
   # - rviz_visual_tools
-  - rviz
+  # - rviz
   # - tf2
-  # - desktop
+  - desktop
 
   # - rviz
 
