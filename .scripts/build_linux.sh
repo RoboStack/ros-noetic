@@ -19,6 +19,8 @@ CONDARC
 
 # sudo yum install -y install mesa-libGL-devel
 
+conda config --set remote_max_retries 5
+
 conda install --yes --quiet boa quetz-client conda-build pip anaconda-client -c conda-forge/label/boa_dev  -c conda-forge
 
 # install boa from master
