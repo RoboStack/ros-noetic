@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 071da5f..50c4506 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -175,8 +175,8 @@ find_program(R_EXEC R)
+ 
+ add_subdirectory(py-bindings)
+ add_subdirectory(src)
+-add_subdirectory(tests)
+-add_subdirectory(demos)
++# add_subdirectory(tests)
++# add_subdirectory(demos)
+ add_subdirectory(scripts)
+ add_subdirectory(doc)
+ 

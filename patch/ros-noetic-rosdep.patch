@@ -1,0 +1,18 @@
+diff --git a/src/rosdep2/sources_list.py b/src/rosdep2/sources_list.py
+index 70f7cb8..6cd317d 100644
+--- a/src/rosdep2/sources_list.py
++++ b/src/rosdep2/sources_list.py
+@@ -95,11 +95,7 @@ def get_sources_list_dirs(source_list_dir):
+ def get_sources_list_dir():
+     # base of where we read config files from
+     # TODO: windows
+-    if 0:
+-        # we can't use etc/ros because environment config does not carry over under sudo
+-        etc_ros = rospkg.get_etc_ros_dir()
+-    else:
+-        etc_ros = '/etc/ros'
++    etc_ros = os.environ.get('ROS_ETC_DIR', '/etc/ros')
+     # compute default system wide sources directory
+     sys_sources_list_dir = os.path.join(etc_ros, 'rosdep', SOURCES_LIST_DIR)
+     sources_list_dirs = get_sources_list_dirs(sys_sources_list_dir)
+

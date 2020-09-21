@@ -1,0 +1,45 @@
+diff --git a/scripts/menu.py b/scripts/menu.py
+index e2d1854..dc93108 100755
+--- a/scripts/menu.py
++++ b/scripts/menu.py
+@@ -29,6 +29,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ """
+ 
++from __future__ import print_function
++
+ import rospy
+ 
+ from interactive_markers.interactive_marker_server import *
+@@ -68,7 +70,7 @@ def modeCb(feedback):
+ 
+     rospy.loginfo("Switching to menu entry #" + str(h_mode_last))
+     menu_handler.reApply( server )
+-    print "DONE"
++    print("DONE")
+     server.applyChanges()
+ 
+ def makeBox( msg ):
+diff --git a/scripts/simple_marker.py b/scripts/simple_marker.py
+index fe44c12..0d13c9a 100755
+--- a/scripts/simple_marker.py
++++ b/scripts/simple_marker.py
+@@ -29,6 +29,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ """
+ 
++from __future__ import print_function
++
+ import rospy
+ 
+ from interactive_markers.interactive_marker_server import *
+@@ -36,7 +38,7 @@ from visualization_msgs.msg import *
+ 
+ def processFeedback(feedback):
+     p = feedback.pose.position
+-    print feedback.marker_name + " is now at " + str(p.x) + ", " + str(p.y) + ", " + str(p.z)
++    print(feedback.marker_name + " is now at " + str(p.x) + ", " + str(p.y) + ", " + str(p.z))
+ 
+ if __name__=="__main__":
+     rospy.init_node("simple_marker")
+

@@ -1,0 +1,70 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 839e2b6..6dac00e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,33 +3,13 @@ project(cv_bridge)
+ 
+ find_package(catkin REQUIRED COMPONENTS rosconsole sensor_msgs)
+ 
+-if(NOT ANDROID)
+-  find_package(PythonLibs)
+-
+-  if(PYTHONLIBS_VERSION_STRING VERSION_LESS "3.8")
+-    # Debian Buster
+-    find_package(Boost REQUIRED python37)
+-  else()
+-    # Ubuntu Focal
+-    find_package(Boost REQUIRED python)
+-  endif()
+-else()
+-find_package(Boost REQUIRED)
+-endif()
+-
+-set(_opencv_version 4)
+-find_package(OpenCV 4 QUIET)
+-if(NOT OpenCV_FOUND)
+-  message(STATUS "Did not find OpenCV 4, trying OpenCV 3")
+-  set(_opencv_version 3)
+-endif()
++find_package(Boost REQUIRED python)
+ 
+-find_package(OpenCV ${_opencv_version4} REQUIRED
++find_package(OpenCV 4 REQUIRED
+   COMPONENTS
+     opencv_core
+     opencv_imgproc
+     opencv_imgcodecs
+-  CONFIG
+ )
+ 
+ catkin_package(
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index bddf90f..d104692 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -39,10 +39,13 @@ endif()
+ add_library(${PROJECT_NAME}_boost module.cpp module_opencv4.cpp)
+ target_link_libraries(${PROJECT_NAME}_boost ${Boost_LIBRARIES}
+                                             ${catkin_LIBRARIES}
+-                                            ${PYTHON_LIBRARIES}
+                                             ${PROJECT_NAME}
+ )
+ 
++if(NOT APPLE)
++  target_link_libraries(${PROJECT_NAME}_boost ${PYTHON_LIBRARIES})
++endif()
++
+ set_target_properties(${PROJECT_NAME}_boost PROPERTIES
+                       LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_PYTHON_DESTINATION}/${PROJECT_NAME}/boost/
+                       RUNTIME_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_PYTHON_DESTINATION}/${PROJECT_NAME}/boost/
+@@ -51,6 +54,8 @@ set_target_properties(${PROJECT_NAME}_boost PROPERTIES
+ if(APPLE)
+   set_target_properties(${PROJECT_NAME}_boost PROPERTIES
+                         SUFFIX ".so")
++  set_target_properties(${PROJECT_NAME}_boost PROPERTIES
++                        LINK_FLAGS "-undefined dynamic_lookup")
+ endif()
+ if(MSVC)
+   set_target_properties(${PROJECT_NAME}_boost PROPERTIES
+

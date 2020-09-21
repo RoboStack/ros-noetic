@@ -1,0 +1,15 @@
+diff --git a/octomap/src/binvox2bt.cpp b/octomap/src/binvox2bt.cpp
+index 1e6358f..4b42210 100644
+--- a/octomap/src/binvox2bt.cpp
++++ b/octomap/src/binvox2bt.cpp
+@@ -229,8 +229,8 @@ int main(int argc, char **argv)
+         cout.flush();
+ 
+         // read voxel data
+-        byte value;
+-        byte count;
++        unsigned char value;
++        unsigned char count;
+         int index = 0;
+         int end_index = 0;
+         unsigned nr_voxels = 0;

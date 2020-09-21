@@ -1,0 +1,33 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 55686b8ff..939a2ba68 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,13 +18,14 @@ find_package(catkin REQUIRED COMPONENTS
+   tf2_eigen
+   tf2_geometry_msgs
+   tf2_ros
+-  eigenpy
++  # eigenpy
+   roscpp
+   actionlib
+   rospy
+   rosconsole
+ )
+ 
++find_package(eigenpy REQUIRED)
+ find_package(PythonInterp REQUIRED)
+ find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
+ 
+diff --git a/move_group_interface/CMakeLists.txt b/move_group_interface/CMakeLists.txt
+index eacfa2aec..5a4c93fbb 100644
+--- a/move_group_interface/CMakeLists.txt
++++ b/move_group_interface/CMakeLists.txt
+@@ -6,7 +6,7 @@ target_link_libraries(${MOVEIT_LIB_NAME} moveit_common_planning_interface_object
+ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
+ 
+ add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_move_group.cpp)
+-target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES} moveit_py_bindings_tools)
++target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES} moveit_py_bindings_tools eigenpy::eigenpy)
+ add_dependencies(${MOVEIT_LIB_NAME}_python ${catkin_EXPORTED_TARGETS})
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES OUTPUT_NAME _moveit_move_group_interface PREFIX "")

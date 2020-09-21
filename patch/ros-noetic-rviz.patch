@@ -1,0 +1,82 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bdf24450..24b8a707 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -89,14 +89,14 @@ if(APPLE)
+ endif()
+ 
+ # Prefer newer vender-specific OpenGL library
+-if (POLICY CMP0072)
+-  cmake_policy(SET CMP0072 NEW)
+-endif()
+-find_package(OpenGL REQUIRED)
++# if (POLICY CMP0072)
++#   cmake_policy(SET CMP0072 NEW)
++# endif()
++# find_package(OpenGL REQUIRED)
+ 
+ set(CMAKE_AUTOMOC ON)
+ 
+-find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
++find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
+ set(QT_LIBRARIES Qt5::Widgets)
+ set(QTVERSION ${Qt5Widgets_VERSION})
+ add_definitions(-DQT_NO_KEYWORDS)
+@@ -204,11 +204,7 @@ catkin_package(
+     visualization_msgs
+ )
+ 
+-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.14.0")
+-    set(SYSTEM "SYSTEM")
+-endif()
+-
+-include_directories(${SYSTEM}
++include_directories(
+   ${EIGEN3_INCLUDE_DIRS}
+   ${OGRE_INCLUDE_DIRS}
+   ${OPENGL_INCLUDE_DIR}
+@@ -218,7 +214,7 @@ include_directories(${SYSTEM}
+ )
+ #catkin_lint: ignore_once external_directory
+ include_directories(src ${EXPORT_HEADER_DIR})
+-include_directories(${SYSTEM} ${catkin_INCLUDE_DIRS})
++include_directories(${catkin_INCLUDE_DIRS})
+ 
+ #### If gtk ends up being the best way to get the correct window
+ #### position under X11, this is how to compile it in.
+
+diff --git a/src/python_bindings/CMakeLists.txt b/src/python_bindings/CMakeLists.txt
+index aedb7ad0..1f5d1a08 100644
+--- a/src/python_bindings/CMakeLists.txt
++++ b/src/python_bindings/CMakeLists.txt
+@@ -2,9 +2,9 @@ set(rviz_BINDINGS "")
+ 
+ # TODO(wjwwood): re-enabled PySide2 support when it is fixed.
+ # add_subdirectory(shiboken)
+-add_subdirectory(sip)
++# add_subdirectory(sip)
+ 
+ message(STATUS "Python binding generators: ${rviz_BINDINGS}")
+-if(NOT rviz_BINDINGS)
+-  message(FATAL_ERROR "No Python binding generator found.")
+-endif()
++# if(NOT rviz_BINDINGS)
++#   message(FATAL_ERROR "No Python binding generator found.")
++# endif()
+
+diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
+index 14d83396..a8712742 100644
+--- a/src/rviz/ogre_helpers/render_system.cpp
++++ b/src/rviz/ogre_helpers/render_system.cpp
+@@ -155,10 +155,7 @@ void RenderSystem::setupDummyWindowId()
+ 
+ void RenderSystem::loadOgrePlugins()
+ {
+-  std::string plugin_prefix = get_ogre_plugin_path() + "/";
+-#ifdef Q_OS_MAC
+-  plugin_prefix += "lib";
+-#endif
++  std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
+   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_ParticleFX");

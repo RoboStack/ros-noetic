@@ -1,0 +1,14 @@
+diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
+index a055cf5..8932cb4 100644
+--- a/cmake/sip_helper.cmake
++++ b/cmake/sip_helper.cmake
+@@ -104,7 +104,7 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+     if(WIN32)
+       set(MAKE_EXECUTABLE NMake.exe)
+     else()
+-      set(MAKE_EXECUTABLE "\$(MAKE)")
++      set(MAKE_EXECUTABLE make)
+     endif()
+ 
+     add_custom_command(
+

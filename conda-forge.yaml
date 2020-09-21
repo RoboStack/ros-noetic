@@ -342,9 +342,7 @@ python-pycryptodome:
 python3-pycryptodome:
   conda-forge: ['pycryptodome', 'pycryptodomex']
 graphviz:
-  # disabling graphviz for now, to make tf build without conflicts
-  # conda-forge: ['graphviz']
-  conda-forge: []
+  conda-forge: ['graphviz']
 uuid:
   conda-forge:
     win64: []
@@ -445,3 +443,5 @@ libopenni-dev:
   conda-forge: []
 tango-icon-theme:
   conda-forge: []
+ffmpeg:
+  conda-forge: [ffmpeg]

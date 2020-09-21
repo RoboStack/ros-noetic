@@ -1,3 +1,34 @@
+diff --git a/cmake/empy.cmake b/cmake/empy.cmake
+index 22b7a0a..e648fdf 100644
+--- a/cmake/empy.cmake
++++ b/cmake/empy.cmake
+@@ -21,19 +21,13 @@ function(find_python_module module)
+ endfunction(find_python_module)
+ 
+ if(NOT EMPY_SCRIPT)
+-  find_program(EMPY_EXECUTABLE empy)
+-  if(NOT EMPY_EXECUTABLE)
+-    # On OSX, there's an em.py, but not an executable empy script
+-    find_python_module(em)
+-    if(NOT PY_EM)
+-      message(FATAL_ERROR "Unable to find either executable 'empy' or Python module 'em'... try installing the package 'python3-empy'")
+-    endif()
+-    # ensure to use cmake-style path separators on Windows
+-    file(TO_CMAKE_PATH "${PY_EM}" EMPY_SCRIPT)
+-  else()
+-    # ensure to use cmake-style path separators on Windows
+-    file(TO_CMAKE_PATH "${EMPY_EXECUTABLE}" EMPY_SCRIPT)
++  # On OSX, there's an em.py, but not an executable empy script
++  find_python_module(em)
++  if(NOT PY_EM)
++    message(FATAL_ERROR "Unable to find either executable 'empy' or Python module 'em'... try installing the package 'python3-empy'")
+   endif()
++  # ensure to use cmake-style path separators on Windows
++  file(TO_CMAKE_PATH "${PY_EM}" EMPY_SCRIPT)
+   set(EMPY_SCRIPT "${EMPY_SCRIPT}" CACHE STRING "Empy script" FORCE)
+ endif()
+ message(STATUS "Using empy: ${EMPY_SCRIPT}")
+
 diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
 index df36e236..475eb975 100644
 --- a/cmake/catkin_package.cmake

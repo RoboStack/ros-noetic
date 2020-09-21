@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3928394..68d13be 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,11 +34,17 @@ include_directories(${catkin_INCLUDE_DIRS})
+ add_executable(shape_server src/shape_server.cpp)
+ target_link_libraries(shape_server ${catkin_LIBRARIES})
+ add_dependencies(shape_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
++if(UNIX AND NOT APPLE)
++    target_link_libraries(shape_server rt)
++endif()
+ 
+ ## shape_client executable
+ add_executable(shape_client src/shape_client.cpp)
+ target_link_libraries(shape_client ${catkin_LIBRARIES})
+ add_dependencies(shape_client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
++if(UNIX AND NOT APPLE)
++    target_link_libraries(shape_client rt)
++endif()
+ 
+ ## Mark executables for installation
+ install(TARGETS shape_server shape_client
+
