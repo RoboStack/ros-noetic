@@ -5,9 +5,9 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 0
+build_number: 1
 
-skip_all_deps: false
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - message_runtime
@@ -20,20 +20,13 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - catkin
-  # - message_runtime
-  # - roscpp
-  # - ros_core
-  # - ros_base
+  - python-qt-binding
   # - rviz_visual_tools
-  # - rviz
   # - tf2
-  - desktop
-
-  # - rviz
+  # - desktop
 
   # - rosbridge_suite
   # - tf2_web_republisher
@@ -45,8 +38,6 @@ packages_select_by_deps:
 
   # - niryo_one_simulation
   # - franka_ros # doesn't work on osx
-
-  # - cv_bridge
 
   # - teb_local_planner
 
@@ -77,15 +68,12 @@ packages_select_by_deps:
   # - eigenpy
   # - ros_comm
   # - message_runtime
-  # - moveit
   # - rostime
-  # - libfranka
   # - python_orocos_kdl
   # - python_qt_binding
   # - franka_gripper
   # - franka_control
   # - resource_retriever
-  # - rviz
 
   # - joy
   # - ros_control
