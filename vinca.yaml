@@ -10,6 +10,7 @@ build_number: 0
 skip_all_deps: false
 
 packages_skip_by_deps:
+  # - message_runtime
   # - ros_core
   # - rosbridge_suite
   # - tf2_web_republisher
@@ -26,9 +27,9 @@ packages_select_by_deps:
   # - message_runtime
   # - roscpp
   # - ros_core
-  - ros_base
+  # - ros_base
   # - rviz_visual_tools
-  # - rviz
+  - rviz
   # - tf2
   # - desktop
 
