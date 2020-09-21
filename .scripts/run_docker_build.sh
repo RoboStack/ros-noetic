@@ -75,9 +75,7 @@ docker run ${DOCKER_RUN_ARGS} \
            -e CI \
            -e FEEDSTOCK_NAME \
            -e CPU_COUNT \
-           -e BINSTAR_TOKEN \
-           -e FEEDSTOCK_TOKEN \
-           -e STAGING_BINSTAR_TOKEN \
+           -e ANACONDA_API_TOKEN \
            -e CURRENT_BUILD_PKG_NAME \
            $DOCKER_IMAGE \
            bash \
