@@ -26,7 +26,8 @@ packages_select_by_deps:
   # - python-qt-binding
   # - rviz_visual_tools
   # - tf2
-  - desktop
+  # - desktop
+  - desktop-full
 
   # - rosbridge_suite
   # - tf2_web_republisher
