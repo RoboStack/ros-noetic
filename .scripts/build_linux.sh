@@ -17,7 +17,9 @@ conda-build:
     root-dir: /opt/conda/build_artifacts
 CONDARC
 
-sudo yum install -y install mesa-libGL-devel
+if grep -q libgl "recipes/${CURRENT_BUILD_PKG_NAME}.yaml"; then
+	sudo yum install -y install mesa-libGL-devel
+fi
 
 conda config --set remote_max_retries 5
 

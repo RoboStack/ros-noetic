@@ -27,7 +27,8 @@ packages_select_by_deps:
   # - rviz_visual_tools
   # - tf2
   # - desktop
-  - desktop-full
+
+  - desktop_full
 
   # - rosbridge_suite
   # - tf2_web_republisher
@@ -49,10 +50,6 @@ packages_select_by_deps:
   # - velodyne  # works!
   # - perception_pcl  # works!
   # - urg_node  # works
-
-  # - actionlib_tutorials
-  # - desktop
-
   # - turtlebot3
   # - turtlebot3_fake
 
@@ -67,15 +64,8 @@ packages_select_by_deps:
   # - behavior_tree  # isn't released?
 
   # - eigenpy
-  # - ros_comm
-  # - message_runtime
-  # - rostime
-  # - python_orocos_kdl
-  # - python_qt_binding
   # - franka_gripper
   # - franka_control
-  # - resource_retriever
-
   # - joy
   # - ros_control
   # - ros_controllers
