@@ -30,13 +30,12 @@ packages_select_by_deps:
 
   # - desktop_full
 
-  - rosbridge_suite
-  - moveit
+  # - rosbridge_suite
+  # - moveit
 
   # NOT RELEASED for NOETIC yet!!
   # - tf2_web_republisher
 
-  # - class_loader
   # - libfranka
 
   # - niryo_one_simulation
@@ -44,11 +43,11 @@ packages_select_by_deps:
 
   # - teb_local_planner
 
-  # - plotjuggler
-  # - robot_localization  # works!
-  # - slam_toolbox  # works now!
-  # - imu_tools  # works
-  # - velodyne  # works!
+  - plotjuggler
+  - robot_localization  # works!
+  - slam_toolbox  # works now!
+  - imu_tools  # works
+  - velodyne  # works!
   # - perception_pcl  # works!
   # - urg_node  # works
   # - turtlebot3
