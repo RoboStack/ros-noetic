@@ -28,12 +28,12 @@ packages_select_by_deps:
   # - tf2
   # - desktop
 
-  - desktop_full
+  # - desktop_full
 
-  # - rosbridge_suite
-  # - tf2_web_republisher
+  - rosbridge_suite
+  - tf2_web_republisher
 
-  # - moveit
+  - moveit
 
   # - class_loader
   # - libfranka
