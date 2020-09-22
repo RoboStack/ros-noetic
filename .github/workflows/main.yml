@@ -18,14 +18,10 @@ jobs:
         popd
     - name: Generate recipes
       run: |
-        vinca --multiple
+        vinca --multiple --platform linux-64
     - name: Generate azure pipelines
       run: |
-        vinca-azure ./recipes
-    - name: Print all files
-      run: |
-        find .
-
+        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux ./recipes
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
@@ -36,8 +32,31 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: buildbranch
+        branch: buildbranch_linux
         force: true
+    # Generate recipes for OS X
+    - name: Reset repo
+      run: |
+        git reset --hard origin/master
+    - name: Generate recipes
+      run: |
+        vinca --multiple --platform osx-64
+    - name: Generate azure pipelines
+      run: |
+        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx ./recipes
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: buildbranch_osx
+        force: true
+
 on:
   push:
     branches:
