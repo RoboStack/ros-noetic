@@ -30,10 +30,10 @@ packages_select_by_deps:
 
   # - desktop_full
 
-  - rosbridge_suite
+  # - rosbridge_suite
   # - tf2_web_republisher
-
-  - moveit
+  - eigenpy
+  # - moveit
 
   # - class_loader
   # - libfranka
