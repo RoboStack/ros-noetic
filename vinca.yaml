@@ -45,12 +45,18 @@ packages_select_by_deps:
   # - teb_local_planner
 
   # - plotjuggler
-  - robot_localization  # works!
-  - slam_toolbox  # works now!
-  - imu_tools  # works
-  - velodyne  # works!
+  # - robot_localization  # works!
+  # - imu_tools  # works
+  # - velodyne  # works!
   # - perception_pcl  # works!
   - urg_node  # works
+
+  ##
+  #  TODO!!!!
+  ##
+  # - slam_toolbox  # FAILED!
+
+  # NOT RELEASED ON NOETIC...
   # - turtlebot3
   # - turtlebot3_fake
 
