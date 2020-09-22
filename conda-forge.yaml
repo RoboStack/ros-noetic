@@ -445,3 +445,12 @@ tango-icon-theme:
   conda-forge: []
 ffmpeg:
   conda-forge: [ffmpeg]
+python3-bson:
+  # not sure about this one actually...
+  conda-forge: [mongodb]
+python3-tornado:
+  conda-forge: [tornado]
+python3-autobahn:
+  conda-forge: [autobahn]
+python3-twisted:
+  conda-forge: [twisted]

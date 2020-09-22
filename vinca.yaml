@@ -31,7 +31,7 @@ packages_select_by_deps:
   # - desktop_full
 
   - rosbridge_suite
-  - tf2_web_republisher
+  # - tf2_web_republisher
 
   - moveit
 
