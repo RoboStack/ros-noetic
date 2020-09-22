@@ -17,7 +17,7 @@ conda-build:
     root-dir: /opt/conda/build_artifacts
 CONDARC
 
-# sudo yum install -y install mesa-libGL-devel
+sudo yum install -y install mesa-libGL-devel
 
 conda config --set remote_max_retries 5
 
