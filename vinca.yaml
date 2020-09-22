@@ -44,7 +44,7 @@ packages_select_by_deps:
   # - niryo_one_simulation
   # - franka_ros # doesn't work on osx
 
-  # - teb_local_planner
+  - teb_local_planner
 
   # - plotjuggler
   # - robot_localization  # works!
@@ -56,7 +56,7 @@ packages_select_by_deps:
   ##
   #  TODO!!!!
   ##
-  # - slam_toolbox  # FAILED!
+  - slam_toolbox  # FAILED!
 
   # NOT RELEASED ON NOETIC...
   # - turtlebot3
