@@ -552,6 +552,8 @@ slepc:
   - 3.12
 slepc4py:
   - 3.12
+pcl:
+  - 1.10
 pixman:
   - 0.38
 poco:
