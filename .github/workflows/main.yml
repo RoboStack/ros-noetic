@@ -21,7 +21,7 @@ jobs:
         vinca --multiple --platform linux-64
     - name: Generate azure pipelines
       run: |
-        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux ./recipes
+        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
@@ -43,7 +43,7 @@ jobs:
         vinca --multiple --platform osx-64
     - name: Generate azure pipelines
       run: |
-        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx ./recipes
+        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
