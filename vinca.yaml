@@ -43,13 +43,11 @@ packages_select_by_deps:
 
   # - teb_local_planner
 
-  # - libg2o
-  - map_server
   # - plotjuggler
-  # - robot_localization  # works!
-  # - slam_toolbox  # works now!
-  # - imu_tools  # works
-  # - velodyne  # works!
+  - robot_localization  # works!
+  - slam_toolbox  # works now!
+  - imu_tools  # works
+  - velodyne  # works!
   # - perception_pcl  # works!
   # - urg_node  # works
   # - turtlebot3
