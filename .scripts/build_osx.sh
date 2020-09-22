@@ -13,6 +13,8 @@ echo -e "\n\nConfiguring conda."
 source ${HOME}/miniforge3/etc/profile.d/conda.sh
 conda activate base
 
+conda config --set remote_max_retries 5
+
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
 conda install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client \
 			  -c conda-forge/label/boa_dev -c conda-forge
@@ -35,6 +37,12 @@ cd ..
 # # source run_conda_forge_build_setup
 
 # set -e
+
+conda config --set anaconda_upload yes
+conda config --set show_channel_urls true
+conda config --set auto_update_conda false
+conda config --set add_pip_as_python_dependency false
+
 conda config --append channels defaults
 conda config --add channels conda-forge
 conda config --add channels robostack
