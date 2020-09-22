@@ -36,6 +36,7 @@ packages_select_by_deps:
   # NOT RELEASED for NOETIC yet!!
   # - tf2_web_republisher
 
+  # - class_loader
   # - libfranka
 
   # - niryo_one_simulation
@@ -49,7 +50,7 @@ packages_select_by_deps:
   - imu_tools  # works
   - velodyne  # works!
   # - perception_pcl  # works!
-  # - urg_node  # works
+  - urg_node  # works
   # - turtlebot3
   # - turtlebot3_fake
 
