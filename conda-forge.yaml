@@ -308,9 +308,9 @@ python3-pygraphviz:
     win64: []
     unix: [pygraphviz]
 python-opengl:
-  conda-forge: [pyopengl]
+  conda-forge: [pyopengl, REQUIRE_OPENGL]
 python3-opengl:
-  conda-forge: [pyopengl]
+  conda-forge: [pyopengl, REQUIRE_OPENGL]
 libogre-dev:
   conda-forge:
     # ogre has to be pinned here exactly, otherwise GL is missing
