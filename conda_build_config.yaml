@@ -344,6 +344,8 @@ boost_cpp:
   - 1.72.0
 bzip2:
   - 1
+bullet:
+  - 2.88
 cairo:
   - 1.16
 cfitsio:
