@@ -177,10 +177,12 @@ eigen:
     win64: [eigen]
     unix: ['eigen']
 assimp:
+  conda-forge:
     win64: [assimp]
     linux: [assimp]
     osx: [assimp 5.0.1 h753910b_1]
 assimp-dev:
+  conda-forge:
     win64: [assimp]
     linux: [assimp]
     osx: [assimp 5.0.1 h753910b_1]
