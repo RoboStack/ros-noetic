@@ -21,15 +21,14 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - rviz
-  - executive_smach
-  - geometry_tutorials
-  - interactive_marker_tutorials
-  - joint_state_publisher_gui
-  - nodelet_core
-  - robot_state_publisher
-  # - robot
+  - rviz
+  - robot
   # - desktop
+  
+  ##
+  #  TODO Linux!!!!
+  ##
+  # - slam_toolbox  # FAILED!
   # - rviz_visual_tools
   # - libfranka
   # - franka_control
@@ -42,7 +41,7 @@ packages_select_by_deps:
   # - ros_controllers
   
   ##
-  # DONE
+  # DONE Linux
   ##
   # - desktop
   # - desktop_full
@@ -60,11 +59,16 @@ packages_select_by_deps:
   # - plotjuggler
   # - franka_msgs
   # - franka_description
-
+  
   ##
-  #  TODO!!!!
+  # DONE OSX
   ##
-  # - slam_toolbox  # FAILED!
+  # - executive_smach
+  # - geometry_tutorials
+  # - interactive_marker_tutorials
+  # - joint_state_publisher_gui
+  # - nodelet_core
+  # - robot_state_publisher
 
   ##
   # NOT RELEASED ON NOETIC...
