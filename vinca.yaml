@@ -10,6 +10,8 @@ build_number: 2
 skip_all_deps: false
 
 packages_skip_by_deps:
+  # - rviz
+  # - diagnostic_updater
 
 packages_remove_from_deps:
   - stage-ros
@@ -19,7 +21,12 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - rviz
+  # - rviz
+  - cv_bridge
+  - dynamic_reconfigure
+  - geometry
+  - joint_state_publisher
+  - nodelet
   # - desktop
   # - rviz_visual_tools
   # - libfranka
