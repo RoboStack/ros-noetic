@@ -23,17 +23,13 @@ packages_select_by_deps:
   # - rviz_visual_tools
   # - libfranka
   # - franka_control
-  # - franka_description
   # - franka_gripper
   # - franka_hw
-  # - franka_msgs
   # - franka_visualization
-  # - plotjuggler
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
   # - ros_control
   # - ros_controllers
-  # - joy
   
   ##
   # DONE
@@ -50,6 +46,10 @@ packages_select_by_deps:
   # - perception_pcl
   # - urg_node
   # - teb_local_planner
+  # - joy
+  # - plotjuggler
+  # - franka_msgs
+  # - franka_description
 
   ##
   #  TODO!!!!
