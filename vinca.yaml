@@ -10,10 +10,6 @@ build_number: 2
 skip_all_deps: false
 
 packages_skip_by_deps:
-  # - message_runtime
-  # - ros_core
-  # - rosbridge_suite
-  # - tf2_web_republisher
 
 packages_remove_from_deps:
   - stage-ros
@@ -23,56 +19,57 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-# - rviz_visual_tools
-  - ros_core
+  - rviz_visual_tools
+  - libfranka
+  - franka_control
+  - franka_description
+  - franka_gripper
+  - franka_hw
+  - franka_msgs
+  - franka_visualization
+  - plotjuggler
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
+  - joy
+  
+  ##
+  # DONE
+  ##
   # - desktop
   # - desktop_full
-
+  # - ros_core
   # - rosbridge_suite
   # - moveit
-
-  # NOT RELEASED for NOETIC yet!!
-  # - tf2_web_republisher
-
   # - class_loader
-  # - libfranka
-
-  # - niryo_one_simulation
-  # - franka_ros # doesn't work on osx
-
-  - teb_local_planner
-
-  # - plotjuggler
-  # - robot_localization  # works!
-  # - imu_tools  # works
-  # - velodyne  # works!
-  # - perception_pcl  # works!
-  # - urg_node  # works
+  # - robot_localization
+  # - imu_tools
+  # - velodyne
+  # - perception_pcl
+  # - urg_node
+  # - teb_local_planner
 
   ##
   #  TODO!!!!
   ##
   # - slam_toolbox  # FAILED!
 
+  ##
   # NOT RELEASED ON NOETIC...
+  ##
   # - turtlebot3
   # - turtlebot3_fake
+  # - tf2_web_republisher
+  # - franka_ros
+  # - franka_example_controllers
+  # - niryo_one_simulation
 
-  # - gazebo_dev
-  # - gazebo_ros
+  ##
   # PROBLEMS:
-  # - lib/diagnostic_analysis/sparse_csv.py  # need to fix for Python 3 print statements
-  # - lib/diagnostic_common_diagnostics/sensors_monitor.py  # need to fix for Python 3 print statements
-
+  ##
   # - rtabmap_ros  # openni is missing, and need to find names for
     # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - behavior_tree  # isn't released?
-
-  # - eigenpy
-  # - franka_gripper
-  # - franka_control
-  # - joy
-  # - ros_control
-  # - ros_controllers
 
 patch_dir: patch
