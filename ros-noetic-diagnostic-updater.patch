@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index add78c3f..c51cd8d9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -6,7 +6,7 @@ find_package(catkin REQUIRED diagnostic_msgs roscpp std_msgs)
+ 
+ catkin_python_setup()
+ 
+-catkin_package(DEPENDS diagnostic_msgs roscpp std_msgs
++catkin_package(CATKIN_DEPENDS diagnostic_msgs roscpp std_msgs
+                INCLUDE_DIRS include
+ 	       LIBRARIES ${PROJECT_NAME}
+ )
+
