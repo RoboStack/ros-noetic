@@ -23,13 +23,9 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - python-qt-binding
-  # - rviz_visual_tools
+# - rviz_visual_tools
   - ros_core
-
-  # - tf2
   # - desktop
-
   # - desktop_full
 
   # - rosbridge_suite
@@ -56,7 +52,7 @@ packages_select_by_deps:
   ##
   #  TODO!!!!
   ##
-  - slam_toolbox  # FAILED!
+  # - slam_toolbox  # FAILED!
 
   # NOT RELEASED ON NOETIC...
   # - turtlebot3
