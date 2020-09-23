@@ -21,9 +21,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - rviz
   - robot
-  # - desktop
+  - desktop
   
   ##
   #  TODO Linux!!!!
@@ -63,6 +62,7 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
+  - rviz
   # - executive_smach
   # - geometry_tutorials
   # - interactive_marker_tutorials
