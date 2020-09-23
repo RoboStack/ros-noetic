@@ -1,0 +1,33 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 97fe249..0bc3d7e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,7 +32,7 @@ message(STATUS "System: ${CMAKE_SYSTEM}")
+ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake_modules)
+ message(STATUS "${CMAKE_MODULE_PATH}")
+ find_package(Boost REQUIRED COMPONENTS system thread graph)
+-find_package(SUITESPARSE REQUIRED)
++# find_package(SUITESPARSE REQUIRED)
+ find_package(G2O REQUIRED)
+ 
+ # Eigen3 FindScript Backward compatibility (ubuntu saucy)
+@@ -47,8 +47,8 @@ elseif (EXISTS "FindEigen.cmake")
+   e.g. by adding it to ${PROJECT_SOURCE_DIR}/cmake_modules.")
+ endif (EXISTS "FindEigen3.cmake")
+ 
+-set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
+-set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
++set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
++set(EXTERNAL_LIBS ${G2O_LIBRARIES})
+ 
+ ## Uncomment this if the package has a setup.py. This macro ensures
+ ## modules and global scripts declared therein get installed
+@@ -163,7 +163,7 @@ catkin_package(
+         tf2
+         tf2_ros
+ 	visualization_msgs
+-  DEPENDS SUITESPARSE G2O
++  DEPENDS G2O
+ )
+ 
+ ###########
