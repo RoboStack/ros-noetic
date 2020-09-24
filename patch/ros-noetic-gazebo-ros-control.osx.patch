@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 58304f3..c8c5f20 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,6 +32,8 @@ catkin_package(
+   LIBRARIES ${PROJECT_NAME} default_robot_hw_sim
+ )
+ 
++add_definitions(-D_LIBCPP_DISABLE_AVAILABILITY)
++
+ link_directories(
+   ${catkin_LIBRARY_DIRS}
+ )
