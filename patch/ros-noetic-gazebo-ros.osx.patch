@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1d5f7aa..8d1b0cb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -69,6 +69,8 @@ catkin_package(
+     TinyXML
+ )
+ 
++add_definitions(-D_LIBCPP_DISABLE_AVAILABILITY)
++
+ include_directories(
+   include
+   ${Boost_INCLUDE_DIRS}
+
