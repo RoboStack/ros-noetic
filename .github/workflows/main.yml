@@ -28,12 +28,12 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
         git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: buildbranch_linux
-        force: true
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: buildbranch_linux
+    #     force: true
     # Generate recipes for OS X
     - name: Reset repo
       run: |
@@ -51,12 +51,12 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
         git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: buildbranch_osx
-        force: true
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: buildbranch_osx
+    #     force: true
     # Generate recipes for OS X
     - name: Reset repo
       run: |
