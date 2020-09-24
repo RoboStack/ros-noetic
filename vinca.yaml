@@ -25,12 +25,10 @@ packages_select_by_deps:
   #  TODO
   ##
   # - slam_toolbox  # FAILED!
+  - desktop_full
   - rviz_visual_tools
   - franka_control
   - franka_gripper
-  - franka_visualization
-  - ros_control
-  - ros_controllers
 
   ##
   # DONE Linux
@@ -55,6 +53,9 @@ packages_select_by_deps:
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
   # - libfranka
+  # - franka_visualization
+  # - ros_control
+  # - ros_controllers
 
   ##
   # DONE OSX
@@ -71,6 +72,9 @@ packages_select_by_deps:
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
   # - libfranka
+  # - franka_visualization
+  # - ros_control
+  # - ros_controllers
 
   ##
   # NOT RELEASED ON NOETIC...
