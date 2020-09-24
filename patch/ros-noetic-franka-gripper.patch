@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 14dd852..645485b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -82,6 +82,10 @@ target_link_libraries(franka_gripper_node
+    franka_gripper
+ )
+ 
++if(UNIX AND NOT APPLE)
++    target_link_libraries(franka_gripper_node rt)
++endif()
++
+ target_include_directories(franka_gripper_node SYSTEM PUBLIC
+   ${catkin_INCLUDE_DIRS}
+ )
+

@@ -22,12 +22,28 @@ skip_existing:
 
 packages_select_by_deps:  
   ##
-  #  TODO
+  #  TODO Linux + OSX
   ##
   # - slam_toolbox  # FAILED!
-  # - desktop_full # on osx fails because it requires macos 10.14 at least
-  # - franka_control
-  # - franka_gripper
+
+  ##
+  #  TODO Linux
+  ##
+  - franka_control
+  - franka_gripper
+
+  ##
+  #  TODO OSX
+  ##
+  - rosbridge_suite
+  - robot_localization
+  - moveit
+  - imu_tools
+  - velodyne
+  - urg_node
+  - teb_local_planner
+  - joy
+  - plotjuggler
 
   ##
   # DONE Linux
@@ -61,6 +77,7 @@ packages_select_by_deps:
   # DONE OSX
   ##
   # - rviz
+  # - class_loader
   # - robot
   # - desktop
   # - executive_smach
@@ -77,6 +94,8 @@ packages_select_by_deps:
   # - ros_controllers
   # - rviz_visual_tools
   # - perception
+  # - perception_pcl
+  # - desktop_full
 
   ##
   # NOT RELEASED ON NOETIC...
