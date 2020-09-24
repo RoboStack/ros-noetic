@@ -9,48 +9,48 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-    - name: Install vinca
-      run: |
-        git clone https://github.com/RoboStack/vinca /tmp/vinca
-        pushd /tmp/vinca
-        git checkout boa
-        pip install /tmp/vinca/
-        popd
-    - name: Generate recipes
-      run: |
-        vinca --multiple --platform linux-64
-    - name: Generate azure pipelines
-      run: |
-        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: buildbranch_linux
-    #     force: true
-    # Generate recipes for OS X
-    - name: Reset repo
-      run: |
-        git reset --hard origin/master
-    - name: Generate recipes
-      run: |
-        git clean -fdx
-        vinca --multiple --platform osx-64
-    - name: Generate azure pipelines
-      run: |
-        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+    # - name: Install vinca
+    #   run: |
+    #     git clone https://github.com/RoboStack/vinca /tmp/vinca
+    #     pushd /tmp/vinca
+    #     git checkout boa
+    #     pip install /tmp/vinca/
+    #     popd
+    # - name: Generate recipes
+    #   run: |
+    #     vinca --multiple --platform linux-64
+    # - name: Generate azure pipelines
+    #   run: |
+    #     vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes
+    # - name: Commit files
+    #   run: |
+    #     git config --local user.email "action@github.com"
+    #     git config --local user.name "GitHub Action"
+    #     git add .
+    #     git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+    # # - name: Push changes
+    # #   uses: ad-m/github-push-action@master
+    # #   with:
+    # #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    # #     branch: buildbranch_linux
+    # #     force: true
+    # # Generate recipes for OS X
+    # - name: Reset repo
+    #   run: |
+    #     git reset --hard origin/master
+    # - name: Generate recipes
+    #   run: |
+    #     git clean -fdx
+    #     vinca --multiple --platform osx-64
+    # - name: Generate azure pipelines
+    #   run: |
+    #     vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes
+    # - name: Commit files
+    #   run: |
+    #     git config --local user.email "action@github.com"
+    #     git config --local user.name "GitHub Action"
+    #     git add .
+    #     git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
     # - name: Push changes
     #   uses: ad-m/github-push-action@master
     #   with:
