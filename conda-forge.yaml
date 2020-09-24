@@ -353,7 +353,9 @@ python-pycryptodome:
 python3-pycryptodome:
   conda-forge: ['pycryptodome', 'pycryptodomex']
 graphviz:
-  conda-forge: ['graphviz']
+  conda-forge:
+    win64: []
+    unix: ['graphviz']
 uuid:
   conda-forge:
     win64: []

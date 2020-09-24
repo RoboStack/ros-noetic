@@ -1,0 +1,54 @@
+diff --git a/tf/CMakeLists.txt b/tf/CMakeLists.txt
+index c418afce..483bbb75 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,16 +1,9 @@
+ cmake_minimum_required(VERSION 3.0.2)
+ project(tf)
+ 
+-include(CheckCXXCompilerFlag)
+-unset(COMPILER_SUPPORTS_CXX11 CACHE)
+-if(MSVC)
+-  # https://docs.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version
+-  # MSVC has c++14 enabled by default, no need to specify c++11
+-else()
+-  check_cxx_compiler_flag(-std=c++11 COMPILER_SUPPORTS_CXX11)
+-  if(COMPILER_SUPPORTS_CXX11)
+-    add_compile_options(-std=c++11)
+-  endif()
++# Melodic default to C++14
++if(NOT CMAKE_CXX_STANDARD)
++  set(CMAKE_CXX_STANDARD 14)
+ endif()
+ 
+ find_package(catkin REQUIRED COMPONENTS
+diff --git a/tf/include/tf/tf.h b/tf/include/tf/tf.h
+index 934aabf6..ecc43349 100644
+--- a/include/tf/tf.h
++++ b/include/tf/tf.h
+@@ -49,6 +49,12 @@
+ #include <tf2_ros/buffer.h>
+ #include <ros/macros.h>
+ 
++// Boost winapi.h includes winerror.h. Subsequently NO_ERROR gets defined
++// and which conflicts with tf::NO_ERROR.
++#if defined(_WIN32) && defined(NO_ERROR)
++  #undef NO_ERROR
++#endif
++
+ // Import/export for windows dll's and visibility for gcc shared libraries.
+ #ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
+   #ifdef tf_EXPORTS // we are building a shared lib/dll
+diff --git a/tf/src/tf.cpp b/tf/src/tf.cpp
+index ac9ad0da..13f027c4 100644
+--- a/src/tf.cpp
++++ b/src/tf.cpp
+@@ -30,7 +30,6 @@
+ /** \author Tully Foote */
+ 
+ #include "tf/tf.h"
+-#include <sys/time.h>
+ #include "ros/assert.h"
+ #include "ros/ros.h"
+ #include <angles/angles.h>
+
