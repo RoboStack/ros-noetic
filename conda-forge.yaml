@@ -213,6 +213,11 @@ libqt5-gui:
     win64: [qt]
     linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
+libqt5x11extras5-dev:
+  conda-forge:
+    win64: [qt]
+    linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
+    osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-core:
   conda-forge:
     win64: [qt]
