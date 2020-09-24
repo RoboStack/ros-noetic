@@ -25,9 +25,9 @@ packages_select_by_deps:
   #  TODO
   ##
   # - slam_toolbox  # FAILED!
-  - desktop_full # on osx fails because it requires macos 10.14 at least
-  - franka_control
-  - franka_gripper
+  # - desktop_full # on osx fails because it requires macos 10.14 at least
+  # - franka_control
+  # - franka_gripper
 
   ##
   # DONE Linux

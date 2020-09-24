@@ -24,7 +24,8 @@ packages_select_by_deps:
   ##
   #  TODO
   ##
-  - ros_core
+  # - ros_core
+  - desktop
 
   ##
   # DONE Linux
