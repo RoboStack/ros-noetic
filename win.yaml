@@ -25,7 +25,8 @@ packages_select_by_deps:
   #  TODO
   ##
   # - ros_core
-  - desktop
+  # - desktop
+  - perception
 
   ##
   # DONE Linux
