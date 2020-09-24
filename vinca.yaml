@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 2
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - rviz
@@ -18,24 +18,20 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:  
   ##
-  #  TODO Linux!!!!
+  #  TODO
   ##
   # - slam_toolbox  # FAILED!
-  # - rviz_visual_tools
-  # - libfranka
-  # - franka_control
-  # - franka_gripper
-  - franka_hw
-  # - franka_visualization
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - ros_control
-  # - ros_controllers
-  
+  - rviz_visual_tools
+  - franka_control
+  - franka_gripper
+  - franka_visualization
+  - ros_control
+  - ros_controllers
+
   ##
   # DONE Linux
   ##
@@ -55,7 +51,11 @@ packages_select_by_deps:
   # - plotjuggler
   # - franka_msgs
   # - franka_description
-  
+  # - franka_hw
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - libfranka
+
   ##
   # DONE OSX
   ##
@@ -68,6 +68,9 @@ packages_select_by_deps:
   # - joint_state_publisher_gui
   # - nodelet_core
   # - robot_state_publisher
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - libfranka
 
   ##
   # NOT RELEASED ON NOETIC...
