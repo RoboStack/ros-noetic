@@ -20,24 +20,21 @@ packages_remove_from_deps:
 skip_existing:
   - https://conda.anaconda.org/robostack/
 
-packages_select_by_deps:
-  - robot
-  - desktop
-  
+packages_select_by_deps:  
   ##
   #  TODO Linux!!!!
   ##
   # - slam_toolbox  # FAILED!
   # - rviz_visual_tools
-  # - libfranka
-  # - franka_control
-  # - franka_gripper
-  # - franka_hw
-  # - franka_visualization
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - ros_control
-  # - ros_controllers
+  - libfranka
+  - franka_control
+  - franka_gripper
+  - franka_hw
+  - franka_visualization
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
   
   ##
   # DONE Linux
@@ -56,13 +53,15 @@ packages_select_by_deps:
   # - teb_local_planner
   # - joy
   # - plotjuggler
-  # - franka_msgs
-  # - franka_description
+  - franka_msgs
+  - franka_description
   
   ##
   # DONE OSX
   ##
-  - rviz
+  # - rviz
+  # - robot
+  # - desktop
   # - executive_smach
   # - geometry_tutorials
   # - interactive_marker_tutorials
