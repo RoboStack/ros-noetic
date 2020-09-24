@@ -9,13 +9,13 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-    # - name: Install vinca
-    #   run: |
-    #     git clone https://github.com/RoboStack/vinca /tmp/vinca
-    #     pushd /tmp/vinca
-    #     git checkout boa
-    #     pip install /tmp/vinca/
-    #     popd
+    - name: Install vinca
+      run: |
+        git clone https://github.com/RoboStack/vinca /tmp/vinca
+        pushd /tmp/vinca
+        git checkout boa
+        pip install /tmp/vinca/
+        popd
     # - name: Generate recipes
     #   run: |
     #     vinca --multiple --platform linux-64
