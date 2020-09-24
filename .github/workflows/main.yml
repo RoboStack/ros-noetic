@@ -56,6 +56,29 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: buildbranch_osx
         force: true
+    # Generate recipes for OS X
+    - name: Reset repo
+      run: |
+        git reset --hard origin/master
+    - name: Generate recipes
+      run: |
+        cp win.yaml vinca.yaml
+        vinca --multiple --platform win-64
+    - name: Generate azure pipelines
+      run: |
+        vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: buildbranch_win
+        force: true
 
 on:
   push:

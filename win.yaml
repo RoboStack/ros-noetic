@@ -1,0 +1,95 @@
+ros_distro: noetic
+
+# mapping for package keys
+conda_index:
+  - conda-forge.yaml
+  - packages-ignore.yaml
+
+build_number: 2
+
+skip_all_deps: false
+
+packages_skip_by_deps:
+  # - rviz
+  # - diagnostic_updater
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  - https://conda.anaconda.org/robostack/
+
+packages_select_by_deps:  
+  ##
+  #  TODO
+  ##
+  - ros_core
+
+  ##
+  # DONE Linux
+  ##
+  # - desktop
+  # - desktop_full
+  # - ros_core
+  # - rosbridge_suite
+  # - moveit
+  # - class_loader
+  # - robot_localization
+  # - imu_tools
+  # - velodyne
+  # - perception_pcl
+  # - urg_node
+  # - teb_local_planner
+  # - joy
+  # - plotjuggler
+  # - franka_msgs
+  # - franka_description
+  # - franka_hw
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - libfranka
+  # - franka_visualization
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+
+  ##
+  # DONE OSX
+  ##
+  # - rviz
+  # - robot
+  # - desktop
+  # - executive_smach
+  # - geometry_tutorials
+  # - interactive_marker_tutorials
+  # - joint_state_publisher_gui
+  # - nodelet_core
+  # - robot_state_publisher
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - libfranka
+  # - franka_visualization
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+  # - perception
+
+  ##
+  # NOT RELEASED ON NOETIC...
+  ##
+  # - turtlebot3
+  # - turtlebot3_fake
+  # - tf2_web_republisher
+  # - franka_ros
+  # - franka_example_controllers
+  # - niryo_one_simulation
+
+  ##
+  # PROBLEMS:
+  ##
+  # - rtabmap_ros  # openni is missing, and need to find names for
+    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # - behavior_tree  # isn't released?
+
+patch_dir: patch
