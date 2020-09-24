@@ -65,7 +65,9 @@ jobs:
       run: |
         git clean -fdx
         cp win.yaml vinca.yaml
-        vinca --multiple --platform win-64
+        vinca --platform win-64
+        mkdir -p recipes
+        mv recipe.yaml ./recipes/
     - name: Generate azure pipelines
       run: |
         vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes
