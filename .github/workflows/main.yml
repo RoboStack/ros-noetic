@@ -61,13 +61,18 @@ jobs:
     - name: Reset repo
       run: |
         git reset --hard origin/master
+    # - name: Generate recipes
+    #   run: |
+    #     git clean -fdx
+    #     cp win.yaml vinca.yaml
+    #     vinca --platform win-64
+    #     mkdir -p recipes
+    #     mv recipe.yaml ./recipes/
     - name: Generate recipes
       run: |
         git clean -fdx
         cp win.yaml vinca.yaml
-        vinca --platform win-64
-        mkdir -p recipes
-        mv recipe.yaml ./recipes/
+        vinca --multiple --platform win-64
     - name: Generate azure pipelines
       run: |
         vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes
