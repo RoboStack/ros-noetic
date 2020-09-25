@@ -27,17 +27,12 @@ packages_select_by_deps:
   #  TODO Win
   ##
   - desktop-full
-
-  - rosbridge_suite
   - moveit
-  - class_loader
   - robot_localization
   - imu_tools
   - velodyne
-  - perception_pcl
   - joy
   - plotjuggler
-  - ros_controllers
   # - franka_msgs
   # - franka_description
   # - franka_hw
@@ -54,6 +49,10 @@ packages_select_by_deps:
   # - desktop
   # - perception
   # - ros_control
+  # - rosbridge_suite
+  # - class_loader
+  # - ros_controllers
+  # - perception_pcl
 
   ##
   # Not bother Win
