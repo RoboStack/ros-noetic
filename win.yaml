@@ -35,8 +35,6 @@ packages_select_by_deps:
   - imu_tools
   - velodyne
   - perception_pcl
-  - urg_node
-  - teb_local_planner
   - joy
   - plotjuggler
   # - franka_msgs
@@ -46,7 +44,6 @@ packages_select_by_deps:
   # - franka_visualization
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
-  - ros_control
   - ros_controllers
   # - rviz_visual_tools
 
@@ -55,6 +52,13 @@ packages_select_by_deps:
   ##
   # - desktop
   # - perception
+  # - ros_control
+  # - teb_local_planner
+
+  ##
+  # Not bother Win
+  ##
+  # - urg_node
 
   ##
   # NOT RELEASED ON NOETIC...
