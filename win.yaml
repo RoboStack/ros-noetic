@@ -26,8 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - perception
-  # - desktop-full
+  - desktop-full
 
   # - rosbridge_suite
   # - moveit
