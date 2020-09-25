@@ -19,3 +19,17 @@ index add78c3f..0cfe20cd 100644
  target_link_libraries(example ${catkin_LIBRARIES})
  
  #set(LOCAL_GTEST_DIR "gtest-1.7.0")
+
+diff --git a/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h b/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
+index cd9178ee..5fa27422 100644
+--- a/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
++++ b/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
+@@ -43,6 +43,7 @@
+ #include "ros/this_node.h"
+ 
+ #include "diagnostic_msgs/DiagnosticArray.h"
++#include "diagnostic_msgs/DiagnosticStatus.h"
+ #include "diagnostic_updater/DiagnosticStatusWrapper.h"
+ 
+ #include <boost/thread.hpp>
+

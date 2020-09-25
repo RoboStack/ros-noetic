@@ -28,26 +28,26 @@ packages_select_by_deps:
   ##
   - desktop-full
 
-  # - rosbridge_suite
-  # - moveit
-  # - class_loader
-  # - robot_localization
-  # - imu_tools
-  # - velodyne
-  # - perception_pcl
-  # - urg_node
-  # - teb_local_planner
-  # - joy
-  # - plotjuggler
+  - rosbridge_suite
+  - moveit
+  - class_loader
+  - robot_localization
+  - imu_tools
+  - velodyne
+  - perception_pcl
+  - urg_node
+  - teb_local_planner
+  - joy
+  - plotjuggler
   # - franka_msgs
   # - franka_description
   # - franka_hw
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
   # - libfranka
   # - franka_visualization
-  # - ros_control
-  # - ros_controllers
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
   # - rviz_visual_tools
 
   ##
