@@ -26,13 +26,15 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - desktop-full
-  - moveit
-  - robot_localization
-  - imu_tools
-  - velodyne
-  - joy
-  - plotjuggler
+  - rviz
+  - diagnostic_updater
+  # - desktop-full
+  # - moveit
+  # - robot_localization
+  # - imu_tools
+  # - velodyne
+  # - joy
+  # - plotjuggler
   # - franka_msgs
   # - franka_description
   # - franka_hw

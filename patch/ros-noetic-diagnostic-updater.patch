@@ -1,7 +1,7 @@
-diff --git a/diagnostic_updater/CMakeLists.txt b/diagnostic_updater/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index add78c3f..0cfe20cd 100644
---- a/diagnostic_updater/CMakeLists.txt
-+++ b/diagnostic_updater/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -6,7 +6,7 @@ find_package(catkin REQUIRED diagnostic_msgs roscpp std_msgs)
  
  catkin_python_setup()
@@ -19,57 +19,18 @@ index add78c3f..0cfe20cd 100644
  target_link_libraries(example ${catkin_LIBRARIES})
  
  #set(LOCAL_GTEST_DIR "gtest-1.7.0")
-
-diff --git a/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h b/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
-index cd9178ee..5fa27422 100644
---- a/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
-+++ b/diagnostic_updater/include/diagnostic_updater/diagnostic_updater.h
-@@ -43,6 +43,7 @@
- #include "ros/this_node.h"
- 
- #include "diagnostic_msgs/DiagnosticArray.h"
-+#include "diagnostic_msgs/DiagnosticStatus.h"
- #include "diagnostic_updater/DiagnosticStatusWrapper.h"
- 
- #include <boost/thread.hpp>
-diff --git a/diagnostic_updater/include/diagnostic_updater/update_functions.h b/diagnostic_updater/include/diagnostic_updater/update_functions.h
-index 41e35104..cd76c282 100644
---- a/diagnostic_updater/include/diagnostic_updater/update_functions.h
-+++ b/diagnostic_updater/include/diagnostic_updater/update_functions.h
-@@ -38,6 +38,7 @@
+diff --git a/include/diagnostic_updater/update_functions.h b/include/diagnostic_updater/update_functions.h
+index 41e35104..59c05b94 100644
+--- a/include/diagnostic_updater/update_functions.h
++++ b/include/diagnostic_updater/update_functions.h
+@@ -37,6 +37,10 @@
+ #ifndef __DIAGNOSTIC_STATUS__UPDATE_FUNCTIONS_H__
  #define __DIAGNOSTIC_STATUS__UPDATE_FUNCTIONS_H__
  
++#ifdef ERROR
++#undef ERROR
++#endif
++
  #include <diagnostic_updater/diagnostic_updater.h>
-+#include "diagnostic_msgs/DiagnosticStatus.h"
  #include <math.h>
  
- namespace diagnostic_updater
-@@ -181,23 +182,21 @@ namespace diagnostic_updater
-         times_[hist_indx_] = curtime;
-         hist_indx_ = (hist_indx_ + 1) % params_.window_size_;
- 
--        using diagnostic_msgs::DiagnosticStatus;
--
-         if (events == 0)
-         {
--          stat.summary(DiagnosticStatus::ERROR, "No events recorded.");
-+          stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "No events recorded.");
-         }
-         else if (window != 0 && freq < *params_.min_freq_ * (1 - params_.tolerance_))
-         {
--          stat.summary(DiagnosticStatus::WARN, "Frequency too low.");
-+          stat.summary(diagnostic_msgs::DiagnosticStatus::WARN, "Frequency too low.");
-         }
-         else if (window != 0 && freq > *params_.max_freq_ * (1 + params_.tolerance_))
-         {
--          stat.summary(DiagnosticStatus::WARN, "Frequency too high.");
-+          stat.summary(diagnostic_msgs::DiagnosticStatus::WARN, "Frequency too high.");
-         }
-         else if (window != 0)
-         {
--          stat.summary(DiagnosticStatus::OK, "Desired frequency met");
-+          stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Desired frequency met");
-         }
- 
-         stat.addf("Events in window", "%d", events);
-
