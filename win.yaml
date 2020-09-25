@@ -37,6 +37,7 @@ packages_select_by_deps:
   - perception_pcl
   - joy
   - plotjuggler
+  - ros_controllers
   # - franka_msgs
   # - franka_description
   # - franka_hw
@@ -44,8 +45,8 @@ packages_select_by_deps:
   # - franka_visualization
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
-  - ros_controllers
   # - rviz_visual_tools
+  # - teb_local_planner # cannot find cs.h from suitesparse
 
   ##
   # DONE Win
@@ -53,7 +54,6 @@ packages_select_by_deps:
   # - desktop
   # - perception
   # - ros_control
-  # - teb_local_planner
 
   ##
   # Not bother Win
