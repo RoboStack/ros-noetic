@@ -26,7 +26,8 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - rviz
+  - qt_gui_cpp
+  - catkin
   # - desktop-full
   # - moveit
   # - robot_localization
