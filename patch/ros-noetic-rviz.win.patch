@@ -1,0 +1,97 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 56073262..695d345b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -25,7 +25,14 @@ find_package(Boost REQUIRED
+ 
+ find_package(urdfdom_headers REQUIRED)
+ 
+-find_package(ASSIMP REQUIRED)
++set(MSVC_TOOLSET_VERSION "141")
++find_package(ASSIMP QUIET)
++unset(MSVC_TOOLSET_VERSION)
++
++add_definitions(-DSTRICT)
++add_definitions(-DQ_WINSTRICT)
++
++# find_package(ASSIMP REQUIRED)
+ include_directories(${ASSIMP_INCLUDE_DIRS})
+ 
+ # OGRE doesn't come with correctly installed cmake files.
+diff --git a/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h b/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h
+index 7f8cfbb2..9cc6aff5 100644
+--- a/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h
++++ b/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h
+@@ -32,6 +32,11 @@
+ 
+ 
+ #ifndef Q_MOC_RUN
++#ifdef _WIN32
++#undef ERROR
++#undef DELETE
++#endif
++
+ #include <boost/shared_ptr.hpp>
+ #include <boost/enable_shared_from_this.hpp>
+ 
+diff --git a/src/rviz/default_plugin/marker_display.cpp b/src/rviz/default_plugin/marker_display.cpp
+index 79edefd7..4bcf7eef 100644
+--- a/src/rviz/default_plugin/marker_display.cpp
++++ b/src/rviz/default_plugin/marker_display.cpp
+@@ -43,6 +43,10 @@
+ 
+ #include <rviz/default_plugin/marker_display.h>
+ 
++#ifdef DELETE
++#undef DELETE
++#endif
++
+ namespace rviz
+ {
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/rviz/default_plugin/marker_utils.cpp b/src/rviz/default_plugin/marker_utils.cpp
+index 541d2ceb..41e6e8e3 100644
+--- a/src/rviz/default_plugin/marker_utils.cpp
++++ b/src/rviz/default_plugin/marker_utils.cpp
+@@ -45,6 +45,10 @@
+ #include <rviz/validate_quaternions.h>
+ #include <rviz/validate_floats.h>
+ 
++#ifdef DELETE
++#undef DELETE
++#endif
++
+ namespace rviz
+ {
+ MarkerBase*
+diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
+index a8712742..4d8b452d 100644
+--- a/src/rviz/ogre_helpers/render_system.cpp
++++ b/src/rviz/ogre_helpers/render_system.cpp
+@@ -155,7 +155,11 @@ void RenderSystem::setupDummyWindowId()
+ 
+ void RenderSystem::loadOgrePlugins()
+ {
+-  std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
++#ifdef _WIN32
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
++#else
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
++#endif
+   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_ParticleFX");
+diff --git a/src/rviz/yaml_config_writer.cpp b/src/rviz/yaml_config_writer.cpp
+index 7fc07154..33682f5c 100644
+--- a/src/rviz/yaml_config_writer.cpp
++++ b/src/rviz/yaml_config_writer.cpp
+@@ -152,7 +152,9 @@ void YamlConfigWriter::writeConfigNode(const Config& config, YAML::Emitter& emit
+     break;
+   }
+   default:
++  #ifndef _WIN32
+     emitter << YAML::Null;
++  #endif
+     break;
+   }
+ }
