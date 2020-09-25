@@ -27,7 +27,6 @@ packages_select_by_deps:
   #  TODO Win
   ##
   - rviz
-  - diagnostic_updater
   # - desktop-full
   # - moveit
   # - robot_localization

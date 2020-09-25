@@ -1,0 +1,15 @@
+diff --git a/include/interactive_markers/interactive_marker_client.h b/include/interactive_markers/interactive_marker_client.h
+index bd1a1b7..193428e 100644
+--- a/include/interactive_markers/interactive_marker_client.h
++++ b/include/interactive_markers/interactive_marker_client.h
+@@ -50,6 +50,10 @@
+ 
+ #include "detail/state_machine.h"
+ 
++#ifdef ERROR
++#undef ERROR
++#endif
++
+ namespace interactive_markers
+ {
+ 
