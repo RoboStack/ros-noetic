@@ -27,7 +27,8 @@ packages_select_by_deps:
   #  TODO Win
   ##
   - qt_gui_cpp
-  - catkin
+  - python_qt_binding
+  # - catkin
   # - desktop-full
   # - moveit
   # - robot_localization
