@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 2
 
-skip_all_deps: false
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - rviz
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - theora-image-transport
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:  
   ##
