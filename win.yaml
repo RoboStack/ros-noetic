@@ -26,30 +26,25 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-
-  # - catkin
-  - desktop_full
-
-  # - moveit
-  # - robot_localization
-  # - imu_tools
-  # - velodyne
-  # - joy
-  # - plotjuggler
+  - moveit
+  - robot_localization
+  - imu_tools
+  - velodyne
+  - joy
+  - plotjuggler
+  - rviz_visual_tools
   # - franka_msgs
   # - franka_description
   # - franka_hw
   # - libfranka
   # - franka_visualization
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - rviz_visual_tools
   # - teb_local_planner # cannot find cs.h from suitesparse
 
   ##
   # DONE Win
   ##
   # - desktop
+  # - desktop_full
   # - perception
   # - ros_control
   # - rosbridge_suite
