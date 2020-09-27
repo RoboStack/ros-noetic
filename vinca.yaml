@@ -29,21 +29,22 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - franka_control
-  - franka_gripper
+  - qt_gui_cpp
+  # - franka_control
+  # - franka_gripper
 
   ##
   #  TODO OSX
   ##
-  - rosbridge_suite
-  - robot_localization
-  - moveit
-  - imu_tools
-  - velodyne
-  - urg_node
-  - teb_local_planner
-  - joy
-  - plotjuggler
+  # - rosbridge_suite
+  # - robot_localization
+  # - moveit
+  # - imu_tools
+  # - velodyne
+  # - urg_node
+  # - teb_local_planner
+  # - joy
+  # - plotjuggler
 
   ##
   # DONE Linux
