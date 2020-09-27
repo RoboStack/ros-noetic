@@ -205,7 +205,7 @@ curl:
   conda-forge: [libcurl]
 qtbase5-dev:
   conda-forge:
-    win64: [qt]
+    win64: [qt, sip]
     linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-gui:
@@ -262,22 +262,22 @@ python3-matplotlib:
   conda-forge: [matplotlib-base]
 python-qt5-bindings:
   conda-forge:
-    win64: [pyqt, sip]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12.3 py36haa643ae_3]
 python3-qt5-bindings:
   conda-forge:
-    win64: [pyqt, sip]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12.3 py36haa643ae_3]
 python3-qt5-bindings-webkit:
   conda-forge:
-    win64: [pyqt, sip]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12.3 py36haa643ae_3]
 python3-qt5-bindings-gl:
   conda-forge:
-    win64: [pyqt, sip]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12.3 py36haa643ae_3]
 python-psutil:
