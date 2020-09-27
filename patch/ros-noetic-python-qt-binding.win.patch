@@ -1,16 +1,18 @@
 diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
-index a055cf5..874b6b6 100644
+index a055cf5..6e3b19c 100644
 --- a/cmake/sip_helper.cmake
 +++ b/cmake/sip_helper.cmake
-@@ -75,7 +75,10 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -75,8 +75,11 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
  
      set(SIP_BUILD_DIR ${sip_BINARY_DIR}/sip/${PROJECT_NAME})
  
 -    set(INCLUDE_DIRS ${${PROJECT_NAME}_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
+-    set(LIBRARY_DIRS ${${PROJECT_NAME}_LIBRARY_DIRS})
 +    find_package(Qt5Core REQUIRED)
 +    find_package(Qt5Widgets REQUIRED)
 +
 +    set(INCLUDE_DIRS ${${PROJECT_NAME}_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
-     set(LIBRARY_DIRS ${${PROJECT_NAME}_LIBRARY_DIRS})
++    set(LIBRARY_DIRS ${${PROJECT_NAME}_LIBRARY_DIRS} ${Qt5Core_LIBRARY_DIRS} ${Qt5Widgets_LIBRARY_DIRS})
      set(LDFLAGS_OTHER ${${PROJECT_NAME}_LDFLAGS_OTHER})
  
+     set(EXTRA_DEFINES "")
