@@ -28,7 +28,7 @@ packages_select_by_deps:
   ##
   - python_qt_binding
   - qt_gui_cpp
-  - python_qt_binding
+  - catkin
   # - catkin
   # - desktop-full
   # - moveit
