@@ -205,7 +205,7 @@ curl:
   conda-forge: [libcurl]
 qtbase5-dev:
   conda-forge:
-    win64: [qt, sip]
+    win64: [qt]
     linux: [qt 5.12.5 hd8c4c69_1, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-gui:
