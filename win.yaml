@@ -22,10 +22,11 @@ packages_remove_from_deps:
 skip_existing:
   # - https://conda.anaconda.org/robostack/
 
-packages_select_by_deps:  
+packages_select_by_deps:
   ##
   #  TODO Win
   ##
+  - python_qt_binding
   - qt_gui_cpp
   - python_qt_binding
   # - catkin
