@@ -1,16 +1,24 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6a3827a..6ad0675 100644
+index 6a3827a..625fa63 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,7 +1,7 @@
+@@ -1,6 +1,16 @@
  CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
  PROJECT( octomap )
  
--set(CMAKE_INSTALL_LIBDIR "lib")
-+set(CMAKE_INSTALL_LIBDIR "bin")
++if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
++  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
++endif()
++if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
++  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
++endif()
++if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
++  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
++endif()
++
+ set(CMAKE_INSTALL_LIBDIR "lib")
  
  include(CTest)
- include(GNUInstallDirs)
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 45b384f..6dc0293 100644
 --- a/src/CMakeLists.txt
