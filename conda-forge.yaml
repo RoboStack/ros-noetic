@@ -368,9 +368,7 @@ cppunit:
     win64: []
     unix: [cppunit]
 libfcl-dev:
-  conda-forge:
-    win64: []
-    unix: [fcl]
+  conda-forge: [fcl]
 libqhull:
   conda-forge: [qhull]
 lcov:
