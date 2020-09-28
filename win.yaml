@@ -27,7 +27,7 @@ packages_select_by_deps:
   #  TODO Win
   ##
   - octomap
-  # - moveit  # fails because of octomap error
+  - moveit
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
   # - plotjuggler  # fails with weird template initialization error
