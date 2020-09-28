@@ -17,4 +17,58 @@ index 05c127fcd..ab877d422 100644
  find_package(Boost REQUIRED system filesystem date_time thread iostreams regex ${EXTRA_BOOST_COMPONENTS})
  find_package(Eigen3 REQUIRED)
  
+diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CMakeLists.txt
+index 90f260c8a..d161291cd 100644
+--- a/collision_detection_fcl/CMakeLists.txt
++++ b/collision_detection_fcl/CMakeLists.txt
+@@ -1,12 +1,48 @@
+ set(MOVEIT_LIB_NAME moveit_collision_detection_fcl)
+ 
++find_package(ccd QUIET)
++
++# If ccd-config.cmake is not found, use pkg-config and/or find_path() and
++# find_library()
++if(NOT ccd_FOUND)
++  if(PKG_CONFIG_FOUND)
++    pkg_check_modules(PC_CCD ccd)
++    pkg_check_modules(PC_LIBCCD libccd)
++  endif()
++
++  find_path(CCD_INCLUDE_DIR ccd/ccd.h
++    HINTS "${PC_CCD_INCLUDE_DIRS}" "${PC_LIBCCD_INCLUDE_DIRS}")
++
++  # Using find_library() even if pkg-config is available ensures that the full
++  # path to the ccd library is available in CCD_LIBRARIES
++  find_library(CCD_LIBRARY ccd
++    HINTS "${PC_CCD_LIBRARY_DIRS}" "${PC_LIBCCD_LIBRARY_DIRS}")
++
++  # libccd links to LibM on UNIX.
++  if(CYGWIN OR NOT WIN32)
++    find_library(M_LIBRARY m)
++  endif()
++
++  if(CCD_INCLUDE_DIR AND CCD_LIBRARY)
++    set(CCD_INCLUDE_DIRS "${CCD_INCLUDE_DIR}")
++    set(CCD_LIBRARIES "${CCD_LIBRARY}" "${M_LIBRARY}")
++    set(ccd_FOUND ON)
++
++    mark_as_advanced(CCD_INCLUDE_DIR CCD_LIBRARY)
++  endif()
++endif()
++
++if(NOT ccd_FOUND)
++  message(FATAL_ERROR "CCD is required by Moveit")
++endif()
++
+ add_library(${MOVEIT_LIB_NAME}
+   src/collision_common.cpp
+   src/collision_env_fcl.cpp
+ )
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ 
+-target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES})
++target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES} ${CCD_LIBRARIES})
+ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
+ 
+ add_library(collision_detector_fcl_plugin src/collision_detector_fcl_plugin_loader.cpp)
 
