@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e67982a..f2c7eb6 100644
+index e67982a..4eac63d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -13,7 +13,9 @@ endif()
@@ -12,7 +12,7 @@ index e67982a..f2c7eb6 100644
  if(NOT ASSIMP_FOUND)
    find_package(PkgConfig REQUIRED)
    # assimp is required, so REQUIRE the second attempt
-@@ -24,7 +26,7 @@ endif()
+@@ -24,9 +26,14 @@ endif()
  # find *absolute* paths to ASSIMP_LIBRARIES
  # Both, pkg-config and assimp's cmake-config don't provide an absolute library path.
  # For, pkg-config the path is in ASSIMP_PC_LIBRARY_DIRS, for cmake in ASSIMP_LIBRARY_DIRS.
@@ -20,4 +20,11 @@ index e67982a..f2c7eb6 100644
 +find_library(ASSIMP_ABS_LIBRARIES NAMES ${ASSIMP_LIBRARIES} assimp-vc141-mt HINTS ${ASSIMP_LIBRARY_DIRS} ${ASSIMP_PC_LIBRARY_DIRS})
  set(ASSIMP_LIBRARIES "${ASSIMP_ABS_LIBRARIES}")
  
++if (WIN32)
++  # for msvc 2017 compat
++  add_definitions(-D_ENABLE_EXTENDED_ALIGNED_STORAGE)
++endif()
++
  find_package(Boost REQUIRED system filesystem)
+ 
+ find_package(console_bridge REQUIRED)

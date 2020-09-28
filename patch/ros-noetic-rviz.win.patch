@@ -11,8 +11,8 @@ index 56073262..695d345b 100644
 +find_package(ASSIMP QUIET)
 +unset(MSVC_TOOLSET_VERSION)
 +
-+add_definitions(-DSTRICT)
-+add_definitions(-DQ_WINSTRICT)
++# add_definitions(-DSTRICT)
++# add_definitions(-DQ_WINSTRICT)
 +
 +# find_package(ASSIMP REQUIRED)
  include_directories(${ASSIMP_INCLUDE_DIRS})
