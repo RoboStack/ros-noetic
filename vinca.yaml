@@ -31,6 +31,7 @@ packages_select_by_deps:
   ##
   - franka_control
   - franka_gripper
+  - velodyne_pcl
 
   ##
   #  TODO OSX
@@ -44,6 +45,7 @@ packages_select_by_deps:
   - teb_local_planner
   - joy
   - plotjuggler
+  - velodyne_pcl
 
   ##
   # DONE Linux

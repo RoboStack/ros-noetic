@@ -26,18 +26,17 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - moveit
-  - robot_localization
-  - imu_tools
-  - velodyne
-  - joy
-  - plotjuggler
-  - rviz_visual_tools
-  # - franka_msgs
-  # - franka_description
-  # - franka_hw
-  # - libfranka
-  # - franka_visualization
+  - octomap
+  # - moveit  # fails because of octomap error
+  - velodyne_pcl
+  # - velodyne_driver  # probably too tricky to build
+  # - velodyne_pointcloud  # depends on velodyne_driver
+  # - plotjuggler  # fails with weird template initialization error
+  - franka_msgs
+  - franka_description
+  - franka_hw
+  - libfranka
+  - franka_visualization
   # - teb_local_planner # cannot find cs.h from suitesparse
 
   ##
@@ -51,6 +50,12 @@ packages_select_by_deps:
   # - class_loader
   # - ros_controllers
   # - perception_pcl
+  # - joy
+  # - robot_localization
+  # - velodyne_laserscan
+  # - velodyne_msgs
+  # - imu_tools
+  # - rviz_visual_tools
 
   ##
   # Not bother Win
