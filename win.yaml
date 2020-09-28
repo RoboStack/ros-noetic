@@ -28,12 +28,9 @@ packages_select_by_deps:
   ##
   - octomap
   # - moveit  # fails because of octomap error
-  - velodyne_pcl
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
   # - plotjuggler  # fails with weird template initialization error
-  - franka_msgs
-  - franka_description
   - franka_hw
   - libfranka
   - franka_visualization
@@ -56,6 +53,9 @@ packages_select_by_deps:
   # - velodyne_msgs
   # - imu_tools
   # - rviz_visual_tools
+  # - franka_msgs
+  # - franka_description
+  # - velodyne_pcl
 
   ##
   # Not bother Win
