@@ -30,7 +30,11 @@ packages_select_by_deps:
 
   # - pluginlib
   # - desktop_full
-  - moveit
+  # - moveit
+
+  - rqt_rviz
+  - rqt_image_view
+  - rqt_gui_cpp
 
   # - moveit
   # - velodyne_driver  # probably too tricky to build
