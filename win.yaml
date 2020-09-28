@@ -29,7 +29,7 @@ packages_select_by_deps:
   # - octomap
 
   # - pluginlib
-  - desktop_full
+  # - desktop_full
   - moveit
 
   # - moveit
