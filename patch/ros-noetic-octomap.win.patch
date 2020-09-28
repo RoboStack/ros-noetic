@@ -1,3 +1,24 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e0e5feb..51092cd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,17 @@
+ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
+ PROJECT( octomap-distribution )
+ 
++if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
++  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
++endif()
++if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
++  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
++endif()
++if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
++  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
++endif()
++
++
+ ENABLE_TESTING()  # enable CTest environment of subprojects
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)  # enables -fPIC in applicable compilers (required to avoid link errors in some cases)
 diff --git a/octomap/src/CMakeLists.txt b/octomap/src/CMakeLists.txt
 index 45b384f..6dc0293 100644
 --- a/octomap/src/CMakeLists.txt
