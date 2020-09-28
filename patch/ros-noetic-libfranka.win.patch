@@ -1,13 +1,14 @@
-diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
-index 3306c67..724907a 100644
---- a/test/CMakeLists.txt
-+++ b/test/CMakeLists.txt
-@@ -56,6 +56,7 @@ add_executable(run_all_tests
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 15bae8d..b22d6d7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -154,7 +154,7 @@ macro(find_package)
+   endif()
+ endmacro()
  
- set(TEST_COMPILE_DEFINITIONS FRANKA_TEST_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
- target_compile_definitions(run_all_tests PRIVATE ${TEST_COMPILE_DEFINITIONS})
-+target_compile_definitions(run_all_tests PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY)
- 
- target_include_directories(run_all_tests PRIVATE ${TEST_INCLUDE_DIRECTORIES})
- target_link_libraries(run_all_tests PUBLIC ${TEST_DEPENDENCIES})
+-option(BUILD_TESTS "Build tests" ON)
++option(BUILD_TESTS "Build tests" OFF)
+ if(BUILD_TESTS)
+   enable_testing()
+   add_subdirectory(test)
 

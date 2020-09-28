@@ -32,7 +32,7 @@ packages_select_by_deps:
   # - velodyne_pointcloud  # depends on velodyne_driver
   # - plotjuggler  # fails with weird template initialization error
   - franka_hw
-  - libfranka
+  - libfranka  # for now has tests disabled
   - franka_visualization
   # - teb_local_planner # cannot find cs.h from suitesparse
 
