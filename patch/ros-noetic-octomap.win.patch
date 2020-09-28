@@ -1,29 +1,20 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e0e5feb..51092cd 100644
+index 6a3827a..6ad0675 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,6 +1,17 @@
+@@ -1,7 +1,7 @@
  CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
- PROJECT( octomap-distribution )
+ PROJECT( octomap )
  
-+if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
-+endif()
-+if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
-+endif()
-+if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
-+endif()
-+
-+
- ENABLE_TESTING()  # enable CTest environment of subprojects
- set(CMAKE_POSITION_INDEPENDENT_CODE ON)  # enables -fPIC in applicable compilers (required to avoid link errors in some cases)
+-set(CMAKE_INSTALL_LIBDIR "lib")
++set(CMAKE_INSTALL_LIBDIR "bin")
  
-diff --git a/octomap/src/CMakeLists.txt b/octomap/src/CMakeLists.txt
+ include(CTest)
+ include(GNUInstallDirs)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 45b384f..6dc0293 100644
---- a/octomap/src/CMakeLists.txt
-+++ b/octomap/src/CMakeLists.txt
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
 @@ -8,17 +8,14 @@ SET (octomap_SRCS
    OcTreeNode.cpp
    OcTreeStamped.cpp
@@ -69,10 +60,10 @@ index 45b384f..6dc0293 100644
  )
  install(EXPORT octomap-targets DESTINATION "${CMAKE_INSTALL_DATADIR}/octomap")
  
-diff --git a/octomap/src/math/CMakeLists.txt b/octomap/src/math/CMakeLists.txt
+diff --git a/src/math/CMakeLists.txt b/src/math/CMakeLists.txt
 index 3b47ec4..af8b3fa 100644
---- a/octomap/src/math/CMakeLists.txt
-+++ b/octomap/src/math/CMakeLists.txt
+--- a/src/math/CMakeLists.txt
++++ b/src/math/CMakeLists.txt
 @@ -5,25 +5,23 @@ SET (octomath_SRCS
   )
  
