@@ -48,10 +48,10 @@ index 45b384f..6dc0293 100644
  install(EXPORT octomap-targets DESTINATION "${CMAKE_INSTALL_DATADIR}/octomap")
  
 diff --git a/octomap/src/math/CMakeLists.txt b/octomap/src/math/CMakeLists.txt
-index 3b47ec4..5df277a 100644
+index 3b47ec4..af8b3fa 100644
 --- a/octomap/src/math/CMakeLists.txt
 +++ b/octomap/src/math/CMakeLists.txt
-@@ -5,25 +5,24 @@ SET (octomath_SRCS
+@@ -5,25 +5,23 @@ SET (octomath_SRCS
   )
  
  
