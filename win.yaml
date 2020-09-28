@@ -26,17 +26,9 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  # - octomap
-
-  # - pluginlib
-  # - desktop_full
   # - moveit
+  - moveit_core
 
-  - rqt_rviz
-  - rqt_image_view
-  - rqt_gui_cpp
-
-  # - moveit
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
   # - plotjuggler  # fails with weird template initialization error
@@ -44,11 +36,16 @@ packages_select_by_deps:
   # - franka_hw
   # - libfranka  # for now has tests disabled
   # - franka_visualization
+
   # - teb_local_planner # cannot find cs.h from suitesparse
 
   ##
   # DONE Win
   ##
+  # - octomap
+  # - rqt_rviz
+  # - rqt_image_view
+  # - rqt_gui_cpp
   # - desktop
   # - desktop_full
   # - perception
