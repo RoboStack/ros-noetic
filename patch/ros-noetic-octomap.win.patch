@@ -1,5 +1,5 @@
 diff --git a/octomap/src/CMakeLists.txt b/octomap/src/CMakeLists.txt
-index 45b384f..802c768 100644
+index 45b384f..6dc0293 100644
 --- a/octomap/src/CMakeLists.txt
 +++ b/octomap/src/CMakeLists.txt
 @@ -8,17 +8,14 @@ SET (octomap_SRCS
@@ -32,20 +32,26 @@ index 45b384f..802c768 100644
    APPEND FILE "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/octomap/octomap-targets.cmake")
  
  ADD_SUBDIRECTORY( testing )
-@@ -67,7 +64,7 @@ TARGET_LINK_LIBRARIES(intersection_example octomap)
+@@ -67,10 +64,11 @@ TARGET_LINK_LIBRARIES(intersection_example octomap)
  ADD_EXECUTABLE(octree2pointcloud octree2pointcloud.cpp)
  TARGET_LINK_LIBRARIES(octree2pointcloud octomap)
  
 -install(TARGETS octomap octomap-static
 +install(TARGETS octomap
    EXPORT octomap-targets
-   INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-   ${INSTALL_TARGETS_DEFAULT_ARGS}
+-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+-  ${INSTALL_TARGETS_DEFAULT_ARGS}
++  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ )
+ install(EXPORT octomap-targets DESTINATION "${CMAKE_INSTALL_DATADIR}/octomap")
+ 
 diff --git a/octomap/src/math/CMakeLists.txt b/octomap/src/math/CMakeLists.txt
-index 3b47ec4..9a26c46 100644
+index 3b47ec4..5df277a 100644
 --- a/octomap/src/math/CMakeLists.txt
 +++ b/octomap/src/math/CMakeLists.txt
-@@ -5,24 +5,21 @@ SET (octomath_SRCS
+@@ -5,25 +5,24 @@ SET (octomath_SRCS
   )
  
  
@@ -71,6 +77,10 @@ index 3b47ec4..9a26c46 100644
 -install(TARGETS octomath octomath-static
 +install(TARGETS octomath
    EXPORT octomap-targets
-   INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-   ${INSTALL_TARGETS_DEFAULT_ARGS}
+-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+-  ${INSTALL_TARGETS_DEFAULT_ARGS}
++  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ )
 
