@@ -94,16 +94,29 @@ index 3f233fb98..f6ac27951 100644
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 
 diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
-index fde03c4cb..3484abecc 100644
+index fde03c4cb..5cc0283d8 100644
 --- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
 +++ b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
-@@ -42,7 +42,7 @@
- namespace collision_detection
- {
- /** \brief An allocator for FCL collision detectors */
--class CollisionDetectorAllocatorFCL
-+class __declspec(dllexport) CollisionDetectorAllocatorFCL
+@@ -46,6 +46,6 @@ class CollisionDetectorAllocatorFCL
    : public CollisionDetectorAllocatorTemplate<CollisionEnvFCL, CollisionDetectorAllocatorFCL>
  {
  public:
+-  static const std::string NAME;  // defined in collision_env_fcl.cpp
++  static std::string NAME;  // defined in collision_env_fcl.cpp
+ };
+ }  // namespace collision_detection
+diff --git a/collision_detection_fcl/src/collision_env_fcl.cpp b/collision_detection_fcl/src/collision_env_fcl.cpp
+index f44f4b7d5..5cd1593bd 100644
+--- a/collision_detection_fcl/src/collision_env_fcl.cpp
++++ b/collision_detection_fcl/src/collision_env_fcl.cpp
+@@ -46,7 +46,8 @@
+ 
+ namespace collision_detection
+ {
+-const std::string CollisionDetectorAllocatorFCL::NAME("FCL");
++std::string CollisionDetectorAllocatorFCL::NAME;
++CollisionDetectorAllocatorFCL::NAME = "FCL";
+ 
+ CollisionEnvFCL::CollisionEnvFCL(const moveit::core::RobotModelConstPtr& model, double padding, double scale)
+   : CollisionEnv(model, padding, scale)
 
