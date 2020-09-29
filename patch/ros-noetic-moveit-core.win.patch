@@ -72,7 +72,7 @@ index 90f260c8a..9cbcb6ac2 100644
  add_library(${MOVEIT_LIB_NAME}
    src/collision_common.cpp
    src/collision_env_fcl.cpp
-+  "${PROJECT_BINARY_DIR}/${MOVEIT_LIB_NAME}_export.h")
++  "${PROJECT_BINARY_DIR}/${MOVEIT_LIB_NAME}_export.h"
  )
 +include(GenerateExportHeader)
 +generate_export_header(${MOVEIT_LIB_NAME})
