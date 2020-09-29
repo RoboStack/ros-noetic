@@ -114,8 +114,8 @@ index f44f4b7d5..5cd1593bd 100644
  namespace collision_detection
  {
 -const std::string CollisionDetectorAllocatorFCL::NAME("FCL");
-+std::string CollisionDetectorAllocatorFCL::NAME;
-+CollisionDetectorAllocatorFCL::NAME = "FCL";
++std::string CollisionDetectorAllocatorFCL::NAME = "FCL";
++
  
  CollisionEnvFCL::CollisionEnvFCL(const moveit::core::RobotModelConstPtr& model, double padding, double scale)
    : CollisionEnv(model, padding, scale)
