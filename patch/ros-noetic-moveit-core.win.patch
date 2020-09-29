@@ -93,3 +93,17 @@ index 3f233fb98..f6ac27951 100644
  install(TARGETS ${MOVEIT_LIB_NAME}
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 
+diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+index fde03c4cb..3484abecc 100644
+--- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
++++ b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+@@ -42,7 +42,7 @@
+ namespace collision_detection
+ {
+ /** \brief An allocator for FCL collision detectors */
+-class CollisionDetectorAllocatorFCL
++class __declspec(dllexport) CollisionDetectorAllocatorFCL
+   : public CollisionDetectorAllocatorTemplate<CollisionEnvFCL, CollisionDetectorAllocatorFCL>
+ {
+ public:
+
