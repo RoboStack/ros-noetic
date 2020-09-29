@@ -89,7 +89,7 @@ index 90f260c8a..9cbcb6ac2 100644
 +target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME} moveit_planning_scene)
 +add_dependencies(collision_detector_fcl_plugin moveit_planning_scene)
  
-+target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${PROJECT_BINARY_DIR})
++target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
  
  install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_fcl_plugin
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
