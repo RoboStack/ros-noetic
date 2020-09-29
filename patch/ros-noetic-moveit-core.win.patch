@@ -1,8 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 05c127fcd..ab877d422 100644
+index 05c127fcd..4c8aa05c3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -24,10 +24,11 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+@@ -7,6 +7,8 @@ endif()
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS OFF)
+ 
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   # Enable warnings
+   add_compile_options(-Wall -Wextra
+@@ -24,10 +26,11 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE Release)
  endif()
  
@@ -18,10 +27,10 @@ index 05c127fcd..ab877d422 100644
  find_package(Eigen3 REQUIRED)
  
 diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CMakeLists.txt
-index 90f260c8a..d161291cd 100644
+index 90f260c8a..9cbcb6ac2 100644
 --- a/collision_detection_fcl/CMakeLists.txt
 +++ b/collision_detection_fcl/CMakeLists.txt
-@@ -1,18 +1,54 @@
+@@ -1,18 +1,57 @@
  set(MOVEIT_LIB_NAME moveit_collision_detection_fcl)
  
 +find_package(ccd QUIET)
@@ -64,6 +73,9 @@ index 90f260c8a..d161291cd 100644
    src/collision_common.cpp
    src/collision_env_fcl.cpp
  )
++include(GenerateExportHeader)
++generate_export_header(${MOVEIT_LIB_NAME})
++
  set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
  
 -target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES})
@@ -79,7 +91,26 @@ index 90f260c8a..d161291cd 100644
  
  install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_fcl_plugin
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-
+diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+index fde03c4cb..64f7cf2dd 100644
+--- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
++++ b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+@@ -38,6 +38,7 @@
+ 
+ #include <moveit/collision_detection/collision_detector_allocator.h>
+ #include <moveit/collision_detection_fcl/collision_env_fcl.h>
++#include <moveit_collision_detection_fcl_export.h>
+ 
+ namespace collision_detection
+ {
+@@ -46,6 +47,6 @@ class CollisionDetectorAllocatorFCL
+   : public CollisionDetectorAllocatorTemplate<CollisionEnvFCL, CollisionDetectorAllocatorFCL>
+ {
+ public:
+-  static const std::string NAME;  // defined in collision_env_fcl.cpp
++  static moveit_collision_detection_fcl_EXPORT const std::string NAME;  // defined in collision_env_fcl.cpp
+ };
+ }  // namespace collision_detection
 diff --git a/planning_scene/CMakeLists.txt b/planning_scene/CMakeLists.txt
 index 3f233fb98..f6ac27951 100644
 --- a/planning_scene/CMakeLists.txt
@@ -92,31 +123,4 @@ index 3f233fb98..f6ac27951 100644
  
  install(TARGETS ${MOVEIT_LIB_NAME}
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-
-diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
-index fde03c4cb..5cc0283d8 100644
---- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
-+++ b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
-@@ -46,6 +46,6 @@ class CollisionDetectorAllocatorFCL
-   : public CollisionDetectorAllocatorTemplate<CollisionEnvFCL, CollisionDetectorAllocatorFCL>
- {
- public:
--  static const std::string NAME;  // defined in collision_env_fcl.cpp
-+  static std::string NAME;  // defined in collision_env_fcl.cpp
- };
- }  // namespace collision_detection
-diff --git a/collision_detection_fcl/src/collision_env_fcl.cpp b/collision_detection_fcl/src/collision_env_fcl.cpp
-index f44f4b7d5..5cd1593bd 100644
---- a/collision_detection_fcl/src/collision_env_fcl.cpp
-+++ b/collision_detection_fcl/src/collision_env_fcl.cpp
-@@ -46,7 +46,8 @@
- 
- namespace collision_detection
- {
--const std::string CollisionDetectorAllocatorFCL::NAME("FCL");
-+std::string CollisionDetectorAllocatorFCL::NAME = "FCL";
-+
- 
- CollisionEnvFCL::CollisionEnvFCL(const moveit::core::RobotModelConstPtr& model, double padding, double scale)
-   : CollisionEnv(model, padding, scale)
 
