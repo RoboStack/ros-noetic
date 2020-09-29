@@ -30,7 +30,7 @@ diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CM
 index 90f260c8a..9cbcb6ac2 100644
 --- a/collision_detection_fcl/CMakeLists.txt
 +++ b/collision_detection_fcl/CMakeLists.txt
-@@ -1,18 +1,57 @@
+@@ -1,18 +1,60 @@
  set(MOVEIT_LIB_NAME moveit_collision_detection_fcl)
  
 +find_package(ccd QUIET)
@@ -72,6 +72,7 @@ index 90f260c8a..9cbcb6ac2 100644
  add_library(${MOVEIT_LIB_NAME}
    src/collision_common.cpp
    src/collision_env_fcl.cpp
++  "${PROJECT_BINARY_DIR}/${MOVEIT_LIB_NAME}_export.h")
  )
 +include(GenerateExportHeader)
 +generate_export_header(${MOVEIT_LIB_NAME})
@@ -85,12 +86,14 @@ index 90f260c8a..9cbcb6ac2 100644
  add_library(collision_detector_fcl_plugin src/collision_detector_fcl_plugin_loader.cpp)
  set_target_properties(collision_detector_fcl_plugin PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
 -target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME})
--
 +target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME} moveit_planning_scene)
 +add_dependencies(collision_detector_fcl_plugin moveit_planning_scene)
  
++target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+ 
  install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_fcl_plugin
          LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+
 diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
 index fde03c4cb..64f7cf2dd 100644
 --- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
@@ -99,7 +102,7 @@ index fde03c4cb..64f7cf2dd 100644
  
  #include <moveit/collision_detection/collision_detector_allocator.h>
  #include <moveit/collision_detection_fcl/collision_env_fcl.h>
-+#include <moveit/collision_detection_fcl/moveit_collision_detection_fcl_export.h>
++#include "moveit_collision_detection_fcl_export.h"
  
  namespace collision_detection
  {
