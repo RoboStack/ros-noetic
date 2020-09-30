@@ -559,7 +559,9 @@ pcl:
 pixman:
   - 0.38
 poco:
-  - 1.9
+  # TODO migrate all to poco 1.10
+  - 1.9   # [not aarch64]
+  - 1.10  # [aarch64]
 poppler:
   - 0.67.0
 proj:
