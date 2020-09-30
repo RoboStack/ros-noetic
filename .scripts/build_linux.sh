@@ -24,7 +24,7 @@ CONDARC
 
 conda config --set remote_max_retries 5
 
-conda install --yes --quiet boa quetz-client conda-build pip anaconda-client -c conda-forge
+conda install --yes --quiet ruamel.yaml boa quetz-client conda-build pip anaconda-client -c conda-forge
 
 # install boa from master
 pip install git+https://github.com/mamba-org/boa.git@master
