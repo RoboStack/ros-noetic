@@ -26,7 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - moveit
+  # - moveit
   # - moveit_core
 
   # - velodyne_driver  # probably too tricky to build
