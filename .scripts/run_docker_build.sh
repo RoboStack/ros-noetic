@@ -66,7 +66,7 @@ if [ -z "${CI}" ]; then
 fi
 
 export UPLOAD_PACKAGES="${UPLOAD_PACKAGES:-True}"
-docker run ${DOCKER_RUN_ARGS} \
+docker run --rm ${DOCKER_RUN_ARGS} \
            -v "${RECIPE_ROOT}":/home/conda/recipe_root:rw,z \
            -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root:rw,z \
            -e HOST_USER_ID \
