@@ -24,10 +24,10 @@ CONDARC
 
 conda config --set remote_max_retries 5
 
-conda install --yes --quiet boa quetz-client conda-build pip anaconda-client -c conda-forge/label/boa_dev  -c conda-forge
+conda install --yes --quiet boa quetz-client conda-build pip anaconda-client -c conda-forge
 
 # install boa from master
-pip install https://github.com/thesnakepit/boa@master
+pip install git+https://github.com/mamba-org/boa.git@master
 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 # export PATH="$HOME/miniconda/bin:$PATH"
