@@ -1,0 +1,26 @@
+ros_distro: noetic
+
+# mapping for package keys
+conda_index:
+  - conda-forge.yaml
+  - packages-ignore.yaml
+
+build_number: 0
+
+skip_all_deps: false
+
+packages_skip_by_deps:
+  # - rviz
+  # - diagnostic_updater
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  - https://conda.anaconda.org/robostack/
+
+packages_select_by_deps:
+  - message_runtime
+
+patch_dir: patch
