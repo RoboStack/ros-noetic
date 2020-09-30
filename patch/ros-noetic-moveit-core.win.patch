@@ -75,7 +75,7 @@ index 90f260c8a..9cbcb6ac2 100644
 +  
  )
 +include(GenerateExportHeader)
-+generate_export_header(${MOVEIT_LIB_NAME})
++generate_export_header(${MOVEIT_LIB_NAME} EXPORT_MACRO_NAME moveit_collision_detection_fcl_EXPORT)
 +
  set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
  
