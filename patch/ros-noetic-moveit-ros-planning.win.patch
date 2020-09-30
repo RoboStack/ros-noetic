@@ -45,4 +45,30 @@ index a5c75bc2a..e1ffcee7c 100644
  
  class KinematicsPluginLoader::KinematicsLoaderImpl
  {
+diff --git a/plan_execution/CMakeLists.txt b/plan_execution/CMakeLists.txt
+index 6b579cfb1..b95b4c657 100644
+--- a/plan_execution/CMakeLists.txt
++++ b/plan_execution/CMakeLists.txt
+@@ -3,6 +3,8 @@ set(MOVEIT_LIB_NAME moveit_plan_execution)
+ add_library(${MOVEIT_LIB_NAME}
+   src/plan_with_sensing.cpp
+   src/plan_execution.cpp)
++add_dependencies(${MOVEIT_LIB_NAME} ${moveit_ros_planning_EXPORTED_TARGETS})
++
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ target_link_libraries(${MOVEIT_LIB_NAME}
+   moveit_planning_pipeline
+diff --git a/planning_scene_monitor/CMakeLists.txt b/planning_scene_monitor/CMakeLists.txt
+index 6329feef3..b049e2b36 100644
+--- a/planning_scene_monitor/CMakeLists.txt
++++ b/planning_scene_monitor/CMakeLists.txt
+@@ -4,6 +4,8 @@ add_library(${MOVEIT_LIB_NAME}
+   src/planning_scene_monitor.cpp
+   src/current_state_monitor.cpp
+   src/trajectory_monitor.cpp)
++add_dependencies(${MOVEIT_LIB_NAME} ${moveit_ros_planning_EXPORTED_TARGETS})
++
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ target_link_libraries(${MOVEIT_LIB_NAME}
+   moveit_robot_model_loader
 
