@@ -10,6 +10,7 @@ build_number: 0
 skip_all_deps: false
 
 packages_skip_by_deps:
+  - roslisp
   # - rviz
   # - diagnostic_updater
 
