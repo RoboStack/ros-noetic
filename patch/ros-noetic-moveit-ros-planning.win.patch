@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eeab8f238..7962a2d31 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,8 @@ endif()
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS OFF)
+ 
++ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE Release)
+ endif()
+diff --git a/kinematics_plugin_loader/CMakeLists.txt b/kinematics_plugin_loader/CMakeLists.txt
+index 48ce47226..49fad9a4d 100644
+--- a/kinematics_plugin_loader/CMakeLists.txt
++++ b/kinematics_plugin_loader/CMakeLists.txt
+@@ -1,8 +1,12 @@
+ set(MOVEIT_LIB_NAME moveit_kinematics_plugin_loader)
+ 
+ add_library(${MOVEIT_LIB_NAME} src/kinematics_plugin_loader.cpp)
++include(GenerateExportHeader)
++generate_export_header(${MOVEIT_LIB_NAME} EXPORT_MACRO_NAME moveit_kinematics_plugin_loader_EXPORT)
++
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ target_link_libraries(${MOVEIT_LIB_NAME} moveit_rdf_loader ${catkin_LIBRARIES})
++ target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+diff --git a/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp b/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
+index a5c75bc2a..e1ffcee7c 100644
+--- a/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
++++ b/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
+@@ -44,10 +44,11 @@
+ #include <memory>
+ #include <ros/ros.h>
+ #include <moveit/profiler/profiler.h>
++#include "moveit_kinematics_plugin_loader_export.h"
+ 
+ namespace kinematics_plugin_loader
+ {
+-static const std::string LOGNAME = "kinematics_plugin_loader";
++static moveit_kinematics_plugin_loader_EXPORT const std::string LOGNAME = "kinematics_plugin_loader";
+ 
+ class KinematicsPluginLoader::KinematicsLoaderImpl
+ {
+
