@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 15bae8d..b22d6d7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -154,7 +154,7 @@ macro(find_package)
+   endif()
+ endmacro()
+ 
+-option(BUILD_TESTS "Build tests" ON)
++option(BUILD_TESTS "Build tests" OFF)
+ if(BUILD_TESTS)
+   enable_testing()
+   add_subdirectory(test)
+

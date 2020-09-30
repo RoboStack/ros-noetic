@@ -1,0 +1,129 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 05c127fcd..4c8aa05c3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,8 @@ endif()
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS OFF)
+ 
++set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
++
+ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+   # Enable warnings
+   add_compile_options(-Wall -Wextra
+@@ -24,10 +26,11 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE Release)
+ endif()
+ 
++# add_definitions(-DBOOST_ALL_NO_LIB=1)
+ # boost::iostreams on Windows depends on boost::zlib
+-if(WIN32)
+-  set(EXTRA_BOOST_COMPONENTS zlib)
+-endif()
++# if(WIN32)
++#   set(EXTRA_BOOST_COMPONENTS zlib)
++# endif()
+ find_package(Boost REQUIRED system filesystem date_time thread iostreams regex ${EXTRA_BOOST_COMPONENTS})
+ find_package(Eigen3 REQUIRED)
+ 
+diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CMakeLists.txt
+index 90f260c8a..9cbcb6ac2 100644
+--- a/collision_detection_fcl/CMakeLists.txt
++++ b/collision_detection_fcl/CMakeLists.txt
+@@ -1,18 +1,60 @@
+ set(MOVEIT_LIB_NAME moveit_collision_detection_fcl)
+ 
++find_package(ccd QUIET)
++
++# If ccd-config.cmake is not found, use pkg-config and/or find_path() and
++# find_library()
++if(NOT ccd_FOUND)
++  if(PKG_CONFIG_FOUND)
++    pkg_check_modules(PC_CCD ccd)
++    pkg_check_modules(PC_LIBCCD libccd)
++  endif()
++
++  find_path(CCD_INCLUDE_DIR ccd/ccd.h
++    HINTS "${PC_CCD_INCLUDE_DIRS}" "${PC_LIBCCD_INCLUDE_DIRS}")
++
++  # Using find_library() even if pkg-config is available ensures that the full
++  # path to the ccd library is available in CCD_LIBRARIES
++  find_library(CCD_LIBRARY ccd
++    HINTS "${PC_CCD_LIBRARY_DIRS}" "${PC_LIBCCD_LIBRARY_DIRS}")
++
++  # libccd links to LibM on UNIX.
++  if(CYGWIN OR NOT WIN32)
++    find_library(M_LIBRARY m)
++  endif()
++
++  if(CCD_INCLUDE_DIR AND CCD_LIBRARY)
++    set(CCD_INCLUDE_DIRS "${CCD_INCLUDE_DIR}")
++    set(CCD_LIBRARIES "${CCD_LIBRARY}" "${M_LIBRARY}")
++    set(ccd_FOUND ON)
++
++    mark_as_advanced(CCD_INCLUDE_DIR CCD_LIBRARY)
++  endif()
++endif()
++
++if(NOT ccd_FOUND)
++  message(FATAL_ERROR "CCD is required by Moveit")
++endif()
++
+ add_library(${MOVEIT_LIB_NAME}
+   src/collision_common.cpp
+   src/collision_env_fcl.cpp
++  
+ )
++include(GenerateExportHeader)
++generate_export_header(${MOVEIT_LIB_NAME} EXPORT_MACRO_NAME moveit_collision_detection_fcl_EXPORT)
++
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ 
+-target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES})
++target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES} ${CCD_LIBRARIES})
+ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
+ 
+ add_library(collision_detector_fcl_plugin src/collision_detector_fcl_plugin_loader.cpp)
+ set_target_properties(collision_detector_fcl_plugin PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+-target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME})
++target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME} moveit_planning_scene)
++add_dependencies(collision_detector_fcl_plugin moveit_planning_scene)
+ 
++target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_fcl_plugin
+         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+
+diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+index fde03c4cb..64f7cf2dd 100644
+--- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
++++ b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
+@@ -38,6 +38,7 @@
+ 
+ #include <moveit/collision_detection/collision_detector_allocator.h>
+ #include <moveit/collision_detection_fcl/collision_env_fcl.h>
++#include "moveit_collision_detection_fcl_export.h"
+ 
+ namespace collision_detection
+ {
+@@ -46,6 +47,6 @@ class CollisionDetectorAllocatorFCL
+   : public CollisionDetectorAllocatorTemplate<CollisionEnvFCL, CollisionDetectorAllocatorFCL>
+ {
+ public:
+-  static const std::string NAME;  // defined in collision_env_fcl.cpp
++  static moveit_collision_detection_fcl_EXPORT const std::string NAME;  // defined in collision_env_fcl.cpp
+ };
+ }  // namespace collision_detection
+diff --git a/planning_scene/CMakeLists.txt b/planning_scene/CMakeLists.txt
+index 3f233fb98..f6ac27951 100644
+--- a/planning_scene/CMakeLists.txt
++++ b/planning_scene/CMakeLists.txt
+@@ -15,6 +15,7 @@ target_link_libraries(${MOVEIT_LIB_NAME}
+   ${LIBOCTOMAP_LIBRARIES} ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${Boost_LIBRARIES})
+ 
+ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
++add_dependencies(${MOVEIT_LIB_NAME} moveit_collision_detection_fcl)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+

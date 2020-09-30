@@ -26,36 +26,43 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - python_qt_binding
-  - qt_gui_cpp
-  # - catkin
-  # - desktop-full
-  # - moveit
-  # - robot_localization
-  # - imu_tools
-  # - velodyne
-  # - joy
-  # - plotjuggler
-  # - franka_msgs
-  # - franka_description
+  - moveit
+  # - moveit_core
+
+  # - velodyne_driver  # probably too tricky to build
+  # - velodyne_pointcloud  # depends on velodyne_driver
+  # - plotjuggler  # fails with weird template initialization error
+
   # - franka_hw
-  # - libfranka
+  # - libfranka  # for now has tests disabled
   # - franka_visualization
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - rviz_visual_tools
+
   # - teb_local_planner # cannot find cs.h from suitesparse
 
   ##
   # DONE Win
   ##
+  # - octomap
+  # - rqt_rviz
+  # - rqt_image_view
+  # - rqt_gui_cpp
   # - desktop
+  # - desktop_full
   # - perception
   # - ros_control
   # - rosbridge_suite
   # - class_loader
   # - ros_controllers
   # - perception_pcl
+  # - joy
+  # - robot_localization
+  # - velodyne_laserscan
+  # - velodyne_msgs
+  # - imu_tools
+  # - rviz_visual_tools
+  # - franka_msgs
+  # - franka_description
+  # - velodyne_pcl
 
   ##
   # Not bother Win
