@@ -52,7 +52,8 @@ ARTIFACTS="$FEEDSTOCK_ROOT/build_artifacts"
 #     fi
 # fi
 
-DOCKER_IMAGE="condaforge/linux-anvil-comp7"
+# DOCKER_IMAGE="condaforge/linux-anvil-comp7"
+# Docker image is set in the pipeline
 
 mkdir -p "$ARTIFACTS"
 # DONE_CANARY="$ARTIFACTS/conda-forge-build-done-${CONFIG}"
