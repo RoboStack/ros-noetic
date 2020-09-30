@@ -21,6 +21,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - message_runtime
+  - ros_base
 
 patch_dir: patch
