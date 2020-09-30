@@ -29,7 +29,7 @@ conda config --add channels robostack
 conda config --set channel_priority strict
 
 conda update conda -c conda-forge
-conda install --yes --quiet boa quetz-client conda-build pip anaconda-client
+conda install --yes --quiet pip conda-build anaconda-client
 
 # install boa from master
 # baaaad
