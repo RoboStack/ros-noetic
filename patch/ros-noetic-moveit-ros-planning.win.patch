@@ -1,50 +1,3 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index eeab8f238..7962a2d31 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -7,6 +7,8 @@ endif()
- set(CMAKE_CXX_STANDARD_REQUIRED ON)
- set(CMAKE_CXX_EXTENSIONS OFF)
- 
-+ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-+
- if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE Release)
- endif()
-diff --git a/kinematics_plugin_loader/CMakeLists.txt b/kinematics_plugin_loader/CMakeLists.txt
-index 48ce47226..49fad9a4d 100644
---- a/kinematics_plugin_loader/CMakeLists.txt
-+++ b/kinematics_plugin_loader/CMakeLists.txt
-@@ -1,8 +1,12 @@
- set(MOVEIT_LIB_NAME moveit_kinematics_plugin_loader)
- 
- add_library(${MOVEIT_LIB_NAME} src/kinematics_plugin_loader.cpp)
-+include(GenerateExportHeader)
-+generate_export_header(${MOVEIT_LIB_NAME} EXPORT_MACRO_NAME moveit_kinematics_plugin_loader_EXPORT)
-+
- set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
- target_link_libraries(${MOVEIT_LIB_NAME} moveit_rdf_loader ${catkin_LIBRARIES})
-+ target_include_directories(${MOVEIT_LIB_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
- 
- install(TARGETS ${MOVEIT_LIB_NAME}
-         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-diff --git a/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp b/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
-index a5c75bc2a..e1ffcee7c 100644
---- a/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
-+++ b/kinematics_plugin_loader/src/kinematics_plugin_loader.cpp
-@@ -44,10 +44,11 @@
- #include <memory>
- #include <ros/ros.h>
- #include <moveit/profiler/profiler.h>
-+#include "moveit_kinematics_plugin_loader_export.h"
- 
- namespace kinematics_plugin_loader
- {
--static const std::string LOGNAME = "kinematics_plugin_loader";
-+static moveit_kinematics_plugin_loader_EXPORT const std::string LOGNAME = "kinematics_plugin_loader";
- 
- class KinematicsPluginLoader::KinematicsLoaderImpl
- {
 diff --git a/plan_execution/CMakeLists.txt b/plan_execution/CMakeLists.txt
 index 6b579cfb1..b95b4c657 100644
 --- a/plan_execution/CMakeLists.txt
@@ -72,3 +25,135 @@ index 6329feef3..b049e2b36 100644
  target_link_libraries(${MOVEIT_LIB_NAME}
    moveit_robot_model_loader
 
+diff --git a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h b/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
+index e7514f670..530b3929a 100644
+--- a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
++++ b/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
+@@ -43,6 +43,18 @@
+ 
+ #include <memory>
+ 
++// Import/export for windows dll's and visibility for gcc shared libraries.
++
++#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++  #ifdef moveit_planning_pipeline_EXPORTS // we are building a shared lib/dll
++    #define MOVEIT_PLANNING_PIPELINE_DECL ROS_HELPER_EXPORT
++  #else // we are using shared lib/dll
++    #define MOVEIT_PLANNING_PIPELINE_DECL ROS_HELPER_IMPORT
++  #endif
++#else // ros is being built around static libraries
++  #define MOVEIT_PLANNING_PIPELINE_DECL
++#endif
++
+ /** \brief Planning pipeline */
+ namespace planning_pipeline
+ {
+@@ -57,15 +69,15 @@ class PlanningPipeline
+ public:
+   /** \brief When motion plans are computed and they are supposed to be automatically displayed, they are sent to this
+    * topic (moveit_msgs::DisplauTrajectory) */
+-  static const std::string DISPLAY_PATH_TOPIC;
++  static MOVEIT_PLANNING_PIPELINE_DECL const std::string DISPLAY_PATH_TOPIC;
+ 
+   /** \brief When motion planning requests are received and they are supposed to be automatically published, they are
+    * sent to this topic (moveit_msgs::MotionPlanRequest) */
+-  static const std::string MOTION_PLAN_REQUEST_TOPIC;
++  static MOVEIT_PLANNING_PIPELINE_DECL const std::string MOTION_PLAN_REQUEST_TOPIC;
+ 
+   /** \brief When contacts are found in the solution path reported by a planner, they can be published as markers on
+    * this topic (visualization_msgs::MarkerArray) */
+-  static const std::string MOTION_CONTACTS_TOPIC;
++  static MOVEIT_PLANNING_PIPELINE_DECL const std::string MOTION_CONTACTS_TOPIC;
+ 
+   /** \brief Given a robot model (\e model), a node handle (\e nh), initialize the planning pipeline.
+       \param model The robot model for which this pipeline is initialized.
+diff --git a/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h b/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h
+index b0716f346..aa92407a8 100644
+--- a/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h
++++ b/planning_scene_monitor/include/moveit/planning_scene_monitor/planning_scene_monitor.h
+@@ -51,6 +51,18 @@
+ #include <boost/thread/recursive_mutex.hpp>
+ #include <memory>
+ 
++// Import/export for windows dll's and visibility for gcc shared libraries.
++
++#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++  #ifdef moveit_planning_scene_monitor_EXPORTS // we are building a shared lib/dll
++    #define MOVEIT_PLANNING_SCENE_MONITOR_DECL ROS_HELPER_EXPORT
++  #else // we are using shared lib/dll
++    #define MOVEIT_PLANNING_SCENE_MONITOR_DECL ROS_HELPER_IMPORT
++  #endif
++#else // ros is being built around static libraries
++  #define MOVEIT_PLANNING_SCENE_MONITOR_DECL
++#endif
++
+ namespace planning_scene_monitor
+ {
+ MOVEIT_CLASS_FORWARD(PlanningSceneMonitor);
+@@ -81,27 +93,27 @@ public:
+   };
+ 
+   /// The name of the topic used by default for receiving joint states
+-  static const std::string DEFAULT_JOINT_STATES_TOPIC;  // "/joint_states"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_JOINT_STATES_TOPIC;  // "/joint_states"
+ 
+   /// The name of the topic used by default for attached collision objects
+-  static const std::string DEFAULT_ATTACHED_COLLISION_OBJECT_TOPIC;  // "/attached_collision_object"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_ATTACHED_COLLISION_OBJECT_TOPIC;  // "/attached_collision_object"
+ 
+   /// The name of the topic used by default for receiving collision objects in the world
+-  static const std::string DEFAULT_COLLISION_OBJECT_TOPIC;  // "/collision_object"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_COLLISION_OBJECT_TOPIC;  // "/collision_object"
+ 
+   /// The name of the topic used by default for receiving geometry information about a planning scene (complete
+   /// overwrite of world geometry)
+-  static const std::string DEFAULT_PLANNING_SCENE_WORLD_TOPIC;  // "/planning_scene_world"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_PLANNING_SCENE_WORLD_TOPIC;  // "/planning_scene_world"
+ 
+   /// The name of the topic used by default for receiving full planning scenes or planning scene diffs
+-  static const std::string DEFAULT_PLANNING_SCENE_TOPIC;  // "/planning_scene"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_PLANNING_SCENE_TOPIC;  // "/planning_scene"
+ 
+   /// The name of the service used by default for requesting full planning scene state
+-  static const std::string DEFAULT_PLANNING_SCENE_SERVICE;  // "/get_planning_scene"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string DEFAULT_PLANNING_SCENE_SERVICE;  // "/get_planning_scene"
+ 
+   /// The name of the topic used by default for publishing the monitored planning scene (this is without "/" in the
+   /// name, so the topic is prefixed by the node name)
+-  static const std::string MONITORED_PLANNING_SCENE_TOPIC;  // "monitored_planning_scene"
++  static MOVEIT_PLANNING_SCENE_MONITOR_DECL const std::string MONITORED_PLANNING_SCENE_TOPIC;  // "monitored_planning_scene"
+ 
+   /** @brief Constructor
+    *  @param robot_description The name of the ROS parameter that contains the URDF (in string format)
+diff --git a/trajectory_execution_manager/include/moveit/trajectory_execution_manager/trajectory_execution_manager.h b/trajectory_execution_manager/include/moveit/trajectory_execution_manager/trajectory_execution_manager.h
+index 22a7ee9ee..c2945f930 100644
+--- a/trajectory_execution_manager/include/moveit/trajectory_execution_manager/trajectory_execution_manager.h
++++ b/trajectory_execution_manager/include/moveit/trajectory_execution_manager/trajectory_execution_manager.h
+@@ -49,6 +49,18 @@
+ 
+ #include <memory>
+ 
++// Import/export for windows dll's and visibility for gcc shared libraries.
++
++#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++  #ifdef moveit_trajectory_execution_manager_EXPORTS // we are building a shared lib/dll
++    #define MOVEIT_TRAJECTORY_EXECUTION_MANAGER_DECL ROS_HELPER_EXPORT
++  #else // we are using shared lib/dll
++    #define MOVEIT_TRAJECTORY_EXECUTION_MANAGER_DECL ROS_HELPER_IMPORT
++  #endif
++#else // ros is being built around static libraries
++  #define MOVEIT_TRAJECTORY_EXECUTION_MANAGER_DECL
++#endif
++
+ namespace trajectory_execution_manager
+ {
+ MOVEIT_CLASS_FORWARD(TrajectoryExecutionManager);
+@@ -59,7 +71,7 @@ MOVEIT_CLASS_FORWARD(TrajectoryExecutionManager);
+ class TrajectoryExecutionManager
+ {
+ public:
+-  static const std::string EXECUTION_EVENT_TOPIC;
++  static MOVEIT_TRAJECTORY_EXECUTION_MANAGER_DECL const std::string EXECUTION_EVENT_TOPIC;
+ 
+   /// Definition of the function signature that is called when the execution of all the pushed trajectories completes.
+   /// The status of the overall execution is passed as argument

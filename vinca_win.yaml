@@ -28,6 +28,7 @@ packages_select_by_deps:
   ##
   # - moveit
   # - moveit_core
+  - moveit_ros_planning
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
