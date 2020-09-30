@@ -23,8 +23,13 @@ CONDARC
 # fi
 
 conda config --set remote_max_retries 5
+conda config --append channels defaults
+conda config --add channels conda-forge
+conda config --add channels robostack
+conda config --set channel_priority strict
 
-conda install --yes --quiet boa quetz-client conda-build pip anaconda-client -c conda-forge
+conda update conda -c conda-forge
+conda install --yes --quiet boa quetz-client conda-build pip anaconda-client
 
 # install boa from master
 # baaaad
@@ -36,11 +41,6 @@ conda config --set anaconda_upload yes
 conda config --set show_channel_urls true
 conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
-
-conda config --append channels defaults
-conda config --add channels conda-forge
-conda config --add channels robostack
-conda config --set channel_priority strict
 
 export "CONDA_BLD_PATH=/opt/conda/build_artifacts"
 
