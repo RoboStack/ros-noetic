@@ -345,7 +345,9 @@ boost_cpp:
 bzip2:
   - 1
 bullet:
-  - 2.88
+  # TODO
+  - 2.88  # [not aarch64]
+  - 2.89  # [aarch64]
 cairo:
   - 1.16
 cfitsio:
