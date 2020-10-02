@@ -24,6 +24,7 @@ packages_select_by_deps:
   # - ros_base
   # - navigation
   # - robot
-  - moveit_core
+  - slam_karto
+  # - moveit_core
 
 patch_dir: patch
