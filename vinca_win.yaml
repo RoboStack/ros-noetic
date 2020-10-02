@@ -26,7 +26,6 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - moveit
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
@@ -41,6 +40,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
+  # - moveit
   # - octomap
   # - rqt_rviz
   # - rqt_image_view
