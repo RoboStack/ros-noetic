@@ -26,6 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux + OSX
   ##
+  - slam_karto
   # - slam_toolbox  # FAILED!
 
   ##
