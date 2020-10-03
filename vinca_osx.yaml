@@ -27,12 +27,12 @@ packages_select_by_deps:
   # - slam_toolbox  # FAILED!
   - rosbridge_suite
   - robot_localization
-  - moveit
+  - moveit_core
   - imu_tools
   - velodyne
-  - urg_node
+  # - urg_node  # fails: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=451&view=logs&jobId=2806026c-2771-5b62-dec8-13b4a7eb5d5c&j=b1f00945-b0ee-5129-f61c-ab24662f6016&t=3af45761-c949-5c25-ef06-566376e102dc
   - teb_local_planner
-  - joy
+
   - plotjuggler
 
   ##
@@ -59,6 +59,7 @@ packages_select_by_deps:
   # - perception
   # - perception_pcl
   # - desktop_full
+  - joy
 
   ##
   # NOT RELEASED ON NOETIC...
