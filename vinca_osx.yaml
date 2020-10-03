@@ -27,12 +27,11 @@ packages_select_by_deps:
   # - slam_toolbox  # FAILED!
   - rosbridge_suite
   - robot_localization
-  - moveit_core
+  # - moveit_core  # fails with linker error: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=455&view=logs&jobId=9b68135a-5402-50c0-cade-4863563ea522&j=284cef23-b460-5624-3f8e-b0801ab722ca
   - imu_tools
   - velodyne
-  # - urg_node  # fails: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=451&view=logs&jobId=2806026c-2771-5b62-dec8-13b4a7eb5d5c&j=b1f00945-b0ee-5129-f61c-ab24662f6016&t=3af45761-c949-5c25-ef06-566376e102dc
+  # - urg_node  # fails as trying to link to rt: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=451&view=logs&jobId=2806026c-2771-5b62-dec8-13b4a7eb5d5c&j=b1f00945-b0ee-5129-f61c-ab24662f6016&t=3af45761-c949-5c25-ef06-566376e102dc
   - teb_local_planner
-
   - plotjuggler
 
   ##
@@ -59,7 +58,7 @@ packages_select_by_deps:
   # - perception
   # - perception_pcl
   # - desktop_full
-  - joy
+  # - joy
 
   ##
   # NOT RELEASED ON NOETIC...
