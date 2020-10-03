@@ -25,15 +25,15 @@ packages_select_by_deps:
   #  TODO OSX
   ##
   # - slam_toolbox  # FAILED!
-  # - rosbridge_suite
-  # - robot_localization
-  # - moveit
-  # - imu_tools
-  # - velodyne
-  # - urg_node
-  # - teb_local_planner
-  # - joy
-  # - plotjuggler
+  - rosbridge_suite
+  - robot_localization
+  - moveit
+  - imu_tools
+  - velodyne
+  - urg_node
+  - teb_local_planner
+  - joy
+  - plotjuggler
 
   ##
   # DONE OSX
