@@ -1,7 +1,7 @@
-diff --git a/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp b/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
+diff --git a/src/chomp_trajectory.cpp b/src/chomp_trajectory.cpp
 index af2c9c9c0..8291b0135 100644
---- a/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
-+++ b/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
+--- a/src/chomp_trajectory.cpp
++++ b/src/chomp_trajectory.cpp
 @@ -153,9 +153,10 @@ void ChompTrajectory::fillInMinJerk()
  
    // calculate the spline coefficients for each joint:
