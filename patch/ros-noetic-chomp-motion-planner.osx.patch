@@ -1,0 +1,16 @@
+diff --git a/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp b/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
+index af2c9c9c0..8291b0135 100644
+--- a/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
++++ b/moveit_planners/chomp/chomp_motion_planner/src/chomp_trajectory.cpp
+@@ -153,9 +153,10 @@ void ChompTrajectory::fillInMinJerk()
+ 
+   // calculate the spline coefficients for each joint:
+   // (these are for the special case of zero start and end vel and acc)
+-  std::vector<double[6]> coeff(num_joints_);
++  std::vector<std::vector<double>> coeff(num_joints_);
+   for (size_t i = 0; i < num_joints_; i++)
+   {
++    coeff[i].resize(6);
+     double x0 = (*this)(start_index, i);
+     double x1 = (*this)(end_index, i);
+     coeff[i][0] = x0;
