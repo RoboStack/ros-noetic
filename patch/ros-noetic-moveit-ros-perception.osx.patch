@@ -10,3 +10,22 @@ index 73f692e68..308a2df1e 100644
    find_package(GLUT REQUIRED)
    set(gl_LIBS ${gl_LIBS} ${OPENGL_LIBRARIES})
    set(perception_GL_INCLUDE_DIRS "mesh_filter/include" "depth_image_octomap_updater/include")
+diff --git a/moveit_ros/perception/mesh_filter/src/gl_renderer.cpp b/moveit_ros/perception/mesh_filter/src/gl_renderer.cpp
+index 4f351b53e..047fc4f78 100644
+--- a/moveit_ros/perception/mesh_filter/src/gl_renderer.cpp
++++ b/moveit_ros/perception/mesh_filter/src/gl_renderer.cpp
+@@ -37,11 +37,13 @@
+ #include <GL/glew.h>
+ #ifdef __APPLE__
+ #include <OpenGL/glu.h>
++#include <OpenGL/gl.h>
++#include <GLUT/glut.h>
+ #else
+ #include <GL/glu.h>
+-#endif
+ #include <GL/glut.h>
+ #include <GL/freeglut.h>
++#endif
+ #include <moveit/mesh_filter/gl_renderer.h>
+ #include <sstream>
+ #include <fstream>
