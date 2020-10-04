@@ -25,8 +25,7 @@ packages_select_by_deps:
   #  TODO OSX
   ##
   # - slam_toolbox  # FAILED!
-  - moveit
-  - teb_local_planner  # fails with linker error to csparse stuff: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=459&view=logs&jobId=738760a4-64fe-5e71-00a9-b29e44e89c8a&j=738760a4-64fe-5e71-00a9-b29e44e89c8a&t=9d3bceb4-2349-51dc-9425-9ccb53e5b02f
+  - moveit  # fails: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=507&view=logs&j=b7ccc931-6342-5f2f-1aba-18c6485c932f&t=e382a77f-795b-572f-85b7-21701290b4e5
 
   ##
   # DONE OSX
@@ -59,6 +58,7 @@ packages_select_by_deps:
   # - robot_localization
   # - plotjuggler
   # - urg_node
+  # - teb_local_planner
 
   ##
   # NOT RELEASED ON NOETIC...
