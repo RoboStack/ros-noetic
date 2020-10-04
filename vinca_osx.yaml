@@ -25,8 +25,7 @@ packages_select_by_deps:
   #  TODO OSX
   ##
   # - slam_toolbox  # FAILED!
-  # - moveit_core  # fails with linker error: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=455&view=logs&jobId=9b68135a-5402-50c0-cade-4863563ea522&j=284cef23-b460-5624-3f8e-b0801ab722ca
-  - urg_node  # fails as trying to link to rt: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=451&view=logs&jobId=2806026c-2771-5b62-dec8-13b4a7eb5d5c&j=b1f00945-b0ee-5129-f61c-ab24662f6016&t=3af45761-c949-5c25-ef06-566376e102dc
+  - moveit_core  # fails with linker error: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=455&view=logs&jobId=9b68135a-5402-50c0-cade-4863563ea522&j=284cef23-b460-5624-3f8e-b0801ab722ca
   # - teb_local_planner  # fails with linker error to csparse stuff: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=459&view=logs&jobId=738760a4-64fe-5e71-00a9-b29e44e89c8a&j=738760a4-64fe-5e71-00a9-b29e44e89c8a&t=9d3bceb4-2349-51dc-9425-9ccb53e5b02f
 
   ##
@@ -59,6 +58,7 @@ packages_select_by_deps:
   # - rosbridge_suite
   # - robot_localization
   # - plotjuggler
+  # - urg_node
 
   ##
   # NOT RELEASED ON NOETIC...
