@@ -1,3 +1,16 @@
+diff --git a/collision_detection_bullet/CMakeLists.txt b/collision_detection_bullet/CMakeLists.txt
+index 775fba1bd..5d209dc9e 100644
+--- a/collision_detection_bullet/CMakeLists.txt
++++ b/collision_detection_bullet/CMakeLists.txt
+@@ -17,7 +17,7 @@ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
+ 
+ add_library(collision_detector_bullet_plugin src/collision_detector_bullet_plugin_loader.cpp)
+ set_target_properties(collision_detector_bullet_plugin PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+-target_link_libraries(collision_detector_bullet_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME})
++target_link_libraries(collision_detector_bullet_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME} moveit_planning_scene)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_bullet_plugin
+         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CMakeLists.txt
 index 48bb00e6e..aaefe476c 100644
 --- a/collision_detection_fcl/CMakeLists.txt
