@@ -1,3 +1,58 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 97fe249..244bc94 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
+ find_package(Boost REQUIRED COMPONENTS system thread graph)
+ find_package(SUITESPARSE REQUIRED)
+ find_package(G2O REQUIRED)
++find_package(CSparse REQUIRED)
+ 
+ # Eigen3 FindScript Backward compatibility (ubuntu saucy)
+ # Since FindEigen.cmake is deprecated starting from jade.
+@@ -48,7 +49,7 @@ elseif (EXISTS "FindEigen.cmake")
+ endif (EXISTS "FindEigen3.cmake")
+ 
+ set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
+-set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
++set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES} ${CSPARSE_LIBRARY})
+ 
+ ## Uncomment this if the package has a setup.py. This macro ensures
+ ## modules and global scripts declared therein get installed
+diff --git a/cmake_modules/FindCSparse.cmake b/cmake_modules/FindCSparse.cmake
+new file mode 100644
+index 0000000..5550151
+--- /dev/null
++++ b/cmake_modules/FindCSparse.cmake
+@@ -0,0 +1,28 @@
++# Look for csparse; note the difference in the directory specifications!
++find_path(CSPARSE_INCLUDE_DIR NAMES cs.h
++  PATHS
++  /usr/include/suitesparse
++  /usr/include
++  /opt/local/include
++  /usr/local/include
++  /sw/include
++  /usr/include/ufsparse
++  /opt/local/include/ufsparse
++  /usr/local/include/ufsparse
++  /sw/include/ufsparse
++  PATH_SUFFIXES
++  suitesparse
++  )
++
++find_library(CSPARSE_LIBRARY NAMES cxsparse libcxsparse
++  PATHS
++  /usr/lib
++  /usr/local/lib
++  /opt/local/lib
++  /sw/lib
++  )
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(CSPARSE DEFAULT_MSG
++  CSPARSE_INCLUDE_DIR CSPARSE_LIBRARY)
++
 diff --git a/cmake_modules/FindSUITESPARSE.cmake b/cmake_modules/FindSUITESPARSE.cmake
 index 101b79b..aad8904 100644
 --- a/cmake_modules/FindSUITESPARSE.cmake
