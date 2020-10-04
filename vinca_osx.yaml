@@ -26,7 +26,7 @@ packages_select_by_deps:
   ##
   # - slam_toolbox  # FAILED!
   - moveit_core  # fails with linker error: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=455&view=logs&jobId=9b68135a-5402-50c0-cade-4863563ea522&j=284cef23-b460-5624-3f8e-b0801ab722ca
-  # - teb_local_planner  # fails with linker error to csparse stuff: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=459&view=logs&jobId=738760a4-64fe-5e71-00a9-b29e44e89c8a&j=738760a4-64fe-5e71-00a9-b29e44e89c8a&t=9d3bceb4-2349-51dc-9425-9ccb53e5b02f
+  - teb_local_planner  # fails with linker error to csparse stuff: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=459&view=logs&jobId=738760a4-64fe-5e71-00a9-b29e44e89c8a&j=738760a4-64fe-5e71-00a9-b29e44e89c8a&t=9d3bceb4-2349-51dc-9425-9ccb53e5b02f
 
   ##
   # DONE OSX
