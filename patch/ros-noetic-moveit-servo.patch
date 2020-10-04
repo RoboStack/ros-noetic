@@ -1,7 +1,7 @@
-diff --git a/moveit_servo/include/moveit_servo/servo_calcs.h b/moveit_servo/include/moveit_servo/servo_calcs.h
+diff --git a/include/moveit_servo/servo_calcs.h b/include/moveit_servo/servo_calcs.h
 index c67afb6e0..5d2488284 100644
---- a/moveit_servo/include/moveit_servo/servo_calcs.h
-+++ b/moveit_servo/include/moveit_servo/servo_calcs.h
+--- a/include/moveit_servo/servo_calcs.h
++++ b/include/moveit_servo/servo_calcs.h
 @@ -265,7 +265,7 @@ private:
  
    const int gazebo_redundant_message_count_ = 30;
@@ -11,10 +11,10 @@ index c67afb6e0..5d2488284 100644
  
    // True -> allow drift in this dimension. In the command frame. [x, y, z, roll, pitch, yaw]
    std::array<bool, 6> drift_dimensions_ = { { false, false, false, false, false, false } };
-diff --git a/moveit_servo/src/cpp_interface_example/cpp_interface_example.cpp b/moveit_servo/src/cpp_interface_example/cpp_interface_example.cpp
+diff --git a/src/cpp_interface_example/cpp_interface_example.cpp b/src/cpp_interface_example/cpp_interface_example.cpp
 index 53e919ee3..028fb2fc0 100644
---- a/moveit_servo/src/cpp_interface_example/cpp_interface_example.cpp
-+++ b/moveit_servo/src/cpp_interface_example/cpp_interface_example.cpp
+--- a/src/cpp_interface_example/cpp_interface_example.cpp
++++ b/src/cpp_interface_example/cpp_interface_example.cpp
 @@ -108,7 +108,7 @@ int main(int argc, char** argv)
    auto joint_servo_pub = nh.advertise<control_msgs::JointJog>(servo.getParameters().joint_command_in_topic, 1);
  
