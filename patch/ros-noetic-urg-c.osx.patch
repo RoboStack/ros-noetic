@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3563831..3aed490 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,7 +42,7 @@ add_library(liburg_c ${LIBRARY_SRC_DIR}/urg_sensor.c
+                         ${LIBRARY_SRC_DIR}/urg_time.c
+ 
+ )
+-if(NOT ANDROID)
++if(NOT ANDROID AND NOT APPLE)
+        target_link_libraries(liburg_c -lrt -lm)
+ endif(NOT ANDROID)
+ 
