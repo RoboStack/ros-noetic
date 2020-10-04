@@ -1,7 +1,7 @@
 diff --git a/moveit_servo/include/moveit_servo/servo_calcs.h b/moveit_servo/include/moveit_servo/servo_calcs.h
 index c67afb6e0..5d2488284 100644
---- a/moveit_servo/include/moveit_servo/servo_calcs.h
-+++ b/moveit_servo/include/moveit_servo/servo_calcs.h
+--- a/moveit_ros/moveit_servo/include/moveit_servo/servo_calcs.h
++++ b/moveit_ros/moveit_servo/include/moveit_servo/servo_calcs.h
 @@ -265,7 +265,7 @@ private:
  
    const int gazebo_redundant_message_count_ = 30;
