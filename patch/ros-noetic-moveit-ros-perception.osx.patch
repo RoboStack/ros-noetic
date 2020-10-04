@@ -1,0 +1,12 @@
+diff --git a/moveit_ros/perception/CMakeLists.txt b/moveit_ros/perception/CMakeLists.txt
+index 73f692e68..308a2df1e 100644
+--- a/moveit_ros/perception/CMakeLists.txt
++++ b/moveit_ros/perception/CMakeLists.txt
+@@ -22,6 +22,7 @@ if(WITH_OPENGL)
+   endif()
+   find_package(OpenGL REQUIRED)
+   find_package(GLEW REQUIRED)
++  list(INSERT CMAKE_FRAMEWORK_PATH 0 /System/Library/Frameworks)
+   find_package(GLUT REQUIRED)
+   set(gl_LIBS ${gl_LIBS} ${OPENGL_LIBRARIES})
+   set(perception_GL_INCLUDE_DIRS "mesh_filter/include" "depth_image_octomap_updater/include")
