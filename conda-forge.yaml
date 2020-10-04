@@ -374,7 +374,10 @@ libqhull:
 lcov:
   conda-forge: [lcov]
 glut:
-  conda-forge: [freeglut]
+  conda-forge:
+    win64: [freeglut]
+    linux: [freeglut]
+    osx: []
 doxygen:
   conda-forge: [doxygen]
 libglew-dev:
