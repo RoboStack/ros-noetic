@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 97fe249..fc3ef48 100644
+index 97fe249..91494b4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -8,28 +8,27 @@ index 97fe249..fc3ef48 100644
  project(teb_local_planner)
  
  # Set to Release in order to speed up the program significantly
-@@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
+@@ -33,7 +33,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake_modules)
+ message(STATUS "${CMAKE_MODULE_PATH}")
  find_package(Boost REQUIRED COMPONENTS system thread graph)
  find_package(SUITESPARSE REQUIRED)
- find_package(G2O REQUIRED)
+-find_package(G2O REQUIRED)
 +find_package(CSparse REQUIRED)
  
  # Eigen3 FindScript Backward compatibility (ubuntu saucy)
  # Since FindEigen.cmake is deprecated starting from jade.
-@@ -47,8 +48,10 @@ elseif (EXISTS "FindEigen.cmake")
+@@ -47,8 +47,8 @@ elseif (EXISTS "FindEigen.cmake")
    e.g. by adding it to ${PROJECT_SOURCE_DIR}/cmake_modules.")
  endif (EXISTS "FindEigen3.cmake")
  
 -set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
 -set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
-+set(G2O_LIBRARIES ${G2O_STUFF_LIBRARY} ${G2O_CORE_LIBRARY} ${G2O_SOLVER_CHOLMOD} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_DENSE} ${G2O_SOLVER_PCG} ${G2O_SOLVER_SLAM2D_LINEAR} ${G2O_SOLVER_STRUCTURE_ONLY} ${G2O_SOLVER_EIGEN} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_CSPARSE_EXTENSION})
-+
 +set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${CSPARSE_INCLUDE_DIR})
 +set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${CSPARSE_LIBRARY})
  
  ## Uncomment this if the package has a setup.py. This macro ensures
  ## modules and global scripts declared therein get installed
-@@ -160,10 +163,9 @@ catkin_package(
+@@ -160,10 +160,9 @@ catkin_package(
  	pluginlib
  	roscpp
  	std_msgs
@@ -42,22 +41,6 @@ index 97fe249..fc3ef48 100644
  )
  
  ###########
-@@ -175,6 +177,7 @@ catkin_package(
- include_directories(include)
- include_directories(
-   ${EXTERNAL_INCLUDE_DIRS}
-+  ${G2O_INCLUDE_DIR}
-   ${catkin_INCLUDE_DIRS}
- )
- 
-@@ -212,6 +215,7 @@ target_link_libraries(test_optim_node
-    teb_local_planner
-    ${EXTERNAL_LIBS}
-    ${catkin_LIBRARIES}
-+   ${G2O_LIBRARIES}
- )
- 
- 
 diff --git a/cmake_modules/FindCSparse.cmake b/cmake_modules/FindCSparse.cmake
 new file mode 100644
 index 0000000..5550151
@@ -93,10 +76,11 @@ index 0000000..5550151
 +  CSPARSE_INCLUDE_DIR CSPARSE_LIBRARY)
 +
 diff --git a/cmake_modules/FindG2O.cmake b/cmake_modules/FindG2O.cmake
-index b2670d3..e597494 100644
+deleted file mode 100644
+index b2670d3..0000000
 --- a/cmake_modules/FindG2O.cmake
-+++ b/cmake_modules/FindG2O.cmake
-@@ -1,97 +1,113 @@
++++ /dev/null
+@@ -1,97 +0,0 @@
 -# Locate the g2o libraries
 -# A general framework for graph optimization.
 -#
@@ -107,49 +91,24 @@ index b2670d3..e597494 100644
 -#
 -# Niko Suenderhauf <niko@etit.tu-chemnitz.de>
 -# Adapted by Felix Endres <endres@informatik.uni-freiburg.de>
-+# Find the header files
- 
+-
 -IF(UNIX)
-+find_path(G2O_INCLUDE_DIR g2o/core/base_vertex.h
-+  ${G2O_ROOT}/include
-+  $ENV{G2O_ROOT}/include
-+  $ENV{G2O_ROOT}
-+  /usr/local/include
-+  /usr/include
-+  /opt/local/include
-+  /sw/local/include
-+  /sw/include
-+  NO_DEFAULT_PATH
-+  )
- 
+-
 -  #IF(G2O_INCLUDE_DIR AND G2O_LIBRARIES)
 -    # in cache already
 -    #  SET(G2O_FIND_QUIETLY TRUE)
 -    #ENDIF(G2O_INCLUDE_DIR AND G2O_LIBRARIES)
-+# Macro to unify finding both the debug and release versions of the
-+# libraries; this is adapted from the OpenSceneGraph FIND_LIBRARY
-+# macro.
- 
+-
 -  MESSAGE(STATUS "Searching for g2o ...")
 -  FIND_PATH(G2O_INCLUDE_DIR
 -    NAMES core math_groups types
 -    PATHS /usr/local /usr
 -    PATH_SUFFIXES include/g2o include)
-+macro(FIND_G2O_LIBRARY MYLIBRARY MYLIBRARYNAME)
- 
+-
 -  IF (G2O_INCLUDE_DIR)
 -    MESSAGE(STATUS "Found g2o headers in: ${G2O_INCLUDE_DIR}")
 -  ENDIF (G2O_INCLUDE_DIR)
-+  find_library("${MYLIBRARY}_DEBUG"
-+    NAMES "g2o_${MYLIBRARYNAME}_d"
-+    PATHS
-+    ${G2O_ROOT}/lib/Debug
-+    ${G2O_ROOT}/lib
-+    $ENV{G2O_ROOT}/lib/Debug
-+    $ENV{G2O_ROOT}/lib
-+    NO_DEFAULT_PATH
-+    )
- 
+-
 -  FIND_LIBRARY(G2O_CORE_LIB             
 -    NAMES g2o_core g2o_core_rd
 -    PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
@@ -186,30 +145,7 @@ index b2670d3..e597494 100644
 -    NAMES g2o_csparse_extension g2o_csparse_extension_rd
 -    PATHS /usr/local /usr ${CMAKE_PREFIX_PATH}
 -    PATH_SUFFIXES lib)
-+  find_library("${MYLIBRARY}_DEBUG"
-+    NAMES "g2o_${MYLIBRARYNAME}_d"
-+    PATHS
-+    ~/Library/Frameworks
-+    /Library/Frameworks
-+    /usr/local/lib
-+    /usr/local/lib64
-+    /usr/lib
-+    /usr/lib64
-+    /opt/local/lib
-+    /sw/local/lib
-+    /sw/lib
-+    )
-+  
-+  find_library(${MYLIBRARY}
-+    NAMES "g2o_${MYLIBRARYNAME}"
-+    PATHS
-+    ${G2O_ROOT}/lib/Release
-+    ${G2O_ROOT}/lib
-+    $ENV{G2O_ROOT}/lib/Release
-+    $ENV{G2O_ROOT}/lib
-+    NO_DEFAULT_PATH
-+    )
- 
+-
 -  SET(G2O_LIBRARIES ${G2O_CSPARSE_EXTENSION_LIB}
 -                    ${G2O_CORE_LIB}           
 -                    ${G2O_STUFF_LIB}          
@@ -220,28 +156,7 @@ index b2670d3..e597494 100644
 -                    ${G2O_SOLVER_CSPARSE_LIB} 
 -                    ${G2O_INCREMENTAL_LIB}                        
 -                    )
-+  find_library(${MYLIBRARY}
-+    NAMES "g2o_${MYLIBRARYNAME}"
-+    PATHS
-+    ~/Library/Frameworks
-+    /Library/Frameworks
-+    /usr/local/lib
-+    /usr/local/lib64
-+    /usr/lib
-+    /usr/lib64
-+    /opt/local/lib
-+    /sw/local/lib
-+    /sw/lib
-+    )
-+  
-+  if(NOT ${MYLIBRARY}_DEBUG)
-+    if(MYLIBRARY)
-+      set(${MYLIBRARY}_DEBUG ${MYLIBRARY})
-+    endif(MYLIBRARY)
-+  endif( NOT ${MYLIBRARY}_DEBUG)
-+  
-+endmacro(FIND_G2O_LIBRARY LIBRARY LIBRARYNAME)
- 
+-
 -  IF(G2O_LIBRARIES AND G2O_INCLUDE_DIR)
 -    SET(G2O_FOUND "YES")
 -    IF(NOT G2O_FIND_QUIETLY)
@@ -253,50 +168,16 @@ index b2670d3..e597494 100644
 -        message(FATAL_ERROR "Could not find libg2o!")
 -      ENDIF(G2O_FIND_REQUIRED)
 -    ENDIF(NOT G2O_LIBRARIES)
-+# Find the core elements
-+FIND_G2O_LIBRARY(G2O_STUFF_LIBRARY stuff)
-+FIND_G2O_LIBRARY(G2O_CORE_LIBRARY core)
- 
+-
 -    IF(NOT G2O_INCLUDE_DIR)
 -      IF(G2O_FIND_REQUIRED)
 -        message(FATAL_ERROR "Could not find g2o include directory!")
 -      ENDIF(G2O_FIND_REQUIRED)
 -    ENDIF(NOT G2O_INCLUDE_DIR)
 -  ENDIF(G2O_LIBRARIES AND G2O_INCLUDE_DIR)
-+# Find the CLI library
-+FIND_G2O_LIBRARY(G2O_CLI_LIBRARY cli)
- 
+-
 -ENDIF(UNIX)
-+# Find the pluggable solvers
-+FIND_G2O_LIBRARY(G2O_SOLVER_CHOLMOD solver_cholmod)
-+FIND_G2O_LIBRARY(G2O_SOLVER_CSPARSE solver_csparse)
-+FIND_G2O_LIBRARY(G2O_SOLVER_CSPARSE_EXTENSION csparse_extension)
-+FIND_G2O_LIBRARY(G2O_SOLVER_DENSE solver_dense)
-+FIND_G2O_LIBRARY(G2O_SOLVER_PCG solver_pcg)
-+FIND_G2O_LIBRARY(G2O_SOLVER_SLAM2D_LINEAR solver_slam2d_linear)
-+FIND_G2O_LIBRARY(G2O_SOLVER_STRUCTURE_ONLY solver_structure_only)
-+FIND_G2O_LIBRARY(G2O_SOLVER_EIGEN solver_eigen)
- 
-+# Find the predefined types
-+FIND_G2O_LIBRARY(G2O_TYPES_DATA types_data)
-+FIND_G2O_LIBRARY(G2O_TYPES_ICP types_icp)
-+FIND_G2O_LIBRARY(G2O_TYPES_SBA types_sba)
-+FIND_G2O_LIBRARY(G2O_TYPES_SCLAM2D types_sclam2d)
-+FIND_G2O_LIBRARY(G2O_TYPES_SIM3 types_sim3)
-+FIND_G2O_LIBRARY(G2O_TYPES_SLAM2D types_slam2d)
-+FIND_G2O_LIBRARY(G2O_TYPES_SLAM3D types_slam3d)
-+
-+# G2O solvers declared found if we found at least one solver
-+set(G2O_SOLVERS_FOUND "NO")
-+if(G2O_SOLVER_CHOLMOD OR G2O_SOLVER_CSPARSE OR G2O_SOLVER_DENSE OR G2O_SOLVER_PCG OR G2O_SOLVER_SLAM2D_LINEAR OR G2O_SOLVER_STRUCTURE_ONLY OR G2O_SOLVER_EIGEN)
-+  set(G2O_SOLVERS_FOUND "YES")
-+endif(G2O_SOLVER_CHOLMOD OR G2O_SOLVER_CSPARSE OR G2O_SOLVER_DENSE OR G2O_SOLVER_PCG OR G2O_SOLVER_SLAM2D_LINEAR OR G2O_SOLVER_STRUCTURE_ONLY OR G2O_SOLVER_EIGEN)
-+
-+# G2O itself declared found if we found the core libraries and at least one solver
-+set(G2O_FOUND "NO")
-+if(G2O_STUFF_LIBRARY AND G2O_CORE_LIBRARY AND G2O_INCLUDE_DIR AND G2O_SOLVERS_FOUND)
-+  set(G2O_FOUND "YES")
-+endif(G2O_STUFF_LIBRARY AND G2O_CORE_LIBRARY AND G2O_INCLUDE_DIR AND G2O_SOLVERS_FOUND)
+-
 diff --git a/cmake_modules/FindSUITESPARSE.cmake b/cmake_modules/FindSUITESPARSE.cmake
 index 101b79b..aad8904 100644
 --- a/cmake_modules/FindSUITESPARSE.cmake
@@ -965,3 +846,16 @@ index 101b79b..aad8904 100644
 +    REQUIRED_VARS ${SUITESPARSE_FOUND_REQUIRED_VARS}
 +    FAIL_MESSAGE "Failed to find some/all required components of SuiteSparse.")
 +endif (SUITESPARSE_FOUND)
+diff --git a/include/teb_local_planner/optimal_planner.h b/include/teb_local_planner/optimal_planner.h
+index f69d19e..540dda0 100644
+--- a/include/teb_local_planner/optimal_planner.h
++++ b/include/teb_local_planner/optimal_planner.h
+@@ -57,7 +57,7 @@
+ #include <g2o/core/optimization_algorithm_gauss_newton.h>
+ #include <g2o/core/optimization_algorithm_levenberg.h>
+ #include <g2o/solvers/csparse/linear_solver_csparse.h>
+-#include <g2o/solvers/cholmod/linear_solver_cholmod.h>
++//#include <g2o/solvers/cholmod/linear_solver_cholmod.h>
+ 
+ // messages
+ #include <nav_msgs/Path.h>
