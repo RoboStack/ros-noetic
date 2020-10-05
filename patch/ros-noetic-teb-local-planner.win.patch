@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 97fe249..b3a76f6 100644
+index 97fe249..249e188 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
@@ -25,6 +25,14 @@ index 97fe249..b3a76f6 100644
  
  ## Uncomment this if the package has a setup.py. This macro ensures
  ## modules and global scripts declared therein get installed
+@@ -163,7 +168,6 @@ catkin_package(
+         tf2
+         tf2_ros
+ 	visualization_msgs
+-  DEPENDS SUITESPARSE G2O
+ )
+ 
+ ###########
 diff --git a/cmake_modules/FindCSparse.cmake b/cmake_modules/FindCSparse.cmake
 new file mode 100644
 index 0000000..5550151
