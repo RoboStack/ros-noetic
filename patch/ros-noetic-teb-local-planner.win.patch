@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 97fe249..11afa91 100644
+index 97fe249..b3a76f6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
@@ -10,12 +10,16 @@ index 97fe249..11afa91 100644
  
  # Eigen3 FindScript Backward compatibility (ubuntu saucy)
  # Since FindEigen.cmake is deprecated starting from jade.
-@@ -47,8 +48,8 @@ elseif (EXISTS "FindEigen.cmake")
+@@ -47,8 +48,12 @@ elseif (EXISTS "FindEigen.cmake")
    e.g. by adding it to ${PROJECT_SOURCE_DIR}/cmake_modules.")
  endif (EXISTS "FindEigen3.cmake")
  
 -set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
 -set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
++set(G2O_LIBRARIES ${G2O_STUFF_LIBRARY} ${G2O_CORE_LIBRARY} ${G2O_SOLVER_CHOLMOD} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_DENSE} ${G2O_SOLVER_PCG} ${G2O_SOLVER_SLAM2D_LINEAR} ${G2O_SOLVER_STRUCTURE_ONLY} ${G2O_SOLVER_EIGEN} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_CSPARSE_EXTENSION})
++
++set(G2O_INCLUDE_DIRS ${G2O_INCLUDE_DIR})
++
 +set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR} ${CSPARSE_INCLUDE_DIR})
 +set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES} ${CSPARSE_LIBRARY})
  
