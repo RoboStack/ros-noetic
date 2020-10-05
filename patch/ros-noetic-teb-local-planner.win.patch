@@ -1,3 +1,16 @@
+diff --git a/src/teb_local_planner_ros.cpp b/src/teb_local_planner_ros.cpp
+index 9b400ea..67949c4 100644
+--- a/src/teb_local_planner_ros.cpp
++++ b/src/teb_local_planner_ros.cpp
+@@ -55,7 +55,7 @@
+ #include "g2o/core/optimization_algorithm_gauss_newton.h"
+ #include "g2o/core/optimization_algorithm_levenberg.h"
+ #include "g2o/solvers/csparse/linear_solver_csparse.h"
+-#include "g2o/solvers/cholmod/linear_solver_cholmod.h"
++//#include "g2o/solvers/cholmod/linear_solver_cholmod.h"
+ 
+ 
+ // register this planner both as a BaseLocalPlanner and as a MBF's CostmapController plugin
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 97fe249..91494b4 100644
 --- a/CMakeLists.txt
