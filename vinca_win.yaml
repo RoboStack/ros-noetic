@@ -35,7 +35,7 @@ packages_select_by_deps:
   # - libfranka  # for now has tests disabled
   # - franka_visualization
 
-  - teb_local_planner # cannot find cs.h from suitesparse; could potentially be fixed with the osx patch + adding relevant include dirs
+  - teb_local_planner
 
   ##
   # DONE Win
