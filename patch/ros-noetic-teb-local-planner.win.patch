@@ -1,7 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 97fe249..249e188 100644
+index 97fe249..fc3ef48 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.1)
++cmake_minimum_required(VERSION 3.18)
+ project(teb_local_planner)
+ 
+ # Set to Release in order to speed up the program significantly
 @@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
  find_package(Boost REQUIRED COMPONENTS system thread graph)
  find_package(SUITESPARSE REQUIRED)
@@ -10,7 +16,7 @@ index 97fe249..249e188 100644
  
  # Eigen3 FindScript Backward compatibility (ubuntu saucy)
  # Since FindEigen.cmake is deprecated starting from jade.
-@@ -47,8 +48,12 @@ elseif (EXISTS "FindEigen.cmake")
+@@ -47,8 +48,10 @@ elseif (EXISTS "FindEigen.cmake")
    e.g. by adding it to ${PROJECT_SOURCE_DIR}/cmake_modules.")
  endif (EXISTS "FindEigen3.cmake")
  
@@ -18,21 +24,40 @@ index 97fe249..249e188 100644
 -set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
 +set(G2O_LIBRARIES ${G2O_STUFF_LIBRARY} ${G2O_CORE_LIBRARY} ${G2O_SOLVER_CHOLMOD} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_DENSE} ${G2O_SOLVER_PCG} ${G2O_SOLVER_SLAM2D_LINEAR} ${G2O_SOLVER_STRUCTURE_ONLY} ${G2O_SOLVER_EIGEN} ${G2O_SOLVER_CSPARSE} ${G2O_SOLVER_CSPARSE_EXTENSION})
 +
-+set(G2O_INCLUDE_DIRS ${G2O_INCLUDE_DIR})
-+
-+set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR} ${CSPARSE_INCLUDE_DIR})
-+set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES} ${CSPARSE_LIBRARY})
++set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${CSPARSE_INCLUDE_DIR})
++set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${CSPARSE_LIBRARY})
  
  ## Uncomment this if the package has a setup.py. This macro ensures
  ## modules and global scripts declared therein get installed
-@@ -163,7 +168,6 @@ catkin_package(
-         tf2
-         tf2_ros
+@@ -160,10 +163,9 @@ catkin_package(
+ 	pluginlib
+ 	roscpp
+ 	std_msgs
+-        tf2
+-        tf2_ros
++  tf2
++  tf2_ros
  	visualization_msgs
 -  DEPENDS SUITESPARSE G2O
  )
  
  ###########
+@@ -175,6 +177,7 @@ catkin_package(
+ include_directories(include)
+ include_directories(
+   ${EXTERNAL_INCLUDE_DIRS}
++  ${G2O_INCLUDE_DIR}
+   ${catkin_INCLUDE_DIRS}
+ )
+ 
+@@ -212,6 +215,7 @@ target_link_libraries(test_optim_node
+    teb_local_planner
+    ${EXTERNAL_LIBS}
+    ${catkin_LIBRARIES}
++   ${G2O_LIBRARIES}
+ )
+ 
+ 
 diff --git a/cmake_modules/FindCSparse.cmake b/cmake_modules/FindCSparse.cmake
 new file mode 100644
 index 0000000..5550151
