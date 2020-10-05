@@ -26,6 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
+  - teb_local_planner
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
@@ -34,8 +35,6 @@ packages_select_by_deps:
   # - franka_hw
   # - libfranka  # for now has tests disabled
   # - franka_visualization
-
-  - teb_local_planner
 
   ##
   # DONE Win
