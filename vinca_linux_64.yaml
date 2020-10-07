@@ -28,8 +28,6 @@ packages_select_by_deps:
   ##
   # - slam_toolbox  # FAILED!
   - franka_control
-  - franka_gripper
-  - velodyne_pcl
 
   ##
   # DONE Linux
@@ -43,6 +41,7 @@ packages_select_by_deps:
   # - robot_localization
   # - imu_tools
   # - velodyne
+  # - velodyne_pcl
   # - perception_pcl
   # - urg_node
   # - teb_local_planner
@@ -51,6 +50,7 @@ packages_select_by_deps:
   # - franka_msgs
   # - franka_description
   # - franka_hw
+  # - franka_gripper
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
   # - libfranka
