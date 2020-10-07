@@ -27,9 +27,9 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - slam_toolbox  # FAILED!
-  # - franka_control
-  # - franka_gripper
-  # - velodyne_pcl
+  - franka_control
+  - franka_gripper
+  - velodyne_pcl
 
   ##
   # DONE Linux
