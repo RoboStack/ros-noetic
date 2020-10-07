@@ -27,7 +27,6 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - slam_toolbox  # FAILED!
-  - franka_control
 
   ##
   # DONE Linux
@@ -51,6 +50,7 @@ packages_select_by_deps:
   # - franka_description
   # - franka_hw
   # - franka_gripper
+  # - franka_control
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
   # - libfranka
