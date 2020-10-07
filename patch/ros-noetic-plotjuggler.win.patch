@@ -30,15 +30,32 @@ index 99d502b..9652994 100644
    }
  
 diff --git a/plugins/ROS/ros1_parsers/tf_msg.h b/plugins/ROS/ros1_parsers/tf_msg.h
-index 978d3ab..8260938 100644
+index 978d3ab..073d53e 100644
 --- a/plugins/ROS/ros1_parsers/tf_msg.h
 +++ b/plugins/ROS/ros1_parsers/tf_msg.h
-@@ -17,7 +17,7 @@ public:
+@@ -17,21 +17,21 @@ public:
  
    void parseMessageImpl(const TfMsgType& msg, double timestamp) override
    {
 -    auto GetSeries = [&](const std::string& name) { return &BaseParser::getSeries(BaseParser::_plot_data, name); };
-+    auto GetSeries = [&](const std::string& name) { return &BaseParser::getSeries(_plot_data, name); };
++    auto GetSeries = [&](const std::string& name) { return &getSeries(_plot_data, name); };
  
      for (const auto& trans : msg.transforms)
      {
+       double header_stamp = trans.header.stamp.toSec();
+-      timestamp = (BaseParser::_use_header_stamp && header_stamp > 0) ? header_stamp : timestamp;
++      timestamp = (_use_header_stamp && header_stamp > 0) ? header_stamp : timestamp;
+ 
+       std::string prefix;
+       if (trans.header.frame_id.empty())
+       {
+-        prefix = fmt::format("{}/{}", BaseParser::_topic_name, trans.child_frame_id);
++        prefix = fmt::format("{}/{}", _topic_name, trans.child_frame_id);
+       }
+       else
+       {
+-        prefix = fmt::format("{}/{}/{}", BaseParser::_topic_name, trans.header.frame_id, trans.child_frame_id);
++        prefix = fmt::format("{}/{}/{}", _topic_name, trans.header.frame_id, trans.child_frame_id);
+       }
+ 
+       PlotData* series = GetSeries(prefix + "/header/stamp");
