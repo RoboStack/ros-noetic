@@ -29,3 +29,16 @@ index 99d502b..9652994 100644
    {
    }
  
+diff --git a/plugins/ROS/ros1_parsers/tf_msg.h b/plugins/ROS/ros1_parsers/tf_msg.h
+index 978d3ab..8260938 100644
+--- a/plugins/ROS/ros1_parsers/tf_msg.h
++++ b/plugins/ROS/ros1_parsers/tf_msg.h
+@@ -17,7 +17,7 @@ public:
+ 
+   void parseMessageImpl(const TfMsgType& msg, double timestamp) override
+   {
+-    auto GetSeries = [&](const std::string& name) { return &BaseParser::getSeries(BaseParser::_plot_data, name); };
++    auto GetSeries = [&](const std::string& name) { return &BaseParser::getSeries(_plot_data, name); };
+ 
+     for (const auto& trans : msg.transforms)
+     {
