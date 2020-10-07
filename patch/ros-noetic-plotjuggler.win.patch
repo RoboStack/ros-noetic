@@ -1,0 +1,31 @@
+diff --git a/plotter_gui/curvelist_view.cpp b/plotter_gui/curvelist_view.cpp
+index fb7aae6..9beece2 100644
+--- a/plotter_gui/curvelist_view.cpp
++++ b/plotter_gui/curvelist_view.cpp
+@@ -38,7 +38,7 @@ void CurveTableView::addItem(const QString& item_name)
+     return;
+   }
+ 
+-  auto item = new SortedTableItem<QTableWidgetItem>(item_name);
++  auto item = new SortedTableItem(item_name);
+   QFont font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+   font.setPointSize(_point_size);
+   item->setFont(font);
+diff --git a/plotter_gui/curvelist_view.h b/plotter_gui/curvelist_view.h
+index 99d502b..9652994 100644
+--- a/plotter_gui/curvelist_view.h
++++ b/plotter_gui/curvelist_view.h
+@@ -18,11 +18,10 @@
+ 
+ class CurveListPanel;
+ 
+-template <typename ItemType>
+-class SortedTableItem : public ItemType
++class SortedTableItem : public QTableWidgetItem
+ {
+ public:
+-  SortedTableItem(const QString& name) : ItemType(name), str(name.toStdString())
++  SortedTableItem(const QString& name) : QTableWidgetItem(name), str(name.toStdString())
+   {
+   }
+ 
