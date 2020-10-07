@@ -27,7 +27,7 @@ packages_select_by_deps:
   #  TODO Win
   ##
   # - teb_local_planner  # fails with unresolved linker errors: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=604&view=logs&j=f3ae674c-9c53-500b-edef-861b1c32dc39&t=3ff00681-610c-5638-08e7-6d8dd122ef58
-  - plotjuggler  # fails with weird template initialization error
+  # - plotjuggler  # fails: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=621&view=logs&j=bb30a541-d8e8-53c5-69b6-30faa1378075&t=878859ab-f800-5767-6bc3-c4c01defb9db
 
   # - franka_hw  # fails with Franka::Franka not found; see https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=613&view=logs&jobId=c620cdd7-ac45-5f33-c8cd-d83be40b7761&j=c620cdd7-ac45-5f33-c8cd-d83be40b7761&t=2d8888ca-ccb1-52d9-37ca-22546cfb6347
   # - franka_visualization  # fails with Franka::Franka not found; see https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=613&view=logs&jobId=c620cdd7-ac45-5f33-c8cd-d83be40b7761&j=c620cdd7-ac45-5f33-c8cd-d83be40b7761&t=2d8888ca-ccb1-52d9-37ca-22546cfb6347
