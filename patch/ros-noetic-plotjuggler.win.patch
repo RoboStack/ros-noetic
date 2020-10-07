@@ -1,3 +1,18 @@
+diff --git a/plugins/ROS/RosoutPublisher/logs_table_model.hpp b/plugins/ROS/RosoutPublisher/logs_table_model.hpp
+index 459718d..2ff59e4 100644
+--- a/plugins/ROS/RosoutPublisher/logs_table_model.hpp
++++ b/plugins/ROS/RosoutPublisher/logs_table_model.hpp
+@@ -10,6 +10,10 @@
+ #include <unordered_map>
+ #include <chrono>
+ 
++#ifdef _WIN32
++#undef ERROR
++#endif
++
+ typedef std::chrono::high_resolution_clock::time_point TimePoint;
+ 
+ 
 diff --git a/plotter_gui/curvelist_view.cpp b/plotter_gui/curvelist_view.cpp
 index fb7aae6..9beece2 100644
 --- a/plotter_gui/curvelist_view.cpp
