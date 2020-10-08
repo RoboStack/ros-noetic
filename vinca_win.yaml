@@ -33,6 +33,8 @@ packages_select_by_deps:
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
+  
+  - slam_toolbox
 
   ##
   # DONE Win
