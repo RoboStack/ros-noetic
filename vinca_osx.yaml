@@ -24,7 +24,7 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  # - slam_toolbox  # FAILED!
+  - slam_toolbox  # FAILED!
 
   ##
   # DONE OSX
