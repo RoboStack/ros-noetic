@@ -438,7 +438,7 @@ suitesparse:
 libpcap:
   conda-forge: [libpcap]
 libblas-dev:
-  conda-forge: [libcblas]
+  conda-forge: [libblas, libcblas]
 liblapack-dev:
   conda-forge: [liblapack]
 libceres-dev:
