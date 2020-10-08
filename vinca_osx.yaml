@@ -24,7 +24,6 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  - slam_toolbox  # FAILED!
 
   ##
   # DONE OSX
@@ -59,6 +58,7 @@ packages_select_by_deps:
   # - urg_node
   # - teb_local_planner
   # - moveit
+  # - slam_toolbox
 
   ##
   # NOT RELEASED ON NOETIC...
