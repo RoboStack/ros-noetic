@@ -17,7 +17,7 @@ packages_remove_from_deps:
   - stage-ros
   - stage
   # TODO Needs fixing
-  - theora-image-transport
+  # - theora-image-transport
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
