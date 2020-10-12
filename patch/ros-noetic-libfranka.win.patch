@@ -1,14 +1,94 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 15bae8d..b22d6d7 100644
+index 15bae8d..6ea9cc8 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -154,7 +154,7 @@ macro(find_package)
-   endif()
- endmacro()
+@@ -118,6 +118,7 @@ install(TARGETS franka
+   EXPORT FrankaTargets
+   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
+ install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
  
--option(BUILD_TESTS "Build tests" ON)
-+option(BUILD_TESTS "Build tests" OFF)
+@@ -148,11 +149,7 @@ install(EXPORT FrankaTargets
+ ## Subprojects
+ 
+ # Ignore find_package(Franka) in subprojects.
+-macro(find_package)
+-  if(NOT "${ARGV0}" STREQUAL Franka AND NOT DEFINED "${ARGV0}_FOUND")
+-    _find_package(${ARGV})
+-  endif()
+-endmacro()
++set(FRANKA_IS_FOUND TRUE)
+ 
+ option(BUILD_TESTS "Build tests" ON)
  if(BUILD_TESTS)
-   enable_testing()
-   add_subdirectory(test)
-
+diff --git a/cmake/GoogleTest-CMakeLists.txt.in b/cmake/GoogleTest-CMakeLists.txt.in
+index f5e5dd0..6a95393 100644
+--- a/cmake/GoogleTest-CMakeLists.txt.in
++++ b/cmake/GoogleTest-CMakeLists.txt.in
+@@ -6,9 +6,9 @@ ExternalProject_Add(googletest
+   DOWNLOAD_NAME googletest-${GTEST_VERSION}.tar.gz
+   URL https://github.com/google/googletest/archive/release-${GTEST_VERSION}.tar.gz
+   URL_HASH SHA256=${GTEST_ARCHIVE_HASH}
+-  SOURCE_DIR ${GTEST_SOURCE_DIR}
+-  BINARY_DIR ${GTEST_BINARY_DIR}
+-  DOWNLOAD_DIR ${THIRDPARTY_SOURCES_DIR}
++  SOURCE_DIR "${GTEST_SOURCE_DIR}"
++  BINARY_DIR "${GTEST_BINARY_DIR}"
++  DOWNLOAD_DIR "${THIRDPARTY_SOURCES_DIR}"
+   CONFIGURE_COMMAND ""
+   BUILD_COMMAND ""
+   INSTALL_COMMAND ""
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+index 5233e48..5e281f8 100644
+--- a/examples/CMakeLists.txt
++++ b/examples/CMakeLists.txt
+@@ -7,7 +7,9 @@ list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_LIST_DIR}/../cmake)
+ set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+-find_package(Franka REQUIRED)
++if(NOT FRANKA_IS_FOUND)
++    find_package(Franka REQUIRED)
++endif()
+ find_package(Eigen3 REQUIRED)
+ find_package(Poco REQUIRED COMPONENTS Foundation)
+ 
+diff --git a/include/franka/control_tools.h b/include/franka/control_tools.h
+index dc5017c..0bd2c30 100644
+--- a/include/franka/control_tools.h
++++ b/include/franka/control_tools.h
+@@ -4,6 +4,7 @@
+ 
+ #include <array>
+ #include <cmath>
++#include <string>
+ 
+ /**
+  * @file control_tools.h
+diff --git a/src/control_types.cpp b/src/control_types.cpp
+index 046062e..fd7d016 100644
+--- a/src/control_types.cpp
++++ b/src/control_types.cpp
+@@ -1,5 +1,6 @@
+ // Copyright (c) 2017 Franka Emika GmbH
+ // Use of this source code is governed by the Apache-2.0 license, see LICENSE
++#include <stdexcept>
+ #include <type_traits>
+ 
+ #include <franka/control_types.h>
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 3306c67..2cb1532 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -56,6 +56,9 @@ add_executable(run_all_tests
+ 
+ set(TEST_COMPILE_DEFINITIONS FRANKA_TEST_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
+ target_compile_definitions(run_all_tests PRIVATE ${TEST_COMPILE_DEFINITIONS})
++if(WIN32)
++    target_compile_options(run_all_tests PRIVATE /bigobj)
++endif(WIN32)
+ 
+ target_include_directories(run_all_tests PRIVATE ${TEST_INCLUDE_DIRECTORIES})
+ target_link_libraries(run_all_tests PUBLIC ${TEST_DEPENDENCIES})
