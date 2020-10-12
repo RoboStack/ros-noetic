@@ -1,32 +1,33 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 4082eac..0325103 100644
+index 4082eac..296f27b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -8,11 +8,11 @@ add_message_files(DIRECTORY msg FILES Packet.msg)
+@@ -8,11 +8,10 @@ add_message_files(DIRECTORY msg FILES Packet.msg)
  
  generate_messages(DEPENDENCIES std_msgs)
  
-+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-+
- find_package(PkgConfig)
- pkg_check_modules(PC_OGG REQUIRED ogg)
+-find_package(PkgConfig)
+-pkg_check_modules(PC_OGG REQUIRED ogg)
 -pkg_check_modules(PC_THEORA REQUIRED theora)
 -pkg_check_modules(PC_THEORAENC REQUIRED theoraenc)
 -pkg_check_modules(PC_THEORADEC REQUIRED theoradec)
++list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
++
++find_package(OGG)
 +find_package(THEORA)
  
  
  # generate the dynamic_reconfigure config file
-@@ -28,40 +28,27 @@ include_directories(include
+@@ -27,41 +26,25 @@ catkin_package(
+ include_directories(include
    ${catkin_INCLUDE_DIRS}
    ${OpenCV_INCLUDE_DIRS}
-   ${PC_OGG_INCLUDE_DIRS}
+-  ${PC_OGG_INCLUDE_DIRS}
 -  ${PC_THEORA_INCLUDE_DIRS}
 -  ${PC_THEORAENC_INCLUDE_DIRS}
 -  ${PC_THEORADEC_INCLUDE_DIRS}
-+  ${THEORA_INCLUDE_DIRS}
- )
- 
+-)
+-
 -link_directories(${PC_OGG_LIBRARY_DIRS} 
 -                 ${PC_THEORA_LIBRARY_DIRS}
 -                 ${PC_THEORAENC_LIBRARY_DIRS}
@@ -35,18 +36,19 @@ index 4082eac..0325103 100644
 -                ${PC_THEORA_CFLAGS_OTHER}
 -                ${PC_THEORAENC_CFLAGS_OTHER}
 -                ${PC_THEORADEC_CFLAGS_OTHER}
--)
-+link_directories(${PC_OGG_LIBRARY_DIRS})
-+add_definitions(${PC_OGG_CFLAGS_OTHER})
++  ${OGG_INCLUDE_DIRS}
++  ${THEORA_INCLUDE_DIRS}
+ )
  
  add_library(${PROJECT_NAME} src/theora_publisher.cpp src/theora_subscriber.cpp src/manifest.cpp)
  add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg ${PROJECT_NAME}_gencpp)
  target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES}
                                        ${OpenCV_LIBRARIES}
-                                       ${PC_OGG_LIBRARIES}
+-                                      ${PC_OGG_LIBRARIES}
 -                                      ${PC_THEORA_LIBRARIES}
 -                                      ${PC_THEORAENC_LIBRARIES}
 -                                      ${PC_THEORADEC_LIBRARIES}
++                                      ${OGG_LIBRARIES}
 +                                      ${THEORA_LIBRARIES}
  )
  
@@ -55,7 +57,7 @@ index 4082eac..0325103 100644
  add_executable(ogg_saver src/ogg_saver.cpp)
 -target_link_libraries(ogg_saver ${PC_THEORA_LIBRARY} 
 -                                ${PC_OGG_LIBRARY} 
-+target_link_libraries(ogg_saver ${PC_OGG_LIBRARY} 
++target_link_libraries(ogg_saver ${OGG_LIBRARIES} 
                                  ${OpenCV_LIBRARIES} 
                                  ${catkin_LIBRARIES}  
 -                                ${PC_THEORAENC_LIBRARIES}
@@ -64,7 +66,38 @@ index 4082eac..0325103 100644
  add_dependencies(ogg_saver ${PROJECT_NAME}_gencpp)
  
  install(TARGETS ${PROJECT_NAME}
-diff --git a/cmake/FindTHEORA.cmake b/cmake/FindTHEORA.cmake
+diff --git a/theora_image_transport/cmake/FindOGG.cmake b/theora_image_transport/cmake/FindOGG.cmake
+index e69de29..3121d17 100644
+--- a/cmake/FindOGG.cmake
++++ b/cmake/FindOGG.cmake
+@@ -0,0 +1,26 @@
++find_path(OGG_INCLUDE_DIR
++  NAMES
++    ogg/ogg.h
++  DOC "ogg include directory")
++mark_as_advanced(OGG_INCLUDE_DIR)
++
++find_library(OGG_LIBRARY
++  NAMES
++    ogg
++  DOC "ogg library")
++mark_as_advanced(OGG_LIBRARY)
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(OGG REQUIRED_VARS OGG_LIBRARY OGG_INCLUDE_DIR)
++
++if (OGG_FOUND)
++  set(OGG_LIBRARIES "${OGG_LIBRARY}")
++  set(OGG_INCLUDE_DIRS "${OGG_INCLUDE_DIR}")
++
++  if (NOT TARGET OGG::OGG)
++    add_library(OGG::OGG UNKNOWN IMPORTED)
++    set_target_properties(OGG::OGG PROPERTIES
++      IMPORTED_LOCATION "${OGG_LIBRARY}"
++      INTERFACE_INCLUDE_DIRECTORIES "${OGG_INCLUDE_DIR}")
++  endif ()
++endif ()
+diff --git a/theora_image_transport/cmake/FindTHEORA.cmake b/theora_image_transport/cmake/FindTHEORA.cmake
 index e69de29..73205cf 100644
 --- a/cmake/FindTHEORA.cmake
 +++ b/cmake/FindTHEORA.cmake
