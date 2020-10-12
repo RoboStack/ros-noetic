@@ -10,7 +10,7 @@ index e2e3426..26846d5 100644
  )
  install(DIRECTORY include/ DESTINATION include/libfranka)
  
-@@ -150,11 +151,7 @@ install(FILES package.xml DESTINATION share/libfranka)
+@@ -150,13 +151,9 @@ install(FILES package.xml DESTINATION share/libfranka)
  ## Subprojects
  
  # Ignore find_package(Franka) in subprojects.
@@ -21,8 +21,11 @@ index e2e3426..26846d5 100644
 -endmacro()
 +set(FRANKA_IS_FOUND TRUE)
  
- option(BUILD_TESTS "Build tests" ON)
+-option(BUILD_TESTS "Build tests" ON)
++option(BUILD_TESTS "Build tests" OFF)
  if(BUILD_TESTS)
+   enable_testing()
+   add_subdirectory(test)
 diff --git a/cmake/GoogleTest-CMakeLists.txt.in b/cmake/GoogleTest-CMakeLists.txt.in
 index f5e5dd0..6a95393 100644
 --- a/cmake/GoogleTest-CMakeLists.txt.in
