@@ -327,7 +327,7 @@ liblapacke:
   - 3.8.0 *netlib
 blas_impl:
   - openblas
-  - mkl          # [x86 or x86_64]
+  - mkl          # [(x86 or x86_64) and not win]
   - blis         # [x86 or x86_64]
 
 abseil_cpp:
