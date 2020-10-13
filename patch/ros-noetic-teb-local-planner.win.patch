@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 97fe249..91494b4 100644
+index 97fe249..8aa2954 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -8,27 +8,26 @@ index 97fe249..91494b4 100644
  project(teb_local_planner)
  
  # Set to Release in order to speed up the program significantly
-@@ -33,7 +33,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake_modules)
- message(STATUS "${CMAKE_MODULE_PATH}")
+@@ -34,6 +34,7 @@ message(STATUS "${CMAKE_MODULE_PATH}")
  find_package(Boost REQUIRED COMPONENTS system thread graph)
  find_package(SUITESPARSE REQUIRED)
--find_package(G2O REQUIRED)
+ find_package(G2O REQUIRED)
 +find_package(CSparse REQUIRED)
  
  # Eigen3 FindScript Backward compatibility (ubuntu saucy)
  # Since FindEigen.cmake is deprecated starting from jade.
-@@ -47,8 +47,8 @@ elseif (EXISTS "FindEigen.cmake")
+@@ -47,8 +48,8 @@ elseif (EXISTS "FindEigen.cmake")
    e.g. by adding it to ${PROJECT_SOURCE_DIR}/cmake_modules.")
  endif (EXISTS "FindEigen3.cmake")
  
 -set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
 -set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
-+set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${CSPARSE_INCLUDE_DIR})
-+set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${CSPARSE_LIBRARY})
++set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${CSPARSE_INCLUDE_DIR} ${G2O_INCLUDE_DIR})
++set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${CSPARSE_LIBRARY} ${G2O_CORE_LIBRARY} ${G2O_STUFF_LIBRARY})
  
  ## Uncomment this if the package has a setup.py. This macro ensures
  ## modules and global scripts declared therein get installed
-@@ -160,10 +160,9 @@ catkin_package(
+@@ -160,10 +161,9 @@ catkin_package(
  	pluginlib
  	roscpp
  	std_msgs
