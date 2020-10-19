@@ -177,15 +177,9 @@ eigen:
     win64: [eigen]
     unix: ['eigen']
 assimp:
-  conda-forge:
-    win64: [assimp]
-    linux: [assimp]
-    osx: [assimp 5.0.1 h753910b_1]
+  conda-forge: [assimp]
 assimp-dev:
-  conda-forge:
-    win64: [assimp]
-    linux: [assimp]
-    osx: [assimp 5.0.1 h753910b_1]
+  conda-forge: [assimp]
 libqt5-opengl:
   conda-forge:
     win64: [qt]
@@ -438,7 +432,7 @@ suitesparse:
 libpcap:
   conda-forge: [libpcap]
 libblas-dev:
-  conda-forge: [libblas, libcblas]
+  conda-forge: [libblas]
 liblapack-dev:
   conda-forge: [liblapack]
 libceres-dev:
