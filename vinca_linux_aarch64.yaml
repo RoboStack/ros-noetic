@@ -29,7 +29,6 @@ packages_select_by_deps:
   - geometry
   - joy
   - rospy-message-converter
-  - python-orocos-kdl
   # - ros_base
   # - navigation
   # - robot
