@@ -21,10 +21,14 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - image_pipeline
+  - image_common
+  - image_transport_plugins
+  - vision_opencv
   # - ros_base
   # - navigation
   # - robot
-  - slam_karto
+  # - slam_karto
   # - moveit_core
 
 patch_dir: patch
