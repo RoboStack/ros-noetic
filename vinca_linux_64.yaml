@@ -26,7 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - pybind11_catkin
+  # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ##
   # DONE Linux
