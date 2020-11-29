@@ -26,6 +26,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - pybind11_catkin
 
   ##
   # DONE Linux
