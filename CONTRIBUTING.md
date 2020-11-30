@@ -25,16 +25,15 @@ conda config --add channels conda-forge
 conda config --add channels robostack
 conda config --set channel_priority strict
 ```
-2. Install mamba etc.: `conda install pip conda-build anaconda-client mamba conda`
-3. Install vinca: `pip install git+https://github.com/RoboStack/vinca.git@master`
-4. Install boa: `pip install git+https://github.com/mamba-org/boa.git@master`
-5. Clone this repo: `git clone https://github.com/RoboStack/ros-noetic.git`
-6. `cd ros-noetic`
-7. `cp vinca_linux_64.yaml vinca.yaml` (replace with your platform as necessary)
-8. Modify `vinca.yaml` as you please, e.g. add new packages to be built.
-9. Run vinca to generate the recipe by executing `vinca --multiple`
-10. Copy the generated recipe to the current folder: `cp recipes/ros-noetic-XXX.yaml recipe.yaml` - note that at least one package needs to be (re)build for this folder to show up. See more info below.
-11. Build the recipe using boa: `boa build .`
+2. Install some dependencies: `conda install pip conda-build anaconda-client mamba conda catkin_pkg ruamel_yaml rosdistro empy networkx requests boa`
+3. Install vinca: `pip install git+https://github.com/RoboStack/vinca.git@master --no-deps`
+4. Clone this repo: `git clone https://github.com/RoboStack/ros-noetic.git`
+5. `cd ros-noetic`
+6. `cp vinca_linux_64.yaml vinca.yaml` (replace with your platform as necessary)
+7. Modify `vinca.yaml` as you please, e.g. add new packages to be built.
+8. Run vinca to generate the recipe by executing `vinca --multiple`
+9. Copy the generated recipe to the current folder: `cp recipes/ros-noetic-XXX.yaml recipe.yaml` - note that at least one package needs to be (re)build for this folder to show up. See more info below.
+10. Build the recipe using boa: `boa build .`
 
 # How does it work?
 - The `vinca.yaml` file specifies which packages should be built. 
