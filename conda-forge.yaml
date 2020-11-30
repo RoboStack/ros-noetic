@@ -255,11 +255,11 @@ libxrandr:
     win64: []
     unix: [xorg-libxrandr]
 libopencv-dev:
-  conda-forge: [py-opencv 4.2, libopencv 4.2]
+  conda-forge: [py-opencv, libopencv]
 python-opencv:
-  conda-forge: [py-opencv 4.2, libopencv 4.2]
+  conda-forge: [py-opencv, libopencv]
 python3-opencv:
-  conda-forge: [py-opencv 4.2, libopencv 4.2]
+  conda-forge: [py-opencv, libopencv]
 python-pydot:
   conda-forge: [pydot]
 python3-pydot:
