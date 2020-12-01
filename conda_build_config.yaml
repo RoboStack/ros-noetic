@@ -339,9 +339,9 @@ arpack:
 arrow_cpp:
   - 0.17.0
 boost:
-  - 1.72.0
+  - 1.74.0
 boost_cpp:
-  - 1.72.0
+  - 1.74.0
 bzip2:
   - 1
 bullet:
