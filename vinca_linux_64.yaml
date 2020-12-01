@@ -5,7 +5,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 2
+build_number: 3
 
 skip_all_deps: false
 
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -31,9 +31,9 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  # - desktop
-  # - desktop_full
-  # - ros_core
+  - desktop
+  - desktop_full
+  - ros_core
   # - rosbridge_suite
   # - moveit
   # - class_loader
@@ -46,6 +46,8 @@ packages_select_by_deps:
   # - teb_local_planner
   # - joy
   # - plotjuggler
+  # - libfranka
+  # - franka_visualization
   # - franka_msgs
   # - franka_description
   # - franka_hw
@@ -53,8 +55,6 @@ packages_select_by_deps:
   # - franka_control
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
-  # - libfranka
-  # - franka_visualization
   # - ros_control
   # - ros_controllers
   # - rviz_visual_tools
