@@ -254,12 +254,12 @@ libxrandr:
   conda-forge:
     win64: []
     unix: [xorg-libxrandr]
-libopencv-dev:
-  conda-forge: [py-opencv, libopencv]
+libopencv-dev:  # opencv needs to be pinned, otherwise different packages might pull in different versions
+  conda-forge: [py-opencv 4.5, libopencv 4.5]
 python-opencv:
-  conda-forge: [py-opencv, libopencv]
+  conda-forge: [py-opencv 4.5, libopencv 4.5]
 python3-opencv:
-  conda-forge: [py-opencv, libopencv]
+  conda-forge: [py-opencv 4.5, libopencv 4.5]
 python-pydot:
   conda-forge: [pydot]
 python3-pydot:
