@@ -78,15 +78,6 @@ index 0b0d6dda..33ac6d47 100755
  
  def rollback_env_variables(environ, env_var_subfolders):
      """
-@@ -268,7 +270,7 @@ if __name__ == '__main__':
- 
-         if not args.local:
-             # environment at generation time
--            CMAKE_PREFIX_PATH = '@CMAKE_PREFIX_PATH_AS_IS@'.split(';')
-+            CMAKE_PREFIX_PATH = r'@CMAKE_PREFIX_PATH_AS_IS@'.split(';')
-         else:
-             # don't consider any other prefix path than this one
-             CMAKE_PREFIX_PATH = []
 diff --git a/cmake/templates/pkgConfig.cmake.in b/cmake/templates/pkgConfig.cmake.in
 index 4e52046d..899a0c07 100644
 --- a/cmake/templates/pkgConfig.cmake.in
