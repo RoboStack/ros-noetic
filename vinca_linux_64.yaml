@@ -12,6 +12,7 @@ skip_all_deps: false
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
+  - ros_core
 
 packages_remove_from_deps:
   - stage-ros
@@ -31,7 +32,8 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  - ros_core
+  # - ros_core
+  - rviz
   # - desktop
   # - desktop_full
   # - rosbridge_suite
