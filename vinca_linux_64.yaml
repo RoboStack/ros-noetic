@@ -7,12 +7,12 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: false
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
-  - ros_core
+  # - ros_core
 
 packages_remove_from_deps:
   - stage-ros
