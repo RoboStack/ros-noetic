@@ -7,12 +7,11 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
-  # - rviz
+  - ros_core
   # - diagnostic_updater
-  # - ros_core
 
 packages_remove_from_deps:
   - stage-ros
@@ -33,8 +32,8 @@ packages_select_by_deps:
   # DONE Linux
   ##
   # - ros_core
-  - rviz
-  # - desktop
+  # - rviz  # This needs doing after fixing https://github.com/conda-forge/assimp-feedstock/issues/14
+  - desktop
   # - desktop_full
   # - rosbridge_suite
   # - moveit
