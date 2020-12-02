@@ -54,7 +54,6 @@ packages_select_by_deps:
   - franka_hw
   - franka_gripper
   - franka_control
-  - franka_ros
   - franka_example_controllers
   - diagnostic_analysis
   - diagnostic_common_diagnostics
@@ -68,6 +67,7 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
+  # - franka_ros
   # - turtlebot3_fake
   # - tf2_web_republisher
   # - niryo_one_simulation
