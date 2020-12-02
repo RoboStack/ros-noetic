@@ -32,44 +32,44 @@ packages_select_by_deps:
   # DONE Linux
   ##
   # - ros_core
-  # - rviz  # This needs doing after fixing https://github.com/conda-forge/assimp-feedstock/issues/14
-  - desktop
-  # - desktop_full
-  # - rosbridge_suite
-  # - moveit
-  # - class_loader
-  # - robot_localization
-  # - imu_tools
-  # - velodyne
-  # - velodyne_pcl
-  # - perception_pcl
-  # - urg_node
-  # - teb_local_planner
-  # - joy
-  # - plotjuggler
-  # - libfranka
-  # - franka_visualization
-  # - franka_msgs
-  # - franka_description
-  # - franka_hw
-  # - franka_gripper
-  # - franka_control
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - ros_control
-  # - ros_controllers
-  # - rviz_visual_tools
-  # - slam_karto
-  # - slam_toolbox
+  # - rviz
+  # - desktop
+  - desktop_full
+  - rosbridge_suite
+  - moveit
+  - class_loader
+  - robot_localization
+  - imu_tools
+  - velodyne
+  - velodyne_pcl
+  - perception_pcl
+  - urg_node
+  - teb_local_planner
+  - joy
+  - plotjuggler
+  - libfranka
+  - franka_visualization
+  - franka_msgs
+  - franka_description
+  - franka_hw
+  - franka_gripper
+  - franka_control
+  - franka_ros
+  - franka_example_controllers
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
+  - rviz_visual_tools
+  - slam_karto
+  - slam_toolbox
+  - turtlebot3
 
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - turtlebot3
   # - turtlebot3_fake
   # - tf2_web_republisher
-  # - franka_ros
-  # - franka_example_controllers
   # - niryo_one_simulation
 
   ##
