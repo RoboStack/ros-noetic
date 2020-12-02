@@ -10,7 +10,7 @@ build_number: 3
 skip_all_deps: false
 
 packages_skip_by_deps:
-  - ros_core
+  # - ros_core
   # - diagnostic_updater
 
 packages_remove_from_deps:
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
