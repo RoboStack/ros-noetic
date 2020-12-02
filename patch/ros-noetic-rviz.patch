@@ -58,6 +58,21 @@ index aedb7ad0..1f5d1a08 100644
 +# if(NOT rviz_BINDINGS)
 +#   message(FATAL_ERROR "No Python binding generator found.")
 +# endif()
+diff --git a/src/rviz/CMakeLists.txt b/src/rviz/CMakeLists.txt
+index d5941099..411512b0 100644
+--- a/src/rviz/CMakeLists.txt
++++ b/src/rviz/CMakeLists.txt
+@@ -145,6 +145,10 @@ target_link_libraries(${PROJECT_NAME}
+   ${YAML_CPP_LIBRARIES}
+ )
+ 
++if(UNIX AND NOT APPLE)
++    target_link_libraries(${PROJECT_NAME} rt)
++endif()
++
+ add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ 
+ 
 diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
 index d8de5b12..9499b30e 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
