@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: false
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - ros_core
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -31,37 +31,40 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - pcl_conversions
+  - pcl_ros
+  - pcl_msgs
   # - ros_core
   # - rviz
   # - desktop
-  - desktop_full
-  - rosbridge_suite
-  - moveit
-  - class_loader
-  - robot_localization
-  - imu_tools
-  - velodyne
-  - velodyne_pcl
-  - perception_pcl
-  - urg_node
-  - teb_local_planner
-  - joy
-  - plotjuggler
-  - libfranka
-  - franka_visualization
-  - franka_msgs
-  - franka_description
-  - franka_hw
-  - franka_gripper
-  - franka_control
-  - diagnostic_analysis
-  - diagnostic_common_diagnostics
-  - ros_control
-  - ros_controllers
-  - rviz_visual_tools
-  - slam_karto
-  - slam_toolbox
-  - turtlebot3
+  # - desktop_full
+  # - rosbridge_suite
+  # - moveit
+  # - class_loader
+  # - robot_localization
+  # - imu_tools
+  # - velodyne
+  # - velodyne_pcl
+  # - perception_pcl
+  # - urg_node
+  # - teb_local_planner
+  # - joy
+  # - plotjuggler
+  # - libfranka
+  # - franka_visualization
+  # - franka_msgs
+  # - franka_description
+  # - franka_hw
+  # - franka_gripper
+  # - franka_control
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+  # - slam_karto
+  # - slam_toolbox
+  # - turtlebot3
 
   ##
   # NOT RELEASED ON NOETIC...
