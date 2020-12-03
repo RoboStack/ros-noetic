@@ -363,7 +363,7 @@ python-pyassimp:
 python3-pyassimp:
   conda-forge: [assimp]
 libpcl-all-dev:
-  conda-forge: [pcl]
+  conda-forge: [pcl 1.11]
 libogg:
   conda-forge: [libogg]
 gtk3:
