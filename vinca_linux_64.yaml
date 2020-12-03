@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - ros_core
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -31,13 +31,10 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  - pcl_conversions
-  - pcl_ros
-  - pcl_msgs
-  # - ros_core
-  # - rviz
-  # - desktop
-  # - desktop_full
+  - ros_core
+  - rviz
+  - desktop
+  - desktop_full
   # - rosbridge_suite
   # - moveit
   # - class_loader
