@@ -27,6 +27,7 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  # - franka_control  # fails: https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=984&view=logs&j=d0c8fdab-0a6b-51a5-349d-8a8a01e6b575&t=2f66d14b-b5c3-5366-9be4-0e4702bda281
 
   ##
   # DONE Linux
@@ -53,7 +54,6 @@ packages_select_by_deps:
   - franka_description
   - franka_hw
   - franka_gripper
-  - franka_control
   - diagnostic_analysis
   - diagnostic_common_diagnostics
   - ros_control
