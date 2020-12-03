@@ -31,10 +31,11 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  - ros_core
-  - rviz
-  - desktop
-  - desktop_full
+  # - ros_core
+  # - rviz
+  # - desktop
+  # - desktop_full
+  - realtime_tools
   # - rosbridge_suite
   # - moveit
   # - class_loader
