@@ -7,7 +7,7 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - ros_core
@@ -20,7 +20,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -35,7 +35,7 @@ packages_select_by_deps:
   # - rviz
   # - desktop
   # - desktop_full
-  - franka_control
+  # - franka_control
   # - rosbridge_suite
   # - moveit
   # - class_loader
@@ -52,7 +52,7 @@ packages_select_by_deps:
   # - franka_visualization
   # - franka_msgs
   # - franka_description
-  - franka_hw
+  # - franka_hw
   # - franka_gripper
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
