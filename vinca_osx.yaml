@@ -59,11 +59,12 @@ packages_select_by_deps:
   # - teb_local_planner
   # - moveit
   # - slam_toolbox
+  # - turtlebot3
 
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - turtlebot3
+
   # - turtlebot3_fake
   # - tf2_web_republisher
   # - franka_ros
