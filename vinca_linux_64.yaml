@@ -5,7 +5,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 3
+build_number: 4
 
 skip_all_deps: false
 
@@ -33,7 +33,7 @@ packages_select_by_deps:
   ##
   # - ros_core
   # - rviz
-  # - desktop
+  - desktop
   # - desktop_full
   # - franka_control
   # - rosbridge_suite

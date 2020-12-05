@@ -157,7 +157,7 @@ pin_run_as_build:
     max_pin: x.x.x
   boost:
     max_pin: x.x.x
-  boost-cpp:
+  boost_cpp:
     max_pin: x.x.x
   bzip2:
     max_pin: x
@@ -181,6 +181,8 @@ pin_run_as_build:
   fontconfig:
     max_pin: x
   freetype:
+    max_pin: x
+  gazebo:
     max_pin: x
   gdal:
     max_pin: x.x
@@ -206,7 +208,7 @@ pin_run_as_build:
     max_pin: x
   libjpeg_turbo:
     max_pin: x
-  json-c:
+  json_c:
     max_pin: x.x
   jsoncpp:
     max_pin: x.x.x
@@ -246,7 +248,9 @@ pin_run_as_build:
     max_pin: x.x
   libuuid:
     max_pin: x
-  lz4-c:
+  log4cxx:
+    max_pin: x.x.x
+  lz4_c:
     max_pin: x.x.x
   lzo:
     max_pin: x
@@ -258,9 +262,9 @@ pin_run_as_build:
     max_pin: x
   ncurses:
     max_pin: x.x
-  netcdf-cxx4:
+  netcdf_cxx4:
     max_pin: x.x
-  netcdf-fortran:
+  netcdf_fortran:
     max_pin: x.x
   nettle:
     max_pin: x.x
@@ -272,6 +276,8 @@ pin_run_as_build:
     max_pin: x
   occt:
     max_pin: x.x
+  opencv:
+    max_pin: x.x
   openturns:
     max_pin: x.x
   openjpeg:
@@ -280,6 +286,8 @@ pin_run_as_build:
     max_pin: x.x.x
   pango:
     max_pin: x.x
+  pcl:
+    max_pin: x.x.x
   perl:
     max_pin: x.x.x
   poppler:
@@ -288,7 +296,7 @@ pin_run_as_build:
     max_pin: x.x
   readline:
     max_pin: x
-  r-base:
+  r_base:
     max_pin: x.x
     min_pin: x.x
   sox:
@@ -381,6 +389,8 @@ fontconfig:
   - 2.13
 freetype:
   - 2
+gazebo:
+  - '11'
 gf2x:
   - '1.3'
 gdk_pixbuf:
@@ -557,8 +567,12 @@ numpy:
   - 1.19   # [osx and arm64]
 occt:
   - 7.4
+ogre:
+  - 1.10.12
 openblas:
   - 0.3.*
+opencv:
+  - 4.5
 openexr:
   - 2.5
 openjpeg:
@@ -575,6 +589,8 @@ pango:
   - 1.42
 pari:
   - 2.11
+pcl:
+  - 1.11.1
 perl:
   - 5.26.2
 petsc:
@@ -595,13 +611,13 @@ proj:
   - 7.1.1
 python:
   # part of a zip_keys: python, python_impl, numpy
-  - 3.6.* *_cpython    # [not (osx and arm64)]
-  - 3.7.* *_cpython    # [not (osx and arm64)]
+  # - 3.6.* *_cpython    # [not (osx and arm64)]
+  # - 3.7.* *_cpython    # [not (osx and arm64)]
   - 3.8.* *_cpython
 python_impl:
   # part of a zip_keys: python, python_impl, numpy
-  - cpython   # [not (osx and arm64)]
-  - cpython   # [not (osx and arm64)]
+  # - cpython   # [not (osx and arm64)]
+  # - cpython   # [not (osx and arm64)]
   - cpython
 qt:
   - 5.12

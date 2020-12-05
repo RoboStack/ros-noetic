@@ -77,7 +77,7 @@ docker run --rm ${DOCKER_RUN_ARGS} \
            -e FEEDSTOCK_NAME \
            -e CPU_COUNT \
            -e ANACONDA_API_TOKEN \
-           -e CURRENT_BUILD_PKG_NAME \
+           -e CURRENT_RECIPES \
            $DOCKER_IMAGE \
            bash \
            /home/conda/feedstock_root/${PROVIDER_DIR}/build_linux.sh

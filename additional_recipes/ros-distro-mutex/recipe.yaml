@@ -1,0 +1,50 @@
+package:
+  name: ros-distro-mutex
+  version: 0.1.0
+
+build:
+  number: 0
+  string: noetic
+  run_exports:
+    # NOTE MANUALLY EDIT THIS!!!!
+    - ros-distro-mutex 0.1 noetic
+
+requirements:
+  # NOTE:
+  # The idea with automatically adding versions to run_exports doesn't
+  # work since we don't want all these dependencies as run deps of all ROS
+  # packages. Therefore I am currently manually adding them to run_constrained.
+  # This has to be synchronized with our current conda_build_config all the time :(
+  # host:
+  #   # values here should 
+  #   - boost-cpp
+  #   - log4cxx
+  #   - poco
+  #   - pcl
+  #   - opencv
+  #   - gazebo
+  #   - ogre
+  #   - qt
+  # run:
+  # values here should be applied from run_exports!
+  # if the upstream package does not have run_exports
+  # please change it in the conda_build_config.yaml!
+  run_constrained:
+    - boost-cpp 1.74
+    - log4cxx 0.11
+    - pcl 1.11
+    - opencv 4.5
+    - poco 1.10
+    - gazebo 11
+    - ogre 1.10.12
+
+about:
+  home: https://github.com/robostack/ros-noetic
+  license: BSD-3-Clause
+  summary: |
+    The ROS distro mutex. To switch between ROS versions, you need to change the mutex.
+    E.g. mamba install ros-distro-mutex=*=noetic to switch to noetic.
+
+extra:
+  recipe-maintainers:
+    - ros-forge

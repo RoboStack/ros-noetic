@@ -57,9 +57,11 @@ conda info
 conda config --show-sources
 conda list --show-channel-urls
 
-cp recipes/${CURRENT_BUILD_PKG_NAME}.yaml ./recipe.yaml
-
-boa build .
+for $recipe in $CURRENT_RECIPES; do
+	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
+	cp ${FEEDSTOCK_ROOT}/conda_build_config.yaml ./
+	boa build .
+done
 
 anaconda -t ${ANACONDA_API_TOKEN} upload ${CONDA_BLD_PATH}/osx-64/*.tar.bz2 --force
 # quetz-client "${QUETZ_URL}" ${CONDA_BLD_PATH} --force
