@@ -33,7 +33,7 @@ jobs:
     #     branch: buildbranch_linux
     #     force: true
 
-    Generate recipes for OS X
+    # Generate recipes for OS X
     - name: Reset repo
       run: |
         git reset --hard origin/master
