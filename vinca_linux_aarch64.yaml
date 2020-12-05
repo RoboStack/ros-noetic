@@ -6,7 +6,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 0
+build_number: 1
 
 skip_all_deps: false
 
@@ -22,15 +22,15 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - image_pipeline
-  - image_common
-  - image_transport_plugins
-  - vision_opencv
-  - diagnostics
-  - geometry
-  - joy
-  - rospy-message-converter
-  # - ros_base
+  # - image_pipeline
+  # - image_common
+  # - image_transport_plugins
+  # - vision_opencv
+  # - diagnostics
+  # - geometry
+  # - joy
+  # - rospy-message-converter
+  - ros_base
   # - navigation
   # - robot
   # - slam_karto
