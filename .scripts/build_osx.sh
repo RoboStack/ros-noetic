@@ -2,6 +2,8 @@
 
 set -x
 
+export FEEDSTOCK_ROOT=`pwd`
+
 echo -e "\n\nInstalling a fresh version of Miniforge."
 MINIFORGE_URL="https://github.com/conda-forge/miniforge/releases/latest/download"
 MINIFORGE_FILE="Miniforge3-MacOSX-x86_64.sh"
