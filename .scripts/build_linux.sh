@@ -50,7 +50,7 @@ conda list --show-channel-urls
 
 pwd
 
-for $recipe in $CURRENT_RECIPES; do
+for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
 	cp ${FEEDSTOCK_ROOT}/conda_build_config.yaml ./
 	boa build .

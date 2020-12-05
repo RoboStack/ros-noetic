@@ -57,7 +57,7 @@ conda info
 conda config --show-sources
 conda list --show-channel-urls
 
-for $recipe in $CURRENT_RECIPES; do
+for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
 	cp ${FEEDSTOCK_ROOT}/conda_build_config.yaml ./
 	boa build .
