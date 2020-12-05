@@ -16,10 +16,10 @@ jobs:
     - name: Generate recipes
       run: |
         cp vinca_linux_64.yaml vinca.yaml
-        vinca --multiple --platform linux-64 --additional-recipes
+        vinca --multiple --platform linux-64
     - name: Generate azure pipelines
       run: |
-        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes
+        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
@@ -41,10 +41,10 @@ jobs:
     #   run: |
     #     git clean -fdx
     #     cp vinca_osx.yaml vinca.yaml
-    #     vinca --multiple --platform osx-64 --additional-recipes
+    #     vinca --multiple --platform osx-64
     # - name: Generate azure pipelines
     #   run: |
-    #     vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes
+    #     vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
     # - name: Commit files
     #   run: |
     #     git config --local user.email "action@github.com"
@@ -66,10 +66,10 @@ jobs:
     #   run: |
     #     git clean -fdx
     #     cp vinca_win.yaml vinca.yaml
-    #     vinca --multiple --platform win-64 --additional-recipes
+    #     vinca --multiple --platform win-64
     # - name: Generate azure pipelines
     #   run: |
-    #     vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes
+    #     vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes --additional-recipes
     # - name: Commit files
     #   run: |
     #     git config --local user.email "action@github.com"
@@ -91,10 +91,10 @@ jobs:
     #   run: |
     #     git clean -fdx
     #     cp vinca_linux_aarch64.yaml vinca.yaml
-    #     vinca --multiple --platform linux-aarch64 --additional-recipes
+    #     vinca --multiple --platform linux-aarch64
     # - name: Generate azure pipelines
     #   run: |
-    #     vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes
+    #     vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
     # - name: Commit files
     #   run: |
     #     git config --local user.email "action@github.com"
