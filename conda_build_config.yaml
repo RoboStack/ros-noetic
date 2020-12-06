@@ -36,15 +36,6 @@ m2w64_fortran_compiler:        # [win]
 CMAKE_GENERATOR:               # [win]
   - NMake Makefiles            # [win]
 
-cuda_compiler:                 # [linux64]
-  - nvcc                       # [linux64]
-cuda_compiler_version:
-  - None
-  - 9.2                        # [linux64]
-  - 10.0                       # [linux64]
-  - 10.1                       # [linux64]
-  - 10.2                       # [linux64]
-
 _libgcc_mutex:
   - 0.1 conda_forge
 #
@@ -114,17 +105,6 @@ cdt_name:  # [os.environ.get("BUILD_PLATFORM", "").startswith("linux") or (os.en
   # - cos6   # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
   # - cos6   # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
 
-docker_image:                           # [os.environ.get("BUILD_PLATFORM", "").startswith("linux") or (os.environ.get("CONFIG_VERSION", "1") == "1" and linux)]
-  - quay.io/condaforge/linux-anvil-comp7        # [os.environ.get("BUILD_PLATFORM") == "linux-64" or (os.environ.get("CONFIG_VERSION", "1") == "1" and linux64)]
-  - quay.io/condaforge/linux-anvil-aarch64      # [os.environ.get("BUILD_PLATFORM") == "linux-aarch64" or (os.environ.get("CONFIG_VERSION", "1") == "1" and aarch64)]
-  - quay.io/condaforge/linux-anvil-ppc64le      # [os.environ.get("BUILD_PLATFORM") == "linux-ppc64le" or (os.environ.get("CONFIG_VERSION", "1") == "1" and ppc64le)]
-  - quay.io/condaforge/linux-anvil-armv7l       # [os.environ.get("BUILD_PLATFORM") == "linux-armv7l" or (os.environ.get("CONFIG_VERSION", "1") == "1" and armv7l)]
-
-  - quay.io/condaforge/linux-anvil-cuda:9.2     # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
-  - quay.io/condaforge/linux-anvil-cuda:10.0    # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
-  - quay.io/condaforge/linux-anvil-cuda:10.1    # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
-  - quay.io/condaforge/linux-anvil-cuda:10.2    # [linux64 and (os.environ.get("BUILD_PLATFORM") == "linux-64" or os.environ.get("CONFIG_VERSION", "1") == "1")]
-
 zip_keys:
   -                             # [unix]
     - c_compiler_version        # [unix]
@@ -134,10 +114,6 @@ zip_keys:
     - python
     - numpy
     - python_impl
-  -                             # [(os.environ.get("CONFIG_VERSION", "1") == "1" and linux64) or os.environ.get("BUILD_PLATFORM") == "linux-64"]
-    # - cdt_name                  # [(os.environ.get("CONFIG_VERSION", "1") == "1" and linux64) or os.environ.get("BUILD_PLATFORM") == "linux-64"]
-    - cuda_compiler_version     # [(os.environ.get("CONFIG_VERSION", "1") == "1" and linux64) or os.environ.get("BUILD_PLATFORM") == "linux-64"]
-    - docker_image              # [(os.environ.get("CONFIG_VERSION", "1") == "1" and linux64) or os.environ.get("BUILD_PLATFORM") == "linux-64"]
 
 # aarch64 specifics because conda-build sets many things to centos 6
 # this can probably be removed when conda-build gets updated defaults
