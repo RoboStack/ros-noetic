@@ -26,7 +26,7 @@ packages_select_by_deps:
   #  TODO Win
   ##  
 
-  - catkin
+  - desktop
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
