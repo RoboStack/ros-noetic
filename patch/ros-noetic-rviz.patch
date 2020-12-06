@@ -58,6 +58,21 @@ index aedb7ad0..1f5d1a08 100644
 +# if(NOT rviz_BINDINGS)
 +#   message(FATAL_ERROR "No Python binding generator found.")
 +# endif()
+diff --git a/src/rviz/default_plugin/screw_display.cpp b/src/rviz/default_plugin/screw_display.cpp
+index 477518ef..664e4a85 100644
+--- a/src/rviz/default_plugin/screw_display.cpp
++++ b/src/rviz/default_plugin/screw_display.cpp
+@@ -192,6 +192,10 @@ void ScrewDisplay<MessageType>::processMessagePrivate(const std_msgs::Header& he
+ 
+ } // end namespace rviz
+ 
++template class rviz::ScrewDisplay<geometry_msgs::WrenchStamped>;
++template class rviz::ScrewDisplay<geometry_msgs::AccelStamped>;
++template class rviz::ScrewDisplay<geometry_msgs::TwistStamped>;
++
+ // Tell pluginlib about these classes.  It is important to do this in
+ // global scope, outside our package's namespace.
+ #include <pluginlib/class_list_macros.hpp>
 diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
 index d8de5b12..9499b30e 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
