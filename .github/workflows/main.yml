@@ -53,7 +53,7 @@ jobs:
             git add .
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
+            git push "${remote_repo}" HEAD:buildbranch_osx --follow-tags --force
         fi
       env:
         INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -103,7 +103,7 @@ jobs:
             git add .
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
+            git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force
         fi
       env:
         INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
