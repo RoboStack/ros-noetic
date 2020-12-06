@@ -26,10 +26,12 @@ packages_select_by_deps:
   #  TODO Win
   ##  
 
+  - catkin
+
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
 
-  - slam_toolbox
+  # - slam_toolbox
 
   # - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
 
