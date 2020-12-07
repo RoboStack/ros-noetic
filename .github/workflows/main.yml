@@ -13,51 +13,51 @@ jobs:
       run: |
         pip install git+https://github.com/RoboStack/vinca.git@master
 
-    # - name: Generate recipes
-    #   run: |
-    #     git clean -fdx
-    #     cp vinca_linux_64.yaml vinca.yaml
-    #     vinca --multiple --platform linux-64
-    # - name: Generate azure pipelines
-    #   run: |
-    #     vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
-    # - name: Commit files
-    #   run: |
-    #     if [[ -f "linux.yml" ]]; then
-    #         git config --local user.email "action@github.com"
-    #         git config --local user.name "GitHub Action"
-    #         git add .
-    #         git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    #         remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-    #         git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
-    #     fi
-    #   env:
-    #     INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate recipes
+      run: |
+        git clean -fdx
+        cp vinca_linux_64.yaml vinca.yaml
+        vinca --multiple --platform linux-64
+    - name: Generate azure pipelines
+      run: |
+        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
+    - name: Commit files
+      run: |
+        if [[ -f "linux.yml" ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
+        fi
+      env:
+        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # # Generate recipes for OS X
-    # - name: Reset repo
-    #   run: |
-    #     git reset --hard origin/master
-    # - name: Generate recipes
-    #   run: |
-    #     git clean -fdx
-    #     cp vinca_osx.yaml vinca.yaml
-    #     vinca --multiple --platform osx-64
-    # - name: Generate azure pipelines
-    #   run: |
-    #     vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
-    # - name: Commit files
-    #   run: |
-    #     if [[ -f "osx.yml" ]]; then
-    #         git config --local user.email "action@github.com"
-    #         git config --local user.name "GitHub Action"
-    #         git add .
-    #         git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    #         remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-    #         git push "${remote_repo}" HEAD:buildbranch_osx --follow-tags --force
-    #     fi
-    #   env:
-    #     INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Generate recipes for OS X
+    - name: Reset repo
+      run: |
+        git reset --hard origin/master
+    - name: Generate recipes
+      run: |
+        git clean -fdx
+        cp vinca_osx.yaml vinca.yaml
+        vinca --multiple --platform osx-64
+    - name: Generate azure pipelines
+      run: |
+        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
+    - name: Commit files
+      run: |
+        if [[ -f "osx.yml" ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push "${remote_repo}" HEAD:buildbranch_osx --follow-tags --force
+        fi
+      env:
+        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Generate recipes for Windows
     - name: Reset repo
@@ -84,30 +84,30 @@ jobs:
       env:
         INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # # Generate recipes for ARM64
-    # - name: Reset repo
-    #   run: |
-    #     git reset --hard origin/master
-    # - name: Generate recipes
-    #   run: |
-    #     git clean -fdx
-    #     cp vinca_linux_aarch64.yaml vinca.yaml
-    #     vinca --multiple --platform linux-aarch64
-    # - name: Generate azure pipelines
-    #   run: |
-    #     vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
-    # - name: Commit files
-    #   run: |
-    #     if [[ -f "linux_aarch64.yml" ]]; then
-    #         git config --local user.email "action@github.com"
-    #         git config --local user.name "GitHub Action"
-    #         git add .
-    #         git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-    #         remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-    #         git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force
-    #     fi
-    #   env:
-    #     INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Generate recipes for ARM64
+    - name: Reset repo
+      run: |
+        git reset --hard origin/master
+    - name: Generate recipes
+      run: |
+        git clean -fdx
+        cp vinca_linux_aarch64.yaml vinca.yaml
+        vinca --multiple --platform linux-aarch64
+    - name: Generate azure pipelines
+      run: |
+        vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
+    - name: Commit files
+      run: |
+        if [[ -f "linux_aarch64.yml" ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
+            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force
+        fi
+      env:
+        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   push:
