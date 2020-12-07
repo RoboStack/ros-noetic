@@ -1,0 +1,13 @@
+diff --git a/src/libros/init.cpp b/src/libros/init.cpp
+index 23904cd8f0..4e4ff43534 100644
+--- a/src/libros/init.cpp
++++ b/src/libros/init.cpp
+@@ -208,7 +208,7 @@ bool getLoggers(roscpp::GetLoggers::Request&, roscpp::GetLoggers::Response& resp
+ 
+ bool setLoggerLevel(roscpp::SetLoggerLevel::Request& req, roscpp::SetLoggerLevel::Response&)
+ {
+-  std::transform(req.level.begin(), req.level.end(), req.level.begin(), (int(*)(int))std::toupper);
++  std::transform(req.level.begin(), req.level.end(), req.level.begin(), [](unsigned char c) -> unsigned char { return std::toupper(c); });
+ 
+   ros::console::levels::Level level;
+   if (req.level == "DEBUG")
