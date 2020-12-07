@@ -174,6 +174,40 @@ index 111737a974..55f50cc4ae 100644
    if (*offset >= int(xml.length())) return std::string();
  
    size_t pos = *offset;
+diff --git a/src/XmlRpcValue.cpp b/src/XmlRpcValue.cpp
+index 60ae529559..ccd5b87b3e 100644
+--- a/src/XmlRpcValue.cpp
++++ b/src/XmlRpcValue.cpp
+@@ -611,28 +611,7 @@ namespace XmlRpc {
+       default:           break;
+       case TypeBoolean:  os << _value.asBool; break;
+       case TypeInt:      os << _value.asInt; break;
+-      case TypeDouble:
+-        {
+-          static std::once_flag once;
+-          char buf[128]; // Should be long enough
+-          int required_size = std::snprintf(buf, sizeof(buf)-1,
+-                                getDoubleFormat().c_str(), _value.asDouble);
+-          if (required_size < 0) {
+-            std::call_once(once,
+-              [](){XmlRpcUtil::error("Failed to format with %s", getDoubleFormat().c_str());});
+-            os << _value.asDouble;
+-          } else if (required_size < static_cast<int>(sizeof(buf))) {
+-            buf[sizeof(buf)-1] = 0;
+-            os << buf;
+-          } else { // required_size >= static_cast<int>(sizeof(buf)
+-            char required_buf[required_size+1];
+-            std::snprintf(required_buf, required_size,
+-              getDoubleFormat().c_str(), _value.asDouble);
+-            required_buf[required_size] = 0;
+-            os << required_buf;
+-          }
+-          break;
+-        }
++      case TypeDouble:   os << _value.asDouble; break;
+       case TypeString:   os << *_value.asString; break;
+       case TypeDateTime:
+         {
 diff --git a/test/TestValues.cpp b/test/TestValues.cpp
 index ce51bce71a..c697146723 100644
 --- a/test/TestValues.cpp
