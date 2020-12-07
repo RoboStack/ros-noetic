@@ -75,17 +75,81 @@ index 7fc07154..33682f5c 100644
      break;
    }
  }
+diff --git a/src/rviz/default_plugin/screw_display.cpp b/src/rviz/default_plugin/screw_display.cpp
+index 477518ef..4c16e73a 100644
+--- a/src/rviz/default_plugin/screw_display.cpp
++++ b/src/rviz/default_plugin/screw_display.cpp
+@@ -9,6 +9,10 @@
+ #include <rviz/properties/parse_color.h>
+ #include <rviz/validate_floats.h>
+ 
++#include <geometry_msgs/AccelStamped.h>
++#include <geometry_msgs/TwistStamped.h>
++#include <geometry_msgs/WrenchStamped.h>
++
+ #include <boost/foreach.hpp>
+ 
+ #include "screw_visual.h"
+@@ -190,6 +194,23 @@ void ScrewDisplay<MessageType>::processMessagePrivate(const std_msgs::Header& he
+   visuals_.push_back(visual);
+ }
+ 
++void AccelStampedDisplay::processMessage(const geometry_msgs::AccelStamped::ConstPtr& msg)
++{
++  processMessagePrivate(msg->header, msg->accel.linear, msg->accel.angular);
++}
++
++void TwistStampedDisplay::processMessage(const geometry_msgs::TwistStamped::ConstPtr& msg)
++{
++  processMessagePrivate(msg->header, msg->twist.linear, msg->twist.angular);
++}
++
++void WrenchStampedDisplay::processMessage(const geometry_msgs::WrenchStamped::ConstPtr& msg)
++{
++  processMessagePrivate(msg->header, msg->wrench.force, msg->wrench.torque);
++}
++
++
++
+ } // end namespace rviz
+ 
+ // Tell pluginlib about these classes.  It is important to do this in
 diff --git a/src/rviz/default_plugin/screw_display.h b/src/rviz/default_plugin/screw_display.h
-index 92a3c112..72bb0bff 100644
+index 92a3c112..acb91768 100644
 --- a/src/rviz/default_plugin/screw_display.h
 +++ b/src/rviz/default_plugin/screw_display.h
-@@ -29,7 +29,7 @@ namespace rviz
- class ScrewVisual;
+@@ -68,10 +68,7 @@ class AccelStampedDisplay : public ScrewDisplay<geometry_msgs::AccelStamped>
+   Q_OBJECT
  
- template <class MessageType>
--class RVIZ_EXPORT ScrewDisplay : public rviz::MessageFilterDisplay<MessageType>
-+class ScrewDisplay : public rviz::MessageFilterDisplay<MessageType>
+   // Function to handle an incoming ROS message.
+-  void processMessage(const geometry_msgs::AccelStamped::ConstPtr& msg) override
+-  {
+-    processMessagePrivate(msg->header, msg->accel.linear, msg->accel.angular);
+-  }
++  void processMessage(const geometry_msgs::AccelStamped::ConstPtr& msg) override;
+ };
+ 
+ class TwistStampedDisplay : public ScrewDisplay<geometry_msgs::TwistStamped>
+@@ -79,19 +76,13 @@ class TwistStampedDisplay : public ScrewDisplay<geometry_msgs::TwistStamped>
+   Q_OBJECT
+ 
+   // Function to handle an incoming ROS message.
+-  void processMessage(const geometry_msgs::TwistStamped::ConstPtr& msg) override
+-  {
+-    processMessagePrivate(msg->header, msg->twist.linear, msg->twist.angular);
+-  }
++  void processMessage(const geometry_msgs::TwistStamped::ConstPtr& msg) override;
+ };
+ 
+ class WrenchStampedDisplay : public ScrewDisplay<geometry_msgs::WrenchStamped>
  {
- public:
-   // Constructor.  pluginlib::ClassLoader creates instances by calling
+   // Function to handle an incoming ROS message.
+-  void processMessage(const geometry_msgs::WrenchStamped::ConstPtr& msg) override
+-  {
+-    processMessagePrivate(msg->header, msg->wrench.force, msg->wrench.torque);
+-  }
++  void processMessage(const geometry_msgs::WrenchStamped::ConstPtr& msg) override;
+ };
+ } // namespace rviz
+ 
 
