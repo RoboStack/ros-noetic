@@ -1,0 +1,218 @@
+diff --git a/src/XmlRpcClient.cpp b/src/XmlRpcClient.cpp
+index e145edb426..d9e8dcd6f7 100644
+--- a/src/XmlRpcClient.cpp
++++ b/src/XmlRpcClient.cpp
+@@ -5,6 +5,7 @@
+ #include "xmlrpcpp/XmlRpcUtil.h"
+ #include "xmlrpcpp/XmlRpcValue.h"
+ 
++#include <limits>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #ifndef _WINDOWS
+@@ -313,9 +314,9 @@ XmlRpcClient::generateRequest(const char* methodName, XmlRpcValue const& params)
+ 
+   _request = header + body;
+   // Limit the size of the request to avoid integer overruns
+-  if (_request.length() > size_t(__INT_MAX__)) {
++  if (_request.length() > size_t(std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("XmlRpcClient::generateRequest: request length (%u) exceeds maximum allowed size (%u).",
+-                      _request.length(), __INT_MAX__);
++                      _request.length(), std::numeric_limits<int>::max());
+     _request.clear();
+     return false;
+   }
+@@ -441,7 +442,7 @@ XmlRpcClient::readHeader()
+   // avoid overly large or improperly formatted content-length
+   long int clength = 0;
+   clength = strtol(lp, nullptr, 10);
+-  if ((clength <= 0) || (clength > __INT_MAX__)) {
++  if ((clength <= 0) || (clength > std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("Error in XmlRpcClient::readHeader: Invalid Content-length specified.");
+     // Close the socket because we can't make further use of it.
+     close();
+@@ -475,9 +476,9 @@ XmlRpcClient::readResponse()
+     _response += buff;
+ 
+     // Avoid an overly large response
+-    if (_response.length() > size_t(__INT_MAX__)) {
++    if (_response.length() > size_t(std::numeric_limits<int>::max())) {
+       XmlRpcUtil::error("XmlRpcClient::readResponse: response length (%u) exceeds the maximum allowed size (%u).",
+-                        _response.length(), __INT_MAX__);
++                        _response.length(), std::numeric_limits<int>::max());
+       _response.clear();
+       close();
+       return false;
+diff --git a/src/XmlRpcServerConnection.cpp b/src/XmlRpcServerConnection.cpp
+index 1aeba7097a..a3acc86b20 100644
+--- a/src/XmlRpcServerConnection.cpp
++++ b/src/XmlRpcServerConnection.cpp
+@@ -3,6 +3,7 @@
+ 
+ #include "xmlrpcpp/XmlRpcSocket.h"
+ #include "xmlrpcpp/XmlRpc.h"
++#include <limits>
+ #ifndef MAKEDEPEND
+ # include <stdio.h>
+ # include <stdlib.h>
+@@ -122,7 +123,7 @@ XmlRpcServerConnection::readHeader()
+   // avoid overly large or improperly formatted content-length
+   long int clength = 0;
+   clength = strtol(lp, nullptr, 10);
+-  if ((clength < 0) || (clength > __INT_MAX__)) {
++  if ((clength < 0) || (clength > std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("XmlRpcServerConnection::readHeader: Invalid Content-length specified.");
+     return false;
+   }
+@@ -161,10 +162,10 @@ XmlRpcServerConnection::readRequest()
+       return false;
+     }
+     // Avoid an overly large request
+-    if (_request.length() > size_t(__INT_MAX__)) {
++    if (_request.length() > size_t(std::numeric_limits<int>::max())) {
+       XmlRpcUtil::error("XmlRpcServerConnection::readRequest: request length (%u) exceeds the maximum allowed size (%u)",
+-                        _request.length(), __INT_MAX__);
+-      _request.resize(__INT_MAX__);
++                        _request.length(), std::numeric_limits<int>::max());
++      _request.resize(std::numeric_limits<int>::max());
+       return false;
+     }
+ 
+@@ -345,9 +346,9 @@ XmlRpcServerConnection::generateResponse(std::string const& resultXml)
+   std::string header = generateHeader(body);
+ 
+   // Avoid an overly large response
+-  if ((header.length() + body.length()) > size_t(__INT_MAX__)) {
++  if ((header.length() + body.length()) > size_t(std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("XmlRpcServerConnection::generateResponse: response length (%u) exceeds the maximum allowed size (%u).",
+-                      _response.length(), __INT_MAX__);
++                      _response.length(), std::numeric_limits<int>::max());
+     _response = "";
+   }
+   else {
+diff --git a/src/XmlRpcSocket.cpp b/src/XmlRpcSocket.cpp
+index d263efd0da..89dd453063 100644
+--- a/src/XmlRpcSocket.cpp
++++ b/src/XmlRpcSocket.cpp
+@@ -5,6 +5,7 @@
+ #include "xmlrpcpp/XmlRpcSocket.h"
+ #include "xmlrpcpp/XmlRpcUtil.h"
+ 
++#include <limits>
+ #ifndef MAKEDEPEND
+ 
+ #if defined(_WINDOWS)
+@@ -318,9 +319,9 @@ XmlRpcSocket::nbRead(int fd, std::string& s, bool *eof)
+     }
+   }
+   // Watch for integer overrun
+-  if (s.length() > size_t(__INT_MAX__)) {
++  if (s.length() > size_t(std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("XmlRpcSocket::nbRead: text size (%u) exceeds the maximum allowed size (%s).",
+-                      s.length(), __INT_MAX__);
++                      s.length(), std::numeric_limits<int>::max());
+     s.clear();
+     return false;
+   }
+@@ -333,9 +334,9 @@ bool
+ XmlRpcSocket::nbWrite(int fd, const std::string& s, int *bytesSoFar)
+ {
+   // Watch for integer overrun
+-  if (s.length() > size_t(__INT_MAX__)) {
++  if (s.length() > size_t(std::numeric_limits<int>::max())) {
+     XmlRpcUtil::error("XmlRpcSocket::nbWrite: text size (%u) exceeds the maximum allowed size(%s)",
+-                      s.length(), __INT_MAX__);
++                      s.length(), std::numeric_limits<int>::max());
+     return false;
+   }
+   int nToWrite = int(s.length()) - *bytesSoFar;
+diff --git a/src/XmlRpcUtil.cpp b/src/XmlRpcUtil.cpp
+index 111737a974..55f50cc4ae 100644
+--- a/src/XmlRpcUtil.cpp
++++ b/src/XmlRpcUtil.cpp
+@@ -1,6 +1,7 @@
+ 
+ #include "xmlrpcpp/XmlRpcUtil.h"
+ 
++#include <limits>
+ #ifndef MAKEDEPEND
+ # include <ctype.h>
+ # include <iostream>
+@@ -109,7 +110,7 @@ std::string
+ XmlRpcUtil::parseTag(const char* tag, std::string const& xml, int* offset)
+ {
+   // avoid attempting to parse overly long xml input
+-  if (xml.length() > size_t(__INT_MAX__)) return std::string();
++  if (xml.length() > size_t(std::numeric_limits<int>::max())) return std::string();
+   if (*offset >= int(xml.length())) return std::string();
+   size_t istart = xml.find(tag, *offset);
+   if (istart == std::string::npos) return std::string();
+@@ -128,7 +129,7 @@ XmlRpcUtil::parseTag(const char* tag, std::string const& xml, int* offset)
+ bool 
+ XmlRpcUtil::findTag(const char* tag, std::string const& xml, int* offset)
+ {
+-  if (xml.length() > size_t(__INT_MAX__)) return false;
++  if (xml.length() > size_t(std::numeric_limits<int>::max())) return false;
+   if (*offset >= int(xml.length())) return false;
+   size_t istart = xml.find(tag, *offset);
+   if (istart == std::string::npos)
+@@ -144,7 +145,7 @@ XmlRpcUtil::findTag(const char* tag, std::string const& xml, int* offset)
+ bool 
+ XmlRpcUtil::nextTagIs(const char* tag, std::string const& xml, int* offset)
+ {
+-  if (xml.length() > size_t(__INT_MAX__)) return false;
++  if (xml.length() > size_t(std::numeric_limits<int>::max())) return false;
+   if (*offset >= int(xml.length())) return false;
+   const char* cp = xml.c_str() + *offset;
+   int nc = 0;
+@@ -166,7 +167,7 @@ XmlRpcUtil::nextTagIs(const char* tag, std::string const& xml, int* offset)
+ std::string 
+ XmlRpcUtil::getNextTag(std::string const& xml, int* offset)
+ {
+-  if (xml.length() > size_t(__INT_MAX__)) return std::string();
++  if (xml.length() > size_t(std::numeric_limits<int>::max())) return std::string();
+   if (*offset >= int(xml.length())) return std::string();
+ 
+   size_t pos = *offset;
+diff --git a/test/TestValues.cpp b/test/TestValues.cpp
+index ce51bce71a..c697146723 100644
+--- a/test/TestValues.cpp
++++ b/test/TestValues.cpp
+@@ -26,6 +26,7 @@
+ 
+ #include <stdlib.h>
+ #include <string>
++#include <limits>
+ 
+ #include "xmlrpcpp/XmlRpcValue.h"
+ #include "xmlrpcpp/XmlRpcException.h"
+@@ -213,7 +214,7 @@ TEST(XmlRpc, testString) {
+ TEST(XmlRpc, testOversizeString) {
+   try {
+     std::string xml = "<tag><nexttag>";
+-    xml += std::string(__INT_MAX__, 'a');
++    xml += std::string(std::numeric_limits<int>::max(), 'a');
+     xml += "a</nextag></tag>";
+     int offset;
+ 
+diff --git a/test/test_client.cpp b/test/test_client.cpp
+index 8058765674..f9cbdf7e5e 100644
+--- a/test/test_client.cpp
++++ b/test/test_client.cpp
+@@ -25,6 +25,7 @@
+ #include "xmlrpcpp/XmlRpcValue.h"
+ 
+ #include "mock_socket.h"
++#include <limits>
+ #include <errno.h>
+ 
+ #include <gtest/gtest.h>
+@@ -935,7 +936,7 @@ TEST_F(MockSocketTest, readHeader_oversize) {
+ 
+   // Add a large content-length to the standard header
+   std::string header_cl = header3;
+-  header_cl += std::to_string(size_t(__INT_MAX__) + 1);
++  header_cl += std::to_string(size_t(std::numeric_limits<int>::max()) + 1);
+   header_cl += "\r\n\r\n ";
+ 
+   Expect_nbRead(7, header_cl, false, true);
