@@ -1,23 +1,3 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 56073262..695d345b 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -25,7 +25,14 @@ find_package(Boost REQUIRED
- 
- find_package(urdfdom_headers REQUIRED)
- 
--find_package(ASSIMP REQUIRED)
-+set(MSVC_TOOLSET_VERSION "141")
-+find_package(ASSIMP QUIET)
-+unset(MSVC_TOOLSET_VERSION)
-+
-+# add_definitions(-DSTRICT)
-+# add_definitions(-DQ_WINSTRICT)
-+
-+# find_package(ASSIMP REQUIRED)
- include_directories(${ASSIMP_INCLUDE_DIRS})
- 
- # OGRE doesn't come with correctly installed cmake files.
 diff --git a/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h b/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h
 index 7f8cfbb2..9cc6aff5 100644
 --- a/src/rviz/default_plugin/interactive_markers/interactive_marker_control.h
