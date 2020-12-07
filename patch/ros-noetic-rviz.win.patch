@@ -76,10 +76,19 @@ index 7fc07154..33682f5c 100644
    }
  }
 diff --git a/src/rviz/default_plugin/screw_display.h b/src/rviz/default_plugin/screw_display.h
-index 92a3c112..51670eca 100644
+index 92a3c112..43a3cc59 100644
 --- a/src/rviz/default_plugin/screw_display.h
 +++ b/src/rviz/default_plugin/screw_display.h
-@@ -29,7 +29,7 @@ namespace rviz
+@@ -11,6 +11,8 @@
+ #include <geometry_msgs/TwistStamped.h>
+ #include <geometry_msgs/WrenchStamped.h>
+ 
++#include "rviz/default_plugin/rviz_default_plugin_export.h"
++
+ namespace Ogre
+ {
+ class SceneNode;
+@@ -29,7 +31,7 @@ namespace rviz
  class ScrewVisual;
  
  template <class MessageType>
