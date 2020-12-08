@@ -7,7 +7,7 @@ index 386d565..e085d0c 100644
  endif()
  
 +message(WARNING "catkin: ${catkin_LIBRARIES}")
-+message(WARNING "qt: ${qt_LIBRARIES}")
++message(WARNING "rqt_rviz_MOCS: ${rqt_rviz_MOCS}")
 +message(WARNING "Boost: ${Boost_LIBRARIES}")
 +
  include_directories(include ${catkin_INCLUDE_DIRS})
