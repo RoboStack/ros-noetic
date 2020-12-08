@@ -1,15 +1,24 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 386d565..e085d0c 100644
+index 386d565..9fc6ec9 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -35,6 +35,10 @@ else()
+@@ -3,8 +3,6 @@ project(rqt_rviz)
+ # Load catkin and all dependencies required for this package
+ 
+ find_package(Boost REQUIRED COMPONENTS program_options)
+-include_directories(${Boost_INCLUDE_DIRS})
+-link_directories(${Boost_LIBRARY_DIRS})
+ 
+ find_package(catkin REQUIRED COMPONENTS rqt_gui rqt_gui_cpp rviz)
+ catkin_package(	
+@@ -35,9 +33,9 @@ else()
    set(qt_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
  endif()
  
-+message(WARNING "Boost1: ${Boost_LIBRARY_DIRS}")
-+message(WARNING "rqt_rviz_MOCS: ${rqt_rviz_MOCS}")
-+message(WARNING "Boost2: ${Boost_LIBRARIES}")
-+
- include_directories(include ${catkin_INCLUDE_DIRS})
+-include_directories(include ${catkin_INCLUDE_DIRS})
  add_library(${PROJECT_NAME} ${rqt_rviz_SRCS} ${rqt_rviz_MOCS})
  target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${qt_LIBRARIES} ${Boost_LIBRARIES})
++target_include_directories(${PROJECT_NAME} include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+ 
+ find_package(class_loader)
+ class_loader_hide_library_symbols(${PROJECT_NAME})
