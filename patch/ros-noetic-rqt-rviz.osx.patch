@@ -6,9 +6,9 @@ index 386d565..e085d0c 100644
    set(qt_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
  endif()
  
-+message(WARNING "catkin: ${catkin_LIBRARIES}")
++message(WARNING "Boost1: ${Boost_LIBRARY_DIRS}")
 +message(WARNING "rqt_rviz_MOCS: ${rqt_rviz_MOCS}")
-+message(WARNING "Boost: ${Boost_LIBRARIES}")
++message(WARNING "Boost2: ${Boost_LIBRARIES}")
 +
  include_directories(include ${catkin_INCLUDE_DIRS})
  add_library(${PROJECT_NAME} ${rqt_rviz_SRCS} ${rqt_rviz_MOCS})
