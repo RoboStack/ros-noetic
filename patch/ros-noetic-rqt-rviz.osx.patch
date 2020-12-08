@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 386d565..e085d0c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,6 +35,10 @@ else()
+   set(qt_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+ endif()
+ 
++message(WARNING "catkin: ${catkin_LIBRARIES}")
++message(WARNING "qt: ${qt_LIBRARIES}")
++message(WARNING "Boost: ${Boost_LIBRARIES}")
++
+ include_directories(include ${catkin_INCLUDE_DIRS})
+ add_library(${PROJECT_NAME} ${rqt_rviz_SRCS} ${rqt_rviz_MOCS})
+ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${qt_LIBRARIES} ${Boost_LIBRARIES})
