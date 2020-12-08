@@ -1,8 +1,30 @@
+diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
+index df36e23..475eb97 100644
+--- a/cmake/catkin_package.cmake
++++ b/cmake/catkin_package.cmake
+@@ -254,6 +254,17 @@ function(_catkin_package)
+     list(APPEND _PKG_CONFIG_LIBRARIES ${PROJECT_DEPENDENCIES_LIBRARIES})
+   endif()
+ 
++  set(_CONDA_ADJUSTED_PKG_CONFIG "")
++  foreach(library ${_PKG_CONFIG_LIBRARIES})
++    get_filename_component(library_fn "${library}" NAME_WE)
++    if ("${library_fn}" MATCHES "lib(pthread|rt|dl)$")
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${CMAKE_MATCH_1})
++    else()
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${library})
++    endif()
++  endforeach()
++  set(_PKG_CONFIG_LIBRARIES ${_CONDA_ADJUSTED_PKG_CONFIG})
++
+   # resolve imported library targets
+   catkin_replace_imported_library_targets(_PKG_CONFIG_LIBRARIES ${_PKG_CONFIG_LIBRARIES})
+ 
 diff --git a/cmake/empy.cmake b/cmake/empy.cmake
-index 22b7a0a..e648fdf 100644
+index 3e07606..3a24c8c 100644
 --- a/cmake/empy.cmake
 +++ b/cmake/empy.cmake
-@@ -21,19 +21,13 @@ function(find_python_module module)
+@@ -22,19 +22,13 @@ function(find_python_module module)
  endfunction(find_python_module)
  
  if(NOT EMPY_SCRIPT)
@@ -28,31 +50,8 @@ index 22b7a0a..e648fdf 100644
    set(EMPY_SCRIPT "${EMPY_SCRIPT}" CACHE STRING "Empy script" FORCE)
  endif()
  message(STATUS "Using empy: ${EMPY_SCRIPT}")
-
-diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
-index df36e236..475eb975 100644
---- a/cmake/catkin_package.cmake
-+++ b/cmake/catkin_package.cmake
-@@ -254,6 +254,17 @@ function(_catkin_package)
-     list(APPEND _PKG_CONFIG_LIBRARIES ${PROJECT_DEPENDENCIES_LIBRARIES})
-   endif()
- 
-+  set(_CONDA_ADJUSTED_PKG_CONFIG "")
-+  foreach(library ${_PKG_CONFIG_LIBRARIES})
-+    get_filename_component(library_fn "${library}" NAME_WE)
-+    if ("${library_fn}" MATCHES "lib(pthread|rt|dl)$")
-+      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${CMAKE_MATCH_1})
-+    else()
-+      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${library})
-+    endif()
-+  endforeach()
-+  set(_PKG_CONFIG_LIBRARIES ${_CONDA_ADJUSTED_PKG_CONFIG})
-+
-   # resolve imported library targets
-   catkin_replace_imported_library_targets(_PKG_CONFIG_LIBRARIES ${_PKG_CONFIG_LIBRARIES})
- 
 diff --git a/cmake/templates/_setup_util.py.in b/cmake/templates/_setup_util.py.in
-index 0b0d6dda..33ac6d47 100755
+index e73934b..33ac6d4 100755
 --- a/cmake/templates/_setup_util.py.in
 +++ b/cmake/templates/_setup_util.py.in
 @@ -1,4 +1,4 @@
@@ -79,10 +78,10 @@ index 0b0d6dda..33ac6d47 100755
  def rollback_env_variables(environ, env_var_subfolders):
      """
 diff --git a/cmake/templates/pkgConfig.cmake.in b/cmake/templates/pkgConfig.cmake.in
-index 4e52046d..899a0c07 100644
+index 4e52046..1e90b8d 100644
 --- a/cmake/templates/pkgConfig.cmake.in
 +++ b/cmake/templates/pkgConfig.cmake.in
-@@ -119,7 +119,7 @@ endif()
+@@ -119,10 +119,12 @@ endif()
  set(libraries "@PKG_CONFIG_LIBRARIES@")
  foreach(library ${libraries})
    # keep build configuration keywords, target names and absolute libraries as-is
@@ -91,8 +90,13 @@ index 4e52046d..899a0c07 100644
      list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
    elseif(${library} MATCHES "^-l")
      list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
++  elseif(${library} MATCHES "^-framework")
++    list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+   elseif(${library} MATCHES "^-")
+     # This is a linker flag/option (like -pthread)
+     # There's no standard variable for these, so create an interface library to hold it
 diff --git a/cmake/templates/setup.sh.in b/cmake/templates/setup.sh.in
-index 07e52769..97cb4600 100644
+index 07e5276..97cb460 100644
 --- a/cmake/templates/setup.sh.in
 +++ b/cmake/templates/setup.sh.in
 @@ -11,13 +11,29 @@
@@ -128,7 +132,7 @@ index 07e52769..97cb4600 100644
  
  # detect if running on Darwin platform
 diff --git a/cmake/tools/rt.cmake b/cmake/tools/rt.cmake
-index da5ed7db..5fb71d58 100644
+index da5ed7d..5fb71d5 100644
 --- a/cmake/tools/rt.cmake
 +++ b/cmake/tools/rt.cmake
 @@ -34,14 +34,5 @@
