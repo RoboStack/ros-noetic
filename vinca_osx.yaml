@@ -31,37 +31,37 @@ packages_select_by_deps:
   ##
   # - catkin
   - desktop
-  # - desktop_full
-  # - slam_karto
-  # - rviz
-  # - class_loader
-  # - robot
-  # - executive_smach
-  # - geometry_tutorials
-  # - interactive_marker_tutorials
-  # - joint_state_publisher_gui
-  # - nodelet_core
-  # - robot_state_publisher
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - libfranka
-  # - franka_visualization
-  # - ros_control
-  # - ros_controllers
-  # - rviz_visual_tools
-  # - perception
-  # - perception_pcl
-  # - joy
-  # - imu_tools
-  # - velodyne
-  # - rosbridge_suite
-  # - robot_localization
-  # - plotjuggler
-  # - urg_node
-  # - teb_local_planner
-  # - moveit
-  # - slam_toolbox
-  # - turtlebot3
+  - desktop_full
+  - slam_karto
+  - rviz
+  - class_loader
+  - robot
+  - executive_smach
+  - geometry_tutorials
+  - interactive_marker_tutorials
+  - joint_state_publisher_gui
+  - nodelet_core
+  - robot_state_publisher
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - libfranka
+  - franka_visualization
+  - ros_control
+  - ros_controllers
+  - rviz_visual_tools
+  - perception
+  - perception_pcl
+  - joy
+  - imu_tools
+  - velodyne
+  - rosbridge_suite
+  - robot_localization
+  - plotjuggler
+  - urg_node
+  - teb_local_planner
+  - moveit
+  - slam_toolbox
+  - turtlebot3
 
   ##
   # NOT RELEASED ON NOETIC...
