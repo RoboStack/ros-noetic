@@ -12,3 +12,29 @@ index 85467486..30745b0e 100644
  		}
  		d->FloatingWidget->moveFloating();
  		Super::mouseMoveEvent(ev);
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 10ef2449..e674479c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -80,7 +80,8 @@ find_package(Qt5 REQUIRED COMPONENTS
+     Xml
+     Svg
+     OpenGL
+-    WebSockets)
++    WebSockets
++    Network)
+ 
+ set( QT_LINK_LIBRARIES
+     Qt5::Core
+diff --git a/plugins/DataStreamUDP/CMakeLists.txt b/plugins/DataStreamUDP/CMakeLists.txt
+index fd2b0a25..8a0dbd00 100644
+--- a/plugins/DataStreamUDP/CMakeLists.txt
++++ b/plugins/DataStreamUDP/CMakeLists.txt
+@@ -12,6 +12,7 @@ add_library(DataStreamUDP SHARED ${SRC} ${UI_SRC}  )
+ 
+ target_link_libraries(DataStreamUDP
+     ${Qt5Widgets_LIBRARIES}
++    Qt5::Network
+     plotjuggler_plugin_base
+     )
+ 
