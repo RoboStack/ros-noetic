@@ -169,7 +169,7 @@ python3-lxml:
 openssl:
   conda-forge: [openssl]
 eigen:
-  conda-forge: [eigen 3.3.8]
+  conda-forge: [eigen]
 assimp:
   conda-forge: [assimp]
 assimp-dev:
