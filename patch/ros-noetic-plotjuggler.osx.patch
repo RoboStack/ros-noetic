@@ -1,0 +1,14 @@
+diff --git a/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp b/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
+index 85467486..30745b0e 100644
+--- a/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
++++ b/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
+@@ -194,7 +194,8 @@ void CFloatingWidgetTitleBar::mouseMoveEvent(QMouseEvent *ev)
+ 	{
+ 		if(d->FloatingWidget->isMaximized())
+ 		{
+-			d->FloatingWidget->showNormal(true);
++			//d->FloatingWidget->showNormal(true);
++			d->FloatingWidget->showNormal();
+ 		}
+ 		d->FloatingWidget->moveFloating();
+ 		Super::mouseMoveEvent(ev);
