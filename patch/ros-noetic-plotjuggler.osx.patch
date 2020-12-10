@@ -1,17 +1,17 @@
-diff --git a/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp b/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
-index 85467486..30745b0e 100644
---- a/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
-+++ b/3rdparty/Qt-Advanced-Docking/src/linux/FloatingWidgetTitleBar.cpp
-@@ -194,7 +194,8 @@ void CFloatingWidgetTitleBar::mouseMoveEvent(QMouseEvent *ev)
- 	{
- 		if(d->FloatingWidget->isMaximized())
- 		{
--			d->FloatingWidget->showNormal(true);
-+			//d->FloatingWidget->showNormal(true);
-+			d->FloatingWidget->showNormal();
- 		}
- 		d->FloatingWidget->moveFloating();
- 		Super::mouseMoveEvent(ev);
+diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+index fc388914..6b650f1b 100644
+--- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
++++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+@@ -52,7 +52,7 @@ set(ads_SRCS
+     include/Qads/DockComponentsFactory.h
+ )
+ 
+-if (UNIX)
++if (UNIX AND NOT APPLE)
+     set(ads_SRCS
+         src/linux/FloatingWidgetTitleBar.cpp
+         ${ads_SRCS}
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 10ef2449..e674479c 100644
 --- a/CMakeLists.txt
