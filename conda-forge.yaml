@@ -218,22 +218,22 @@ qt5-qmake:
     osx: [qt 5.12]
 python-qt5-bindings:
   conda-forge:
-    win64: [pyqt 5.12.3 py38h7ae7562_4]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12]
 python3-qt5-bindings:
   conda-forge:
-    win64: [pyqt 5.12.3 py38h7ae7562_4]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12]
 python3-qt5-bindings-webkit:
   conda-forge:
-    win64: [pyqt 5.12.3 py38h7ae7562_4]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12]
 python3-qt5-bindings-gl:
   conda-forge:
-    win64: [pyqt 5.12.3 py38h7ae7562_4]
+    win64: [pyqt]
     osx: [pyqt 5.12]
     linux: [pyqt 5.12]
 libfreetype6-dev:
