@@ -24,9 +24,10 @@ skip_existing:
 packages_select_by_deps:
   ##
   #  TODO Win
-  ##  
+  ##
   # - python-qt-binding
   - desktop
+  - cnpy
 
   # - velodyne_driver  # probably too tricky to build
   # - velodyne_pointcloud  # depends on velodyne_driver
