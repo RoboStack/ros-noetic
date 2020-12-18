@@ -25,12 +25,11 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  - cnpy
 
   ##
   # DONE OSX
   ##
-  # - catkin
+  - catkin
   - desktop
   - desktop_full
   - slam_karto
@@ -63,6 +62,7 @@ packages_select_by_deps:
   - moveit
   - slam_toolbox
   - turtlebot3
+  - cnpy
 
   ##
   # NOT RELEASED ON NOETIC...
