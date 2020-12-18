@@ -28,7 +28,6 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - cnpy
 
   ##
   # DONE Linux
@@ -64,6 +63,8 @@ packages_select_by_deps:
   # - slam_karto
   # - slam_toolbox
   # - turtlebot3
+  # - cnpy
+
 
   ##
   # NOT RELEASED ON NOETIC...
