@@ -25,7 +25,7 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  # - python-qt-binding
+  - python-qt-binding
   # - desktop
   - cnpy
 
