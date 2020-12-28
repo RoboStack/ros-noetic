@@ -19,7 +19,7 @@ conda create --name robostackenv PYTHON=3.6
 
 On Linux:
 ```
-conda create --name robostackenv
+conda create --name robostackenv PYTHON=3.8
 ```
 
 Then, for all OSes:
