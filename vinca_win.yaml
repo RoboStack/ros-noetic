@@ -8,7 +8,7 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - rviz
@@ -19,16 +19,13 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - python_qt_binding
-  - turtlesim
-  - qt_gui
-  # - desktop
+  - desktop
   # - cnpy
 
   # - velodyne_driver  # probably too tricky to build
