@@ -176,44 +176,44 @@ assimp-dev:
   conda-forge: [assimp]
 libqt5-opengl:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-opengl-dev:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-widgets:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 curl:
   conda-forge: [libcurl]
 qtbase5-dev:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-gui:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5x11extras5-dev:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12, REQUIRE_OPENGL]
     osx: [qt 5.12, REQUIRE_OPENGL]
 libqt5-core:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12]
     osx: [qt 5.12]
 qt5-qmake:
   conda-forge:
-    win64: [qt]
+    win64: [qt 5.12.6]
     linux: [qt 5.12]
     osx: [qt 5.12]
 python-qt5-bindings:
