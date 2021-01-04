@@ -8,7 +8,7 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - rviz
@@ -19,15 +19,13 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - qt-gui-cpp
-  # - python-qt-binding
-  # - desktop
+  - desktop
   # - cnpy
 
   # - velodyne_driver  # probably too tricky to build
@@ -67,6 +65,7 @@ packages_select_by_deps:
   # - velodyne_pcl
   # - moveit
   # - plotjuggler
+  # - turtlebot3
 
   ##
   # Not bother Win
@@ -76,18 +75,17 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - turtlebot3
+  # - franka_example_controllers
+  # - franka_ros
   # - turtlebot3_fake
   # - tf2_web_republisher
-  # - franka_ros
-  # - franka_example_controllers
   # - niryo_one_simulation
+  # - behavior_tree
 
   ##
   # PROBLEMS:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
     # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
-  # - behavior_tree  # isn't released?
 
 patch_dir: patch
