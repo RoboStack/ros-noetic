@@ -14,5 +14,5 @@ lines[1001:1001] = """
 """
 
 with open(os.path.join(prefix, 'Lib/site-packages/sipconfig.py'), 'w') as fo:
-	print("WRITNIG PATCHE SIPCONFIG")
+	print("WRITING PATCH SIPCONFIG")
 	fo.write(''.join(lines))
