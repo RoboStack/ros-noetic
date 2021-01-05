@@ -27,29 +27,29 @@ packages_select_by_deps:
   ##
   # - cnpy
 
-  # - slam_toolbox
-  # - plotjuggler
-  # - plotjuggler_ros
-  - turtlebot3
-  # - moveit
-  # - robot_localization  # missing GeographicLib
+  # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
+  # - plotjuggler  # upstream issue: https://github.com/facontidavide/PlotJuggler/issues/380
+  # - plotjuggler_ros  # requires above fix
+  - moveit
+  # - robot_localization  # missing GeographicLib in conda-forge: https://github.com/conda-forge/geographiclib-feedstock/issues/4
+  # - desktop_full
+  # - rqt_image_view
+  # - perception_pcl
+  # - perception
 
   ##
   # DONE Win
   ##
-  # - desktop
-  # - desktop_full
+  - desktop
   - teb_local_planner
   - octomap
   - rqt_rviz
-  # - rqt_image_view
+  - turtlebot3
   - rqt_gui_cpp
-  # - perception
   - ros_control
   - rosbridge_suite
   - class_loader
   - ros_controllers
-  # - perception_pcl
   - joy
   - velodyne_laserscan
   - velodyne_msgs
