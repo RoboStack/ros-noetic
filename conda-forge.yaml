@@ -351,7 +351,7 @@ lcov:
   conda-forge: [lcov]
 glut:
   conda-forge:
-    win64: [freeglut]
+    win64: [freeglut 3.0.0]  # see https://github.com/conda-forge/freeglut-feedstock/issues/26
     linux: [freeglut]
     osx: []  # see https://github.com/conda-forge/freeglut-feedstock/issues/23
 doxygen:
@@ -367,7 +367,9 @@ libpcl-all-dev:
 libogg:
   conda-forge: [libogg]
 gtk3:
-  conda-forge: [gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
+  conda-forge:
+    win64: [gtk3 3.24.23, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
+    unix: [gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
 libtheora:
   conda-forge: [libtheora]
 liborocos-kdl:
