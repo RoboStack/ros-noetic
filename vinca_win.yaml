@@ -30,8 +30,8 @@ packages_select_by_deps:
   # - slam_toolbox
   # - plotjuggler
   # - plotjuggler_ros
-  # - turtlebot3
-  # - moveit
+  - turtlebot3
+  - moveit
 
   ##
   # DONE Win
