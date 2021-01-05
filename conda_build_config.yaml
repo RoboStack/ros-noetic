@@ -538,8 +538,8 @@ ntl:
 numpy:
   # part of a zip_keys: python, python_impl, numpy
   - 1.16   # [not (osx and arm64)]
-  - 1.16   # [not (osx and arm64)]
-  - 1.16   # [not (osx and arm64)]
+  # - 1.16   # [not (osx and arm64)]
+  # - 1.16   # [not (osx and arm64)]
   - 1.19   # [osx and arm64]
 occt:
   - 7.4
