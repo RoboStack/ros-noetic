@@ -1,29 +1,32 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 05c127fcd..9a9ce3ed9 100644
+index 1aa2450ff..8eec58cbc 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -26,7 +26,7 @@ endif()
- 
- # boost::iostreams on Windows depends on boost::zlib
- if(WIN32)
--  set(EXTRA_BOOST_COMPONENTS zlib)
-+  # set(EXTRA_BOOST_COMPONENTS zlib)
+@@ -24,10 +24,6 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE Release)
  endif()
+ 
+-# boost::iostreams on Windows depends on boost::zlib
+-if(WIN32)
+-  set(EXTRA_BOOST_COMPONENTS zlib)
+-endif()
  find_package(Boost REQUIRED system filesystem date_time thread iostreams regex ${EXTRA_BOOST_COMPONENTS})
  find_package(Eigen3 REQUIRED)
-@@ -52,6 +52,11 @@ pkg_check_modules(LIBFCL_PC REQUIRED fcl)
- find_path(LIBFCL_INCLUDE_DIRS fcl/config.h HINTS ${LIBFCL_PC_INCLUDE_DIR} ${LIBFCL_PC_INCLUDE_DIRS})
- find_library(LIBFCL_LIBRARIES fcl HINTS ${LIBFCL_PC_LIBRARY_DIRS})
+ 
+@@ -56,6 +52,12 @@ foreach(_lib ${LIBFCL_PC_LIBRARIES})
+   list(APPEND LIBFCL_LIBRARIES ${_lib_${_lib}})
+ endforeach()
  
 +if(WIN32)
 +pkg_check_modules(LIBCCD REQUIRED ccd)
 +find_library(LIBCCD_LIBRARIES_FULL ${LIBCCD_LIBRARIES} ${LIBCCD_LIBRARY_DIRS})
 +set(LIBCCD_LIBRARIES "${LIBCCD_LIBRARIES_FULL}")
 +endif()
- 
++
  find_package(octomap REQUIRED)
  find_package(urdfdom REQUIRED)
-@@ -80,6 +85,7 @@ COMPONENTS
+ find_package(urdfdom_headers REQUIRED)
+@@ -83,6 +85,7 @@ COMPONENTS
    urdf
    visualization_msgs
    xmlrpcpp
@@ -61,25 +64,18 @@ index fdc9aec03..83696a02e 100644
  };
  }  // namespace collision_detection
 diff --git a/collision_detection_fcl/CMakeLists.txt b/collision_detection_fcl/CMakeLists.txt
-index 90f260c8a..7642a0f79 100644
+index 48bb00e6e..c2e8af108 100644
 --- a/collision_detection_fcl/CMakeLists.txt
 +++ b/collision_detection_fcl/CMakeLists.txt
-@@ -6,12 +6,13 @@ add_library(${MOVEIT_LIB_NAME}
+@@ -6,7 +6,7 @@ add_library(${MOVEIT_LIB_NAME}
  )
  set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
  
 -target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${Boost_LIBRARIES})
 +target_link_libraries(${MOVEIT_LIB_NAME} moveit_collision_detection ${catkin_LIBRARIES} ${urdfdom_LIBRARIES} ${urdfdom_headers_LIBRARIES} ${LIBFCL_LIBRARIES} ${LIBCCD_LIBRARIES} ${Boost_LIBRARIES})
-+
  add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
  
  add_library(collision_detector_fcl_plugin src/collision_detector_fcl_plugin_loader.cpp)
- set_target_properties(collision_detector_fcl_plugin PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
--target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME})
-+target_link_libraries(collision_detector_fcl_plugin ${catkin_LIBRARIES} ${MOVEIT_LIB_NAME} moveit_planning_scene)
- 
- 
- install(TARGETS ${MOVEIT_LIB_NAME} collision_detector_fcl_plugin
 diff --git a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h b/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
 index fde03c4cb..3180b33da 100644
 --- a/collision_detection_fcl/include/moveit/collision_detection_fcl/collision_detector_allocator_fcl.h
@@ -177,7 +173,7 @@ index 5f46385b2..3ac7db90a 100644
  namespace moveit
  {
  namespace core
-@@ -144,8 +156,8 @@ MOVEIT_CLASS_FORWARD(KinematicsBase);
+@@ -144,8 +144,8 @@ MOVEIT_CLASS_FORWARD(KinematicsBase);  // Defines KinematicsBasePtr, ConstPtr, W
  class KinematicsBase
  {
  public:
@@ -187,7 +183,7 @@ index 5f46385b2..3ac7db90a 100644
 +  static MOVEIT_KINEMATICS_BASE_DECL const double DEFAULT_TIMEOUT;               /* = 1.0 */
  
    /** @brief Signature for a callback to validate an IK solution. Typically used for collision checking. */
-   typedef boost::function<void(const geometry_msgs::Pose& ik_pose, const std::vector<double>& ik_solution,
+   using IKCallbackFn =
 diff --git a/package.xml b/package.xml
 index 6703fe348..a0bc5d188 100644
 --- a/package.xml
