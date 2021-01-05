@@ -31,7 +31,7 @@ packages_select_by_deps:
   # - plotjuggler
   # - plotjuggler_ros
   - turtlebot3
-  - moveit
+  # - moveit
   # - robot_localization  # missing GeographicLib
 
   ##
