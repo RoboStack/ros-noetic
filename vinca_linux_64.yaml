@@ -28,13 +28,14 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  - plotjuggler_ros
 
   ##
   # DONE Linux
   ##
   # - ros_core
   # - rviz
-  - desktop
+  # - desktop
   # - desktop_full
   # - franka_control
   # - rosbridge_suite
