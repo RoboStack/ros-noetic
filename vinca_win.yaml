@@ -38,18 +38,18 @@ packages_select_by_deps:
   # DONE Win
   ##
   # - desktop
-  - desktop_full
+  # - desktop_full
   - teb_local_planner
   - octomap
   - rqt_rviz
-  - rqt_image_view
+  # - rqt_image_view
   - rqt_gui_cpp
-  - perception
+  # - perception
   - ros_control
   - rosbridge_suite
   - class_loader
   - ros_controllers
-  - perception_pcl
+  # - perception_pcl
   - joy
   - velodyne_laserscan
   - velodyne_msgs
