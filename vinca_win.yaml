@@ -32,6 +32,7 @@ packages_select_by_deps:
   # - plotjuggler_ros
   - turtlebot3
   - moveit
+  # - robot_localization  # missing GeographicLib
 
   ##
   # DONE Win
@@ -50,7 +51,6 @@ packages_select_by_deps:
   - ros_controllers
   - perception_pcl
   - joy
-  - robot_localization
   - velodyne_laserscan
   - velodyne_msgs
   - velodyne_pcl
