@@ -28,7 +28,10 @@ packages_select_by_deps:
   # - cnpy
 
   # - slam_toolbox
-
+  # - plotjuggler
+  # - plotjuggler_ros
+  # - turtlebot3
+  
   ##
   # DONE Win
   ##
@@ -59,8 +62,6 @@ packages_select_by_deps:
   - franka_description
   - velodyne_pcl
   - moveit
-  - plotjuggler
-  - turtlebot3
 
   ##
   # Not bother Win
