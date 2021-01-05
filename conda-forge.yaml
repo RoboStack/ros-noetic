@@ -405,7 +405,9 @@ python-bson:
 python-twisted-core:
   conda-forge: [twisted]
 bullet:
-  conda-forge: [bullet]
+  conda-forge:
+    win64: [bullet 2.88]
+    unix: [bullet]
 suitesparse:
   conda-forge: [suitesparse]
 libpcap:
