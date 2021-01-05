@@ -25,52 +25,49 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  - desktop
   # - cnpy
 
-  # - velodyne_driver  # probably too tricky to build
-  # - velodyne_pointcloud  # depends on velodyne_driver
-
   # - slam_toolbox
-
-  # - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
 
   ##
   # DONE Win
   ##
-  # - teb_local_planner
-  # - franka_hw
-  # - franka_visualization
-  # - moveit
-  # - octomap
-  # - rqt_rviz
-  # - rqt_image_view
-  # - rqt_gui_cpp
   # - desktop
-  # - desktop_full
-  # - perception
-  # - ros_control
-  # - rosbridge_suite
-  # - class_loader
-  # - ros_controllers
-  # - perception_pcl
-  # - joy
-  # - robot_localization
-  # - velodyne_laserscan
-  # - velodyne_msgs
-  # - imu_tools
-  # - rviz_visual_tools
-  # - franka_msgs
-  # - franka_description
-  # - velodyne_pcl
-  # - moveit
-  # - plotjuggler
-  # - turtlebot3
+  - desktop_full
+  - teb_local_planner
+  - moveit
+  - octomap
+  - rqt_rviz
+  - rqt_image_view
+  - rqt_gui_cpp
+  - perception
+  - ros_control
+  - rosbridge_suite
+  - class_loader
+  - ros_controllers
+  - perception_pcl
+  - joy
+  - robot_localization
+  - velodyne_laserscan
+  - velodyne_msgs
+  - imu_tools
+  - rviz_visual_tools
+  - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
+  - franka_hw
+  - franka_visualization
+  - franka_msgs
+  - franka_description
+  - velodyne_pcl
+  - moveit
+  - plotjuggler
+  - turtlebot3
 
   ##
   # Not bother Win
   ##
   # - urg_node
+  # - velodyne_driver  # probably too tricky to build; see https://github.com/ros-drivers/velodyne/issues/356
+  # - velodyne_pointcloud  # depends on velodyne_driver
 
   ##
   # NOT RELEASED ON NOETIC...
