@@ -31,14 +31,14 @@ packages_select_by_deps:
   # - plotjuggler
   # - plotjuggler_ros
   # - turtlebot3
-  
+  # - moveit
+
   ##
   # DONE Win
   ##
   # - desktop
   - desktop_full
   - teb_local_planner
-  - moveit
   - octomap
   - rqt_rviz
   - rqt_image_view
@@ -53,6 +53,7 @@ packages_select_by_deps:
   - robot_localization
   - velodyne_laserscan
   - velodyne_msgs
+  - velodyne_pcl
   - imu_tools
   - rviz_visual_tools
   - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
@@ -60,8 +61,6 @@ packages_select_by_deps:
   - franka_visualization
   - franka_msgs
   - franka_description
-  - velodyne_pcl
-  - moveit
 
   ##
   # Not bother Win
