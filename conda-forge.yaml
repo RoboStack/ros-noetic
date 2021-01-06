@@ -367,9 +367,7 @@ libpcl-all-dev:
 libogg:
   conda-forge: [libogg]
 gtk3:
-  conda-forge:
-    win64: [gtk3 3.24.23, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
-    unix: [gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
+  conda-forge: [gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto, xorg-libxtst, epoxy, REQUIRE_GL]
 libtheora:
   conda-forge: [libtheora]
 liborocos-kdl:
