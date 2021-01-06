@@ -1,17 +1,19 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 747e0ab2..cc004a2b 100644
+index 747e0ab2..77083e87 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -39,7 +39,14 @@ if(ANDROID)
+@@ -39,7 +39,16 @@ if(ANDROID)
  endif()
  
  find_package(PkgConfig REQUIRED)
 -pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-+pkg_check_modules(GDK3 REQUIRED gdk-3.0)
-+pkg_check_modules(ATK REQUIRED atk>=2.35.1)
++pkg_check_modules(PANGOWIN32 REQUIRED pangowin32>=1.41.0)
++pkg_check_modules(PANGOCAIRO REQUIRED pangocairo>=1.41.0)
++pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0>=2.30.0)
 +pkg_check_modules(CAIRO REQUIRED cairo>=1.14.0)
 +pkg_check_modules(CAIROGOBJECT REQUIRED cairo-gobject>=1.14.0)
-+pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0>=2.30.0)
++pkg_check_modules(GDK3 REQUIRED gdk-3.0)
++pkg_check_modules(ATK REQUIRED atk>=2.35.1)
 +pkg_check_modules(GIO REQUIRED gio-2.0>=2.57.2)
 +pkg_check_modules(GTK3 REQUIRED gtk-3.0)
 +
