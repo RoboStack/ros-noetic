@@ -1,12 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 747e0ab2..77083e87 100644
+index 747e0ab2..8c9d0c9a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -39,7 +39,16 @@ if(ANDROID)
+@@ -39,12 +39,21 @@ if(ANDROID)
  endif()
  
  find_package(PkgConfig REQUIRED)
 -pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+-include_directories(${GTK3_INCLUDE_DIRS})
+-
+ pkg_check_modules(PC_HB REQUIRED harfbuzz)
+ include_directories(${PC_HB_INCLUDE_DIRS})
+ 
 +pkg_check_modules(PANGOWIN32 REQUIRED pangowin32>=1.41.0)
 +pkg_check_modules(PANGOCAIRO REQUIRED pangocairo>=1.41.0)
 +pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0>=2.30.0)
@@ -17,7 +22,9 @@ index 747e0ab2..77083e87 100644
 +pkg_check_modules(GIO REQUIRED gio-2.0>=2.57.2)
 +pkg_check_modules(GTK3 REQUIRED gtk-3.0)
 +
- include_directories(${GTK3_INCLUDE_DIRS})
- 
- pkg_check_modules(PC_HB REQUIRED harfbuzz)
++include_directories(${GTK3_INCLUDE_DIRS})
++
+ # Nodelet library
+ add_library(image_view src/nodelets/image_nodelet.cpp src/nodelets/disparity_nodelet.cpp src/nodelets/window_thread.cpp)
+ target_link_libraries(image_view ${catkin_LIBRARIES}
 
