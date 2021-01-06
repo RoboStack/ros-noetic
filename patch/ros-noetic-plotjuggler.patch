@@ -25,4 +25,31 @@ index 37fc096e..f9d574e7 100644
  
  add_subdirectory( src )
  
+diff --git a/include/PlotJuggler/alphanum.hpp b/include/PlotJuggler/alphanum.hpp
+index 8c3594d8..9338495c 100644
+--- a/include/PlotJuggler/alphanum.hpp
++++ b/include/PlotJuggler/alphanum.hpp
+@@ -296,22 +296,6 @@ namespace doj
+     return alphanum_impl(l, r.c_str());
+   }
+ 
+-  ////////////////////////////////////////////////////////////////////////////
+-
+-  /**
+-     Functor class to compare two objects with the "Alphanum
+-     Algorithm". If the objects are no std::string, they must
+-     implement "std::ostream operator<< (std::ostream&, const Ty&)".
+-  */
+-  template<class Ty>
+-  struct alphanum_less : public std::binary_function<Ty, Ty, bool>
+-  {
+-    bool operator()(const Ty& left, const Ty& right) const
+-    {
+-      return alphanum_comp(left, right) < 0;
+-    }
+-  };
+-
+ }
+ 
+ 
 
