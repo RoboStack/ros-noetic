@@ -28,7 +28,7 @@ packages_select_by_deps:
   # - cnpy
 
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
-  # - plotjuggler_ros
+  - plotjuggler_ros
   # - robot_localization  # missing GeographicLib in conda-forge: https://github.com/conda-forge/geographiclib-feedstock/issues/4
   # - desktop_full
   # - rqt_image_view
@@ -38,8 +38,8 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - plotjuggler
-  - plotjuggler_msgs
+  # - plotjuggler
+  # - plotjuggler_msgs
   # - moveit
   # - desktop
   # - teb_local_planner
