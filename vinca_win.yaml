@@ -30,9 +30,8 @@ packages_select_by_deps:
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
   # - robot_localization  # missing GeographicLib in conda-forge: https://github.com/conda-forge/geographiclib-feedstock/issues/4
   # - desktop_full
-  - rqt_image_view
-  - perception_pcl
   # - perception
+  - image_view
 
   ##
   # DONE Win
@@ -60,6 +59,8 @@ packages_select_by_deps:
   # - franka_visualization
   # - franka_msgs
   # - franka_description
+  # - rqt_image_view
+  # - perception_pcl
 
   ##
   # Not bother Win
