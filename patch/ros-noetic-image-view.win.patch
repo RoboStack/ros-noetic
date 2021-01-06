@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 747e0ab2..8c9d0c9a 100644
+index 747e0ab2..edb340b6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -39,12 +39,21 @@ if(ANDROID)
+@@ -39,12 +39,24 @@ if(ANDROID)
  endif()
  
  find_package(PkgConfig REQUIRED)
@@ -12,6 +12,9 @@ index 747e0ab2..8c9d0c9a 100644
  pkg_check_modules(PC_HB REQUIRED harfbuzz)
  include_directories(${PC_HB_INCLUDE_DIRS})
  
++pkg_check_modules(GLIB REQUIRED glib-2.0)
++pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
++pkg_check_modules(PANGO REQUIRED pango)
 +pkg_check_modules(PANGOWIN32 REQUIRED pangowin32>=1.41.0)
 +pkg_check_modules(PANGOCAIRO REQUIRED pangocairo>=1.41.0)
 +pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0>=2.30.0)
