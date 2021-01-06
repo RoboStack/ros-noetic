@@ -2,7 +2,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 1aa2450ff..8eec58cbc 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -24,10 +24,6 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+@@ -24,17 +24,13 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE Release)
  endif()
  
@@ -13,6 +13,15 @@ index 1aa2450ff..8eec58cbc 100644
  find_package(Boost REQUIRED system filesystem date_time thread iostreams regex ${EXTRA_BOOST_COMPONENTS})
  find_package(Eigen3 REQUIRED)
  
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
+ 
+ # TODO: Move collision detection into separate packages
+-find_package(Bullet 2.87)
++find_package(Bullet)
+ 
+ # TODO(j-petit): Version check can be dropped when Xenial reaches end-of-life
+ if(BULLET_FOUND)
+
 @@ -56,6 +52,12 @@ foreach(_lib ${LIBFCL_PC_LIBRARIES})
    list(APPEND LIBFCL_LIBRARIES ${_lib_${_lib}})
  endforeach()
