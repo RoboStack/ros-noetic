@@ -18,7 +18,7 @@ We follow the [NumFOCUS code of conduct](https://numfocus.org/code-of-conduct).
 
 1. Create a new conda environment and add the conda-forge and robostack channels:
 ```
-conda create --name robostackenv
+conda create -n robostackenv python=3.8
 conda activate robostackenv
 conda config --append channels defaults
 conda config --add channels conda-forge
