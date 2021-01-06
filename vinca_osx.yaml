@@ -26,6 +26,7 @@ packages_select_by_deps:
   #  TODO OSX
   ##
   - plotjuggler
+  - plotjuggler_msgs
   - plotjuggler_ros
 
   ##
