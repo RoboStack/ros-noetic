@@ -52,4 +52,13 @@ index 8c3594d8..9338495c 100644
  }
  
  
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 90a3aa46..c0ea9352 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -1,3 +1,4 @@
++add_definitions(-DQT_NO_FLOAT16_OPERATORS)
+ 
+ include_directories( ./ ../  ../include )
+ 
 
