@@ -8,7 +8,7 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track.
 
 ```
-conda create --name robostackenv
+conda create -n robostackenv python=3.8
 conda activate robostackenv
 conda config --append channels defaults
 conda config --add channels conda-forge
