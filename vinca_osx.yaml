@@ -25,6 +25,7 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
+  - moveit_visual_tools
 
   ##
   # DONE OSX
