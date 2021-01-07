@@ -8,7 +8,8 @@ conda_index:
 
 build_number: 3
 
-skip_all_deps: false
+# !!!! ATTENTION ATTENTION !!!!
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - rviz
@@ -19,7 +20,11 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  #############
+  # !!!! ATTENTION ATTENTION !!!!
+  #############
+
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -28,6 +33,9 @@ packages_select_by_deps:
   # - cnpy
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
   # - robot_localization  # missing GeographicLib in conda-forge: https://github.com/conda-forge/geographiclib-feedstock/issues/4
+
+  # !!!! ATTENTION ATTENTION !!!!
+  # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   - image_view  # GUI needs fixing
 
   ##
