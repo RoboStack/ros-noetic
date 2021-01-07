@@ -392,9 +392,7 @@ giflib:
 glew:
   - 2.1
 glib:
-  - 2.58  # [not (osx and arm64)]
-  # Can't update to 2.66 on `osx and x86_64` yet because that requires a newer macOS version than 10.9
-  - 2.66  # [osx and arm64]
+  - 2.66
 glog:
   - 0.4.0
 glpk:
