@@ -25,7 +25,8 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  - tf2_ros
+  - rviz
+  # - tf2_ros
   # - moveit_visual_tools
 
   ##
