@@ -36,7 +36,7 @@ packages_select_by_deps:
 
   # !!!! ATTENTION ATTENTION !!!!
   # !!!! REMOVE SKIP ALL DEPS LATER !!!!
-  - image_view  # GUI needs fixing
+  # - image_view  # GUI needs fixing
   - tf2_ros
 
   ##
