@@ -16,6 +16,9 @@ conda config --add channels robostack
 conda config --set channel_priority strict
 conda install pip mamba conda catkin_pkg ruamel_yaml rosdistro empy networkx requests
 mamba install ros-noetic-desktop
+# reload environment to activate required scripts before running anything
+conda deactivate
+conda activate robostackenv
 ```
 
 [Here](https://anaconda.org/search?q=ros-noetic) is a list of available packages.
