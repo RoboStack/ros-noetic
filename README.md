@@ -16,6 +16,10 @@ conda config --add channels robostack
 conda config --set channel_priority strict
 conda install pip mamba conda catkin_pkg ruamel_yaml rosdistro empy networkx requests
 mamba install ros-noetic-desktop
+# On Linux:
+mamba install gcc_linux-64 gxx_linux-64
+# On OSX:
+mamba install clang_osx-64 clangxx_osx-64
 # reload environment to activate required scripts before running anything
 conda deactivate
 conda activate robostackenv
