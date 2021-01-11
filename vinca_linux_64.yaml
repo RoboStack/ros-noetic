@@ -30,6 +30,7 @@ packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
   # - robot_localization  # Needs geographiclib-cpp
   - moveit_visual_tools
+  - catkin  # Needs to be rebuilt
 
   ##
   # DONE Linux
