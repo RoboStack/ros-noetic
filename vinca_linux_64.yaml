@@ -42,7 +42,7 @@ packages_select_by_deps:
   - rosbridge_suite
   - moveit
   - class_loader
-  - robot_localization
+  # - robot_localization
   - imu_tools
   - velodyne
   - velodyne_pcl
@@ -50,7 +50,7 @@ packages_select_by_deps:
   - urg_node
   - teb_local_planner
   - joy
-  # - plotjuggler
+  - plotjuggler
   - libfranka
   - franka_visualization
   - franka_msgs
