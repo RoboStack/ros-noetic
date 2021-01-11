@@ -28,7 +28,8 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  # - moveit_visual_tools
+  # - robot_localization  # Needs geographiclib-cpp
+  - moveit_visual_tools
 
   ##
   # DONE Linux
@@ -42,7 +43,6 @@ packages_select_by_deps:
   - rosbridge_suite
   - moveit
   - class_loader
-  # - robot_localization
   - imu_tools
   - velodyne
   - velodyne_pcl
