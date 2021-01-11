@@ -105,9 +105,9 @@ index 07e5276..97cb460 100644
  # or fall back to the destination set at configure time
 +# _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
 +
-+if [[ ! -z "$ZSH_VERSION" ]]; then
++if [ ! -z "$ZSH_VERSION" ]; then
 +  CATKIN_SHELL=zsh
-+elif [[ ! -z "$BASH_VERSION" ]]; then
++elif [ ! -z "$BASH_VERSION" ]; then
 +  CATKIN_SHELL=bash
 +else
 +  CATKIN_SHELL=sh
