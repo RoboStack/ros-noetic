@@ -447,3 +447,5 @@ python3-autobahn:
   conda-forge: [autobahn]
 python3-twisted:
   conda-forge: [twisted]
+geographiclib-cpp:
+  conda-forge: [geographiclib-cpp]
