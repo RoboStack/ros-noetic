@@ -1,0 +1,2 @@
+moveit_visual_tools:
+  add: ["REQUIRE_OPENGL"]
