@@ -5,7 +5,7 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 
 ## Installation
 
-Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track.
+Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track. Also do not source the system ROS environment, as the `PYTHONPATH` set in the setup script conflicts with the conda environment.
 
 ```
 conda create -n robostackenv python=3.8
