@@ -1,32 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7b0544b..d81e8aa 100644
+index 7b0544b..67994d2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -6,6 +6,7 @@ add_compile_options(-std=c++11)
+@@ -43,7 +43,7 @@ catkin_package(
  
- # Load catkin and all dependencies required for this package
- find_package(catkin REQUIRED COMPONENTS
-+  rviz
-   rviz_visual_tools
-   tf2_eigen
-   geometry_msgs
-@@ -30,6 +31,7 @@ catkin_package(
-     ${PROJECT_NAME}
-   CATKIN_DEPENDS
-     roscpp
-+    rviz
-     rviz_visual_tools
-     moveit_ros_planning
-     moveit_core
-diff --git a/package.xml b/package.xml
-index ae427a2..def576f 100644
---- a/package.xml
-+++ b/package.xml
-@@ -16,6 +16,7 @@
- 
-   <buildtool_depend>catkin</buildtool_depend>
- 
-+  <depend>rviz</depend>
-   <depend>rviz_visual_tools</depend>
-   <depend>tf2_eigen</depend>
-   <depend>geometry_msgs</depend>
+ ## Build
+ include_directories(include)
+-include_directories(SYSTEM
++include_directories(
+   ${catkin_INCLUDE_DIRS}
+   ${EIGEN3_INCLUDE_DIRS}
+ )
