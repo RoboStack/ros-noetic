@@ -8,7 +8,7 @@ conda_index:
 
 build_number: 4
 
-skip_all_deps: false
+skip_all_deps: true
 
 packages_skip_by_deps:
   # - ros_core
@@ -21,7 +21,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
@@ -29,46 +29,46 @@ packages_select_by_deps:
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
   # - robot_localization  # Needs geographiclib-cpp
-  - moveit_visual_tools
-  - catkin  # Needs to be rebuilt
-  - rviz  # Needs to be rebuilt
+  - catkin
+  - rviz
   - cnpy
 
   ##
   # DONE Linux
   ##
-  - plotjuggler_ros
-  - ros_core
-  - rviz
-  - desktop
-  - desktop_full
-  - franka_control
-  - rosbridge_suite
-  - moveit
-  - class_loader
-  - imu_tools
-  - velodyne
-  - velodyne_pcl
-  - perception_pcl
-  - urg_node
-  - teb_local_planner
-  - joy
-  - plotjuggler
-  - libfranka
-  - franka_visualization
-  - franka_msgs
-  - franka_description
-  - franka_hw
-  - franka_gripper
-  - diagnostic_analysis
-  - diagnostic_common_diagnostics
-  - ros_control
-  - ros_controllers
-  - rviz_visual_tools
-  - slam_karto
-  - slam_toolbox
-  - turtlebot3
-  - cnpy
+  # - moveit_visual_tools
+  # - plotjuggler_ros
+  # - ros_core
+  # - rviz
+  # - desktop
+  # - desktop_full
+  # - franka_control
+  # - rosbridge_suite
+  # - moveit
+  # - class_loader
+  # - imu_tools
+  # - velodyne
+  # - velodyne_pcl
+  # - perception_pcl
+  # - urg_node
+  # - teb_local_planner
+  # - joy
+  # - plotjuggler
+  # - libfranka
+  # - franka_visualization
+  # - franka_msgs
+  # - franka_description
+  # - franka_hw
+  # - franka_gripper
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+  # - slam_karto
+  # - slam_toolbox
+  # - turtlebot3
+  # - cnpy
 
 
   ##
