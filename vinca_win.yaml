@@ -30,18 +30,18 @@ packages_select_by_deps:
   ##
   #  TODO Win
   ##
-  # - cnpy
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
-  # - robot_localization  # missing GeographicLib in conda-forge: https://github.com/conda-forge/geographiclib-feedstock/issues/4
 
   # !!!! ATTENTION ATTENTION !!!!
   # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   # - image_view  # GUI needs fixing
-  - tf2_ros
+  - cnpy
+  - robot_localization
 
   ##
   # DONE Win
   ##
+  # - tf2_ros
   # - desktop_full
   # - perception
   # - plotjuggler_ros
