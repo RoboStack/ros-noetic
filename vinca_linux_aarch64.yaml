@@ -23,7 +23,9 @@ skip_existing:
 
 packages_select_by_deps:
   - class_loader
-  - imu_tools
+  - imu_complementary_filter
+  - imu_filter_madgwick
+  - map_msgs
   - diagnostic_analysis
   - diagnostic_common_diagnostics
   - image_publisher
