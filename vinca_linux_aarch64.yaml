@@ -25,7 +25,7 @@ packages_select_by_deps:
   - image_publisher
   - image_proc
   - stereo_image_proc
-  # - image_common
+  - image_common
   - image_transport
   - vision_opencv
   # - diagnostics
@@ -37,6 +37,5 @@ packages_select_by_deps:
   - robot
   # - perception
   # - slam_karto
-  # - moveit_core
 
 patch_dir: patch
