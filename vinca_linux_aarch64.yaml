@@ -27,10 +27,12 @@ packages_select_by_deps:
   - stereo_image_proc
   - image_common
   - image_transport
+  - image_transport_plugins
+  - laser_pipeline
   - vision_opencv
   - diagnostics
   - geometry
-  # - joy
+  - joy
   - rospy-message-converter
   - ros_base
   # - navigation
