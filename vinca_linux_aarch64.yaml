@@ -28,10 +28,10 @@ packages_select_by_deps:
   - image_common
   - image_transport
   - vision_opencv
-  # - diagnostics
-  # - geometry
+  - diagnostics
+  - geometry
   # - joy
-  # - rospy-message-converter
+  - rospy-message-converter
   - ros_base
   # - navigation
   - robot
