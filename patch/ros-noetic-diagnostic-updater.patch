@@ -1,24 +1,3 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index add78c3f..0cfe20cd 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -6,7 +6,7 @@ find_package(catkin REQUIRED diagnostic_msgs roscpp std_msgs)
- 
- catkin_python_setup()
- 
--catkin_package(DEPENDS diagnostic_msgs roscpp std_msgs
-+catkin_package(CATKIN_DEPENDS diagnostic_msgs roscpp std_msgs
-                INCLUDE_DIRS include
- 	       LIBRARIES ${PROJECT_NAME}
- )
-@@ -15,6 +15,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
- add_executable(example src/example.cpp)
- add_library(${PROJECT_NAME}
-   src/timestamp_status.cpp)
-+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
- target_link_libraries(example ${catkin_LIBRARIES})
- 
- #set(LOCAL_GTEST_DIR "gtest-1.7.0")
 diff --git a/include/diagnostic_updater/update_functions.h b/include/diagnostic_updater/update_functions.h
 index 41e35104..59c05b94 100644
 --- a/include/diagnostic_updater/update_functions.h
