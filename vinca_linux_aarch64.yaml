@@ -22,6 +22,10 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - class_loader
+  - imu_tools
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
   - image_publisher
   - image_proc
   - stereo_image_proc
@@ -35,7 +39,6 @@ packages_select_by_deps:
   - joy
   - rospy-message-converter
   - ros_base
-  # - navigation
   - robot
   # - perception
   # - slam_karto
