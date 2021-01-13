@@ -33,6 +33,7 @@ packages_select_by_deps:
   - ros_base
   # - navigation
   - robot
+  - perception
   # - slam_karto
   # - moveit_core
 
