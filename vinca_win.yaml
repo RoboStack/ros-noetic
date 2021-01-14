@@ -36,7 +36,8 @@ packages_select_by_deps:
   # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   # - image_view  # GUI needs fixing
   # - cnpy
-  - robot_localization
+  # - robot_localization
+  - sparse_bundle_adjustment
 
   ##
   # DONE Win
