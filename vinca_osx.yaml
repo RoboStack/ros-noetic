@@ -66,12 +66,12 @@ packages_select_by_deps:
   # - slam_toolbox
   # - turtlebot3
   # - cnpy
+  - turtlebot3_fake
 
   ##
   # NOT RELEASED ON NOETIC...
   ##
 
-  # - turtlebot3_fake
   # - tf2_web_republisher
   # - franka_ros
   # - franka_example_controllers
