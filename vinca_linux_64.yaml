@@ -67,6 +67,7 @@ packages_select_by_deps:
   # - slam_toolbox
   # - turtlebot3
   # - cnpy
+  - turtlebot3_fake
 
 
   ##
@@ -74,7 +75,6 @@ packages_select_by_deps:
   ##
   # - franka_example_controllers
   # - franka_ros
-  # - turtlebot3_fake
   # - tf2_web_republisher
   # - niryo_one_simulation
 
