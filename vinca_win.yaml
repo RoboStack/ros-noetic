@@ -38,7 +38,10 @@ packages_select_by_deps:
   # - cnpy
   # - robot_localization
   # - sparse_bundle_adjustment
-  - random_numbers
+  - cmake_modules
+  - bondcpp
+  - bondpy
+  - nodelet
 
   ##
   # DONE Win
