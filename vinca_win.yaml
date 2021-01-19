@@ -35,10 +35,9 @@ packages_select_by_deps:
   # !!!! ATTENTION ATTENTION !!!!
   # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   # - image_view  # GUI needs fixing
-  # - cnpy
+  - cnpy
   # - robot_localization
   # - sparse_bundle_adjustment
-  - random_numbers
 
   ##
   # DONE Win
