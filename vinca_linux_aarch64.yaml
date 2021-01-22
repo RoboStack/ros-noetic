@@ -42,7 +42,7 @@ packages_select_by_deps:
   - rospy-message-converter
   - ros_base
   - robot
-  - pcl-ros
+  # - pcl-ros
   - pcl-conversions
   # - perception
   # - slam_karto
