@@ -67,7 +67,7 @@ packages_select_by_deps:
   # - slam_toolbox
   # - turtlebot3
   # - cnpy
-  - turtlebot3_fake
+  # - turtlebot3_fake
 
 
   ##
