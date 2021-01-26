@@ -30,6 +30,7 @@ requirements:
     - sel(unix): make
     - cmake
   host:
+    - python
     - ros-noetic-catkin
     - ros-noetic-actionlib
     - ros-noetic-actionlib-msgs
@@ -48,6 +49,7 @@ requirements:
     - ros-noetic-rospy
     - ros-noetic-rostest
   run:
+    - python
     - ros-noetic-actionlib
     - ros-noetic-actionlib-msgs
     - ros-noetic-geometry-msgs
