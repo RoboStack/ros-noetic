@@ -21,7 +21,7 @@ source:
   sha256: a0a6278937fe72eb6e30b62ad39c8f52f9cf5ddc6b61e43490d0d63749037a29
   folder: ros-noetic-tf2-web-republisher/src/work
   patches:
-    - ros-noetic-tf2-web-republisher.patch
+    - sel(unix): ros-noetic-tf2-web-republisher.patch
 requirements:
   build:
     - "{{ compiler('cxx') }}"
