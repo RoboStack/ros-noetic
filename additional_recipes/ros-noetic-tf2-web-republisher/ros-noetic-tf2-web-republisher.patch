@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2bbdefa..1636fa3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -56,6 +56,9 @@ add_executable(${PROJECT_NAME} src/tf_web_republisher.cpp)
+ target_link_libraries(${PROJECT_NAME}
+   ${catkin_LIBRARIES} ${Boost_LIBRARIES}
+ )
++if(UNIX AND NOT APPLE)
++    target_link_libraries(${PROJECT_NAME} rt)
++endif()
+ add_dependencies(${PROJECT_NAME}
+   ${PROJECT_NAME}_generate_messages_cpp ${catkin_EXPORTED_TARGETS}
+ )
