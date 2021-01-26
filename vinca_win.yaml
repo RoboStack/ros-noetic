@@ -35,13 +35,13 @@ packages_select_by_deps:
   # !!!! ATTENTION ATTENTION !!!!
   # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   # - image_view  # GUI needs fixing
-  - cnpy
   # - robot_localization
   # - sparse_bundle_adjustment
 
   ##
   # DONE Win
   ##
+  # - cnpy
   # - tf2_ros
   # - desktop_full
   # - perception
