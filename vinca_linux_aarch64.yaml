@@ -45,6 +45,7 @@ packages_select_by_deps:
   - robot
   - pcl-ros
   - pcl-conversions
+  - desktop
   # - perception
   # - slam_karto
 
