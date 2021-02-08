@@ -46,7 +46,7 @@ packages_select_by_deps:
   - pcl-ros
   - pcl-conversions
   - desktop
-  - robot_localization
+  # - robot_localization  # needs https://github.com/conda-forge/geographiclib-cpp-feedstock/pull/1
   - rosbridge_suite
   - teb_local_planner
   - ros_control
