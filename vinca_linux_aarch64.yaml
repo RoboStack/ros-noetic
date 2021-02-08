@@ -46,6 +46,13 @@ packages_select_by_deps:
   - pcl-ros
   - pcl-conversions
   - desktop
+  - robot_localization
+  - rosbridge_suite
+  - teb_local_planner
+  - ros_control
+  - ros_controllers
+  - turtlebot3
+  - turtlebot3_fake
   # - perception
   # - slam_karto
 
