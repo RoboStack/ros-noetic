@@ -17,6 +17,7 @@ packages_skip_by_deps:
 packages_remove_from_deps:
   - stage-ros
   - stage
+  - image-view  # a few X libs are missing for that
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
