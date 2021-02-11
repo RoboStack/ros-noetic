@@ -1,0 +1,37 @@
+on: ['pull_request']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        mamba-version: "*"
+        channels: robostack,conda-forge
+        channel-priority: true
+        auto-activate-base: true
+        activate-environment: ""
+    - shell: bash -l {0}
+      run: |
+        conda info
+        conda config --show
+        mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+    - name: install vinca
+      shell: bash -l {0}
+      run: |
+        # use no-deps for now, otherwise problems with ruamel.
+        pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+    - name: Generate recipes
+      shell: bash -l {0}
+      run: |
+        git clean -fdx
+        cp vinca_linux_64.yaml vinca.yaml
+        vinca --platform linux-64
+        ls
+        cat recipe.yaml
+    - name: Build recipes
+      shell: bash -l {0}
+      run: |
+        boa build .
