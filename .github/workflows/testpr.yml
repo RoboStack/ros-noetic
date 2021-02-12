@@ -5,7 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v2
       with:
         mamba-version: "*"
@@ -23,15 +22,30 @@ jobs:
       run: |
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
-    - name: Generate recipes
+    - name: Check what files have changed
+      id: filecheck
       shell: bash -l {0}
+      run: |
+        git fetch origin master
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_linux_64.yaml)
+        echo "::set-output name=LINUX_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_linux_aarch64.yaml)
+        echo "::set-output name=LINUX_AARCH_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_osx.yaml)
+        echo "::set-output name=OSX_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_win.yaml)
+        echo "::set-output name=WIN_YAML_CHANGED::${HAS_CHANGED}"
+    - name: Generate recipes for Linux
+      shell: bash -l {0}
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1
       run: |
         git clean -fdx
         cp vinca_linux_64.yaml vinca.yaml
         vinca --platform linux-64
         ls
         cat recipe.yaml
-    - name: Build recipes
+    - name: Build recipes for Linux
       shell: bash -l {0}
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1
       run: |
         boa build .
