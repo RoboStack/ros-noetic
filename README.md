@@ -2,7 +2,7 @@
 [![Conda](https://img.shields.io/conda/dn/robostack/ros-noetic-desktop?style=flat-square)](https://anaconda.org/robostack/)
 [![Gitter](https://img.shields.io/gitter/room/RoboStack/Lobby?style=flat-square)](https://gitter.im/RoboStack/Lobby)
 [![GitHub Repo stars](https://img.shields.io/github/stars/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/)
-[![HitCount](http://hits.dwyl.io/robostack/ros-noetic.svg)](https://github.com/RoboStack/ros-noetic/)
+[![HitCount](http://hits.dwyl.io/RoboStack/ros-noetic.svg)](https://github.com/RoboStack/ros-noetic/)
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.ai)
 
 [![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20osx%20%7C%20linux%E2%80%93aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
