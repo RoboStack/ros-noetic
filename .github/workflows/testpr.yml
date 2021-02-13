@@ -1,0 +1,51 @@
+on: ['pull_request']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        mamba-version: "*"
+        channels: robostack,conda-forge
+        channel-priority: true
+        auto-activate-base: true
+        activate-environment: ""
+    - shell: bash -l {0}
+      run: |
+        conda info
+        conda config --show
+        mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+    - name: install vinca
+      shell: bash -l {0}
+      run: |
+        # use no-deps for now, otherwise problems with ruamel.
+        pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+    - name: Check what files have changed
+      id: filecheck
+      shell: bash -l {0}
+      run: |
+        git fetch origin master
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_linux_64.yaml)
+        echo "::set-output name=LINUX_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_linux_aarch64.yaml)
+        echo "::set-output name=LINUX_AARCH_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_osx.yaml)
+        echo "::set-output name=OSX_YAML_CHANGED::${HAS_CHANGED}"
+        HAS_CHANGED=$(git diff --exit-code origin/master -- vinca_win.yaml)
+        echo "::set-output name=WIN_YAML_CHANGED::${HAS_CHANGED}"
+    - name: Generate recipes for Linux
+      shell: bash -l {0}
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1
+      run: |
+        git clean -fdx
+        cp vinca_linux_64.yaml vinca.yaml
+        vinca --platform linux-64
+        ls
+        cat recipe.yaml
+    - name: Build recipes for Linux
+      shell: bash -l {0}
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1
+      run: |
+        boa build .
