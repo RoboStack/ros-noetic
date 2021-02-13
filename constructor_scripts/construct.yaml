@@ -1,0 +1,23 @@
+name: rosdesktop
+version: 0.1.0
+company: robostack
+
+channels:
+  # specifying the channel with the full URL adds two channels
+  # when the end user adds the channel without the full URL
+  # - https://conda.anaconda.org/conda-forge
+  - robostack
+  - conda-forge
+
+ignore_duplicate_files: True
+write_condarc: True
+# keep pkgs for space-saving implications for hardlinks when create new environments
+# and keep the same with Miniconda
+keep_pkgs: True
+license_file: LICENSE
+
+specs:
+  - ros-noetic-desktop
+  - mamba
+  - conda
+  - miniforge_console_shortcut  # [win]
