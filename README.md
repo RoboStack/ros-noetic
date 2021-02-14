@@ -5,10 +5,10 @@
 [![HitCount](http://hits.dwyl.io/RoboStack/ros-noetic.svg)](https://github.com/RoboStack/ros-noetic/)
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.ai)
 
-[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20osx%20%7C%20linux%E2%80%93aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
+[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20linux%E2%80%93aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/roboforge/f91d909b-3931-44f7-9823-19fcd42e7d04/8/buildbranch_linux?label=build%20linux&style=flat-square)](https://dev.azure.com/roboforge/ros_pipelines/_build?definitionId=8&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/roboforge/f91d909b-3931-44f7-9823-19fcd42e7d04/10/buildbranch_win?label=build%20win&style=flat-square)](https://dev.azure.com/roboforge/ros_pipelines/_build?definitionId=10&_a=summary)
-[![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/roboforge/f91d909b-3931-44f7-9823-19fcd42e7d04/9/buildbranch_osx?label=build%20osx&style=flat-square)](https://dev.azure.com/roboforge/ros_pipelines/_build?definitionId=9&_a=summary)
+[![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/roboforge/f91d909b-3931-44f7-9823-19fcd42e7d04/9/buildbranch_osx?label=build%20macos&style=flat-square)](https://dev.azure.com/roboforge/ros_pipelines/_build?definitionId=9&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/roboforge/f91d909b-3931-44f7-9823-19fcd42e7d04/11/buildbranch_linux_aarch64?label=build%20aarch64&style=flat-square)](https://dev.azure.com/roboforge/ros_pipelines/_build?definitionId=11&_a=summary)
 
 [![GitHub issues](https://img.shields.io/github/issues-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues)
@@ -17,7 +17,7 @@
 [![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/pulls?q=is%3Apr+is%3Aclosed)
 
 ## Why ROS and Conda?
-Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, language-agnostic package manager. We provide ROS binaries for Linux, OSX, Windows and ARM (Linux). Installing other recent packages via conda-forge side-by-side works easily, e.g. you can install TensorFlow/PyTorch in the same environment as ROS Noetic without any issues. As no system libraries are used, you can also easily install ROS Noetic on any recent Linux Distribution - including older versions of Ubuntu. As the packages are pre-built, it saves you from compiling from source, which is especially helpful on OSX and Windows. No root access is required, all packages live in your home directory.
+Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, language-agnostic package manager. We provide ROS binaries for Linux, macOS, Windows and ARM (Linux). Installing other recent packages via conda-forge side-by-side works easily, e.g. you can install TensorFlow/PyTorch in the same environment as ROS Noetic without any issues. As no system libraries are used, you can also easily install ROS Noetic on any recent Linux Distribution - including older versions of Ubuntu. As the packages are pre-built, it saves you from compiling from source, which is especially helpful on macOS and Windows. No root access is required, all packages live in your home directory.
 
 ## Installation
 
