@@ -22,6 +22,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - grid_map
+
   ##
   #  TODO Linux
   ##
