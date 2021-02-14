@@ -1,0 +1,20 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2ac7f133..1a21ca67 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -162,10 +162,15 @@ target_link_libraries(
+   ${catkin_LIBRARIES}
+ )
+ 
++if (UNIX)
++  find_package(OpenGL REQUIRED)
++endif()
++
+ target_link_libraries(
+   opencv_demo
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBRARIES}
++  ${OpenGL_LIBRARIES}
+ )
+ 
+ target_link_libraries(
