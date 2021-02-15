@@ -28,11 +28,11 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  # - cnpy
 
   ##
   # DONE Linux
   ##
+  # - cnpy
   # - robot_localization
   # - moveit_visual_tools
   # - plotjuggler_ros
