@@ -8,8 +8,7 @@ conda_index:
 
 build_number: 3
 
-# !!!! ATTENTION ATTENTION !!!!
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
   # - rviz
@@ -20,23 +19,15 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  #############
-  # !!!! ATTENTION ATTENTION !!!!
-  #############
-
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  ##
-  #  TODO Win
-  ##
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
 
-  # !!!! ATTENTION ATTENTION !!!!
-  # !!!! REMOVE SKIP ALL DEPS LATER !!!!
   # - image_view  # GUI needs fixing
   # - robot_localization
   # - sparse_bundle_adjustment
+  # - grid_map  # fails with pkg-config error
 
   ##
   # DONE Win
