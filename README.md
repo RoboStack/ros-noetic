@@ -39,6 +39,8 @@ conda activate robostackenv
 
 [Here](https://anaconda.org/search?q=ros-noetic) is a list of available packages.
 
+**Note: at the moment on Windows only the Command Prompt terminal is supported, while Powershell is not supported.**
+
 ## Reporting issues
 Feel free to open issues in this repository's [issue tracker](https://github.com/RoboStack/ros-noetic/issues) (please check whether your problem is already listed there before opening a new issue) or come around on [Gitter](https://gitter.im/RoboStack/Lobby) to have a chat / ask questions. Please note that this repository is _not an official distribution of ROS_ and relies on volunteers. It is further highly experimental - unfortunately things might not work immediately out-of-the-box, although we try our best.
 
