@@ -53,22 +53,22 @@ jobs:
         vinca --platform linux-64
         ls
         cat recipe.yaml
-    - name: Generate recipes for macOS
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1
-      run: |
-        git clean -fdx
-        cp vinca_osx.yaml vinca.yaml
-        vinca --platform osx
-        ls
-        cat recipe.yaml
+    # - name: Generate recipes for macOS
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1
+    #   run: |
+    #     git clean -fdx
+    #     cp vinca_osx.yaml vinca.yaml
+    #     vinca --platform osx
+    #     ls
+    #     cat recipe.yaml
     - name: Build recipes for Linux
       shell: bash -l {0}
       if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1
       run: |
         boa build .
-    - name: Build recipes for macOS
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1
-      run: |
-        boa build .
+    # - name: Build recipes for macOS
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1
+    #   run: |
+    #     boa build .
