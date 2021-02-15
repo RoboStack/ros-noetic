@@ -9,30 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: windows-latest
-            ARCH: x86_64
-            MINIFORGE_NAME: "rosdesktop"
-            OS_NAME: "Windows"
-
-          - os: macos-latest
-            ARCH: x86_64
-            MINIFORGE_NAME: "rosdesktop"
-            OS_NAME: "MacOSX"
-
-          - os: ubuntu-latest
-            ARCH: aarch64
-            DOCKER_ARCH: arm64v8
-            DOCKERIMAGE: condaforge/linux-anvil-aarch64
-            MINIFORGE_NAME: "rosdesktop"
-            OS_NAME: "Linux"
-
-          - os: ubuntu-latest
-            ARCH: x86_64
-            DOCKER_ARCH: amd64
-            DOCKERIMAGE: condaforge/linux-anvil-comp7
-            MINIFORGE_NAME: "rosdesktop"
-            OS_NAME: "Linux"
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
     steps:
     - uses: actions/checkout@master
@@ -70,20 +47,11 @@ jobs:
         echo "::set-output name=WIN_YAML_CHANGED::${?}"
     - name: Generate recipes for Linux
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'x86_64'
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest'
       run: |
         git clean -fdx
         cp vinca_linux_64.yaml vinca.yaml
         vinca --platform linux-64
-        ls
-        cat recipe.yaml
-    - name: Generate recipes for Linux aarch64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'aarch64'
-      run: |
-        git clean -fdx
-        cp vinca_linux_aarch64.yaml vinca.yaml
-        vinca --platform linux-aarch64
         ls
         cat recipe.yaml
     - name: Generate recipes for macOS
@@ -106,12 +74,7 @@ jobs:
         cat recipe.yaml
     - name: Build recipes for Linux
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'x86_64'
-      run: |
-        boa build .
-    - name: Build recipes for Linux aarch64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'aarch64'
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest'
       run: |
         boa build .
     - name: Build recipes for macOS
