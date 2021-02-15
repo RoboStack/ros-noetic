@@ -6,6 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
     steps:
     - uses: actions/checkout@master
     - uses: conda-incubator/setup-miniconda@v2
