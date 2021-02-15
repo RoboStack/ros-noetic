@@ -1,0 +1,31 @@
+on:
+  pull_request:
+    paths:
+      - '*.yaml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: uraimo/run-on-arch-action@v2.0.5
+      name: Build aarch64
+      with:
+        arch: aarch64
+        distro: ubuntu20.04
+        githubToken: ${{ github.token }}
+        run: |
+          apt-get update -q -y
+          apt-get install -q -y git wget
+          wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh
+          sh Mambaforge-Linux-aarch64.sh -b
+          source ~/.bashrc
+          conda info
+          conda config --show
+          mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+          pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+          cp vinca_linux_aarch64.yaml vinca.yaml
+          vinca --platform linux-aarch64
+          ls
+          cat recipe.yaml
+          boa build .
