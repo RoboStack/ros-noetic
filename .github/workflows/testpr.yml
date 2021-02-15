@@ -111,7 +111,7 @@ jobs:
         boa build .
     - name: Build recipes for Linux aarch64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'aarch64'
+      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.arch == 'aarch64'
       run: |
         boa build .
     - name: Build recipes for macOS
