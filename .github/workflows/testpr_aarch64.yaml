@@ -19,6 +19,9 @@ jobs:
           apt-get install -q -y git wget
           wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh
           sh Mambaforge-Linux-aarch64.sh -b
+          set +eu
+          source ~/.bashrc
+          set -eu
           conda info
           conda config --show
           mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
