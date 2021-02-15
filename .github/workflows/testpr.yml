@@ -59,7 +59,7 @@ jobs:
       run: |
         git clean -fdx
         cp vinca_osx.yaml vinca.yaml
-        vinca --platform osx
+        vinca --platform osx-64
         ls
         cat recipe.yaml
     - name: Generate recipes for Windows
