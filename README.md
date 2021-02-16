@@ -21,16 +21,22 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 
 ## Installation
 
-Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track. Also do not source the system ROS environment, as the `PYTHONPATH` set in the setup script conflicts with the conda environment.
+To get started with conda (or mamba) as package managers, you need to have a base conda installation. Please do _not_ use the Anaconda installer, but rather start with [`miniforge` / `mambaforge`](https://github.com/conda-forge/miniforge) or [`miniconda`](https://docs.conda.io/en/latest/miniconda.html), which are much more "minimal" installers. These installers will create a "base" environment that contains the package managers conda (and mamba if you go with `mambaforge`). After this installation is done, you can move on to the next steps.
 
-```
+> Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track. Also do not source the system ROS environment, as the `PYTHONPATH` set in the setup script conflicts with the conda environment.
+
+```bash
 conda create -n robostackenv python=3.8
 conda activate robostackenv
-conda config --append channels defaults
+# this adds the conda-forge channel to your persistent configuration in ~/.condarc
 conda config --add channels conda-forge
+# and the robostack channel
 conda config --add channels robostack
+# it's very much advised to use strict channel priority
 conda config --set channel_priority strict
-conda install pip mamba conda catkin_pkg ruamel_yaml rosdistro empy networkx requests compilers cmake pkg-config
+# either
+conda install ros-noetic-desktop
+# or if you have mamba and want to use it
 mamba install ros-noetic-desktop
 # reload environment to activate required scripts before running anything
 conda deactivate
