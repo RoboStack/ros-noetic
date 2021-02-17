@@ -28,6 +28,7 @@ packages_select_by_deps:
   # - rviz
   # - tf2_ros
   # - moveit_visual_tools
+  # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config
 
   ##
   # DONE OSX

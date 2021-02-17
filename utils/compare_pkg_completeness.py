@@ -89,6 +89,9 @@ for name, pkg in availability.items():
     else:
         bottom_rows.append(row)
 
+upper_rows = sorted(upper_rows, key=lambda x: x[0])
+bottom_rows = sorted(bottom_rows, key=lambda x: x[0])
+
 for row in upper_rows:
     table.add_row(*row)
 for row in bottom_rows:
