@@ -449,3 +449,7 @@ python3-twisted:
   conda-forge: [twisted]
 geographiclib:
   conda-forge: [geographiclib-cpp]
+geographiclib-tools:
+  conda-forge: [geographiclib-cpp]
+python3-future:
+  conda-forge: [future]
