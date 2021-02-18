@@ -40,6 +40,11 @@ conda config --set channel_priority strict
 conda install ros-noetic-desktop
 # or if you have mamba and want to use it
 mamba install ros-noetic-desktop
+# optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws - with conda:
+conda install compilers cmake pkg-config make ninja
+# or with mamba:
+mamba install compilers cmake pkg-config make ninja
+# note that in thise case, you should also install the necessary dependencies with conda/mamba, if possible
 # reload environment to activate required scripts before running anything
 conda deactivate
 conda activate robostackenv
