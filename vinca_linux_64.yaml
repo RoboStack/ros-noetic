@@ -32,6 +32,7 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - navigation
   # - mavros
   # - grid_map
   # - cnpy
