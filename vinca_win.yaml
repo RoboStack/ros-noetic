@@ -32,6 +32,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
+  - navigation
   # - cnpy
   # - tf2_ros
   # - desktop_full
