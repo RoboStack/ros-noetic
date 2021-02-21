@@ -41,9 +41,9 @@ conda install ros-noetic-desktop
 # or if you have mamba and want to use it
 mamba install ros-noetic-desktop
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws - with conda:
-conda install compilers cmake pkg-config make ninja
+conda install compilers cmake pkg-config make ninja catkin_tools
 # or with mamba:
-mamba install compilers cmake pkg-config make ninja
+mamba install compilers cmake pkg-config make ninja catkin_tools
 # note that in thise case, you should also install the necessary dependencies with conda/mamba, if possible
 # reload environment to activate required scripts before running anything
 conda deactivate
