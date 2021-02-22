@@ -36,15 +36,22 @@ conda config --add channels conda-forge
 conda config --add channels robostack
 # it's very much advised to use strict channel priority
 conda config --set channel_priority strict
+
 # either
 conda install ros-noetic-desktop
 # or if you have mamba and want to use it
 mamba install ros-noetic-desktop
+
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws - with conda:
 conda install compilers cmake pkg-config make ninja catkin_tools
 # or with mamba:
 mamba install compilers cmake pkg-config make ninja catkin_tools
-# note that in thise case, you should also install the necessary dependencies with conda/mamba, if possible
+
+# on Windows, install the Visual Studio command prompt via Conda:
+conda install vs2019_win-64
+
+# note that in this case, you should also install the necessary dependencies with conda/mamba, if possible
+
 # reload environment to activate required scripts before running anything
 conda deactivate
 conda activate robostackenv
