@@ -72,7 +72,7 @@ index e73934b..33ac6d4 100755
 +    # 'PYTHONPATH': '@PYTHON_INSTALL_DIR@',
  }
  
-+if IS_WINDOWS or os.environ['CONDA_PREFIX'] != os.path.dirname(os.path.realpath(__file__)):
++if IS_WINDOWS or os.path.dirname(os.path.realpath(__file__)) != sys.prefix:
 +    ENV_VAR_SUBFOLDERS['PYTHONPATH'] = '@PYTHON_INSTALL_DIR@'
  
  def rollback_env_variables(environ, env_var_subfolders):
