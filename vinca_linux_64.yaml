@@ -22,7 +22,10 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - webots_ros
+  - ecl_core
+  - ecl_lite
+  - ecl_navigation
+  - ecl_tools
 
   ##
   #  TODO Linux
@@ -32,7 +35,8 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  - navigation
+  # - webots_ros
+  # - navigation
   # - mavros
   # - grid_map
   # - cnpy

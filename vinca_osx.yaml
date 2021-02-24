@@ -22,6 +22,11 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - ecl_core
+  - ecl_lite
+  - ecl_navigation
+  - ecl_tools
+
   ##
   #  TODO OSX
   ##
@@ -33,7 +38,7 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - navigation
+  # - navigation
   # - plotjuggler_ros
   # - catkin
   # - desktop

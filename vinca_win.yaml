@@ -22,6 +22,11 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - ecl_core
+  - ecl_lite
+  - ecl_navigation
+  - ecl_tools
+
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
 
   # - image_view  # GUI needs fixing
@@ -32,7 +37,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - navigation
+  # - navigation
   # - cnpy
   # - tf2_ros
   # - desktop_full
