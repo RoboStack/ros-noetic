@@ -6,9 +6,14 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 3
+build_number: 4
 
+# Ignore all dependencies of selected packages
 skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: false
 
 packages_skip_by_deps:
   # - rviz
@@ -22,6 +27,7 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - catkin
   ##
   #  TODO OSX
   ##
