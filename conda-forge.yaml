@@ -390,6 +390,9 @@ gazebo9:
 libgazebo9-dev:
   conda-forge:
     - "gazebo 9.*"
+gazebo:
+  conda-forge:
+    - gazebo
 libfltk-dev:
   conda-forge: [fltk]
 libjpeg:
