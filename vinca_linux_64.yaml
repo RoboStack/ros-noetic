@@ -37,8 +37,9 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  # - navigation
+  # - hector_gazebo_plugins
   # - webots_ros
+  # - navigation
   # - mavros
   # - grid_map
   # - cnpy
