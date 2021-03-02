@@ -27,8 +27,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - catkin
-
+  - mavros
+  # - catkin
   # - grid_map
   # - rviz
   # - class_loader
