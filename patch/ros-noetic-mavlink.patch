@@ -1,15 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bd600b66..ceb17e9c 100644
+index bd600b66..e0ade732 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -20,17 +20,8 @@ set(CMAKE_INSTALL_LIBDIR lib)
+@@ -20,20 +20,11 @@ set(CMAKE_INSTALL_LIBDIR lib)
  if (DEFINED ENV{ROS_PYTHON_VERSION})
      set(Py_VERSION $ENV{ROS_PYTHON_VERSION})
  else()
 -    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 2")
 -    set(Py_VERSION "2")
--endif()
--
++    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 3")
++    set(Py_VERSION "3")
+ endif()
+ 
 -if (NOT CMAKE_VERSION VERSION_LESS "3.12")
 -    find_package(Python${Py_VERSION} COMPONENTS Interpreter)
 -    set(Python_EXECUTABLE "${Python${Py_VERSION}_EXECUTABLE}")
@@ -17,17 +19,45 @@ index bd600b66..ceb17e9c 100644
 -    # find libraries with cmake modules
 -    find_package(PythonInterp ${Py_VERSION} REQUIRED)
 -    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE}")
-+    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 3")
-+    set(Py_VERSION "3")
- endif()
+-endif()
+-
+-message(STATUS "Python ${Py_VERSION} iterpretator: ${Python_EXECUTABLE}")
++message(STATUS "Python ${Py_VERSION} iterpretator: ${PYTHON_EXECUTABLE}")
  
- message(STATUS "Python ${Py_VERSION} iterpretator: ${Python_EXECUTABLE}")
-
+ # Try to read package version from package.xml
+ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
+@@ -50,7 +41,7 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
+         )
+ 
+     execute_process(
+-        COMMAND ${Python_EXECUTABLE} ${CMAKE_BINARY_DIR}/package_version.py
++        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/package_version.py
+         OUTPUT_VARIABLE XML_VERSION
+         RESULT_VARIABLE XML_RESULT
+         )
+@@ -78,7 +69,7 @@ macro(generateMavlink_v10 definitions)
+         add_custom_command(
+             OUTPUT include/v1.0/${definition}/${definition}.h
+             COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
+-                ${Python_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
++                ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
+                 --output=include/v1.0 ${definitionAbsPath}
+             DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
+             )
+@@ -97,7 +88,7 @@ macro(generateMavlink_v20 definitions)
+             OUTPUT ${definition}-v2.0-cxx-stamp
+             #OUTPUT include/v2.0/${definition}/${definition}.hpp
+             COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
+-                ${Python_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
++                ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
+                 --output=include/v2.0 ${definitionAbsPath}
+             COMMAND touch ${definition}-v2.0-cxx-stamp
+             DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
 diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-index 92cf9e7a..f8fab8a1 100644
+index 92cf9e7a..83c15772 100644
 --- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
 +++ b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-@@ -2,7 +2,31 @@
+@@ -2,7 +2,32 @@
  #pragma once
  
  #include <algorithm>
@@ -53,7 +83,8 @@ index 92cf9e7a..f8fab8a1 100644
 +  #define htole64(x) OSSwapHostToLittleInt64(x)
 +  #define be64toh(x) OSSwapBigToHostInt64(x)
 +  #define le64toh(x) OSSwapLittleToHostInt64(x)
-+
++  #undef TRUE
++  #undef FALSE
 +#else
 +  #include <endian.h>
 +#endif
