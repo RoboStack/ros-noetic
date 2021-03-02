@@ -39,7 +39,8 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - navigation
+  - mavros
+  # - navigation
   # - cnpy
   # - tf2_ros
   # - desktop_full
