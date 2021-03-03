@@ -68,7 +68,7 @@ index d388a1dcc..ef734373b 100644
 +	}  
 +#pragma warning(pop)  
 +}
-+
++#include <boost/thread.hpp>
 +void SetThreadName( const char* threadName)
 +{
 +	SetThreadName(GetCurrentThreadId(),threadName);
