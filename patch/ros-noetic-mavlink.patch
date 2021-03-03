@@ -57,14 +57,21 @@ index bd600b66..153c538b 100644
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
 
 diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-index 92cf9e7a..83c15772 100644
+index 92cf9e7a..32768dbd 100644
 --- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
 +++ b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-@@ -2,7 +2,32 @@
+@@ -2,7 +2,89 @@
  #pragma once
  
  #include <algorithm>
 -#include <endian.h>
++
++#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
++
++#      define __WINDOWS__
++
++#endif
++
 +#ifdef FREEBSD
 +  #include <sys/endian.h>
 +#elif __APPLE__
@@ -88,6 +95,56 @@ index 92cf9e7a..83c15772 100644
 +  #define le64toh(x) OSSwapLittleToHostInt64(x)
 +  #undef TRUE
 +  #undef FALSE
++#elif defined(__WINDOWS__)
++
++#      include <winsock2.h>
++#      include <sys/param.h>
++
++#      if BYTE_ORDER == LITTLE_ENDIAN
++
++#              define htobe16(x) htons(x)
++#              define htole16(x) (x)
++#              define be16toh(x) ntohs(x)
++#              define le16toh(x) (x)
++
++#              define htobe32(x) htonl(x)
++#              define htole32(x) (x)
++#              define be32toh(x) ntohl(x)
++#              define le32toh(x) (x)
++
++#              define htobe64(x) htonll(x)
++#              define htole64(x) (x)
++#              define be64toh(x) ntohll(x)
++#              define le64toh(x) (x)
++
++#      elif BYTE_ORDER == BIG_ENDIAN
++
++               /* that would be xbox 360 */
++#              define htobe16(x) (x)
++#              define htole16(x) __builtin_bswap16(x)
++#              define be16toh(x) (x)
++#              define le16toh(x) __builtin_bswap16(x)
++
++#              define htobe32(x) (x)
++#              define htole32(x) __builtin_bswap32(x)
++#              define be32toh(x) (x)
++#              define le32toh(x) __builtin_bswap32(x)
++
++#              define htobe64(x) (x)
++#              define htole64(x) __builtin_bswap64(x)
++#              define be64toh(x) (x)
++#              define le64toh(x) __builtin_bswap64(x)
++
++#      else
++
++#              error byte order not supported
++
++#      endif
++
++#      define __BYTE_ORDER    BYTE_ORDER
++#      define __BIG_ENDIAN    BIG_ENDIAN
++#      define __LITTLE_ENDIAN LITTLE_ENDIAN
++#      define __PDP_ENDIAN    PDP_ENDIAN
 +#else
 +  #include <endian.h>
 +#endif
