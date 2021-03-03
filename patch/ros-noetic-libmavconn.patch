@@ -100,7 +100,7 @@ index 03dfa5677..e1572a003 100644
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
 -				utils::set_this_thread_name("mserial%zu", conn_id);
-+	io_thread = std::thread([] () {
++	io_thread = std::thread([this] () {
 +				//utils::set_this_thread_name("mserial%zu", conn_id);
  				io_service.run();
  			});
@@ -115,7 +115,7 @@ index 609a9bd2d..770417126 100644
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
 -				utils::set_this_thread_name("mtcp%zu", conn_id);
-+	io_thread = std::thread([] () {
++	io_thread = std::thread([this] () {
 +				//utils::set_this_thread_name("mtcp%zu", conn_id);
  				io_service.run();
  			});
@@ -126,7 +126,7 @@ index 609a9bd2d..770417126 100644
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
 -				utils::set_this_thread_name("mtcps%zu", conn_id);
-+	io_thread = std::thread([] () {
++	io_thread = std::thread([this] () {
 +				//utils::set_this_thread_name("mtcps%zu", conn_id);
  				io_service.run();
  			});
