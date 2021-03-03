@@ -39,7 +39,9 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - mavros
+  - mavlink
+  - mavros_msgs
+  # - mavros
   # - navigation
   # - cnpy
   # - tf2_ros
