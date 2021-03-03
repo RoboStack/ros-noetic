@@ -95,57 +95,119 @@ index d388a1dcc..ef734373b 100644
  #else
  	pthread_t pth = pthread_self();
  	return pthread_setname_np(pth, new_name.c_str()) == 0;
+diff --git a/include/mavconn/serial.h b/include/mavconn/serial.h
+index 510276c8d..03d86fcec 100644
+--- a/include/mavconn/serial.h
++++ b/include/mavconn/serial.h
+@@ -54,7 +54,7 @@ public:
+ 
+ private:
+ 	boost::asio::io_service io_service;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 	boost::asio::serial_port serial_dev;
+ 
+ 	std::atomic<bool> tx_in_progress;
+diff --git a/include/mavconn/tcp.h b/include/mavconn/tcp.h
+index 2f23fc3e1..1c2f05955 100644
+--- a/include/mavconn/tcp.h
++++ b/include/mavconn/tcp.h
+@@ -65,7 +65,7 @@ private:
+ 	friend class MAVConnTCPServer;
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 
+ 	boost::asio::ip::tcp::socket socket;
+ 	boost::asio::ip::tcp::endpoint server_ep;
+@@ -120,7 +120,7 @@ public:
+ private:
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 
+ 	boost::asio::ip::tcp::acceptor acceptor;
+ 	boost::asio::ip::tcp::endpoint bind_ep;
+diff --git a/include/mavconn/udp.h b/include/mavconn/udp.h
+index 1a0943a17..1875b66b7 100644
+--- a/include/mavconn/udp.h
++++ b/include/mavconn/udp.h
+@@ -65,7 +65,7 @@ public:
+ private:
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 	bool permanent_broadcast;
+ 
+ 	std::atomic<bool> remote_exists;
 diff --git a/src/serial.cpp b/src/serial.cpp
-index 03dfa5677..e1572a003 100644
+index 03dfa5677..f6053fe83 100644
 --- a/src/serial.cpp
 +++ b/src/serial.cpp
-@@ -113,8 +113,8 @@ MAVConnSerial::MAVConnSerial(uint8_t system_id, uint8_t component_id,
+@@ -113,10 +113,11 @@ MAVConnSerial::MAVConnSerial(uint8_t system_id, uint8_t component_id,
  	io_service.post(std::bind(&MAVConnSerial::do_read, this));
  
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
--				utils::set_this_thread_name("mserial%zu", conn_id);
-+	io_thread = std::thread([this] () {
-+				//utils::set_this_thread_name("mserial%zu", conn_id);
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mserial%zu", conn_id);
  				io_service.run();
- 			});
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
  }
+ 
+ MAVConnSerial::~MAVConnSerial()
 diff --git a/src/tcp.cpp b/src/tcp.cpp
-index 609a9bd2d..770417126 100644
+index 609a9bd2d..30410df5b 100644
 --- a/src/tcp.cpp
 +++ b/src/tcp.cpp
-@@ -104,8 +104,8 @@ MAVConnTCPClient::MAVConnTCPClient(uint8_t system_id, uint8_t component_id,
+@@ -104,10 +104,11 @@ MAVConnTCPClient::MAVConnTCPClient(uint8_t system_id, uint8_t component_id,
  	io_service.post(std::bind(&MAVConnTCPClient::do_recv, this));
  
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
--				utils::set_this_thread_name("mtcp%zu", conn_id);
-+	io_thread = std::thread([this] () {
-+				//utils::set_this_thread_name("mtcp%zu", conn_id);
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mtcp%zu", conn_id);
  				io_service.run();
- 			});
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
  }
-@@ -310,8 +310,8 @@ MAVConnTCPServer::MAVConnTCPServer(uint8_t system_id, uint8_t component_id,
+ 
+ MAVConnTCPClient::MAVConnTCPClient(uint8_t system_id, uint8_t component_id,
+@@ -310,10 +311,11 @@ MAVConnTCPServer::MAVConnTCPServer(uint8_t system_id, uint8_t component_id,
  	io_service.post(std::bind(&MAVConnTCPServer::do_accept, this));
  
  	// run io_service for async io
 -	io_thread = std::thread([this] () {
--				utils::set_this_thread_name("mtcps%zu", conn_id);
-+	io_thread = std::thread([this] () {
-+				//utils::set_this_thread_name("mtcps%zu", conn_id);
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mtcps%zu", conn_id);
  				io_service.run();
- 			});
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
  }
+ 
+ MAVConnTCPServer::~MAVConnTCPServer()
 diff --git a/src/udp.cpp b/src/udp.cpp
-index b19baba4f..739a434f1 100644
+index b19baba4f..0dd086716 100644
 --- a/src/udp.cpp
 +++ b/src/udp.cpp
-@@ -127,7 +127,7 @@ MAVConnUDP::MAVConnUDP(uint8_t system_id, uint8_t component_id,
+@@ -126,10 +126,11 @@ MAVConnUDP::MAVConnUDP(uint8_t system_id, uint8_t component_id,
+ 	io_service.post(std::bind(&MAVConnUDP::do_recvfrom, this));
  
  	// run io_service for async io
- 	io_thread = std::thread([this] () {
--				utils::set_this_thread_name("mudp%zu", conn_id);
-+				//utils::set_this_thread_name("mudp%zu", conn_id);
+-	io_thread = std::thread([this] () {
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mudp%zu", conn_id);
  				io_service.run();
- 			});
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
  }
+ 
+ MAVConnUDP::~MAVConnUDP()
