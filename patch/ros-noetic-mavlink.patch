@@ -57,12 +57,10 @@ index bd600b66..153c538b 100644
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
 
 diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-index 92cf9e7a..32768dbd 100644
-diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-index 92cf9e7a..f73d9cd1 100644
+index 92cf9e7a..068c1b6b 100644
 --- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
 +++ b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-@@ -2,7 +2,93 @@
+@@ -2,7 +2,94 @@
  #pragma once
  
  #include <algorithm>
@@ -101,7 +99,8 @@ index 92cf9e7a..f73d9cd1 100644
 +#elif defined(__WINDOWS__)
 +
 +#      include <windows.h>
-+
++#       undef TRUE
++#       undef FALSE
 +#      if BYTE_ORDER == LITTLE_ENDIAN
 +
 +#               if defined(_MSC_VER)
