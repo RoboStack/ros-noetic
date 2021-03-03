@@ -1,3 +1,15 @@
+diff --git a/include/mavconn/thread_utils.h b/include/mavconn/thread_utils.h
+index d388a1dcc..98648a627 100644
+--- a/include/mavconn/thread_utils.h
++++ b/include/mavconn/thread_utils.h
+@@ -22,7 +22,6 @@
+ #include <string>
+ #include <cstdio>
+ #include <sstream>
+-#include <pthread.h>
+ 
+ namespace mavconn {
+ namespace utils {
 diff --git a/include/mavconn/interface.h b/include/mavconn/interface.h
 index fbfb57254..e11585b3c 100644
 --- a/include/mavconn/interface.h
