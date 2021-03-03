@@ -27,10 +27,10 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - libmavconn
+  # - libmavconn
   # - mavlink
   # - mavros_msgs
-  # - mavros
+  - mavros
   # - catkin
   # - grid_map
   # - rviz
