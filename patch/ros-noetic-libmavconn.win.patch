@@ -1,3 +1,28 @@
+diff --git a/cmake/Modules/FindGeographicLib.cmake b/cmake/Modules/FindGeographicLib.cmake
+deleted file mode 100644
+index 7cc8e340e..000000000
+--- a/cmake/Modules/FindGeographicLib.cmake
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# Look for GeographicLib
+-#
+-# Set
+-#  GEOGRAPHICLIB_FOUND = TRUE
+-#  GeographicLib_INCLUDE_DIRS = /usr/local/include
+-#  GeographicLib_LIBRARIES = /usr/local/lib/libGeographic.so
+-#  GeographicLib_LIBRARY_DIRS = /usr/local/lib
+-
+-find_path (GeographicLib_INCLUDE_DIRS NAMES GeographicLib/Config.h)
+-
+-find_library (GeographicLib_LIBRARIES NAMES Geographic)
+-
+-include (FindPackageHandleStandardArgs)
+-find_package_handle_standard_args (GeographicLib DEFAULT_MSG
+-  GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
+-mark_as_advanced (GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
+-
+-#message(WARNING "GL: F:${GeographicLib_FOUND} L:${GeographicLib_LIBRARIES} I:${GeographicLib_INCLUDE_DIRS}")
+
 diff --git a/include/mavconn/thread_utils.h b/include/mavconn/thread_utils.h
 index d388a1dcc..98648a627 100644
 --- a/include/mavconn/thread_utils.h
