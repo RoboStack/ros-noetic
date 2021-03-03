@@ -1,3 +1,16 @@
+diff --git a/include/mavconn/interface.h b/include/mavconn/interface.h
+index fbfb57254..e11585b3c 100644
+--- a/include/mavconn/interface.h
++++ b/include/mavconn/interface.h
+@@ -29,6 +29,7 @@
+ #include <atomic>
+ #include <chrono>
+ #include <thread>
++#include <boost/thread.hpp>
+ #include <memory>
+ #include <sstream>
+ #include <cassert>
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 1bcd328bc..b1f03bf2b 100644
 --- a/CMakeLists.txt
