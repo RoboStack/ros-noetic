@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ed6ff0806..5679f4f3c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -107,12 +107,17 @@ add_dependencies(mavros
+   ${catkin_EXPORTED_TARGETS}
+ )
+ target_link_libraries(mavros
+-  atomic
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+   ${GeographicLib_LIBRARIES}
+ )
+ 
++if(NOT APPLE)
++  target_link_libraries(mavros
++    atomic
++  )
++endif()
++
+ add_library(mavros_plugins
+   src/plugins/3dr_radio.cpp
+   src/plugins/actuator_control.cpp

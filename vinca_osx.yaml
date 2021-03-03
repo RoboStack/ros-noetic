@@ -40,6 +40,7 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
+  - mavros
   # - hector_gazebo_plugins
   # - navigation
   # - plotjuggler_ros
@@ -76,7 +77,7 @@ packages_select_by_deps:
   # - slam_toolbox
   # - turtlebot3
   # - cnpy
-  - turtlebot3_fake
+  # - turtlebot3_fake
 
   ##
   # NOT RELEASED ON NOETIC...

@@ -2,4 +2,3 @@ moveit_visual_tools:
   add: ["REQUIRE_OPENGL"]
 grid_map_demos:
   add: ["REQUIRE_OPENGL"]
-
