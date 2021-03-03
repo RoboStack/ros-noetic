@@ -2,6 +2,17 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index ed6ff0806..5679f4f3c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -44,7 +44,9 @@ find_package(GeographicLib REQUIRED)
+ ## Check if the datasets are installed
+ include(CheckGeographicLibDatasets)
+ 
++if(UNIX)
+ include(EnableCXX11)
++endif()
+ include(MavrosMavlink)
+ 
+ # detect if sensor_msgs has BatteryState.msg
+
 @@ -107,12 +107,17 @@ add_dependencies(mavros
    ${catkin_EXPORTED_TARGETS}
  )
