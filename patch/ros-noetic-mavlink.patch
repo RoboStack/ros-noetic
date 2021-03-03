@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bd600b66..830bd526 100644
+index bd600b66..153c538b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -20,20 +20,11 @@ set(CMAKE_INSTALL_LIBDIR lib)
@@ -35,28 +35,27 @@ index bd600b66..830bd526 100644
          OUTPUT_VARIABLE XML_VERSION
          RESULT_VARIABLE XML_RESULT
          )
-@@ -77,8 +68,8 @@ macro(generateMavlink_v10 definitions)
+@@ -77,8 +68,7 @@ macro(generateMavlink_v10 definitions)
          message(STATUS "processing v1.0: ${definitionAbsPath}")
          add_custom_command(
              OUTPUT include/v1.0/${definition}/${definition}.h
 -            COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
 -                ${Python_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
-+            COMMAND PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
-+                ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
++            COMMAND ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
                  --output=include/v1.0 ${definitionAbsPath}
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
              )
-@@ -96,8 +87,8 @@ macro(generateMavlink_v20 definitions)
+@@ -96,8 +86,7 @@ macro(generateMavlink_v20 definitions)
          add_custom_command(
              OUTPUT ${definition}-v2.0-cxx-stamp
              #OUTPUT include/v2.0/${definition}/${definition}.hpp
 -            COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
 -                ${Python_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
-+            COMMAND PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
-+                ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
++            COMMAND ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
                  --output=include/v2.0 ${definitionAbsPath}
              COMMAND touch ${definition}-v2.0-cxx-stamp
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
+
 diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
 index 92cf9e7a..83c15772 100644
 --- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
