@@ -155,7 +155,7 @@ index 92cf9e7a..c95c2330 100644
  
  namespace mavlink {
 diff --git a/pymavlink/generator/mavgen_cpp11.py b/pymavlink/generator/mavgen_cpp11.py
-index aaeb5f5a..89999251 100644
+index aaeb5f5a..9d141f1a 100644
 --- a/pymavlink/generator/mavgen_cpp11.py
 +++ b/pymavlink/generator/mavgen_cpp11.py
 @@ -67,6 +67,20 @@ def generate_main_hpp(directory, xml):
@@ -179,7 +179,7 @@ index aaeb5f5a..89999251 100644
  namespace mavlink {
  namespace ${basename} {
  
-@@ -97,6 +111,17 @@ constexpr auto ${enum_end_name} = ${enum_end_value};
+@@ -97,6 +111,21 @@ constexpr auto ${enum_end_name} = ${enum_end_value};
  } // namespace ${basename}
  } // namespace mavlink
  
@@ -187,12 +187,16 @@ index aaeb5f5a..89999251 100644
 +#define ERROR ERRORPREV
 +#undef ERRORPREV
 +#endif
++
 +#ifdef TRUEPREV
 +#define TRUE TRUEPREV
 +#undef TRUEPREV
++#endif
++
 +#ifdef FALSEPREV
 +#define FALSE FALSEPREV
 +#undef FALSEPREV
++#endif
 +
  // MESSAGE DEFINITIONS
  ${{message:#include "./mavlink_msg_${name_lower}.hpp"
