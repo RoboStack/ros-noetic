@@ -29,7 +29,7 @@ index 539f20341..694649063 100644
  /**
   * @brief Message buffer for internal use in libmavconn
 diff --git a/include/mavconn/thread_utils.h b/include/mavconn/thread_utils.h
-index d388a1dcc..75395d2d2 100644
+index d388a1dcc..ef734373b 100644
 --- a/include/mavconn/thread_utils.h
 +++ b/include/mavconn/thread_utils.h
 @@ -22,7 +22,47 @@
@@ -42,37 +42,37 @@ index d388a1dcc..75395d2d2 100644
 +#pragma pack(push,8)  
 +typedef struct tagTHREADNAME_INFO  
 +{  
-+    DWORD dwType; // Must be 0x1000.  
-+    LPCSTR szName; // Pointer to name (in user addr space).  
-+    DWORD dwThreadID; // Thread ID (-1=caller thread).  
-+    DWORD dwFlags; // Reserved for future use, must be zero.  
++       DWORD dwType; // Must be 0x1000.  
++       LPCSTR szName; // Pointer to name (in user addr space).  
++       DWORD dwThreadID; // Thread ID (-1=caller thread).  
++       DWORD dwFlags; // Reserved for future use, must be zero.  
 + } THREADNAME_INFO;  
 +#pragma pack(pop)  
 +void SetThreadName(DWORD dwThreadID, const char* threadName) {  
-+    THREADNAME_INFO info;  
-+    info.dwType = 0x1000;  
-+    info.szName = threadName;  
-+    info.dwThreadID = dwThreadID;  
-+    info.dwFlags = 0;  
++       THREADNAME_INFO info;  
++       info.dwType = 0x1000;  
++       info.szName = threadName;  
++       info.dwThreadID = dwThreadID;  
++       info.dwFlags = 0;  
 +#pragma warning(push)  
 +#pragma warning(disable: 6320 6322)  
-+    __try{  
-+        RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);  
-+    }  
-+    __except (EXCEPTION_EXECUTE_HANDLER){  
-+    }  
++       __try{  
++               RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);  
++       }  
++       __except (EXCEPTION_EXECUTE_HANDLER){  
++       }  
 +#pragma warning(pop)  
 +}
 +
 +void SetThreadName( const char* threadName)
 +{
-+    SetThreadName(GetCurrentThreadId(),threadName);
++       SetThreadName(GetCurrentThreadId(),threadName);
 +}
 +
 +void SetThreadName( std::thread* thread, const char* threadName)
 +{
-+    DWORD threadId = ::GetThreadId( static_cast<HANDLE>( thread->native_handle() ) );
-+    SetThreadName(threadId,threadName);
++       DWORD threadId = ::GetThreadId( static_cast<HANDLE>( thread->native_handle() ) );
++       SetThreadName(threadId,threadName);
 +}
 +#else
  #include <pthread.h>
@@ -85,8 +85,8 @@ index d388a1dcc..75395d2d2 100644
  #ifdef __APPLE__
         return pthread_setname_np(new_name.c_str()) == 0;
 +#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-+    SetThreadName(new_name.c_str())
-+    return 0;
++       SetThreadName(new_name.c_str())
++       return 0;
  #else
         pthread_t pth = pthread_self();
         return pthread_setname_np(pth, new_name.c_str()) == 0;
