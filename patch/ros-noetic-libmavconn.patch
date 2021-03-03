@@ -1,8 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1bcd328bc..1a5482604 100644
+index 1bcd328bc..b1f03bf2b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -12,7 +12,9 @@ find_package(Boost REQUIRED COMPONENTS system)
+@@ -8,11 +8,13 @@ find_package(catkin REQUIRED)
+ 
+ ## System dependencies are found with CMake's conventions
+ find_package(console_bridge REQUIRED)
+-find_package(Boost REQUIRED COMPONENTS system)
++find_package(Boost REQUIRED COMPONENTS system thread)
  
  # add package modules path, not needed in dependend packages
  list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
@@ -128,6 +133,19 @@ index 609a9bd2d..770417126 100644
 -				utils::set_this_thread_name("mtcps%zu", conn_id);
 +	io_thread = std::thread([this] () {
 +				//utils::set_this_thread_name("mtcps%zu", conn_id);
+ 				io_service.run();
+ 			});
+ }
+diff --git a/src/udp.cpp b/src/udp.cpp
+index b19baba4f..739a434f1 100644
+--- a/src/udp.cpp
++++ b/src/udp.cpp
+@@ -127,7 +127,7 @@ MAVConnUDP::MAVConnUDP(uint8_t system_id, uint8_t component_id,
+ 
+ 	// run io_service for async io
+ 	io_thread = std::thread([this] () {
+-				utils::set_this_thread_name("mudp%zu", conn_id);
++				//utils::set_this_thread_name("mudp%zu", conn_id);
  				io_service.run();
  			});
  }
