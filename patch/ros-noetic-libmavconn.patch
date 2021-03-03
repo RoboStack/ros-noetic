@@ -12,3 +12,19 @@ index 1bcd328bc..1a5482604 100644
  include(MavrosMavlink)
  
  # Fixed in mavlink 2016.7.7
+diff --git a/include/mavconn/msgbuffer.h b/include/mavconn/msgbuffer.h
+index 539f20341..694649063 100644
+--- a/include/mavconn/msgbuffer.h
++++ b/include/mavconn/msgbuffer.h
+@@ -20,6 +20,11 @@
+ #include <cassert>
+ #include <mavconn/mavlink_dialect.h>
+ 
++#if defined(_MSC_VER)
++#include <BaseTsd.h>
++typedef SSIZE_T ssize_t;
++#endif
++
+ namespace mavconn {
+ /**
+  * @brief Message buffer for internal use in libmavconn
