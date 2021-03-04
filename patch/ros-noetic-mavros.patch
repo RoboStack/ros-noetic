@@ -13,14 +13,6 @@ index ed6ff0806..594ca07c6 100644
  ## System dependencies are found with CMake's conventions
  find_package(Boost REQUIRED COMPONENTS system)
  
-@@ -140,7 +140,6 @@ add_library(mavros_plugins
-   src/plugins/setpoint_velocity.cpp
-   src/plugins/setpoint_trajectory.cpp
-   src/plugins/sys_status.cpp
--  src/plugins/sys_time.cpp
-   src/plugins/vfr_hud.cpp
-   src/plugins/waypoint.cpp
-   src/plugins/wind_estimation.cpp
 @@ -44,7 +48,9 @@ find_package(GeographicLib REQUIRED)
  ## Check if the datasets are installed
  include(CheckGeographicLibDatasets)
@@ -51,6 +43,14 @@ index ed6ff0806..594ca07c6 100644
  add_library(mavros_plugins
    src/plugins/3dr_radio.cpp
    src/plugins/actuator_control.cpp
+@@ -140,7 +140,6 @@ add_library(mavros_plugins
+   src/plugins/setpoint_velocity.cpp
+   src/plugins/setpoint_trajectory.cpp
+   src/plugins/sys_status.cpp
+-  src/plugins/sys_time.cpp
+   src/plugins/vfr_hud.cpp
+   src/plugins/waypoint.cpp
+   src/plugins/wind_estimation.cpp
 diff --git a/include/mavros/mavros_plugin.h b/include/mavros/mavros_plugin.h
 index 8d8c2141b..99d739f50 100644
 --- a/include/mavros/mavros_plugin.h
