@@ -58,6 +58,7 @@ index c670ce2c3..4992dd04f 100644
  // OS X compat: missing error codes
  #ifdef __APPLE__
  #define EBADE 50       /* Invalid exchange */
+<<<<<<< HEAD
 @@ -32,6 +36,14 @@
  #define EBADSLT 55     /* Invalid slot */
  #endif
@@ -73,3 +74,50 @@ index c670ce2c3..4992dd04f 100644
  namespace mavros {
  namespace utils {
  using mavconn::utils::format;
+=======
+diff --git a/src/lib/mavros.cpp b/src/lib/mavros.cpp
+index 6a4ba43cf..941ffdbf1 100644
+--- a/src/lib/mavros.cpp
++++ b/src/lib/mavros.cpp
+@@ -14,7 +14,13 @@
+ #include <ros/console.h>
+ #include <mavros/mavros.h>
+ #include <mavros/utils.h>
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++#include "windows.h"
++#include "shlwapi.h"
++#else
++#include <dirent.h>
+ #include <fnmatch.h>
++#endif
+ 
+ // MAVLINK_VERSION string
+ #include <mavlink/config.h>
+@@ -263,6 +269,18 @@ void MavRos::plugin_route_cb(const mavlink_message_t *mmsg, const Framing framin
+ 
+ static bool pattern_match(std::string &pattern, std::string &pl_name)
+ {
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++    wchar_t wname[1024];
++    wchar_t wmask[1024];
++
++    size_t outsize;
++    mbstowcs_s(&outsize, wname, pattern.c_str(), strlen(pattern.c_str()) + 1);
++    mbstowcs_s(&outsize, wmask, pl_name.c_str(), strlen(pl_name.c_str()) + 1);
++    if (PathMatchSpecW(wname, wmask))
++        return true;
++    else
++        return false;
++#else
+ 	int cmp = fnmatch(pattern.c_str(), pl_name.c_str(), FNM_CASEFOLD);
+ 	if (cmp == 0)
+ 		return true;
+@@ -274,6 +292,7 @@ static bool pattern_match(std::string &pattern, std::string &pl_name)
+ 	}
+ 
+ 	return false;
++#endif
+ }
+ 
+ /**
+>>>>>>> test
