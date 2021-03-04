@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ed6ff0806..594ca07c6 100644
+index ed6ff0806..8f809f257 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -25,6 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
@@ -43,7 +43,7 @@ index ed6ff0806..594ca07c6 100644
  add_library(mavros_plugins
    src/plugins/3dr_radio.cpp
    src/plugins/actuator_control.cpp
-@@ -140,7 +140,6 @@ add_library(mavros_plugins
+@@ -136,7 +147,6 @@ add_library(mavros_plugins
    src/plugins/setpoint_velocity.cpp
    src/plugins/setpoint_trajectory.cpp
    src/plugins/sys_status.cpp
@@ -73,6 +73,28 @@ index 8d8c2141b..99d739f50 100644
  	// TODO: filtered handlers
  
  	/**
+diff --git a/include/mavros/setpoint_mixin.h b/include/mavros/setpoint_mixin.h
+index 9156f1e66..0f8d545e7 100644
+--- a/include/mavros/setpoint_mixin.h
++++ b/include/mavros/setpoint_mixin.h
+@@ -181,7 +181,7 @@ public:
+ 		auto tf_transform_cb = std::bind(cbp, static_cast<D *>(this), std::placeholders::_1);
+ 
+ 		tf_thread = std::thread([this, tf_transform_cb]() {
+-			mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
++			//mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
+ 
+ 			mavros::UAS *m_uas_ = static_cast<D *>(this)->m_uas;
+ 			std::string &_frame_id = static_cast<D *>(this)->tf_frame_id;
+@@ -217,7 +217,7 @@ public:
+ 		tf_thd_name = _thd_name;
+ 
+ 		tf_thread = std::thread([this, cbp, &topic_sub]() {
+-			mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
++			//mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
+ 
+ 			mavros::UAS *m_uas_ = static_cast<D *>(this)->m_uas;
+ 			ros::NodeHandle &_sp_nh = static_cast<D *>(this)->sp_nh;
 diff --git a/include/mavros/utils.h b/include/mavros/utils.h
 index c670ce2c3..4992dd04f 100644
 --- a/include/mavros/utils.h
@@ -149,16 +171,70 @@ index 6a4ba43cf..bf837e7c6 100644
  }
  
  /**
-diff --git a/include/mavros/setpoint_mixin.h b/include/mavros/setpoint_mixin.h
-index 9156f1e66..caf75e031 100644
---- a/include/mavros/setpoint_mixin.h
-+++ b/include/mavros/setpoint_mixin.h
-@@ -181,7 +181,7 @@ class TF2ListenerMixin {
- 		auto tf_transform_cb = std::bind(cbp, static_cast<D *>(this), std::placeholders::_1);
+diff --git a/src/plugins/setpoint_attitude.cpp b/src/plugins/setpoint_attitude.cpp
+index 9c9712aae..5196ade32 100644
+--- a/src/plugins/setpoint_attitude.cpp
++++ b/src/plugins/setpoint_attitude.cpp
+@@ -100,10 +100,15 @@ public:
+ 		return { /* Rx disabled */ };
+ 	}
  
- 		tf_thread = std::thread([this, tf_transform_cb]() {
--			mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
-+			//mavconn::utils::set_this_thread_name("%s", tf_thd_name.c_str());
++	ros::NodeHandle sp_nh;
++	std::string tf_frame_id;
++	std::string tf_child_frame_id;
++	double tf_rate;
++
+ private:
+ 	friend class SetAttitudeTargetMixin;
+ 	friend class TF2ListenerMixin;
+-	ros::NodeHandle sp_nh;
++
  
- 			mavros::UAS *m_uas_ = static_cast<D *>(this)->m_uas;
- 			std::string &_frame_id = static_cast<D *>(this)->tf_frame_id;
+ 	message_filters::Subscriber<mavros_msgs::Thrust> th_sub;
+ 	message_filters::Subscriber<geometry_msgs::PoseStamped> pose_sub;
+@@ -112,11 +117,7 @@ private:
+ 	std::unique_ptr<SyncPoseThrust> sync_pose;
+ 	std::unique_ptr<SyncTwistThrust> sync_twist;
+ 
+-	std::string tf_frame_id;
+-	std::string tf_child_frame_id;
+-
+ 	bool tf_listen;
+-	double tf_rate;
+ 
+ 	bool use_quaternion;
+ 
+diff --git a/src/plugins/setpoint_position.cpp b/src/plugins/setpoint_position.cpp
+index ebce9ec7b..3395e34d7 100644
+--- a/src/plugins/setpoint_position.cpp
++++ b/src/plugins/setpoint_position.cpp
+@@ -89,12 +89,16 @@ public:
+ 		return { /* Rx disabled */ };
+ 	}
+ 
++	ros::NodeHandle sp_nh;
++	std::string tf_frame_id;
++	std::string tf_child_frame_id;
++	double tf_rate;
++
+ private:
+ 	friend class SetPositionTargetLocalNEDMixin;
+ 	friend class SetPositionTargetGlobalIntMixin;
+ 	friend class TF2ListenerMixin;
+ 
+-	ros::NodeHandle sp_nh;
+ 	ros::NodeHandle spg_nh;		//!< to get local position and gps coord which are not under sp_h()
+ 	ros::Subscriber setpoint_sub;
+ 	ros::Subscriber setpointg_sub;	//!< Global setpoint
+@@ -109,11 +113,7 @@ private:
+ 	Eigen::Vector3d current_local_pos;	//!< Current local position in ENU
+ 	uint32_t old_gps_stamp = 0;		//!< old time gps time stamp in [ms], to check if new gps msg is received
+ 
+-	std::string tf_frame_id;
+-	std::string tf_child_frame_id;
+-
+ 	bool tf_listen;
+-	double tf_rate;
+ 
+ 	MAV_FRAME mav_frame;
+ 
