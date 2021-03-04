@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ed6ff0806..5679f4f3c 100644
+index ed6ff0806..b223bc2b3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -25,6 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
@@ -13,19 +13,18 @@ index ed6ff0806..5679f4f3c 100644
  ## System dependencies are found with CMake's conventions
  find_package(Boost REQUIRED COMPONENTS system)
  
-
-@@ -44,7 +44,9 @@ find_package(GeographicLib REQUIRED)
+@@ -44,7 +48,9 @@ find_package(GeographicLib REQUIRED)
  ## Check if the datasets are installed
  include(CheckGeographicLibDatasets)
  
+-include(EnableCXX11)
 +if(UNIX)
- include(EnableCXX11)
++  include(EnableCXX11)
 +endif()
  include(MavrosMavlink)
  
  # detect if sensor_msgs has BatteryState.msg
-
-@@ -107,12 +107,17 @@ add_dependencies(mavros
+@@ -107,12 +113,17 @@ add_dependencies(mavros
    ${catkin_EXPORTED_TARGETS}
  )
  target_link_libraries(mavros
