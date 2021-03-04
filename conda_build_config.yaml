@@ -115,18 +115,6 @@ zip_keys:
     - numpy
     - python_impl
 
-# aarch64 specifics because conda-build sets many things to centos 6
-# this can probably be removed when conda-build gets updated defaults
-# for aarch64
-cdt_arch: aarch64                       # [aarch64]
-BUILD: aarch64-conda_cos7-linux-gnu     # [aarch64]
-
-# armv7l specifics because conda-build sets many things to centos 6
-# this can probably be removed when conda-build gets updated defaults
-# for aarch64
-cdt_arch: armv7l                          # [armv7l]
-BUILD: armv7-conda_cos7-linux-gnueabihf   # [armv7l]
-
 # TODO: remove these when run_exports are added to the packages.
 pin_run_as_build:
   arpack:
