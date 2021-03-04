@@ -14,6 +14,14 @@ Please note we have a code of conduct, and follow it in all your interactions wi
 We follow the [NumFOCUS code of conduct](https://numfocus.org/code-of-conduct).
 
 
+# Adding new packages via pull requests
+You can open a pull request that will get build automatically in our CI.
+
+An example can be found [here](https://github.com/RoboStack/ros-noetic/pull/44). Simply add the required packages to the `vinca_*.yaml` files, where the * indicates the desired platform (linux_64, osx, win or linux_aarch64). Ideally, try to add packages to all of these platforms.
+
+Sometimes, it may be required to patch the packages. An example of how to do so can be found in [this PR](https://github.com/RoboStack/ros-noetic/pull/32).
+
+
 # Testing changes locally
 
 1. Create a new conda environment and add the conda-forge and robostack channels:
