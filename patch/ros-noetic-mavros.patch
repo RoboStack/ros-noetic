@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ed6ff0806..b223bc2b3 100644
+index ed6ff0806..594ca07c6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -25,6 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
@@ -74,16 +74,17 @@ index c670ce2c3..4992dd04f 100644
  namespace utils {
  using mavconn::utils::format;
 diff --git a/src/lib/mavros.cpp b/src/lib/mavros.cpp
-index 6a4ba43cf..941ffdbf1 100644
+index 6a4ba43cf..bf837e7c6 100644
 --- a/src/lib/mavros.cpp
 +++ b/src/lib/mavros.cpp
-@@ -14,7 +14,13 @@
+@@ -14,7 +14,14 @@
  #include <ros/console.h>
  #include <mavros/mavros.h>
  #include <mavros/utils.h>
 +#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 +#include "windows.h"
 +#include "shlwapi.h"
++#pragma comment(lib, "shlwapi.lib")
 +#else
 +#include <dirent.h>
  #include <fnmatch.h>
@@ -91,7 +92,7 @@ index 6a4ba43cf..941ffdbf1 100644
  
  // MAVLINK_VERSION string
  #include <mavlink/config.h>
-@@ -263,6 +269,18 @@ void MavRos::plugin_route_cb(const mavlink_message_t *mmsg, const Framing framin
+@@ -263,6 +270,18 @@ void MavRos::plugin_route_cb(const mavlink_message_t *mmsg, const Framing framin
  
  static bool pattern_match(std::string &pattern, std::string &pl_name)
  {
@@ -110,7 +111,7 @@ index 6a4ba43cf..941ffdbf1 100644
  	int cmp = fnmatch(pattern.c_str(), pl_name.c_str(), FNM_CASEFOLD);
  	if (cmp == 0)
  		return true;
-@@ -274,6 +292,7 @@ static bool pattern_match(std::string &pattern, std::string &pl_name)
+@@ -274,6 +293,7 @@ static bool pattern_match(std::string &pattern, std::string &pl_name)
  	}
  
  	return false;
