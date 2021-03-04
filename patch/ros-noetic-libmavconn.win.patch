@@ -35,6 +35,35 @@ index d388a1dcc..98648a627 100644
  
  namespace mavconn {
  namespace utils {
+@@ -43,27 +42,6 @@ std::string format(const std::string &fmt, Args ... args)
+        return ret;
+ }
+ 
+-/**
+- * @brief Set name to current thread, printf-like
+- * @param[in] name name for thread
+- * @return true if success
+- *
+- * @note Only for Linux target
+- * @todo add for other posix system
+- */
+-template<typename ... Args>
+-bool set_this_thread_name(const std::string &name, Args&& ... args)
+-{
+-       auto new_name = format(name, std::forward<Args>(args)...);
+-
+-#ifdef __APPLE__
+-       return pthread_setname_np(new_name.c_str()) == 0;
+-#else
+-       pthread_t pth = pthread_self();
+-       return pthread_setname_np(pth, new_name.c_str()) == 0;
+-#endif
+-}
+-
+ /**
+  * @brief Convert to string objects with operator <<
+  */
+
 diff --git a/include/mavconn/interface.h b/include/mavconn/interface.h
 index fbfb57254..e11585b3c 100644
 --- a/include/mavconn/interface.h
