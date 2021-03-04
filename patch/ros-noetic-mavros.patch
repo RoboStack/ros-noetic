@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ed6ff0806..8f809f257 100644
+index ed6ff0806..594ca07c6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -25,6 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
@@ -43,14 +43,6 @@ index ed6ff0806..8f809f257 100644
  add_library(mavros_plugins
    src/plugins/3dr_radio.cpp
    src/plugins/actuator_control.cpp
-@@ -136,7 +147,6 @@ add_library(mavros_plugins
-   src/plugins/setpoint_velocity.cpp
-   src/plugins/setpoint_trajectory.cpp
-   src/plugins/sys_status.cpp
--  src/plugins/sys_time.cpp
-   src/plugins/vfr_hud.cpp
-   src/plugins/waypoint.cpp
-   src/plugins/wind_estimation.cpp
 diff --git a/include/mavros/mavros_plugin.h b/include/mavros/mavros_plugin.h
 index 8d8c2141b..99d739f50 100644
 --- a/include/mavros/mavros_plugin.h
@@ -238,3 +230,29 @@ index ebce9ec7b..3395e34d7 100644
  
  	MAV_FRAME mav_frame;
  
+diff --git a/src/plugins/sys_time.cpp b/src/plugins/sys_time.cpp
+index 09103a5b5..78dad23dc 100644
+--- a/src/plugins/sys_time.cpp
++++ b/src/plugins/sys_time.cpp
+@@ -19,6 +19,9 @@
+ #include <sensor_msgs/TimeReference.h>
+ #include <std_msgs/Duration.h>
+ #include <mavros_msgs/TimesyncStatus.h>
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++#include <time.h>
++#endif
+ 
+ namespace mavros {
+ namespace std_plugins {
+@@ -477,7 +480,11 @@ private:
+ 	uint64_t get_monotonic_now(void)
+ 	{
+ 		struct timespec spec;
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++        timespec_get(&spec, TIME_UTC);
++#else
+ 		clock_gettime(CLOCK_MONOTONIC, &spec);
++#endif
+ 
+ 		return spec.tv_sec * 1000000000ULL + spec.tv_nsec;
+ 	}
