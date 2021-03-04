@@ -9,7 +9,7 @@ conda_index:
 build_number: 2
 
 # Ignore all dependencies of selected packages
-skip_all_deps: false
+skip_all_deps: true
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
