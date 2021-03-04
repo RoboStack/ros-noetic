@@ -44,7 +44,7 @@ index ed6ff0806..b223bc2b3 100644
    src/plugins/3dr_radio.cpp
    src/plugins/actuator_control.cpp
 diff --git a/include/mavros/utils.h b/include/mavros/utils.h
-index c670ce2c3..144ba7d1c 100644
+index c670ce2c3..4992dd04f 100644
 --- a/include/mavros/utils.h
 +++ b/include/mavros/utils.h
 @@ -24,6 +24,10 @@
@@ -58,3 +58,18 @@ index c670ce2c3..144ba7d1c 100644
  // OS X compat: missing error codes
  #ifdef __APPLE__
  #define EBADE 50       /* Invalid exchange */
+@@ -32,6 +36,14 @@
+ #define EBADSLT 55     /* Invalid slot */
+ #endif
+ 
++// Win compat: missing error codes
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++#define EBADE 50       /* Invalid exchange */
++#define EBADFD 81      /* File descriptor in bad state */
++#define EBADRQC 54     /* Invalid request code */
++#define EBADSLT 55     /* Invalid slot */
++#endif
++
+ namespace mavros {
+ namespace utils {
+ using mavconn::utils::format;
