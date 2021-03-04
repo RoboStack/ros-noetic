@@ -7,7 +7,7 @@ index ed6ff0806..b223bc2b3 100644
  )
  
 +if(MSVC)
-+       add_compile_options(/permissive-)
++	add_compile_options(/permissive-)
 +endif()
 +
  ## System dependencies are found with CMake's conventions
@@ -57,24 +57,22 @@ index c670ce2c3..4992dd04f 100644
 +
  // OS X compat: missing error codes
  #ifdef __APPLE__
- #define EBADE 50       /* Invalid exchange */
-<<<<<<< HEAD
+ #define EBADE 50	/* Invalid exchange */
 @@ -32,6 +36,14 @@
- #define EBADSLT 55     /* Invalid slot */
+ #define EBADSLT 55	/* Invalid slot */
  #endif
  
 +// Win compat: missing error codes
 +#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-+#define EBADE 50       /* Invalid exchange */
-+#define EBADFD 81      /* File descriptor in bad state */
-+#define EBADRQC 54     /* Invalid request code */
-+#define EBADSLT 55     /* Invalid slot */
++#define EBADE 50	/* Invalid exchange */
++#define EBADFD 81	/* File descriptor in bad state */
++#define EBADRQC 54	/* Invalid request code */
++#define EBADSLT 55	/* Invalid slot */
 +#endif
 +
  namespace mavros {
  namespace utils {
  using mavconn::utils::format;
-=======
 diff --git a/src/lib/mavros.cpp b/src/lib/mavros.cpp
 index 6a4ba43cf..941ffdbf1 100644
 --- a/src/lib/mavros.cpp
@@ -120,4 +118,3 @@ index 6a4ba43cf..941ffdbf1 100644
  }
  
  /**
->>>>>>> test
