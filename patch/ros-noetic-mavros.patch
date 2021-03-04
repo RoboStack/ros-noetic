@@ -43,6 +43,28 @@ index ed6ff0806..594ca07c6 100644
  add_library(mavros_plugins
    src/plugins/3dr_radio.cpp
    src/plugins/actuator_control.cpp
+diff --git a/include/mavros/mavros_plugin.h b/include/mavros/mavros_plugin.h
+index 8d8c2141b..99d739f50 100644
+--- a/include/mavros/mavros_plugin.h
++++ b/include/mavros/mavros_plugin.h
+@@ -66,6 +66,8 @@ public:
+ 	 */
+ 	virtual Subscriptions get_subscriptions() = 0;
+ 
++	UAS *m_uas;
++
+ protected:
+ 	/**
+ 	 * @brief Plugin constructor
+@@ -73,8 +75,6 @@ protected:
+ 	 */
+ 	PluginBase() : m_uas(nullptr) {};
+ 
+-	UAS *m_uas;
+-
+ 	// TODO: filtered handlers
+ 
+ 	/**
 diff --git a/include/mavros/utils.h b/include/mavros/utils.h
 index c670ce2c3..4992dd04f 100644
 --- a/include/mavros/utils.h
