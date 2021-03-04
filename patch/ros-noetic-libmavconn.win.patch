@@ -1,0 +1,230 @@
+diff --git a/cmake/Modules/FindGeographicLib.cmake b/cmake/Modules/FindGeographicLib.cmake
+deleted file mode 100644
+index 7cc8e340e..000000000
+--- a/cmake/Modules/FindGeographicLib.cmake
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# Look for GeographicLib
+-#
+-# Set
+-#  GEOGRAPHICLIB_FOUND = TRUE
+-#  GeographicLib_INCLUDE_DIRS = /usr/local/include
+-#  GeographicLib_LIBRARIES = /usr/local/lib/libGeographic.so
+-#  GeographicLib_LIBRARY_DIRS = /usr/local/lib
+-
+-find_path (GeographicLib_INCLUDE_DIRS NAMES GeographicLib/Config.h)
+-
+-find_library (GeographicLib_LIBRARIES NAMES Geographic)
+-
+-include (FindPackageHandleStandardArgs)
+-find_package_handle_standard_args (GeographicLib DEFAULT_MSG
+-  GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
+-mark_as_advanced (GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
+-
+-#message(WARNING "GL: F:${GeographicLib_FOUND} L:${GeographicLib_LIBRARIES} I:${GeographicLib_INCLUDE_DIRS}")
+
+diff --git a/include/mavconn/thread_utils.h b/include/mavconn/thread_utils.h
+index d388a1dcc..21d3b98af 100644
+--- a/include/mavconn/thread_utils.h
++++ b/include/mavconn/thread_utils.h
+@@ -22,7 +22,6 @@
+ #include <string>
+ #include <cstdio>
+ #include <sstream>
+-#include <pthread.h>
+ 
+ namespace mavconn {
+ namespace utils {
+@@ -43,27 +42,6 @@ std::string format(const std::string &fmt, Args ... args)
+ 	return ret;
+ }
+ 
+-/**
+- * @brief Set name to current thread, printf-like
+- * @param[in] name name for thread
+- * @return true if success
+- *
+- * @note Only for Linux target
+- * @todo add for other posix system
+- */
+-template<typename ... Args>
+-bool set_this_thread_name(const std::string &name, Args&& ... args)
+-{
+-	auto new_name = format(name, std::forward<Args>(args)...);
+-
+-#ifdef __APPLE__
+-	return pthread_setname_np(new_name.c_str()) == 0;
+-#else
+-	pthread_t pth = pthread_self();
+-	return pthread_setname_np(pth, new_name.c_str()) == 0;
+-#endif
+-}
+-
+ /**
+  * @brief Convert to string objects with operator <<
+  */
+
+diff --git a/include/mavconn/interface.h b/include/mavconn/interface.h
+index fbfb57254..e11585b3c 100644
+--- a/include/mavconn/interface.h
++++ b/include/mavconn/interface.h
+@@ -29,6 +29,7 @@
+ #include <atomic>
+ #include <chrono>
+ #include <thread>
++#include <boost/thread.hpp>
+ #include <memory>
+ #include <sstream>
+ #include <cassert>
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1bcd328bc..b1f03bf2b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,11 +8,13 @@ find_package(catkin REQUIRED)
+ 
+ ## System dependencies are found with CMake's conventions
+ find_package(console_bridge REQUIRED)
+-find_package(Boost REQUIRED COMPONENTS system)
++find_package(Boost REQUIRED COMPONENTS system thread)
+ 
+ # add package modules path, not needed in dependend packages
+ list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
++if(UNIX)
+ include(EnableCXX11)
++endif()
+ include(MavrosMavlink)
+ 
+ # Fixed in mavlink 2016.7.7
+diff --git a/include/mavconn/msgbuffer.h b/include/mavconn/msgbuffer.h
+index 539f20341..694649063 100644
+--- a/include/mavconn/msgbuffer.h
++++ b/include/mavconn/msgbuffer.h
+@@ -20,6 +20,11 @@
+ #include <cassert>
+ #include <mavconn/mavlink_dialect.h>
+ 
++#if defined(_MSC_VER)
++#include <BaseTsd.h>
++typedef SSIZE_T ssize_t;
++#endif
++
+ namespace mavconn {
+ /**
+  * @brief Message buffer for internal use in libmavconn
+diff --git a/include/mavconn/serial.h b/include/mavconn/serial.h
+index 510276c8d..03d86fcec 100644
+--- a/include/mavconn/serial.h
++++ b/include/mavconn/serial.h
+@@ -54,7 +54,7 @@ public:
+ 
+ private:
+ 	boost::asio::io_service io_service;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 	boost::asio::serial_port serial_dev;
+ 
+ 	std::atomic<bool> tx_in_progress;
+diff --git a/include/mavconn/tcp.h b/include/mavconn/tcp.h
+index 2f23fc3e1..1c2f05955 100644
+--- a/include/mavconn/tcp.h
++++ b/include/mavconn/tcp.h
+@@ -65,7 +65,7 @@ private:
+ 	friend class MAVConnTCPServer;
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 
+ 	boost::asio::ip::tcp::socket socket;
+ 	boost::asio::ip::tcp::endpoint server_ep;
+@@ -120,7 +120,7 @@ public:
+ private:
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 
+ 	boost::asio::ip::tcp::acceptor acceptor;
+ 	boost::asio::ip::tcp::endpoint bind_ep;
+diff --git a/include/mavconn/udp.h b/include/mavconn/udp.h
+index 1a0943a17..1875b66b7 100644
+--- a/include/mavconn/udp.h
++++ b/include/mavconn/udp.h
+@@ -65,7 +65,7 @@ public:
+ private:
+ 	boost::asio::io_service io_service;
+ 	std::unique_ptr<boost::asio::io_service::work> io_work;
+-	std::thread io_thread;
++	boost::thread io_thread;
+ 	bool permanent_broadcast;
+ 
+ 	std::atomic<bool> remote_exists;
+diff --git a/src/serial.cpp b/src/serial.cpp
+index 03dfa5677..f6053fe83 100644
+--- a/src/serial.cpp
++++ b/src/serial.cpp
+@@ -113,10 +113,11 @@ MAVConnSerial::MAVConnSerial(uint8_t system_id, uint8_t component_id,
+ 	io_service.post(std::bind(&MAVConnSerial::do_read, this));
+ 
+ 	// run io_service for async io
+-	io_thread = std::thread([this] () {
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mserial%zu", conn_id);
+ 				io_service.run();
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
+ }
+ 
+ MAVConnSerial::~MAVConnSerial()
+diff --git a/src/tcp.cpp b/src/tcp.cpp
+index 609a9bd2d..30410df5b 100644
+--- a/src/tcp.cpp
++++ b/src/tcp.cpp
+@@ -104,10 +104,11 @@ MAVConnTCPClient::MAVConnTCPClient(uint8_t system_id, uint8_t component_id,
+ 	io_service.post(std::bind(&MAVConnTCPClient::do_recv, this));
+ 
+ 	// run io_service for async io
+-	io_thread = std::thread([this] () {
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mtcp%zu", conn_id);
+ 				io_service.run();
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
+ }
+ 
+ MAVConnTCPClient::MAVConnTCPClient(uint8_t system_id, uint8_t component_id,
+@@ -310,10 +311,11 @@ MAVConnTCPServer::MAVConnTCPServer(uint8_t system_id, uint8_t component_id,
+ 	io_service.post(std::bind(&MAVConnTCPServer::do_accept, this));
+ 
+ 	// run io_service for async io
+-	io_thread = std::thread([this] () {
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mtcps%zu", conn_id);
+ 				io_service.run();
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
+ }
+ 
+ MAVConnTCPServer::~MAVConnTCPServer()
+diff --git a/src/udp.cpp b/src/udp.cpp
+index b19baba4f..0dd086716 100644
+--- a/src/udp.cpp
++++ b/src/udp.cpp
+@@ -126,10 +126,11 @@ MAVConnUDP::MAVConnUDP(uint8_t system_id, uint8_t component_id,
+ 	io_service.post(std::bind(&MAVConnUDP::do_recvfrom, this));
+ 
+ 	// run io_service for async io
+-	io_thread = std::thread([this] () {
++	/*io_thread = std::thread([this] () {
+ 				utils::set_this_thread_name("mudp%zu", conn_id);
+ 				io_service.run();
+-			});
++			});*/
++	io_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &io_service));
+ }
+ 
+ MAVConnUDP::~MAVConnUDP()

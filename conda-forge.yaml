@@ -9,9 +9,7 @@ python-rospkg-modules:
 python3-rospkg-modules:
   conda-forge: [rospkg]
 boost:
-  conda-forge:
-    win64: [boost, pthreads-win32]
-    unix: [boost]
+  conda-forge: [boost]
 python-argparse:
   conda-forge: []
 python-catkin-pkg:
