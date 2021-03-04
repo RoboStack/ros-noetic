@@ -34,7 +34,7 @@ index ed6ff0806..b223bc2b3 100644
    ${GeographicLib_LIBRARIES}
  )
  
-+if(NOT APPLE)
++if(UNIX AND NOT APPLE)
 +  target_link_libraries(mavros
 +    atomic
 +  )
