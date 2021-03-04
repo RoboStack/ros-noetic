@@ -2,6 +2,18 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index ed6ff0806..5679f4f3c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -25,6 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
+   trajectory_msgs
+ )
+ 
++if(MSVC)
++       add_compile_options(/permissive-)
++endif()
++
+ ## System dependencies are found with CMake's conventions
+ find_package(Boost REQUIRED COMPONENTS system)
+ 
+
 @@ -44,7 +44,9 @@ find_package(GeographicLib REQUIRED)
  ## Check if the datasets are installed
  include(CheckGeographicLibDatasets)
