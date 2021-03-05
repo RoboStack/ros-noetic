@@ -6,14 +6,14 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 4
+build_number: 5
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
@@ -27,8 +27,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - catkin
-
   ##
   #  TODO OSX
   ##
@@ -41,43 +39,43 @@ packages_select_by_deps:
   # DONE OSX
   ##
   - mavros
-  # - hector_gazebo_plugins
-  # - navigation
-  # - plotjuggler_ros
-  # - catkin
-  # - desktop
-  # - desktop_full
-  # - slam_karto
-  # - rviz
-  # - class_loader
-  # - robot
-  # - executive_smach
-  # - geometry_tutorials
-  # - interactive_marker_tutorials
-  # - joint_state_publisher_gui
-  # - nodelet_core
-  # - robot_state_publisher
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - libfranka
-  # - franka_visualization
-  # - ros_control
-  # - ros_controllers
-  # - rviz_visual_tools
-  # - perception
-  # - perception_pcl
-  # - joy
-  # - imu_tools
-  # - velodyne
-  # - rosbridge_suite
-  # - robot_localization
-  # - urg_node
-  # - teb_local_planner
-  # - moveit
-  # - slam_toolbox
-  # - turtlebot3
-  # - cnpy
-  # - turtlebot3_fake
+  - hector_gazebo_plugins
+  - navigation
+  - plotjuggler_ros
+  - catkin
+  - desktop
+  - desktop_full
+  - slam_karto
+  - rviz
+  - class_loader
+  - robot
+  - executive_smach
+  - geometry_tutorials
+  - interactive_marker_tutorials
+  - joint_state_publisher_gui
+  - nodelet_core
+  - robot_state_publisher
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - libfranka
+  - franka_visualization
+  - ros_control
+  - ros_controllers
+  - rviz_visual_tools
+  - perception
+  - perception_pcl
+  - joy
+  - imu_tools
+  - velodyne
+  - rosbridge_suite
+  - robot_localization
+  - urg_node
+  - teb_local_planner
+  - moveit
+  - slam_toolbox
+  - turtlebot3
+  - cnpy
+  - turtlebot3_fake
 
   ##
   # NOT RELEASED ON NOETIC...
