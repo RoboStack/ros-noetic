@@ -28,6 +28,9 @@ skip_existing:
 
 packages_select_by_deps:
   - moveit
+  - moveit_msgs
+  - moveit_resources_panda_description
+  - moveit_resources_pr2_description
   # - libmavconn
   # - mavlink
   # - mavros_msgs
