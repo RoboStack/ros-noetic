@@ -1,15 +1,15 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index cb01537..69c8aac 100644
+index cb01537e..69c8aac6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -19,6 +19,8 @@ find_package(catkin REQUIRED COMPONENTS
  )
  find_package(Boost REQUIRED COMPONENTS thread)
-
+ 
 +find_package(Threads)
 +
  catkin_python_setup()
-
+ 
  catkin_package(
 @@ -49,6 +51,9 @@ add_library(${PROJECT_NAME}
  )
@@ -18,7 +18,7 @@ index cb01537..69c8aac 100644
 +if(UNIX AND NOT APPLE)
 +    target_link_libraries(${PROJECT_NAME} rt)
 +endif()
-
+ 
  # buffer_server executable
  add_executable(${PROJECT_NAME}_buffer_server src/buffer_server_main.cpp)
 @@ -57,6 +62,7 @@ target_link_libraries(${PROJECT_NAME}_buffer_server
