@@ -39,9 +39,10 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - mavlink
+  - sparse_bundle_adjustment
+  # - mavlink
   # - mavros_msgs
-  - mavros
+  # - mavros
   # - navigation
   # - cnpy
   # - tf2_ros
