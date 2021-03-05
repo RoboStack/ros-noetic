@@ -6,14 +6,14 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 2
+build_number: 3
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
@@ -28,49 +28,42 @@ skip_existing:
 
 packages_select_by_deps:
   - moveit
-  - moveit_msgs
-  - object_recognition_msgs
-  - moveit_resources_panda_description
-  - moveit_resources_pr2_description
-  # - libmavconn
-  # - mavlink
-  # - mavros_msgs
-  # - mavros
-  # - catkin
-  # - grid_map
-  # - rviz
-  # - class_loader
-  # - imu_complementary_filter
-  # - imu_filter_madgwick
-  # - map_msgs
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - image_publisher
-  # - image_proc
-  # - stereo_image_proc
-  # - image_common
-  # - image_transport
-  # - image_transport_plugins
-  # - laser_pipeline
-  # - vision_opencv
-  # - diagnostics
-  # - geometry
-  # - joy
-  # - rospy-message-converter
-  # - ros_base
-  # - robot
-  # - pcl-ros
-  # - pcl-conversions
-  # - desktop
-  # - desktop_full
-  # - robot_localization
-  # - rosbridge_suite
-  # - teb_local_planner
-  # - ros_control
-  # - ros_controllers
-  # - turtlebot3
-  # - turtlebot3_fake
-  # - perception
-  # - slam_karto
+  - mavros
+  - catkin
+  - grid_map
+  - rviz
+  - class_loader
+  - imu_complementary_filter
+  - imu_filter_madgwick
+  - map_msgs
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - image_publisher
+  - image_proc
+  - stereo_image_proc
+  - image_common
+  - image_transport
+  - image_transport_plugins
+  - laser_pipeline
+  - vision_opencv
+  - diagnostics
+  - geometry
+  - joy
+  - rospy-message-converter
+  - ros_base
+  - robot
+  - pcl-ros
+  - pcl-conversions
+  - desktop
+  - desktop_full
+  - robot_localization
+  - rosbridge_suite
+  - teb_local_planner
+  - ros_control
+  - ros_controllers
+  - turtlebot3
+  - turtlebot3_fake
+  - perception
+  - slam_karto
 
 patch_dir: patch
