@@ -76,14 +76,14 @@ jobs:
       shell: bash -l {0}
       if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest'
       run: |
-        boa build .
+        boa build . -m ./ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for macOS
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest'
       run: |
-        boa build .
+        boa build . -m ./ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for Windows
       shell: bash -l {0}
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest'
       run: |
-        boa build .
+        boa build . -m ./ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
