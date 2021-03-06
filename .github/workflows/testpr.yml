@@ -25,6 +25,8 @@ jobs:
         conda info
         conda config --show
         mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        # for now we need boa master
+        pip install git+https://github.com/mamba-org/boa@master
     - name: install vinca
       shell: bash -l {0}
       run: |
