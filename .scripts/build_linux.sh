@@ -52,8 +52,7 @@ pwd
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
-	cp ${FEEDSTOCK_ROOT}/conda_build_config.yaml ./
-	boa build .
+	boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
 done
 
 anaconda -t ${ANACONDA_API_TOKEN} upload /opt/conda/build_artifacts/linux-*/*.tar.bz2 --force

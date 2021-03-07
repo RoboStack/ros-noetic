@@ -24,10 +24,13 @@ jobs:
       run: |
         conda info
         conda config --show
-        mamba install -y pip boa rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
-    - name: install vinca
+        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        mamba install -y boa --only-deps
+    - name: install vinca and boa master
       shell: bash -l {0}
       run: |
+        # for now we need boa master
+        pip install git+https://github.com/mamba-org/boa@master
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
     - name: Check what files have changed
@@ -76,14 +79,14 @@ jobs:
       shell: bash -l {0}
       if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest'
       run: |
-        boa build .
+        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for macOS
       shell: bash -l {0}
       if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest'
       run: |
-        boa build .
+        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for Windows
       shell: bash -l {0}
       if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest'
       run: |
-        boa build .
+        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml

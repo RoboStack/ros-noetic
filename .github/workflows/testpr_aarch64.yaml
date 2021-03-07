@@ -30,4 +30,4 @@ jobs:
           vinca --platform linux-aarch64
           ls
           cat recipe.yaml
-          boa build .
+          boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml

@@ -6,14 +6,14 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 5
+build_number: 6
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - ros_core
@@ -37,47 +37,47 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
-  # - hector_gazebo_plugins
-  # - webots_ros
-  # - navigation
-  # - mavros
-  # - grid_map
-  # - cnpy
-  # - robot_localization
-  # - moveit_visual_tools
-  # - plotjuggler_ros
-  # - ros_core
-  # - rviz
-  # - desktop
-  # - desktop_full
-  # - franka_control
-  # - rosbridge_suite
-  # - moveit
-  # - class_loader
-  # - imu_tools
-  # - velodyne
-  # - velodyne_pcl
-  # - perception_pcl
-  # - urg_node
-  # - teb_local_planner
-  # - joy
-  # - plotjuggler
-  # - libfranka
-  # - franka_visualization
-  # - franka_msgs
-  # - franka_description
-  # - franka_hw
-  # - franka_gripper
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - ros_control
-  # - ros_controllers
-  # - rviz_visual_tools
-  # - slam_karto
-  # - slam_toolbox
-  # - turtlebot3
-  # - cnpy
-  # - turtlebot3_fake
+  - hector_gazebo_plugins
+  - webots_ros
+  - navigation
+  - mavros
+  - grid_map
+  - cnpy
+  - robot_localization
+  - moveit_visual_tools
+  - plotjuggler_ros
+  - ros_core
+  - rviz
+  - desktop
+  - desktop_full
+  - franka_control
+  - rosbridge_suite
+  - moveit
+  - class_loader
+  - imu_tools
+  - velodyne
+  - velodyne_pcl
+  - perception_pcl
+  - urg_node
+  - teb_local_planner
+  - joy
+  - plotjuggler
+  - libfranka
+  - franka_visualization
+  - franka_msgs
+  - franka_description
+  - franka_hw
+  - franka_gripper
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
+  - rviz_visual_tools
+  - slam_karto
+  - slam_toolbox
+  - turtlebot3
+  - cnpy
+  - turtlebot3_fake
 
 
   ##
