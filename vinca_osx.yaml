@@ -68,7 +68,7 @@ packages_select_by_deps:
   - imu_tools
   - velodyne
   - rosbridge_suite
-  - robot_localization
+  # - robot_localization
   - urg_node
   - teb_local_planner
   - moveit

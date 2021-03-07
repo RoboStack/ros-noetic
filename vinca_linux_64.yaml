@@ -79,7 +79,6 @@ packages_select_by_deps:
   - cnpy
   - turtlebot3_fake
 
-
   ##
   # NOT RELEASED ON NOETIC...
   ##
