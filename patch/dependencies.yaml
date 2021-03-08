@@ -6,3 +6,9 @@ gazebo_dev:
   add: [tbb]
 gazebo_ros:
   add: [tbb]
+gazebo_plugins:
+  add: [tbb]
+gazebo_ros_control:
+  add: [tbb]
+gazebo_pkgs:
+  add: [tbb]
