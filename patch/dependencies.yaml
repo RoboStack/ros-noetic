@@ -4,3 +4,5 @@ grid_map_demos:
   add: ["REQUIRE_OPENGL"]
 gazebo_dev:
   add: [tbb]
+gazebo_ros:
+  add: [tbb]
