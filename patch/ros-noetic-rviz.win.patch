@@ -48,20 +48,6 @@ diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/ren
 index e8eb9a91..6c5ecac0 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
 +++ b/src/rviz/ogre_helpers/render_system.cpp
-@@ -155,9 +155,10 @@ void RenderSystem::setupDummyWindowId()
- 
- void RenderSystem::loadOgrePlugins()
- {
--  std::string plugin_prefix = get_ogre_plugin_path() + "/";
--#ifdef Q_OS_MAC
--  plugin_prefix += "lib";
-+#ifdef _WIN32
-+ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
-+#else
-+ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
- #endif
-   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
-   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
 @@ -183,8 +184,12 @@ void RenderSystem::detectGlVersion()
      int minor = caps->getDriverVersion().minor;
      gl_version_ = major * 100 + minor * 10;
