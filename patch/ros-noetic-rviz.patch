@@ -62,18 +62,20 @@ diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/ren
 index d8de5b12..9499b30e 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
 +++ b/src/rviz/ogre_helpers/render_system.cpp
-@@ -155,10 +155,7 @@ void RenderSystem::setupDummyWindowId()
+@@ -155,9 +155,10 @@ void RenderSystem::setupDummyWindowId()
  
  void RenderSystem::loadOgrePlugins()
  {
 -  std::string plugin_prefix = get_ogre_plugin_path() + "/";
 -#ifdef Q_OS_MAC
 -  plugin_prefix += "lib";
--#endif
-+  std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
++#ifdef _WIN32
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
++#else
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
+ #endif
    ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
    ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
-   ogre_root_->loadPlugin(plugin_prefix + "Plugin_ParticleFX");
 diff --git a/ogre_media/fonts/ogre1.10.fontdef b/ogre_media/fonts/ogre1.10.fontdef
 index 4b3c5b82..e714db0f 100644
 --- a/ogre_media/fonts/ogre1.10.fontdef
