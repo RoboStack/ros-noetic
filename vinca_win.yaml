@@ -29,14 +29,14 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - catkin
-
   # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
 
   # - image_view  # GUI needs fixing
   # - robot_localization
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
+  
+  # - moveit  # needs fixing
 
   ##
   # DONE Win
@@ -48,7 +48,6 @@ packages_select_by_deps:
   - desktop_full
   - perception
   - plotjuggler_ros
-  - moveit
   - desktop
   - teb_local_planner
   - octomap
