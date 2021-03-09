@@ -41,7 +41,7 @@ packages_select_by_deps:
   - mavros
   - hector_gazebo_plugins
   - navigation
-  # - plotjuggler_ros
+  - plotjuggler_ros
   - catkin
   - desktop
   - desktop_full
