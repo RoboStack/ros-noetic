@@ -8,3 +8,32 @@ index 90a3aa46..c0ea9352 100644
  include_directories( ./ ../  ../include )
  
 
+diff --git a/plugins/DataStreamMQTT/CMakeLists.txt b/plugins/DataStreamMQTT/CMakeLists.txt
+index 6fd38f61..3a21aa78 100644
+--- a/plugins/DataStreamMQTT/CMakeLists.txt
++++ b/plugins/DataStreamMQTT/CMakeLists.txt
+@@ -12,18 +12,12 @@ SET( SRC datastream_mqtt.cpp )
+ 
+ add_library(DataStreamMQTT SHARED ${SRC} ${UI_SRC}  )
+ 
+-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+-    target_link_libraries(DataStreamMQTT
+-        ${Qt5Widgets_LIBRARIES} plotjuggler_plugin_base
+-        paho-mqtt3c
+-        paho-mqtt3a  )
+-else()
+-    target_link_libraries(DataStreamMQTT
+-        ${Qt5Widgets_LIBRARIES} plotjuggler_plugin_base
+-        paho-mqtt3c-static
+-        paho-mqtt3a-static)
+-endif()
+-
++target_link_libraries(DataStreamMQTT
++    ${Qt5Widgets_LIBRARIES}
++    paho-mqtt3c-static
++    paho-mqtt3a-static
++    plotjuggler_plugin_base
++    )
+ 
+ if(COMPILING_WITH_CATKIN)
+     install(TARGETS DataStreamMQTT
