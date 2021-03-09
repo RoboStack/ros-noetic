@@ -52,6 +52,7 @@ conda install vs2019_win-64
 # note that in this case, you should also install the necessary dependencies with conda/mamba, if possible
 
 # reload environment to activate required scripts before running anything
+# on Windows, please restart the Anaconda Prompt / Command Prompt!
 conda deactivate
 conda activate robostackenv
 ```
