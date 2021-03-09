@@ -21,21 +21,25 @@ index 1aa2450ff..8eec58cbc 100644
  
  # TODO(j-petit): Version check can be dropped when Xenial reaches end-of-life
  if(BULLET_FOUND)
-
-@@ -56,6 +52,12 @@ foreach(_lib ${LIBFCL_PC_LIBRARIES})
-   list(APPEND LIBFCL_LIBRARIES ${_lib_${_lib}})
- endforeach()
+@@ -47,15 +43,8 @@ else()
+ endif()
  
-+if(WIN32)
-+pkg_check_modules(LIBCCD REQUIRED ccd)
-+find_library(LIBCCD_LIBRARIES_FULL ${LIBCCD_LIBRARIES} ${LIBCCD_LIBRARY_DIRS})
-+set(LIBCCD_LIBRARIES "${LIBCCD_LIBRARIES_FULL}")
-+endif()
-+
+ find_package(PkgConfig REQUIRED)
+-pkg_check_modules(LIBFCL_PC REQUIRED fcl)
+-set(LIBFCL_INCLUDE_DIRS ${LIBFCL_PC_INCLUDE_DIRS})
+-# find *absolute* paths to LIBFCL_LIBRARIES
+-set(LIBFCL_LIBRARIES)
+-foreach(_lib ${LIBFCL_PC_LIBRARIES})
+-  find_library(_lib_${_lib} ${_lib} HINTS ${LIBFCL_PC_LIBRARY_DIRS})
+-  list(APPEND LIBFCL_LIBRARIES ${_lib_${_lib}})
+-endforeach()
+-
++find_package(fcl REQUIRED)
++set(LIBFCL_LIBRARIES "fcl")
  find_package(octomap REQUIRED)
  find_package(urdfdom REQUIRED)
  find_package(urdfdom_headers REQUIRED)
-@@ -83,6 +85,7 @@ COMPONENTS
+@@ -82,6 +71,7 @@ COMPONENTS
    urdf
    visualization_msgs
    xmlrpcpp
@@ -43,6 +47,24 @@ index 1aa2450ff..8eec58cbc 100644
  )
  
  set(VERSION_FILE_PATH "${CATKIN_DEVEL_PREFIX}/include")
+@@ -167,7 +157,7 @@ catkin_package(
+   DEPENDS
+     Boost
+     EIGEN3
+-    LIBFCL
++    fcl
+     OCTOMAP
+     urdfdom
+     urdfdom_headers
+@@ -179,7 +169,6 @@ include_directories(SYSTEM ${catkin_INCLUDE_DIRS}
+                            ${EIGEN3_INCLUDE_DIRS}
+                            ${urdfdom_INCLUDE_DIRS}
+                            ${urdfdom_headers_INCLUDE_DIRS}
+-                           ${LIBFCL_INCLUDE_DIRS}
+                            ${BULLET_INCLUDE_DIRS}
+                            ${OCTOMAP_INCLUDE_DIRS}
+                     )
+
 diff --git a/collision_detection/include/moveit/collision_detection/allvalid/collision_detector_allocator_allvalid.h b/collision_detection/include/moveit/collision_detection/allvalid/collision_detector_allocator_allvalid.h
 index fdc9aec03..83696a02e 100644
 --- a/collision_detection/include/moveit/collision_detection/allvalid/collision_detector_allocator_allvalid.h
