@@ -28,7 +28,7 @@ index 62e14fa..07ce79b 100644
  double evalGaussian(double sigmaSquare, double delta);
  double evalLogGaussian(double sigmaSquare, double delta);
 diff --git a/utils/stat.cpp b/utils/stat.cpp
-index 30536c4..1012ea7 100644
+index 30536c4..7b569e9 100644
 --- a/utils/stat.cpp
 +++ b/utils/stat.cpp
 @@ -5,6 +5,7 @@
@@ -39,6 +39,15 @@ index 30536c4..1012ea7 100644
  #include "gmapping/utils/stat.h"
  
  namespace GMapping {
+@@ -45,7 +46,7 @@ double pf_ran_gaussian(double sigma)
+   return(sigma * x2 * sqrt(-2.0*log(w)/w));
+ }
+ 
+-double sampleGaussian(double sigma, unsigned long int S) {
++double sampleGaussian(double sigma, unsigned int S) {
+   /*
+ 	static gsl_rng * r = NULL;
+ 	if(r==NULL) {
 @@ -56,7 +57,7 @@ double sampleGaussian(double sigma, unsigned long int S) {
  	if (S!=0)
          {
