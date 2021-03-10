@@ -122,6 +122,19 @@ index 2494350..6c594e0 100644
  namespace GMapping {
  
  template<class Cell, const bool debug=false> class Array2D{
+diff --git a/include/gmapping/scanmatcher/scanmatcher.h b/include/gmapping/scanmatcher/scanmatcher.h
+index c970ae1..bbebe24 100644
+--- a/include/gmapping/scanmatcher/scanmatcher.h
++++ b/include/gmapping/scanmatcher/scanmatcher.h
+@@ -37,7 +37,7 @@ class ScanMatcher{
+ 		inline const double* laserAngles() const { return m_laserAngles; }
+ 		inline unsigned int laserBeams() const { return m_laserBeams; }
+ 		
+-		static const double nullLikelihood;
++		const double nullLikelihood=-.5;
+ 	protected:
+ 		//state of the matcher
+ 		bool m_activeAreaComputed;
 diff --git a/include/gmapping/utils/point.h b/include/gmapping/utils/point.h
 index 3735aed..153d5fb 100644
 --- a/include/gmapping/utils/point.h
@@ -181,10 +194,10 @@ index a9a3ccc..a71c1e5 100644
  #define MAX_STRING_LENGTH 1024
  
 diff --git a/scanmatcher/scanmatcher.cpp b/scanmatcher/scanmatcher.cpp
-index 5d7f291..29c61d7 100644
+index 5d7f291..da388f4 100644
 --- a/scanmatcher/scanmatcher.cpp
 +++ b/scanmatcher/scanmatcher.cpp
-@@ -7,6 +7,10 @@
+@@ -7,11 +7,15 @@
  #include "gmapping/scanmatcher/gridlinetraversal.h"
  //#define GENERATE_MAPS
  
@@ -195,6 +208,12 @@ index 5d7f291..29c61d7 100644
  namespace GMapping {
  
  using namespace std;
+ 
+-const double ScanMatcher::nullLikelihood=-.5;
++//const double ScanMatcher::nullLikelihood=-.5;
+ 
+ ScanMatcher::ScanMatcher(): m_laserPose(0,0,0){
+ 	//m_laserAngles=0;
 diff --git a/utils/stat.cpp b/utils/stat.cpp
 index 30536c4..7b569e9 100644
 --- a/utils/stat.cpp
