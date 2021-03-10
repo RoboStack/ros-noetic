@@ -1,7 +1,16 @@
 diff --git a/include/twist_mux/topic_handle.h b/include/twist_mux/topic_handle.h
-index a24cbaa..17b72f2 100644
+index a24cbaa..aac2600 100644
 --- a/include/twist_mux/topic_handle.h
 +++ b/include/twist_mux/topic_handle.h
+@@ -85,7 +85,7 @@ class TopicHandle_ : boost::noncopyable
+    */
+   bool hasExpired() const
+   {
+-    return (timeout_ > 0.0) and
++    return (timeout_ > 0.0) &&
+            ((ros::Time::now() - stamp_).toSec() > timeout_);
+   }
+ 
 @@ -155,7 +155,7 @@ class VelocityTopicHandle : public TopicHandle_<geometry_msgs::Twist>
  
    bool isMasked(priority_type lock_priority) const
