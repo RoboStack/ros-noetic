@@ -36,6 +36,7 @@ packages_select_by_deps:
   - rosserial
   - nmea_navsat_driver
   - hector_gazebo_plugins
+  - rosserial_server
 
   # DONE
   - pointgrey_camera_description

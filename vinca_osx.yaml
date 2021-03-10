@@ -43,6 +43,8 @@ packages_select_by_deps:
   - nmea_msgs
   - rosserial
   - nmea_navsat_driver
+  - rosserial_server
+
   ##
   # DONE OSX
   ##

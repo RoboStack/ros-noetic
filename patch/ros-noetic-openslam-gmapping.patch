@@ -1,3 +1,63 @@
+diff --git a/carmenwrapper/carmenwrapper.cpp b/carmenwrapper/carmenwrapper.cpp
+index d51d753..1218118 100644
+--- a/carmenwrapper/carmenwrapper.cpp
++++ b/carmenwrapper/carmenwrapper.cpp
+@@ -26,6 +26,10 @@
+ using namespace GMapping;
+ using namespace std;
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ //static vars for the carmenwrapper
+ SensorMap CarmenWrapper::m_sensorMap;
+ deque<RangeReading> CarmenWrapper::m_rangeDeque;
+diff --git a/gfs-carmen/gfs-carmen.cpp b/gfs-carmen/gfs-carmen.cpp
+index 7c19e65..fb755cd 100644
+--- a/gfs-carmen/gfs-carmen.cpp
++++ b/gfs-carmen/gfs-carmen.cpp
+@@ -27,6 +27,10 @@
+ #include <gmapping/utils/orientedboundingbox.h>
+ #include <gmapping/configfile/configfile.h>
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ #define DEBUG cout << __PRETTY_FUNCTION__
+ 
+ /*
+diff --git a/gridfastslam/gridslamprocessor.cpp b/gridfastslam/gridslamprocessor.cpp
+index 3466746..498fee2 100644
+--- a/gridfastslam/gridslamprocessor.cpp
++++ b/gridfastslam/gridslamprocessor.cpp
+@@ -11,6 +11,10 @@
+ //#define MAP_CONSISTENCY_CHECK
+ //#define GENERATE_TRAJECTORIES
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ namespace GMapping {
+ 
+ const double m_distanceThresholdCheck = 20;
+diff --git a/gui/gsp_thread.cpp b/gui/gsp_thread.cpp
+index e6fb208..762c9d9 100644
+--- a/gui/gsp_thread.cpp
++++ b/gui/gsp_thread.cpp
+@@ -30,6 +30,10 @@
+ 	#include <gmapping/carmenwrapper/carmenwrapper.h>
+ #endif
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ #define DEBUG cout << __PRETTY_FUNCTION__
+ 
+ using namespace std;
 diff --git a/include/gmapping/grid/array2d.h b/include/gmapping/grid/array2d.h
 index 2494350..09090e0 100644
 --- a/include/gmapping/grid/array2d.h
@@ -14,6 +74,21 @@ index 2494350..09090e0 100644
  namespace GMapping {
  
  template<class Cell, const bool debug=false> class Array2D{
+diff --git a/include/gmapping/utils/point.h b/include/gmapping/utils/point.h
+index 3735aed..5fb28d5 100644
+--- a/include/gmapping/utils/point.h
++++ b/include/gmapping/utils/point.h
+@@ -5,6 +5,10 @@
+ #include <iostream>
+ #include "gmapping/utils/gvalues.h"
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ #define DEBUG_STREAM cerr << __PRETTY_FUNCTION__ << ":" //FIXME
+ 
+ namespace GMapping {
 diff --git a/include/gmapping/utils/stat.h b/include/gmapping/utils/stat.h
 index 62e14fa..07ce79b 100644
 --- a/include/gmapping/utils/stat.h
@@ -27,6 +102,51 @@ index 62e14fa..07ce79b 100644
  
  double evalGaussian(double sigmaSquare, double delta);
  double evalLogGaussian(double sigmaSquare, double delta);
+diff --git a/log/carmenconfiguration.cpp b/log/carmenconfiguration.cpp
+index 7cac05e..6f07b84 100644
+--- a/log/carmenconfiguration.cpp
++++ b/log/carmenconfiguration.cpp
+@@ -10,6 +10,10 @@
+ 
+ #define LINEBUFFER_SIZE 10000
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ namespace GMapping {
+ 
+ using namespace std;
+diff --git a/scanmatcher/scanmatch_test.cpp b/scanmatcher/scanmatch_test.cpp
+index a9a3ccc..9d7ca0b 100644
+--- a/scanmatcher/scanmatch_test.cpp
++++ b/scanmatcher/scanmatch_test.cpp
+@@ -11,6 +11,10 @@
+ using namespace std;
+ using namespace GMapping;
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ #define DEBUG cout << __PRETTY_FUNCTION__
+ #define MAX_STRING_LENGTH 1024
+ 
+diff --git a/scanmatcher/scanmatcher.cpp b/scanmatcher/scanmatcher.cpp
+index 5d7f291..05870f1 100644
+--- a/scanmatcher/scanmatcher.cpp
++++ b/scanmatcher/scanmatcher.cpp
+@@ -7,6 +7,10 @@
+ #include "gmapping/scanmatcher/gridlinetraversal.h"
+ //#define GENERATE_MAPS
+ 
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ namespace GMapping {
+ 
+ using namespace std;
 diff --git a/utils/stat.cpp b/utils/stat.cpp
 index 30536c4..7b569e9 100644
 --- a/utils/stat.cpp
