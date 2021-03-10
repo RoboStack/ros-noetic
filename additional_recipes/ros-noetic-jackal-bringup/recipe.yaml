@@ -1,0 +1,58 @@
+package:
+  name: ros-noetic-jackal-bringup
+  version: 0.6.1
+about:
+  home: http://wiki.ros.org/Robots/Jackal
+  license:
+    - BSD
+  summary: Scripts for installing Jackal's robot software.
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 0
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+source:
+  git_url: https://github.com/clearpath-gbp/jackal_robot-release.git
+  git_rev: release/melodic/jackal_bringup/0.6.1-1
+  folder: ros-noetic-jackal-bringup/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-jackal-base
+    - ros-noetic-lms1xx
+    - ros-noetic-urg-node
+    - ros-noetic-velodyne-pointcloud
+    - ros-noetic-pointgrey-camera-driver
+    - ros-noetic-nmea-comms
+    - ros-noetic-nmea-navsat-driver
+    - ros-noetic-robot-upstart
+  run:
+    - python
+    - ros-noetic-jackal-base
+    - ros-noetic-lms1xx
+    - ros-noetic-urg-node
+    - ros-noetic-velodyne-pointcloud
+    - ros-noetic-pointgrey-camera-driver
+    - ros-noetic-nmea-comms
+    - ros-noetic-nmea-navsat-driver
+    - ros-noetic-robot-upstart
+    - ros-noetic-jackal-base
+    - ros-noetic-lms1xx
+    - ros-noetic-urg-node
+    - ros-noetic-velodyne-pointcloud
+    - ros-noetic-pointgrey-camera-driver
+    - ros-noetic-nmea-comms
+    - ros-noetic-nmea-navsat-driver
+    - ros-noetic-robot-upstart

@@ -1,0 +1,42 @@
+package:
+  name: ros-noetic-jackal-msgs
+  version: 0.7.3
+about:
+  home: http://wiki.ros.org/jackal_msgs
+  license:
+    - BSD
+  summary: Messages exclusive to Jackal, especially for representing low-level motor commands and sensors.
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 0
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+source:
+  git_url: https://github.com/clearpath-gbp/jackal-release.git
+  git_rev: release/melodic/jackal_msgs/0.7.3-1
+  folder: ros-noetic-jackal-msgs/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-message-generation
+    - ros-noetic-std-msgs
+    - ros-noetic-message-runtime
+    - ros-noetic-std-msgs
+  run:
+    - python
+    - ros-noetic-message-runtime
+    - ros-noetic-std-msgs
+    - ros-noetic-message-runtime
+    - ros-noetic-std-msgs
