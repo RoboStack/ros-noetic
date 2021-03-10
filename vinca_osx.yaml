@@ -45,7 +45,6 @@ packages_select_by_deps:
   - nmea_navsat_driver
   - rosserial_server
   - robot_upstart
-  - pointgrey_camera_driver
   - nmea_comms
   ##
   # DONE OSX

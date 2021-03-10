@@ -38,7 +38,6 @@ packages_select_by_deps:
   - hector_gazebo_plugins
   - rosserial_server
   - robot_upstart
-  - pointgrey_camera_driver
   - nmea_comms
   - urg_node
   - velodyne_pointcloud
