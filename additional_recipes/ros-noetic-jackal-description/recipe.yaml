@@ -45,8 +45,4 @@ requirements:
     - ros-noetic-xacro
     - ros-noetic-lms1xx
     - ros-noetic-pointgrey-camera-description
-    - ros-noetic-robot-state-publisher
-    - ros-noetic-urdf
-    - ros-noetic-xacro
-    - ros-noetic-lms1xx
-    - ros-noetic-pointgrey-camera-description
+  
