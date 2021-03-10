@@ -20,4 +20,25 @@ index a24cbaa..17b72f2 100644
    }
  
    void callback(const std_msgs::BoolConstPtr& msg)
-
+diff --git a/src/twist_mux.cpp b/src/twist_mux.cpp
+index 4a67ea4..783316e 100644
+--- a/src/twist_mux.cpp
++++ b/src/twist_mux.cpp
+@@ -41,7 +41,7 @@ bool hasIncreasedAbsVelocity(const geometry_msgs::Twist& old_twist, const geomet
+   const auto old_angular_z = std::abs(old_twist.angular.z);
+   const auto new_angular_z = std::abs(new_twist.angular.z);
+ 
+-  return (old_linear_x  < new_linear_x ) or
++  return (old_linear_x  < new_linear_x ) ||
+          (old_angular_z < new_angular_z);
+ }
+ 
+@@ -149,7 +149,7 @@ bool TwistMux::hasPriority(const VelocityTopicHandle& twist)
+   /// that is NOT masked by the lock priority:
+   for (const auto& velocity_h : *velocity_hs_)
+   {
+-    if (not velocity_h.isMasked(lock_priority))
++    if (!velocity_h.isMasked(lock_priority))
+     {
+       const auto velocity_priority = velocity_h.getPriority();
+       if (priority < velocity_priority)
