@@ -40,6 +40,8 @@ packages_select_by_deps:
   - robot_upstart
   - pointgrey_camera_driver
   - nmea_comms
+  - urg_node
+  - velodyne_pointcloud
   # DONE
   - pointgrey_camera_description
   - lms1xx
