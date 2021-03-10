@@ -14,8 +14,7 @@ extra:
 build:
   number: 0
   skip:
-    sel(win): true
-    sel(unix): false
+    - win
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
