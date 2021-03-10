@@ -40,11 +40,11 @@ index 30536c4..1012ea7 100644
  
  namespace GMapping {
 @@ -56,7 +57,7 @@ double sampleGaussian(double sigma, unsigned long int S) {
-        if (S!=0)
+ 	if (S!=0)
          {
-                //gsl_rng_set(r, S);
+ 		//gsl_rng_set(r, S);
 -                srand48(S);
 +                srand(S);
          }
-        if (sigma==0)
-                return 0;
+ 	if (sigma==0)
+ 		return 0;
