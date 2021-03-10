@@ -27,12 +27,19 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pointgrey_camera_description
-  - lms1xx
+  # TODO
   - teleop_twist_joy
   - twist_mux
   - interactive_marker_twist_server
   - gmapping
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
+  - hector_gazebo_plugins
+
+  # DONE
+  - pointgrey_camera_description
+  - lms1xx
   - moveit
   - mavros
   - catkin

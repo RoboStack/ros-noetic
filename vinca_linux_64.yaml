@@ -27,8 +27,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - catkin
-
   ##
   #  TODO Linux
   ##
@@ -37,10 +35,15 @@ packages_select_by_deps:
   - interactive_marker_twist_server
   - teleop_twist_joy
   - twist_mux
-
+  - pointgrey_camera_description
+  - lms1xx
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
   ##
   # DONE Linux
   ##
+  - catkin
   - hector_gazebo_plugins
   - webots_ros
   - navigation

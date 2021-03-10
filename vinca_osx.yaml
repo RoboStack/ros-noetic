@@ -40,6 +40,9 @@ packages_select_by_deps:
   - twist_mux
   - pointgrey_camera_description
   - lms1xx
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
   ##
   # DONE OSX
   ##
