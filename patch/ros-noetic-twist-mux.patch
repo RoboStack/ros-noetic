@@ -1,0 +1,23 @@
+diff --git a/include/twist_mux/topic_handle.h b/include/twist_mux/topic_handle.h
+index a24cbaa..17b72f2 100644
+--- a/include/twist_mux/topic_handle.h
++++ b/include/twist_mux/topic_handle.h
+@@ -155,7 +155,7 @@ class VelocityTopicHandle : public TopicHandle_<geometry_msgs::Twist>
+ 
+   bool isMasked(priority_type lock_priority) const
+   {
+-    return hasExpired() or (getPriority() < lock_priority);
++    return hasExpired() || (getPriority() < lock_priority);
+   }
+ 
+   void callback(const geometry_msgs::TwistConstPtr& msg)
+@@ -194,7 +194,7 @@ class LockTopicHandle : public TopicHandle_<std_msgs::Bool>
+    */
+   bool isLocked() const
+   {
+-    return hasExpired() or getMessage().data;
++    return hasExpired() || getMessage().data;
+   }
+ 
+   void callback(const std_msgs::BoolConstPtr& msg)
+
