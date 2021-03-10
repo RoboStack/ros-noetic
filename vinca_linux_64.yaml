@@ -33,6 +33,10 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  - gmapping
+  - interactive_marker_twist_server
+  - teleop_twist_joy
+  - twist_mux
 
   ##
   # DONE Linux

@@ -35,11 +35,14 @@ packages_select_by_deps:
   # - robot_localization
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
-  - moveit
-
+  - gmapping
+  - interactive_marker_twist_server
+  - teleop_twist_joy
+  - twist_mux
   ##
   # DONE Win
   ##
+  - moveit
   - mavros
   - navigation
   - cnpy
