@@ -39,6 +39,9 @@ packages_select_by_deps:
   - interactive_marker_twist_server
   - teleop_twist_joy
   - twist_mux
+  - pointgrey_camera_description
+  - lms1xx
+  - hector_gazebo_plugins
   ##
   # DONE Win
   ##

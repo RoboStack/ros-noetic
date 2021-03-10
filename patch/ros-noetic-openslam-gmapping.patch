@@ -1,0 +1,50 @@
+diff --git a/include/gmapping/grid/array2d.h b/include/gmapping/grid/array2d.h
+index 2494350..09090e0 100644
+--- a/include/gmapping/grid/array2d.h
++++ b/include/gmapping/grid/array2d.h
+@@ -7,6 +7,11 @@
+ 
+ #include <iostream>
+ 
++
++#ifndef __PRETTY_FUNCTION__
++#define __FUNCDNAME__
++#endif
++
+ namespace GMapping {
+ 
+ template<class Cell, const bool debug=false> class Array2D{
+diff --git a/include/gmapping/utils/stat.h b/include/gmapping/utils/stat.h
+index 62e14fa..07ce79b 100644
+--- a/include/gmapping/utils/stat.h
++++ b/include/gmapping/utils/stat.h
+@@ -8,7 +8,7 @@ namespace GMapping {
+ 
+ /**stupid utility function for drawing particles form a zero mean, sigma variance normal distribution
+ probably it should not go there*/
+-double sampleGaussian(double sigma,unsigned long int S=0);
++double sampleGaussian(double sigma,unsigned int S=0);
+ 
+ double evalGaussian(double sigmaSquare, double delta);
+ double evalLogGaussian(double sigmaSquare, double delta);
+diff --git a/utils/stat.cpp b/utils/stat.cpp
+index 30536c4..1012ea7 100644
+--- a/utils/stat.cpp
++++ b/utils/stat.cpp
+@@ -5,6 +5,7 @@
+ //#include <gsl/gsl_eigen.h>
+ //#include <gsl/gsl_blas.h>
+ #include <math.h>
++#include "gmapping/utils/gvalues.h"
+ #include "gmapping/utils/stat.h"
+ 
+ namespace GMapping {
+@@ -56,7 +57,7 @@ double sampleGaussian(double sigma, unsigned long int S) {
+        if (S!=0)
+         {
+                //gsl_rng_set(r, S);
+-                srand48(S);
++                srand(S);
+         }
+        if (sigma==0)
+                return 0;

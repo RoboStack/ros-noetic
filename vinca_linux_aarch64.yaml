@@ -27,6 +27,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - pointgrey_camera_description
+  - lms1xx
   - teleop_twist_joy
   - twist_mux
   - interactive_marker_twist_server
