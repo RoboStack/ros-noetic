@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3e37b59..dc6467a 100644
+index 3e37b59..086dbe6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -106,12 +106,14 @@ add_library(scanmatcher
@@ -23,6 +23,29 @@ index 3e37b59..dc6467a 100644
  target_link_libraries(scanmatcher
    log sensor_range sensor_odometry sensor_base utils)
  
+@@ -152,12 +154,21 @@ target_link_libraries(gridfastslam
+ # )
+ 
+ ## Mark executables and/or libraries for installation
+-install(TARGETS utils autoptr_test sensor_base sensor_odometry sensor_range sensor_range log log_test log_plot scanstudio2carmen rdk2carmen configfile configfile_test scanmatcher scanmatch_test icptest gridfastslam gfs2log gfs2rec gfs2neff
++install(TARGETS utils autoptr_test sensor_base sensor_odometry sensor_range sensor_range log log_test log_plot scanstudio2carmen rdk2carmen configfile configfile_test scanmatcher gridfastslam gfs2log gfs2rec gfs2neff
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+ 
++if(UNIX)
++  install(TARGETS scanmatch_test icptest
++    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
++  )
++endif()
++
++
+ ## Mark cpp header files for installation
+ install(DIRECTORY include/gmapping
+   DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
 diff --git a/carmenwrapper/carmenwrapper.cpp b/carmenwrapper/carmenwrapper.cpp
 index d51d753..f2378f2 100644
 --- a/carmenwrapper/carmenwrapper.cpp
