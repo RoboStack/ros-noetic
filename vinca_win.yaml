@@ -35,12 +35,13 @@ packages_select_by_deps:
   # - robot_localization
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
+
   - gmapping
-  - interactive_marker_twist_server
-  - teleop_twist_joy
-  - twist_mux
-  - pointgrey_camera_description
-  - hector_gazebo_plugins
+  # - interactive_marker_twist_server
+  # - teleop_twist_joy
+  # - twist_mux
+  # - pointgrey_camera_description
+  # - hector_gazebo_plugins
 
   ##
   # DONE Win

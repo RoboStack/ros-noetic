@@ -1,3 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3e37b59..dc6467a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -106,12 +106,14 @@ add_library(scanmatcher
+   scanmatcher/scanmatcher.cpp
+   scanmatcher/scanmatcherprocessor.cpp
+   scanmatcher/eig3.cpp)
+-add_executable(scanmatch_test
+-  scanmatcher/scanmatch_test.cpp)
+-add_executable(icptest
+-  scanmatcher/icptest.cpp)
+-target_link_libraries(scanmatch_test scanmatcher)
+-target_link_libraries(icptest scanmatcher)
++if(UNIX)
++  add_executable(scanmatch_test
++    scanmatcher/scanmatch_test.cpp)
++  add_executable(icptest
++    scanmatcher/icptest.cpp)
++  target_link_libraries(scanmatch_test scanmatcher)
++  target_link_libraries(icptest scanmatcher)
++endif()
+ target_link_libraries(scanmatcher
+   log sensor_range sensor_odometry sensor_base utils)
+ 
 diff --git a/carmenwrapper/carmenwrapper.cpp b/carmenwrapper/carmenwrapper.cpp
 index d51d753..f2378f2 100644
 --- a/carmenwrapper/carmenwrapper.cpp
