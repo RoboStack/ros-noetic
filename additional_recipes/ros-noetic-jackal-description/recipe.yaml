@@ -1,0 +1,50 @@
+package:
+  name: ros-noetic-jackal-description
+  version: 0.7.3
+about:
+  home: http://wiki.ros.org/jackal_description
+  license:
+    - BSD
+  summary: URDF robot description for Jackal
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 0
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+source:
+  git_url: https://github.com/clearpath-gbp/jackal-release.git
+  git_rev: release/melodic/jackal_description/0.7.3-1
+  folder: ros-noetic-jackal-description/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-roslaunch
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-urdf
+    - ros-noetic-xacro
+    - ros-noetic-lms1xx
+    - ros-noetic-pointgrey-camera-description
+  run:
+    - python
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-urdf
+    - ros-noetic-xacro
+    - ros-noetic-lms1xx
+    - ros-noetic-pointgrey-camera-description
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-urdf
+    - ros-noetic-xacro
+    - ros-noetic-lms1xx
+    - ros-noetic-pointgrey-camera-description

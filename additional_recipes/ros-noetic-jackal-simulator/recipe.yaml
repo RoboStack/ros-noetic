@@ -1,0 +1,37 @@
+package:
+  name: ros-noetic-jackal-simulator
+  version: 0.4.0
+about:
+  home: http://wiki.ros.org/jackal_simulator
+  license:
+    - BSD
+  summary: Packages for simulating Jackal.
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 0
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+source:
+  git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  git_rev: release/melodic/jackal_simulator/0.4.0-1
+  folder: ros-noetic-jackal-simulator/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-jackal-gazebo
+  run:
+    - python
+    - ros-noetic-jackal-gazebo
+    - ros-noetic-jackal-gazebo

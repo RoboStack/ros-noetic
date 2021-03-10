@@ -1,0 +1,62 @@
+package:
+  name: ros-noetic-jackal-control
+  version: 0.7.3
+about:
+  home: http://wiki.ros.org/jackal_control
+  license:
+    - BSD
+  summary: Controllers for Jackal
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 0
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+source:
+  git_url: https://github.com/clearpath-gbp/jackal-release.git
+  git_rev: release/melodic/jackal_control/0.7.3-1
+  folder: ros-noetic-jackal-control/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-roslaunch
+    - ros-noetic-controller-manager
+    - ros-noetic-interactive-marker-twist-server
+    - ros-noetic-diff-drive-controller
+    - ros-noetic-joint-state-controller
+    - ros-noetic-joy
+    - ros-noetic-robot-localization
+    - ros-noetic-teleop-twist-joy
+    - ros-noetic-topic-tools
+    - ros-noetic-twist-mux
+  run:
+    - python
+    - ros-noetic-controller-manager
+    - ros-noetic-interactive-marker-twist-server
+    - ros-noetic-diff-drive-controller
+    - ros-noetic-joint-state-controller
+    - ros-noetic-joy
+    - ros-noetic-robot-localization
+    - ros-noetic-teleop-twist-joy
+    - ros-noetic-topic-tools
+    - ros-noetic-twist-mux
+    - ros-noetic-controller-manager
+    - ros-noetic-interactive-marker-twist-server
+    - ros-noetic-diff-drive-controller
+    - ros-noetic-joint-state-controller
+    - ros-noetic-joy
+    - ros-noetic-robot-localization
+    - ros-noetic-teleop-twist-joy
+    - ros-noetic-topic-tools
+    - ros-noetic-twist-mux
