@@ -59,6 +59,7 @@ requirements:
     - ros-noetic-teleop-twist-joy
     - ros-noetic-tf
     - ros-noetic-topic-tools
+    - ros-noetic-jackal-msgs
   run:
     - python
     - ros-noetic-controller-manager
@@ -91,3 +92,4 @@ requirements:
     - ros-noetic-teleop-twist-joy
     - ros-noetic-tf
     - ros-noetic-topic-tools
+    - ros-noetic-jackal-msgs
