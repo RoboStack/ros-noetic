@@ -123,7 +123,7 @@ index 2494350..6c594e0 100644
  
  template<class Cell, const bool debug=false> class Array2D{
 diff --git a/include/gmapping/scanmatcher/scanmatcher.h b/include/gmapping/scanmatcher/scanmatcher.h
-index c970ae1..bbebe24 100644
+index c970ae1..3c3e817 100644
 --- a/include/gmapping/scanmatcher/scanmatcher.h
 +++ b/include/gmapping/scanmatcher/scanmatcher.h
 @@ -37,7 +37,7 @@ class ScanMatcher{
@@ -131,7 +131,7 @@ index c970ae1..bbebe24 100644
  		inline unsigned int laserBeams() const { return m_laserBeams; }
  		
 -		static const double nullLikelihood;
-+		const double nullLikelihood=-.5;
++		double nullLikelihood=-.5;
  	protected:
  		//state of the matcher
  		bool m_activeAreaComputed;
