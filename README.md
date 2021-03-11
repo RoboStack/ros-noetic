@@ -57,8 +57,6 @@ conda deactivate
 conda activate robostackenv
 ```
 
-[Here](https://anaconda.org/search?q=ros-noetic) is a list of available packages.
-
 **Note: at the moment on Windows only the Command Prompt terminal is supported, while Powershell is not supported.**
 
 ## Reporting issues

@@ -30,22 +30,8 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  # - rviz
-  # - tf2_ros
-  # - moveit_visual_tools
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config
-  - gmapping
-  - interactive_marker_twist_server
-  - teleop_twist_joy
-  - twist_mux
-  - pointgrey_camera_description
-  - lms1xx
-  - nmea_msgs
-  - rosserial
-  - nmea_navsat_driver
-  - rosserial_server
-  - robot_upstart
-  - nmea_comms
+
   ##
   # DONE OSX
   ##
@@ -87,6 +73,18 @@ packages_select_by_deps:
   - turtlebot3
   - cnpy
   - turtlebot3_fake
+  - gmapping
+  - interactive_marker_twist_server
+  - teleop_twist_joy
+  - twist_mux
+  - pointgrey_camera_description
+  - lms1xx
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
+  - rosserial_server
+  - robot_upstart
+  - nmea_comms
 
   ##
   # NOT RELEASED ON NOETIC...

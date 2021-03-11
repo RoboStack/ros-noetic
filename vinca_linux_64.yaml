@@ -31,18 +31,6 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - gmapping
-  - interactive_marker_twist_server
-  - teleop_twist_joy
-  - twist_mux
-  - pointgrey_camera_description
-  - lms1xx
-  - nmea_msgs
-  - rosserial
-  - nmea_navsat_driver
-  - rosserial_server
-  - robot_upstart
-  - nmea_comms
 
   ##
   # DONE Linux
@@ -89,6 +77,18 @@ packages_select_by_deps:
   - turtlebot3
   - cnpy
   - turtlebot3_fake
+  - gmapping
+  - interactive_marker_twist_server
+  - teleop_twist_joy
+  - twist_mux
+  - pointgrey_camera_description
+  - lms1xx
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
+  - rosserial_server
+  - robot_upstart
+  - nmea_comms
 
   ##
   # NOT RELEASED ON NOETIC...
