@@ -13,6 +13,8 @@ extra:
     - robostack
 build:
   number: 0
+  skip:
+    - win
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
