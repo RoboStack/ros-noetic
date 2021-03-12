@@ -20,6 +20,8 @@ source:
   git_url: https://github.com/clearpath-gbp/jackal_robot-release.git
   git_rev: release/melodic/jackal_base/0.6.1-1
   folder: ros-noetic-jackal-base/src/work
+  patches:
+    - sel(win): fix-win.patch
 requirements:
   build:
     - "{{ compiler('cxx') }}"
