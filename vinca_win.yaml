@@ -6,14 +6,14 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 5
+build_number: 6
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: true
+full_rebuild: false
 
 packages_skip_by_deps:
   # - rviz
@@ -36,51 +36,51 @@ packages_select_by_deps:
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
   - velodyne_simulator
-  - nmea_msgs
+  # - nmea_msgs
   - nmea_navsat_driver
-  - rosserial_server
+  # - rosserial_server
 
   ##
   # DONE Win
   ##
-  - moveit
-  - mavros
-  - navigation
-  - cnpy
-  - tf2_ros
-  - desktop_full
-  - perception
-  - plotjuggler_ros
-  - desktop
-  - teb_local_planner
-  - octomap
-  - rqt_rviz
-  - turtlebot3
-  - rqt_gui_cpp
+  # - moveit
+  # - mavros
+  # - navigation
+  # - cnpy
+  # - tf2_ros
+  # - desktop_full
+  # - perception
+  # - plotjuggler_ros
+  # - desktop
+  # - teb_local_planner
+  # - octomap
+  # - rqt_rviz
+  # - turtlebot3
+  # - rqt_gui_cpp
   - ros_control
-  - rosbridge_suite
-  - class_loader
-  - ros_controllers
-  - joy
-  - velodyne_laserscan
-  - velodyne_msgs
-  - velodyne_pcl
-  - imu_tools
-  - rviz_visual_tools
-  - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
-  - franka_hw
-  - franka_visualization
-  - franka_msgs
-  - franka_description
-  - rqt_image_view
-  - perception_pcl
-  - gmapping
-  - interactive_marker_twist_server
-  - teleop_twist_joy
-  - twist_mux
-  - pointgrey_camera_description
-  - hector_gazebo_plugins
-  - lms1xx
+  # - rosbridge_suite
+  # - class_loader
+  # - ros_controllers
+  # - joy
+  # - velodyne_laserscan
+  # - velodyne_msgs
+  # - velodyne_pcl
+  # - imu_tools
+  # - rviz_visual_tools
+  # - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
+  # - franka_hw
+  # - franka_visualization
+  # - franka_msgs
+  # - franka_description
+  # - rqt_image_view
+  # - perception_pcl
+  # - gmapping
+  # - interactive_marker_twist_server
+  # - teleop_twist_joy
+  # - twist_mux
+  # - pointgrey_camera_description
+  # - hector_gazebo_plugins
+  # - lms1xx
 
   ##
   # Not bother Win
