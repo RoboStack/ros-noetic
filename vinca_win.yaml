@@ -76,6 +76,7 @@ packages_select_by_deps:
   - twist_mux
   - pointgrey_camera_description
   - hector_gazebo_plugins
+  - lms1xx
 
   ##
   # Not bother Win
