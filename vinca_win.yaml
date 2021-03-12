@@ -39,6 +39,7 @@ packages_select_by_deps:
   # - nmea_msgs
   - nmea_navsat_driver
   # - rosserial_server
+  - hardware_interface
 
   ##
   # DONE Win
@@ -57,7 +58,7 @@ packages_select_by_deps:
   # - rqt_rviz
   # - turtlebot3
   # - rqt_gui_cpp
-  - ros_control
+  # - ros_control
   # - rosbridge_suite
   # - class_loader
   # - ros_controllers
