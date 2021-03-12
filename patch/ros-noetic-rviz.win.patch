@@ -44,23 +44,6 @@ index f543b49b..288ef6f3 100644
  namespace rviz
  {
  MarkerBase*
-diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
-index e8eb9a91..6c5ecac0 100644
---- a/src/rviz/ogre_helpers/render_system.cpp
-+++ b/src/rviz/ogre_helpers/render_system.cpp
-@@ -183,8 +184,12 @@ void RenderSystem::detectGlVersion()
-     int minor = caps->getDriverVersion().minor;
-     gl_version_ = major * 100 + minor * 10;
- 
-+#ifdef __linux__
-     std::string gl_version_string = (const char*)glGetString(GL_VERSION);
-     mesa_workaround = gl_version_string.find("Mesa 20.") != std::string::npos && gl_version_ >= 320;
-+#else
-+    mesa_workaround = false;
-+#endif
-   }
- 
-   switch (gl_version_)
 diff --git a/src/rviz/yaml_config_writer.cpp b/src/rviz/yaml_config_writer.cpp
 index 7fc07154..33682f5c 100644
 --- a/src/rviz/yaml_config_writer.cpp
