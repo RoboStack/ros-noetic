@@ -13,8 +13,6 @@ extra:
     - robostack
 build:
   number: 0
-  skip:
-    - win
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
@@ -22,6 +20,8 @@ source:
   git_url: https://github.com/clearpath-gbp/jackal-release.git
   git_rev: release/melodic/jackal_description/0.7.3-1
   folder: ros-noetic-jackal-description/src/work
+  patches:
+    - sel(win): do-not-build-executables-on-win.patch 
 requirements:
   build:
     - "{{ compiler('cxx') }}"
