@@ -35,6 +35,7 @@ packages_select_by_deps:
   # - robot_localization
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
+  - velodyne_simulator
 
   ##
   # DONE Win
