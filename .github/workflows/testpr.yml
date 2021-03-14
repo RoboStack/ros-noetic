@@ -83,8 +83,8 @@ jobs:
       if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
         git clean -fdx
-        cp vinca_linux_64.yaml vinca.yaml
-        vinca --platform linux-64
+        cp vinca_linux_aarch64.yaml vinca.yaml
+        vinca --platform linux-aarch64
         ls
         cat recipe.yaml
     - name: Generate recipes for macOS
