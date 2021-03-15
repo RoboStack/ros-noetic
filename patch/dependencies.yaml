@@ -12,5 +12,3 @@ gazebo_ros_control:
   add: [tbb]
 gazebo_pkgs:
   add: [tbb]
-slam_toolbox:
-  add: [pkg-config]
