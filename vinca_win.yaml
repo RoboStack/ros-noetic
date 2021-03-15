@@ -36,15 +36,15 @@ packages_select_by_deps:
   # - robot_localization
   # - sparse_bundle_adjustment
   # - grid_map  # fails with pkg-config error
-  - velodyne_simulator
-  # - nmea_msgs
-  - nmea_navsat_driver
-  # - rosserial_server
-  - hardware_interface
 
   ##
   # DONE Win
   ##
+  # - velodyne_simulator
+  # - nmea_msgs
+  # - nmea_navsat_driver
+  # - rosserial_server
+  # - hardware_interface
   # - moveit
   # - mavros
   # - navigation
