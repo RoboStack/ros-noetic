@@ -32,7 +32,6 @@ packages_select_by_deps:
   # - image_view  # GUI needs fixing
   # - robot_localization
   # - grid_map  # fails with pkg-config error
-
   - slam_toolbox
   - slam-toolbox-msgs
   - slam_toolbox_rviz
