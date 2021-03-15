@@ -35,7 +35,8 @@ packages_select_by_deps:
 
   - sparse_bundle_adjustment
   - slam_toolbox
-
+  - slam-toolbox-msgs
+  - slam_toolbox_rviz
   ##
   # DONE Win
   ##
