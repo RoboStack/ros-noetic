@@ -33,13 +33,15 @@ packages_select_by_deps:
   # - robot_localization
   # - grid_map  # fails with pkg-config error
 
-  - sparse_bundle_adjustment
-  - slam_toolbox
-  - slam-toolbox-msgs
-  - slam_toolbox_rviz
+  # - slam_toolbox
+  # - slam-toolbox-msgs
+  # - slam_toolbox_rviz
   ##
   # DONE Win
   ##
+  - ros_numpy
+  - sparse_bundle_adjustment
+
   # - velodyne_simulator
   # - nmea_msgs
   # - nmea_navsat_driver
