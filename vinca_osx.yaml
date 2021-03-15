@@ -31,13 +31,13 @@ packages_select_by_deps:
   #  TODO OSX
   ##
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config
-  - velodyne_simulator
   - ros_numpy
 
   ##
   # DONE OSX
   ##
-  - rviz
+  # - velodyne_simulator
+  # - rviz
   # - mavros
   # - hector_gazebo_plugins
   # - navigation
