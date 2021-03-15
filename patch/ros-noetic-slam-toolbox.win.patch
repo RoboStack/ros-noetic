@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2c0a57d..1b0c951 100644
+index 2c0a57d..2b3aca7 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -3,19 +3,15 @@ project(slam_toolbox)
@@ -23,7 +23,15 @@ index 2c0a57d..1b0c951 100644
      rosconsole
      roscpp
      sensor_msgs
-@@ -39,17 +35,18 @@ find_package(Cholmod REQUIRED)
+@@ -31,7 +27,6 @@ find_package(catkin REQUIRED
+     slam_toolbox_msgs
+ )
+ 
+-find_package(PkgConfig REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ find_package(CSparse REQUIRED)
+ find_package(G2O REQUIRED)
+@@ -39,17 +34,18 @@ find_package(Cholmod REQUIRED)
  find_package(LAPACK REQUIRED)
  find_package(Ceres REQUIRED COMPONENTS SuiteSparse)
  find_package(rostest REQUIRED)
@@ -49,7 +57,7 @@ index 2c0a57d..1b0c951 100644
  )
  
  add_definitions(${EIGEN3_DEFINITIONS})
-@@ -57,7 +54,7 @@ add_definitions(${EIGEN3_DEFINITIONS})
+@@ -57,7 +53,7 @@ add_definitions(${EIGEN3_DEFINITIONS})
  catkin_package(
      INCLUDE_DIRS
        include
@@ -58,7 +66,7 @@ index 2c0a57d..1b0c951 100644
        ${EIGEN3_INCLUDE_DIRS}
        ${TBB_INCLUDE_DIRS}
      LIBRARIES
-@@ -83,12 +80,21 @@ catkin_package(
+@@ -83,12 +79,21 @@ catkin_package(
      DEPENDS
        EIGEN3
        Boost
