@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6e5bbb8..e69df39 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -378,9 +378,9 @@ if(NOT FCL_BUILD_TESTS STREQUAL "DEFAULT")
+   unset(_BUILD_TESTING)
+ endif()
+ 
+-if(BUILD_TESTING AND NOT FCL_HIDE_ALL_SYMBOLS)
+-    add_subdirectory(test)
+-endif()
++# if(BUILD_TESTING AND NOT FCL_HIDE_ALL_SYMBOLS)
++#     add_subdirectory(test)
++# endif()
+ 
+ #===============================================================================
+ # API documentation using Doxygen
