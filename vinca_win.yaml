@@ -34,7 +34,7 @@ packages_select_by_deps:
   # - grid_map  # fails with pkg-config error
 
   - sparse_bundle_adjustment
-  # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
+  - slam_toolbox
 
   ##
   # DONE Win
