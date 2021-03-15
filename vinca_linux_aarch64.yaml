@@ -27,6 +27,7 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - ros_numpy
   # TODO
   - velodyne_simulator
 
