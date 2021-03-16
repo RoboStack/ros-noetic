@@ -456,3 +456,5 @@ geographiclib-tools:
   conda-forge: [geographiclib-cpp]
 python3-future:
   conda-forge: [future]
+libccd-dev:
+  conda-forge: [libccd]
