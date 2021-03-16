@@ -456,7 +456,7 @@ index 00000000..a32470af
 +endif()
 +
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5b2f915f..2ef7917f 100644
+index 5b2f915f..93334a17 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,8 @@
@@ -488,3 +488,32 @@ index 5b2f915f..2ef7917f 100644
  find_package(OpenCV REQUIRED)
  
  ###################################
+diff --git a/include/grid_map_filters/MockFilter.hpp b/include/grid_map_filters/MockFilter.hpp
+index d3c36b90..804f1a1e 100644
+--- a/include/grid_map_filters/MockFilter.hpp
++++ b/include/grid_map_filters/MockFilter.hpp
+@@ -50,7 +50,7 @@ class MockFilter : public filters::FilterBase<T>
+   bool printName_;
+ 
+   //! The time [ms] that the update function takes.
+-  uint processingTime_;
++  unsigned int processingTime_;
+ };
+ 
+ } /* namespace */
+diff --git a/src/ColorBlendingFilter.cpp b/src/ColorBlendingFilter.cpp
+index 480d03f3..89d3ad4a 100644
+--- a/src/ColorBlendingFilter.cpp
++++ b/src/ColorBlendingFilter.cpp
+@@ -84,9 +84,9 @@ bool ColorBlendingFilter<T>::update(const T& mapIn, T& mapOut)
+ 
+   // For each cell in map.
+   for (size_t i = 0; i < output.size(); ++i) {
+-    if (std::isnan(background(i))) {
++    if (std::isnan(static_cast<double>(background(i)))) {
+       output(i) = foreground(i);
+-    } else if (std::isnan(foreground(i))) {
++    } else if (std::isnan(static_cast<double>(foreground(i)))) {
+       output(i) = background(i);
+     } else {
+       Eigen::Array3f backgroundColor, foregroundColor, outputColor;
