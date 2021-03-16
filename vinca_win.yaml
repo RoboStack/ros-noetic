@@ -29,21 +29,20 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - slam_toolbox  # requires fixing https://github.com/RoboStack/ros-noetic/issues/3
-
   # - image_view  # GUI needs fixing
-  # - robot_localization
-  # - sparse_bundle_adjustment
-  # - grid_map  # fails with pkg-config error
-  - velodyne_simulator
-  # - nmea_msgs
-  - nmea_navsat_driver
-  # - rosserial_server
-  - hardware_interface
+  - robot_localization
 
   ##
   # DONE Win
   ##
+  # - grid_map
+  # - ros_numpy
+  # - sparse_bundle_adjustment
+  # - velodyne_simulator
+  # - nmea_msgs
+  # - nmea_navsat_driver
+  # - rosserial_server
+  # - hardware_interface
   # - moveit
   # - mavros
   # - navigation
@@ -89,6 +88,9 @@ packages_select_by_deps:
   # - urg_node
   # - velodyne_driver  # probably too tricky to build; see https://github.com/ros-drivers/velodyne/issues/356
   # - velodyne_pointcloud  # depends on velodyne_driver
+  # - slam_toolbox  # many unix-specific things in there
+  # - slam-toolbox-msgs
+  # - slam_toolbox_rviz
 
   ##
   # NOT RELEASED ON NOETIC...
