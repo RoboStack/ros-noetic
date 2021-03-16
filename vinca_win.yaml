@@ -31,17 +31,13 @@ skip_existing:
 packages_select_by_deps:
   # - image_view  # GUI needs fixing
   # - robot_localization
-  # - grid_map  # fails with pkg-config error
+  - grid_map  # fails with pkg-config error
 
-  # - slam_toolbox
-  # - slam-toolbox-msgs
-  # - slam_toolbox_rviz
   ##
   # DONE Win
   ##
-  - ros_numpy
-  - sparse_bundle_adjustment
-
+  # - ros_numpy
+  # - sparse_bundle_adjustment
   # - velodyne_simulator
   # - nmea_msgs
   # - nmea_navsat_driver
@@ -92,6 +88,9 @@ packages_select_by_deps:
   # - urg_node
   # - velodyne_driver  # probably too tricky to build; see https://github.com/ros-drivers/velodyne/issues/356
   # - velodyne_pointcloud  # depends on velodyne_driver
+  # - slam_toolbox  # many unix-specific things in there
+  # - slam-toolbox-msgs
+  # - slam_toolbox_rviz
 
   ##
   # NOT RELEASED ON NOETIC...

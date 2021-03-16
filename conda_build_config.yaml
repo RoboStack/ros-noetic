@@ -31,7 +31,13 @@ pcl:
   - 1.11.1
 # tbb pinned on Windows due to https://stackoverflow.com/questions/64510477/error-c2061-syntax-error-identifier-concurrent-vectortemplate-type-paramet
 # tbb pinned on Unix due to https://github.com/conda-forge/gazebo-feedstock/issues/57
-tbb-devel :
+tbb:
+  - 2019.9  # [win]
+  - 2020.2  # [not win]
+tbb-devel:
+  - 2019.9  # [win]
+  - 2020.2  # [not win]
+tbb_devel:
   - 2019.9  # [win]
   - 2020.2  # [not win]
 
