@@ -488,10 +488,3 @@ index 5b2f915f..2ef7917f 100644
  find_package(OpenCV REQUIRED)
  
  ###################################
-@@ -171,4 +162,4 @@ if(cmake_clang_tools_FOUND)
-   add_default_clang_tooling(
-     DISABLE_CLANG_FORMAT
-   )
--endif(cmake_clang_tools_FOUND)
-\ No newline at end of file
-+endif(cmake_clang_tools_FOUND)
