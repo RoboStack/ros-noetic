@@ -1,0 +1,43 @@
+diff --git a/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp b/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
+index 79dcdd66..e6c14480 100644
+--- a/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
++++ b/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
+@@ -4,9 +4,9 @@ template<typename Scalar> struct scalar_sum_of_finites_op {
+   EIGEN_EMPTY_STRUCT_CTOR(scalar_sum_of_finites_op)
+   EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& a, const Scalar& b) const {
+     using std::isfinite;
+-    if (isfinite(a) && isfinite(b)) return a + b;
+-    if (isfinite(a)) return a;
+-    if (isfinite(b)) return b;
++    if (isfinite(std::isnan(static_cast<double>(a)) && isfinite(std::isnan(static_cast<double>(b))) return a + b;
++    if (isfinite(std::isnan(static_cast<double>(a))) return a;
++    if (isfinite(std::isnan(static_cast<double>(b))) return b;
+     return a + b;
+   }
+ };
+@@ -24,9 +24,9 @@ struct scalar_min_of_finites_op {
+   EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& a, const Scalar& b) const {
+     using std::min;
+     using std::isfinite;
+-    if (isfinite(a) && isfinite(b)) return (min)(a, b);
+-    if (isfinite(a)) return a;
+-    if (isfinite(b)) return b;
++    if (isfinite(std::isnan(static_cast<double>(a)) && isfinite(std::isnan(static_cast<double>(b))) return (min)(a, b);
++    if (isfinite(std::isnan(static_cast<double>(a))) return a;
++    if (isfinite(std::isnan(static_cast<double>(b))) return b;
+     return (min)(a, b);
+   }
+ };
+@@ -44,9 +44,9 @@ struct scalar_max_of_finites_op {
+   EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& a, const Scalar& b) const {
+     using std::max;
+     using std::isfinite;
+-    if (isfinite(a) && isfinite(b)) return (max)(a, b);
+-    if (isfinite(a)) return a;
+-    if (isfinite(b)) return b;
++    if (isfinite(std::isnan(static_cast<double>(a)) && isfinite(std::isnan(static_cast<double>(b))) return (max)(a, b);
++    if (isfinite(std::isnan(static_cast<double>(a))) return a;
++    if (isfinite(std::isnan(static_cast<double>(b))) return b;
+     return (max)(a, b);
+   }
+ };
