@@ -28,11 +28,17 @@ skip_existing:
 
 packages_select_by_deps:
   # TODO
+  - plotjuggler_ros
+  - cnpy
+  - imu_tools
+  - moveit_visual_tools
+  - rviz_visual_tools
+  - rviz_imu_plugin
+
+  # DONE
   - plotjuggler
   - slam_toolbox
   - webots-ros
-
-  # DONE
   - ros_numpy
   - velodyne_simulator
   - pointgrey_camera_description
