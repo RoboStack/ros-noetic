@@ -30,12 +30,12 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config
-  - ros_numpy
+  - grid_map
 
   ##
   # DONE OSX
   ##
+  # - ros_numpy
   # - velodyne_simulator
   # - rviz
   # - mavros
