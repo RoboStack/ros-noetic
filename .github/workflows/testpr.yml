@@ -54,6 +54,13 @@ jobs:
         pip install git+https://github.com/mamba-org/boa@master
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+    # For some reason, the Strawberry perl's pkg-config is found
+    # instead of the conda's one, so let's delete the /c/Strawberry directory
+    - name: Debug pkg-config problem
+      if: contains(matrix.os, 'windows')
+      shell: bash -l {0}
+      run: |
+        rm -rf /c/Strawberry
     - name: Check what files have changed
       id: filecheck
       shell: bash -l {0}

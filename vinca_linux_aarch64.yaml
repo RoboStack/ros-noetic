@@ -27,12 +27,20 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - ros_numpy
   # TODO
-  - graph_msgs
-
+  - franka_msgs
 
   # DONE
+  - plotjuggler_ros
+  - cnpy
+  - imu_tools
+  - moveit_visual_tools
+  - rviz_visual_tools
+  - rviz_imu_plugin
+  - plotjuggler
+  - slam_toolbox
+  - webots-ros
+  - ros_numpy
   - velodyne_simulator
   - pointgrey_camera_description
   - lms1xx

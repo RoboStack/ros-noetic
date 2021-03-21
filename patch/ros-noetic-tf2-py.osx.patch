@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bb53f9d3..53f56f01 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -88,8 +88,9 @@ catkin_package(
+ 
+ # Dynamic linking with tf worked OK, except for exception propagation, which failed in the unit test.
+ # so build with the objects directly instead.
+-
+-link_libraries(${PYTHON_LIBRARIES})
++if(NOT APPLE)
++  link_libraries(${PYTHON_LIBRARIES})
++endif()
+ add_library(tf2_py src/tf2_py.cpp)
+ target_link_libraries(tf2_py ${catkin_LIBRARIES})
+ add_dependencies(tf2_py ${catkin_EXPORTED_TARGETS})
+@@ -101,6 +102,10 @@ else()
+   set_target_properties(tf2_py PROPERTIES COMPILE_FLAGS "-g -Wno-missing-field-initializers")
+   set_target_properties(tf2_py PROPERTIES OUTPUT_NAME tf2 PREFIX "_" SUFFIX ".so")
+ endif()
++if(APPLE)
++  set_target_properties(tf2_py PROPERTIES
++                        LINK_FLAGS "-undefined dynamic_lookup")
++endif()
+ set_target_properties(tf2_py PROPERTIES
+   ARCHIVE_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}
+   LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}

@@ -21,7 +21,7 @@ packages_skip_by_deps:
 
 packages_remove_from_deps:
   # see https://github.com/RoboStack/ros-noetic/issues/25
-  - image_view
+  # - image_view
   - stage-ros
   - stage
 
@@ -29,12 +29,12 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - image_view  # GUI needs fixing
-  - robot_localization
 
   ##
   # DONE Win
   ##
+  # - image_view
+  # - robot_localization
   # - grid_map
   # - ros_numpy
   # - sparse_bundle_adjustment
