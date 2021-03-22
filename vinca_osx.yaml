@@ -35,9 +35,6 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - rospack
-  - pluginlib
-  - qt_gui_cpp
   # - ros_numpy
   # - velodyne_simulator
   # - rviz
