@@ -6,7 +6,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 7
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
