@@ -27,7 +27,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - ros_numpy
+  - kdl_parser_py
+
   ##
   #  TODO Linux
   ##
@@ -39,6 +40,7 @@ packages_select_by_deps:
   ##
   - catkin
   - hector_gazebo_plugins
+  - ros_numpy
   - webots_ros
   - navigation
   - mavros
