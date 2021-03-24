@@ -27,6 +27,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - kdl_parser_py
+
   ##
   #  TODO OSX
   ##
@@ -35,7 +37,7 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - rviz
+  # - rviz
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
