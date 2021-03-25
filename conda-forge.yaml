@@ -10,6 +10,8 @@ python3-rospkg-modules:
   conda-forge: [rospkg]
 boost:
   conda-forge: [boost]
+libboost-python-dev:
+  conda-forge: [boost]
 python-argparse:
   conda-forge: []
 python-catkin-pkg:
@@ -17,6 +19,8 @@ python-catkin-pkg:
 python3-catkin-pkg:
   conda-forge: [catkin_pkg]
 python:
+  conda-forge: [python]
+python-dev:
   conda-forge: [python]
 python3:
   conda-forge: [python]
@@ -216,6 +220,11 @@ qt5-qmake:
     win64: [qt 5.12.6]
     linux: [qt 5.12]
     osx: [qt 5.12]
+qt5-image-formats-plugins:
+  conda-forge:
+    win64: [qt 5.12.6]
+    linux: [qt 5.12]
+    osx: [qt 5.12]
 python-qt5-bindings:
   conda-forge:
     win64: [pyqt]
@@ -248,8 +257,6 @@ libxaw:
   conda-forge:
     win64: []
     unix: [xorg-libxaw]
-libx11-dev:
-  conda-forge: []
 libxrandr:
   conda-forge:
     win64: []
@@ -328,6 +335,10 @@ yaml-cpp:
   conda-forge: [yaml-cpp]
 python-wxtools:
   conda-forge: [wxpython]
+wxpython:
+  conda-forge: [wxpython]
+wx-common:
+  conda-forge: [wxpython]
 python-pycryptodome:
   conda-forge: [pycryptodome, pycryptodomex]
 python3-pycryptodome:
@@ -363,6 +374,8 @@ python-pyassimp:
 python3-pyassimp:
   conda-forge: [assimp]
 libpcl-all-dev:
+  conda-forge: [pcl 1.11]
+libpcl-all:
   conda-forge: [pcl 1.11]
 libogg:
   conda-forge: [libogg]
@@ -416,13 +429,11 @@ suitesparse:
 libpcap:
   conda-forge: [libpcap]
 libblas-dev:
-  conda-forge:
-    win64: [libblas 3.8 *netlib]
-    unix: [libblas]
+  conda-forge: [libblas]
+libopenblas-dev:
+  conda-forge: [libblas]
 liblapack-dev:
-  conda-forge:
-    win64: [liblapack 3.8.0 *netlib]
-    unix: [liblapack]
+  conda-forge: [liblapack]
 libceres-dev:
   conda-forge: [ceres-solver]
 tbb:
@@ -458,3 +469,243 @@ python3-future:
   conda-forge: [future]
 libccd-dev:
   conda-forge: [libccd]
+libgsl:
+  conda-forge: [gsl]
+virtualenv:
+  conda-forge: [virtualenv]
+libturbojpeg:
+  conda-forge: [libjpeg-turbo]
+python3-requests-oauthlib:
+  conda-forge: [requests-oauthlib]
+python3-sklearn:
+  conda-forge: [scikit-learn]
+libreadline-dev:
+  conda-forge: [readline]
+libreadline:
+  conda-forge: [readline]
+python3-pip:
+  conda-forge: [pip]
+cython:
+  conda-forge: [cython]
+libusb-1.0:
+  conda-forge: [libusb]
+libusb-dev:
+  conda-forge: [libusb]
+libusb-1.0-dev:
+  conda-forge: [libusb]
+python-dlib:
+  conda-forge: [dlib]
+libxi-dev:
+  conda-forge: [xorg-libxi]
+subversion:
+  conda-forge: [subversion]
+protobuf:
+  conda-forge: [libprotobuf, protobuf]
+protobuf-dev:
+  conda-forge: [libprotobuf, protobuf]
+gstreamer1.0:
+  conda-forge: [gstreamer]
+libgstreamer1.0-dev:
+  conda-forge: [gstreamer]
+gstreamer1.0-plugins-base:
+  conda-forge: [gst-plugins-base]
+libgstreamer-plugins-base1.0-dev:
+  conda-forge: [gst-plugins-base]
+gstreamer1.0-plugins-good:
+  conda-forge: [gst-plugins-good]
+muparser:
+  conda-forge: [muparser]
+python3-texttable:
+  conda-forge: [texttable]
+python3-h5py:
+  conda-forge: [h5py]
+python3-colorama:
+  conda-forge: [colorama]
+libjsoncpp:
+  conda-forge: [jsoncpp]
+libjsoncpp-dev:
+  conda-forge: [jsoncpp]
+collada-dom:
+  conda-forge: [collada-dom]
+libnlopt-dev:
+  conda-forge: [nlopt]
+libnlopt-cxx-dev:
+  conda-forge: [nlopt]
+python3-requests:
+  conda-forge: [requests]
+libhdf5-dev:
+  conda-forge: [hdf5]
+wget:
+  conda-forge: [wget]
+mongodb:
+  conda-forge: [mongodb]
+libqwt-qt5-dev:
+  conda-forge: [qwt]
+g++-static:
+  conda-forge: [cxx-compiler]
+python3-pep8:
+  conda-forge: [pep8]
+python3-sphinx:
+  conda-forge: [sphinx]
+zbar:
+  conda-forge: [zbar]
+wxwidgets:
+  conda-forge: [wxwidgets]
+libglfw3-dev:
+  conda-forge: [glfw 3.*]
+libspnav-dev:
+  conda-forge: [libspnav]
+pydrive-pip:
+  conda-forge: [pydrive]
+time:
+  conda-forge: [time]
+python-tabulate-pip:
+  conda-forge: [tabulate]
+pugixml-dev:
+  conda-forge: [pugixml]
+kitchen:
+  conda-forge: [kitchen]
+swig:
+  conda-forge: [swig]
+python3-catkin-tools:
+  conda-forge: [catkin_tools]
+python-six:
+  conda-forge: [six]
+python3-six:
+  conda-forge: [six]
+libdc1394-dev:
+  conda-forge: [libdc1394]
+python-chainer-pip:
+  conda-forge: [chainer]
+python3-cherrypy3:
+  conda-forge: [cherrypy]
+libnl-3:
+  conda-forge: [libnl 3.*]
+libnl-3-dev:
+  conda-forge: [libnl 3.*]
+ca-certificates:
+  conda-forge: [ca-certificates]
+coinor-libipopt-dev:
+  conda-forge: [ipopt]
+alsa-oss:
+  conda-forge: [alsa-lib]
+armadillo:
+  conda-forge: [armadillo]
+nlopt:
+  conda-forge: [nlopt]
+libnlopt0:
+  conda-forge: [nlopt]
+ipython3:
+  conda-forge: [ipython]
+fmt:
+  conda-forge: [fmt]
+libncurses-dev:
+  conda-forge: [ncurses]
+emacs:
+  conda-forge: [emacs]
+libvtk:
+  conda-forge: [vtk]
+python-speechrecognition-pip:
+  conda-forge: [speechrecognition]
+ocl-icd-opencl-dev:
+  conda-forge: [ocl-icd]
+python3-pymongo:
+  conda-forge: [pymongo]
+flac:
+  conda-forge: [libflac]
+libflann-dev:
+  conda-forge: [flann]
+python-slacker-cli:
+  conda-forge: [slacker]
+libclang-dev:
+  conda-forge: [libclang]
+libmicrohttpd:
+  conda-forge: [libmicrohttpd]
+python-tk:
+  conda-forge: [tk]
+python3-tk:
+  conda-forge: [tk]
+libx11-dev:
+  conda-forge: [xorg-libx11]
+python3-click:
+  conda-forge: [click]
+libgflags-dev:
+  conda-forge: [gflags]
+python3-docutils:
+  conda-forge: [docutils]
+linux-kernel-headers:
+  conda-forge: []
+python3-imageio:
+  conda-forge: [imageio]
+libgoogle-glog-dev:
+  conda-forge: [glog]
+postgresql:
+  conda-forge: [postgresql]
+leveldb:
+  conda-forge: [leveldb]
+libgts:
+  conda-forge: [gts]
+python3-termcolor:
+  conda-forge: [termcolor]
+python3-simplejson:
+  conda-forge: [simplejson]
+python3-pandas:
+  conda-forge: [pandas]
+python3-scipy:
+  conda-forge: [scipy]
+libffi-dev:
+  conda-forge: [libffi]
+ignition-msgs5:
+  conda-forge: [libignition-msgs5]
+screen:
+  conda-forge: [screen]
+python-pyusb-pip:
+  conda-forge: [pyusb]
+libxml2:
+  conda-forge: [libxml2]
+python3-github:
+  conda-forge: [pygithub]
+python3-github3:
+  conda-forge: [pygithub]
+avahi-daemon:
+  conda-forge: [python-avahi]
+msgpack:
+  conda-forge: [msgpack-python]
+python3-msgpack:
+  conda-forge: [msgpack-python]
+libgeos++-dev:
+  conda-forge: [geos]
+python3-argcomplete:
+  conda-forge: [argcomplete]
+libcap-dev:
+  conda-forge: [libcap]
+python3-grpcio:
+  conda-forge: [grpcio]
+python3-pyproj:
+  conda-forge: [pyproj]
+rsync:
+  conda-forge: [rsync]
+ignition-transport8:
+  conda-forge: [libignition-transport8]
+python3-skimage:
+  conda-forge: [scikit-image]
+libpng-dev:
+  conda-forge: [libpng]
+unzip:
+  conda-forge: [unzip]
+python-gdown-pip:
+  conda-forge: [gdown]
+python-freezegun-pip:
+  conda-forge: [freezegun]
+libxmu-dev:
+  conda-forge: [xorg-libxmu]
+python3-ruamel.yaml:
+  conda-forge: [ruamel.yaml]
+bison:
+  conda-forge: [bison]
+gawk:
+  conda-forge: [gawk]
+sshpass:
+  conda-forge: [sshpass]
+flex:
+  conda-forge: [flex]
