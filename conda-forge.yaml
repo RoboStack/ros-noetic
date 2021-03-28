@@ -709,3 +709,5 @@ sshpass:
   conda-forge: [sshpass]
 flex:
   conda-forge: [flex]
+ignition-gazebo3:
+  conda-forge: [libignition-gazebo4]

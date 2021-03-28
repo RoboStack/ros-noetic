@@ -27,17 +27,18 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - kdl_parser_py
+  # - kdl_parser_py
 
   ##
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - velodyne_simulator
+  - ros_ign
 
   ##
   # DONE Linux
   ##
+  - velodyne_simulator
   - catkin
   - hector_gazebo_plugins
   - ros_numpy
