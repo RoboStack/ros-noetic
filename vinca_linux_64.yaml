@@ -27,17 +27,22 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # - kdl_parser_py
+  - panda_moveit_config
+  - apriltag
+  - apriltag_ros
+  - behaviortree_cpp_v3
+
 
   ##
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - ros_ign
 
   ##
   # DONE Linux
   ##
+  - kdl_parser_py
+  - ros_ign
   - velodyne_simulator
   - catkin
   - hector_gazebo_plugins

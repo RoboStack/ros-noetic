@@ -288,7 +288,7 @@ libboost-program-options:
 sdl:
   conda-forge: [sdl]
 libzmq3-dev:
-  conda-forge: [zeromq]
+  conda-forge: [zeromq, cppzmq]
 libboost-program-options-dev:
   conda-forge:
     win64: [boost]
