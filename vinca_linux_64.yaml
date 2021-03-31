@@ -31,11 +31,12 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - hebi_cpp_api
+  - spacenav_node
 
   ##
   # DONE Linux
   ##
+  - hebi_cpp_api
   - panda_moveit_config
   - apriltag
   - apriltag_ros
