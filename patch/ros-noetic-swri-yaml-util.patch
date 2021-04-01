@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 628d70846..cc668b01f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -29,7 +29,7 @@ include_directories(include)
+ include_directories(SYSTEM
+   ${catkin_INCLUDE_DIRS}
+   ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+-  ${YamlCpp_INCLUDE_DIR}
++  ${YamlCpp_INCLUDE_DIRS}
+ )
+ 
+ add_library(${PROJECT_NAME}

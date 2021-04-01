@@ -16,3 +16,5 @@ ros_ign_gazebo:
   add: ["REQUIRE_OPENGL"]
 apriltag:
   add: ["REQUIRE_OPENGL"]
+lvr2:
+  add: [libgdal-dev]

@@ -711,3 +711,5 @@ flex:
   conda-forge: [flex]
 ignition-gazebo3:
   conda-forge: [libignition-gazebo4]
+libgdal-dev:
+  conda-forge: [libgdal]
