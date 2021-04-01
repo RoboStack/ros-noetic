@@ -1,0 +1,16 @@
+diff --git a/fetch_teleop/CMakeLists.txt b/fetch_teleop/CMakeLists.txt
+index 15ec263..74a4014 100644
+--- a/fetch_teleop/CMakeLists.txt
++++ b/fetch_teleop/CMakeLists.txt
+@@ -29,6 +29,10 @@ target_link_libraries(joystick_teleop
+   ${catkin_LIBRARIES}
+ )
+ 
++if(UNIX AND NOT APPLE)
++  target_link_libraries(joystick_teleop rt)
++endif()
++
+ install(
+   TARGETS joystick_teleop
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+
