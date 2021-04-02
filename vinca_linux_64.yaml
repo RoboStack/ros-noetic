@@ -8,12 +8,16 @@ conda_index:
 
 build_number: 6
 
+# !!! ATTENTION ACHTUNG ATTENTION !!! #
+# We need to modify this again, single package rebuild
+# !!! ATTENTION ACHTUNG ATTENTION !!! #
+
 # Ignore all dependencies of selected packages
-skip_all_deps: false
+skip_all_deps: true
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: true
+full_rebuild: false
 
 packages_skip_by_deps:
   # - ros_core
@@ -24,83 +28,84 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - fetch_ros
+  - rostime
 
   ##
   # DONE Linux
   ##
-  - spacenav_node
-  - hebi_cpp_api
-  - panda_moveit_config
-  - apriltag
-  - apriltag_ros
-  - behaviortree_cpp_v3
-  - codec_image_transport
-  - kdl_parser_py
-  - ros_ign
-  - velodyne_simulator
-  - catkin
-  - hector_gazebo_plugins
-  - ros_numpy
-  - webots_ros
-  - navigation
-  - mavros
-  - grid_map
-  - cnpy
-  - robot_localization
-  - moveit_visual_tools
-  - plotjuggler_ros
-  - ros_core
-  - rviz
-  - desktop
-  - desktop_full
-  - franka_control
-  - rosbridge_suite
-  - moveit
-  - class_loader
-  - imu_tools
-  - velodyne
-  - velodyne_pcl
-  - perception_pcl
-  - urg_node
-  - teb_local_planner
-  - joy
-  - plotjuggler
-  - libfranka
-  - franka_visualization
-  - franka_msgs
-  - franka_description
-  - franka_hw
-  - franka_gripper
-  - diagnostic_analysis
-  - diagnostic_common_diagnostics
-  - ros_control
-  - ros_controllers
-  - rviz_visual_tools
-  - slam_karto
-  - slam_toolbox
-  - turtlebot3
-  - cnpy
-  - turtlebot3_fake
-  - gmapping
-  - interactive_marker_twist_server
-  - teleop_twist_joy
-  - twist_mux
-  - pointgrey_camera_description
-  - lms1xx
-  - nmea_msgs
-  - rosserial
-  - nmea_navsat_driver
-  - rosserial_server
-  - robot_upstart
-  - nmea_comms
+  # - fetch_ros
+  # - spacenav_node
+  # - hebi_cpp_api
+  # - panda_moveit_config
+  # - apriltag
+  # - apriltag_ros
+  # - behaviortree_cpp_v3
+  # - codec_image_transport
+  # - kdl_parser_py
+  # - ros_ign
+  # - velodyne_simulator
+  # - catkin
+  # - hector_gazebo_plugins
+  # - ros_numpy
+  # - webots_ros
+  # - navigation
+  # - mavros
+  # - grid_map
+  # - cnpy
+  # - robot_localization
+  # - moveit_visual_tools
+  # - plotjuggler_ros
+  # - ros_core
+  # - rviz
+  # - desktop
+  # - desktop_full
+  # - franka_control
+  # - rosbridge_suite
+  # - moveit
+  # - class_loader
+  # - imu_tools
+  # - velodyne
+  # - velodyne_pcl
+  # - perception_pcl
+  # - urg_node
+  # - teb_local_planner
+  # - joy
+  # - plotjuggler
+  # - libfranka
+  # - franka_visualization
+  # - franka_msgs
+  # - franka_description
+  # - franka_hw
+  # - franka_gripper
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+  # - slam_karto
+  # - slam_toolbox
+  # - turtlebot3
+  # - cnpy
+  # - turtlebot3_fake
+  # - gmapping
+  # - interactive_marker_twist_server
+  # - teleop_twist_joy
+  # - twist_mux
+  # - pointgrey_camera_description
+  # - lms1xx
+  # - nmea_msgs
+  # - rosserial
+  # - nmea_navsat_driver
+  # - rosserial_server
+  # - robot_upstart
+  # - nmea_comms
 
   ##
   # NOT RELEASED ON NOETIC...
