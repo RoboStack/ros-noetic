@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 32a76bb9..68bd38f4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,7 +5,7 @@ find_package(catkin REQUIRED COMPONENTS cpp_common)
+ find_package(Boost REQUIRED COMPONENTS date_time system thread)
+ catkin_package(
+   INCLUDE_DIRS include
+-  LIBRARIES ${PROJECT_NAME}
++  LIBRARIES ${PROJECT_NAME} ${RT_LIBRARY}
+   CATKIN_DEPENDS cpp_common
+   DEPENDS Boost
+ )
