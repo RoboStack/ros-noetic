@@ -8,16 +8,12 @@ conda_index:
 
 build_number: 6
 
-# !!! ATTENTION ACHTUNG ATTENTION !!! #
-# We need to modify this again, single package rebuild
-# !!! ATTENTION ACHTUNG ATTENTION !!! #
-
 # Ignore all dependencies of selected packages
-skip_all_deps: true
+skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - ros_core
@@ -28,18 +24,18 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ##
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
-  - rostime
 
   ##
   # DONE Linux
   ##
+  # - tf2_web_republisher
   # - fetch_ros
   # - spacenav_node
   # - hebi_cpp_api
@@ -112,7 +108,6 @@ packages_select_by_deps:
   ##
   # - franka_example_controllers
   # - franka_ros
-  # - tf2_web_republisher
   # - niryo_one_simulation
 
   ##
