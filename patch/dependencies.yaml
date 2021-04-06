@@ -18,3 +18,5 @@ apriltag:
   add: ["REQUIRE_OPENGL"]
 lvr2:
   add: [libgdal-dev]
+rtabmap:
+  add: ["REQUIRE_OPENGL"]

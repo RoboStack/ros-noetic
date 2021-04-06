@@ -31,10 +31,16 @@ packages_select_by_deps:
   #  TODO Linux
   ##
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  # - rtabmap
+  # - mapviz_plugins
+  # - swri_image_util
 
   ##
   # DONE Linux
   ##
+  - mapviz
+  - swri_geometry_util
+  - swri_route_util
   # - tf2_web_republisher
   # - fetch_ros
   # - spacenav_node

@@ -713,3 +713,5 @@ ignition-gazebo3:
   conda-forge: [libignition-gazebo4]
 libgdal-dev:
   conda-forge: [libgdal]
+libxxf86vm:
+  conda-forge: [REQUIRE_OPENGL]
