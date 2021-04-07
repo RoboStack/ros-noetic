@@ -34,10 +34,19 @@ packages_select_by_deps:
   # - rtabmap
   # - mapviz_plugins
   # - swri_image_util
+  # - exotica_core
 
   ##
   # DONE Linux
   ##
+  - explore_lite
+  - marvelmind_nav
+  - sesame_ros
+  - sob_layer
+  - soem
+  - willow_maps
+  - ypspur_ros
+  - zbar_ros
   - mapviz
   - swri_geometry_util
   - swri_route_util

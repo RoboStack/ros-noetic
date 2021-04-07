@@ -1,0 +1,13 @@
+diff --git a/SOEM/CMakeLists.txt b/SOEM/CMakeLists.txt
+index de2953a..7bf208c 100644
+--- a/SOEM/CMakeLists.txt
++++ b/SOEM/CMakeLists.txt
+@@ -24,7 +24,7 @@ if(WIN32)
+   set(OS_LIBS wpcap.lib Packet.lib Ws2_32.lib Winmm.lib)
+ elseif(UNIX AND NOT APPLE)
+   set(OS "linux")
+-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
++  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -D_GNU_SOURCE")
+   set(OS_LIBS pthread rt)
+ elseif(APPLE)
+   # This must come *before* linux or MacOSX will identify as Unix.

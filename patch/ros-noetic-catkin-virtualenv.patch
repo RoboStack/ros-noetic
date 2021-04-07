@@ -1,0 +1,38 @@
+diff --git a/catkin_virtualenv/cmake/catkin_generate_virtualenv.cmake b/catkin_virtualenv/cmake/catkin_generate_virtualenv.cmake
+index 0dc1a42..d6b7c2f 100644
+--- a/catkin_virtualenv/cmake/catkin_generate_virtualenv.cmake
++++ b/catkin_virtualenv/cmake/catkin_generate_virtualenv.cmake
+@@ -29,7 +29,7 @@ function(catkin_generate_virtualenv)
+   endif()
+ 
+   if(NOT DEFINED ARG_PYTHON_INTERPRETER)
+-    set(ARG_PYTHON_INTERPRETER "python2")
++    set(ARG_PYTHON_INTERPRETER "python")
+   endif()
+ 
+   if(NOT DEFINED ARG_USE_SYSTEM_PACKAGES OR ARG_USE_SYSTEM_PACKAGES)
+diff --git a/catkin_virtualenv/src/catkin_virtualenv/venv.py b/catkin_virtualenv/src/catkin_virtualenv/venv.py
+index 3737a94..9fc9e32 100644
+--- a/catkin_virtualenv/src/catkin_virtualenv/venv.py
++++ b/catkin_virtualenv/src/catkin_virtualenv/venv.py
+@@ -60,8 +60,8 @@ def initialize(self, python, use_system_packages, extra_pip_args, clean=True):
+             raise RuntimeError(error_msg)
+ 
+         preinstall = [
+-            "pip==20.1",
+-            "pip-tools==5.1.2",
++            "pip",
++            "pip-tools",
+         ]
+ 
+         builtin_venv = self._check_module(system_python, "venv")
+@@ -71,7 +71,7 @@ def initialize(self, python, use_system_packages, extra_pip_args, clean=True):
+             virtualenv = ["virtualenv", "--no-setuptools", "--verbose", "--python", python]
+             # py2's virtualenv command will try install latest setuptools. setuptools>=45 not compatible with py2,
+             # but we do require a reasonably up-to-date version (because of pip==20.1), so v44 at least.
+-            preinstall += ["setuptools>=44,<45"]
++            preinstall += ["setuptools"]
+ 
+         if use_system_packages:
+             virtualenv.append("--system-site-packages")
+

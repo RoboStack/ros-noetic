@@ -8,6 +8,8 @@ python-rospkg-modules:
   conda-forge: [rospkg]
 python3-rospkg-modules:
   conda-forge: [rospkg]
+python3-venv:
+  conda-forge: [virtualenv, pip, pip-tools, setuptools]
 boost:
   conda-forge: [boost]
 libboost-python-dev:
