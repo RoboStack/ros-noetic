@@ -20,3 +20,5 @@ lvr2:
   add: [libgdal-dev]
 rtabmap:
   add: ["REQUIRE_OPENGL"]
+image_view2:
+  add: ["REQUIRE_OPENGL"]

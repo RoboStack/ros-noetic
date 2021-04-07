@@ -36,10 +36,12 @@ packages_select_by_deps:
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
-
   ##
   # DONE Linux
   ##
+  - lusb
+  - image_view2
+  - ifopt
   - explore_lite
   - marvelmind_nav
   - sob_layer
