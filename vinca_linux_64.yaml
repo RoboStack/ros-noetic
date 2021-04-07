@@ -35,13 +35,13 @@ packages_select_by_deps:
   # - mapviz_plugins
   # - swri_image_util
   # - exotica_core
+  # - sesame_ros
 
   ##
   # DONE Linux
   ##
   - explore_lite
   - marvelmind_nav
-  - sesame_ros
   - sob_layer
   - soem
   - willow_maps
