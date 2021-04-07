@@ -544,7 +544,7 @@ mongodb:
 libqwt-qt5-dev:
   conda-forge: [qwt]
 g++-static:
-  conda-forge: [cxx-compiler]
+  conda-forge: []
 python3-pep8:
   conda-forge: [pep8]
 python3-sphinx:
