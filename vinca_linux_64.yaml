@@ -38,6 +38,7 @@ packages_select_by_deps:
   # - sesame_ros
   # - opencv_apps
   - exotica
+  - exotica_examples
 
   ##
   # DONE Linux
