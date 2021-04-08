@@ -36,6 +36,10 @@ packages_select_by_deps:
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
+  # - opencv_apps
+  - exotica
+  - exotica_examples
+  - exotica_dynamics_solvers
 
   ##
   # DONE Linux

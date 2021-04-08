@@ -1,0 +1,215 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 953edce50..87f36a71a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,6 +47,9 @@ if("${TinyXML2_VERSION}" VERSION_GREATER "5.90.0")
+   add_definitions(-DTINYXML_HAS_ERROR_STR)
+ endif()
+ 
++# Deactivate some warnings on Conda
++add_definitions(-DBOOST_BIND_GLOBAL_PLACEHOLDERS)
++
+ include(exotica)
+ include(add_initializer)
+ 
+@@ -172,14 +175,14 @@ install(TARGETS ${PROJECT_NAME}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+ install(DIRECTORY include/${PROJECT_NAME}/ DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+-install(DIRECTORY cmake/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake/)
+-install(FILES cmake/initializer_project_header.h.in DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake/)
+-install(PROGRAMS cmake/generate_initializers.py DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake/)
++install(DIRECTORY cmake DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+ 
+ if(CATKIN_ENABLE_TESTING)
+-  catkin_add_gtest(test_autodiff test/test_autodiff.cpp)
+-  target_link_libraries(test_autodiff ${catkin_LIBRARIES} ${PROJECT_NAME})
+-  add_dependencies(test_autodiff ${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
++  if(NOT APPLE)
++    catkin_add_gtest(test_autodiff test/test_autodiff.cpp)
++    target_link_libraries(test_autodiff ${catkin_LIBRARIES} ${PROJECT_NAME})
++    add_dependencies(test_autodiff ${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
++  endif(NOT APPLE)
+ 
+   catkin_add_gtest(test_kinematics test/test_kinematics.cpp)
+   target_link_libraries(test_kinematics ${catkin_LIBRARIES} ${PROJECT_NAME})
+diff --git a/cmake/add_initializer.cmake b/cmake/add_initializer.cmake
+index 9a3a781f4..d395f6163 100644
+--- a/cmake/add_initializer.cmake
++++ b/cmake/add_initializer.cmake
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8)
++cmake_minimum_required(VERSION 3.0.2)
+ 
+ find_package(PythonInterp REQUIRED)
+ 
+diff --git a/include/exotica_core/tools/conversions.h b/include/exotica_core/tools/conversions.h
+index 570241502..4828e2bd4 100644
+--- a/include/exotica_core/tools/conversions.h
++++ b/include/exotica_core/tools/conversions.h
+@@ -49,10 +49,10 @@
+ namespace Eigen
+ {
+ /// \brief Convenience wrapper for storing references to sub-matrices/vectors
+-typedef Ref<VectorXd> VectorXdRef;
+-typedef const Ref<const VectorXd>& VectorXdRefConst;
+-typedef Ref<MatrixXd> MatrixXdRef;
+-typedef const Ref<const MatrixXd>& MatrixXdRefConst;
++typedef const Eigen::Ref<const Eigen::VectorXd>& VectorXdRefConst;
++typedef const Eigen::Ref<const Eigen::MatrixXd>& MatrixXdRefConst;
++typedef typename Eigen::Ref<Eigen::VectorXd> VectorXdRef;
++typedef typename Eigen::Ref<Eigen::MatrixXd> MatrixXdRef;
+ 
+ Eigen::VectorXd VectorTransform(double px = 0.0, double py = 0.0, double pz = 0.0, double qx = 0.0, double qy = 0.0, double qz = 0.0, double qw = 1.0);
+ Eigen::VectorXd IdentityTransform();
+@@ -153,16 +153,18 @@ typedef Eigen::Array<KDL::Twist, Eigen::Dynamic, 1> ArrayTwist;
+ typedef Eigen::Array<KDL::Jacobian, Eigen::Dynamic, 1> ArrayJacobian;
+ typedef Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1> Hessian;
+ typedef Eigen::Array<Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1>, Eigen::Dynamic, 1> ArrayHessian;
+-typedef Eigen::Ref<Eigen::Array<KDL::Frame, Eigen::Dynamic, 1>> ArrayFrameRef;
+-typedef Eigen::Ref<Eigen::Array<KDL::Twist, Eigen::Dynamic, 1>> ArrayTwistRef;
+-typedef Eigen::Ref<Eigen::Array<KDL::Jacobian, Eigen::Dynamic, 1>> ArrayJacobianRef;
+-typedef Eigen::Ref<Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1>> HessianRef;
+-typedef Eigen::Ref<Eigen::Array<Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1>, Eigen::Dynamic, 1>> ArrayHessianRef;
+-typedef const Eigen::Ref<Eigen::Array<KDL::Frame, Eigen::Dynamic, 1>>& ArrayFrameRefConst;
+-typedef const Eigen::Ref<Eigen::Array<KDL::Twist, Eigen::Dynamic, 1>>& ArrayTwistRefConst;
+-typedef const Eigen::Ref<Eigen::Array<KDL::Jacobian, Eigen::Dynamic, 1>>& ArrayJacobianRefConst;
+-typedef const Eigen::Ref<Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1>> HessianRefConst;
+-typedef const Eigen::Ref<Eigen::Array<Eigen::Array<Eigen::MatrixXd, Eigen::Dynamic, 1>, Eigen::Dynamic, 1>> ArrayHessianRefConst;
++
++typedef Eigen::Ref<ArrayFrame> ArrayFrameRef;
++typedef Eigen::Ref<ArrayTwist> ArrayTwistRef;
++typedef Eigen::Ref<ArrayJacobian> ArrayJacobianRef;
++typedef Eigen::Ref<Hessian> HessianRef;
++typedef Eigen::Ref<ArrayHessian> ArrayHessianRef;
++
++typedef Eigen::internal::ref_selector<ArrayFrame>::type ArrayFrameRefConst;
++typedef Eigen::internal::ref_selector<ArrayTwist>::type ArrayTwistRefConst;
++typedef Eigen::internal::ref_selector<ArrayJacobian>::type ArrayJacobianRefConst;
++typedef Eigen::internal::ref_selector<Hessian>::type HessianRefConst;
++typedef Eigen::internal::ref_selector<ArrayHessian>::type ArrayHessianRefConst;
+ 
+ inline bool IsContainerType(std::string type)
+ {
+diff --git a/src/problems/abstract_time_indexed_problem.cpp b/src/problems/abstract_time_indexed_problem.cpp
+index 1f751ef53..c9ce09944 100644
+--- a/src/problems/abstract_time_indexed_problem.cpp
++++ b/src/problems/abstract_time_indexed_problem.cpp
+@@ -253,7 +253,10 @@ void AbstractTimeIndexedProblem::Update(Eigen::VectorXdRefConst x_in, int t)
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x[t], Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length), jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x[t],
++                                  Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/src/problems/bounded_end_pose_problem.cpp b/src/problems/bounded_end_pose_problem.cpp
+index dbd68b19f..4615b3d4e 100644
+--- a/src/problems/bounded_end_pose_problem.cpp
++++ b/src/problems/bounded_end_pose_problem.cpp
+@@ -147,7 +147,10 @@ void BoundedEndPoseProblem::Update(Eigen::VectorXdRefConst x)
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x, Phi.data.segment(tasks_[i]->start, tasks_[i]->length), jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x,
++                                  Phi.data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/src/problems/bounded_time_indexed_problem.cpp b/src/problems/bounded_time_indexed_problem.cpp
+index e0c0cf363..c9c73c933 100644
+--- a/src/problems/bounded_time_indexed_problem.cpp
++++ b/src/problems/bounded_time_indexed_problem.cpp
+@@ -119,7 +119,10 @@ void BoundedTimeIndexedProblem::Update(Eigen::VectorXdRefConst x_in, int t)
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x[t], Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length), jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x[t],
++                                  Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/src/problems/end_pose_problem.cpp b/src/problems/end_pose_problem.cpp
+index b708835d6..0c70aad10 100644
+--- a/src/problems/end_pose_problem.cpp
++++ b/src/problems/end_pose_problem.cpp
+@@ -174,7 +174,10 @@ void EndPoseProblem::Update(Eigen::VectorXdRefConst x)
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x, Phi.data.segment(tasks_[i]->start, tasks_[i]->length), jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x,
++                                  Phi.data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/src/problems/unconstrained_end_pose_problem.cpp b/src/problems/unconstrained_end_pose_problem.cpp
+index 82ec8aef4..5b15c78ce 100644
+--- a/src/problems/unconstrained_end_pose_problem.cpp
++++ b/src/problems/unconstrained_end_pose_problem.cpp
+@@ -119,7 +119,10 @@ void UnconstrainedEndPoseProblem::Update(Eigen::VectorXdRefConst x)
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x, Phi.data.segment(tasks_[i]->start, tasks_[i]->length), jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x,
++                                  Phi.data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian.middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/src/problems/unconstrained_time_indexed_problem.cpp b/src/problems/unconstrained_time_indexed_problem.cpp
+index 7f8e1ce87..adee8bec4 100644
+--- a/src/problems/unconstrained_time_indexed_problem.cpp
++++ b/src/problems/unconstrained_time_indexed_problem.cpp
+@@ -158,7 +158,10 @@ void UnconstrainedTimeIndexedProblem::Update(Eigen::VectorXdRefConst x_in, int t
+             }
+             else if (flags_ & KIN_J)
+             {
+-                tasks_[i]->Update(x[t], Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length), jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian));
++                tasks_[i]->Update(x[t],
++                                  Phi[t].data.segment(tasks_[i]->start, tasks_[i]->length),
++                                  Eigen::MatrixXdRef(jacobian[t].middleRows(tasks_[i]->start_jacobian, tasks_[i]->length_jacobian))  // Adding MatrixXdRef(...) is a work-around for issue #737 when using Eigen 3.3.9
++                );
+             }
+             else
+             {
+diff --git a/test/test_kinematics.cpp b/test/test_kinematics.cpp
+index b8c10608a..18a4ad124 100644
+--- a/test/test_kinematics.cpp
++++ b/test/test_kinematics.cpp
+@@ -36,7 +36,6 @@ using namespace exotica;
+ static const std::string urdf_string_ = "<robot name=\"test_robot\"><link name=\"base\"><visual><geometry><cylinder length=\"0.3\" radius=\"0.2\"/></geometry><origin xyz=\"0 0 0.15\"/></visual><collision><geometry><cylinder length=\"0.3\" radius=\"0.2\"/></geometry><origin xyz=\"0 0 0.15\"/></collision></link><link name=\"link1\"><inertial><mass value=\"0.2\"/><origin xyz=\"0 0 0.1\"/><inertia ixx=\"0.00381666666667\" ixy=\"0\" ixz=\"0\" iyy=\"0.0036\" iyz=\"0\" izz=\"0.00381666666667\"/></inertial><visual><geometry><cylinder length=\"0.15\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.075\"/></visual><collision><geometry><cylinder length=\"0.15\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.075\"/></collision></link><link name=\"link2\"><inertial><mass value=\"0.2\"/><origin xyz=\"0 0 0.1\"/><inertia ixx=\"0.00381666666667\" ixy=\"0\" ixz=\"0\" iyy=\"0.0036\" iyz=\"0\" izz=\"0.00381666666667\"/></inertial><visual><geometry><cylinder length=\"0.35\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.175\"/></visual><collision><geometry><cylinder length=\"0.35\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.175\"/></collision></link><link name=\"link3\"><inertial><mass value=\"0.2\"/><origin xyz=\"0 0 0.1\"/><inertia ixx=\"0.00381666666667\" ixy=\"0\" ixz=\"0\" iyy=\"0.0036\" iyz=\"0\" izz=\"0.00381666666667\"/></inertial><visual><geometry><cylinder length=\"0.45\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.225\"/></visual><collision><geometry><cylinder length=\"0.45\" radius=\"0.05\"/></geometry><origin xyz=\"0 0 0.225\"/></collision></link><link name=\"endeff\"><inertial><mass value=\"0.2\"/><origin xyz=\"0 0 0.1\"/><inertia ixx=\"0.00381666666667\" ixy=\"0\" ixz=\"0\" iyy=\"0.0036\" iyz=\"0\" izz=\"0.00381666666667\"/></inertial><visual><geometry><cylinder length=\"0.05\" radius=\"0.1\"/></geometry><origin xyz=\"0 0 -0.025\"/></visual><collision><geometry><cylinder length=\"0.05\" radius=\"0.1\"/></geometry><origin xyz=\"0 0 -0.025\"/></collision></link><joint name=\"joint1\" type=\"revolute\"><parent link=\"base\"/><child link=\"link1\"/><origin xyz=\"0 0 0.3\" rpy=\"0 0 0\" /><axis xyz=\"0 0 1\" /><limit effort=\"200\" velocity=\"1.0\" lower=\"-0.4\" upper=\"0.4\"/><safety_controller k_position=\"30\" k_velocity=\"30\" soft_lower_limit=\"-0.4\" soft_upper_limit=\"0.4\"/></joint><joint name=\"joint2\" type=\"revolute\"><parent link=\"link1\"/><child link=\"link2\"/><origin xyz=\"0 0 0.15\" rpy=\"0 0 0\" /><axis xyz=\"0 1 0\" /><limit effort=\"200\" velocity=\"1.0\" lower=\"-0.4\" upper=\"0.4\"/><safety_controller k_position=\"30\" k_velocity=\"30\" soft_lower_limit=\"-0.4\" soft_upper_limit=\"0.4\"/></joint><joint name=\"joint3\" type=\"revolute\"><parent link=\"link2\"/><child link=\"link3\"/><origin xyz=\"0 0 0.35\" rpy=\"0 0 0\" /><axis xyz=\"0 1 0\" /><limit effort=\"200\" velocity=\"1.0\" lower=\"-0.4\" upper=\"0.4\"/><safety_controller k_position=\"30\" k_velocity=\"30\" soft_lower_limit=\"-0.4\" soft_upper_limit=\"0.4\"/></joint><joint name=\"joint4\" type=\"fixed\"><parent link=\"link3\"/><child link=\"endeff\"/><origin xyz=\"0 0 0.45\" rpy=\"0 0 0\" /></joint></robot>";
+ static const std::string srdf_string_ = "<robot name=\"test_robot\"><group name=\"arm\"><chain base_link=\"base\" tip_link=\"endeff\" /></group><virtual_joint name=\"world_joint\" type=\"fixed\" parent_frame=\"world_frame\" child_link=\"base\" /><group_state name=\"zero\" group=\"arm\"><joint name=\"joint1\" value=\"0\" /><joint name=\"joint2\" value=\"0.3\" /><joint name=\"joint3\" value=\"0.55\" /></group_state><disable_collisions link1=\"base\" link2=\"link1\" reason=\"Adjacent\" /><disable_collisions link1=\"endeff\" link2=\"link3\" reason=\"Adjacent\" /><disable_collisions link1=\"link1\" link2=\"link2\" reason=\"Adjacent\" /><disable_collisions link1=\"link2\" link2=\"link3\" reason=\"Adjacent\" /></robot>";
+ 
+-constexpr bool print_debug_information_ = false;
+ constexpr int num_trials_ = 100;
+ 
+ class TestClass
+diff --git a/src/loaders/xml_loader.cpp b/src/loaders/xml_loader.cpp
+index 4abdc9168..03cbef41c 100644
+--- a/src/loaders/xml_loader.cpp
++++ b/src/loaders/xml_loader.cpp
+@@ -189,7 +189,7 @@ void XMLLoader::LoadXML(std::string file_name, Initializer& solver, Initializer&
+     }
+ 
+     std::vector<Initializer> initializers;
+-    tinyxml2::XMLHandle root_tag = xml_file.RootElement()->FirstChild();
++    tinyxml2::XMLHandle root_tag(xml_file.RootElement()->FirstChild());
+     while (root_tag.ToNode())
+     {
+         if (root_tag.ToElement() == nullptr)
+
