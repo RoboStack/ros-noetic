@@ -36,9 +36,16 @@ packages_select_by_deps:
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
+
   ##
   # DONE Linux
   ##
+  - eml
+  - pose_base_controller
+  - ur_client_library
+  - robot_self_filter
+  - trac_ik
+  - opencv_apps
   - lusb
   - image_view2
   - ifopt
