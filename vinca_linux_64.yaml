@@ -39,10 +39,17 @@ packages_select_by_deps:
   # - opencv_apps
   - exotica
   - exotica_examples
+  - exotica_dynamics_solvers
 
   ##
   # DONE Linux
   ##
+  - eml
+  - pose_base_controller
+  - ur_client_library
+  - robot_self_filter
+  - trac_ik
+  - opencv_apps
   - lusb
   - image_view2
   - ifopt

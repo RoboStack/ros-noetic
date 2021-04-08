@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8966cbc..06a2181 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -58,6 +58,9 @@ endif()
+ if(CMAKE_THREAD_LIBS_INIT)
+   target_link_libraries(urcl PUBLIC "${CMAKE_THREAD_LIBS_INIT}")
+ endif()
++if(UNIX AND NOT APPLE)
++  target_link_libraries(urcl PUBLIC "rt")
++endif()
+ 
+ find_package(console_bridge)
+ if(console_bridge_FOUND)
