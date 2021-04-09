@@ -717,3 +717,5 @@ libgdal-dev:
   conda-forge: [libgdal]
 libxxf86vm:
   conda-forge: [REQUIRE_OPENGL]
+python3-grpc-tools:
+  conda-forge: [grpcio-tools]
