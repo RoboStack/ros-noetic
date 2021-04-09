@@ -40,8 +40,8 @@ packages_select_by_deps:
   # DONE Linux
   ##
   - rviz_satellite
-  # - tile_map
-  # - multires_image
+  - tile_map
+  - multires_image
   - fkie_message_filters
   - fkie_potree_rviz_plugin
   - fkie_multimaster
@@ -72,7 +72,7 @@ packages_select_by_deps:
   - willow_maps
   - ypspur_ros
   - zbar_ros
-  # - mapviz
+  - mapviz
   - swri_geometry_util
   - swri_route_util
   # - tf2_web_republisher
