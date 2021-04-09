@@ -455,8 +455,7 @@ tango-icon-theme:
 ffmpeg:
   conda-forge: [ffmpeg]
 python3-bson:
-  # not sure about this one actually...; could also be https://github.com/conda-forge/pymongo-feedstock
-  conda-forge: [mongodb]
+  conda-forge: [pymongo]
 python3-tornado:
   conda-forge: [tornado]
 python3-autobahn:
