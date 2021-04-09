@@ -40,6 +40,17 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - ethercat_grant
+  - fetch_open_auto_dock
+  - fetch_tools
+  - fetch_drivers
+  - cob_gazebo_tools
+  - cob_gazebo_worlds
+  - cob_gazebo_plugins
+  - cob_gazebo_objects
+  - dynamic_graph
+  - dynamic_graph_python
+  - dynamic_graph_tutorial
   - eml
   - pose_base_controller
   - ur_client_library
