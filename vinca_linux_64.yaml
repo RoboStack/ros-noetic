@@ -36,7 +36,6 @@ packages_select_by_deps:
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
-
   ##
   # DONE Linux
   ##
