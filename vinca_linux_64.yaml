@@ -40,6 +40,7 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - rviz_satellite
   - tile_map
   - multires_image
   - fkie_message_filters

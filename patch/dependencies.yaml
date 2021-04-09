@@ -22,3 +22,5 @@ rtabmap:
   add: ["REQUIRE_OPENGL"]
 image_view2:
   add: ["REQUIRE_OPENGL"]
+swri_image_util:
+  add: ["REQUIRE_OPENGL"]
