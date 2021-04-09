@@ -57,3 +57,18 @@ macos_min_version:             # [osx]
   - 10.14                      # [osx]
 MACOSX_DEPLOYMENT_TARGET:      # [osx]
   - 10.14                      # [osx]
+
+# fix build metadata, needed for mapviz
+replacements:
+  all_replacements:
+    - tag: 'pkg-config build metadata'
+      glob_patterns:
+        - '*.pc'
+      regex_re: '(?:-L|-I)?\"?([^;\s]+\/sysroot\/)'
+      replacement_re: '$(CONDA_BUILD_SYSROOT_S)'
+      regex_rg: '([^;\s"]+/sysroot/)'
+    - tag: 'CMake build metadata'
+      glob_patterns:
+        - '*.cmake'
+      regex_re: '([^;\s"]+/sysroot)'
+      replacement_re: '$ENV{CONDA_BUILD_SYSROOT}'
