@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c9adfe3..126bdbf 100644
+index c9adfe3..763fb46 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -74,14 +74,6 @@ IF(MINGW)
@@ -17,7 +17,15 @@ index c9adfe3..126bdbf 100644
  #The CDT Error Parser cannot handle error messages that span 
  #more than one line, which is the default gcc behavior. 
  #In order to force gcc to generate single line error messages with no line wrapping
-@@ -164,7 +156,7 @@ option(WITH_QT            "Include Qt support"                   ON)
+@@ -157,14 +149,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
+ OPTION(BUILD_EXAMPLES "Build examples" ON)
+ 
+ ####### DEPENDENCIES #######
+-IF(ANDROID)
++IF(TRUE)
+ option(WITH_QT            "Include Qt support"                   OFF)
+ ELSE()
+ option(WITH_QT            "Include Qt support"                   ON)
  ENDIF()
  option(WITH_ORB_OCTREE    "Include ORB Octree feature support"   ON)
  option(WITH_TORCH         "Include Torch support (SuperPoint)"   OFF)
