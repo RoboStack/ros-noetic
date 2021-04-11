@@ -1,16 +1,23 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c9adfe3..2419dfc 100644
+index c9adfe3..126bdbf 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -157,14 +157,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
- OPTION(BUILD_EXAMPLES "Build examples" ON)
+@@ -74,14 +74,6 @@ IF(MINGW)
+     SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import")
+ ENDIF(MINGW)
  
- ####### DEPENDENCIES #######
--IF(ANDROID)
-+IF(TRUE)
- option(WITH_QT            "Include Qt support"                   OFF)
- ELSE()
- option(WITH_QT            "Include Qt support"                   ON)
+-# GCC 4 required
+-IF(UNIX OR MINGW)
+-    EXEC_PROGRAM( gcc ARGS "-dumpversion" OUTPUT_VARIABLE GCC_VERSION )
+-    IF(GCC_VERSION VERSION_LESS "4.0.0")
+-        MESSAGE(FATAL_ERROR "GCC ${GCC_VERSION} found, but version 4.x.x minimum is required")
+-    ENDIF(GCC_VERSION VERSION_LESS "4.0.0")
+-ENDIF(UNIX OR MINGW)
+-
+ #The CDT Error Parser cannot handle error messages that span 
+ #more than one line, which is the default gcc behavior. 
+ #In order to force gcc to generate single line error messages with no line wrapping
+@@ -164,7 +156,7 @@ option(WITH_QT            "Include Qt support"                   ON)
  ENDIF()
  option(WITH_ORB_OCTREE    "Include ORB Octree feature support"   ON)
  option(WITH_TORCH         "Include Torch support (SuperPoint)"   OFF)
@@ -19,7 +26,7 @@ index c9adfe3..2419dfc 100644
  option(WITH_PYTHON_THREADING  "Use more than one Python interpreter."  OFF)
  option(WITH_PDAL          "Include PDAL support"                 ON)
  option(WITH_FREENECT      "Include Freenect support"             ON)
-@@ -325,6 +325,8 @@ IF(WITH_QT)
+@@ -325,6 +317,8 @@ IF(WITH_QT)
          ENDIF()
          ADD_DEFINITIONS(-DQT_NO_KEYWORDS) # To avoid conflicts with boost signals/foreach and Qt macros
      ENDIF(QT4_FOUND OR Qt5_FOUND)
@@ -28,7 +35,7 @@ index c9adfe3..2419dfc 100644
  ENDIF(WITH_QT)
  
  IF(WITH_TORCH)
-@@ -335,7 +337,7 @@ IF(WITH_TORCH)
+@@ -335,7 +329,7 @@ IF(WITH_TORCH)
  ENDIF(WITH_TORCH)
  
  IF(WITH_PYTHON)
@@ -38,10 +45,24 @@ index c9adfe3..2419dfc 100644
          MESSAGE(STATUS "Found Python3")
      ENDIF(Python3_FOUND)
 diff --git a/corelib/src/CMakeLists.txt b/corelib/src/CMakeLists.txt
-index 2f7f005..e2d9fd2 100644
+index 2f7f005..9e2e659 100644
 --- a/corelib/src/CMakeLists.txt
 +++ b/corelib/src/CMakeLists.txt
-@@ -195,6 +195,7 @@ IF(Python3_FOUND)
+@@ -155,6 +155,13 @@ SET(LIBRARIES
+ 	${ZLIB_LIBRARIES} 
+ )
+ 
++IF(VTK_FOUND)
++	SET(LIBRARIES
++		${LIBRARIES}
++		${VTK_LIBRARIES}
++	)
++ENDIF()
++
+ IF(Sqlite3_FOUND)
+     SET(INCLUDE_DIRS
+ 		${INCLUDE_DIRS}
+@@ -195,6 +202,7 @@ IF(Python3_FOUND)
  	SET(LIBRARIES
  		${LIBRARIES}
  		Python3::Python
@@ -49,7 +70,7 @@ index 2f7f005..e2d9fd2 100644
  	)
  	SET(SRC_FILES
  		${SRC_FILES}
-@@ -206,6 +207,8 @@ IF(Python3_FOUND)
+@@ -206,6 +214,8 @@ IF(Python3_FOUND)
  	    ${TORCH_INCLUDE_DIRS}
  	    ${CMAKE_CURRENT_SOURCE_DIR}/python
  		${INCLUDE_DIRS}
