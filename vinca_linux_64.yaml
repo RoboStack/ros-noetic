@@ -40,6 +40,7 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - jsk_common_msgs
   - rviz_satellite
   - tile_map
   - multires_image
