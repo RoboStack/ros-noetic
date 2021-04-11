@@ -1,0 +1,73 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c9adfe3..2419dfc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -157,14 +157,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
+ OPTION(BUILD_EXAMPLES "Build examples" ON)
+ 
+ ####### DEPENDENCIES #######
+-IF(ANDROID)
++IF(TRUE)
+ option(WITH_QT            "Include Qt support"                   OFF)
+ ELSE()
+ option(WITH_QT            "Include Qt support"                   ON)
+ ENDIF()
+ option(WITH_ORB_OCTREE    "Include ORB Octree feature support"   ON)
+ option(WITH_TORCH         "Include Torch support (SuperPoint)"   OFF)
+-option(WITH_PYTHON        "Include Python3 support (PyMatcher, PyDetector)"  OFF)
++option(WITH_PYTHON        "Include Python3 support (PyMatcher, PyDetector)"  ON)
+ option(WITH_PYTHON_THREADING  "Use more than one Python interpreter."  OFF)
+ option(WITH_PDAL          "Include PDAL support"                 ON)
+ option(WITH_FREENECT      "Include Freenect support"             ON)
+@@ -325,6 +325,8 @@ IF(WITH_QT)
+         ENDIF()
+         ADD_DEFINITIONS(-DQT_NO_KEYWORDS) # To avoid conflicts with boost signals/foreach and Qt macros
+     ENDIF(QT4_FOUND OR Qt5_FOUND)
++ELSE()
++    add_compile_definitions(DISABLE_VTK)
+ ENDIF(WITH_QT)
+ 
+ IF(WITH_TORCH)
+@@ -335,7 +337,7 @@ IF(WITH_TORCH)
+ ENDIF(WITH_TORCH)
+ 
+ IF(WITH_PYTHON)
+-    FIND_PACKAGE(Python3 COMPONENTS Interpreter Development)
++    FIND_PACKAGE(Python3 COMPONENTS Interpreter Development NumPy)
+     IF(Python3_FOUND)
+         MESSAGE(STATUS "Found Python3")
+     ENDIF(Python3_FOUND)
+diff --git a/corelib/src/CMakeLists.txt b/corelib/src/CMakeLists.txt
+index 2f7f005..e2d9fd2 100644
+--- a/corelib/src/CMakeLists.txt
++++ b/corelib/src/CMakeLists.txt
+@@ -195,6 +195,7 @@ IF(Python3_FOUND)
+ 	SET(LIBRARIES
+ 		${LIBRARIES}
+ 		Python3::Python
++		Python3::NumPy
+ 	)
+ 	SET(SRC_FILES
+ 		${SRC_FILES}
+@@ -206,6 +207,8 @@ IF(Python3_FOUND)
+ 	    ${TORCH_INCLUDE_DIRS}
+ 	    ${CMAKE_CURRENT_SOURCE_DIR}/python
+ 		${INCLUDE_DIRS}
++		${Python3_INCLUDE_DIRS}
++		${Python3_NumPy_INCLUDE_DIRS}
+ 	)
+ ENDIF(Python3_FOUND)
+ 
+diff --git a/tools/EurocDataset/CMakeLists.txt b/tools/EurocDataset/CMakeLists.txt
+index 3b1e5e4..2f23770 100644
+--- a/tools/EurocDataset/CMakeLists.txt
++++ b/tools/EurocDataset/CMakeLists.txt
+@@ -12,6 +12,8 @@ IF(NOT yaml-cpp_FOUND)
+          SET(yaml-cpp_FOUND ${yaml_cpp_FOUND})
+ 	  ENDIF(yaml_cpp_FOUND)
+    ENDIF(PKG_CONFIG_FOUND)
++ELSE()
++    SET(YAML_CPP_INCLUDE_DIRS ${YAML_CPP_INCLUDE_DIR})
+ ENDIF(NOT yaml-cpp_FOUND)
+ 
+ IF(yaml-cpp_FOUND)

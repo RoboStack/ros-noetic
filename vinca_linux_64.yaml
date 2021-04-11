@@ -40,6 +40,8 @@ packages_select_by_deps:
   ##
   # DONE Linux
   ##
+  - rtabmap
+  - jsk_rqt_plugins
   - jsk_common_msgs
   - rviz_satellite
   - tile_map
