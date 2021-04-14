@@ -27,10 +27,11 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+
   ##
   #  TODO Linux
   ##
-  # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
   # - rtabmap
   # - mapviz_plugins
   # - swri_image_util
