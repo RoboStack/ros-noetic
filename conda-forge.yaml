@@ -455,8 +455,7 @@ tango-icon-theme:
 ffmpeg:
   conda-forge: [ffmpeg]
 python3-bson:
-  # not sure about this one actually...; could also be https://github.com/conda-forge/pymongo-feedstock
-  conda-forge: [mongodb]
+  conda-forge: [pymongo]
 python3-tornado:
   conda-forge: [tornado]
 python3-autobahn:
@@ -544,7 +543,7 @@ mongodb:
 libqwt-qt5-dev:
   conda-forge: [qwt]
 g++-static:
-  conda-forge: [cxx-compiler]
+  conda-forge: []
 python3-pep8:
   conda-forge: [pep8]
 python3-sphinx:
@@ -717,3 +716,5 @@ libgdal-dev:
   conda-forge: [libgdal]
 libxxf86vm:
   conda-forge: [REQUIRE_OPENGL]
+python3-grpc-tools:
+  conda-forge: [grpcio-tools]
