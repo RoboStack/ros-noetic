@@ -27,7 +27,7 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind_catkin
+  - pybind11_catkin
 
   ##
   #  TODO OSX
