@@ -27,7 +27,8 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind11_catkin  # need to be unvendored
+  - fcl
+  # - pybind11_catkin  # need to be unvendored
 
   ##
   #  TODO OSX
