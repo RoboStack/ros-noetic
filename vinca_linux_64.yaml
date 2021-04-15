@@ -9,17 +9,10 @@ conda_index:
 build_number: 6
 
 # Ignore all dependencies of selected packages
-
-######WARNINGWARNING - SET BACK TO FALSE#####
-######WARNINGWARNING - SET BACK TO FALSE#####
-######WARNINGWARNING - SET BACK TO FALSE#####
-skip_all_deps: true
+skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-######WARNINGWARNING - SET BACK TO TRUE#####
-######WARNINGWARNING - SET BACK TO TRUE#####
-######WARNINGWARNING - SET BACK TO TRUE#####
 full_rebuild: false
 
 packages_skip_by_deps:
@@ -31,10 +24,7 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-######WARNINGWARNING - SET BACK TO TRUE#####
-######WARNINGWARNING - SET BACK TO TRUE#####
-######WARNINGWARNING - SET BACK TO TRUE#####
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
@@ -47,7 +37,7 @@ packages_select_by_deps:
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
-  - catkin
+  # - catkin
   
   ##
   # DONE Linux
