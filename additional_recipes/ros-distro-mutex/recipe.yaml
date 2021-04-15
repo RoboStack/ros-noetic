@@ -7,7 +7,7 @@ build:
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.1 noetic
+    - ros-distro-mutex 0.2 noetic
 
 requirements:
   # NOTE:
