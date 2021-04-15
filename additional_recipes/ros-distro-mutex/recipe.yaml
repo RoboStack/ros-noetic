@@ -29,7 +29,7 @@ requirements:
   # values here should be applied from run_exports!
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
-  run_constrained:
+  run:
     - boost-cpp 1.74
     - log4cxx 0.11
     - pcl 1.11
