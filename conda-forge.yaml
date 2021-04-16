@@ -151,7 +151,7 @@ python3-flake8:
 python3-pytest-mock:
   conda-forge: [pytest-mock]
 yaml:
-  conda-forge: [yaml]
+  conda-forge: [yaml, yaml-cpp]
 asio:
   conda-forge: [asio]
 git:
@@ -514,6 +514,8 @@ libgstreamer-plugins-base1.0-dev:
   conda-forge: [gst-plugins-base]
 gstreamer1.0-plugins-good:
   conda-forge: [gst-plugins-good]
+gstreamer1.0-plugins-ugly:
+  conda-forge: [gst-plugins-ugly]
 muparser:
   conda-forge: [muparser]
 python3-texttable:
