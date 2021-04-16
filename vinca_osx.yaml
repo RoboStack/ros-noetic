@@ -27,12 +27,13 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind11_catkin  # need to be unvendored
+  - geometric_shapes
 
   ##
   #  TODO OSX
   ##
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
+  # - pybind11_catkin  # need to be unvendored
 
   ##
   # DONE OSX
