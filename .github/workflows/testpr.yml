@@ -2,7 +2,6 @@ on:
   pull_request:
     paths:
       - '*.yaml'
-      - 'additional_recipes/**'
 
 jobs:
   build:
