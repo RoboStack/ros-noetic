@@ -17,7 +17,7 @@ conda-build:
     root-dir: /opt/conda/build_artifacts
 CONDARC
 
-# This doesn't work, see e.g. https://dev.azure.com/roboforge/ros_pipelines/_build/results?buildId=188&view=logs&j=4e20d398-0572-5e54-89c7-6bdb9c00a59a&t=f5885ff8-badf-54b3-1543-35164851bdf3
+# This doesn't work, see e.g. https://dev.azure.com/robostack/ros_pipelines/_build/results?buildId=188&view=logs&j=4e20d398-0572-5e54-89c7-6bdb9c00a59a&t=f5885ff8-badf-54b3-1543-35164851bdf3
 # if grep -q libgl "recipes/${CURRENT_BUILD_PKG_NAME}.yaml"; then
 # 	sudo yum install -y install mesa-libGL-devel
 # fi
