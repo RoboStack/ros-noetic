@@ -32,6 +32,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - mqtt_bridge
   # - rtabmap
   # - mapviz_plugins
   # - swri_image_util
