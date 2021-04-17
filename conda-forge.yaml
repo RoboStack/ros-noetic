@@ -720,3 +720,5 @@ libxxf86vm:
   conda-forge: [REQUIRE_OPENGL]
 python3-grpc-tools:
   conda-forge: [grpcio-tools]
+mosquitto:
+  conda-forge: [paho-mqtt]
