@@ -1,0 +1,10 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5542308..73ff08d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,5 +18,3 @@ install(DIRECTORY launch
+ install(DIRECTORY config
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ )
+-
+-add_custom_target(install_depends ALL COMMAND "pip3" "install" "--user" "-r" "${PROJECT_SOURCE_DIR}/requirements.txt")
