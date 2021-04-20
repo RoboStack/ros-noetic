@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5d59982..a7a46b3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,8 +15,8 @@ find_package(ecl_command_line REQUIRED)
+ 
+ # pkg-config packages
+ find_package(PkgConfig)
+-pkg_search_module(libusb REQUIRED libusb)
+-pkg_search_module(libftdi REQUIRED libftdi)
++pkg_search_module(libusb REQUIRED libusb-1.0)
++pkg_search_module(libftdi REQUIRED libftdi1)
+ 
+ ##############################################################################
+ # Platform Configuration
