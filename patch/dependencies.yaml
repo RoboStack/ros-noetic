@@ -26,3 +26,5 @@ swri_image_util:
   add: ["REQUIRE_OPENGL"]
 posedetection_msgs:
   add: ["REQUIRE_OPENGL"]
+sainsmart_relay_usb:
+  add: [pkg-config]

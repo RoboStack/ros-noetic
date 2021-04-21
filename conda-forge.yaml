@@ -722,3 +722,5 @@ python3-grpc-tools:
   conda-forge: [grpcio-tools]
 mosquitto:
   conda-forge: [paho-mqtt]
+libftdi-dev:
+  conda-forge: [libftdi]
