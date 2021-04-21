@@ -32,8 +32,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  # - kobuki_core
-  - sainsmart_relay_usb
+  - kobuki_core
+  # - sainsmart_relay_usb
   # - mqtt_bridge
   # - rtabmap
   # - mapviz_plugins
