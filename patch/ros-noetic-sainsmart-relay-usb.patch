@@ -6,8 +6,8 @@ index 9bd1118..b1eb309 100644
    std_msgs
  )
  
++find_package(PkgConfig)
 +pkg_check_modules(ftdi REQUIRED libftdi1)
-+
  catkin_package()
  
  include_directories(
