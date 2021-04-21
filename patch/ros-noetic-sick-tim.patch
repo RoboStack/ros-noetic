@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 36cee0a..4cf01f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,6 +11,7 @@ find_package(catkin REQUIRED
+ )
+ 
+ find_package(PkgConfig REQUIRED)
++pkg_check_modules(libudev libudev)
+ pkg_check_modules(libusb libusb-1.0)
+ 
+ find_package(Boost REQUIRED COMPONENTS system)
+@@ -23,7 +24,7 @@ catkin_package(
+     LIBRARIES sick_tim_3xx
+     INCLUDE_DIRS include)
+ 
+-include_directories(include ${catkin_INCLUDE_DIRS} ${libusb_INCLUDE_DIRS})
++include_directories(include ${catkin_INCLUDE_DIRS} ${libudev_INCLUDE_DIRS} ${libusb_INCLUDE_DIRS})
+ 
+ add_library(sick_tim_3xx
+     src/sick_tim_common.cpp
+@@ -33,6 +34,7 @@ add_library(sick_tim_3xx
+ add_dependencies(sick_tim_3xx ${PROJECT_NAME}_gencfg ${catkin_EXPORTED_TARGETS})
+ target_link_libraries(sick_tim_3xx
+     ${catkin_LIBRARIES}
++    ${libudev_LIBRARIES}
+     ${libusb_LIBRARIES})
+ 
+ add_executable(sick_tim310s01

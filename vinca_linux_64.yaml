@@ -33,6 +33,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - sick_tim
   - kobuki_core
   - sainsmart_relay_usb
   # - mqtt_bridge
