@@ -724,3 +724,5 @@ mosquitto:
   conda-forge: [paho-mqtt]
 libftdi-dev:
   conda-forge: [libftdi]
+python3-serial:
+  conda-forge: [pyserial]
