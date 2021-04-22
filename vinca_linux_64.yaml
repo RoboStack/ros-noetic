@@ -33,7 +33,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - multirobot_map_merge
+  - swri_image_util
+  # - multirobot_map_merge
   # - sick_tim
   # - kobuki_core
   # - sainsmart_relay_usb
