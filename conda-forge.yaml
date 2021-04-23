@@ -726,3 +726,7 @@ libftdi-dev:
   conda-forge: [libftdi]
 python3-serial:
   conda-forge: [pyserial]
+libpqxx:
+  conda-forge: [libpqxx]
+libpqxx-dev:
+  conda-forge: [libpqxx]
