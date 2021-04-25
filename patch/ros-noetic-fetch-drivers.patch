@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b231073..3f6f176 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -33,7 +33,7 @@ find_package(yaml-cpp REQUIRED)
+ 
+ add_custom_target(
+   binary_driver ALL
+-  COMMAND cmake -E chdir ${PROJECT_SOURCE_DIR} $(MAKE) -f Makefile.tarball
++  COMMAND cmake -E chdir ${PROJECT_SOURCE_DIR} make -f Makefile.tarball
+   COMMAND cmake -E make_directory ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_LIB_DESTINATION}/${PROJECT_NAME}
+   COMMAND cmake -E copy_if_different ${PROJECT_SOURCE_DIR}/build/output/lib/libfetch_drivers.so               ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_LIB_DESTINATION}/libfetch_drivers.so
+   COMMAND cmake -E copy_if_different ${PROJECT_SOURCE_DIR}/build/output/lib/libfetch_drivers_odva.so          ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_LIB_DESTINATION}/libfetch_drivers_odva.so

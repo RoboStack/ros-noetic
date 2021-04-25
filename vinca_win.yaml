@@ -29,10 +29,12 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - pybind11_catkin  # need to be unvendored
 
   ##
   # DONE Win
   ##
+  # - kdl_parser_py
   # - image_view
   # - robot_localization
   # - grid_map

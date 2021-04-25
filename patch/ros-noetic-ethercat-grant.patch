@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4413d4d..05e602b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,6 +8,9 @@ find_package(catkin REQUIRED COMPONENTS
+   roscpp
+ )
+ 
++find_package(PkgConfig)
++pkg_check_modules(LibCAP libcap)
++
+ catkin_package(
+ #  INCLUDE_DIRS include
+ #  LIBRARIES ethercat_grant
+@@ -16,9 +19,10 @@ catkin_package(
+ )
+ include_directories(
+   ${catkin_INCLUDE_DIRS}
++  ${LibCAP_INCLUDE_DIRS}
+ )
+ add_executable(ethercat_grant src/ethercat_grant.cpp)
+-target_link_libraries(ethercat_grant cap)
++target_link_libraries(ethercat_grant ${LibCAP_LIBRARIES})
+ 
+ install(TARGETS ethercat_grant
+    RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}

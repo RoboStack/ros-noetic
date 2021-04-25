@@ -12,3 +12,19 @@ gazebo_ros_control:
   add: [tbb]
 gazebo_pkgs:
   add: [tbb]
+ros_ign_gazebo:
+  add: ["REQUIRE_OPENGL"]
+apriltag:
+  add: ["REQUIRE_OPENGL"]
+lvr2:
+  add: [libgdal-dev]
+rtabmap:
+  add: ["REQUIRE_OPENGL"]
+image_view2:
+  add: ["REQUIRE_OPENGL"]
+swri_image_util:
+  add: ["REQUIRE_OPENGL"]
+posedetection_msgs:
+  add: ["REQUIRE_OPENGL"]
+sainsmart_relay_usb:
+  add: [pkg-config]

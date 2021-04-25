@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 135784f..aef508e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -90,6 +90,11 @@ if(SSM_FOUND)
+   )
+ endif(SSM_FOUND)
+ 
++if(READLINE_FOUND)
++  include_directories(
++    ${READLINE_INCLUDE_DIRS}
++  )
++endif()
+ 
+ # Static link options
+ 

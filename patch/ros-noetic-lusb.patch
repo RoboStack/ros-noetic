@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9c0785e..65a7867 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,6 +4,9 @@ project(lusb)
+ find_package(catkin REQUIRED)
+ find_package(Boost REQUIRED COMPONENTS thread system)
+ 
++find_package(PkgConfig)
++pkg_check_modules(LibUSB libusb-1.0)
++
+ catkin_package(
+   INCLUDE_DIRS include ${Boost_INCLUDE_DIRS}
+   LIBRARIES ${PROJECT_NAME} ${Boost_LIBRARIES}
+@@ -12,6 +15,7 @@ include_directories(
+   include
+   ${catkin_INCLUDE_DIRS}
+   ${Boost_INCLUDE_DIRS}
++  ${LibUSB_INCLUDE_DIRS}
+ )
+ 
+ add_library(${PROJECT_NAME}
+@@ -20,7 +24,7 @@ add_library(${PROJECT_NAME}
+ target_link_libraries(${PROJECT_NAME}
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+-  usb-1.0
++  ${LibUSB_LIBRARIES}
+ )
+ 
+ install(TARGETS ${PROJECT_NAME}
