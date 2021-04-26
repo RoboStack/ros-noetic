@@ -1,0 +1,316 @@
+diff --git a/3rdparty/nanogui/CMakeLists.txt b/3rdparty/nanogui/CMakeLists.txt
+index 5918d38..e36804d 100644
+--- a/3rdparty/nanogui/CMakeLists.txt
++++ b/3rdparty/nanogui/CMakeLists.txt
+@@ -377,7 +377,8 @@ elseif (APPLE)
+     find_library(iokit_library IOKit)
+     target_link_libraries(${PROJECT_NAME} PRIVATE ${cocoa_library} ${opengl_library} ${corevideo_library} ${iokit_library})
+ elseif(CMAKE_SYSTEM MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "BSD")
+-    target_link_libraries(${PROJECT_NAME} PRIVATE GL Xxf86vm Xrandr X11 pthread) # Xinerama Xcursor Xi
++    find_package(X11)
++    target_link_libraries(${PROJECT_NAME} PRIVATE GL pthread ${X11_LIBRARIES}) # Xinerama Xcursor Xi
+     if (NOT CMAKE_SYSTEM_NAME MATCHES "OpenBSD")
+         target_link_libraries(${PROJECT_NAME} PRIVATE rt)
+     endif()
+diff --git a/apps/benchmarking-image-features/src/mainwindow.h b/apps/benchmarking-image-features/src/mainwindow.h
+index 898de8f..7e27ae7 100644
+--- a/apps/benchmarking-image-features/src/mainwindow.h
++++ b/apps/benchmarking-image-features/src/mainwindow.h
+@@ -215,7 +215,7 @@ class MainWindow : public QMainWindow
+ 	//! monocular single dataset
+ 	int tracking_image_counter;  //!< counter for moving forward in the dataset
+ 
+-	Tracker tracker_obj;  //<! tracker oject which calls the tracking method to
++	MRPTTracker tracker_obj;  //<! tracker oject which calls the tracking method to
+ 	// perform tracking
+ 
+ 	/// tracker parameter variables
+diff --git a/apps/benchmarking-image-features/src/tracker.cpp b/apps/benchmarking-image-features/src/tracker.cpp
+index 9870e88..b8944e0 100644
+--- a/apps/benchmarking-image-features/src/tracker.cpp
++++ b/apps/benchmarking-image-features/src/tracker.cpp
+@@ -23,7 +23,7 @@ using namespace mrpt::img;
+ /************************************************************************************************
+  *					    Tracker Constructor *
+  ************************************************************************************************/
+-Tracker::Tracker()
++MRPTTracker::MRPTTracker()
+ {
+ 	hasResolution = false;
+ 	step_num = 0;
+@@ -42,7 +42,7 @@ Tracker::Tracker()
+ /************************************************************************************************
+  *					    Track Them All tracker *
+  ************************************************************************************************/
+-cv::Mat Tracker::trackThemAll(
++cv::Mat MRPTTracker::trackThemAll(
+ 	vector<string> files_fullpath_tracking, int tracking_image_counter,
+ 	int remove_lost_feats, int add_new_feats, int max_feats, int patch_size,
+ 	int window_width, int window_height)
+diff --git a/apps/benchmarking-image-features/src/tracker.h b/apps/benchmarking-image-features/src/tracker.h
+index 36fe1bb..4ffb876 100644
+--- a/apps/benchmarking-image-features/src/tracker.h
++++ b/apps/benchmarking-image-features/src/tracker.h
+@@ -51,10 +51,10 @@ using namespace mrpt::vision;
+ using namespace mrpt::math;
+ using namespace mrpt::img;
+ using namespace mrpt;
+-using namespace cv;
++//using namespace cv;
+ using namespace std;
+ 
+-class Tracker
++class MRPTTracker
+ {
+    public:
+ 	bool hasResolution;
+@@ -81,7 +81,7 @@ class Tracker
+ 	/**
+ 	 * Tracker constructor to initialize the varibales for the tracker
+ 	 */
+-	Tracker();
++	MRPTTracker();
+ 
+ 	/**
+ 	 * trackThemAll this function tracks the features based on the parameters
+diff --git a/cmakemodules/FindJsonCpp.cmake b/cmakemodules/FindJsonCpp.cmake
+new file mode 100644
+index 0000000..7520442
+--- /dev/null
++++ b/cmakemodules/FindJsonCpp.cmake
+@@ -0,0 +1,33 @@
++find_path(JsonCpp_INCLUDE_DIR "json/json.h"
++  PATH_SUFFIXES "jsoncpp"
++  DOC "jsoncpp include directory")
++mark_as_advanced(JsonCpp_INCLUDE_DIR)
++
++find_library(JsonCpp_LIBRARY
++  NAMES jsoncpp
++  DOC "jsoncpp library")
++mark_as_advanced(JsonCpp_LIBRARY)
++
++if (JsonCpp_INCLUDE_DIR AND EXISTS "${JsonCpp_INCLUDE_DIR}/json/version.h")
++  file(STRINGS "${JsonCpp_INCLUDE_DIR}/json/version.h" _JsonCpp_version_lines
++    REGEX "JSONCPP_VERSION_[A-Z]+")
++  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_MAJOR +([0-9]+).*" "\\1" _JsonCpp_version_major "${_JsonCpp_version_lines}")
++  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_MINOR +([0-9]+).*" "\\1" _JsonCpp_version_minor "${_JsonCpp_version_lines}")
++  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_PATCH +([0-9]+).*" "\\1" _JsonCpp_version_patch "${_JsonCpp_version_lines}")
++  set(JsonCpp_VERSION "${_JsonCpp_version_major}.${_JsonCpp_version_minor}.${_JsonCpp_version_patch}")
++  unset(_JsonCpp_version_major)
++  unset(_JsonCpp_version_minor)
++  unset(_JsonCpp_version_patch)
++  unset(_JsonCpp_version_lines)
++endif ()
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(JsonCpp
++  REQUIRED_VARS JsonCpp_LIBRARY JsonCpp_INCLUDE_DIR
++  VERSION_VAR JsonCpp_VERSION)
++
++if (JsonCpp_FOUND)
++  set(JsonCpp_INCLUDE_DIRS "${JsonCpp_INCLUDE_DIR}")
++  set(JsonCpp_LIBRARIES "${JsonCpp_LIBRARY}")
++endif ()
++
+diff --git a/cmakemodules/script_openni2.cmake b/cmakemodules/script_openni2.cmake
+index a0fe762..619d865 100644
+--- a/cmakemodules/script_openni2.cmake
++++ b/cmakemodules/script_openni2.cmake
+@@ -4,7 +4,7 @@
+ # =========================================================
+ set(CMAKE_MRPT_HAS_OPENNI2 0)
+ 
+-option(DISABLE_OPENNI2 "Disable the OpenNI2 library, even if automatically found" "OFF")
++option(DISABLE_OPENNI2 "Disable the OpenNI2 library, even if automatically found" "ON")
+ mark_as_advanced(DISABLE_OPENNI2)
+ 
+ if (DISABLE_OPENNI2) # Allow the user to force not using this lib
+diff --git a/cmakemodules/script_wxwidgets.cmake b/cmakemodules/script_wxwidgets.cmake
+index 9cbd648..87ede40 100644
+--- a/cmakemodules/script_wxwidgets.cmake
++++ b/cmakemodules/script_wxwidgets.cmake
+@@ -9,7 +9,7 @@ set(wxWidgets_MRPT_COMPONENTS_TO_SEARCH "base;core;gl;adv;aui;html" CACHE STRING
+ set(CMAKE_MRPT_HAS_WXWIDGETS 0)
+ set(wxWidgets_LIBRARIES "")
+ 
+-set(DISABLE_WXWIDGETS OFF CACHE BOOL "Forces compilation WITHOUT wxWidgets")
++set(DISABLE_WXWIDGETS ON CACHE BOOL "Forces compilation WITHOUT wxWidgets")
+ mark_as_advanced(DISABLE_WXWIDGETS)
+ if(DISABLE_WXWIDGETS)
+ 	return()
+diff --git a/cmakemodules/script_xsens.cmake b/cmakemodules/script_xsens.cmake
+index 1ca7406..ef6f8a0 100644
+--- a/cmakemodules/script_xsens.cmake
++++ b/cmakemodules/script_xsens.cmake
+@@ -46,7 +46,7 @@ if (BUILD_XSENS)
+ 		# In Linux: libusb-1.0
+ 		if(PKG_LIBUSB10_FOUND)
+ 			# Perfect, we have libusb-1.0
+-			set(XSENS4_LIBS ${XSENS4_LIBS} ${PKG_LIBUDEV_LIBRARIES})
++			set(XSENS4_LIBS ${XSENS4_LIBS} ${PKG_LIBUSB10_LIBRARIES})
+ 		else(PKG_LIBUSB10_FOUND)
+ 			message(SEND_ERROR "BUILD_XSENS requires libusb-1.0. Install it or disable BUILD_XSENS")
+ 		endif(PKG_LIBUSB10_FOUND)
+diff --git a/libs/core/CMakeLists.txt b/libs/core/CMakeLists.txt
+index 47c6feb..a2ef97f 100644
+--- a/libs/core/CMakeLists.txt
++++ b/libs/core/CMakeLists.txt
+@@ -16,6 +16,10 @@ if(BUILD_mrpt-core)
+ 
+ 	target_link_libraries(core PRIVATE Threads::Threads) # for WorkerThreads
+ 
++	if(UNIX AND NOT APPLE)
++		target_link_libraries(core PRIVATE rt)
++	endif()
++
+ 	# Enforce C++17 in all dependent projects:
+ 	mrpt_lib_target_requires_cpp17(core)
+ 
+diff --git a/libs/gui/CMakeLists.txt b/libs/gui/CMakeLists.txt
+index e551b17..c35a545 100644
+--- a/libs/gui/CMakeLists.txt
++++ b/libs/gui/CMakeLists.txt
+@@ -65,4 +65,7 @@ if(BUILD_mrpt-gui)
+ 		target_link_libraries(gui PUBLIC mrpt::nanogui)
+ 	endif()
+ 
++	find_package(X11)
++	target_link_libraries(gui PRIVATE ${X11_LIBRARIES})
++
+ endif()
+diff --git a/libs/hwdrivers/CMakeLists.txt b/libs/hwdrivers/CMakeLists.txt
+index c45fc79..d7d7c6c 100644
+--- a/libs/hwdrivers/CMakeLists.txt
++++ b/libs/hwdrivers/CMakeLists.txt
+@@ -97,13 +97,17 @@ endif()
+ 
+ # XSens MT4 required libs:
+ if (BUILD_XSENS)
+-	target_link_libraries(hwdrivers PRIVATE ${XSENS4_LIBS})
++	target_link_libraries(hwdrivers PUBLIC ${XSENS4_LIBS})
+ endif ()
+ 
+ if(UNIX)
+     target_link_libraries(hwdrivers PRIVATE dl)
+ endif()
+ 
++if(UNIX AND NOT APPLE)
++    target_link_libraries(hwdrivers PRIVATE rt)
++endif()
++
+ if(CMAKE_MRPT_HAS_OPENNI2)
+ 	target_link_libraries(hwdrivers PRIVATE ${MRPT_OPENNI2_LIBRARIES})
+ endif()
+diff --git a/libs/serialization/CMakeLists.txt b/libs/serialization/CMakeLists.txt
+index 9b711d4..e4b6003 100644
+--- a/libs/serialization/CMakeLists.txt
++++ b/libs/serialization/CMakeLists.txt
+@@ -1,16 +1,8 @@
+ # Extra dependencies required by unit tests in this module:
+ # Include jsoncpp only if present (optional)
+-if (CMAKE_MRPT_HAS_JSONCPP)
+-	if(TARGET "jsoncpp_lib")
+-		set(tst_json_dep "jsoncpp_lib")
+-	else()
+-		set(tst_json_dep "jsoncpp_lib_static")
+-	endif()
+-else()
+-	set(tst_json_dep "")
+-endif()
++find_package(JsonCpp REQUIRED)
+ # define those deps:
+-set_property(GLOBAL PROPERTY mrpt_serialization_UNIT_TEST_EXTRA_DEPS mrpt-io mrpt-poses ${tst_json_dep})
++set_property(GLOBAL PROPERTY mrpt_serialization_UNIT_TEST_EXTRA_DEPS mrpt-io mrpt-poses ${JsonCpp_LIBRARIES})
+ 
+ #---------------------------------------------
+ # Macro declared in "DeclareMRPTLib.cmake":
+@@ -23,5 +15,5 @@ define_mrpt_lib(
+ 	)
+ 
+ if(BUILD_mrpt-serialization)
+-	target_link_libraries(serialization PRIVATE ${tst_json_dep})
++	target_link_libraries(serialization PRIVATE ${JsonCpp_LIBRARIES})
+ endif( )
+diff --git a/libs/serialization/include/mrpt/serialization/CSchemeArchive.h b/libs/serialization/include/mrpt/serialization/CSchemeArchive.h
+index 744c14c..03ecf55 100644
+--- a/libs/serialization/include/mrpt/serialization/CSchemeArchive.h
++++ b/libs/serialization/include/mrpt/serialization/CSchemeArchive.h
+@@ -70,12 +70,6 @@ class CSchemeArchive : public mrpt::serialization::CSchemeArchiveBase_impl
+ 		m_val = val;
+ 		return *m_parent;
+ 	}
+-	mrpt::serialization::CSchemeArchiveBase& operator=(
+-		const std::nullptr_t val) override
+-	{
+-		m_val = val;
+-		return *m_parent;
+-	}
+ 	mrpt::serialization::CSchemeArchiveBase& operator=(
+ 		const std::string val) override
+ 	{
+diff --git a/libs/serialization/include/mrpt/serialization/CSchemeArchiveBase.h b/libs/serialization/include/mrpt/serialization/CSchemeArchiveBase.h
+index dfaaf22..5ee7bc2 100644
+--- a/libs/serialization/include/mrpt/serialization/CSchemeArchiveBase.h
++++ b/libs/serialization/include/mrpt/serialization/CSchemeArchiveBase.h
+@@ -32,7 +32,6 @@ class CSchemeArchiveBase_impl
+ 	virtual CSchemeArchiveBase& operator=(const uint64_t) = 0;
+ 	virtual CSchemeArchiveBase& operator=(const float) = 0;
+ 	virtual CSchemeArchiveBase& operator=(const double) = 0;
+-	virtual CSchemeArchiveBase& operator=(const std::nullptr_t) = 0;
+ 	virtual CSchemeArchiveBase& operator=(const std::string) = 0;
+ 	virtual CSchemeArchiveBase& operator=(bool) = 0;
+ 
+diff --git a/libs/system/CMakeLists.txt b/libs/system/CMakeLists.txt
+index 37c858c..cb29260 100644
+--- a/libs/system/CMakeLists.txt
++++ b/libs/system/CMakeLists.txt
+@@ -18,12 +18,15 @@ target_link_libraries(system PRIVATE Threads::Threads)
+ if(BUILD_mrpt-system)
+ 	if(WIN32)
+ 		target_link_libraries(system PRIVATE Dbghelp) # For mrpt::system::getCallStackBackTrace()
+-	else()
+-		target_link_libraries(system PRIVATE ${CMAKE_DL_LIBS}) # For mrpt::system::getCallStackBackTrace()
++	# else()
++	# 	target_link_libraries(system PRIVATE ${CMAKE_DL_LIBS}) # For mrpt::system::getCallStackBackTrace()
+ 	endif()
+ 	
+ 	# -ldl required by the plugin load mechanism loadPluginModule()
+ 	if(UNIX)
+ 		target_link_libraries(system PRIVATE dl)
+ 	endif()
++	if(UNIX AND NOT APPLE)
++		target_link_libraries(system PRIVATE rt)
++	endif()
+ endif()
+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
+index e7dd05b..75f5afb 100644
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -11,6 +11,7 @@ include_directories(include)
+ include_directories(
+   ${Boost_INCLUDE_DIRS}
+   ${PYTHON_INCLUDE_DIRS}
++  ${OpenCV_INCLUDE_DIRS}
+ )
+ # Find Numpy include directory
+ execute_process(
+@@ -60,7 +61,7 @@ add_definitions(-DROS_EXTENSIONS)
+ 
+ target_link_libraries(pymrpt
+   ${Boost_LIBRARIES}
+-  ${Opencv_LIBRARIES}
++  ${OpenCV_LIBRARIES}
+   Python3::Python
+ )
+ 
+diff --git a/libs/comms/CMakeLists.txt b/libs/comms/CMakeLists.txt
+index 8e24def..aa9d485 100644
+--- a/libs/comms/CMakeLists.txt
++++ b/libs/comms/CMakeLists.txt
+@@ -18,5 +18,5 @@ endif()
+ target_link_libraries(comms PRIVATE Threads::Threads)
+ 
+ if(CMAKE_MRPT_HAS_FTDI_SYSTEM)
+-    target_link_libraries(comms PRIVATE imp_ftdi)
++    target_link_libraries(comms PUBLIC imp_ftdi ${PKG_LIBUDEV_LIBRARIES})
+ endif()

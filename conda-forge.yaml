@@ -553,7 +553,7 @@ python3-sphinx:
 zbar:
   conda-forge: [zbar]
 wxwidgets:
-  conda-forge: [wxwidgets]
+  conda-forge: [wxpython]  # wxpython contains wxwidgets, and wxpython is incompatible with wxwidgets; so pull in just wxpython
 libglfw3-dev:
   conda-forge: [glfw 3.*]
 libspnav-dev:
@@ -730,3 +730,5 @@ libpqxx:
   conda-forge: [libpqxx 6.*]
 libpqxx-dev:
   conda-forge: [libpqxx 6.*]
+libudev-dev:
+  conda-forge: [libusb]

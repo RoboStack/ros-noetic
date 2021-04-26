@@ -33,7 +33,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - knowledge_representation
+  - mrpt2
+  # - knowledge_representation
   # - multirobot_map_merge
   # - sick_tim
   # - kobuki_core
