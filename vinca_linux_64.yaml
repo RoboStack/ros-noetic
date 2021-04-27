@@ -33,7 +33,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - mrpt2
+  - phidgets_drivers
+  # - mrpt2
   # - knowledge_representation
   # - multirobot_map_merge
   # - sick_tim
