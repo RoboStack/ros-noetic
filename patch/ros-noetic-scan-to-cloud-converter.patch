@@ -1,0 +1,34 @@
+diff --git a/src/scan_to_cloud_converter.cpp b/src/scan_to_cloud_converter.cpp
+index 749c9dd..8f19af4 100644
+--- a/src/scan_to_cloud_converter.cpp
++++ b/src/scan_to_cloud_converter.cpp
+@@ -43,7 +43,7 @@ ScanToCloudConverter::ScanToCloudConverter(ros::NodeHandle nh, ros::NodeHandle n
+   invalid_point_.y = std::numeric_limits<float>::quiet_NaN();
+   invalid_point_.z = std::numeric_limits<float>::quiet_NaN();
+ 
+-  cloud_publisher_ = nh_.advertise<PointCloudT>(
++  cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>(
+     "cloud", 1); 
+   scan_subscriber_ = nh_.subscribe(
+     "scan", 1, &ScanToCloudConverter::scanCallback, this);
+@@ -57,7 +57,7 @@ ScanToCloudConverter::~ScanToCloudConverter()
+ void ScanToCloudConverter::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg)
+ {
+   PointCloudT::Ptr cloud_msg =
+-    boost::shared_ptr<PointCloudT>(new PointCloudT());
++    std::shared_ptr<PointCloudT>(new PointCloudT());
+ 
+   cloud_msg->points.resize(scan_msg->ranges.size());
+ 
+@@ -81,8 +81,10 @@ void ScanToCloudConverter::scanCallback(const sensor_msgs::LaserScan::ConstPtr&
+   cloud_msg->height = 1;
+   cloud_msg->is_dense = false; //contains nans
+   pcl_conversions::toPCL(scan_msg->header, cloud_msg->header);
++  sensor_msgs::PointCloud2 out_cloud;
++  pcl::toROSMsg(*cloud_msg, out_cloud);
+ 
+-  cloud_publisher_.publish(cloud_msg);
++  cloud_publisher_.publish(out_cloud);
+ }
+ 
+ } //namespace scan_tools

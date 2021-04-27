@@ -1,0 +1,25 @@
+diff --git a/src/laser_ortho_projector.cpp b/src/laser_ortho_projector.cpp
+index c5bdc45..ae99129 100644
+--- a/src/laser_ortho_projector.cpp
++++ b/src/laser_ortho_projector.cpp
+@@ -191,7 +191,7 @@ void LaserOrthoProjector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& s
+   // **** build and publish projected cloud
+ 
+   PointCloudT::Ptr cloud = 
+-    boost::shared_ptr<PointCloudT>(new PointCloudT());
++    std::shared_ptr<PointCloudT>(new PointCloudT());
+ 
+   pcl_conversions::toPCL(scan_msg->header, cloud->header);
+   cloud->header.frame_id = ortho_frame_;
+@@ -217,7 +217,10 @@ void LaserOrthoProjector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& s
+   cloud->height = 1;
+   cloud->is_dense = true; // no nan's present 
+ 
+-  cloud_publisher_.publish (cloud);
++  sensor_msgs::PointCloud2 out_cloud;
++  pcl::toROSMsg(*cloud, out_cloud);
++
++  cloud_publisher_.publish (out_cloud);
+ }
+ 
+ bool LaserOrthoProjector::getBaseToLaserTf (const sensor_msgs::LaserScan::ConstPtr& scan_msg)
