@@ -44,7 +44,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
 
-      shell: bash
+    - shell: bash
       run: |
         echo "::group::Configure binfmt_misc"
         docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
