@@ -23,7 +23,7 @@ jobs:
           conda config --add channels robostack
           conda info
           conda config --show
-          mamba install -y pip conda-build anaconda-client mamba rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4" subprocess32
+          mamba install -y pip conda-build anaconda-client mamba rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
           pip install git+https://github.com/mamba-org/boa.git@master
           pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
           cp vinca_linux_aarch64.yaml vinca.yaml
