@@ -1,0 +1,50 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 83b0d4661..44b673005 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -51,6 +51,8 @@ find_package(OpenCV REQUIRED core imgproc)
+ find_package(PCL REQUIRED)
+ find_package(PkgConfig)
+ pkg_check_modules(yaml_cpp yaml-cpp REQUIRED)
++find_package(GLEW REQUIRED)
++
+ IF(${yaml_cpp_VERSION} VERSION_LESS "0.5.0")
+ ## indigo yaml-cpp : 0.5.0 /  hydro yaml-cpp : 0.3.0
+   add_definitions("-DUSE_OLD_YAML")
+@@ -61,9 +63,13 @@ endif()
+ include_directories(
+   include ${catkin_INCLUDE_DIRS}
+ )
+-link_libraries(${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${PCL_LIBRARIES} yaml-cpp)
+ 
+-add_library(jsk_recognition_utils SHARED
++message(WARNING "catkin_LIBRARIES ${catkin_LIBRARIES}")
++message(WARNING "OpenCV_LIBRARIES ${OpenCV_LIBRARIES}")
++message(WARNING "PCL_LIBRARIES ${PCL_LIBRARIES}")
++message(WARNING "yaml-cpp_LIBRARIES ${yaml_cpp_LIBRARIES}")
++
++add_library(jsk_recognition_utils
+   src/grid_index.cpp
+   src/grid_map.cpp
+   src/grid_line.cpp
+@@ -89,6 +95,8 @@ add_library(jsk_recognition_utils SHARED
+   src/time_util.cpp
+   )
+ 
++target_link_libraries(jsk_recognition_utils ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${PCL_LIBRARIES} ${yaml_cpp_LIBRARIES} ${GLEW_LIBRARIES})
++
+ if (CATKIN_ENABLE_TESTING)
+   find_package(rostest REQUIRED)
+   if("$ENV{ROS_DISTRO}" STRGREATER "indigo") # kinetic and later uses qt5
+diff --git a/include/jsk_recognition_utils/pcl/ear_clipping_patched.h b/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
+index 951102f7b..5ee51bacc 100644
+--- a/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
++++ b/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
+@@ -38,6 +38,7 @@
+ 
+ #include <pcl/point_types.h>
+ #include <pcl/surface/processing.h>
++#include <boost/shared_ptr.hpp>
+ 
+ namespace pcl
+ {
