@@ -1,0 +1,320 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0d602f5a8..d84c01da9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -56,14 +56,16 @@ find_package(moveit_ros_perception)
+ find_package(PkgConfig)
+ pkg_check_modules(ml_classifiers ml_classifiers QUIET)
+ # only run in hydro
+-find_package(PCL REQUIRED)
++find_package(PCL COMPONENTS common search tracking filters pcl_io kdtree REQUIRED)
++find_package(VTK REQUIRED)
++get_target_property(VTK_INCLUDE_DIRS VTK::CommonCore INTERFACE_INCLUDE_DIRECTORIES)
+ find_package(OpenMP)
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+ 
+ # For kinfu
+-find_package(PCL QUIET COMPONENTS gpu_kinfu_large_scale)
++# find_package(PCL QUIET COMPONENTS gpu_kinfu_large_scale)
+ 
+ pkg_check_modules(yaml_cpp yaml-cpp REQUIRED)
+ if(${yaml_cpp_VERSION} VERSION_LESS "0.5.0")
+@@ -139,7 +141,7 @@ generate_dynamic_reconfigure_options(
+ 
+ find_package(OpenCV REQUIRED core imgproc)
+ 
+-include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS})
++include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS} ${VTK_INCLUDE_DIRS})
+ link_directories(${catkin_LIBRARY_DIRS})
+ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -z defs")
+@@ -179,8 +181,8 @@ jsk_pcl_nodelet(src/moving_least_square_smoothing_nodelet.cpp "jsk_pcl/MovingLea
+ jsk_pcl_nodelet(src/fisheye_sphere_publisher_nodelet.cpp "jsk_pcl/FisheyeSpherePublisher" "fisheye_sphere_publisher")
+ jsk_pcl_nodelet(src/plane_supported_cuboid_estimator_nodelet.cpp
+   "jsk_pcl/PlaneSupportedCuboidEstimator" "plane_supported_cuboid_estimator")
+-jsk_pcl_nodelet(src/extract_cuboid_particles_top_n_nodelet.cpp
+-  "jsk_pcl/ExtractCuboidParticlesTopN" "extract_cuboid_particles_top_n")
++# jsk_pcl_nodelet(src/extract_cuboid_particles_top_n_nodelet.cpp
++#   "jsk_pcl/ExtractCuboidParticlesTopN" "extract_cuboid_particles_top_n")
+ jsk_pcl_nodelet(src/interactive_cuboid_likelihood_nodelet.cpp
+   "jsk_pcl/InteractiveCuboidLikelihood" "interactive_cuboid_likelihood")
+ jsk_pcl_nodelet(src/image_rotate_nodelet.cpp
+@@ -385,7 +387,7 @@ if (PCL_GPU_KINFU_LARGE_SCALE_FOUND AND jsk_rviz_plugins_FOUND)
+   jsk_pcl_nodelet(src/kinfu_nodelet.cpp
+     "jsk_pcl/Kinfu" "kinfu")
+   include_directories(/usr/local/cuda/include)
+-endif (PCL_GPU_KINFU_LARGE_SCALE_FOUND)
++endif (PCL_GPU_KINFU_LARGE_SCALE_FOUND AND jsk_rviz_plugins_FOUND)
+ jsk_pcl_nodelet_upstream(jsk_pcl_ros_utils "jsk_pcl/PCDReaderWithPose" "pcd_reader_with_pose")
+ jsk_pcl_nodelet(src/target_adaptive_tracking_nodelet.cpp
+   "jsk_pcl/TargetAdaptiveTracking" "target_adaptive_tracking")
+@@ -544,7 +546,7 @@ if (CATKIN_ENABLE_TESTING)
+     add_rostest(test/test_edgebased_cube_finder.test)
+     add_rostest(test/test_environment_plane_modeling.test)
+     add_rostest(test/test_euclidean_segmentation.test)
+-    add_rostest(test/test_extract_cuboid_particles_top_n.test)
++    # add_rostest(test/test_extract_cuboid_particles_top_n.test)
+     add_rostest(test/test_extract_top_polygon_likelihood.test)
+     add_rostest(test/test_feature_registration.test)
+     add_rostest(test/test_find_object_on_plane.test)
+diff --git a/include/jsk_pcl_ros/extract_cuboid_particles_top_n.h b/include/jsk_pcl_ros/extract_cuboid_particles_top_n.h
+index 893a3ab77..9e614ac84 100644
+--- a/include/jsk_pcl_ros/extract_cuboid_particles_top_n.h
++++ b/include/jsk_pcl_ros/extract_cuboid_particles_top_n.h
+@@ -39,6 +39,7 @@
+ 
+ #include <jsk_topic_tools/diagnostic_nodelet.h>
+ #include "jsk_pcl_ros/plane_supported_cuboid_estimator.h"
++#include "jsk_pcl_ros/pcl/particle_cuboid.h"
+ #include <dynamic_reconfigure/server.h>
+ #include <jsk_pcl_ros/ExtractParticlesTopNBaseConfig.h>
+ #include <pcl/pcl_base.h>
+diff --git a/include/jsk_pcl_ros/particle_filter_tracking.h b/include/jsk_pcl_ros/particle_filter_tracking.h
+index a1cc28a44..d108f5993 100644
+--- a/include/jsk_pcl_ros/particle_filter_tracking.h
++++ b/include/jsk_pcl_ros/particle_filter_tracking.h
+@@ -186,7 +186,7 @@ namespace pcl
+         // }
+           
+         if (!change_detector_)
+-          change_detector_ = boost::shared_ptr<pcl::octree::OctreePointCloudChangeDetector<PointInT> >(new pcl::octree::OctreePointCloudChangeDetector<PointInT> (change_detector_resolution_));
++          change_detector_ = std::shared_ptr<pcl::octree::OctreePointCloudChangeDetector<PointInT> >(new pcl::octree::OctreePointCloudChangeDetector<PointInT> (change_detector_resolution_));
+           
+         if (!particles_ || particles_->points.empty ())
+           initParticles (true);
+diff --git a/src/edgebased_cube_finder_nodelet.cpp b/src/edgebased_cube_finder_nodelet.cpp
+index 4559eb28d..87389df42 100644
+--- a/src/edgebased_cube_finder_nodelet.cpp
++++ b/src/edgebased_cube_finder_nodelet.cpp
+@@ -740,7 +740,9 @@ namespace jsk_pcl_ros
+            *points_on_edges = *points_on_edges + *points_on_edge;
+            cubes.push_back(cube);
+          }
+-         pub_debug_filtered_cloud_.publish(points_on_edges);
++         sensor_msgs::PointCloud2 out_cloud;
++         pcl::toROSMsg(*points_on_edges, out_cloud);
++         pub_debug_filtered_cloud_.publish(out_cloud);
+        }
+      }
+ 
+diff --git a/src/euclidean_cluster_extraction_nodelet.cpp b/src/euclidean_cluster_extraction_nodelet.cpp
+index a531e9d4f..3064fb9f6 100644
+--- a/src/euclidean_cluster_extraction_nodelet.cpp
++++ b/src/euclidean_cluster_extraction_nodelet.cpp
+@@ -140,10 +140,10 @@ namespace jsk_pcl_ros
+           jsk_topic_tools::ScopedTimer timer = kdtree_acc_.scopedTimer();
+ #if ( PCL_MAJOR_VERSION >= 1 && PCL_MINOR_VERSION >= 5 )
+           pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
+-          tree = boost::make_shared< pcl::search::KdTree<pcl::PointXYZ> > ();
++          tree = std::make_shared< pcl::search::KdTree<pcl::PointXYZ> > ();
+ #else
+           pcl::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ>);
+-          tree = boost::make_shared<pcl::KdTreeFLANN<pcl::PointXYZ> > ();
++          tree = std::make_shared<pcl::KdTreeFLANN<pcl::PointXYZ> > ();
+ #endif
+           tree->setInputCloud(filtered_cloud);
+           impl.setClusterTolerance(tolerance);
+@@ -330,10 +330,10 @@ namespace jsk_pcl_ros
+ 
+ #if ( PCL_MAJOR_VERSION >= 1 && PCL_MINOR_VERSION >= 5 )
+     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
+-    tree = boost::make_shared< pcl::search::KdTree<pcl::PointXYZ> > ();
++    tree = std::make_shared< pcl::search::KdTree<pcl::PointXYZ> > ();
+ #else
+     pcl::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ>);
+-    tree = boost::make_shared<pcl::KdTreeFLANN<pcl::PointXYZ> > ();
++    tree = std::make_shared<pcl::KdTreeFLANN<pcl::PointXYZ> > ();
+ #endif
+ 
+     vector<pcl::PointIndices> cluster_indices;
+@@ -362,7 +362,7 @@ namespace jsk_pcl_ros
+     ex.setInputCloud ( boost::make_shared< sensor_msgs::PointCloud2 > (req.input) );
+ #endif
+     for ( size_t i = 0; i < cluster_indices.size(); i++ ) {
+-      ex.setIndices ( boost::make_shared< pcl::PointIndices > (cluster_indices[i]) );
++      ex.setIndices ( std::make_shared< pcl::PointIndices > (cluster_indices[i]) );
+       ex.setNegative ( false );
+ #if ( PCL_MAJOR_VERSION >= 1 && PCL_MINOR_VERSION >= 7 )
+       pcl::PCLPointCloud2 output_cloud;
+diff --git a/src/icp_registration_nodelet.cpp b/src/icp_registration_nodelet.cpp
+index a7357e4c7..f0b5a80dc 100644
+--- a/src/icp_registration_nodelet.cpp
++++ b/src/icp_registration_nodelet.cpp
+@@ -612,9 +612,9 @@ namespace jsk_pcl_ros
+     icp.setInputTarget(cloud);
+ 
+     if (transform_3dof_) {
+-      boost::shared_ptr<pcl::registration::WarpPointRigid3D<PointT, PointT> > warp_func
++      std::shared_ptr<pcl::registration::WarpPointRigid3D<PointT, PointT> > warp_func
+         (new pcl::registration::WarpPointRigid3D<PointT, PointT>);
+-      boost::shared_ptr<pcl::registration::TransformationEstimationLM<PointT, PointT> > te
++      std::shared_ptr<pcl::registration::TransformationEstimationLM<PointT, PointT> > te
+         (new pcl::registration::TransformationEstimationLM<PointT, PointT>);
+       te->setWarpFunction(warp_func);
+       icp.setTransformationEstimation(te);
+diff --git a/src/moving_least_square_smoothing_nodelet.cpp b/src/moving_least_square_smoothing_nodelet.cpp
+index 2cd3a5240..abc70c264 100644
+--- a/src/moving_least_square_smoothing_nodelet.cpp
++++ b/src/moving_least_square_smoothing_nodelet.cpp
+@@ -33,6 +33,7 @@
+  *********************************************************************/
+ 
+ #define BOOST_PARAMETER_MAX_ARITY 7
++#include <pcl/search/kdtree.h>
+ #include "jsk_pcl_ros/moving_least_square_smoothing.h"
+ 
+ #include <geometry_msgs/PoseStamped.h>
+diff --git a/src/organized_multi_plane_segmentation_nodelet.cpp b/src/organized_multi_plane_segmentation_nodelet.cpp
+index 5805a9963..66f808cd9 100644
+--- a/src/organized_multi_plane_segmentation_nodelet.cpp
++++ b/src/organized_multi_plane_segmentation_nodelet.cpp
+@@ -245,9 +245,9 @@ namespace jsk_pcl_ros
+         // compute the distance between two boundaries.
+         // if they are near enough, we can regard these two map should connect
+         pcl::PointIndices::Ptr a_indices
+-          = boost::make_shared<pcl::PointIndices>(boundary_indices[i]);
++          = std::make_shared<pcl::PointIndices>(boundary_indices[i]);
+         pcl::PointIndices::Ptr b_indices
+-          = boost::make_shared<pcl::PointIndices>(boundary_indices[j]);
++          = std::make_shared<pcl::PointIndices>(boundary_indices[j]);
+         pcl::PointCloud<PointT> a_cloud, b_cloud;
+         extract.setIndices(a_indices);
+         extract.filter(a_cloud);
+@@ -363,9 +363,9 @@ namespace jsk_pcl_ros
+       pcl_new_coefficients.values = new_coefficients;
+       // estimate concave hull
+       pcl::PointIndices::Ptr indices_ptr
+-        = boost::make_shared<pcl::PointIndices>(one_boundaries);
++        = std::make_shared<pcl::PointIndices>(one_boundaries);
+       pcl::ModelCoefficients::Ptr coefficients_ptr
+-        = boost::make_shared<pcl::ModelCoefficients>(pcl_new_coefficients);
++        = std::make_shared<pcl::ModelCoefficients>(pcl_new_coefficients);
+       jsk_recognition_utils::ConvexPolygon::Ptr convex
+         = jsk_recognition_utils::convexFromCoefficientsAndInliers<PointT>(
+           input, indices_ptr, coefficients_ptr);
+@@ -476,7 +476,7 @@ namespace jsk_pcl_ros
+     for (size_t i = 0; i < boundary_indices.size(); i++) {
+       pcl::PointCloud<PointT> boundary_cloud;
+       pcl::PointIndices boundary_one_indices = boundary_indices[i];
+-      pcl::PointIndices::Ptr indices_ptr = boost::make_shared<pcl::PointIndices>(boundary_indices[i]);
++      pcl::PointIndices::Ptr indices_ptr = std::make_shared<pcl::PointIndices>(boundary_indices[i]);
+       extract.setIndices(indices_ptr);
+       extract.filter(boundary_cloud);
+       boundaries.push_back(boundary_cloud);
+@@ -509,7 +509,7 @@ namespace jsk_pcl_ros
+     jsk_recognition_utils::Vertices centroids;
+     for (size_t i = 0; i < inliers.size(); i++) {
+       pcl::PointIndices::Ptr target_inliers
+-        = boost::make_shared<pcl::PointIndices>(inliers[i]);
++        = std::make_shared<pcl::PointIndices>(inliers[i]);
+       pcl::PointCloud<PointT>::Ptr target_cloud (new pcl::PointCloud<PointT>);
+       Eigen::Vector4f centroid;
+       pcl::ExtractIndices<PointT> ex;
+@@ -639,7 +639,7 @@ namespace jsk_pcl_ros
+       = ransac_refinement_time_acc_.scopedTimer();
+     for (size_t i = 0; i < input_indices.size(); i++) {
+       pcl::PointIndices::Ptr input_indices_ptr
+-        = boost::make_shared<pcl::PointIndices>(input_indices[i]);
++        = std::make_shared<pcl::PointIndices>(input_indices[i]);
+       Eigen::Vector3f normal(input_coefficients[i].values[0],
+                              input_coefficients[i].values[1],
+                              input_coefficients[i].values[2]);
+diff --git a/src/particle_filter_tracking_nodelet.cpp b/src/particle_filter_tracking_nodelet.cpp
+index 4904dae43..09ea9297e 100644
+--- a/src/particle_filter_tracking_nodelet.cpp
++++ b/src/particle_filter_tracking_nodelet.cpp
+@@ -145,18 +145,18 @@ namespace jsk_pcl_ros
+     }
+     
+ 
+-    boost::shared_ptr<DistanceCoherence<PointT> >
++    std::shared_ptr<DistanceCoherence<PointT> >
+       distance_coherence(new DistanceCoherence<PointT>);
+     coherence->addPointCoherence(distance_coherence);
+ 
+     //add HSV coherence
+     if (use_hsv) {
+-        boost::shared_ptr<HSVColorCoherence<PointT> > hsv_color_coherence
+-          = boost::shared_ptr<HSVColorCoherence<PointT> >(new HSVColorCoherence<PointT>());
++        std::shared_ptr<HSVColorCoherence<PointT> > hsv_color_coherence
++          = std::shared_ptr<HSVColorCoherence<PointT> >(new HSVColorCoherence<PointT>());
+         coherence->addPointCoherence(hsv_color_coherence);
+     }
+     
+-     boost::shared_ptr<pcl::search::Octree<PointT> > search
++     std::shared_ptr<pcl::search::Octree<PointT> > search
+        (new pcl::search::Octree<PointT>(octree_resolution));
+     //boost::shared_ptr<pcl::search::KdTree<PointT> > search(new pcl::search::KdTree<PointT>());
+     coherence->setSearchMethod(search);
+diff --git a/src/pointcloud_screenpoint_nodelet.cpp b/src/pointcloud_screenpoint_nodelet.cpp
+index d6f2a8f7a..ed8baa913 100644
+--- a/src/pointcloud_screenpoint_nodelet.cpp
++++ b/src/pointcloud_screenpoint_nodelet.cpp
+@@ -49,7 +49,7 @@ void PointcloudScreenpoint::onInit()
+   ConnectionBasedNodelet::onInit();
+ 
+ 
+-  normals_tree_ = boost::make_shared< pcl::search::KdTree< pcl::PointXYZ > > ();
++  normals_tree_ = std::make_shared< pcl::search::KdTree< pcl::PointXYZ > > ();
+   n3d_.setSearchMethod (normals_tree_);
+ 
+   dyn_srv_ = boost::make_shared< dynamic_reconfigure::Server< Config > >(*pnh_);
+@@ -240,7 +240,7 @@ bool PointcloudScreenpoint::screenpoint_cb (
+ 
+   // search normal
+   n3d_.setSearchSurface(
+-      boost::make_shared<pcl::PointCloud<pcl::PointXYZ > > (latest_cloud_));
++      std::make_shared<pcl::PointCloud<pcl::PointXYZ > > (latest_cloud_));
+ 
+   pcl::PointCloud<pcl::PointXYZ> cloud_;
+   pcl::PointXYZ pt;
+@@ -250,7 +250,7 @@ bool PointcloudScreenpoint::screenpoint_cb (
+   cloud_.points.resize(0);
+   cloud_.points.push_back(pt);
+ 
+-  n3d_.setInputCloud (boost::make_shared<pcl::PointCloud<pcl::PointXYZ > > (cloud_));
++  n3d_.setInputCloud (std::make_shared<pcl::PointCloud<pcl::PointXYZ > > (cloud_));
+   pcl::PointCloud<pcl::Normal> cloud_normals;
+   n3d_.compute (cloud_normals);
+ 
+diff --git a/src/region_growing_multiple_plane_segmentation_nodelet.cpp b/src/region_growing_multiple_plane_segmentation_nodelet.cpp
+index 8b629a376..dbdc3029c 100644
+--- a/src/region_growing_multiple_plane_segmentation_nodelet.cpp
++++ b/src/region_growing_multiple_plane_segmentation_nodelet.cpp
+@@ -193,7 +193,7 @@ namespace jsk_pcl_ros
+       for (size_t i = 0; i < clusters->size(); i++) {
+         pcl::PointIndices::Ptr plane_inliers(new pcl::PointIndices);
+         pcl::ModelCoefficients::Ptr plane_coefficients(new pcl::ModelCoefficients);
+-        pcl::PointIndices::Ptr cluster = boost::make_shared<pcl::PointIndices>((*clusters)[i]);
++        pcl::PointIndices::Ptr cluster = std::make_shared<pcl::PointIndices>((*clusters)[i]);
+         ransacEstimation(cloud, cluster,
+                          *plane_inliers, *plane_coefficients);
+         if (plane_inliers->indices.size() > 0) {
+diff --git a/src/region_growing_segmentation_nodelet.cpp b/src/region_growing_segmentation_nodelet.cpp
+index 5a3ae9ed0..1565a3464 100644
+--- a/src/region_growing_segmentation_nodelet.cpp
++++ b/src/region_growing_segmentation_nodelet.cpp
+@@ -89,7 +89,7 @@ namespace jsk_pcl_ros
+   void RegionGrowingSegmentation::segment(const sensor_msgs::PointCloud2::ConstPtr& msg)
+   {
+     boost::mutex::scoped_lock lock(mutex_);
+-    pcl::search::Search<pcl::PointNormal>::Ptr tree = boost::shared_ptr<pcl::search::Search<pcl::PointNormal> > (new pcl::search::KdTree<pcl::PointNormal>);
++    pcl::search::Search<pcl::PointNormal>::Ptr tree = std::shared_ptr<pcl::search::Search<pcl::PointNormal> > (new pcl::search::KdTree<pcl::PointNormal>);
+     pcl::PointCloud<pcl::PointNormal> cloud;
+     pcl::fromROSMsg(*msg, cloud);
+     
+diff --git a/src/resize_points_publisher_nodelet.cpp b/src/resize_points_publisher_nodelet.cpp
+index aee6228a5..f8ed0b8ac 100644
+--- a/src/resize_points_publisher_nodelet.cpp
++++ b/src/resize_points_publisher_nodelet.cpp
+@@ -180,7 +180,7 @@ namespace jsk_pcl_ros
+       }
+       pcl::ExtractIndices<T> extract;
+       extract.setInputCloud (pcl_input_cloud.makeShared());
+-      extract.setIndices (boost::make_shared <std::vector<int> > (ex_indices));
++      extract.setIndices (std::make_shared <std::vector<int> > (ex_indices));
+       extract.setNegative (false);
+       extract.filter (output);
+ 

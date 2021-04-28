@@ -23,6 +23,8 @@ packages_remove_from_deps:
   - stage-ros
   - stage
   - kobuki-ftdi  # needs too many patches for ftdi & usb
+  - openni2-camera
+
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
@@ -33,8 +35,9 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - scan_to_cloud_converter
-  - laser_ortho_projector
+  - jsk_pcl_ros
+  # - scan_to_cloud_converter
+  # - laser_ortho_projector
 
   # - phidgets_drivers
   # - mrpt2

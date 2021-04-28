@@ -1,0 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5c98d37d6..18f773196 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ cmake_minimum_required(VERSION 2.8.3)
+ project(libcmt)
+ include(ExternalProject)
++include(GNUInstallDirs)
+ 
+ ## Find catkin macros and libraries
+ ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+@@ -14,7 +15,13 @@ ExternalProject_Add(
+   URL https://github.com/delmottea/libCMT/archive/e4d7ea42edafe13b1070ef4d595b2d6062d79d1a.zip
+   PATCH_COMMAND patch -p1 < ${PROJECT_SOURCE_DIR}/fix_opencv3.patch
+   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+-  INSTALL_COMMAND echo "install"
++  INSTALL_DIR "${CMAKE_INSTALL_PREFIX}"
++  BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libcmt.so <INSTALL_DIR>/include/libcmt/CMT.h <INSTALL_DIR>/lib/pkgconfig/libcmt.pc
++  # INSTALL_COMMAND echo "install"
+   )
+ 
+-install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libcmt-prefix/src/libcmt-build)")
++# install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libcmt-prefix/src/libcmt-build)")
++
++install(FILES ${CMAKE_INSTALL_PREFIX}/include/libcmt/CMT.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libcmt)
++install(FILES ${CMAKE_INSTALL_PREFIX}/lib/libcmt.so DESTINATION lib)
++install(FILES ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/libcmt.pc DESTINATION lib/pkgconfig)
