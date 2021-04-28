@@ -25,6 +25,10 @@ packages_remove_from_deps:
   - kobuki-ftdi  # needs too many patches for ftdi & usb
   - openni2-camera
 
+build_in_own_azure_stage:
+  - ros-noetic-jsk-pcl-ros-utils
+  - ros-noetic-jsk-pcl-ros
+  - ros-noetic-jsk-perception
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
