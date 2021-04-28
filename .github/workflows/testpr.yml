@@ -10,14 +10,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        platform: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
+        platform: [linux-64, linux-aarch64, osx-64, win-64] # osx-arm64
         exclude:
           - os: ubuntu-latest
             platform: win-64
           - os: ubuntu-latest
             platform: osx-64
-          - os: ubuntu-latest
-            platform: osx-arm64
+#           - os: ubuntu-latest
+#             platform: osx-arm64
           - os: macos-latest
             platform: linux-64
           - os: macos-latest
@@ -30,8 +30,8 @@ jobs:
             platform: linux-aarch64
           - os: windows-latest
             platform: osx-64
-          - os: windows-latest
-            platform: osx-arm64
+#           - os: windows-latest
+#             platform: osx-arm64
     steps:
     - uses: actions/checkout@master
     - uses: conda-incubator/setup-miniconda@v2
