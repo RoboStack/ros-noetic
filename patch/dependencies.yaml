@@ -44,3 +44,5 @@ jsk_pcl_ros_utils:
   add: ["REQUIRE_OPENGL"]
 jsk_pcl_ros:
   add: ["REQUIRE_OPENGL"]
+robot_self_filter:
+  add: ["REQUIRE_OPENGL"]
