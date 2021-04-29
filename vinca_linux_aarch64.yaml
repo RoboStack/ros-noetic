@@ -6,7 +6,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 3
+build_number: 4
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -27,12 +27,13 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind11_catkin  # need to be unvendored
-  - libfranka
-
   # # TODO
+  - catkin
+  - franka_msgs
 
   # # DONE
+  # - pybind11_catkin  # needs to be unvendored
+  # - libfranka
   # - rostime
   # - kdl_parser_py
   # - plotjuggler_ros
