@@ -34,6 +34,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
+  - rviz
   # - kdl_parser_py
   # - image_view
   # - robot_localization
