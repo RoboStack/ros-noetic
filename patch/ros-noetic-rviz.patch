@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 674e1033..7deeb26d 100644
+index 23719c1b..f3f15c07 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -25,12 +25,7 @@ find_package(Boost REQUIRED
@@ -15,8 +15,8 @@ index 674e1033..7deeb26d 100644
 +find_package(assimp REQUIRED)
  
  find_package(OGRE QUIET COMPONENTS Overlay)
- if(NOT OGRE_FOUND)
-@@ -97,10 +92,10 @@ if(APPLE)
+ if(OGRE_FOUND)
+@@ -102,10 +97,10 @@ if(APPLE)
  endif()
  
  # Prefer newer vender-specific OpenGL library
@@ -31,7 +31,7 @@ index 674e1033..7deeb26d 100644
  
  set(CMAKE_AUTOMOC ON)
  
-@@ -214,7 +209,7 @@ catkin_package(
+@@ -219,7 +214,7 @@ catkin_package(
  
  #catkin_lint: ignore_once external_directory
  include_directories(src ${EXPORT_HEADER_DIR})
@@ -40,55 +40,6 @@ index 674e1033..7deeb26d 100644
    ${EIGEN3_INCLUDE_DIRS}
    ${OGRE_INCLUDE_DIRS}
    ${OPENGL_INCLUDE_DIR}
-diff --git a/src/python_bindings/CMakeLists.txt b/src/python_bindings/CMakeLists.txt
-index aedb7ad0..1f5d1a08 100644
---- a/src/python_bindings/CMakeLists.txt
-+++ b/src/python_bindings/CMakeLists.txt
-@@ -2,9 +2,9 @@ set(rviz_BINDINGS "")
- 
- # TODO(wjwwood): re-enabled PySide2 support when it is fixed.
- # add_subdirectory(shiboken)
--add_subdirectory(sip)
-+# add_subdirectory(sip)
- 
- message(STATUS "Python binding generators: ${rviz_BINDINGS}")
--if(NOT rviz_BINDINGS)
--  message(FATAL_ERROR "No Python binding generator found.")
--endif()
-+# if(NOT rviz_BINDINGS)
-+#   message(FATAL_ERROR "No Python binding generator found.")
-+# endif()
-diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
-index d8de5b12..9499b30e 100644
---- a/src/rviz/ogre_helpers/render_system.cpp
-+++ b/src/rviz/ogre_helpers/render_system.cpp
-@@ -155,9 +155,10 @@ void RenderSystem::setupDummyWindowId()
- 
- void RenderSystem::loadOgrePlugins()
- {
--  std::string plugin_prefix = get_ogre_plugin_path() + "/";
--#ifdef Q_OS_MAC
--  plugin_prefix += "lib";
-+#ifdef _WIN32
-+ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
-+#else
-+ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
- #endif
-   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
-   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
-@@ -183,8 +184,12 @@ void RenderSystem::detectGlVersion()
-     int minor = caps->getDriverVersion().minor;
-     gl_version_ = major * 100 + minor * 10;
- 
-+#ifdef __linux__
-     std::string gl_version_string = (const char*)glGetString(GL_VERSION);
-     mesa_workaround = gl_version_string.find("Mesa 20.") != std::string::npos && gl_version_ >= 320;
-+#else
-+    mesa_workaround = false;
-+#endif
-   }
- 
-   switch (gl_version_)
 diff --git a/ogre_media/fonts/ogre1.10.fontdef b/ogre_media/fonts/ogre1.10.fontdef
 index 4b3c5b82..e714db0f 100644
 --- a/ogre_media/fonts/ogre1.10.fontdef
@@ -106,4 +57,35 @@ index 4b3c5b82..e714db0f 100644
  font "Liberation Sans"
  {
    type truetype
-
+diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
+index 8cd53337..a107d537 100644
+--- a/src/rviz/ogre_helpers/render_system.cpp
++++ b/src/rviz/ogre_helpers/render_system.cpp
+@@ -155,9 +155,10 @@ void RenderSystem::setupDummyWindowId()
+ 
+ void RenderSystem::loadOgrePlugins()
+ {
+-  std::string plugin_prefix = get_ogre_plugin_path() + "/";
+-#ifdef Q_OS_MAC
+-  plugin_prefix += "lib";
++#ifdef _WIN32
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
++#else
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
+ #endif
+   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+@@ -183,9 +184,13 @@ void RenderSystem::detectGlVersion()
+     int minor = caps->getDriverVersion().minor;
+     gl_version_ = major * 100 + minor * 10;
+ 
++#ifdef __linux__
+     std::string gl_version_string = (const char*)glGetString(GL_VERSION);
+     // The "Mesa 2" string is intended to match "Mesa 20.", "Mesa 21." and so on
+     mesa_workaround = gl_version_string.find("Mesa 2") != std::string::npos && gl_version_ >= 320;
++#else
++    mesa_workaround = false;
++#endif
+   }
+ 
+   switch (gl_version_)
