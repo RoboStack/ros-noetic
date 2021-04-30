@@ -38,6 +38,8 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
+  - ros_numpy
+  - eigenpy
   # - kdl_parser_py
   # - rviz
   # - rospack

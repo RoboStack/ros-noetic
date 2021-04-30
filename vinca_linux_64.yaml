@@ -6,7 +6,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 7
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -39,9 +39,10 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - jsk_pcl_ros
-  - jsk_interactive_marker
-
+  - ros_numpy
+  - eigenpy
+  # - jsk_pcl_ros
+  # - jsk_interactive_marker
   # - scan_to_cloud_converter
   # - laser_ortho_projector
   # - phidgets_drivers
