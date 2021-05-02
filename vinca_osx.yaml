@@ -6,7 +6,7 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-build_number: 7
+build_number: 9
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -27,8 +27,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - geometric_shapes
-
   ##
   #  TODO OSX
   ##
@@ -38,10 +36,10 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - ros_numpy
-  - eigenpy
+  # - ros_numpy
+  # - eigenpy
   # - kdl_parser_py
-  # - rviz
+  - rviz
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
