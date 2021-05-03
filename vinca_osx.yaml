@@ -3,7 +3,7 @@ mutex_package: ros-distro-mutex 0.1 noetic
 
 # mapping for package keys
 conda_index:
-  - conda-forge.yaml
+  - robostack.yaml
   - packages-ignore.yaml
 
 build_number: 9
