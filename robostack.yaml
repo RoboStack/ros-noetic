@@ -349,7 +349,7 @@ uuid:
   robostack:
     win64: []
     linux: [libuuid]
-    osx: [wxpython]  # see https://github.com/regro/cf-scripts/issues/417
+    osx: []  # see https://github.com/regro/cf-scripts/issues/417
 python-sip:
   robostack: [sip]
 cppunit:
