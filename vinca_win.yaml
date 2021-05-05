@@ -36,7 +36,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - rviz
+  - catkin
   # - kdl_parser_py
   # - image_view
   # - robot_localization

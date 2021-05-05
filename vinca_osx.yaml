@@ -39,7 +39,7 @@ packages_select_by_deps:
   # - ros_numpy
   # - eigenpy
   # - kdl_parser_py
-  - rviz
+  - catkin
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
