@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 7
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -29,9 +29,9 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind11_catkin  # need to be unvendored
-  - ros_numpy
-  - eigenpy
+  # - pybind11_catkin  # need to be unvendored
+  # - ros_numpy
+  # - eigenpy
 
   ##
   # DONE Win
