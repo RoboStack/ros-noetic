@@ -1,0 +1,74 @@
+diff --git a/src/camera_info_display.cpp b/src/camera_info_display.cpp
+index eb9de008..09d269aa 100644
+--- a/src/camera_info_display.cpp
++++ b/src/camera_info_display.cpp
+@@ -37,6 +37,7 @@
+ #include <image_transport/image_transport.h>
+ #include "camera_info_display.h"
+ #include <OGRE/OgreMaterialManager.h>
++#include <OGRE/Ogre.h>
+ #include <OGRE/OgreMaterial.h>
+ #include <OGRE/OgreBlendMode.h>
+ #include <QImage>
+diff --git a/src/facing_visualizer.cpp b/src/facing_visualizer.cpp
+index 60f21549..9962aa0d 100644
+--- a/src/facing_visualizer.cpp
++++ b/src/facing_visualizer.cpp
+@@ -33,6 +33,7 @@
+  *  POSSIBILITY OF SUCH DAMAGE.
+  *********************************************************************/
+ 
++#include <OGRE/Ogre.h>
+ #include "facing_visualizer.h"
+ #include <rviz/uniform_string_stream.h>
+ #include <rviz/render_panel.h>
+diff --git a/src/overlay_utils.cpp b/src/overlay_utils.cpp
+index 73525c43..494e2bdf 100644
+--- a/src/overlay_utils.cpp
++++ b/src/overlay_utils.cpp
+@@ -33,6 +33,7 @@
+  *  POSSIBILITY OF SUCH DAMAGE.
+  *********************************************************************/
+ 
++#include <OGRE/Ogre.h>
+ #include "overlay_utils.h"
+ #include <ros/ros.h>
+ 
+diff --git a/src/overlay_utils.h b/src/overlay_utils.h
+index 26ebc921..f5d9ce12 100644
+--- a/src/overlay_utils.h
++++ b/src/overlay_utils.h
+@@ -37,6 +37,7 @@
+ #define JSK_RVIZ_PLUGIN_OVERLAY_UTIL_H_
+ 
+ 
++#include <OgreOverlay.h>
+ #include <OGRE/OgreMaterialManager.h>
+ #include <OGRE/OgreTextureManager.h>
+ #include <OGRE/OgreTexture.h>
+diff --git a/src/polygon_array_display.cpp b/src/polygon_array_display.cpp
+index 118a5405..9d366d6d 100644
+--- a/src/polygon_array_display.cpp
++++ b/src/polygon_array_display.cpp
+@@ -35,6 +35,8 @@
+ 
+ #define BOOST_PARAMETER_MAX_ARITY 7
+ 
++#include <OGRE/Ogre.h>
++#include <OgreTechnique.h>
+ #include "polygon_array_display.h"
+ #include "rviz/properties/parse_color.h"
+ #include <rviz/validate_floats.h>
+diff --git a/src/simple_occupancy_grid_array_display.cpp b/src/simple_occupancy_grid_array_display.cpp
+index 95bd0f9e..6ca15761 100644
+--- a/src/simple_occupancy_grid_array_display.cpp
++++ b/src/simple_occupancy_grid_array_display.cpp
+@@ -33,6 +33,8 @@
+  *  POSSIBILITY OF SUCH DAMAGE.
+  *********************************************************************/
+ #define BOOST_PARAMETER_MAX_ARITY 7
++
++#include <OGRE/Ogre.h>
+ #include "simple_occupancy_grid_array_display.h"
+ #include <Eigen/Geometry>
+ #include <jsk_recognition_utils/pcl_conversion_util.h>

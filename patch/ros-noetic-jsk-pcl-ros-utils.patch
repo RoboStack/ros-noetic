@@ -1,0 +1,44 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6fd6146d1..e38dd3a69 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -60,6 +60,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}
+ 
+ # For kinfu
+ find_package(PCL QUIET COMPONENTS gpu_kinfu_large_scale)
++find_package(VTK REQUIRED)
++get_target_property(VTK_INCLUDE_DIRS VTK::CommonCore INTERFACE_INCLUDE_DIRECTORIES)
+ 
+ pkg_check_modules(yaml_cpp yaml-cpp REQUIRED)
+ IF(${yaml_cpp_VERSION} VERSION_LESS "0.5.0")
+@@ -99,7 +101,7 @@ generate_dynamic_reconfigure_options(
+ 
+ find_package(OpenCV REQUIRED core imgproc)
+ 
+-include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS})
++include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS} ${VTK_INCLUDE_DIRS})
+ link_directories(${catkin_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -z defs")
+@@ -220,7 +222,7 @@ jsk_pcl_util_nodelet(src/marker_array_voxel_to_pointcloud_nodelet.cpp
+ add_library(jsk_pcl_ros_utils SHARED ${jsk_pcl_util_nodelet_sources})
+ add_dependencies(jsk_pcl_ros_utils ${PROJECT_NAME}_gencfg)
+ target_link_libraries(jsk_pcl_ros_utils
+-  ${catkin_LIBRARIES} ${pcl_ros_LIBRARIES} ${OpenCV_LIBRARIES} yaml-cpp)
++  ${catkin_LIBRARIES} ${pcl_ros_LIBRARIES} ${OpenCV_LIBRARIES} yaml-cpp VTK::CommonCore)
+ 
+ get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+ 
+diff --git a/src/pointcloud_to_pcd_nodelet.cpp b/src/pointcloud_to_pcd_nodelet.cpp
+index 3113a387a..8f2f01420 100644
+--- a/src/pointcloud_to_pcd_nodelet.cpp
++++ b/src/pointcloud_to_pcd_nodelet.cpp
+@@ -51,7 +51,7 @@ namespace jsk_pcl_ros_utils
+ 
+   void PointCloudToPCD::timerCallback (const ros::TimerEvent& event)
+   {
+-    pcl::PCLPointCloud2::ConstPtr cloud;
++    boost::shared_ptr<const pcl::PCLPointCloud2> cloud;
+     cloud = ros::topic::waitForMessage<pcl::PCLPointCloud2>("input", *pnh_);
+     if ((cloud->width * cloud->height) == 0)
+     {

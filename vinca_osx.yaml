@@ -3,10 +3,10 @@ mutex_package: ros-distro-mutex 0.1 noetic
 
 # mapping for package keys
 conda_index:
-  - conda-forge.yaml
+  - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 7
+build_number: 9
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -27,19 +27,20 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - fcl
-  # - pybind11_catkin  # need to be unvendored
-
   ##
   #  TODO OSX
   ##
+  - fcl
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
+  # - pybind11_catkin  # need to be unvendored
 
   ##
   # DONE OSX
   ##
+  # - ros_numpy
+  # - eigenpy
   # - kdl_parser_py
-  # - rviz
+  - catkin
   # - rospack
   # - pluginlib
   # - qt_gui_cpp

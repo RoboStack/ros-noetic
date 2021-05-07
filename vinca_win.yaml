@@ -3,10 +3,10 @@ mutex_package: ros-distro-mutex 0.1 noetic
 
 # mapping for package keys
 conda_index:
-  - conda-forge.yaml
+  - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 8
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -35,6 +35,7 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
+  - catkin
   # - kdl_parser_py
   # - image_view
   # - robot_localization

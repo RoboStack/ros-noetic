@@ -26,3 +26,23 @@ swri_image_util:
   add: ["REQUIRE_OPENGL"]
 posedetection_msgs:
   add: ["REQUIRE_OPENGL"]
+sainsmart_relay_usb:
+  add: [pkg-config]
+libcmt:
+  add: ["REQUIRE_OPENGL"]
+checkerboard_detector:
+  add: ["REQUIRE_OPENGL"]
+imagesift:
+  add: ["REQUIRE_OPENGL"]
+jsk_rviz_plugins:
+  add: ["REQUIRE_OPENGL"]
+jsk_perception:
+  add: ["REQUIRE_OPENGL"]
+jsk_interactive_marker:
+  add: ["REQUIRE_OPENGL"]
+jsk_pcl_ros_utils:
+  add: ["REQUIRE_OPENGL"]
+jsk_pcl_ros:
+  add: ["REQUIRE_OPENGL"]
+robot_self_filter:
+  add: ["REQUIRE_OPENGL"]

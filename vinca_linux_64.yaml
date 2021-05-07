@@ -3,17 +3,17 @@ mutex_package: ros-distro-mutex 0.1 noetic
 
 # mapping for package keys
 conda_index:
-  - conda-forge.yaml
+  - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 7
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: true
+full_rebuild: false
 
 packages_skip_by_deps:
   # - ros_core
@@ -22,64 +22,85 @@ packages_skip_by_deps:
 packages_remove_from_deps:
   - stage-ros
   - stage
+  - kobuki-ftdi  # needs too many patches for ftdi & usb
+  - openni2-camera
+
+build_in_own_azure_stage:
+  - ros-noetic-jsk-pcl-ros-utils
+  - ros-noetic-jsk-pcl-ros
+  - ros-noetic-jsk-perception
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ##
   #  TODO Linux
   ##
+  - catkin
+  # - jsk_pcl_ros
+  # - jsk_interactive_marker
+  # - scan_to_cloud_converter
+  # - laser_ortho_projector
+  # - phidgets_drivers
+  # - mrpt2
+  # - knowledge_representation
+  # - multirobot_map_merge
+  # - sick_tim
+  # - kobuki_core
+  # - sainsmart_relay_usb
+  # - mqtt_bridge
   # - rtabmap
   # - mapviz_plugins
   # - swri_image_util
   # - exotica_core
   # - sesame_ros
+  # - catkin
   
   ##
   # DONE Linux
   ##
-  - rtabmap
-  - jsk_rqt_plugins
-  - jsk_common_msgs
-  - rviz_satellite
-  - tile_map
-  - multires_image
-  - fkie_message_filters
-  - fkie_potree_rviz_plugin
-  - fkie_multimaster
-  - ethercat_grant
-  - fetch_open_auto_dock
-  - fetch_tools
-  - fetch_drivers
-  - cob_gazebo_tools
-  - cob_gazebo_worlds
-  - cob_gazebo_plugins
-  - cob_gazebo_objects
-  - dynamic_graph
-  - dynamic_graph_python
-  - dynamic_graph_tutorial
-  - eml
-  - pose_base_controller
-  - ur_client_library
-  - robot_self_filter
-  - trac_ik
-  - opencv_apps
-  - lusb
-  - image_view2
-  - ifopt
-  - explore_lite
-  - marvelmind_nav
-  - sob_layer
-  - soem
-  - willow_maps
-  - ypspur_ros
-  - zbar_ros
-  - mapviz
-  - swri_geometry_util
-  - swri_route_util
+  # - rtabmap
+  # - jsk_rqt_plugins
+  # - jsk_common_msgs
+  # - rviz_satellite
+  # - tile_map
+  # - multires_image
+  # - fkie_message_filters
+  # - fkie_potree_rviz_plugin
+  # - fkie_multimaster
+  # - ethercat_grant
+  # - fetch_open_auto_dock
+  # - fetch_tools
+  # - fetch_drivers
+  # - cob_gazebo_tools
+  # - cob_gazebo_worlds
+  # - cob_gazebo_plugins
+  # - cob_gazebo_objects
+  # - dynamic_graph
+  # - dynamic_graph_python
+  # - dynamic_graph_tutorial
+  # - eml
+  # - pose_base_controller
+  # - ur_client_library
+  # - robot_self_filter
+  # - trac_ik
+  # - opencv_apps
+  # - lusb
+  # - image_view2
+  # - ifopt
+  # - explore_lite
+  # - marvelmind_nav
+  # - sob_layer
+  # - soem
+  # - willow_maps
+  # - ypspur_ros
+  # - zbar_ros
+  # - mapviz
+  # - swri_geometry_util
+  # - swri_route_util
   # - tf2_web_republisher
   # - fetch_ros
   # - spacenav_node
