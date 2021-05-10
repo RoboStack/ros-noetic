@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 9
+build_number: 10
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -30,13 +30,13 @@ packages_select_by_deps:
   ##
   #  TODO OSX
   ##
-  - fcl
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
 
   ##
   # DONE OSX
   ##
+  # - fcl
   # - ros_numpy
   # - eigenpy
   # - kdl_parser_py
