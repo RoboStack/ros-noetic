@@ -40,12 +40,12 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 ```bash
 conda create -n robostackenv python=3.8
 conda activate robostackenv
-# this adds the conda-forge channel to your persistent configuration in ~/.condarc
-conda config --add channels conda-forge
+# this adds the conda-forge channel to the new created environment configuration 
+conda config --env --add channels conda-forge
 # and the robostack channel
-conda config --add channels robostack
+conda config --env --add channels robostack
 # it's very much advised to use strict channel priority
-conda config --set channel_priority strict
+conda config --env --set channel_priority strict
 
 # either
 conda install ros-noetic-desktop
