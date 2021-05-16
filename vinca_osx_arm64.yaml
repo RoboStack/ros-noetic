@@ -1,0 +1,33 @@
+ros_distro: noetic
+mutex_package: ros-distro-mutex 0.1 noetic
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+build_number: 0
+
+# Ignore all dependencies of selected packages
+skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: true
+
+packages_skip_by_deps:
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  - https://conda.anaconda.org/robostack/
+
+packages_select_by_deps:
+  ##
+  #  TODO OSX-ARM64
+  ##
+  - catkin
+
+patch_dir: patch
