@@ -35,8 +35,6 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - franka_example_controllers
-  - franka_ros
   - tf2_web_republisher
   # - catkin
   # - kdl_parser_py
@@ -111,5 +109,7 @@ packages_select_by_deps:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
     # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # - franka_example_controllers
+  # - franka_ros
 
 patch_dir: patch
