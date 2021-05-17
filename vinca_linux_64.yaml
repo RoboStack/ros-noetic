@@ -39,7 +39,9 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - catkin
+  - franka_example_controllers
+  - franka_ros
+  # - catkin
   # - jsk_pcl_ros
   # - jsk_interactive_marker
   # - scan_to_cloud_converter
@@ -172,8 +174,6 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - franka_example_controllers
-  # - franka_ros
   # - niryo_one_simulation
 
   ##
