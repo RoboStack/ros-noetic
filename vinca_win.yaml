@@ -35,7 +35,10 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - catkin
+  - franka_example_controllers
+  - franka_ros
+  - tf2_web_republisher
+  # - catkin
   # - kdl_parser_py
   # - image_view
   # - robot_localization
@@ -99,10 +102,7 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - franka_example_controllers
-  # - franka_ros
   # - turtlebot3_fake
-  # - tf2_web_republisher
   # - niryo_one_simulation
   # - behavior_tree
 
