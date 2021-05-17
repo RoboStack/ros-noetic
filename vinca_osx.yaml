@@ -39,6 +39,14 @@ packages_select_by_deps:
   - tf2_web_republisher
   - franka_ros
   - franka_example_controllers
+  - libfranka
+  - franka_visualization
+  - franka_hw
+  - franka_gripper
+  - franka_ros
+  - franka_msgs
+  - franka_description
+  - franka_control
   # - fcl
   # - ros_numpy
   # - eigenpy
@@ -68,8 +76,6 @@ packages_select_by_deps:
   # - robot_state_publisher
   # - diagnostic_analysis
   # - diagnostic_common_diagnostics
-  # - libfranka
-  # - franka_visualization
   # - ros_control
   # - ros_controllers
   # - rviz_visual_tools
