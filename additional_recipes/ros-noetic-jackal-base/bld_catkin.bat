@@ -7,10 +7,6 @@ set "PYTHONPATH=%LIBRARY_PREFIX%\lib\site-packages;%SP_DIR%"
 set CC=cl.exe
 set CXX=cl.exe
 
-if exist %RECIPE_DIR%\patch\patch_sipconfig.py if exist %PREFIX%\Lib\site-packages\sipconfig.py (
-    python %RECIPE_DIR%\patch\patch_sipconfig.py
-)
-
 set "CATKIN_BUILD_BINARY_PACKAGE_ARGS=-DCATKIN_BUILD_BINARY_PACKAGE=1"
 if "%PKG_NAME%" == "ros-noetic-catkin" (
     :: create catkin cookie to make it is a catkin workspace

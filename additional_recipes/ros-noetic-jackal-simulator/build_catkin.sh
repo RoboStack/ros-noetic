@@ -17,7 +17,14 @@ cd build
 # necessary for correctly linking SIP files (from python_qt_bindings)
 export LINK=$CXX
 
-export ROS_PYTHON_VERSION=`$PREFIX/bin/python -c "import sys; print('%i.%i' % (sys.version_info[0:2]))"`
+if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+  PYTHON_EXECUTABLE=$PREFIX/bin/python
+else
+  PYTHON_EXECUTABLE=$BUILD_PREFIX/bin/python
+fi
+echo "USING PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}"
+
+export ROS_PYTHON_VERSION=`$PYTHON_EXECUTABLE -c "import sys; print('%i.%i' % (sys.version_info[0:2]))"`
 echo "Using Python $ROS_PYTHON_VERSION"
 
 # NOTE: there might be undefined references occurring
@@ -26,16 +33,22 @@ echo "Using Python $ROS_PYTHON_VERSION"
 # the header-only version of the library.
 export CXXFLAGS="$CXXFLAGS -DBOOST_ERROR_CODE_HEADER_ONLY"
 
+if [[ $target_platform =~ linux.* ]]; then
+    export CXXFLAGS="$CXXFLAGS -D__STDC_FORMAT_MACROS=1";
+    # I am too scared to turn this on for now ...
+    # export LDFLAGS="$LDFLAGS -lrt";
+fi
+
 export SKIP_TESTING=ON
 
-cmake .. -DCMAKE_INSTALL_PREFIX=$PREFIX \
+cmake ${CMAKE_ARGS} .. -DCMAKE_INSTALL_PREFIX=$PREFIX \
          -DCMAKE_PREFIX_PATH=$PREFIX \
          -DCMAKE_BUILD_TYPE=Release \
          -DCMAKE_INSTALL_LIBDIR=lib \
          -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON \
          -DCMAKE_FIND_FRAMEWORK=LAST \
          -DBUILD_SHARED_LIBS=ON \
-         -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
+         -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE \
          -DSETUPTOOLS_DEB_LAYOUT=OFF \
          -DCATKIN_SKIP_TESTING=$SKIP_TESTING \
          -DCATKIN_BUILD_BINARY_PACKAGE=$CATKIN_BUILD_BINARY_PACKAGE \
