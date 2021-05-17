@@ -20,6 +20,8 @@ packages_skip_by_deps:
 packages_remove_from_deps:
   - stage-ros
   - stage
+  # sbcl is not available for osx-arm64
+  - roslisp
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
