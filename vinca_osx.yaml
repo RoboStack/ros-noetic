@@ -36,11 +36,14 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
+  - tf2_web_republisher
+  - franka_ros
+  - franka_example_controllers
   # - fcl
   # - ros_numpy
   # - eigenpy
   # - kdl_parser_py
-  - catkin
+  # - catkin
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
@@ -100,10 +103,6 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
-
-  # - tf2_web_republisher
-  # - franka_ros
-  # - franka_example_controllers
   # - niryo_one_simulation
 
   ##
