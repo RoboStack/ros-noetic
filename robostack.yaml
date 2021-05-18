@@ -734,3 +734,5 @@ libpqxx-dev:
   robostack: [libpqxx 6.*]
 libudev-dev:
   robostack: [libusb]
+udev:
+  robostack: [libusb]
