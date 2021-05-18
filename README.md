@@ -66,6 +66,11 @@ conda install vs2019_win-64
 # on Windows, please restart the Anaconda Prompt / Command Prompt!
 conda deactivate
 conda activate robostackenv
+
+# if you want to use rosdep, also do:
+mamba install rosdep
+rosdep init  # note: do not use sudo!
+rosdep update
 ```
 
 **Note: at the moment on Windows only the Command Prompt terminal is supported, while Powershell is not supported.**
