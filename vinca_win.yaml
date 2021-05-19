@@ -29,13 +29,14 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - fcl
   # - pybind11_catkin  # need to be unvendored
 
   ##
   # DONE Win
   ##
-  - tf2_web_republisher
+  - realsense2_camera
+  # - fcl
+  # - tf2_web_republisher
   # - catkin
   # - kdl_parser_py
   # - image_view
