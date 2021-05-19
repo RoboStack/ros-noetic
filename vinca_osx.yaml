@@ -36,17 +36,18 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - tf2_web_republisher
-  - franka_ros
-  - franka_example_controllers
-  - libfranka
-  - franka_visualization
-  - franka_hw
-  - franka_gripper
-  - franka_ros
-  - franka_msgs
-  - franka_description
-  - franka_control
+  - realsense2_camera
+  # - tf2_web_republisher
+  # - franka_ros
+  # - franka_example_controllers
+  # - libfranka
+  # - franka_visualization
+  # - franka_hw
+  # - franka_gripper
+  # - franka_ros
+  # - franka_msgs
+  # - franka_description
+  # - franka_control
   # - fcl
   # - ros_numpy
   # - eigenpy
