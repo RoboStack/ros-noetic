@@ -377,9 +377,9 @@ python-pyassimp:
 python3-pyassimp:
   robostack: [assimp]
 libpcl-all-dev:
-  robostack: [pcl 1.11]
+  robostack: [pcl 1.11, vtk]
 libpcl-all:
-  robostack: [pcl 1.11]
+  robostack: [pcl 1.11, vtk]
 libogg:
   robostack: [libogg]
 gtk3:
