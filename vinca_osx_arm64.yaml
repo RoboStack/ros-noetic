@@ -32,6 +32,9 @@ packages_select_by_deps:
   ##
   - catkin
   - robot
-  - perception
+  # - perception
+  - image_pipeline
+  - laser_pipeline
+  - image_transport_plugins
 
 patch_dir: patch
