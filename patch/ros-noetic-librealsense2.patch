@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6b982fe..32f930e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,6 +8,10 @@ option(SET_USER_BREAK_AT_STARTUP "Set user wait point in startup (for debug)" OF
+ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+ 
++if (WIN32)
++file(COPY ${SOURCE_PATH}/src/win7/drivers/IntelRealSense_D400_series_win7.inf DESTINATION ${SOURCE_PATH})
++endif()
++
+ find_package(catkin REQUIRED COMPONENTS
+     message_generation
+     nav_msgs
