@@ -1,0 +1,121 @@
+ros_distro: noetic
+mutex_package: ros-distro-mutex 0.1 noetic
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+build_number: 10
+
+# Ignore all dependencies of selected packages
+skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: false
+
+packages_skip_by_deps:
+  # - rviz
+  # - diagnostic_updater
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  - https://conda.anaconda.org/robostack/
+
+packages_select_by_deps:
+  ##
+  #  TODO OSX
+  ##
+  # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
+  # - pybind11_catkin  # need to be unvendored
+
+  ##
+  # DONE OSX
+  ##
+  - tf2_web_republisher
+  - franka_ros
+  - franka_example_controllers
+  - libfranka
+  - franka_visualization
+  - franka_hw
+  - franka_gripper
+  - franka_ros
+  - franka_msgs
+  - franka_description
+  - franka_control
+  # - fcl
+  # - ros_numpy
+  # - eigenpy
+  # - kdl_parser_py
+  # - catkin
+  # - rospack
+  # - pluginlib
+  # - qt_gui_cpp
+  # - ros_numpy
+  # - velodyne_simulator
+  # - rviz
+  # - mavros
+  # - hector_gazebo_plugins
+  # - navigation
+  # - plotjuggler_ros
+  # - catkin
+  # - desktop
+  # - desktop_full
+  # - slam_karto
+  # - class_loader
+  # - robot
+  # - executive_smach
+  # - geometry_tutorials
+  # - interactive_marker_tutorials
+  # - joint_state_publisher_gui
+  # - nodelet_core
+  # - robot_state_publisher
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - ros_control
+  # - ros_controllers
+  # - rviz_visual_tools
+  # - perception
+  # - perception_pcl
+  # - joy
+  # - imu_tools
+  # - velodyne
+  # - rosbridge_suite
+  # - robot_localization
+  # - urg_node
+  # - teb_local_planner
+  # - moveit
+  # - slam_toolbox
+  # - turtlebot3
+  # - cnpy
+  # - turtlebot3_fake
+  # - gmapping
+  # - interactive_marker_twist_server
+  # - teleop_twist_joy
+  # - twist_mux
+  # - pointgrey_camera_description
+  # - lms1xx
+  # - nmea_msgs
+  # - rosserial
+  # - nmea_navsat_driver
+  # - rosserial_server
+  # - robot_upstart
+  # - nmea_comms
+
+  ##
+  # NOT RELEASED ON NOETIC...
+  ##
+  # - niryo_one_simulation
+
+  ##
+  # PROBLEMS:
+  ##
+  # - rtabmap_ros  # openni is missing, and need to find names for
+    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # - behavior_tree  # isn't released?
+
+patch_dir: patch
