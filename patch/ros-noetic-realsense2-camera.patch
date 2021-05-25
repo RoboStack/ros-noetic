@@ -1,3 +1,24 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6b982fe..76ec231 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -61,6 +61,7 @@ else()
+ endif()
+ 
+ if (WIN32)
++set(CMAKE_CXX_FLAGS "/MD ${CMAKE_CXX_FLAGS}")
+ else()
+ set(CMAKE_CXX_FLAGS "-fPIE -fPIC -std=c++11 -D_FORTIFY_SOURCE=2 -fstack-protector -Wformat -Wformat-security -Wall ${CMAKE_CXX_FLAGS}")
+ endif()
+@@ -95,7 +96,7 @@ catkin_package(
+     nav_msgs
+     )
+ 
+-add_library(${PROJECT_NAME}
++add_library(${PROJECT_NAME} SHARED
+     include/constants.h
+     include/realsense_node_factory.h
+     include/base_realsense_node.h
 diff --git a/src/base_realsense_node.cpp b/src/base_realsense_node.cpp
 index f918500..531a2e9 100644
 --- a/src/base_realsense_node.cpp
