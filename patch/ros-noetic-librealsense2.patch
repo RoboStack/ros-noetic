@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ddedfb..ed6b2f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,6 +2,10 @@
+ cmake_minimum_required(VERSION 3.1.0)
+ project(librealsense2 LANGUAGES CXX C)
+ 
++if (WIN32)
++file(COPY ${SOURCE_PATH}/src/win7/drivers/IntelRealSense_D400_series_win7.inf DESTINATION ${SOURCE_PATH})
++endif()
++
+ include(CMake/lrs_options.cmake)
+ include(CMake/connectivity_check.cmake)
+ 
