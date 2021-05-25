@@ -13,3 +13,16 @@ index 1ddedfb..2b97c7e 100644
  include(CMake/lrs_options.cmake)
  include(CMake/connectivity_check.cmake)
  
+diff --git a/third-party/realsense-file/CMakeLists.txt b/third-party/realsense-file/CMakeLists.txt
+index becf0d0..f475e72 100644
+--- a/third-party/realsense-file/CMakeLists.txt
++++ b/third-party/realsense-file/CMakeLists.txt
+@@ -25,7 +25,7 @@ source_group("Header Files\\boost" REGULAR_EXPRESSION
+          boost/boost/*.hpp
+         )
+ 
+-add_library(${PROJECT_NAME} STATIC
++add_library(${PROJECT_NAME}
+     ${AllSources}
+     ${HEADER_FILES_ROSBAG}
+     ${SOURCE_FILES_ROSBAG}
