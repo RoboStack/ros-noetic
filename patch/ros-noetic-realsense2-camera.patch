@@ -1,0 +1,13 @@
+diff --git a/src/base_realsense_node.cpp b/src/base_realsense_node.cpp
+index f918500..531a2e9 100644
+--- a/src/base_realsense_node.cpp
++++ b/src/base_realsense_node.cpp
+@@ -2153,7 +2153,7 @@ void BaseRealSenseNode::publishPointCloud(rs2::points pc, const ros::Time& t, co
+         return;
+     ROS_INFO_STREAM_ONCE("publishing " << (_ordered_pc ? "" : "un") << "ordered pointcloud.");
+ 
+-    rs2_stream texture_source_id = static_cast<rs2_stream>(_pointcloud_filter->get_option(rs2_option::RS2_OPTION_STREAM_FILTER));
++    rs2_stream texture_source_id = static_cast<rs2_stream>((int)_pointcloud_filter->get_option(rs2_option::RS2_OPTION_STREAM_FILTER));
+     bool use_texture = texture_source_id != RS2_STREAM_ANY;
+     static int warn_count(0);
+     static const int DISPLAY_WARN_NUMBER(5);
