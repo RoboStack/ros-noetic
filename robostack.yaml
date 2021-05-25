@@ -377,9 +377,9 @@ python-pyassimp:
 python3-pyassimp:
   robostack: [assimp]
 libpcl-all-dev:
-  robostack: [pcl 1.11]
+  robostack: [pcl 1.11, vtk]
 libpcl-all:
-  robostack: [pcl 1.11]
+  robostack: [pcl 1.11, vtk]
 libogg:
   robostack: [libogg]
 gtk3:
@@ -725,7 +725,7 @@ python3-grpc-tools:
 mosquitto:
   robostack: [paho-mqtt]
 libftdi-dev:
-  robostack: [libftdi]
+  robostack: [libftdi, libusb]
 python3-serial:
   robostack: [pyserial]
 libpqxx:
@@ -736,3 +736,5 @@ libudev-dev:
   robostack: [libusb]
 udev:
   robostack: [libusb]
+python-inject-pip:
+  robostack: [inject]

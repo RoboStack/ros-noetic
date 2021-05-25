@@ -1,48 +1,67 @@
 moveit_visual_tools:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 grid_map_demos:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 gazebo_dev:
-  add: [tbb]
+  add_host: [tbb]
 gazebo_ros:
-  add: [tbb]
+  add_host: [tbb]
 gazebo_plugins:
-  add: [tbb]
+  add_host: [tbb]
 gazebo_ros_control:
-  add: [tbb]
+  add_host: [tbb]
 gazebo_pkgs:
-  add: [tbb]
+  add_host: [tbb]
 ros_ign_gazebo:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 apriltag:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 lvr2:
-  add: [libgdal-dev]
+  add_host: [libgdal-dev]
 rtabmap:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 image_view2:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 swri_image_util:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 posedetection_msgs:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 sainsmart_relay_usb:
-  add: [pkg-config]
+  add_build: ["pkg-config"]
 libcmt:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 checkerboard_detector:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 imagesift:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 jsk_rviz_plugins:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 jsk_perception:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 jsk_interactive_marker:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 jsk_pcl_ros_utils:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
 jsk_pcl_ros:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
+jsk_recognition_utils:
+  add_host: ["glew"]
+  add_run: ["glew"]
 robot_self_filter:
-  add: ["REQUIRE_OPENGL"]
+  add_build: ["REQUIRE_OPENGL"]
+eigenpy:
+  add_build: ["pkg-config"]
+slam_toolbox:
+  add_build: ["pkg-config"]
+ur_client_library:
+  add_host: ["ros-noetic-catkin"]
+mqtt_bridge:
+  add_run: ["inject", "msgpack-python", "paho-mqtt", "pymongo"]
+mrpt2:
+  add_host:  ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
+  add_run:   ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
+  add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
+theora_image_transport:
+  add_build: ["pkg-config"]
+image_view:
+  add_build: ["pkg-config"]

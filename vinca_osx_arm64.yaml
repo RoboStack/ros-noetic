@@ -28,10 +28,10 @@ skip_existing:
 
 packages_select_by_deps:
   ##
-  #  TODO OSX-ARM64
+  # TODO OSX-ARM64
   ##
   - catkin
   - robot
   - perception
-
+  
 patch_dir: patch
