@@ -14,19 +14,10 @@ index 1ddedfb..2b97c7e 100644
  include(CMake/connectivity_check.cmake)
  
 diff --git a/third-party/realsense-file/CMakeLists.txt b/third-party/realsense-file/CMakeLists.txt
-index becf0d0..745c307 100644
+index becf0d0..f475e72 100644
 --- a/third-party/realsense-file/CMakeLists.txt
 +++ b/third-party/realsense-file/CMakeLists.txt
-@@ -4,6 +4,8 @@ project(realsense-file)
- 
- include(config.cmake)
- 
-+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-+
- FILE(GLOB_RECURSE AllSources
-         ${LZ4_DIR}/lz4.h
-         ${LZ4_DIR}/lz4.c
-@@ -25,7 +27,7 @@ source_group("Header Files\\boost" REGULAR_EXPRESSION
+@@ -25,7 +25,7 @@ source_group("Header Files\\boost" REGULAR_EXPRESSION
           boost/boost/*.hpp
          )
  
@@ -35,3 +26,55 @@ index becf0d0..745c307 100644
      ${AllSources}
      ${HEADER_FILES_ROSBAG}
      ${SOURCE_FILES_ROSBAG}
+diff --git a/third-party/realsense-file/rosbag/cpp_common/include/ros/cpp_common_decl.h b/third-party/realsense-file/rosbag/cpp_common/include/ros/cpp_common_decl.h
+index a3b8979..4f9310f 100644
+--- a/third-party/realsense-file/rosbag/cpp_common/include/ros/cpp_common_decl.h
++++ b/third-party/realsense-file/rosbag/cpp_common/include/ros/cpp_common_decl.h
+@@ -29,7 +29,7 @@
+ 
+ #include "../../../rosbag_storage/include/rosbag/macros.h"
+ 
+-#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++#ifdef BUILD_SHARED_LIBS // ros is being built around shared libraries
+   #ifdef cpp_common_EXPORTS // we are building a shared lib/dll
+     #define CPP_COMMON_DECL ROS_HELPER_EXPORT
+   #else // we are using shared lib/dll
+diff --git a/third-party/realsense-file/rosbag/rosbag_storage/include/rosbag/macros.h b/third-party/realsense-file/rosbag/rosbag_storage/include/rosbag/macros.h
+index ae58732..f3deee3 100644
+--- a/third-party/realsense-file/rosbag/rosbag_storage/include/rosbag/macros.h
++++ b/third-party/realsense-file/rosbag/rosbag_storage/include/rosbag/macros.h
+@@ -33,7 +33,7 @@
+ 
+ // Import/export for windows dll's and visibility for gcc shared libraries.
+ 
+-#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++#ifdef BUILD_SHARED_LIBS // ros is being built around shared libraries
+   #ifdef rosbag_EXPORTS // we are building a shared lib/dll
+     #define ROSBAG_DECL ROS_HELPER_EXPORT
+   #else // we are using shared lib/dll
+diff --git a/third-party/realsense-file/rosbag/roscpp_serialization/include/ros/roscpp_serialization_macros.h b/third-party/realsense-file/rosbag/roscpp_serialization/include/ros/roscpp_serialization_macros.h
+index 5be3c75..4cf29a1 100644
+--- a/third-party/realsense-file/rosbag/roscpp_serialization/include/ros/roscpp_serialization_macros.h
++++ b/third-party/realsense-file/rosbag/roscpp_serialization/include/ros/roscpp_serialization_macros.h
+@@ -42,7 +42,7 @@
+ 
+ #include <ros/macros.h>
+ 
+-#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++#ifdef BUILD_SHARED_LIBS // ros is being built around shared libraries
+   #ifdef roscpp_serialization_EXPORTS // we are building a shared lib/dll
+     #define ROSCPP_SERIALIZATION_DECL ROS_HELPER_EXPORT
+   #else // we are using shared lib/dll
+diff --git a/third-party/realsense-file/rosbag/rostime/include/ros/rostime_decl.h b/third-party/realsense-file/rosbag/rostime/include/ros/rostime_decl.h
+index c7f79f1..40a25b1 100644
+--- a/third-party/realsense-file/rosbag/rostime/include/ros/rostime_decl.h
++++ b/third-party/realsense-file/rosbag/rostime/include/ros/rostime_decl.h
+@@ -42,7 +42,7 @@
+ 
+ #include "../../../rosbag_storage/include/rosbag/macros.h"
+ 
+-#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
++#ifdef BUILD_SHARED_LIBS // ros is being built around shared libraries
+   #ifdef rostime_EXPORTS // we are building a shared lib/dll
+     #define ROSTIME_DECL ROS_HELPER_EXPORT
+   #else // we are using shared lib/dll
