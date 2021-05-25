@@ -34,7 +34,8 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - realsense2_camera
+  - librealsense2
+  # - realsense2_camera
   # - fcl
   # - tf2_web_republisher
   # - catkin
