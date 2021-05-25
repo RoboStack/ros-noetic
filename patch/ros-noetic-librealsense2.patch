@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1ddedfb..ed6b2f5 100644
+index 1ddedfb..2b97c7e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -2,6 +2,10 @@
@@ -7,7 +7,7 @@ index 1ddedfb..ed6b2f5 100644
  project(librealsense2 LANGUAGES CXX C)
  
 +if (WIN32)
-+file(COPY ${SOURCE_PATH}/src/win7/drivers/IntelRealSense_D400_series_win7.inf DESTINATION ${SOURCE_PATH})
++  file(COPY ${CMAKE_SOURCE_DIR}/src/win7/drivers/IntelRealSense_D400_series_win7.inf DESTINATION ${CMAKE_SOURCE_DIR})
 +endif()
 +
  include(CMake/lrs_options.cmake)
