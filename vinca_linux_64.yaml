@@ -39,10 +39,11 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - ur_client_library
   # - realsense2_camera
   # - franka_example_controllers
   # - franka_ros
-  - catkin
+  # - catkin
   # - jsk_pcl_ros
   # - jsk_interactive_marker
   # - scan_to_cloud_converter

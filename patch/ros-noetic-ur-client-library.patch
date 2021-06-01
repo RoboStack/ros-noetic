@@ -12,3 +12,248 @@ index 8966cbc..06a2181 100644
  
  find_package(console_bridge)
  if(console_bridge_FOUND)
+@@ -68,7 +68,7 @@ if(console_bridge_FOUND)
+   target_include_directories( urcl PRIVATE
+     ${console_bridge_INCLUDE_DIRS}
+   )
+-  target_link_libraries(urcl INTERFACE console_bridge)
++  target_link_libraries(urcl PUBLIC ${console_bridge_LIBRARIES})
+ else()
+   message(STATUS "Building without ROS logging support")
+ endif()
+@@ -84,7 +84,7 @@ else()
+ endif()
+ 
+ 
+-target_link_libraries(urcl INTERFACE ${Boost_Libraries})
++target_link_libraries(urcl INTERFACE ${Boost_LIBRARIES})
+ 
+ add_subdirectory(examples)
+ diff --git a/include/ur_client_library/comm/bin_parser.h b/include/ur_client_library/comm/bin_parser.h
+index cad7c63..91af811 100644
+--- a/include/ur_client_library/comm/bin_parser.h
++++ b/include/ur_client_library/comm/bin_parser.h
+@@ -21,7 +21,6 @@
+ #pragma once
+ 
+ #include <assert.h>
+-#include <endian.h>
+ #include <inttypes.h>
+ #include <array>
+ #include <bitset>
+@@ -29,6 +28,7 @@
+ #include <cstring>
+ #include <string>
+ #include <memory>
++#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/log.h"
+ #include "ur_client_library/types.h"
+ #include "ur_client_library/exceptions.h"
+diff --git a/include/ur_client_library/comm/package_serializer.h b/include/ur_client_library/comm/package_serializer.h
+index ae9cfdc..7b1c349 100644
+--- a/include/ur_client_library/comm/package_serializer.h
++++ b/include/ur_client_library/comm/package_serializer.h
+@@ -28,8 +28,8 @@
+ #ifndef UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ #define UR_CLIENT_LIBRARY_PACKAGE_SERIALIZER_H_INCLUDED
+ 
+-#include <endian.h>
+ #include <cstring>
++#include "ur_client_library/portable_endian.h"
+ 
+ namespace urcl
+ {
+diff --git a/include/ur_client_library/comm/reverse_interface.h b/include/ur_client_library/comm/reverse_interface.h
+index 549e8ba..dc5c463 100644
+--- a/include/ur_client_library/comm/reverse_interface.h
++++ b/include/ur_client_library/comm/reverse_interface.h
+@@ -32,7 +32,7 @@
+ #include "ur_client_library/types.h"
+ #include "ur_client_library/log.h"
+ #include <cstring>
+-#include <endian.h>
++#include "ur_client_library/portable_endian.h"
+ #include <condition_variable>
+ 
+ namespace urcl
+diff --git a/include/ur_client_library/portable_endian.h b/include/ur_client_library/portable_endian.h
+new file mode 100644
+index 0000000..2b43378
+--- /dev/null
++++ b/include/ur_client_library/portable_endian.h
+@@ -0,0 +1,118 @@
++// "License": Public Domain
++// I, Mathias Panzenböck, place this file hereby into the public domain. Use it at your own risk for whatever you like.
++// In case there are jurisdictions that don't support putting things in the public domain you can also consider it to
++// be "dual licensed" under the BSD, MIT and Apache licenses, if you want to. This code is trivial anyway. Consider it
++// an example on how to get the endian conversion functions on different platforms.
++
++#ifndef PORTABLE_ENDIAN_H__
++#define PORTABLE_ENDIAN_H__
++
++#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
++
++#	define __WINDOWS__
++
++#endif
++
++#if defined(__linux__) || defined(__CYGWIN__)
++
++#	include <endian.h>
++
++#elif defined(__APPLE__)
++
++#	include <libkern/OSByteOrder.h>
++
++#	define htobe16(x) OSSwapHostToBigInt16(x)
++#	define htole16(x) OSSwapHostToLittleInt16(x)
++#	define be16toh(x) OSSwapBigToHostInt16(x)
++#	define le16toh(x) OSSwapLittleToHostInt16(x)
++
++#	define htobe32(x) OSSwapHostToBigInt32(x)
++#	define htole32(x) OSSwapHostToLittleInt32(x)
++#	define be32toh(x) OSSwapBigToHostInt32(x)
++#	define le32toh(x) OSSwapLittleToHostInt32(x)
++
++#	define htobe64(x) OSSwapHostToBigInt64(x)
++#	define htole64(x) OSSwapHostToLittleInt64(x)
++#	define be64toh(x) OSSwapBigToHostInt64(x)
++#	define le64toh(x) OSSwapLittleToHostInt64(x)
++
++#	define __BYTE_ORDER    BYTE_ORDER
++#	define __BIG_ENDIAN    BIG_ENDIAN
++#	define __LITTLE_ENDIAN LITTLE_ENDIAN
++#	define __PDP_ENDIAN    PDP_ENDIAN
++
++#elif defined(__OpenBSD__)
++
++#	include <sys/endian.h>
++
++#elif defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__)
++
++#	include <sys/endian.h>
++
++#	define be16toh(x) betoh16(x)
++#	define le16toh(x) letoh16(x)
++
++#	define be32toh(x) betoh32(x)
++#	define le32toh(x) letoh32(x)
++
++#	define be64toh(x) betoh64(x)
++#	define le64toh(x) letoh64(x)
++
++#elif defined(__WINDOWS__)
++
++#	include <winsock2.h>
++#	include <sys/param.h>
++
++#	if BYTE_ORDER == LITTLE_ENDIAN
++
++#		define htobe16(x) htons(x)
++#		define htole16(x) (x)
++#		define be16toh(x) ntohs(x)
++#		define le16toh(x) (x)
++
++#		define htobe32(x) htonl(x)
++#		define htole32(x) (x)
++#		define be32toh(x) ntohl(x)
++#		define le32toh(x) (x)
++
++#		define htobe64(x) htonll(x)
++#		define htole64(x) (x)
++#		define be64toh(x) ntohll(x)
++#		define le64toh(x) (x)
++
++#	elif BYTE_ORDER == BIG_ENDIAN
++
++		/* that would be xbox 360 */
++#		define htobe16(x) (x)
++#		define htole16(x) __builtin_bswap16(x)
++#		define be16toh(x) (x)
++#		define le16toh(x) __builtin_bswap16(x)
++
++#		define htobe32(x) (x)
++#		define htole32(x) __builtin_bswap32(x)
++#		define be32toh(x) (x)
++#		define le32toh(x) __builtin_bswap32(x)
++
++#		define htobe64(x) (x)
++#		define htole64(x) __builtin_bswap64(x)
++#		define be64toh(x) (x)
++#		define le64toh(x) __builtin_bswap64(x)
++
++#	else
++
++#		error byte order not supported
++
++#	endif
++
++#	define __BYTE_ORDER    BYTE_ORDER
++#	define __BIG_ENDIAN    BIG_ENDIAN
++#	define __LITTLE_ENDIAN LITTLE_ENDIAN
++#	define __PDP_ENDIAN    PDP_ENDIAN
++
++#else
++
++#	error platform not supported
++
++#endif
++
++#endif
+diff --git a/include/ur_client_library/primary/package_header.h b/include/ur_client_library/primary/package_header.h
+index 7775e75..21bc58b 100644
+--- a/include/ur_client_library/primary/package_header.h
++++ b/include/ur_client_library/primary/package_header.h
+@@ -31,7 +31,7 @@
+ 
+ #include <inttypes.h>
+ #include <cstddef>
+-#include <endian.h>
++#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/types.h"
+ 
+ namespace urcl
+diff --git a/include/ur_client_library/rtde/package_header.h b/include/ur_client_library/rtde/package_header.h
+index 46c812c..6890e0c 100644
+--- a/include/ur_client_library/rtde/package_header.h
++++ b/include/ur_client_library/rtde/package_header.h
+@@ -30,7 +30,7 @@
+ #define UR_CLIENT_LIBRARY_RTDE__HEADER_H_INCLUDED
+ 
+ #include <cstddef>
+-#include <endian.h>
++#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/types.h"
+ #include "ur_client_library/comm/package_serializer.h"
+ 
+diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
+index 586cb72..c9044dd 100644
+--- a/src/comm/tcp_socket.cpp
++++ b/src/comm/tcp_socket.cpp
+@@ -21,11 +21,12 @@
+  */
+ 
+ #include <arpa/inet.h>
+-#include <endian.h>
+ #include <netinet/tcp.h>
+ #include <unistd.h>
+ #include <cstring>
+ 
++
++#include "ur_client_library/portable_endian.h"
+ #include "ur_client_library/log.h"
+ #include "ur_client_library/comm/tcp_socket.h"
+ 
+@@ -45,8 +46,10 @@ void TCPSocket::setOptions(int socket_fd)
+ {
+   int flag = 1;
+   setsockopt(socket_fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
++#ifndef __APPLE__
+   setsockopt(socket_fd, IPPROTO_TCP, TCP_QUICKACK, &flag, sizeof(int));
+-
++#endif
++  
+   if (recv_timeout_ != nullptr)
+   {
+     setsockopt(socket_fd, SOL_SOCKET, SO_RCVTIMEO, recv_timeout_.get(), sizeof(timeval));
+
