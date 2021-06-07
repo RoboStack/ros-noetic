@@ -34,8 +34,9 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - turtlebot3_fake
-  - rosserial
+  - rosserial_windows
+  # - turtlebot3_fake
+  # - rosserial
   # - librealsense2
   # - realsense2_camera
   # - fcl
