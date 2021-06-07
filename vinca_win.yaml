@@ -34,7 +34,9 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - librealsense2
+  - turtlebot3_fake
+  - rosserial
+  # - librealsense2
   # - realsense2_camera
   # - fcl
   # - tf2_web_republisher
@@ -102,7 +104,6 @@ packages_select_by_deps:
   ##
   # NOT RELEASED ON NOETIC...
   ##
-  # - turtlebot3_fake
   # - niryo_one_simulation
   # - behavior_tree
 
