@@ -34,7 +34,8 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - rosserial_windows
+  - rviz
+  # - rosserial_windows
   # - turtlebot3_fake
   # - rosserial
   # - librealsense2

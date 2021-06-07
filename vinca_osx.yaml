@@ -36,7 +36,8 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - ur_client_library
+  - rviz
+  # - ur_client_library
   # - realsense2_camera
   # - tf2_web_republisher
   # - franka_ros
