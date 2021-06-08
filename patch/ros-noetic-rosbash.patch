@@ -1,0 +1,16 @@
+diff --git a/tools/rosbash/scripts/rosrun.bat b/tools/rosbash/scripts/rosrun.bat
+index e6c2fb353..d3bbb0803 100644
+--- a/tools/rosbash/scripts/rosrun.bat
++++ b/tools/rosbash/scripts/rosrun.bat
+@@ -112,9 +112,9 @@ for %%a in ("%exepath%") do (
+   set exepath_extension=%%~xa
+ )
+ if "!exepath_extension!" == ".py" (
+-  call %rosrun_prefix% "%PYTHONHOME%\python.exe" %exepath% %rosrun_args%
++  call %rosrun_prefix% "%CONDA_PREFIX%\python.exe" %exepath% %rosrun_args%
+ ) else if "!exepath_extension!" == "" (
+-  call %rosrun_prefix% "%PYTHONHOME%\python.exe" %exepath% %rosrun_args%
++  call %rosrun_prefix% "%CONDA_PREFIX%\python.exe" %exepath% %rosrun_args%
+ ) else (
+   call %rosrun_prefix% %exepath% %rosrun_args%
+ )
