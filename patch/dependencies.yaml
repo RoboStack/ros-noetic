@@ -65,3 +65,5 @@ theora_image_transport:
   add_build: ["pkg-config"]
 image_view:
   add_build: ["pkg-config"]
+rosserial_python:
+  add_run: ["pyserial"]
