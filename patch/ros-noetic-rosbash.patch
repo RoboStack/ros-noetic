@@ -1,7 +1,7 @@
-diff --git a/tools/rosbash/scripts/rosrun.bat b/tools/rosbash/scripts/rosrun.bat
+diff --git a/scripts/rosrun.bat b/scripts/rosrun.bat
 index e6c2fb353..d3bbb0803 100644
---- a/tools/rosbash/scripts/rosrun.bat
-+++ b/tools/rosbash/scripts/rosrun.bat
+--- a/scripts/rosrun.bat
++++ b/scripts/rosrun.bat
 @@ -112,9 +112,9 @@ for %%a in ("%exepath%") do (
    set exepath_extension=%%~xa
  )
