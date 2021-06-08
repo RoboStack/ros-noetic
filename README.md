@@ -59,6 +59,8 @@ mamba install compilers cmake pkg-config make ninja
 
 # on linux and osx (but not Windows) you might want to:
 mamba install catkin_tools
+# on Windows, install Visual Studio 2017 or 2019 with C++ support 
+# see https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-160
 
 # on Windows, install the Visual Studio command prompt via Conda:
 conda install vs2019_win-64
