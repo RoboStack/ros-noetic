@@ -17,7 +17,7 @@ ros_ign_gazebo:
 apriltag:
   add_build: ["REQUIRE_OPENGL"]
 lvr2:
-  add_host: ["libgdal", "pkg-config"]
+  add_host: ["libgdal", "pkg-config", "cgal"]
 rtabmap:
   add_build: ["REQUIRE_OPENGL"]
 image_view2:
