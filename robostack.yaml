@@ -738,3 +738,5 @@ udev:
   robostack: [libusb]
 python-inject-pip:
   robostack: [inject]
+libxmlrpc-c++:
+  robostack: [xmlrpc-c]

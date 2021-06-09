@@ -39,7 +39,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - rviz
+  - ifm3d
+  # - rviz
   # - ur_client_library
   # - realsense2_camera
   # - franka_example_controllers
