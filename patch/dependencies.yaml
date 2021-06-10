@@ -69,3 +69,5 @@ rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
   add_host: ["REQUIRE_OPENGL", "cgal-cpp"]
+map_organizer:
+  add_host: ["REQUIRE_OPENGL"]
