@@ -1,0 +1,152 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 91429ee..4721fbc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -126,7 +126,7 @@ endif(FLANN_FOUND)
+ 
+ find_package(Lz4 REQUIRED)
+ include_directories(  ${LZ4_INCLUDE_DIR} )
+-message(STATUS "Found LZ4 library: ${LZ4_LIBRARY}")
++message(STATUS "Found LZ4 library: ${LZ4_LIBRARIES}")
+ 
+ 
+ #------------------------------------------------------------------------------
+@@ -355,21 +355,25 @@ endif(STANN_FOUND)
+ 
+ # NanoFLANN
+ add_subdirectory(ext/nanoflann)
++set(NANOFLANN_INCLUDE_DIR "ext/nanoflann")
+ include_directories( ${NANOFLANN_INCLUDE_DIR} )
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${NANOFLANN_INSTALL_INCLUDE_DIR})
+ 
+ # PSIMPL
+ add_subdirectory(ext/psimpl)
++set(PSIMPL_INCLUDE_DIR "ext/psimpl")
+ include_directories( ${PSIMPL_INCLUDE_DIR} )
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${PSIMPL_INSTALL_INCLUDE_DIR})
+ 
+ # RPLY
+ add_subdirectory(ext/rply)
++set(RPLY_INCLUDE_DIR "ext/rply")
+ include_directories( ${RPLY_INCLUDE_DIR} )
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${RPLY_INSTALL_INCLUDE_DIR})
+ 
+ # LASLIB
+ add_subdirectory(ext/laslib)
++set(LASLIB_INCLUDE_DIR "ext/laslib/inc")
+ include_directories( ${LASLIB_INCLUDE_DIR} )
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${LASLIB_INSTALL_INCLUDE_DIR})
+ 
+@@ -390,11 +394,13 @@ include_directories(${YAML_CPP_INCLUDE_DIR})
+ 
+ # SLAM6D stuff
+ add_subdirectory(ext/slam6d)
++set(SLAM6D_INCLUDE_DIR "ext/slam6d/include")
+ include_directories( ${SLAM6D_INCLUDE_DIR} )
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${SLAM6D_INSTALL_INCLUDE_DIR})
+ 
+ # CTPL
+ add_subdirectory(ext/CTPL)
++set(CTPL_INCLUDE_DIR "ext/CTPL")
+ include_directories(${CTPL_INCLUDE_DIR})
+ list(APPEND LVR2_INSTALL_INCLUDE_DIRS ${CTPL_INSTALL_INCLUDE_DIR})
+ 
+@@ -529,7 +535,7 @@ set(LVR2_LIB_DEPENDENCIES
+     ${GDAL_LIBRARY}
+     ${OpenCV_LIBS}
+     ${GSL_LIBRARIES}
+-    ${LZ4_LIBRARY}
++    ${LZ4_LIBRARIES}
+     ${TIFF_LIBRARY}
+     ${YAML_CPP_LIBRARIES}
+     ${OpenMP_CXX_LIBRARIES}
+diff --git a/ext/CTPL/CMakeLists.txt b/ext/CTPL/CMakeLists.txt
+index 1ccd992..f46f461 100644
+--- a/ext/CTPL/CMakeLists.txt
++++ b/ext/CTPL/CMakeLists.txt
+@@ -6,9 +6,10 @@ set(CTPL_INSTALL_INCLUDE_DIR
+     PATH
+     "install location of CTPL library header")
+ 
+-find_path(CTPL_INCLUDE_DIR ctpl.h PATH .)
++set(CTPL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+ mark_as_advanced(CTPL_INCLUDE_DIR CTPL_INSTALL_INCLUDE_DIR)
+ 
++message(WARNING "CTPL_INCLUDE_DIR: ${CTPL_INCLUDE_DIR}")
+ include_directories(${CTPL_INCLUDE_DIR})
+ 
+ install(DIRECTORY . DESTINATION ${CTPL_INSTALL_INCLUDE_DIR}
+diff --git a/ext/laslib/CMakeLists.txt b/ext/laslib/CMakeLists.txt
+index 8bcbda4..3fbc754 100644
+--- a/ext/laslib/CMakeLists.txt
++++ b/ext/laslib/CMakeLists.txt
+@@ -1,7 +1,8 @@
+ 
+ # set include dirs
+ set(LASLIB_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/lvr2/ext/laslib CACHE PATH "install location of laslib library headers")
+-find_path(LASLIB_INCLUDE_DIR lasreader.hpp PATH inc)
++set(LASLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc)
++# find_path(LASLIB_INCLUDE_DIR lasreader.hpp PATH inc)
+ mark_as_advanced(LASLIB_INCLUDE_DIR LASLIB_INSTALL_INCLUDE_DIR)
+ 
+ include_directories(${LASLIB_INCLUDE_DIR})
+diff --git a/ext/nanoflann/CMakeLists.txt b/ext/nanoflann/CMakeLists.txt
+index 5f6ed4d..e6e3534 100644
+--- a/ext/nanoflann/CMakeLists.txt
++++ b/ext/nanoflann/CMakeLists.txt
+@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8)
+ 
+ # set include dirs
+ set(NANOFLANN_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/lvr2/ext/nanoflann CACHE PATH "install location of nanoflann headers")
+-find_path(NANOFLANN_INCLUDE_DIR nanoflann.hpp PATH .)
++set(NANOFLANN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
++# find_path(NANOFLANN_INCLUDE_DIR nanoflann.hpp PATH .)
+ mark_as_advanced(NANOFLANN_INCLUDE_DIR NANOFLANN_INSTALL_INCLUDE_DIR)
+ 
+ install(DIRECTORY . DESTINATION ${NANOFLANN_INSTALL_INCLUDE_DIR}
+diff --git a/ext/psimpl/CMakeLists.txt b/ext/psimpl/CMakeLists.txt
+index 5084e23..58bba3f 100644
+--- a/ext/psimpl/CMakeLists.txt
++++ b/ext/psimpl/CMakeLists.txt
+@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8)
+ 
+ # set include dirs
+ set(PSIMPL_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/lvr2/ext/psimpl CACHE PATH "install location of psimple header")
+-find_path(PSIMPL_INCLUDE_DIR psimpl.h PATH .)
++set(PSIMPL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
++# find_path(PSIMPL_INCLUDE_DIR psimpl.h PATH .)
+ mark_as_advanced(PSIMPL_INCLUDE_DIR PSIMPL_INSTALL_INCLUDE_DIR)
+ 
+ install(DIRECTORY . DESTINATION ${PSIMPL_INSTALL_INCLUDE_DIR}
+diff --git a/ext/rply/CMakeLists.txt b/ext/rply/CMakeLists.txt
+index 8578e80..715eba7 100644
+--- a/ext/rply/CMakeLists.txt
++++ b/ext/rply/CMakeLists.txt
+@@ -4,9 +4,12 @@ cmake_minimum_required(VERSION 2.8)
+ 
+ # set include dirs
+ set(RPLY_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/lvr2/ext/rply CACHE PATH "install location of rply library header")
+-find_path(RPLY_INCLUDE_DIR rply.h PATH .)
++# find_path(RPLY_INCLUDE_DIR rply.h PATH .)
++
++set(RPLY_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+ mark_as_advanced(RPLY_INCLUDE_DIR RPLY_INSTALL_INCLUDE_DIR)
+ 
++message(WARNING "RPLY_INCLUDE_DIR: ${RPLY_INCLUDE_DIR}")
+ include_directories(${RPLY_INCLUDE_DIR})
+ 
+ add_library(lvr2rply_static STATIC rply.c)
+diff --git a/ext/slam6d/CMakeLists.txt b/ext/slam6d/CMakeLists.txt
+index 592c3f1..194f776 100644
+--- a/ext/slam6d/CMakeLists.txt
++++ b/ext/slam6d/CMakeLists.txt
+@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8)
+ 
+ # set include dirs
+ set(SLAM6D_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/lvr2/ext/slam6d CACHE PATH "install location of slam6d headers")
+-find_path(SLAM6D_INCLUDE_DIR slam6d/scan_io.h PATH include)
++set(SLAM6D_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
++# find_path(SLAM6D_INCLUDE_DIR slam6d/scan_io.h PATH include)
+ mark_as_advanced(SLAM6D_INCLUDE_DIR SLAM6D_INSTALL_INCLUDE_DIR)
+ 
+ include_directories(${SLAM6D_INCLUDE_DIR})
