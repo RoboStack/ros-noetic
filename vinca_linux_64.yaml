@@ -39,7 +39,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - lvr2
+  - mesh_client
+  # - lvr2
   # - ifm3d
   # - rviz
   # - ur_client_library

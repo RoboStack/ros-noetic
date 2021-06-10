@@ -1,7 +1,7 @@
 moveit_visual_tools:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 grid_map_demos:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 gazebo_dev:
   add_host: [tbb]
 gazebo_ros:
@@ -13,42 +13,42 @@ gazebo_ros_control:
 gazebo_pkgs:
   add_host: [tbb]
 ros_ign_gazebo:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 apriltag:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 lvr2:
   add_host: ["libgdal", "pkg-config", "cgal-cpp"]
 rtabmap:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 image_view2:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 swri_image_util:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 posedetection_msgs:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 sainsmart_relay_usb:
   add_build: ["pkg-config"]
 libcmt:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 checkerboard_detector:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 imagesift:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_rviz_plugins:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_perception:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_interactive_marker:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_pcl_ros_utils:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_pcl_ros:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 jsk_recognition_utils:
   add_host: ["glew"]
   add_run: ["glew"]
 robot_self_filter:
-  add_build: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL"]
 eigenpy:
   add_build: ["pkg-config"]
 slam_toolbox:
@@ -67,3 +67,5 @@ image_view:
   add_build: ["pkg-config"]
 rosserial_python:
   add_run: ["pyserial"]
+mesh_client:
+  add_host: ["REQUIRE_OPENGL", "cgal-cpp"]

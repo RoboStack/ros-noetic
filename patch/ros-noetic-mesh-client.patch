@@ -1,0 +1,13 @@
+diff --git a/include/mesh_client/mesh_client.h b/include/mesh_client/mesh_client.h
+index e783b54..3a1e0ad 100644
+--- a/include/mesh_client/mesh_client.h
++++ b/include/mesh_client/mesh_client.h
+@@ -45,7 +45,7 @@
+ #include <lvr2/io/AttributeMeshIOBase.hpp>
+ #include <lvr2/geometry/BoundingBox.hpp>
+ #include <lvr2/geometry/BaseVector.hpp>
+-#include <jsoncpp/json/json.h>
++#include <json/json.h>
+ 
+ namespace mesh_client
+ {
