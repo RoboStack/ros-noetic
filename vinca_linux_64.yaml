@@ -146,7 +146,7 @@ packages_select_by_deps:
   - graft
   - grasping-msgs
   - grid-map-costmap-2d
-  - grid-map-pcl
+  # - grid-map-pcl
   - grid-map-sdf
   - handeye
   - hector-gazebo-thermal-camera
