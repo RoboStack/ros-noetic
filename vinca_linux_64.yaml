@@ -129,8 +129,6 @@ packages_select_by_deps:
   - fetch-description
   - fetch-ikfast-plugin
   - fetch-maps
-  - ff
-  - ffha
   - find-object-2d
   - fkie-message-filters
   - flexbe-msgs
@@ -146,7 +144,6 @@ packages_select_by_deps:
   - graft
   - grasping-msgs
   - grid-map-costmap-2d
-  # - grid-map-pcl
   - grid-map-sdf
   - handeye
   - hector-gazebo-thermal-camera
@@ -221,7 +218,6 @@ packages_select_by_deps:
   - marti-sensor-msgs
   - marti-status-msgs
   - marti-visualization-msgs
-  - mavros-extras
   - mbf-abstract-nav
   - mcl-3dl-msgs
   - mesh-msgs
@@ -236,7 +232,6 @@ packages_select_by_deps:
   - mocap-optitrack
   - mouse-teleop
   - move-base-sequence
-  - moveit-chomp-optimizer-adapter
   - moveit-python
   - moveit-resources
   - moveit-runtime
@@ -258,7 +253,6 @@ packages_select_by_deps:
   - octomap-ros
   - octomap-rviz-plugins
   - odva-ethernetip
-  - opengm
   - openzen-sensor
   - oxford-gps-eth
   - p2os-doc
@@ -546,5 +540,11 @@ packages_select_by_deps:
   # - rtabmap_ros  # openni is missing, and need to find names for
     # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - behavior_tree  # isn't released?
+  # - ff  # has gcc hardcoded
+  # - ffha  # has gcc hardcoded
+  # - grid-map-pcl
+  # - mavros-extras
+  # - moveit-chomp-optimizer-adapter
+  # - opengm
 
 patch_dir: patch
