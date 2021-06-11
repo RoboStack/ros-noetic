@@ -36,10 +36,11 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - ign-bridge 
-  - ign-gazebo 
-  - ign-gazebo-demos 
-  - ign-image 
+  - ros-ign
+  - ros-ign-bridge 
+  - ros-ign-gazebo 
+  - ros-ign-gazebo-demos 
+  - ros-ign-image 
   # - rviz
   # - ur_client_library
   # - realsense2_camera

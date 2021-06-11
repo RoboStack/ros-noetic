@@ -34,10 +34,11 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - ign-bridge 
-  - ign-gazebo 
-  - ign-gazebo-demos 
-  - ign-image 
+  - ros-ign
+  - ros-ign-bridge 
+  - ros-ign-gazebo 
+  - ros-ign-gazebo-demos 
+  - ros-ign-image 
   # - rosbash
   # - rviz
   #- rosserial_windows
