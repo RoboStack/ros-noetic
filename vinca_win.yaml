@@ -34,10 +34,15 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - rosserial_python
-  - rosbash
+  #
+  - ign 
+  - ign-bridge 
+  - ign-gazebo 
+  - ign-gazebo-demos 
+  - ign-image 
+  # - rosbash
   # - rviz
-  # - rosserial_windows
+  #- rosserial_windows
   # - turtlebot3_fake
   # - rosserial
   # - librealsense2
