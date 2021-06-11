@@ -34,8 +34,6 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  #
-  - ign 
   - ign-bridge 
   - ign-gazebo 
   - ign-gazebo-demos 

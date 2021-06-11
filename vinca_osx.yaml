@@ -36,7 +36,6 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - ign 
   - ign-bridge 
   - ign-gazebo 
   - ign-gazebo-demos 
