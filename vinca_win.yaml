@@ -34,8 +34,12 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  - rosserial_python
-  - rosbash
+  #
+  - rosserial
+  - rosserial-arduino
+  - rosserial-python
+  - rosserial-msgs
+  # - rosbash
   # - rviz
   # - rosserial_windows
   # - turtlebot3_fake
