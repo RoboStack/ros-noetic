@@ -14,6 +14,8 @@ gazebo_pkgs:
   add_host: [tbb]
 ros_ign_gazebo:
   add_host: ["REQUIRE_OPENGL"]
+ros_ign_bridge:
+  add_host: ["gtest"]
 apriltag:
   add_host: ["REQUIRE_OPENGL"]
 lvr2:
