@@ -39,6 +39,10 @@ packages_select_by_deps:
   - ros-ign-gazebo 
   - ros-ign-gazebo-demos 
   - ros-ign-image 
+  - rosserial
+  - rosserial-arduino
+  - rosserial-python
+  - rosserial-msgs
   # - rosbash
   # - rviz
   #- rosserial_windows
