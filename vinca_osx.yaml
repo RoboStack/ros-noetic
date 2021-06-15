@@ -36,15 +36,11 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - moveit_kinematics
-  - kdl_parser
-  - kdl_conversions
-  - tf2_kdl
-  - tf2_geometry_msgs
-  - moveit_core
-  - eigen_conversions
+  # - moveit_kinematics
+  # - moveit_core
   - robot_state_publisher
   - tf_conversions
+  - kdl_parser_py
   # - rosserial
   # - rosserial-arduino
   # - rosserial-python
