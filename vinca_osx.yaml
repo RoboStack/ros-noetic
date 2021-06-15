@@ -36,10 +36,19 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - rosserial
-  - rosserial-arduino
-  - rosserial-python
-  - rosserial-msgs
+  - moveit_kinematics
+  - kdl_parser
+  - kdl_conversions
+  - tf2_kdl
+  - tf2_geometry_msgs
+  - moveit_core
+  - eigen_conversions
+  - robot_state_publisher
+  - tf_conversions
+  # - rosserial
+  # - rosserial-arduino
+  # - rosserial-python
+  # - rosserial-msgs
   # - rviz
   # - ur_client_library
   # - realsense2_camera
