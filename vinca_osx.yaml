@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 10
+build_number: 11
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -36,8 +36,9 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - moveit_kinematics
+  - rviz
   - moveit_core
+  # - moveit_kinematics
   # - robot_state_publisher
   # - tf_conversions
   # - kdl_parser_py
