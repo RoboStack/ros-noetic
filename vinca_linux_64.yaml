@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 9
+build_number: 10
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -39,6 +39,9 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - pinocchio
+  - rviz
+  
   - libuvc-ros
   - ackermann-msgs
   - actionlib-tools
