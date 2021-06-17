@@ -39,6 +39,7 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
+  - libuvc-ros
   - ackermann-msgs
   - actionlib-tools
   - agni-tf-tools

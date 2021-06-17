@@ -71,3 +71,5 @@ mesh_client:
   add_host: ["REQUIRE_OPENGL", "cgal-cpp"]
 map_organizer:
   add_host: ["REQUIRE_OPENGL"]
+libuvc_camera:
+  add_host: ["pkgconfig"]

@@ -740,3 +740,5 @@ python-inject-pip:
   robostack: [inject]
 libxmlrpc-c++:
   robostack: [xmlrpc-c]
+libuvc-dev:
+  robostack: [libuvc, libusb]
