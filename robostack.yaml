@@ -328,11 +328,11 @@ libogre-dev:
 libogre:
   robostack: [ogre 1.10]
 liburdfdom-dev:
-  robostack: [urdfdom 1.0]
+  robostack: [urdfdom]
 liburdfdom-tools:
-  robostack: [urdfdom 1.0]
+  robostack: [urdfdom]
 liburdfdom-headers-dev:
-  robostack: [urdfdom_headers 1.0]
+  robostack: [urdfdom_headers]
 yaml-cpp:
   robostack: [yaml-cpp]
 python-wxtools:
