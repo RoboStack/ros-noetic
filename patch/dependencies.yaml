@@ -73,3 +73,5 @@ map_organizer:
   add_host: ["REQUIRE_OPENGL"]
 libuvc_camera:
   add_host: ["pkgconfig"]
+toposens_markers:
+  add_host: [REQUIRE_OPENGL, libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]

@@ -39,8 +39,9 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - pinocchio
-  - rviz
+  - toposens
+  # - pinocchio
+  # - rviz
   
   # - libuvc-ros
   # - ackermann-msgs
