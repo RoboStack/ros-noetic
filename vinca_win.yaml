@@ -34,8 +34,8 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
-  #
-  - rviz
+  - moveit-msgs
+  # - rviz
   # - rosserial
   # - rosserial-arduino
   # - rosserial-python
