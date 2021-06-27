@@ -39,10 +39,10 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - toposens
+  - moveit-msgs
+  # - toposens
   # - pinocchio
   # - rviz
-  
   # - libuvc-ros
   # - ackermann-msgs
   # - actionlib-tools
