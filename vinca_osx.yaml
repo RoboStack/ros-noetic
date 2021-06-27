@@ -36,8 +36,9 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - rviz
-  - moveit_core
+  - moveit-msgs
+  # - rviz
+  # - moveit_core
   # - moveit_kinematics
   # - robot_state_publisher
   # - tf_conversions
