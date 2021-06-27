@@ -39,7 +39,8 @@ packages_select_by_deps:
   ##
   #  TODO Linux
   ##
-  - toposens
+  - moveit  # rebuild moveit for latest moveit msgs
+  # - toposens
   # - pinocchio
   # - rviz
   
