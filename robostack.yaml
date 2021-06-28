@@ -76,6 +76,8 @@ python-rosdep-modules:
   robostack: [rosdep]
 python3-rosdep-modules:
   robostack: [rosdep]
+libboost-system:
+  robostack: [boost-cpp]
 libboost-system-dev:
   robostack: [boost-cpp]
 libboost-date-time-dev:
@@ -301,6 +303,8 @@ libboost-program-options-dev:
     win64: [boost]
     linux: [boost-cpp]
     osx: [boost-cpp]
+libboost-filesystem:
+  robostack: [boost-cpp]
 libboost-filesystem-dev:
   robostack: [boost-cpp]
 libboost-regex-dev:
@@ -308,6 +312,10 @@ libboost-regex-dev:
 libboost-chrono-dev:
   robostack: [boost-cpp]
 libboost-dev:
+  robostack: [boost-cpp]
+libboost-serialization:
+  robostack: [boost-cpp]
+libboost-serialization-dev:
   robostack: [boost-cpp]
 python-cairo:
   robostack: [pycairo]
@@ -424,6 +432,11 @@ python-bson:
 python-twisted-core:
   robostack: [twisted]
 bullet:
+  robostack:
+    win64: [bullet 2.88]
+    linux: [bullet]
+    osx: [bullet]
+bullet-extras:
   robostack:
     win64: [bullet 2.88]
     linux: [bullet]
@@ -742,3 +755,31 @@ libxmlrpc-c++:
   robostack: [xmlrpc-c]
 libuvc-dev:
   robostack: [libuvc, libusb]
+libxext:
+  robostack:
+    win64: []
+    linux: [xorg-libxext]
+    osx: [xorg-libxext]
+libx11:
+  robostack:
+    win64: []
+    linux: [xorg-libx11, REQUIRE_OPENGL]
+    osx: [xorg-libx11, REQUIRE_OPENGL]
+python3-docopt:
+  robostack: [docopt]
+gstreamer1.0-alsa:
+  robostack: [gstreamer]
+python3-kitchen:
+  robostack: [kitchen]
+python-enum34:
+  robostack: [enum34]
+python3-mechanize:
+  robostack: [mechanize]
+libsndfile1-dev:
+  robostack: [libsndfile]
+libxt-dev:
+  robostack: [xorg-libxt]
+python-pygithub3:
+  robostack: [pygithub]
+sysstat:
+  robostack: [sysstat]
