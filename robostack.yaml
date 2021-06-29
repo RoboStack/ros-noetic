@@ -696,7 +696,10 @@ libgeos++-dev:
 python3-argcomplete:
   robostack: [argcomplete]
 libcap-dev:
-  robostack: [libcap]
+  robostack:
+    win64: []
+    linux: [libcap]
+    osx: []
 python3-grpcio:
   robostack: [grpcio]
 python3-pyproj:
