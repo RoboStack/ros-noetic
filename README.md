@@ -83,6 +83,9 @@ rosdep update
 ## Reporting issues
 Feel free to open issues in this repository's [issue tracker](https://github.com/RoboStack/ros-noetic/issues) (please check whether your problem is already listed there before opening a new issue) or come around on [Gitter](https://gitter.im/RoboStack/Lobby) to have a chat / ask questions. Please note that this repository is _not an official distribution of ROS_ and relies on volunteers. It is further highly experimental - unfortunately things might not work immediately out-of-the-box, although we try our best.
 
+## Jupyter-ROS and JupyterLab-ROS
+To install Jupyter-ROS and JupyterLab-ROS which provide interactive experiences for robotics developers in Jupyter Notebooks, please see the relevant repositories for [Jupyter-ROS](https://github.com/RoboStack/jupyter-ros) and [JupyterLab-ROS](https://github.com/RoboStack/jupyterlab-ros).
+
 ## FAQ
 #### When running `catkin` or `catkin_make` I get errors that "Multiple packages found with the same name", e.g.
 ```
