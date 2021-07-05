@@ -106,8 +106,6 @@ packages_select_by_deps:
   - executive-smach-visualization
   - exotica-val-description
   - fetch-bringup
-  - ff
-  - ffha
   - fingertip-pressure
   - flexbe-core
   - flexbe-input
@@ -146,7 +144,6 @@ packages_select_by_deps:
   - leo
   - leo-simulator
   - libdlib
-  - libntcan
   - mbf-costmap-nav
   - mbf-simple-nav
   - mesh-msgs-transform
