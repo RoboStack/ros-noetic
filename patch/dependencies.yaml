@@ -99,7 +99,7 @@ simple_grasping:
   add_host: ["REQUIRE_OPENGL"]
 pr2_mechanism_diagnostics:
   add_host: ["pkg-config"]
-joint-trajectory-generator:
+joint_trajectory_generator:
   add_host: ["pkg-config"]
-pr2-controller-manager:
+pr2_controller_manager:
   add_host: ["pkg-config"]
