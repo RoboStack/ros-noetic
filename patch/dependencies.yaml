@@ -75,3 +75,25 @@ libuvc_camera:
   add_host: ["pkgconfig"]
 toposens_markers:
   add_host: [REQUIRE_OPENGL, libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]
+audio_capture:
+  add_build: ["pkg-config"]
+audio_play:
+  add_build: ["pkg-config"]
+cob_object_detection_visualizer:
+  add_host: ["REQUIRE_OPENGL"]
+grid_map_pcl:
+  add_host: ["REQUIRE_OPENGL"]
+hdf5_map_io:
+  add_build: ["pkg-config"]
+laser_scan_matcher:
+  add_host: ["REQUIRE_OPENGL"]
+moveit_calibration_plugins:
+  add_host: ["libopencv"]
+multisense_ros:
+  add_host: ["libjpeg-turbo"]
+obj_to_pointcloud:
+  add_host: ["REQUIRE_OPENGL"]
+rc_roi_manager_gui:
+  add_host: ["REQUIRE_OPENGL"]
+simple_grasping:
+  add_host: ["REQUIRE_OPENGL"]
