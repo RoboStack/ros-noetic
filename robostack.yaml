@@ -271,11 +271,11 @@ libxrandr:
     linux: [xorg-libxrandr]
     osx: [xorg-libxrandr]
 libopencv-dev:  # opencv needs to be pinned, otherwise different packages might pull in different versions
-  robostack: [py-opencv 4.5, libopencv 4.5, REQUIRE_OPENGL]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2, REQUIRE_OPENGL]
 python-opencv:
-  robostack: [py-opencv 4.5, libopencv 4.5]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2]
 python3-opencv:
-  robostack: [py-opencv 4.5, libopencv 4.5]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2]
 python-pydot:
   robostack: [pydot]
 python3-pydot:
