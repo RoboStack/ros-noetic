@@ -27,7 +27,7 @@ swri_image_util:
 posedetection_msgs:
   add_host: ["REQUIRE_OPENGL"]
 sainsmart_relay_usb:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 libcmt:
   add_host: ["REQUIRE_OPENGL"]
 checkerboard_detector:
@@ -50,9 +50,9 @@ jsk_recognition_utils:
 robot_self_filter:
   add_host: ["REQUIRE_OPENGL"]
 eigenpy:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 slam_toolbox:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 ur_client_library:
   add_host: ["ros-noetic-catkin"]
 mqtt_bridge:
@@ -62,9 +62,9 @@ mrpt2:
   add_run:   ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
 theora_image_transport:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 image_view:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
@@ -76,15 +76,15 @@ libuvc_camera:
 toposens_markers:
   add_host: [REQUIRE_OPENGL, libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]
 audio_capture:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 audio_play:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 cob_object_detection_visualizer:
   add_host: ["REQUIRE_OPENGL"]
 grid_map_pcl:
   add_host: ["REQUIRE_OPENGL"]
 hdf5_map_io:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 laser_scan_matcher:
   add_host: ["REQUIRE_OPENGL"]
 moveit_calibration_plugins:
@@ -98,4 +98,8 @@ rc_roi_manager_gui:
 simple_grasping:
   add_host: ["REQUIRE_OPENGL"]
 pr2_mechanism_diagnostics:
+  add_host: ["pkg-config"]
+joint-trajectory-generator:
+  add_host: ["pkg-config"]
+pr2-controller-manager:
   add_host: ["pkg-config"]
