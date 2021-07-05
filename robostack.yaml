@@ -786,3 +786,11 @@ python-pygithub3:
   robostack: [pygithub]
 sysstat:
   robostack: [sysstat]
+python3-websocket:
+  robostack: [websocket-client]
+benchmark:
+  robostack: [benchmark]
+python3-usb:
+  robostack: [pyusb]
+portaudio19-dev:
+  robostack: [portaudio]
