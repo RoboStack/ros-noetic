@@ -46,7 +46,6 @@ packages_select_by_deps:
   # - image-geometry
   - mrpt2
   - cob-map-accessibility-analysis
-
   # - abb-egm-msgs
   # - abb-rapid-msgs
   # - abb-rapid-sm-addin-msgs
