@@ -179,7 +179,6 @@ packages_select_by_deps:
   - hector-pose-estimation
   - hector-sensors-description
   - hector-sensors-gazebo
-  - hector-slam-launch
   - hector-trajectory-server
   - hfl-driver
   - ifm3d-core
