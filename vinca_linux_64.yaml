@@ -70,7 +70,6 @@ packages_select_by_deps:
   - cob-3d-mapping-msgs
   - cob-bms-driver
   - cob-calibration-data
-  - cob-canopen-motor
   - cob-collision-monitor
   - cob-collision-velocity-filter
   - cob-common
@@ -79,7 +78,6 @@ packages_select_by_deps:
   - cob-elmo-homing
   - cob-environments
   - cob-frame-tracker
-  - cob-generic-can
   - cob-grasp-generation
   - cob-hardware-config
   - cob-hardware-emulation
@@ -175,9 +173,6 @@ packages_select_by_deps:
   - hector-components-description
   - hector-compressed-map-transport
   - hector-gazebo
-  - hector-geotiff
-  - hector-geotiff-launch
-  - hector-geotiff-plugins
   - hector-localization
   - hector-map-server
   - hector-models
@@ -326,8 +321,6 @@ packages_select_by_deps:
   - sbpl-recovery
   - scaled-controllers
   - scaled-joint-trajectory-controller
-  - schunk-libm5api
-  - schunk-sdh
   - sensor-filters
   - settlerlib
   - simple-message
