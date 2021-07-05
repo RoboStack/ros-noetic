@@ -277,7 +277,6 @@ packages_select_by_deps:
   - pr2-description
   - pr2-head-action
   - pr2-kinematics
-  - pr2-mechanism-diagnostics
   - pr2-mechanism-model
   - pr2-position-scripts
   - pr2-power-board
