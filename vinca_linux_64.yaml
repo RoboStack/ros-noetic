@@ -39,13 +39,13 @@ packages_select_by_deps:
   ##
   #  TODO Linux 
   ##
-  - apriltag_ros
+  # - apriltag_ros
   - cv_bridge
   - cv_camera
-  - grid-map-filters
+  # - grid-map-filters
   - image-geometry
-  - mrpt2
-  - cob-map-accessibility-analysis
+  # - mrpt2
+  # - cob-map-accessibility-analysis
 
   # - abb-egm-msgs
   # - abb-rapid-msgs
