@@ -97,3 +97,5 @@ rc_roi_manager_gui:
   add_host: ["REQUIRE_OPENGL"]
 simple_grasping:
   add_host: ["REQUIRE_OPENGL"]
+pr2_mechanism_diagnostics:
+  add_build: ["pkg-config"]
