@@ -90,11 +90,12 @@ packages_select_by_deps:
   - nerian-stereo
   - opencv-apps
   - posedetection-msgs
+  - librealsense2
   - realsense2-camera
   - resized-image-transport
   - robot-calibration
   - rqt-image-view
-  - rtabmap
+  # - rtabmap
   - stag-ros
   - stereo-image-proc
   - swri-geometry-util
