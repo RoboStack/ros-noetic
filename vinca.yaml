@@ -1,0 +1,106 @@
+ros_distro: noetic
+mutex_package: ros-distro-mutex 0.1 noetic
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+build_number: 4
+
+# Ignore all dependencies of selected packages
+skip_all_deps: false
+
+# If full rebuild, the build number of the existing package has
+# to match the selected build number for skipping
+full_rebuild: false
+
+packages_skip_by_deps:
+  # - rviz
+  # - diagnostic_updater
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+
+skip_existing:
+  - https://conda.anaconda.org/robostack/
+
+packages_select_by_deps:
+  # # TODO
+  - fcl
+  - ros_numpy
+  - eigenpy
+  - catkin
+  - franka_msgs
+  # # DONE
+  # - pybind11_catkin  # needs to be unvendored
+  # - libfranka
+  # - rostime
+  # - kdl_parser_py
+  # - plotjuggler_ros
+  # - cnpy
+  # - imu_tools
+  # - moveit_visual_tools
+  # - rviz_visual_tools
+  # - rviz_imu_plugin
+  # - plotjuggler
+  # - slam_toolbox
+  # - webots-ros
+  # - ros_numpy
+  # - velodyne_simulator
+  # - pointgrey_camera_description
+  # - lms1xx
+  # - moveit
+  # - mavros
+  # - catkin
+  # - grid_map
+  # - rviz
+  # - class_loader
+  # - imu_complementary_filter
+  # - imu_filter_madgwick
+  # - map_msgs
+  # - diagnostic_analysis
+  # - diagnostic_common_diagnostics
+  # - image_publisher
+  # - image_proc
+  # - stereo_image_proc
+  # - image_common
+  # - image_transport
+  # - image_transport_plugins
+  # - laser_pipeline
+  # - vision_opencv
+  # - diagnostics
+  # - geometry
+  # - joy
+  # - rospy-message-converter
+  # - ros_base
+  # - robot
+  # - pcl-ros
+  # - pcl-conversions
+  # - desktop
+  # - desktop_full
+  # - robot_localization
+  # - rosbridge_suite
+  # - teb_local_planner
+  # - ros_control
+  # - ros_controllers
+  # - turtlebot3
+  # - turtlebot3_fake
+  # - perception
+  # - slam_karto
+  # - teleop_twist_joy
+  # - twist_mux
+  # - interactive_marker_twist_server
+  # - gmapping
+  # - nmea_msgs
+  # - rosserial
+  # - nmea_navsat_driver
+  # - hector_gazebo_plugins
+  # - rosserial_server
+  # - robot_upstart
+  # - nmea_comms
+  # - urg_node
+  # - velodyne_pointcloud
+
+patch_dir: patch
