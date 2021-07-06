@@ -3,7 +3,7 @@ package:
   version: 0.1.0
 
 build:
-  number: 2
+  number: 3
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
@@ -33,7 +33,7 @@ requirements:
     - boost-cpp 1.74
     - log4cxx 0.11
     - pcl 1.11
-    - libopencv 4.5.2
+    - libopencv 4.5
     - poco 1.10
     - gazebo 11
     - ogre 1.10.12
