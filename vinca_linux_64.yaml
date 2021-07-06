@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 10
+build_number: 11
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -39,13 +39,81 @@ packages_select_by_deps:
   ##
   #  TODO Linux 
   ##
-  - apriltag_ros
+  - camera-calibration
+  - checkerboard-detector
+  - cob-image-flip
+  - cob-object-detection-visualizer
+  - cob-vision-utils
+  - compressed-depth-image-transport
+  - compressed-image-transport
+  - costmap-converter
+  - criutils
+  - cv-camera
+  - depth-image-proc
+  - depthimage-to-laserscan
+  - dnn-detect
+  - drone-wrapper
+  - fetch-depth-layer
+  - find-object-2d
+  - gazebo-plugins
+  - generic-throttle
+  - grid-map-cv
+  - grid-map-demos
+  - grid-map-ros
+  - hector-compressed-map-transport
+  - hfl-driver
+  - ifm3d
+  - ifm3d-core
+  - image-cb-detector
+  - image-proc
+  - image-publisher
+  - image-rotate
+  - imagesift
+  - image-view
+  - image-view2
+  - ipa-3d-fov-visualization
+  # - jsk-pcl-ros
+  # - jsk-pcl-ros-utils
+  # - jsk-perception
+  - jsk-rqt-plugins
+  - jsk-rviz-plugins
+  - jsk-recognition-utils
+  - jsk-tools
+  - laser-cb-detector
+  - libcmt
+  - mapviz
+  - moveit-ros-perception
+  - multi-object-tracking-lidar
+  - multires-image
+  - multisense-lib
+  - multirobot-map-merge
+  - nerian-stereo
+  - opencv-apps
+  - posedetection-msgs
+  - realsense2-camera
+  - resized-image-transport
+  - robot-calibration
+  - rqt-image-view
+  - rtabmap
+  - stag-ros
+  - stereo-image-proc
+  - swri-geometry-util
+  - swri-opencv-util
+  - swri-transform-util
+  - theora-image-transport
+  - turtlebot3-autorace-camera
+  - turtlebot3-autorace-detect
+  - video-stream-opencv
+  - vision-opencv
+  - zbar-ros
+  - avt-vimba-camera
+  # - apriltag_ros
   # - cv_bridge
   # - cv_camera
   # - grid-map-filters
   # - image-geometry
   # - mrpt2
-  - cob-map-accessibility-analysis
+  # - cob-map-accessibility-analysis
   # - abb-egm-msgs
   # - abb-rapid-msgs
   # - abb-rapid-sm-addin-msgs
