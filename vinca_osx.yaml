@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 11
+build_number: 12
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -33,159 +33,160 @@ packages_select_by_deps:
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
 
-  - arbotix-controllers
-  - arbotix-sensors
-  - audibot
-  - autoware-msgs
-  - cartesian-trajectory-controller
-  - cartesian-trajectory-interpolation
-  - cob-base-controller-utils
-  - cob-frame-tracker
-  - cob-gazebo-plugins
-  - cob-gazebo-ros-control
-  - cob-lookat-action
-  - cob-mapping-slam
-  - cob-model-identifier
-  - cob-navigation-global
-  - cob-navigation-slam
-  - cob-omni-drive-controller
-  - cob-tricycle-controller
-  - collada-parser
-  - collada-urdf
-  - costmap-queue
-  - dataspeed-pds-rqt
-  - dataspeed-pds-scripts
-  - dual-quaternions-ros
-  - dynamic-graph-tutorial
-  - ecl-config
-  - ecl-console
-  - ecl-converters-lite
-  - ecl-errors
-  - ecl-exceptions
-  - ecl-filesystem
-  - ecl-io
-  - ecl-ipc
-  - ecl-lite
-  - ecl-sigslots-lite
-  - ecl-time
-  - ecl-time-lite
-  - ecl-tools
-  - ethercat-trigger-controllers
-  - fetch-calibration
-  - fetch-drivers
-  - fetch-ikfast-plugin
-  - fetch-open-auto-dock
-  - fkie-master-sync
-  - flexbe-mirror
-  - flexbe-onboard
-  - flexbe-states
-  - flexbe-testing
-  - flexbe-widget
-  - gazebo-ros-control-select-joints
-  - geographic-info
-  - gpp-plugin
-  - grid-map-loader
-  - grid-map-ros
-  - grid-map-rviz-plugin
-  - grid-map-visualization
-  - handeye
-  - hector-geotiff-plugins
-  - imu-monitor
-  - industrial-trajectory-filters
-  - industrial-utils
-  - ixblue-ins
-  - joint-trajectory-action-tools
-  - joint-trajectory-generator
-  - laser-cb-detector
-  - leo
-  - magical-ros2-conversion-tool
-  - mir-gazebo
-  - monocam-settler
-  - move-base-flex
-  - moveit-resources-prbt-ikfast-manipulator-plugin
-  - nav-2d-utils
-  - open-manipulator-gazebo
-  - open-manipulator-p-gazebo
-  - open-manipulator-p-simulations
-  - open-manipulator-simulations
-  - osm-cartography
-  - p2os-driver
-  - p2os-urdf
-  - pass-through-controllers
-  - pincher-arm-bringup
-  - pincher-arm-ikfast-plugin
-  - pincher-arm-moveit-demos
-  - pr2-arm-kinematics
-  - pr2-arm-move-ik
-  - pr2-calibration-controllers
-  - pr2-common
-  - pr2-controller-interface
-  - pr2-controller-manager
-  - pr2-gripper-action
-  - pr2-head-action
-  - pr2-kinematics
-  - pr2-mannequin-mode
-  - pr2-mechanism
-  - pr2-mechanism-controllers
-  - pr2-mechanism-diagnostics
-  - pr2-mechanism-model
-  - pr2-tuckarm
-  - rc-reason-clients
-  - robot-calibration
-  - robot-controllers
-  - robot-mechanism-controllers
-  - ros-control-boilerplate
-  - ros-emacs-utils
-  - ros-realtime
-  - roslisp-repl
-  - rosrt
-  - route-network
-  - sbpl-recovery
-  - scaled-joint-trajectory-controller
-  - sot-core
-  - sot-tools
-  - swri-opencv-util
-  - swri-profiler
-  - swri-profiler-tools
-  - swri-roscpp
-  - teleop-tools
-  - tesseract-collision
-  - tesseract-common
-  - tesseract-geometry
-  - tesseract-scene-graph
-  - tesseract-srdf
-  - tesseract-support
-  - test-osm
-  - toposens-description
-  - trac-ik
-  - trac-ik-examples
-  - trac-ik-kinematics-plugin
-  - trac-ik-lib
-  - trac-ik-python
-  - track-odometry
-  - trajectory-tracker
-  - tsid
-  - turtlebot3-autorace-driving
-  - turtlebot3-simulations
-  - ublox
-  - ublox-gps
-  - ublox-msgs
-  - unique-identifier
-  - urdf-geometry-parser
-  - usb-cam-controllers
-  - variant
-  - variant-topic-tools
-  - virtual-force-publisher
-  - volta-base
-  - volta-control
-  - volta-description
-  - volta-localization
-  - volta-msgs
-  - volta-navigation
-  - volta-rules
-  - wifi-ddwrt
-  - wireless-watcher
-  - wu-ros-tools
+  - rviz
+  # - arbotix-controllers
+  # - arbotix-sensors
+  # - audibot
+  # - autoware-msgs
+  # - cartesian-trajectory-controller
+  # - cartesian-trajectory-interpolation
+  # - cob-base-controller-utils
+  # - cob-frame-tracker
+  # - cob-gazebo-plugins
+  # - cob-gazebo-ros-control
+  # - cob-lookat-action
+  # - cob-mapping-slam
+  # - cob-model-identifier
+  # - cob-navigation-global
+  # - cob-navigation-slam
+  # - cob-omni-drive-controller
+  # - cob-tricycle-controller
+  # - collada-parser
+  # - collada-urdf
+  # - costmap-queue
+  # - dataspeed-pds-rqt
+  # - dataspeed-pds-scripts
+  # - dual-quaternions-ros
+  # - dynamic-graph-tutorial
+  # - ecl-config
+  # - ecl-console
+  # - ecl-converters-lite
+  # - ecl-errors
+  # - ecl-exceptions
+  # - ecl-filesystem
+  # - ecl-io
+  # - ecl-ipc
+  # - ecl-lite
+  # - ecl-sigslots-lite
+  # - ecl-time
+  # - ecl-time-lite
+  # - ecl-tools
+  # - ethercat-trigger-controllers
+  # - fetch-calibration
+  # - fetch-drivers
+  # - fetch-ikfast-plugin
+  # - fetch-open-auto-dock
+  # - fkie-master-sync
+  # - flexbe-mirror
+  # - flexbe-onboard
+  # - flexbe-states
+  # - flexbe-testing
+  # - flexbe-widget
+  # - gazebo-ros-control-select-joints
+  # - geographic-info
+  # - gpp-plugin
+  # - grid-map-loader
+  # - grid-map-ros
+  # - grid-map-rviz-plugin
+  # - grid-map-visualization
+  # - handeye
+  # - hector-geotiff-plugins
+  # - imu-monitor
+  # - industrial-trajectory-filters
+  # - industrial-utils
+  # - ixblue-ins
+  # - joint-trajectory-action-tools
+  # - joint-trajectory-generator
+  # - laser-cb-detector
+  # - leo
+  # - magical-ros2-conversion-tool
+  # - mir-gazebo
+  # - monocam-settler
+  # - move-base-flex
+  # - moveit-resources-prbt-ikfast-manipulator-plugin
+  # - nav-2d-utils
+  # - open-manipulator-gazebo
+  # - open-manipulator-p-gazebo
+  # - open-manipulator-p-simulations
+  # - open-manipulator-simulations
+  # - osm-cartography
+  # - p2os-driver
+  # - p2os-urdf
+  # - pass-through-controllers
+  # - pincher-arm-bringup
+  # - pincher-arm-ikfast-plugin
+  # - pincher-arm-moveit-demos
+  # - pr2-arm-kinematics
+  # - pr2-arm-move-ik
+  # - pr2-calibration-controllers
+  # - pr2-common
+  # - pr2-controller-interface
+  # - pr2-controller-manager
+  # - pr2-gripper-action
+  # - pr2-head-action
+  # - pr2-kinematics
+  # - pr2-mannequin-mode
+  # - pr2-mechanism
+  # - pr2-mechanism-controllers
+  # - pr2-mechanism-diagnostics
+  # - pr2-mechanism-model
+  # - pr2-tuckarm
+  # - rc-reason-clients
+  # - robot-calibration
+  # - robot-controllers
+  # - robot-mechanism-controllers
+  # - ros-control-boilerplate
+  # - ros-emacs-utils
+  # - ros-realtime
+  # - roslisp-repl
+  # - rosrt
+  # - route-network
+  # - sbpl-recovery
+  # - scaled-joint-trajectory-controller
+  # - sot-core
+  # - sot-tools
+  # - swri-opencv-util
+  # - swri-profiler
+  # - swri-profiler-tools
+  # - swri-roscpp
+  # - teleop-tools
+  # - tesseract-collision
+  # - tesseract-common
+  # - tesseract-geometry
+  # - tesseract-scene-graph
+  # - tesseract-srdf
+  # - tesseract-support
+  # - test-osm
+  # - toposens-description
+  # - trac-ik
+  # - trac-ik-examples
+  # - trac-ik-kinematics-plugin
+  # - trac-ik-lib
+  # - trac-ik-python
+  # - track-odometry
+  # - trajectory-tracker
+  # - tsid
+  # - turtlebot3-autorace-driving
+  # - turtlebot3-simulations
+  # - ublox
+  # - ublox-gps
+  # - ublox-msgs
+  # - unique-identifier
+  # - urdf-geometry-parser
+  # - usb-cam-controllers
+  # - variant
+  # - variant-topic-tools
+  # - virtual-force-publisher
+  # - volta-base
+  # - volta-control
+  # - volta-description
+  # - volta-localization
+  # - volta-msgs
+  # - volta-navigation
+  # - volta-rules
+  # - wifi-ddwrt
+  # - wireless-watcher
+  # - wu-ros-tools
   # - abb-rapid-sm-addin-msgs
   # - arbotix-python
   # - audibot-gazebo
