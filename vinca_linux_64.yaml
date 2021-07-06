@@ -59,7 +59,7 @@ packages_select_by_deps:
   - generic-throttle
   - grid-map-cv
   - grid-map-filters
-  - grid-map-demos
+  # - grid-map-demos
   - grid-map-ros
   - hector-compressed-map-transport
   - hfl-driver
@@ -73,11 +73,11 @@ packages_select_by_deps:
   - image-view
   - image-view2
   - ipa-3d-fov-visualization
-  # - jsk-pcl-ros
-  # - jsk-pcl-ros-utils
-  # - jsk-perception
+  - jsk-pcl-ros
+  - jsk-pcl-ros-utils
+  - jsk-perception
   - jsk-rqt-plugins
-  # - jsk-rviz-plugins
+  - jsk-rviz-plugins
   - jsk-recognition-utils
   - jsk-tools
   - laser-cb-detector
