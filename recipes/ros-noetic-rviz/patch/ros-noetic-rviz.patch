@@ -1,0 +1,91 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 23719c1b..f3f15c07 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -25,12 +25,7 @@ find_package(Boost REQUIRED
+ 
+ find_package(urdfdom_headers REQUIRED)
+ 
+-set(CMAKE_POLICY_DEFAULT_CMP0012 NEW)  # required due to a bug in assimp 5.0
+-find_package(ASSIMP REQUIRED)
+-if(NOT DEFINED ASSIMP_LIBRARIES AND TARGET assimp::assimp)
+-  # ASSIMP >= 5.0 no longer defines ASSIMP_LIBRARIES
+-  set(ASSIMP_LIBRARIES assimp::assimp)
+-endif()
++find_package(assimp REQUIRED)
+ 
+ find_package(OGRE QUIET COMPONENTS Overlay)
+ if(OGRE_FOUND)
+@@ -102,10 +97,10 @@ if(APPLE)
+ endif()
+ 
+ # Prefer newer vender-specific OpenGL library
+-if (POLICY CMP0072)
+-  cmake_policy(SET CMP0072 NEW)
+-endif()
+-find_package(OpenGL REQUIRED)
++# if (POLICY CMP0072)
++#   cmake_policy(SET CMP0072 NEW)
++# endif()
++# find_package(OpenGL REQUIRED)
+ 
+ set(CMAKE_AUTOMOC ON)
+ 
+@@ -219,7 +214,7 @@ catkin_package(
+ 
+ #catkin_lint: ignore_once external_directory
+ include_directories(src ${EXPORT_HEADER_DIR})
+-include_directories(SYSTEM
++include_directories(
+   ${EIGEN3_INCLUDE_DIRS}
+   ${OGRE_INCLUDE_DIRS}
+   ${OPENGL_INCLUDE_DIR}
+diff --git a/ogre_media/fonts/ogre1.10.fontdef b/ogre_media/fonts/ogre1.10.fontdef
+index 4b3c5b82..e714db0f 100644
+--- a/ogre_media/fonts/ogre1.10.fontdef
++++ b/ogre_media/fonts/ogre1.10.fontdef
+@@ -1,3 +1,12 @@
++Liberation Sans
++{
++  type truetype
++  source liberation-sans/LiberationSans-Regular.ttf
++  size 18
++  resolution 96
++}
++
++# Ogre >= 1.10 has changed the format
+ font "Liberation Sans"
+ {
+   type truetype
+diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
+index 8cd53337..a107d537 100644
+--- a/src/rviz/ogre_helpers/render_system.cpp
++++ b/src/rviz/ogre_helpers/render_system.cpp
+@@ -155,9 +155,10 @@ void RenderSystem::setupDummyWindowId()
+ 
+ void RenderSystem::loadOgrePlugins()
+ {
+-  std::string plugin_prefix = get_ogre_plugin_path() + "/";
+-#ifdef Q_OS_MAC
+-  plugin_prefix += "lib";
++#ifdef _WIN32
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "\\Library\\bin\\";
++#else
++ std::string plugin_prefix = std::string(std::getenv("CONDA_PREFIX")) + "/lib/OGRE/";
+ #endif
+   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
+   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+@@ -183,9 +184,13 @@ void RenderSystem::detectGlVersion()
+     int minor = caps->getDriverVersion().minor;
+     gl_version_ = major * 100 + minor * 10;
+ 
++#ifdef __linux__
+     std::string gl_version_string = (const char*)glGetString(GL_VERSION);
+     // The "Mesa 2" string is intended to match "Mesa 20.", "Mesa 21." and so on
+     mesa_workaround = gl_version_string.find("Mesa 2") != std::string::npos && gl_version_ >= 320;
++#else
++    mesa_workaround = false;
++#endif
+   }
+ 
+   switch (gl_version_)
