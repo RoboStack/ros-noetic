@@ -58,6 +58,7 @@ packages_select_by_deps:
   - gazebo-plugins
   - generic-throttle
   - grid-map-cv
+  - grid-map-filters
   - grid-map-demos
   - grid-map-ros
   - hector-compressed-map-transport
