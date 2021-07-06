@@ -77,7 +77,7 @@ packages_select_by_deps:
   # - jsk-pcl-ros-utils
   # - jsk-perception
   - jsk-rqt-plugins
-  - jsk-rviz-plugins
+  # - jsk-rviz-plugins
   - jsk-recognition-utils
   - jsk-tools
   - laser-cb-detector
@@ -85,7 +85,7 @@ packages_select_by_deps:
   - mapviz
   - moveit-ros-perception
   - multi-object-tracking-lidar
-  - multires-image
+  # - multires-image
   - multisense-lib
   - multirobot-map-merge
   - nerian-stereo
