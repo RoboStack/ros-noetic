@@ -39,6 +39,51 @@ packages_select_by_deps:
   ##
   #  TODO Linux 
   ##
+  - calibration
+  - calibration-setup-helper
+  - cob-base-drive-chain
+  - cob-navigation
+  - cob-navigation-slam
+  - cob-perception-common
+  - dlux-global-planner
+  - dlux-plugins
+  - flexbe-behavior-engine
+  - global-planner-tests
+  - hector-slam
+  - image-geometry
+  - industrial-core
+  - lanelet2
+  - lanelet2-examples
+  - locomove-base
+  - mir-dwb-critics
+  - mir-navigation
+  - mir-robot
+  - moveit-calibration-gui
+  - moveit-calibration-plugins
+  - moveit-resources-prbt-moveit-config
+  - moveit-resources-prbt-pg70-support
+  - moveit-resources-prbt-support
+  - nav-core-adapter
+  - nav-grid-pub-sub
+  - neonavigation
+  - neonavigation-launch
+  - osqp-vendor
+  - pass-through-controllers
+  - pincher-arm
+  - pr2-common-actions
+  - pr2-mannequin-mode
+  - pr2-mechanism
+  - ros-canopen
+  - ros-controllers-cartesian
+  - ros-realtime
+  - safety-limiter
+  - schunk-modular-robotics
+  - schunk-powercube-chain
+  - schunk-simulated-tactile-sensors
+  - test-osm
+  - ublox
+  - ublox-gps
+
   - camera-calibration
   - checkerboard-detector
   - cob-image-flip
@@ -73,9 +118,9 @@ packages_select_by_deps:
   - image-view
   - image-view2
   - ipa-3d-fov-visualization
-  - jsk-pcl-ros
-  - jsk-pcl-ros-utils
-  - jsk-perception
+  # - jsk-pcl-ros
+  # - jsk-pcl-ros-utils
+  # - jsk-perception
   - jsk-rqt-plugins
   - jsk-rviz-plugins
   - jsk-recognition-utils
