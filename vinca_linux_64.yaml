@@ -39,9 +39,11 @@ packages_select_by_deps:
   ##
   #  TODO Linux 
   ##
+  # - rtabmap
+  # - multires-image
+  
   - calibration
   - calibration-setup-helper
-  - cob-base-drive-chain
   - cob-navigation
   - cob-navigation-slam
   - cob-perception-common
@@ -49,7 +51,6 @@ packages_select_by_deps:
   - dlux-plugins
   - flexbe-behavior-engine
   - global-planner-tests
-  - hector-slam
   - image-geometry
   - industrial-core
   - lanelet2
@@ -77,9 +78,6 @@ packages_select_by_deps:
   - ros-controllers-cartesian
   - ros-realtime
   - safety-limiter
-  - schunk-modular-robotics
-  - schunk-powercube-chain
-  - schunk-simulated-tactile-sensors
   - test-osm
   - ublox
   - ublox-gps
@@ -104,7 +102,7 @@ packages_select_by_deps:
   - generic-throttle
   - grid-map-cv
   - grid-map-filters
-  # - grid-map-demos
+  - grid-map-demos
   - grid-map-ros
   - hector-compressed-map-transport
   - hfl-driver
@@ -119,8 +117,8 @@ packages_select_by_deps:
   - image-view2
   - ipa-3d-fov-visualization
   # - jsk-pcl-ros
-  # - jsk-pcl-ros-utils
-  # - jsk-perception
+  - jsk-pcl-ros-utils
+  - jsk-perception
   - jsk-rqt-plugins
   - jsk-rviz-plugins
   - jsk-recognition-utils
@@ -130,7 +128,6 @@ packages_select_by_deps:
   - mapviz
   - moveit-ros-perception
   - multi-object-tracking-lidar
-  # - multires-image
   - multisense-lib
   - multirobot-map-merge
   - nerian-stereo
@@ -141,7 +138,6 @@ packages_select_by_deps:
   - resized-image-transport
   - robot-calibration
   - rqt-image-view
-  # - rtabmap
   - stag-ros
   - stereo-image-proc
   - swri-geometry-util
