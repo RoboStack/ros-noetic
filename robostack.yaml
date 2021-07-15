@@ -794,3 +794,5 @@ python3-usb:
   robostack: [pyusb]
 portaudio19-dev:
   robostack: [portaudio]
+roboticstoolbox-python:
+  robostack: [roboticstoolbox-python]
