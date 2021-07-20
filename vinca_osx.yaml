@@ -36,15 +36,15 @@ packages_select_by_deps:
   ##
   # DONE OSX
   ##
-  - ros-ign
-  - ros-ign-bridge 
-  - ros-ign-gazebo 
-  - ros-ign-gazebo-demos 
-  - ros-ign-image 
-  - rosserial
-  - rosserial-arduino
-  - rosserial-python
-  - rosserial-msgs
+  # - ros-ign
+  # - ros-ign-bridge 
+  # - ros-ign-gazebo 
+  # - ros-ign-gazebo-demos 
+  # - ros-ign-image 
+  # - rosserial
+  # - rosserial-arduino
+  # - rosserial-python
+  # - rosserial-msgs
   # - rviz
   # - ur_client_library
   # - realsense2_camera
