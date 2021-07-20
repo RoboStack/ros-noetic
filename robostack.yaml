@@ -731,7 +731,10 @@ sshpass:
 flex:
   robostack: [flex]
 ignition-gazebo3:
-  robostack: [libignition-gazebo4]
+  robostack: 
+    win64: [libignition-gazebo5]
+    linux: [libignition-gazebo4]
+    osx: [libignition-gazebo5]
 libgdal-dev:
   robostack: [libgdal]
 libxxf86vm:
