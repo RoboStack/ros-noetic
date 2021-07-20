@@ -1,0 +1,40 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a8dc5573..2f9d44f2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -45,6 +45,8 @@ find_package(catkin REQUIRED
+     ${CATKIN_PACKAGE_DEPENDENCIES}
+ )
+ 
++find_package(yaml-cpp REQUIRED)
++
+ ###################################
+ ## catkin specific configuration ##
+ ###################################
+@@ -59,11 +61,11 @@ catkin_package(
+     include
+   LIBRARIES
+     ${PROJECT_NAME}
+-    yaml-cpp
+   CATKIN_DEPENDS
+     ${CATKIN_PACKAGE_DEPENDENCIES}
+   DEPENDS
+     PCL
++    YAML_CPP
+ )
+ 
+ ###########
+@@ -91,11 +93,12 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+   ${PCL_KDTREE_INCLUDE_DIRS}
+   ${PCL_SEGMENTATION_INCLUDE_DIRS}
+   ${PCL_SURFACE_INCLUDE_DIRS}
++  ${YAML_INCLUDE_DIRS}
+ )
+ target_link_libraries(${PROJECT_NAME}
+   ${catkin_LIBRARIES}
+   ${OpenMP_CXX_LIBRARIES}
+-  yaml-cpp
++  ${YAML_CPP_LIBRARIES}
+ )
+ 
+ 

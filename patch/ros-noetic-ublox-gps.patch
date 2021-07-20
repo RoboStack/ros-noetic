@@ -1,0 +1,38 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 264f2b1..8b95f86 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,8 +16,7 @@ catkin_package(
+ 
+ # include boost
+ find_package(Boost REQUIRED COMPONENTS system regex thread)
+-link_directories(${Boost_LIBRARY_DIR})
+-include_directories(${Boost_INCLUDE_DIR})
++include_directories(${Boost_INCLUDE_DIRS})
+ 
+ # include other ublox packages
+ include_directories(${PROJECT_SOURCE_DIR}/include)
+@@ -32,21 +31,16 @@ add_library(ublox_gps src/gps.cpp)
+ # fix msg compile order bug
+ add_dependencies(ublox_gps ${catkin_EXPORTED_TARGETS})
+ 
+-target_link_libraries(ublox_gps
+-  boost_system
+-  boost_regex
+-  boost_thread
+-)
+-
+ target_link_libraries(ublox_gps
+   ${catkin_LIBRARIES}
++  ${Boost_LIBRARIES}
+ )
+ 
+ # build node
+ add_executable(ublox_gps_node src/node.cpp src/mkgmtime.c src/raw_data_pa.cpp)
+ set_target_properties(ublox_gps_node PROPERTIES OUTPUT_NAME ublox_gps)
+ 
+-target_link_libraries(ublox_gps_node boost_system boost_regex boost_thread)
++target_link_libraries(ublox_gps_node ${Boost_LIBRARIES})
+ target_link_libraries(ublox_gps_node ${catkin_LIBRARIES})
+ target_link_libraries(ublox_gps_node ublox_gps)
+ 

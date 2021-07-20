@@ -1,0 +1,50 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index a4c4c9d3..4291d54b 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -5,7 +5,7 @@
+ add_library(
+   ${PROJECT_NAME}
+   lib/mapping.cpp
+-  logging.cpp
++  # logging.cpp
+ )
+ 
+ add_dependencies(
+diff --git a/src/ts_pointcloud_ros.cpp b/src/ts_pointcloud_ros.cpp
+index 0536ad87..60ac761d 100644
+--- a/src/ts_pointcloud_ros.cpp
++++ b/src/ts_pointcloud_ros.cpp
+@@ -31,10 +31,10 @@ TSPointCloudROS::TSPointCloudROS(ros::NodeHandle nh, ros::NodeHandle private_nh)
+ 
+   // Processing entities
+   pointTransform_ = std::make_unique<Mapping>();
+-  if (pcd_save_interval > 0)
+-  {
+-    log_thread_ = new boost::thread(&Logging::logPointcloud);
+-  }
++  //if (pcd_save_interval > 0)
++  //{
++  //  log_thread_ = new boost::thread(&Logging::logPointcloud);
++  //}
+ }
+ 
+ TSPointCloudROS::~TSPointCloudROS()
+@@ -84,7 +84,9 @@ void TSPointCloudROS::cloudCallback(const toposens_msgs::TsScan::ConstPtr &msg)
+ 
+   /// Publish point cloud and normals, if activated
+   transformed_cloud->width = transformed_cloud->points.size();
+-  cloud_pub_.publish(transformed_cloud);
++  sensor_msgs::PointCloud2 out_cloud;
++  pcl::toROSMsg(*transformed_cloud, out_cloud);
++  cloud_pub_.publish(out_cloud);
+ 
+   if (lifetime_normals_vis_ != 0.0)
+   {
+@@ -166,4 +168,4 @@ void TSPointCloudROS::publishNormals(XYZINCloud::ConstPtr transformed_cloud)
+   }
+ }
+ 
+-}  // namespace toposens_pointcloud
+\ No newline at end of file
++}  // namespace toposens_pointcloud

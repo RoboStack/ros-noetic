@@ -89,16 +89,3 @@ index 8cd53337..a107d537 100644
    }
  
    switch (gl_version_)
-diff --git a/src/rviz/ogre_helpers/render_widget.cpp b/src/rviz/ogre_helpers/render_widget.cpp
-index c2b2e36c..88f07d29 100644
---- a/src/rviz/ogre_helpers/render_widget.cpp
-+++ b/src/rviz/ogre_helpers/render_widget.cpp
-@@ -98,7 +98,7 @@ void RenderWidget::resizeEvent(QResizeEvent* e)
-      * So here we just always force it to be even. */
-     const int w = width() * pixel_ratio_;
-     render_window_->resize(w + (w % 2), height() * pixel_ratio_);
--#if OGRE_VERSION < OGRE_VERSION_CHECK(1, 10, 0)
-+#if OGRE_VERSION < OGRE_VERSION_CHECK(1, 12, 0)
-     render_window_->windowMovedOrResized();
- #endif
-   }

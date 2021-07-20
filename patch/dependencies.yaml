@@ -27,7 +27,7 @@ swri_image_util:
 posedetection_msgs:
   add_host: ["REQUIRE_OPENGL"]
 sainsmart_relay_usb:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 libcmt:
   add_host: ["REQUIRE_OPENGL"]
 checkerboard_detector:
@@ -50,9 +50,9 @@ jsk_recognition_utils:
 robot_self_filter:
   add_host: ["REQUIRE_OPENGL"]
 eigenpy:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 slam_toolbox:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 ur_client_library:
   add_host: ["ros-noetic-catkin"]
 mqtt_bridge:
@@ -62,12 +62,75 @@ mrpt2:
   add_run:   ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
 theora_image_transport:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 image_view:
-  add_build: ["pkg-config"]
+  add_host: ["pkg-config"]
 rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
   add_host: ["REQUIRE_OPENGL", "cgal-cpp"]
+mesh_msgs_conversions:
+  add_host: ["pkg-config"]
 map_organizer:
   add_host: ["REQUIRE_OPENGL"]
+libuvc_camera:
+  add_host: ["pkgconfig"]
+toposens_markers:
+  add_host: [REQUIRE_OPENGL, libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]
+audio_capture:
+  add_host: ["pkg-config", "libglib", "glib"]
+audio_play:
+  add_host: ["pkg-config", "libglib", "glib"]
+cob_object_detection_visualizer:
+  add_host: ["REQUIRE_OPENGL"]
+grid_map_pcl:
+  add_host: ["REQUIRE_OPENGL"]
+hdf5_map_io:
+  add_host: ["pkg-config"]
+laser_scan_matcher:
+  add_host: ["REQUIRE_OPENGL", "pkg-config"]
+moveit_calibration_plugins:
+  add_host: ["libopencv"]
+multisense_ros:
+  add_host: ["libjpeg-turbo"]
+obj_to_pointcloud:
+  add_host: ["REQUIRE_OPENGL"]
+rc_roi_manager_gui:
+  add_host: ["REQUIRE_OPENGL"]
+simple_grasping:
+  add_host: ["REQUIRE_OPENGL"]
+pr2_mechanism_diagnostics:
+  add_host: ["pkg-config"]
+joint_trajectory_generator:
+  add_host: ["pkg-config"]
+pr2_controller_manager:
+  add_host: ["pkg-config"]
+cob_mimic:
+  add_host: ["pkg-config"]
+cob_obstacle_distance:
+  add_host: ["pkg-config"]
+cob_sound:
+  add_host: ["pkg-config"]
+dataspeed_pds_lcm:
+  add_host: ["pkg-config"]
+exotica_core:
+  add_host: ["pkg-config"]
+face_detector:
+  add_host: ["yaml-cpp"]
+fadecandy_driver:
+  add_host: ["pkg-config"]
+gpsd_client:
+  add_host: ["pkg-config"]
+people_tracking_filter:
+  add_host: ["pkg-config"]
+points_preprocessor:
+  add_host: ["pkg-config"]
+robot_pose_ekf:
+  add_host: ["pkg-config"]
+rospilot:
+  add_host: ["pkg-config"]
+nav_grid_server:
+  add_host: ["pkg-config"]
+safety_limiter:
+  add_host: ["REQUIRE_OPENGL"]
+

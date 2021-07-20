@@ -76,6 +76,8 @@ python-rosdep-modules:
   robostack: [rosdep]
 python3-rosdep-modules:
   robostack: [rosdep]
+libboost-system:
+  robostack: [boost-cpp]
 libboost-system-dev:
   robostack: [boost-cpp]
 libboost-date-time-dev:
@@ -167,7 +169,7 @@ pydocstyle:
 libxml2-utils:
   robostack: [libxml2]
 libcunit-dev:
-  robostack: []
+  robostack: [cunit]
 uncrustify:
   robostack: [uncrustify]
 python-lxml:
@@ -269,11 +271,11 @@ libxrandr:
     linux: [xorg-libxrandr]
     osx: [xorg-libxrandr]
 libopencv-dev:  # opencv needs to be pinned, otherwise different packages might pull in different versions
-  robostack: [py-opencv 4.5, libopencv 4.5, REQUIRE_OPENGL]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2, REQUIRE_OPENGL]
 python-opencv:
-  robostack: [py-opencv 4.5, libopencv 4.5]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2]
 python3-opencv:
-  robostack: [py-opencv 4.5, libopencv 4.5]
+  robostack: [py-opencv 4.5.2, libopencv 4.5.2]
 python-pydot:
   robostack: [pydot]
 python3-pydot:
@@ -301,6 +303,8 @@ libboost-program-options-dev:
     win64: [boost]
     linux: [boost-cpp]
     osx: [boost-cpp]
+libboost-filesystem:
+  robostack: [boost-cpp]
 libboost-filesystem-dev:
   robostack: [boost-cpp]
 libboost-regex-dev:
@@ -308,6 +312,10 @@ libboost-regex-dev:
 libboost-chrono-dev:
   robostack: [boost-cpp]
 libboost-dev:
+  robostack: [boost-cpp]
+libboost-serialization:
+  robostack: [boost-cpp]
+libboost-serialization-dev:
   robostack: [boost-cpp]
 python-cairo:
   robostack: [pycairo]
@@ -328,11 +336,11 @@ libogre-dev:
 libogre:
   robostack: [ogre 1.10]
 liburdfdom-dev:
-  robostack: [urdfdom 1.0]
+  robostack: [urdfdom]
 liburdfdom-tools:
-  robostack: [urdfdom 1.0]
+  robostack: [urdfdom]
 liburdfdom-headers-dev:
-  robostack: [urdfdom_headers 1.0]
+  robostack: [urdfdom_headers]
 yaml-cpp:
   robostack: [yaml-cpp]
 python-wxtools:
@@ -424,6 +432,11 @@ python-bson:
 python-twisted-core:
   robostack: [twisted]
 bullet:
+  robostack:
+    win64: [bullet 2.88]
+    linux: [bullet]
+    osx: [bullet]
+bullet-extras:
   robostack:
     win64: [bullet 2.88]
     linux: [bullet]
@@ -683,7 +696,10 @@ libgeos++-dev:
 python3-argcomplete:
   robostack: [argcomplete]
 libcap-dev:
-  robostack: [libcap]
+  robostack:
+    win64: []
+    linux: [libcap]
+    osx: []
 python3-grpcio:
   robostack: [grpcio]
 python3-pyproj:
@@ -740,3 +756,43 @@ python-inject-pip:
   robostack: [inject]
 libxmlrpc-c++:
   robostack: [xmlrpc-c]
+libuvc-dev:
+  robostack: [libuvc, libusb]
+libxext:
+  robostack:
+    win64: []
+    linux: [xorg-libxext]
+    osx: [xorg-libxext]
+libx11:
+  robostack:
+    win64: []
+    linux: [xorg-libx11, REQUIRE_OPENGL]
+    osx: [xorg-libx11, REQUIRE_OPENGL]
+python3-docopt:
+  robostack: [docopt]
+gstreamer1.0-alsa:
+  robostack: [gstreamer]
+python3-kitchen:
+  robostack: [kitchen]
+python-enum34:
+  robostack: [enum34]
+python3-mechanize:
+  robostack: [mechanize]
+libsndfile1-dev:
+  robostack: [libsndfile]
+libxt-dev:
+  robostack: [xorg-libxt]
+python-pygithub3:
+  robostack: [pygithub]
+sysstat:
+  robostack: [sysstat]
+python3-websocket:
+  robostack: [websocket-client]
+benchmark:
+  robostack: [benchmark]
+python3-usb:
+  robostack: [pyusb]
+portaudio19-dev:
+  robostack: [portaudio]
+roboticstoolbox-python:
+  robostack: [roboticstoolbox-python]

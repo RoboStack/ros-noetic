@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ed7604..9062370 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,9 +13,9 @@ macro(build_osqp)
+   endif()
+ 
+   include(ExternalProject)
+-  externalproject_add(osqp-v0.6.1.dev0
++  externalproject_add(osqp-v0.6.2
+     GIT_REPOSITORY https://github.com/oxfordcontrol/osqp.git
+-    GIT_TAG v0.6.1.dev0
++    GIT_TAG v0.6.2
+     GIT_SHALLOW ON
+     TIMEOUT 60
+     CMAKE_ARGS
+@@ -38,4 +38,4 @@ build_osqp()
+ catkin_package(
+   LIBRARIES osqp
+   DEPENDS osqp
+-  CFG_EXTRAS osqp_vendor-extras.cmake)
++  CFG_EXTRAS ${CMAKE_CURRENT_SOURCE_DIR}/osqp_vendor-extras.cmake)

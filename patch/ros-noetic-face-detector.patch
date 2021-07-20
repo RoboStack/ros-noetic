@@ -1,0 +1,30 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e865b87..94b2d79 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -22,6 +22,8 @@ find_package(catkin REQUIRED COMPONENTS
+         tf
+ )
+ 
++find_package(yaml-cpp REQUIRED)
++
+ find_package(Boost REQUIRED COMPONENTS system thread)
+ find_package(OpenCV)
+ 
+@@ -57,6 +59,7 @@ include_directories(
+   ${Boost_INCLUDE_DIRS}
+   ${OpenCV_INCLUDE_DIRS}
+   ${catkin_INCLUDE_DIRS}
++  ${YAML_INCLUDE_DIRS}
+ )
+ 
+ add_executable(face_detector
+@@ -64,7 +67,7 @@ add_executable(face_detector
+                        src/faces.cpp)
+ add_dependencies(face_detector ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+ target_link_libraries(face_detector
+-  yaml-cpp
++  ${YAML_CPP_LIBRARIES}
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+   ${OpenCV_LIBRARIES})
