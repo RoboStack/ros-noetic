@@ -1,0 +1,55 @@
+package:
+  name: ros-noetic-image-pipeline
+  version: 1.15.3
+source:
+  git_url: https://github.com/ros-gbp/image_pipeline-release.git
+  git_rev: release/noetic/image_pipeline/1.15.3-1
+  folder: ros-noetic-image-pipeline/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 0
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+  host:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-camera-calibration
+    - ros-noetic-catkin
+    - ros-noetic-depth-image-proc
+    - ros-noetic-image-proc
+    - ros-noetic-image-publisher
+    - ros-noetic-image-rotate
+    - ros-noetic-image-view
+    - ros-noetic-stereo-image-proc
+  run:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-camera-calibration
+    - ros-noetic-depth-image-proc
+    - ros-noetic-image-proc
+    - ros-noetic-image-publisher
+    - ros-noetic-image-rotate
+    - ros-noetic-image-view
+    - ros-noetic-stereo-image-proc
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

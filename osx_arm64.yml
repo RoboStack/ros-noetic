@@ -1,0 +1,38 @@
+pool:
+  vmImage: macOS-10.15
+trigger:
+- buildbranch_osx_arm64
+pr: none
+stages:
+- stage: stage_0
+  jobs:
+  - job: ros_noetic_image_pipeline_ros_noetic_image_transport_plugins_ros_noetic_laser_assembler_ros_noetic_laser_filters_ros_noetic_pcl_conversions
+    steps:
+    - script: |-
+        \
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-image-pipeline ros-noetic-image-transport-plugins
+          ros-noetic-laser-assembler ros-noetic-laser-filters ros-noetic-pcl-conversions
+      displayName: Build ros-noetic-image-pipeline ros-noetic-image-transport-plugins
+        ros-noetic-laser-assembler ros-noetic-laser-filters ros-noetic-pcl-conversions
+- stage: stage_1
+  jobs:
+  - job: ros_noetic_laser_pipeline_ros_noetic_pcl_ros_ros_noetic_perception_pcl_ros_noetic_perception
+    steps:
+    - script: |-
+        \
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx_arm64.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-laser-pipeline ros-noetic-pcl-ros ros-noetic-perception-pcl
+          ros-noetic-perception
+      displayName: Build ros-noetic-laser-pipeline ros-noetic-pcl-ros ros-noetic-perception-pcl
+        ros-noetic-perception

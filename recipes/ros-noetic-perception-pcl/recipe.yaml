@@ -1,0 +1,44 @@
+package:
+  name: ros-noetic-perception-pcl
+  version: 1.7.2
+source:
+  git_url: https://github.com/ros-gbp/perception_pcl-release.git
+  git_rev: release/noetic/perception_pcl/1.7.2-1
+  folder: ros-noetic-perception-pcl/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 0
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+  host:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-catkin
+  run:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-pcl-conversions
+    - ros-noetic-pcl-msgs
+    - ros-noetic-pcl-ros
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

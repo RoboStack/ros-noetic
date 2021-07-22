@@ -1,0 +1,59 @@
+package:
+  name: ros-noetic-laser-assembler
+  version: 1.7.8
+source:
+  git_url: https://github.com/ros-gbp/laser_assembler-release.git
+  git_rev: release/noetic/laser_assembler/1.7.8-1
+  folder: ros-noetic-laser-assembler/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 0
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+  host:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-catkin
+    - ros-noetic-filters
+    - ros-noetic-laser-geometry
+    - ros-noetic-message-filters
+    - ros-noetic-message-generation
+    - ros-noetic-message-runtime
+    - ros-noetic-pluginlib
+    - ros-noetic-roscpp
+    - ros-noetic-rostest
+    - ros-noetic-sensor-msgs
+    - ros-noetic-tf
+  run:
+    - python
+    - ros-distro-mutex 0.1 noetic
+    - ros-noetic-filters
+    - ros-noetic-laser-geometry
+    - ros-noetic-message-filters
+    - ros-noetic-message-runtime
+    - ros-noetic-pluginlib
+    - ros-noetic-roscpp
+    - ros-noetic-sensor-msgs
+    - ros-noetic-tf
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
