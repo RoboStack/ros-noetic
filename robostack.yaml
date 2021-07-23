@@ -112,10 +112,7 @@ gtk3:
 ignition-common4:
   robostack: [libignition-common4]
 ignition-gazebo3:
-  robostack: 
-    win64: [libignition-gazebo5]
-    linux: [libignition-gazebo4]
-    osx: [libignition-gazebo5]
+  robostack: [libignition-gazebo5]
 ignition-gazebo5:
   robostack: [libignition-gazebo5]
 ignition-gui5:
@@ -123,13 +120,13 @@ ignition-gui5:
 ignition-math6:
   robostack: [libignition-math6]
 ignition-msgs5:
-  robostack: [libignition-msgs5]
+  robostack: [libignition-msgs7]
 ignition-msgs7:
   robostack: [libignition-msgs7]
 ignition-rendering5:
   robostack: [libignition-rendering5]
 ignition-transport8:
-  robostack: [libignition-transport8]
+  robostack: [libignition-transport10]
 ignition-transport10:
   robostack: [libignition-transport10]
 java:
