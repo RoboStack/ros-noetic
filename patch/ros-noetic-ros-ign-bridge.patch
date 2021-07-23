@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1497055..88ec5ca 100644
+index 1f04586..cb9d947 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -21,7 +21,7 @@ if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
+@@ -30,7 +30,7 @@ if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
  
    message(STATUS "Compiling against Ignition Fortress")
  # Edifice

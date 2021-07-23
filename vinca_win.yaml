@@ -347,6 +347,11 @@ packages_select_by_deps:
   ##
   # DONE Win
   ##
+  - ros-ign
+  - ros-ign-bridge 
+  - ros-ign-gazebo 
+  - ros-ign-gazebo-demos 
+  - ros-ign-image 
   
   # - moveit-msgs
   # - rviz
