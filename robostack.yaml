@@ -33,6 +33,14 @@ ca-certificates:
   robostack: [ca-certificates]
 cmake:
   robostack: [cmake]
+coinor-libcbc-dev:
+  robostack: [coin-or-cbc]
+coinor-libcgl-dev:
+  robostack: [coin-or-cgl]
+coinor-libclp-dev:
+  robostack: [coin-or-clp]
+coinor-libcoinutils-dev:
+  robostack: [coin-or-utils]
 coinor-libipopt-dev:
   robostack: [ipopt]
 collada-dom:
@@ -238,6 +246,8 @@ libgpgme-dev:
     linux: [gpgme]
     osx: [gpgme]
     win64: []
+libgps:
+  robostack: [gpsd]
 libgsl:
   robostack: [gsl]
 libgstreamer-plugins-base1.0-dev:
@@ -801,6 +811,10 @@ sdl-image:
   robostack: [sdl_image]
 sdl2:
   robostack: [sdl2]
+socat:
+  robostack: [socat]
+spacenavd:
+  robostack: [libspnav]
 spdlog:
   robostack: [spdlog]
 sshpass:
