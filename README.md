@@ -22,7 +22,7 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 
 ## Attribution
 If you use RoboStack in your academic work, please refer to the following paper:
-```
+```bibtex
 @article{fischer2021robostack,
   title={RoboStack: Using the Robot Operating System alongside the Conda and Jupyter Data Science Ecosystems},
   author={Fischer, Tobias and Vollprecht, Wolf and Traversaro, Silvio and Yen, Sean and Herrero, Carlos and Milford, Michael},
