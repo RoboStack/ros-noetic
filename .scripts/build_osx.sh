@@ -61,7 +61,7 @@ conda list --show-channel-urls
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
-	if [[ ${recipe} == *"rviz" || ${recipe} == *"moveit-setup-assistant" ]]; then
+	if [[ ${recipe} == *"rviz" || ${recipe} == *"moveit-setup-assistant" || ${recipe} == *"turtlesim" ]]; then
 		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config_old_osx.yaml
 	else
 		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
