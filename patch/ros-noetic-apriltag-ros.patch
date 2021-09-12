@@ -1,0 +1,22 @@
+diff --git a/apriltag_ros/CMakeLists.txt b/apriltag_ros/CMakeLists.txt
+index 7ce203b..fcec96e 100644
+--- a/apriltag_ros/CMakeLists.txt
++++ b/apriltag_ros/CMakeLists.txt
+@@ -37,7 +37,7 @@ ENDIF()
+ set(CMAKE_CXX_STANDARD 11)
+ add_compile_options("-O3" "-funsafe-loop-optimizations" "-fsee" "-funroll-loops" "-fno-math-errno" "-funsafe-math-optimizations" "-ffinite-math-only" "-fno-signed-zeros")
+ 
+-# Note: These options have been turned off to allow for binary releases - 
++# Note: These options have been turned off to allow for binary releases -
+ # in local builds, they can be reactivated to achieve higher performance.
+ # if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64" OR "x86_32")
+ #   message("enabling msse2 for x86_64 or x86_32 architecture")
+@@ -99,7 +99,7 @@ include_directories(include
+ 
+ add_library(${PROJECT_NAME}_common src/common_functions.cpp)
+ add_dependencies(${PROJECT_NAME}_common ${PROJECT_NAME}_generate_messages_cpp)
+-target_link_libraries(${PROJECT_NAME}_common ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} apriltag::apriltag)
++target_link_libraries(${PROJECT_NAME}_common ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} apriltag)
+ 
+ add_library(${PROJECT_NAME}_continuous_detector src/continuous_detector.cpp)
+ target_link_libraries(${PROJECT_NAME}_continuous_detector ${PROJECT_NAME}_common ${catkin_LIBRARIES})
