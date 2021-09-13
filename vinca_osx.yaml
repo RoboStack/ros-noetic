@@ -33,6 +33,8 @@ packages_select_by_deps:
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
 
+  - apriltag_ros
+
   ##
   # DONE OSX
   ##
