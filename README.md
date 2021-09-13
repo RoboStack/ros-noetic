@@ -22,7 +22,7 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 
 ## Attribution
 If you use RoboStack in your academic work, please refer to the following paper:
-```
+```bibtex
 @article{fischer2021robostack,
   title={RoboStack: Using the Robot Operating System alongside the Conda and Jupyter Data Science Ecosystems},
   author={Fischer, Tobias and Vollprecht, Wolf and Traversaro, Silvio and Yen, Sean and Herrero, Carlos and Milford, Michael},
@@ -53,9 +53,14 @@ conda install ros-noetic-desktop
 mamba install ros-noetic-desktop
 
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws - with conda:
-conda install compilers cmake pkg-config make ninja catkin_tools
+conda install compilers cmake pkg-config make ninja
 # or with mamba:
-mamba install compilers cmake pkg-config make ninja catkin_tools
+mamba install compilers cmake pkg-config make ninja
+
+# on linux and osx (but not Windows) you might want to:
+mamba install catkin_tools
+# on Windows, install Visual Studio 2017 or 2019 with C++ support 
+# see https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-160
 
 # on Windows, install the Visual Studio command prompt via Conda:
 conda install vs2019_win-64
@@ -78,6 +83,9 @@ rosdep update
 ## Reporting issues
 Feel free to open issues in this repository's [issue tracker](https://github.com/RoboStack/ros-noetic/issues) (please check whether your problem is already listed there before opening a new issue) or come around on [Gitter](https://gitter.im/RoboStack/Lobby) to have a chat / ask questions. Please note that this repository is _not an official distribution of ROS_ and relies on volunteers. It is further highly experimental - unfortunately things might not work immediately out-of-the-box, although we try our best.
 
+## Jupyter-ROS and JupyterLab-ROS
+To install Jupyter-ROS and JupyterLab-ROS which provide interactive experiences for robotics developers in Jupyter Notebooks, please see the relevant repositories for [Jupyter-ROS](https://github.com/RoboStack/jupyter-ros) and [JupyterLab-ROS](https://github.com/RoboStack/jupyterlab-ros).
+
 ## FAQ
 #### When running `catkin` or `catkin_make` I get errors that "Multiple packages found with the same name", e.g.
 ```
@@ -97,6 +105,10 @@ CMake Error at /Users/me/miniconda3/envs/robostackenv/share/catkin/cmake/catkinC
     std_msgs-config.cmake
 ```
 First, make sure that the package is installed; in the example case it would be `mamba install ros-noetic-std-msgs`. You can use `rosdep` to install dependencies. Second, make sure that your `CMAKE_PREFIX_PATH` points to your `robostackenv`, in the example case you could achieve this by `export CMAKE_PREFIX_PATH=/Users/me/miniconda3/envs/robostackenv/`. This might happen if `CMAKE_PREFIX_PATH` is not empty when you activate your `robostackenv`.
+
+#### Can I use RoboStack in a non-conda virtual environment?
+RoboStack is based on conda-forge and will not work without conda. However, check out [rospypi](https://github.com/rospypi/simple) which can run in a pure Python virtualenv. rospypi supports tf2 and other binary packages.
+
 
 ## Contributing
 This project is in early stages and we are looking for contributors to help it grow. Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for ways to contribute.

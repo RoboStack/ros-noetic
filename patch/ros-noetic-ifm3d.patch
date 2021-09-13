@@ -1,0 +1,15 @@
+diff --git a/src/camera_nodelet.cpp b/src/camera_nodelet.cpp
+index 1c1a7d8..f650228 100644
+--- a/src/camera_nodelet.cpp
++++ b/src/camera_nodelet.cpp
+@@ -594,7 +594,9 @@ ifm3d_ros::CameraNodelet::Run()
+       if ((this->schema_mask_ & ifm3d::IMG_CART) == ifm3d::IMG_CART)
+         {
+           cloud->header = pcl_conversions::toPCL(head);
+-          this->cloud_pub_.publish(cloud);
++          sensor_msgs::PointCloud2 out_cloud;
++          pcl::toROSMsg(*cloud, out_cloud);
++          this->cloud_pub_.publish(out_cloud);
+ 
+           sensor_msgs::ImagePtr xyz_image_msg =
+             cv_bridge::CvImage(head,

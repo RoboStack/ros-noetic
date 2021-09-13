@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 743db46e..5a66be87 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,6 +4,8 @@ set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11;-Wall;-Werror")
+ 
+ find_package(catkin REQUIRED COMPONENTS map_server nav_core2 roscpp nav_msgs pluginlib)
+ 
++find_package(yaml-cpp REQUIRED)
++
+ catkin_package(
+     CATKIN_DEPENDS map_server nav_core2 roscpp nav_msgs pluginlib
+     INCLUDE_DIRS include
+@@ -12,7 +14,7 @@ catkin_package(
+ 
+ add_library(${PROJECT_NAME} src/global_planner_tests.cpp src/easy_costmap.cpp src/many_map_test_suite.cpp src/util.cpp)
+ target_link_libraries(
+-    ${PROJECT_NAME} ${catkin_LIBRARIES} yaml-cpp
++    ${PROJECT_NAME} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES}
+ )
+ 
+ add_executable(gpt_node src/gpt_node.cpp)
+@@ -25,7 +27,7 @@ add_executable(many_map_node src/many_map_node.cpp)
+ target_link_libraries(many_map_node ${PROJECT_NAME} ${catkin_LIBRARIES})
+ 
+ include_directories(
+-    include ${catkin_INCLUDE_DIRS}
++    include ${catkin_INCLUDE_DIRS} ${YAML_INCLUDE_DIRS}
+ )
+ 
+ if(CATKIN_ENABLE_TESTING)

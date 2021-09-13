@@ -1,0 +1,38 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 91db504..dc81064 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,8 +7,12 @@ find_package(catkin REQUIRED COMPONENTS roscpp camera_info_manager dynamic_recon
+ generate_dynamic_reconfigure_options(cfg/UVCCamera.cfg)
+ 
+ find_package(libuvc REQUIRED)
++find_package(PkgConfig REQUIRED)
+ message(STATUS "libuvc ${libuvc_VERSION_MAJOR}.${libuvc_VERSION_MINOR}.${libuvc_VERSION_PATCH}")
+ 
++pkg_check_modules(libudev libudev)
++pkg_check_modules(libusb libusb-1.0)
++
+ catkin_package(
+   CATKIN_DEPENDS
+     roscpp
+@@ -23,15 +27,18 @@ catkin_package(
+ add_definitions(-Dlibuvc_VERSION_MAJOR=${libuvc_VERSION_MAJOR})
+ add_definitions(-Dlibuvc_VERSION_MINOR=${libuvc_VERSION_MINOR})
+ add_definitions(-Dlibuvc_VERSION_PATCH=${libuvc_VERSION_PATCH})
+-include_directories(include ${libuvc_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
++include_directories(include ${libuvc_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${libudev_INCLUDE_DIRS} ${libusb_INCLUDE_DIRS})
+ link_directories(${catkin_LINK_DIRS})
+ 
+ find_package(Boost REQUIRED COMPONENTS thread)
+ include_directories(${Boost_INCLUDE_DIRS})
+ 
+ add_executable(camera_node src/main.cpp src/camera_driver.cpp)
+-target_link_libraries(camera_node ${libuvc_LIBRARIES} ${Boost_LIBRARIES} ${catkin_LIBRARIES})
++target_link_libraries(camera_node ${libuvc_LIBRARIES} ${Boost_LIBRARIES} ${catkin_LIBRARIES} ${libudev_LIBRARIES} ${libusb_LIBRARIES})
+ add_dependencies(camera_node ${PROJECT_NAME}_gencfg)
++IF(UNIX AND NOT APPLE)
++  TARGET_LINK_LIBRARIES(camera_node rt)
++ENDIF(UNIX AND NOT APPLE)
+ 
+ add_library(libuvc_camera_nodelet src/nodelet.cpp src/camera_driver.cpp)
+ add_dependencies(libuvc_camera_nodelet ${libuvc_camera_EXPORTED_TARGETS})
