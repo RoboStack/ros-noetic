@@ -32,8 +32,9 @@ packages_select_by_deps:
   ##
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
-  
-  - turtlesim
+
+  - openslam-gmapping
+  # - turtlesim
   # - rviz
   # - arbotix-controllers
   # - arbotix-sensors

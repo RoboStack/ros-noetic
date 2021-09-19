@@ -39,117 +39,119 @@ packages_select_by_deps:
   ##
   #  TODO Linux 
   ##
+  - openslam-gmapping
+
   # - rtabmap
   # - multires-image
   
-  - calibration
-  - calibration-setup-helper
-  - cob-navigation
-  - cob-navigation-slam
-  - cob-perception-common
-  - dlux-global-planner
-  - dlux-plugins
-  - flexbe-behavior-engine
-  - global-planner-tests
-  - image-geometry
-  - industrial-core
-  - lanelet2
-  - lanelet2-examples
-  - locomove-base
-  - mir-dwb-critics
-  - mir-navigation
-  - mir-robot
-  - moveit-calibration-gui
-  - moveit-calibration-plugins
-  - moveit-resources-prbt-moveit-config
-  - moveit-resources-prbt-pg70-support
-  - moveit-resources-prbt-support
-  - nav-core-adapter
-  - nav-grid-pub-sub
-  - neonavigation
-  - neonavigation-launch
-  - osqp-vendor
-  - pass-through-controllers
-  - pincher-arm
-  - pr2-common-actions
-  - pr2-mannequin-mode
-  - pr2-mechanism
-  - ros-canopen
-  - ros-controllers-cartesian
-  - ros-realtime
-  - safety-limiter
-  - test-osm
-  - ublox
-  - ublox-gps
+  # - calibration
+  # - calibration-setup-helper
+  # - cob-navigation
+  # - cob-navigation-slam
+  # - cob-perception-common
+  # - dlux-global-planner
+  # - dlux-plugins
+  # - flexbe-behavior-engine
+  # - global-planner-tests
+  # - image-geometry
+  # - industrial-core
+  # - lanelet2
+  # - lanelet2-examples
+  # - locomove-base
+  # - mir-dwb-critics
+  # - mir-navigation
+  # - mir-robot
+  # - moveit-calibration-gui
+  # - moveit-calibration-plugins
+  # - moveit-resources-prbt-moveit-config
+  # - moveit-resources-prbt-pg70-support
+  # - moveit-resources-prbt-support
+  # - nav-core-adapter
+  # - nav-grid-pub-sub
+  # - neonavigation
+  # - neonavigation-launch
+  # - osqp-vendor
+  # - pass-through-controllers
+  # - pincher-arm
+  # - pr2-common-actions
+  # - pr2-mannequin-mode
+  # - pr2-mechanism
+  # - ros-canopen
+  # - ros-controllers-cartesian
+  # - ros-realtime
+  # - safety-limiter
+  # - test-osm
+  # - ublox
+  # - ublox-gps
 
-  - camera-calibration
-  - checkerboard-detector
-  - cob-image-flip
-  - cob-object-detection-visualizer
-  - cob-vision-utils
-  - compressed-depth-image-transport
-  - compressed-image-transport
-  - costmap-converter
-  - criutils
-  - cv-camera
-  - depth-image-proc
-  - depthimage-to-laserscan
-  - dnn-detect
-  - drone-wrapper
-  - fetch-depth-layer
-  - find-object-2d
-  - gazebo-plugins
-  - generic-throttle
-  - grid-map-cv
-  - grid-map-filters
-  - grid-map-demos
-  - grid-map-ros
-  - hector-compressed-map-transport
-  - hfl-driver
-  - ifm3d
-  - ifm3d-core
-  - image-cb-detector
-  - image-proc
-  - image-publisher
-  - image-rotate
-  - imagesift
-  - image-view
-  - image-view2
-  - ipa-3d-fov-visualization
-  # - jsk-pcl-ros
-  - jsk-pcl-ros-utils
-  - jsk-perception
-  - jsk-rqt-plugins
-  - jsk-rviz-plugins
-  - jsk-recognition-utils
-  - jsk-tools
-  - laser-cb-detector
-  - libcmt
-  - mapviz
-  - moveit-ros-perception
-  - multi-object-tracking-lidar
-  - multisense-lib
-  - multirobot-map-merge
-  - nerian-stereo
-  - opencv-apps
-  - posedetection-msgs
-  - librealsense2
-  - realsense2-camera
-  - resized-image-transport
-  - robot-calibration
-  - rqt-image-view
-  - stag-ros
-  - stereo-image-proc
-  - swri-geometry-util
-  - swri-opencv-util
-  - swri-transform-util
-  - theora-image-transport
-  - turtlebot3-autorace-camera
-  - turtlebot3-autorace-detect
-  - video-stream-opencv
-  - vision-opencv
-  - zbar-ros
-  - avt-vimba-camera
+  # - camera-calibration
+  # - checkerboard-detector
+  # - cob-image-flip
+  # - cob-object-detection-visualizer
+  # - cob-vision-utils
+  # - compressed-depth-image-transport
+  # - compressed-image-transport
+  # - costmap-converter
+  # - criutils
+  # - cv-camera
+  # - depth-image-proc
+  # - depthimage-to-laserscan
+  # - dnn-detect
+  # - drone-wrapper
+  # - fetch-depth-layer
+  # - find-object-2d
+  # - gazebo-plugins
+  # - generic-throttle
+  # - grid-map-cv
+  # - grid-map-filters
+  # - grid-map-demos
+  # - grid-map-ros
+  # - hector-compressed-map-transport
+  # - hfl-driver
+  # - ifm3d
+  # - ifm3d-core
+  # - image-cb-detector
+  # - image-proc
+  # - image-publisher
+  # - image-rotate
+  # - imagesift
+  # - image-view
+  # - image-view2
+  # - ipa-3d-fov-visualization
+  # # - jsk-pcl-ros
+  # - jsk-pcl-ros-utils
+  # - jsk-perception
+  # - jsk-rqt-plugins
+  # - jsk-rviz-plugins
+  # - jsk-recognition-utils
+  # - jsk-tools
+  # - laser-cb-detector
+  # - libcmt
+  # - mapviz
+  # - moveit-ros-perception
+  # - multi-object-tracking-lidar
+  # - multisense-lib
+  # - multirobot-map-merge
+  # - nerian-stereo
+  # - opencv-apps
+  # - posedetection-msgs
+  # - librealsense2
+  # - realsense2-camera
+  # - resized-image-transport
+  # - robot-calibration
+  # - rqt-image-view
+  # - stag-ros
+  # - stereo-image-proc
+  # - swri-geometry-util
+  # - swri-opencv-util
+  # - swri-transform-util
+  # - theora-image-transport
+  # - turtlebot3-autorace-camera
+  # - turtlebot3-autorace-detect
+  # - video-stream-opencv
+  # - vision-opencv
+  # - zbar-ros
+  # - avt-vimba-camera
   # - apriltag_ros
   # - cv_bridge
   # - cv_camera
