@@ -1,6 +1,6 @@
 package:
   name: ros-distro-mutex
-  version: 0.1.1
+  version: 0.1.2
 
 build:
   number: 0
@@ -37,6 +37,7 @@ requirements:
     - poco 1.10
     - gazebo 11
     - ogre 1.10.12
+    - libpqxx 6
 
 about:
   home: https://github.com/robostack/ros-noetic

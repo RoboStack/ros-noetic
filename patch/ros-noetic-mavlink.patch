@@ -1,17 +1,18 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bd600b66..153c538b 100644
+index bd600b66..a4d62000 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -20,20 +20,11 @@ set(CMAKE_INSTALL_LIBDIR lib)
- if (DEFINED ENV{ROS_PYTHON_VERSION})
-     set(Py_VERSION $ENV{ROS_PYTHON_VERSION})
- else()
+@@ -17,23 +17,7 @@ include(GNUInstallDirs)
+ # hack from urdfdom: by default this would be 'lib/x86_64-linux-gnu'
+ set(CMAKE_INSTALL_LIBDIR lib)
+ 
+-if (DEFINED ENV{ROS_PYTHON_VERSION})
+-    set(Py_VERSION $ENV{ROS_PYTHON_VERSION})
+-else()
 -    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 2")
 -    set(Py_VERSION "2")
-+    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 3")
-+    set(Py_VERSION "3")
- endif()
- 
+-endif()
+-
 -if (NOT CMAKE_VERSION VERSION_LESS "3.12")
 -    find_package(Python${Py_VERSION} COMPONENTS Interpreter)
 -    set(Python_EXECUTABLE "${Python${Py_VERSION}_EXECUTABLE}")
@@ -22,11 +23,11 @@ index bd600b66..153c538b 100644
 -endif()
 -
 -message(STATUS "Python ${Py_VERSION} iterpretator: ${Python_EXECUTABLE}")
-+message(STATUS "Python ${Py_VERSION} iterpretator: ${PYTHON_EXECUTABLE}")
++message(STATUS "Python iterpretator: ${PYTHON_EXECUTABLE}")
  
  # Try to read package version from package.xml
  if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
-@@ -50,7 +41,7 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
+@@ -50,7 +34,7 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
          )
  
      execute_process(
@@ -35,7 +36,7 @@ index bd600b66..153c538b 100644
          OUTPUT_VARIABLE XML_VERSION
          RESULT_VARIABLE XML_RESULT
          )
-@@ -77,8 +68,7 @@ macro(generateMavlink_v10 definitions)
+@@ -77,8 +61,7 @@ macro(generateMavlink_v10 definitions)
          message(STATUS "processing v1.0: ${definitionAbsPath}")
          add_custom_command(
              OUTPUT include/v1.0/${definition}/${definition}.h
@@ -45,7 +46,7 @@ index bd600b66..153c538b 100644
                  --output=include/v1.0 ${definitionAbsPath}
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
              )
-@@ -96,8 +86,7 @@ macro(generateMavlink_v20 definitions)
+@@ -96,8 +79,7 @@ macro(generateMavlink_v20 definitions)
          add_custom_command(
              OUTPUT ${definition}-v2.0-cxx-stamp
              #OUTPUT include/v2.0/${definition}/${definition}.hpp
@@ -55,16 +56,14 @@ index bd600b66..153c538b 100644
                  --output=include/v2.0 ${definitionAbsPath}
              COMMAND touch ${definition}-v2.0-cxx-stamp
              DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
-
 diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-index 92cf9e7a..4adcffeb 100644
+index a3956aa2..34d7d287 100644
 --- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
 +++ b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
-@@ -2,7 +2,97 @@
+@@ -2,10 +2,93 @@
  #pragma once
  
  #include <algorithm>
--#include <endian.h>
 +
 +#if defined(_MSC_VER)
 +#include <BaseTsd.h>
@@ -77,9 +76,10 @@ index 92cf9e7a..4adcffeb 100644
 +
 +#endif
 +
-+#ifdef FREEBSD
-+  #include <sys/endian.h>
-+#elif __APPLE__
+ #ifdef FREEBSD
+ #include <sys/endian.h>
+ #elif __APPLE__
+-#include <machine/endian.h>
 +  #include <machine/endian.h>
 +
 +  #include <libkern/OSByteOrder.h>
@@ -100,7 +100,6 @@ index 92cf9e7a..4adcffeb 100644
 +  #define le64toh(x) OSSwapLittleToHostInt64(x)
 +  #undef TRUE
 +  #undef FALSE
-+
 +#elif defined(__WINDOWS__)
 +
 +#      include <windows.h>
@@ -153,22 +152,17 @@ index 92cf9e7a..4adcffeb 100644
 +#      define __BIG_ENDIAN    BIG_ENDIAN
 +#      define __LITTLE_ENDIAN LITTLE_ENDIAN
 +#      define __PDP_ENDIAN    PDP_ENDIAN
-+#else
-+  #include <endian.h>
-+#endif
- #include <type_traits>
- 
- namespace mavlink {
-
+ #else
+ #include <endian.h>
+ #endif
 diff --git a/pymavlink/generator/mavgen_cpp11.py b/pymavlink/generator/mavgen_cpp11.py
-index aaeb5f5a..21354944 100644
+index aaeb5f5a..c2e94e2b 100644
 --- a/pymavlink/generator/mavgen_cpp11.py
 +++ b/pymavlink/generator/mavgen_cpp11.py
-@@ -67,6 +67,17 @@ def generate_main_hpp(directory, xml):
+@@ -67,6 +67,16 @@ def generate_main_hpp(directory, xml):
  
  #include "../message.hpp"
  
-+
 +#ifdef ERROR
 +#undef ERROR
 +#endif
@@ -182,7 +176,7 @@ index aaeb5f5a..21354944 100644
  namespace mavlink {
  namespace ${basename} {
  
-@@ -97,6 +108,11 @@ constexpr auto ${enum_end_name} = ${enum_end_value};
+@@ -97,6 +107,11 @@ constexpr auto ${enum_end_name} = ${enum_end_value};
  } // namespace ${basename}
  } // namespace mavlink
  

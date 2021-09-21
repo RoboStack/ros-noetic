@@ -1,7 +1,5 @@
 # TODO: remove these when run_exports are added to the packages.
 pin_run_as_build:
-  pcl:
-    max_pin: x.x.x
   tbb-devel:
     max_pin: x.x
 
@@ -26,12 +24,11 @@ pcl:
 tbb:
   - 2019.9  # [win]
   - 2020.2  # [not win]
-tbb-devel:
-  - 2019.9  # [win]
-  - 2020.2  # [not win]
 tbb_devel:
   - 2019.9  # [win]
   - 2020.2  # [not win]
+libpqxx:
+  - 6
 
 python:
   # part of a zip_keys: python, python_impl, numpy

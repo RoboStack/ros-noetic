@@ -1,27 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5bffc17..de804c6 100644
+index 56fd522..4574e58 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -26,9 +26,7 @@ find_package(catkin REQUIRED COMPONENTS
-   tf2_ros
-   xmlrpcpp)
- 
--find_package(PkgConfig REQUIRED)
--pkg_check_modules(YAML_CPP yaml-cpp)
--
-+find_package(yaml-cpp REQUIRED)
- find_package(GeographicLib REQUIRED)
- 
- # Attempt to find Eigen using its own CMake module.
-@@ -109,7 +107,6 @@ catkin_package(
-     xmlrpcpp
+@@ -114,7 +114,6 @@ catkin_package(
+     tf2_ros
    DEPENDS
      ${EIGEN_PACKAGE}
 -    YAML_CPP
  )
  
  ###########
-@@ -122,8 +119,6 @@ include_directories(
+@@ -127,8 +126,6 @@ include_directories(
    ${EIGEN3_INCLUDE_DIRS}
    ${YAML_CPP_INCLUDE_DIRS})
  

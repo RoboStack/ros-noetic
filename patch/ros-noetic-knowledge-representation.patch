@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b29980c..0b22f7e 100644
+index b07b9bf..6f4c2c2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,18 +1,14 @@
+@@ -1,19 +1,14 @@
 -cmake_minimum_required(VERSION 3.0.2)
 +cmake_minimum_required(VERSION 3.1)
  project(knowledge_representation)
@@ -15,67 +15,13 @@ index b29980c..0b22f7e 100644
          )
  find_package(Boost REQUIRED COMPONENTS python)
  
--if($ENV{ROS_DISTRO} STREQUAL "kinetic" OR $ENV{ROS_DISTRO} STREQUAL "melodic")
--find_package(PythonLibs 2.7 REQUIRED)
+-if("$ENV{ROS_DISTRO}" STREQUAL "kinetic" OR "$ENV{ROS_DISTRO}" STREQUAL "melodic")
+-    find_package(PythonLibs 2.7 REQUIRED)
 -else()
--    find_package(PythonLibs 3.8 REQUIRED)
+-    # Relaxed to support Debian Buster
+-    find_package(PythonLibs 3.7 REQUIRED)
 -endif()
 +find_package(PythonLibs REQUIRED)
  
  find_package(PostgreSQL)
  
-diff --git a/README.md b/README.md
-index 57a4096..0b18bfd 100644
---- a/README.md
-+++ b/README.md
-@@ -77,11 +77,11 @@ The `populate_` scripts are geared towards use in a launch files. For instance,
- Once the package is built in a catkin workspace, you can access additional shell shortcuts:
- 
- * `ikr`: run the iPython environment
--* `kr-query`: run a SQL query against the knowledgebase
--* `kr-save`: save a SQL-dump of the current knowledgebase
--* `kr-show`: run `show_me`
-+* `krquery`: run a SQL query against the knowledgebase
-+* `krsave`: save a SQL-dump of the current knowledgebase
-+* `krshow`: run `show_me`
- 
- 
- ## Development
- 
--If you're working on the MySQL interface, we access the backing store via the xdev API. See the [documentation](https://dev.mysql.com/doc/dev/connector-cpp/8.0/) for the official MySQL xdev API C++ library.
-\ No newline at end of file
-+If you're working on the MySQL interface, we access the backing store via the xdev API. See the [documentation](https://dev.mysql.com/doc/dev/connector-cpp/8.0/) for the official MySQL xdev API C++ library.
-diff --git a/env-hooks/knowledge_representation.bash b/env-hooks/knowledge_representation.bash
-index 3739470..fec9790 100755
---- a/env-hooks/knowledge_representation.bash
-+++ b/env-hooks/knowledge_representation.bash
-@@ -4,13 +4,13 @@ ikr() {
-   rosrun knowledge_representation ikr $@
- }
- 
--kr-show() {
-+krshow() {
-     rosrun knowledge_representation show_me $@
- }
- # Is there a default MySQL knowledge_base set up?
- if mysql -u root -u root -h localhost knowledge_base  -e "SELECT * FROM entities LIMIT 1" &> /dev/null; then
- MYSQL_FOUND="true"
--kr-save() {
-+krsave() {
-     stamp=$(date +%Y-%m-%d_%H-%M-%S)
-     if [[ $# == 1 ]]; then
-        stamp=$1
-@@ -25,11 +25,11 @@ if  psql -U postgres --host=localhost -d knowledge_base -c "SELECT * FROM entiti
- if [[ "$MYSQL_FOUND" == "true" ]]; then
-   echo "Both MySQL and Postgres knowledge bases are initialized. Shell helpers will use Postgres"
- fi
--kr-query() {
-+krquery() {
-     psql -U postgres --host=localhost -d knowledge_base -c "$1"
- }
- 
--kr-save() {
-+krsave() {
-     stamp=$(date +%Y-%m-%d_%H-%M-%S)
-     if [[ $# == 1 ]]; then
-        stamp=$1

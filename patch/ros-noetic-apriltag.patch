@@ -1,0 +1,13 @@
+diff --git a/python_build_flags.py b/python_build_flags.py
+index f3f0e79..865c85b 100644
+--- a/python_build_flags.py
++++ b/python_build_flags.py
+@@ -21,7 +21,7 @@ print('LINKER', end=';')
+ print(conf.get('BLDSHARED', '').split()[0], end=';')
+ 
+ print('LDFLAGS', end=';')
+-print(' '.join(conf.get('BLDSHARED', '').split()[1:]) + ' ' + conf.get('BLDLIBRARY', '') + ' ' + conf.get('LDFLAGS', ''), end=';')
++print(' '.join(conf.get('BLDSHARED', '').split()[1:]) + ' ' + conf.get('LDFLAGS', ''), end=';')
+ 
+ print('EXT_SUFFIX', end=';')
+ ext_suffix = '.so'
