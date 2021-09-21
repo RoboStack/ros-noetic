@@ -320,6 +320,10 @@ libpqxx:
   robostack: [libpqxx]
 libpqxx-dev:
   robostack: [libpqxx]
+libqglviewer2-qt5:
+  robostack: [libqglviewer]
+libqglviewer-dev-qt5:
+  robostack: [libqglviewer]
 libqhull:
   robostack: [qhull]
 libqt5-core:
@@ -810,7 +814,7 @@ sbcl:
 screen:
   robostack: [screen]
 sdformat:
-  robostack: [sdformat11]
+  robostack: [libsdformat11]
 sdl:
   robostack: [sdl]
 sdl-image:
