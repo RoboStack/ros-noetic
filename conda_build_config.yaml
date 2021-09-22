@@ -9,14 +9,12 @@ gazebo:
   - '11'
 numpy:
   # part of a zip_keys: python, python_impl, numpy
-  - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
+  - 1.18   # [not (osx and arm64)]
+  # - 1.18   # [not (osx and arm64)]
+  # - 1.18   # [not (osx and arm64)]
   - 1.19   # [osx and arm64]
 ogre:
   - 1.10.12
-libopencv:
-  - 4.5.2
 pcl:
   - 1.11.1
 # tbb pinned on Windows due to https://stackoverflow.com/questions/64510477/error-c2061-syntax-error-identifier-concurrent-vectortemplate-type-paramet
