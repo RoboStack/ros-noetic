@@ -456,7 +456,7 @@ packages_select_by_deps:
   - led-msgs
   - leo-description
   - lgsvl-msgs
-  - libdlib
+  # - libdlib
   - log-view
   - lpg-planner
   - map-laser
