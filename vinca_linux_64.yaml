@@ -40,6 +40,9 @@ packages_select_by_deps:
   #  TODO Linux 
   ##
   - openslam-gmapping
+  - multisense-bringup
+  - multisense-ros
+  - multisense-description
 
   # - rtabmap
   # - multires-image
