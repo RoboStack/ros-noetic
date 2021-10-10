@@ -34,7 +34,7 @@ requirements:
     - log4cxx 0.11
     - pcl 1.11
     - libopencv 4.5.2
-    - poco 1.10
+    - poco 1.11
     - gazebo 11
     - ogre 1.10.12
     - libpqxx 6
