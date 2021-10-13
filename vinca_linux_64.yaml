@@ -43,6 +43,7 @@ packages_select_by_deps:
   # - plotjuggler
   # - plotjuggler_ros
   # - tsid
+  # - sesame_ros
 
   ##
   #  TODO Linux 
@@ -655,7 +656,6 @@ packages_select_by_deps:
   - lanelet2-core
   - laser-filtering
   - laser-filters-jsk-patch
-  - laser-filters-jsk-patch
   - laser-scan-densifier
   - laser-scan-sparsifier
   - laser-scan-splitter
@@ -878,7 +878,6 @@ packages_select_by_deps:
   - mapviz_plugins
   - swri_image_util
   - exotica_core
-  - sesame_ros
   - catkin
   
   #

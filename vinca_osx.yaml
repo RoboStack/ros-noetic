@@ -38,6 +38,12 @@ packages_select_by_deps:
   # - plotjuggler_ros
   # - tsid
   # - mavros
+  # - tesseract-collision
+  # - tesseract-common
+  # - tesseract-geometry
+  # - tesseract-scene-graph
+  # - tesseract-srdf
+  # - tesseract-support
 
   - openslam-gmapping
   - turtlesim
@@ -158,12 +164,6 @@ packages_select_by_deps:
   - swri-profiler-tools
   - swri-roscpp
   - teleop-tools
-  - tesseract-collision
-  - tesseract-common
-  - tesseract-geometry
-  - tesseract-scene-graph
-  - tesseract-srdf
-  - tesseract-support
   - test-osm
   - toposens-description
   - trac-ik
