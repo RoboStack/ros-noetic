@@ -40,6 +40,8 @@ packages_select_by_deps:
   # - rtabmap
   # - mrpt2
   # - ifopt
+  # - plotjuggler
+  # - plotjuggler_ros
 
   ##
   #  TODO Linux 
@@ -941,7 +943,6 @@ packages_select_by_deps:
   - cnpy
   - robot_localization
   - moveit_visual_tools
-  - plotjuggler_ros
   - ros_core
   - rviz
   - desktop
@@ -957,7 +958,6 @@ packages_select_by_deps:
   - urg_node
   - teb_local_planner
   - joy
-  - plotjuggler
   - libfranka
   - franka_visualization
   - franka_msgs
