@@ -33,6 +33,9 @@ packages_select_by_deps:
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
 
+  # Fix after rebuild
+  # - ur_client_library
+
   - openslam-gmapping
   - turtlesim
   - rviz
@@ -666,7 +669,6 @@ packages_select_by_deps:
   - rosserial-python
   - rosserial-msgs
   - rviz
-  - ur_client_library
   - realsense2_camera
   - tf2_web_republisher
   - franka_ros
