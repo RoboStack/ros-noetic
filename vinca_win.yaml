@@ -32,7 +32,8 @@ packages_select_by_deps:
   # - pybind11_catkin  # need to be unvendored
   # Fix after rebuild
   # - mavros
-  
+  # - drone-wrapper
+
   - openslam-gmapping
 
   - laser-proc
@@ -110,7 +111,6 @@ packages_select_by_deps:
   - dialogflow-task-executive
   - driver-base
   - drone-assets
-  - drone-wrapper
   - dynamic-tf-publisher
   - easy-markers
   - ecl-license
