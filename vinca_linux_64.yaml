@@ -42,6 +42,7 @@ packages_select_by_deps:
   # - ifopt
   # - plotjuggler
   # - plotjuggler_ros
+  # - tsid
 
   ##
   #  TODO Linux 
@@ -469,7 +470,6 @@ packages_select_by_deps:
   - track-odometry
   - trajectory-tracker
   - trajectory-tracker-rviz-plugins
-  - tsid
   - turtlebot3-autorace-2020
   - turtlebot3-autorace-camera
   - turtlebot3-autorace-core
