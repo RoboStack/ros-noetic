@@ -38,6 +38,7 @@ packages_select_by_deps:
 
   ## TODO AFTER REBUILD
   # - rtabmap
+  # - mrpt2
   # - ifopt
 
   ##
@@ -160,7 +161,6 @@ packages_select_by_deps:
   - cv_camera
   - grid-map-filters
   - image-geometry
-  - mrpt2
   - cob-map-accessibility-analysis
   - abb-egm-msgs
   - abb-rapid-msgs
@@ -867,7 +867,6 @@ packages_select_by_deps:
   - scan_to_cloud_converter
   - laser_ortho_projector
   - phidgets_drivers
-  - mrpt2
   - knowledge_representation
   - multirobot_map_merge
   - sick_tim
