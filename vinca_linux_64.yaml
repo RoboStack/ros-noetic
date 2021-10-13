@@ -37,7 +37,8 @@ packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ## TODO AFTER REBUILD
-  #  - rtabmap
+  # - rtabmap
+  # - ifopt
 
   ##
   #  TODO Linux 
@@ -909,7 +910,6 @@ packages_select_by_deps:
   - opencv_apps
   - lusb
   - image_view2
-  - ifopt
   - explore_lite
   - marvelmind_nav
   - sob_layer
