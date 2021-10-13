@@ -593,7 +593,7 @@ openjpeg:
 openmpi:
   - 4
 openssl:
-  - 1.1.1
+  - 1.1.1*
 openturns:
   - '1.16'
 orc:
