@@ -1,5 +1,5 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.1 noetic
+mutex_package: ros-distro-mutex 0.2 noetic
 
 # mapping for package keys
 conda_index:
