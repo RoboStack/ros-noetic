@@ -35,6 +35,9 @@ packages_select_by_deps:
 
   # Fix after rebuild
   # - ur_client_library
+  # - plotjuggler_ros
+  # - tsid
+  # - mavros
 
   - openslam-gmapping
   - turtlesim
@@ -170,7 +173,6 @@ packages_select_by_deps:
   - trac-ik-python
   - track-odometry
   - trajectory-tracker
-  - tsid
   - turtlebot3-autorace-driving
   - turtlebot3-simulations
   - ublox
@@ -692,10 +694,8 @@ packages_select_by_deps:
   - ros_numpy
   - velodyne_simulator
   - rviz
-  - mavros
   - hector_gazebo_plugins
   - navigation
-  - plotjuggler_ros
   - catkin
   - desktop
   - desktop_full
