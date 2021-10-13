@@ -135,3 +135,5 @@ safety_limiter:
   add_host: ["REQUIRE_OPENGL"]
 ifopt:
   add_host: ["ipopt"]
+tesseract_collision:
+  add_build: [{"sel(osx)": "llvm-openmp"}]
