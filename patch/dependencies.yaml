@@ -133,4 +133,5 @@ nav_grid_server:
   add_host: ["pkg-config"]
 safety_limiter:
   add_host: ["REQUIRE_OPENGL"]
-
+ifopt:
+  add_host: ["ipopt"]

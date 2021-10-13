@@ -1,7 +1,5 @@
 # TODO: remove these when run_exports are added to the packages.
 pin_run_as_build:
-  pcl:
-    max_pin: x.x.x
   tbb-devel:
     max_pin: x.x
 
@@ -9,29 +7,30 @@ console_bridge:
   - 1.0
 gazebo:
   - '11'
+libprotobuf:
+  - 3.18
 numpy:
   # part of a zip_keys: python, python_impl, numpy
-  - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
+  - 1.18   # [not (osx and arm64)]
+  # - 1.18   # [not (osx and arm64)]
+  # - 1.18   # [not (osx and arm64)]
   - 1.19   # [osx and arm64]
 ogre:
   - 1.10.12
-libopencv:
-  - 4.5.2
 pcl:
   - 1.11.1
+spdlog:
+  - 1.9.0
 # tbb pinned on Windows due to https://stackoverflow.com/questions/64510477/error-c2061-syntax-error-identifier-concurrent-vectortemplate-type-paramet
 # tbb pinned on Unix due to https://github.com/conda-forge/gazebo-feedstock/issues/57
 tbb:
   - 2019.9  # [win]
   - 2020.2  # [not win]
-tbb-devel:
-  - 2019.9  # [win]
-  - 2020.2  # [not win]
 tbb_devel:
   - 2019.9  # [win]
   - 2020.2  # [not win]
+libpqxx:
+  - 6
 
 python:
   # part of a zip_keys: python, python_impl, numpy

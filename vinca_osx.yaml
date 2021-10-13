@@ -6,14 +6,14 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 12
+build_number: 13
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
@@ -34,709 +34,709 @@ packages_select_by_deps:
   # - pybind11_catkin  # need to be unvendored
 
   - openslam-gmapping
-  # - turtlesim
-  # - rviz
-  # - arbotix-controllers
-  # - arbotix-sensors
-  # - audibot
-  # - autoware-msgs
-  # - cartesian-trajectory-controller
-  # - cartesian-trajectory-interpolation
-  # - cob-base-controller-utils
-  # - cob-frame-tracker
-  # - cob-gazebo-plugins
-  # - cob-gazebo-ros-control
-  # - cob-lookat-action
-  # - cob-mapping-slam
-  # - cob-model-identifier
-  # - cob-navigation-global
-  # - cob-navigation-slam
-  # - cob-omni-drive-controller
-  # - cob-tricycle-controller
-  # - collada-parser
-  # - collada-urdf
-  # - costmap-queue
-  # - dataspeed-pds-rqt
-  # - dataspeed-pds-scripts
-  # - dual-quaternions-ros
-  # - dynamic-graph-tutorial
-  # - ecl-config
-  # - ecl-console
-  # - ecl-converters-lite
-  # - ecl-errors
-  # - ecl-exceptions
-  # - ecl-filesystem
-  # - ecl-io
-  # - ecl-ipc
-  # - ecl-lite
-  # - ecl-sigslots-lite
-  # - ecl-time
-  # - ecl-time-lite
-  # - ecl-tools
-  # - ethercat-trigger-controllers
-  # - fetch-calibration
-  # - fetch-drivers
-  # - fetch-ikfast-plugin
-  # - fetch-open-auto-dock
-  # - fkie-master-sync
-  # - flexbe-mirror
-  # - flexbe-onboard
-  # - flexbe-states
-  # - flexbe-testing
-  # - flexbe-widget
-  # - gazebo-ros-control-select-joints
-  # - geographic-info
-  # - gpp-plugin
-  # - grid-map-loader
-  # - grid-map-ros
-  # - grid-map-rviz-plugin
-  # - grid-map-visualization
-  # - handeye
-  # - hector-geotiff-plugins
-  # - imu-monitor
-  # - industrial-trajectory-filters
-  # - industrial-utils
-  # - ixblue-ins
-  # - joint-trajectory-action-tools
-  # - joint-trajectory-generator
-  # - laser-cb-detector
-  # - leo
-  # - magical-ros2-conversion-tool
-  # - mir-gazebo
-  # - monocam-settler
-  # - move-base-flex
-  # - moveit-resources-prbt-ikfast-manipulator-plugin
-  # - nav-2d-utils
-  # - open-manipulator-gazebo
-  # - open-manipulator-p-gazebo
-  # - open-manipulator-p-simulations
-  # - open-manipulator-simulations
-  # - osm-cartography
-  # - p2os-driver
-  # - p2os-urdf
-  # - pass-through-controllers
-  # - pincher-arm-bringup
-  # - pincher-arm-ikfast-plugin
-  # - pincher-arm-moveit-demos
-  # - pr2-arm-kinematics
-  # - pr2-arm-move-ik
-  # - pr2-calibration-controllers
-  # - pr2-common
-  # - pr2-controller-interface
-  # - pr2-controller-manager
-  # - pr2-gripper-action
-  # - pr2-head-action
-  # - pr2-kinematics
-  # - pr2-mannequin-mode
-  # - pr2-mechanism
-  # - pr2-mechanism-controllers
-  # - pr2-mechanism-diagnostics
-  # - pr2-mechanism-model
-  # - pr2-tuckarm
-  # - rc-reason-clients
-  # - robot-calibration
-  # - robot-controllers
-  # - robot-mechanism-controllers
-  # - ros-control-boilerplate
-  # - ros-emacs-utils
-  # - ros-realtime
-  # - roslisp-repl
-  # - rosrt
-  # - route-network
-  # - sbpl-recovery
-  # - scaled-joint-trajectory-controller
-  # - sot-core
-  # - sot-tools
-  # - swri-opencv-util
-  # - swri-profiler
-  # - swri-profiler-tools
-  # - swri-roscpp
-  # - teleop-tools
-  # - tesseract-collision
-  # - tesseract-common
-  # - tesseract-geometry
-  # - tesseract-scene-graph
-  # - tesseract-srdf
-  # - tesseract-support
-  # - test-osm
-  # - toposens-description
-  # - trac-ik
-  # - trac-ik-examples
-  # - trac-ik-kinematics-plugin
-  # - trac-ik-lib
-  # - trac-ik-python
-  # - track-odometry
-  # - trajectory-tracker
-  # - tsid
-  # - turtlebot3-autorace-driving
-  # - turtlebot3-simulations
-  # - ublox
-  # - ublox-gps
-  # - ublox-msgs
-  # - unique-identifier
-  # - urdf-geometry-parser
-  # - usb-cam-controllers
-  # - variant
-  # - variant-topic-tools
-  # - virtual-force-publisher
-  # - volta-base
-  # - volta-control
-  # - volta-description
-  # - volta-localization
-  # - volta-msgs
-  # - volta-navigation
-  # - volta-rules
-  # - wifi-ddwrt
-  # - wireless-watcher
-  # - wu-ros-tools
-  # - abb-rapid-sm-addin-msgs
-  # - arbotix-python
-  # - audibot-gazebo
-  # - automotive-autonomy-msgs
-  # - autoware-external-msgs
-  # - calibration-estimation
-  # - can-dbc-parser
-  # - cob-3d-mapping-msgs
-  # - cob-calibration-data
-  # - cob-collision-velocity-filter
-  # - cob-common
-  # - cob-dashboard
-  # - cob-default-robot-config
-  # - cob-environments
-  # - cob-gazebo-objects
-  # - cob-gazebo-worlds
-  # - cob-grasp-generation
-  # - cob-linear-nav
-  # - cob-navigation-local
-  # - cob-substitute
-  # - cob-trajectory-controller
-  # - combined-robot-hw-tests
-  # - costmap-cspace
-  # - criutils
-  # - dataspeed-can-msg-filters
-  # - driver-common
-  # - dual-quaternions
-  # - dwb-msgs
-  # - dynamic-graph-python
-  # - dynamixel-sdk-examples
-  # - dynamixel-workbench-msgs
-  # - ecl-build
-  # - ecl-command-line
-  # - ecl-eigen
-  # - ecl-mpl
-  # - executive-smach-visualization
-  # - fetch-driver-msgs
-  # - fingertip-pressure
-  # - fkie-master-discovery
-  # - flexbe-core
-  # - flexbe-input
-  # - geodesy
-  # - geometry2
-  # - gpp-prune-path
-  # - gpp-update-map
-  # - graceful-controller-ros
-  # - grid-map-costmap-2d
-  # - grid-map-cv
-  # - grid-map-octomap
-  # - hector-compressed-map-transport
-  # - hector-geotiff
-  # - hector-map-server
-  # - hector-trajectory-server
-  # - imu-from-ios-sensorlog
-  # - industrial-deprecated
-  # - iris-lama-ros
-  # - ixblue-ins-driver
-  # - jderobot-drones
-  # - joint-states-settler
-  # - joint-trajectory-action
-  # - joy-teleop
-  # - joystick-interrupt
-  # - jsk-common-msgs
-  # - jsk-recognition-msgs
-  # - label-manager
-  # - laser-filtering
-  # - leo-teleop
-  # - leo-viz
-  # - lockfree
-  # - locomotor-msgs
-  # - map-organizer
-  # - marti-nav-msgs
-  # - mbf-costmap-nav
-  # - mbf-simple-nav
-  # - mesh-msgs-transform
-  # - mir-driver
-  # - nav-core2
-  # - neonavigation-msgs
-  # - obj-to-pointcloud
-  # - ocean-battery-driver
-  # - omron-os32c-driver
-  # - open-manipulator-msgs
-  # - opw-kinematics
-  # - pilz-status-indicator-rqt
-  # - pilz-testutils
-  # - pincher-arm-moveit-config
-  # - power-monitor
-  # - pr2-app-manager
-  # - pr2-computer-monitor
-  # - pr2-dashboard-aggregator
-  # - pr2-position-scripts
-  # - pr2-self-test-msgs
-  # - pr2-teleop
-  # - pr2-tuck-arms-action
-  # - py-trees-ros
-  # - qt-gui-core
-  # - rc-reason-msgs
-  # - robot-controllers-interface
-  # - robotis-manipulator
-  # - rosbag-pandas
-  # - rosbag-snapshot
-  # - roscompile
-  # - rqt-py-trees
-  # - sbpl-lattice-planner
-  # - single-joint-position-action
-  # - slime-ros
-  # - speed-scaling-state-controller
-  # - swri-console-util
-  # - abb-egm-msgs
-  # - abb-rapid-msgs
-  # - abb-robot-msgs
-  # - ackermann-msgs
-  # - actionlib-tools
-  # - allocators
-  # - app-manager
-  # - apriltag
-  # - arbotix-firmware
-  # - arbotix-msgs
-  # - assimp-devel
-  # - assisted-teleop
-  # - async-comm
-  # - async-web-server-cpp
-  # - audibot-description
-  # - audio-common-msgs
-  # - automotive-navigation-msgs
-  # - automotive-platform-msgs
-  # - autoware-can-msgs
-  # - autoware-config-msgs
-  # - autoware-lanelet2-msgs
-  # - autoware-map-msgs
-  # - autoware-system-msgs
-  # - auv-msgs
-  # - backward-ros
-  # - baldor
-  # - behaviortree-cpp-v3
-  # - boost-sml
-  # - bosch-locator-bridge
-  # - bota-signal-handler
-  # - calibration-msgs
-  # - can-msgs
-  # - capabilities
-  # - carla-msgs
-  # - cartesian-control-msgs
-  # - cartesian-interface
-  # - cartesian-msgs
-  # - catkin-virtualenv
-  # - cob-actions
-  # - cob-android-msgs
-  # - cob-android-resource-server
-  # - cob-android-settings
-  # - cob-base-velocity-smoother
-  # - cob-control-mode-adapter
-  # - cob-control-msgs
-  # - cob-default-env-config
-  # - cob-description
-  # - cob-docker-control
-  # - cob-footprint-observer
-  # - cob-gazebo-tools
-  # - cob-hardware-emulation
-  # - cob-interactive-teleop
-  # - cob-light
-  # - cob-mecanum-controller
-  # - cob-moveit-config
-  # - cob-msgs
-  # - cob-navigation-config
-  # - cob-object-detection-msgs
-  # - cob-perception-msgs
-  # - cob-reflector-referencing
-  # - cob-safety-controller
-  # - cob-scan-unifier
-  # - cob-sick-lms1xx
-  # - cob-srvs
-  # - cob-supported-robots
-  # - cob-utilities
-  # - cob-vision-utils
-  # - color-util
-  # - computer-status-msgs
-  # - control-box-rst
-  # - controller-manager-tests
-  # - convex-decomposition
-  # - costmap-cspace-msgs
-  # - csm
-  # - darknet-ros-msgs
-  # - dataspeed-pds-msgs
-  # - dataspeed-ulc-msgs
-  # - dbw-fca-description
-  # - dbw-fca-msgs
-  # - dbw-mkz-description
-  # - dbw-mkz-msgs
-  # - dbw-polaris-description
-  # - dbw-polaris-msgs
-  # - ddynamic-reconfigure-python
-  # - delphi-esr-msgs
-  # - delphi-mrr-msgs
-  # - delphi-srr-msgs
-  # - derived-object-msgs
-  # - dialogflow-task-executive
-  # - dnn-detect
-  # - driver-base
-  # - drone-assets
-  # - drone-wrapper
-  # - dynamic-edt-3d
-  # - dynamic-graph
-  # - dynamic-tf-publisher
-  # - dynamixel-sdk
-  # - easy-markers
-  # - ecl-license
-  # - eiquadprog
-  # - exotica-val-description
-  # - explore-lite
-  # - fadecandy-msgs
-  # - fetch-auto-dock-msgs
-  # - fetch-description
-  # - fetch-maps
-  # - fetch-teleop
-  # - fetch-tools
-  # - find-object-2d
-  # - fkie-message-filters
-  # - fkie-multimaster-msgs
-  # - flexbe-msgs
-  # - four-wheel-steering-msgs
-  # - foxglove-msgs
-  # - gazebo-video-monitor-msgs
-  # - gdrive-ros
-  # - generic-throttle
-  # - genmypy
-  # - goal-passer
-  # - gpp-interface
-  # - gps-common
-  # - graceful-controller
-  # - grasping-msgs
-  # - grid-map-core
-  # - grid-map-msgs
-  # - hector-gazebo-worlds
-  # - hector-imu-attitude-to-tf
-  # - hector-imu-tools
-  # - hector-map-tools
-  # - hector-mapping
-  # - hector-marker-drawing
-  # - hector-nav-msgs
-  # - hector-xacro-tools
-  # - image-cb-detector
-  # - image-exposure-msgs
-  # - imu-processors
-  # - industrial-msgs
-  # - industrial-robot-status-interface
-  # - interval-intersection
-  # - ipa-3d-fov-visualization
-  # - iris-lama
-  # - ivcon
-  # - ixblue-ins-msgs
-  # - ixblue-stdbin-decoder
-  # - jderobot-assets
-  # - joy-listener
-  # - jsk-footstep-msgs
-  # - jsk-gui-msgs
-  # - jsk-hark-msgs
-  # - jsk-network-tools
-  # - jsk-tilt-laser
-  # - kalman-filter
-  # - kartech-linear-actuator-msgs
-  # - key-teleop
-  # - kobuki-msgs
-  # - laser-filters-jsk-patch
-  # - led-msgs
-  # - leo-description
-  # - lgsvl-msgs
+  - turtlesim
+  - rviz
+  - arbotix-controllers
+  - arbotix-sensors
+  - audibot
+  - autoware-msgs
+  - cartesian-trajectory-controller
+  - cartesian-trajectory-interpolation
+  - cob-base-controller-utils
+  - cob-frame-tracker
+  - cob-gazebo-plugins
+  - cob-gazebo-ros-control
+  - cob-lookat-action
+  - cob-mapping-slam
+  - cob-model-identifier
+  - cob-navigation-global
+  - cob-navigation-slam
+  - cob-omni-drive-controller
+  - cob-tricycle-controller
+  - collada-parser
+  - collada-urdf
+  - costmap-queue
+  - dataspeed-pds-rqt
+  - dataspeed-pds-scripts
+  - dual-quaternions-ros
+  - dynamic-graph-tutorial
+  - ecl-config
+  - ecl-console
+  - ecl-converters-lite
+  - ecl-errors
+  - ecl-exceptions
+  - ecl-filesystem
+  - ecl-io
+  - ecl-ipc
+  - ecl-lite
+  - ecl-sigslots-lite
+  - ecl-time
+  - ecl-time-lite
+  - ecl-tools
+  - ethercat-trigger-controllers
+  - fetch-calibration
+  - fetch-drivers
+  - fetch-ikfast-plugin
+  - fetch-open-auto-dock
+  - fkie-master-sync
+  - flexbe-mirror
+  - flexbe-onboard
+  - flexbe-states
+  - flexbe-testing
+  - flexbe-widget
+  - gazebo-ros-control-select-joints
+  - geographic-info
+  - gpp-plugin
+  - grid-map-loader
+  - grid-map-ros
+  - grid-map-rviz-plugin
+  - grid-map-visualization
+  - handeye
+  - hector-geotiff-plugins
+  - imu-monitor
+  - industrial-trajectory-filters
+  - industrial-utils
+  - ixblue-ins
+  - joint-trajectory-action-tools
+  - joint-trajectory-generator
+  - laser-cb-detector
+  - leo
+  - magical-ros2-conversion-tool
+  - mir-gazebo
+  - monocam-settler
+  - move-base-flex
+  - moveit-resources-prbt-ikfast-manipulator-plugin
+  - nav-2d-utils
+  - open-manipulator-gazebo
+  - open-manipulator-p-gazebo
+  - open-manipulator-p-simulations
+  - open-manipulator-simulations
+  - osm-cartography
+  - p2os-driver
+  - p2os-urdf
+  - pass-through-controllers
+  - pincher-arm-bringup
+  - pincher-arm-ikfast-plugin
+  - pincher-arm-moveit-demos
+  - pr2-arm-kinematics
+  - pr2-arm-move-ik
+  - pr2-calibration-controllers
+  - pr2-common
+  - pr2-controller-interface
+  - pr2-controller-manager
+  - pr2-gripper-action
+  - pr2-head-action
+  - pr2-kinematics
+  - pr2-mannequin-mode
+  - pr2-mechanism
+  - pr2-mechanism-controllers
+  - pr2-mechanism-diagnostics
+  - pr2-mechanism-model
+  - pr2-tuckarm
+  - rc-reason-clients
+  - robot-calibration
+  - robot-controllers
+  - robot-mechanism-controllers
+  - ros-control-boilerplate
+  - ros-emacs-utils
+  - ros-realtime
+  - roslisp-repl
+  - rosrt
+  - route-network
+  - sbpl-recovery
+  - scaled-joint-trajectory-controller
+  - sot-core
+  - sot-tools
+  - swri-opencv-util
+  - swri-profiler
+  - swri-profiler-tools
+  - swri-roscpp
+  - teleop-tools
+  - tesseract-collision
+  - tesseract-common
+  - tesseract-geometry
+  - tesseract-scene-graph
+  - tesseract-srdf
+  - tesseract-support
+  - test-osm
+  - toposens-description
+  - trac-ik
+  - trac-ik-examples
+  - trac-ik-kinematics-plugin
+  - trac-ik-lib
+  - trac-ik-python
+  - track-odometry
+  - trajectory-tracker
+  - tsid
+  - turtlebot3-autorace-driving
+  - turtlebot3-simulations
+  - ublox
+  - ublox-gps
+  - ublox-msgs
+  - unique-identifier
+  - urdf-geometry-parser
+  - usb-cam-controllers
+  - variant
+  - variant-topic-tools
+  - virtual-force-publisher
+  - volta-base
+  - volta-control
+  - volta-description
+  - volta-localization
+  - volta-msgs
+  - volta-navigation
+  - volta-rules
+  - wifi-ddwrt
+  - wireless-watcher
+  - wu-ros-tools
+  - abb-rapid-sm-addin-msgs
+  - arbotix-python
+  - audibot-gazebo
+  - automotive-autonomy-msgs
+  - autoware-external-msgs
+  - calibration-estimation
+  - can-dbc-parser
+  - cob-3d-mapping-msgs
+  - cob-calibration-data
+  - cob-collision-velocity-filter
+  - cob-common
+  - cob-dashboard
+  - cob-default-robot-config
+  - cob-environments
+  - cob-gazebo-objects
+  - cob-gazebo-worlds
+  - cob-grasp-generation
+  - cob-linear-nav
+  - cob-navigation-local
+  - cob-substitute
+  - cob-trajectory-controller
+  - combined-robot-hw-tests
+  - costmap-cspace
+  - criutils
+  - dataspeed-can-msg-filters
+  - driver-common
+  - dual-quaternions
+  - dwb-msgs
+  - dynamic-graph-python
+  - dynamixel-sdk-examples
+  - dynamixel-workbench-msgs
+  - ecl-build
+  - ecl-command-line
+  - ecl-eigen
+  - ecl-mpl
+  - executive-smach-visualization
+  - fetch-driver-msgs
+  - fingertip-pressure
+  - fkie-master-discovery
+  - flexbe-core
+  - flexbe-input
+  - geodesy
+  - geometry2
+  - gpp-prune-path
+  - gpp-update-map
+  - graceful-controller-ros
+  - grid-map-costmap-2d
+  - grid-map-cv
+  - grid-map-octomap
+  - hector-compressed-map-transport
+  - hector-geotiff
+  - hector-map-server
+  - hector-trajectory-server
+  - imu-from-ios-sensorlog
+  - industrial-deprecated
+  - iris-lama-ros
+  - ixblue-ins-driver
+  - jderobot-drones
+  - joint-states-settler
+  - joint-trajectory-action
+  - joy-teleop
+  - joystick-interrupt
+  - jsk-common-msgs
+  - jsk-recognition-msgs
+  - label-manager
+  - laser-filtering
+  - leo-teleop
+  - leo-viz
+  - lockfree
+  - locomotor-msgs
+  - map-organizer
+  - marti-nav-msgs
+  - mbf-costmap-nav
+  - mbf-simple-nav
+  - mesh-msgs-transform
+  - mir-driver
+  - nav-core2
+  - neonavigation-msgs
+  - obj-to-pointcloud
+  - ocean-battery-driver
+  - omron-os32c-driver
+  - open-manipulator-msgs
+  - opw-kinematics
+  - pilz-status-indicator-rqt
+  - pilz-testutils
+  - pincher-arm-moveit-config
+  - power-monitor
+  - pr2-app-manager
+  - pr2-computer-monitor
+  - pr2-dashboard-aggregator
+  - pr2-position-scripts
+  - pr2-self-test-msgs
+  - pr2-teleop
+  - pr2-tuck-arms-action
+  - py-trees-ros
+  - qt-gui-core
+  - rc-reason-msgs
+  - robot-controllers-interface
+  - robotis-manipulator
+  - rosbag-pandas
+  - rosbag-snapshot
+  - roscompile
+  - rqt-py-trees
+  - sbpl-lattice-planner
+  - single-joint-position-action
+  - slime-ros
+  - speed-scaling-state-controller
+  - swri-console-util
+  - abb-egm-msgs
+  - abb-rapid-msgs
+  - abb-robot-msgs
+  - ackermann-msgs
+  - actionlib-tools
+  - allocators
+  - app-manager
+  - apriltag
+  - arbotix-firmware
+  - arbotix-msgs
+  - assimp-devel
+  - assisted-teleop
+  - async-comm
+  - async-web-server-cpp
+  - audibot-description
+  - audio-common-msgs
+  - automotive-navigation-msgs
+  - automotive-platform-msgs
+  - autoware-can-msgs
+  - autoware-config-msgs
+  - autoware-lanelet2-msgs
+  - autoware-map-msgs
+  - autoware-system-msgs
+  - auv-msgs
+  - backward-ros
+  - baldor
+  - behaviortree-cpp-v3
+  - boost-sml
+  - bosch-locator-bridge
+  - bota-signal-handler
+  - calibration-msgs
+  - can-msgs
+  - capabilities
+  - carla-msgs
+  - cartesian-control-msgs
+  - cartesian-interface
+  - cartesian-msgs
+  - catkin-virtualenv
+  - cob-actions
+  - cob-android-msgs
+  - cob-android-resource-server
+  - cob-android-settings
+  - cob-base-velocity-smoother
+  - cob-control-mode-adapter
+  - cob-control-msgs
+  - cob-default-env-config
+  - cob-description
+  - cob-docker-control
+  - cob-footprint-observer
+  - cob-gazebo-tools
+  - cob-hardware-emulation
+  - cob-interactive-teleop
+  - cob-light
+  - cob-mecanum-controller
+  - cob-moveit-config
+  - cob-msgs
+  - cob-navigation-config
+  - cob-object-detection-msgs
+  - cob-perception-msgs
+  - cob-reflector-referencing
+  - cob-safety-controller
+  - cob-scan-unifier
+  - cob-sick-lms1xx
+  - cob-srvs
+  - cob-supported-robots
+  - cob-utilities
+  - cob-vision-utils
+  - color-util
+  - computer-status-msgs
+  - control-box-rst
+  - controller-manager-tests
+  - convex-decomposition
+  - costmap-cspace-msgs
+  - csm
+  - darknet-ros-msgs
+  - dataspeed-pds-msgs
+  - dataspeed-ulc-msgs
+  - dbw-fca-description
+  - dbw-fca-msgs
+  - dbw-mkz-description
+  - dbw-mkz-msgs
+  - dbw-polaris-description
+  - dbw-polaris-msgs
+  - ddynamic-reconfigure-python
+  - delphi-esr-msgs
+  - delphi-mrr-msgs
+  - delphi-srr-msgs
+  - derived-object-msgs
+  - dialogflow-task-executive
+  - dnn-detect
+  - driver-base
+  - drone-assets
+  - drone-wrapper
+  - dynamic-edt-3d
+  - dynamic-graph
+  - dynamic-tf-publisher
+  - dynamixel-sdk
+  - easy-markers
+  - ecl-license
+  - eiquadprog
+  - exotica-val-description
+  - explore-lite
+  - fadecandy-msgs
+  - fetch-auto-dock-msgs
+  - fetch-description
+  - fetch-maps
+  - fetch-teleop
+  - fetch-tools
+  - find-object-2d
+  - fkie-message-filters
+  - fkie-multimaster-msgs
+  - flexbe-msgs
+  - four-wheel-steering-msgs
+  - foxglove-msgs
+  - gazebo-video-monitor-msgs
+  - gdrive-ros
+  - generic-throttle
+  - genmypy
+  - goal-passer
+  - gpp-interface
+  - gps-common
+  - graceful-controller
+  - grasping-msgs
+  - grid-map-core
+  - grid-map-msgs
+  - hector-gazebo-worlds
+  - hector-imu-attitude-to-tf
+  - hector-imu-tools
+  - hector-map-tools
+  - hector-mapping
+  - hector-marker-drawing
+  - hector-nav-msgs
+  - hector-xacro-tools
+  - image-cb-detector
+  - image-exposure-msgs
+  - imu-processors
+  - industrial-msgs
+  - industrial-robot-status-interface
+  - interval-intersection
+  - ipa-3d-fov-visualization
+  - iris-lama
+  - ivcon
+  - ixblue-ins-msgs
+  - ixblue-stdbin-decoder
+  - jderobot-assets
+  - joy-listener
+  - jsk-footstep-msgs
+  - jsk-gui-msgs
+  - jsk-hark-msgs
+  - jsk-network-tools
+  - jsk-tilt-laser
+  - kalman-filter
+  - kartech-linear-actuator-msgs
+  - key-teleop
+  - kobuki-msgs
+  - laser-filters-jsk-patch
+  - led-msgs
+  - leo-description
+  - lgsvl-msgs
   # - libdlib
-  # - log-view
-  # - lpg-planner
-  # - map-laser
-  # - map-organizer-msgs
-  # - marker-msgs
-  # - marti-can-msgs
-  # - marti-common-msgs
-  # - marti-data-structures
-  # - marti-dbw-msgs
-  # - marti-perception-msgs
-  # - marti-sensor-msgs
-  # - marti-status-msgs
-  # - marti-visualization-msgs
-  # - mbf-abstract-nav
-  # - mcl-3dl-msgs
-  # - mesh-msgs
-  # - message-to-tf
-  # - mini-maxwell
-  # - mir-actions
-  # - mir-description
-  # - mir-msgs
-  # - mobile-robot-simulator
-  # - mobileye-560-660-msgs
-  # - mocap-optitrack
-  # - mouse-teleop
-  # - move-base-sequence
-  # - moveit-python
-  # - moveit-resources
-  # - moveit-runtime
-  # - mpc-local-planner-msgs
-  # - mqtt-bridge
-  # - mrpt-msgs
-  # - mrt-cmake-modules
-  # - multirobot-map-merge
-  # - multisense-description
-  # - nav-2d-msgs
-  # - nav-grid
-  # - ncd-parser
-  # - neo-local-planner
-  # - neobotix-usboard-msgs
-  # - neonavigation-common
-  # - network-interface
-  # - nonpersistent-voxel-layer
-  # - novatel-oem7-msgs
-  # - ntpd-driver
-  # - octomap-ros
-  # - odva-ethernetip
-  # - openzen-sensor
-  # - p2os-doc
-  # - p2os-msgs
-  # - p2os-teleop
-  # - pacmod-msgs
-  # - paho-mqtt-c
-  # - parameter-pa
-  # - people-msgs
-  # - pgm-learner
-  # - phidgets-msgs
-  # - picovoice-msgs
-  # - pid
-  # - pilz-industrial-motion-testutils
-  # - pilz-msgs
-  # - pilz-utils
-  # - pincher-arm-description
-  # - pinocchio
-  # - planner-cspace-msgs
-  # - polar-scan-matcher
-  # - pose-base-controller
-  # - pose-follower
-  # - posedetection-msgs
-  # - power-msgs
-  # - pr2-common-action-msgs
-  # - pr2-controllers-msgs
-  # - pr2-description
-  # - pr2-hardware-interface
-  # - pr2-machine
-  # - pr2-mechanism-msgs
-  # - pr2-msgs
-  # - prosilica-gige-sdk
-  # - py-trees
-  # - py-trees-msgs
-  # - pyquaternion
-  # - qt-gui-app
-  # - radar-msgs
-  # - raw-description
-  # - razor-imu-9dof
-  # - rc-common-msgs
-  # - rc-visard-description
-  # - realsense2-description
-  # - remote-rosbag-record
-  # - rgbd-launch
-  # - robot-calibration-msgs
-  # - robot-controllers-msgs
-  # - roboticsgroup-upatras-gazebo-plugins
-  # - rokubimini
-  # - rokubimini-description
-  # - rokubimini-msgs
-  # - ros-babel-fish-test-msgs
-  # - ros-industrial-cmake-boilerplate
-  # - ros-introspection
-  # - ros-pytest
-  # - ros-type-introspection
-  # - rosatomic
-  # - rosbag-snapshot-msgs
-  # - rosbaglive
-  # - rosdiagnostic
-  # - rosdoc-lite
-  # - rosemacs
-  # - rosfmt
-  # - rosmon-msgs
-  # - rosparam-shortcuts
-  # - rospatlite
-  # - rosping
-  # - rospy-message-converter
-  # - rosserial-chibios
-  # - rosserial-embeddedlinux
-  # - rosserial-mbed
-  # - rosserial-tivac
-  # - rosserial-vex-cortex
-  # - rosserial-vex-v5
-  # - rosserial-windows
-  # - rosserial-xbee
-  # - rostwitter
-  # - rqt
-  # - rqt-controller-manager
-  # - rqt-drone-teleop
-  # - rqt-ez-publisher
-  # - rqt-ground-robot-teleop
-  # - rqt-joint-trajectory-controller
-  # - rx-service-tools
-  # - safety-limiter-msgs
-  # - sbpl
-  # - schunk-description
-  # - sdc21x0
-  # - septentrio-gnss-driver
-  # - service-tools
-  # - settlerlib
-  # - sick-safetyscanners
-  # - sick-tim
-  # - slam-gmapping
-  # - slam-toolbox-rviz
-  # - slic
-  # - slider-publisher
-  # - slime-wrapper
-  # - smach-viewer
-  # - sob-layer
-  # - soem
-  # - sophus
-  # - sound-play
-  # - speech-recognition-msgs
-  # - speed-scaling-interface
-  # - swri-console
-  # - swri-dbw-interface
-  # - swri-math-util
-  # - swri-prefix-tools
-  # - swri-profiler-msgs
-  # - swri-rospy
-  # - swri-string-util
-  # - swri-system-util
-  # - swri-yaml-util
-  # - tablet-socket-msgs
-  # - taskflow
-  # - teleop-legged-robots
-  # - teleop-tools-msgs
-  # - teleop-twist-keyboard
-  # - tf2-bullet
-  # - tf2-tools
-  # - timestamp-tools
-  # - toposens-msgs
-  # - trajectory-tracker-msgs
-  # - turtlebot3-autorace-camera
-  # - turtlebot3-autorace-core
-  # - turtlebot3-autorace-detect
-  # - turtlebot3-autorace-msgs
-  # - turtlebot3-gazebo
-  # - twist-recovery
-  # - ublox-serialization
-  # - unique-id
-  # - ur-msgs
-  # - urg-stamped
-  # - usb-cam-hardware-interface
-  # - variant-msgs
-  # - vector-map-msgs
-  # - velodyne-pcl
-  # - view-controller-msgs
-  # - vision-msgs
-  # - vrpn
-  # - webots-ros
-  # - wge100-camera-firmware
-  # - willow-maps
-  # - wireless-msgs
-  # - xpp-msgs
-  # - xpp-states
-  # - xv-11-laser-driver
+  - log-view
+  - lpg-planner
+  - map-laser
+  - map-organizer-msgs
+  - marker-msgs
+  - marti-can-msgs
+  - marti-common-msgs
+  - marti-data-structures
+  - marti-dbw-msgs
+  - marti-perception-msgs
+  - marti-sensor-msgs
+  - marti-status-msgs
+  - marti-visualization-msgs
+  - mbf-abstract-nav
+  - mcl-3dl-msgs
+  - mesh-msgs
+  - message-to-tf
+  - mini-maxwell
+  - mir-actions
+  - mir-description
+  - mir-msgs
+  - mobile-robot-simulator
+  - mobileye-560-660-msgs
+  - mocap-optitrack
+  - mouse-teleop
+  - move-base-sequence
+  - moveit-python
+  - moveit-resources
+  - moveit-runtime
+  - mpc-local-planner-msgs
+  - mqtt-bridge
+  - mrpt-msgs
+  - mrt-cmake-modules
+  - multirobot-map-merge
+  - multisense-description
+  - nav-2d-msgs
+  - nav-grid
+  - ncd-parser
+  - neo-local-planner
+  - neobotix-usboard-msgs
+  - neonavigation-common
+  - network-interface
+  - nonpersistent-voxel-layer
+  - novatel-oem7-msgs
+  - ntpd-driver
+  - octomap-ros
+  - odva-ethernetip
+  - openzen-sensor
+  - p2os-doc
+  - p2os-msgs
+  - p2os-teleop
+  - pacmod-msgs
+  - paho-mqtt-c
+  - parameter-pa
+  - people-msgs
+  - pgm-learner
+  - phidgets-msgs
+  - picovoice-msgs
+  - pid
+  - pilz-industrial-motion-testutils
+  - pilz-msgs
+  - pilz-utils
+  - pincher-arm-description
+  - pinocchio
+  - planner-cspace-msgs
+  - polar-scan-matcher
+  - pose-base-controller
+  - pose-follower
+  - posedetection-msgs
+  - power-msgs
+  - pr2-common-action-msgs
+  - pr2-controllers-msgs
+  - pr2-description
+  - pr2-hardware-interface
+  - pr2-machine
+  - pr2-mechanism-msgs
+  - pr2-msgs
+  - prosilica-gige-sdk
+  - py-trees
+  - py-trees-msgs
+  - pyquaternion
+  - qt-gui-app
+  - radar-msgs
+  - raw-description
+  - razor-imu-9dof
+  - rc-common-msgs
+  - rc-visard-description
+  - realsense2-description
+  - remote-rosbag-record
+  - rgbd-launch
+  - robot-calibration-msgs
+  - robot-controllers-msgs
+  - roboticsgroup-upatras-gazebo-plugins
+  - rokubimini
+  - rokubimini-description
+  - rokubimini-msgs
+  - ros-babel-fish-test-msgs
+  - ros-industrial-cmake-boilerplate
+  - ros-introspection
+  - ros-pytest
+  - ros-type-introspection
+  - rosatomic
+  - rosbag-snapshot-msgs
+  - rosbaglive
+  - rosdiagnostic
+  - rosdoc-lite
+  - rosemacs
+  - rosfmt
+  - rosmon-msgs
+  - rosparam-shortcuts
+  - rospatlite
+  - rosping
+  - rospy-message-converter
+  - rosserial-chibios
+  - rosserial-embeddedlinux
+  - rosserial-mbed
+  - rosserial-tivac
+  - rosserial-vex-cortex
+  - rosserial-vex-v5
+  - rosserial-windows
+  - rosserial-xbee
+  - rostwitter
+  - rqt
+  - rqt-controller-manager
+  - rqt-drone-teleop
+  - rqt-ez-publisher
+  - rqt-ground-robot-teleop
+  - rqt-joint-trajectory-controller
+  - rx-service-tools
+  - safety-limiter-msgs
+  - sbpl
+  - schunk-description
+  - sdc21x0
+  - septentrio-gnss-driver
+  - service-tools
+  - settlerlib
+  - sick-safetyscanners
+  - sick-tim
+  - slam-gmapping
+  - slam-toolbox-rviz
+  - slic
+  - slider-publisher
+  - slime-wrapper
+  - smach-viewer
+  - sob-layer
+  - soem
+  - sophus
+  - sound-play
+  - speech-recognition-msgs
+  - speed-scaling-interface
+  - swri-console
+  - swri-dbw-interface
+  - swri-math-util
+  - swri-prefix-tools
+  - swri-profiler-msgs
+  - swri-rospy
+  - swri-string-util
+  - swri-system-util
+  - swri-yaml-util
+  - tablet-socket-msgs
+  - taskflow
+  - teleop-legged-robots
+  - teleop-tools-msgs
+  - teleop-twist-keyboard
+  - tf2-bullet
+  - tf2-tools
+  - timestamp-tools
+  - toposens-msgs
+  - trajectory-tracker-msgs
+  - turtlebot3-autorace-camera
+  - turtlebot3-autorace-core
+  - turtlebot3-autorace-detect
+  - turtlebot3-autorace-msgs
+  - turtlebot3-gazebo
+  - twist-recovery
+  - ublox-serialization
+  - unique-id
+  - ur-msgs
+  - urg-stamped
+  - usb-cam-hardware-interface
+  - variant-msgs
+  - vector-map-msgs
+  - velodyne-pcl
+  - view-controller-msgs
+  - vision-msgs
+  - vrpn
+  - webots-ros
+  - wge100-camera-firmware
+  - willow-maps
+  - wireless-msgs
+  - xpp-msgs
+  - xpp-states
+  - xv-11-laser-driver
 
   ##
   # DONE OSX
   ##
-  # - moveit-msgs
-  # - rviz
-  # - moveit_core
-  # - moveit_kinematics
-  # - robot_state_publisher
-  # - tf_conversions
-  # - kdl_parser_py
-  # - rosserial
-  # - rosserial-arduino
-  # - rosserial-python
-  # - rosserial-msgs
-  # - rviz
-  # - ur_client_library
-  # - realsense2_camera
-  # - tf2_web_republisher
-  # - franka_ros
-  # - franka_example_controllers
-  # - libfranka
-  # - franka_visualization
-  # - franka_hw
-  # - franka_gripper
-  # - franka_ros
-  # - franka_msgs
-  # - franka_description
-  # - franka_control
-  # - fcl
-  # - ros_numpy
-  # - eigenpy
-  # - kdl_parser_py
-  # - catkin
-  # - rospack
-  # - pluginlib
-  # - qt_gui_cpp
-  # - ros_numpy
-  # - velodyne_simulator
-  # - rviz
-  # - mavros
-  # - hector_gazebo_plugins
-  # - navigation
-  # - plotjuggler_ros
-  # - catkin
-  # - desktop
-  # - desktop_full
-  # - slam_karto
-  # - class_loader
-  # - robot
-  # - executive_smach
-  # - geometry_tutorials
-  # - interactive_marker_tutorials
-  # - joint_state_publisher_gui
-  # - nodelet_core
-  # - robot_state_publisher
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - ros_control
-  # - ros_controllers
-  # - rviz_visual_tools
-  # - perception
-  # - perception_pcl
-  # - joy
-  # - imu_tools
-  # - velodyne
-  # - rosbridge_suite
-  # - robot_localization
-  # - urg_node
-  # - teb_local_planner
-  # - moveit
-  # - slam_toolbox
-  # - turtlebot3
-  # - cnpy
-  # - turtlebot3_fake
-  # - gmapping
-  # - interactive_marker_twist_server
-  # - teleop_twist_joy
-  # - twist_mux
-  # - pointgrey_camera_description
-  # - lms1xx
-  # - nmea_msgs
-  # - rosserial
-  # - nmea_navsat_driver
-  # - rosserial_server
-  # - robot_upstart
-  # - nmea_comms
+  - moveit-msgs
+  - rviz
+  - moveit_core
+  - moveit_kinematics
+  - robot_state_publisher
+  - tf_conversions
+  - kdl_parser_py
+  - rosserial
+  - rosserial-arduino
+  - rosserial-python
+  - rosserial-msgs
+  - rviz
+  - ur_client_library
+  - realsense2_camera
+  - tf2_web_republisher
+  - franka_ros
+  - franka_example_controllers
+  - libfranka
+  - franka_visualization
+  - franka_hw
+  - franka_gripper
+  - franka_ros
+  - franka_msgs
+  - franka_description
+  - franka_control
+  - fcl
+  - ros_numpy
+  - eigenpy
+  - kdl_parser_py
+  - catkin
+  - rospack
+  - pluginlib
+  - qt_gui_cpp
+  - ros_numpy
+  - velodyne_simulator
+  - rviz
+  - mavros
+  - hector_gazebo_plugins
+  - navigation
+  - plotjuggler_ros
+  - catkin
+  - desktop
+  - desktop_full
+  - slam_karto
+  - class_loader
+  - robot
+  - executive_smach
+  - geometry_tutorials
+  - interactive_marker_tutorials
+  - joint_state_publisher_gui
+  - nodelet_core
+  - robot_state_publisher
+  - diagnostic_analysis
+  - diagnostic_common_diagnostics
+  - ros_control
+  - ros_controllers
+  - rviz_visual_tools
+  - perception
+  - perception_pcl
+  - joy
+  - imu_tools
+  - velodyne
+  - rosbridge_suite
+  - robot_localization
+  - urg_node
+  - teb_local_planner
+  - moveit
+  - slam_toolbox
+  - turtlebot3
+  - cnpy
+  - turtlebot3_fake
+  - gmapping
+  - interactive_marker_twist_server
+  - teleop_twist_joy
+  - twist_mux
+  - pointgrey_camera_description
+  - lms1xx
+  - nmea_msgs
+  - rosserial
+  - nmea_navsat_driver
+  - rosserial_server
+  - robot_upstart
+  - nmea_comms
 
   ##
   # NOT RELEASED ON NOETIC...

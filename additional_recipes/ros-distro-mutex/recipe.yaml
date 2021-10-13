@@ -1,13 +1,13 @@
 package:
   name: ros-distro-mutex
-  version: 0.1.1
+  version: 0.2.0
 
 build:
   number: 0
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.1 noetic
+    - ros-distro-mutex 0.2 noetic
 
 requirements:
   # NOTE:
@@ -34,9 +34,10 @@ requirements:
     - log4cxx 0.11
     - pcl 1.11
     - libopencv 4.5.2
-    - poco 1.10
+    - poco 1.11
     - gazebo 11
     - ogre 1.10.12
+    - libpqxx 6
 
 about:
   home: https://github.com/robostack/ros-noetic
