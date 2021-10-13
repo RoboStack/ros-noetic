@@ -30,6 +30,9 @@ skip_existing:
 
 packages_select_by_deps:
   # - pybind11_catkin  # need to be unvendored
+  # Fix after rebuild
+  # - mavros
+  
   - openslam-gmapping
 
   - laser-proc
@@ -378,7 +381,6 @@ packages_select_by_deps:
   - rosserial_server
   - hardware_interface
   - moveit
-  - mavros
   - navigation
   - cnpy
   - tf2_ros
