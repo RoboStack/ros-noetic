@@ -44,6 +44,7 @@ packages_select_by_deps:
   # - tesseract-scene-graph
   # - tesseract-srdf
   # - tesseract-support
+  # - robot-calibration
 
   - openslam-gmapping
   - turtlesim
@@ -146,7 +147,6 @@ packages_select_by_deps:
   - pr2-mechanism-model
   - pr2-tuckarm
   - rc-reason-clients
-  - robot-calibration
   - robot-controllers
   - robot-mechanism-controllers
   - ros-control-boilerplate
