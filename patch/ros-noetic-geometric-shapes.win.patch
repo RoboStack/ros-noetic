@@ -28,3 +28,12 @@ index e67982a..4eac63d 100644
  find_package(Boost REQUIRED system filesystem)
  
  find_package(console_bridge REQUIRED)
+@@ -86,7 +86,7 @@ add_library(${PROJECT_NAME}
+   src/shape_to_marker.cpp
+   src/shapes.cpp
+ )
+-target_compile_options(${PROJECT_NAME} PRIVATE ${PROJECT_COMPILE_OPTIONS})
++# target_compile_options(${PROJECT_NAME} PRIVATE ${PROJECT_COMPILE_OPTIONS})
+ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
+ 
+ target_link_libraries(${PROJECT_NAME} ${ASSIMP_LIBRARIES} ${QHULL_LIBRARIES} ${catkin_LIBRARIES} ${console_bridge_LIBRARIES} ${Boost_LIBRARIES})

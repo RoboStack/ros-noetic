@@ -33,7 +33,7 @@ conda config --add channels conda-forge
 conda config --add channels robostack
 conda config --set channel_priority strict
 ```
-2. Install some dependencies: `conda install pip conda-build anaconda-client mamba conda catkin_pkg ruamel_yaml rosdistro empy networkx requests boa`
+2. Install some dependencies: `conda install pip conda-build anaconda-client mamba conda catkin_pkg ruamel.yaml rosdistro empy networkx requests boa`
 3. Install vinca: `pip install git+https://github.com/RoboStack/vinca.git@master --no-deps`
 4. Clone this repo: `git clone https://github.com/RoboStack/ros-noetic.git`
 5. `cd ros-noetic`

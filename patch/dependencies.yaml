@@ -13,9 +13,9 @@ gazebo_ros_control:
 gazebo_pkgs:
   add_host: [tbb]
 ros_ign_gazebo:
-  add_host: ["REQUIRE_OPENGL"]
-apriltag:
   add_host: ["REQUIRE_OPENGL", {"sel(linux)": "libuuid"}]
+apriltag:
+  add_host: ["REQUIRE_OPENGL"]
 lvr2:
   add_host: ["libgdal", "pkg-config", "cgal-cpp"]
 rtabmap:
