@@ -44,6 +44,7 @@ packages_select_by_deps:
   # - plotjuggler_ros
   # - tsid
   # - sesame_ros
+  # - ethercat_grant
 
   ##
   #  TODO Linux 
@@ -891,7 +892,6 @@ packages_select_by_deps:
   - fkie_message_filters
   - fkie_potree_rviz_plugin
   - fkie_multimaster
-  - ethercat_grant
   - fetch_open_auto_dock
   - fetch_tools
   - fetch_drivers

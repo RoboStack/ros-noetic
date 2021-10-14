@@ -38,6 +38,7 @@ packages_select_by_deps:
   # Need to build in own stage
   # - fcl
   # - teb_local_planner
+  # - plotjuggler_ros
 
   - openslam-gmapping
 
@@ -390,7 +391,6 @@ packages_select_by_deps:
   - tf2_ros
   - desktop_full
   - perception
-  - plotjuggler_ros
   - desktop
   - octomap
   - rqt_rviz
