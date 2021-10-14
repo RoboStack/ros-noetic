@@ -45,6 +45,7 @@ packages_select_by_deps:
   # - tsid
   # - sesame_ros
   # - ethercat_grant
+  # - ros_ign
 
   ##
   #  TODO Linux 
@@ -930,7 +931,6 @@ packages_select_by_deps:
   - behaviortree_cpp_v3
   - codec_image_transport
   - kdl_parser_py
-  - ros_ign
   - velodyne_simulator
   - catkin
   - hector_gazebo_plugins
