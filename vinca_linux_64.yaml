@@ -46,7 +46,27 @@ packages_select_by_deps:
   # - sesame_ros
   # - ethercat_grant
   # - ros_ign
-
+  # - swri-geometry-util
+  # - swri-opencv-util
+  # - swri-transform-util
+  # - swri-console-util
+  # - swri-opencv-util
+  # - swri-profiler
+  # - swri-profiler-tools
+  # - swri-console
+  # - swri-dbw-interface
+  # - swri-math-util
+  # - swri-nodelet
+  # - swri-prefix-tools
+  # - swri-profiler-msgs
+  # - swri-rospy
+  # - swri-serial-util
+  # - swri-string-util
+  # - swri-system-util
+  # - swri_image_util
+  # - swri_geometry_util
+  # - swri_route_util
+  
   ##
   #  TODO Linux 
   ##
@@ -152,9 +172,6 @@ packages_select_by_deps:
   - rqt-image-view
   - stag-ros
   - stereo-image-proc
-  - swri-geometry-util
-  - swri-opencv-util
-  - swri-transform-util
   - theora-image-transport
   - turtlebot3-autorace-camera
   - turtlebot3-autorace-detect
@@ -459,10 +476,6 @@ packages_select_by_deps:
   - sot-tools
   - speed-scaling-interface
   - speed-scaling-state-controller
-  - swri-console-util
-  - swri-opencv-util
-  - swri-profiler
-  - swri-profiler-tools
   - teleop-tools
   - tesseract-common
   - tesseract-geometry
@@ -812,16 +825,6 @@ packages_select_by_deps:
   - sound-play
   - speech-recognition-msgs
   - stag-ros
-  - swri-console
-  - swri-dbw-interface
-  - swri-math-util
-  - swri-nodelet
-  - swri-prefix-tools
-  - swri-profiler-msgs
-  - swri-rospy
-  - swri-serial-util
-  - swri-string-util
-  - swri-system-util
   - tablet-socket-msgs
   - taskflow
   - teleop-legged-robots
@@ -878,7 +881,6 @@ packages_select_by_deps:
   - sainsmart_relay_usb
   - mqtt_bridge
   - mapviz_plugins
-  - swri_image_util
   - exotica_core
   - catkin
   
@@ -919,8 +921,6 @@ packages_select_by_deps:
   - ypspur_ros
   - zbar_ros
   - mapviz
-  - swri_geometry_util
-  - swri_route_util
   - tf2_web_republisher
   - fetch_ros
   - spacenav_node
