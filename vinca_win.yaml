@@ -34,7 +34,12 @@ packages_select_by_deps:
   # Fix after rebuild
   # - mavros
   # - drone-wrapper
-  
+  # - perception_pcl
+  # - velodyne_pcl
+  # - realsense2_camera
+  # - realsense2-description
+  # - librealsense2
+
   # Need to build in own stage
   # - fcl
   # - teb_local_planner
@@ -248,7 +253,6 @@ packages_select_by_deps:
   - razor-imu-9dof
   - rc-common-msgs
   - rc-visard-description
-  - realsense2-description
   - remote-rosbag-record
   - rgbd-launch
   - robot-calibration-msgs
@@ -370,8 +374,6 @@ packages_select_by_deps:
   - rosserial_windows
   - turtlebot3_fake
   - rosserial
-  - librealsense2
-  - realsense2_camera
   - tf2_web_republisher
   - catkin
   - kdl_parser_py
@@ -403,7 +405,6 @@ packages_select_by_deps:
   - joy
   - velodyne_laserscan
   - velodyne_msgs
-  - velodyne_pcl
   - imu_tools
   - rviz_visual_tools
   - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
@@ -412,7 +413,6 @@ packages_select_by_deps:
   - franka_msgs
   - franka_description
   - rqt_image_view
-  - perception_pcl
   - gmapping
   - interactive_marker_twist_server
   - teleop_twist_joy
