@@ -137,3 +137,5 @@ ifopt:
   add_host: ["ipopt"]
 tesseract_collision:
   add_build: [{"sel(osx)": "llvm-openmp"}]
+rosbridge_library:
+  add_run: ["pymongo"]
