@@ -95,7 +95,7 @@ jobs:
         git clean -fdx
         cp vinca_linux_64.yaml vinca.yaml
         if [[ -f migration.yaml ]]; then
-          vinca-migrate --platform linux-64
+          vinca-migrate --platform linux-64 -d .
           cat buildorder.txt | while read packagetobuild
           do
              boa build recipes/$packagetobuild -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
