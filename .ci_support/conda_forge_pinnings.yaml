@@ -493,7 +493,7 @@ libmicrohttpd:
 libnetcdf:
   - 4.7.4
 libopencv:
-  - 4.5.2
+  - 4.5.3
 libpcap:
   - '1.10'
 libpng:
