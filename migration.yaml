@@ -3,3 +3,4 @@ packages:
   - gdal
   - libgdal
   - hdf5
+  - vtk
