@@ -2,3 +2,4 @@ packages:
   - libopencv
   - gdal
   - libgdal
+  - hdf5

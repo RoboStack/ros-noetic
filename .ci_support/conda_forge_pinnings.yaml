@@ -437,7 +437,7 @@ harfbuzz:
 hdf4:
   - 4.2
 hdf5:
-  - 1.10.6
+  - 1.12.1
 icu:
   - 68
 ipopt:
