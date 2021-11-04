@@ -403,7 +403,7 @@ gstreamer:
 gst_plugins_base:
   - 1.18
 gdal:
-  - '3.2'
+  - '3.3'
 geos:
   - 3.9.1
 geotiff:
@@ -477,7 +477,7 @@ libffi:
 libflint:
   - '2.8'
 libgdal:
-  - '3.2'
+  - '3.3'
 libgit2:
   - '1.2'
 libiconv:
