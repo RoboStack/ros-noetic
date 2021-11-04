@@ -9,8 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        platform: [linux-64, linux-aarch64, osx-64, win-64, osx-arm64]
+        os: [ubuntu-latest] #, macos-latest, windows-latest]
+        platform: [linux-64] #, linux-aarch64, osx-64, win-64, osx-arm64]
         exclude:
           - os: ubuntu-latest
             platform: win-64
@@ -55,7 +55,7 @@ jobs:
       run: |
         conda info
         conda config --show
-        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        mamba install -y pip rospkg networkx rich "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
         mamba install -y boa --only-deps
     - name: install vinca and boa master
       shell: bash -l {0}
@@ -63,7 +63,7 @@ jobs:
         # for now we need boa master
         pip install git+https://github.com/mamba-org/boa@master
         # use no-deps for now, otherwise problems with ruamel.
-        pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+        pip install git+https://github.com/wolfv/vinca.git@migrate_ii --no-deps
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
     - name: Debug pkg-config problem
@@ -79,7 +79,7 @@ jobs:
         # continue on error
         set +e
         git diff --exit-code --name-only origin/master -- vinca_linux_64.yaml > /dev/null
-        echo "::set-output name=LINUX_YAML_CHANGED::${?}"
+        echo "::set-output name=LINUX_YAML_CHANGED::1"
         git diff --exit-code --name-only origin/master -- vinca_linux_aarch64.yaml > /dev/null
         echo "::set-output name=LINUX_AARCH_YAML_CHANGED::${?}"
         git diff --exit-code --name-only origin/master -- vinca_osx.yaml > /dev/null
@@ -94,67 +94,75 @@ jobs:
       run: |
         git clean -fdx
         cp vinca_linux_64.yaml vinca.yaml
-        vinca --platform linux-64
-        ls
-        cat recipe.yaml
-    - name: Generate recipes for Linux-ARM64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
-      run: |
-        git clean -fdx
-        cp vinca_linux_aarch64.yaml vinca.yaml
-        vinca --platform linux-aarch64
-        ls
-        cat recipe.yaml
-    - name: Generate recipes for macOS
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
-      run: |
-        git clean -fdx
-        cp vinca_osx.yaml vinca.yaml
-        vinca --platform osx-64
-        ls
-        cat recipe.yaml
-    - name: Generate recipes for macOS-ARM64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
-      run: |
-        git clean -fdx
-        cp vinca_osx_arm64.yaml vinca.yaml
-        vinca --platform osx-arm64
-        ls
-        cat recipe.yaml
-    - name: Generate recipes for Windows
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
-      run: |
-        git clean -fdx
-        cp vinca_win.yaml vinca.yaml
-        vinca --platform win-64
-        ls
-        cat recipe.yaml
-    - name: Build recipes for Linux
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
-      run: |
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-    - name: Build recipes for Linux-ARM64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
-      run: |
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
-    - name: Build recipes for macOS
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
-      run: |
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-    - name: Build recipes for macOS-ARM64
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
-      run: |
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
-    - name: Build recipes for Windows
-      shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
-      run: |
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        if [[ -f migration.yaml ]]; then
+          vinca-migrate --platform linux-64
+          cat buildorder.txt | while read packagetobuild
+          do
+             boa build recipes/$packagetobuild -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+          done
+        fi
+
+    #     vinca --platform linux-64
+    #     ls
+    #     cat recipe.yaml
+    # - name: Generate recipes for Linux-ARM64
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+    #   run: |
+    #     git clean -fdx
+    #     cp vinca_linux_aarch64.yaml vinca.yaml
+    #     vinca --platform linux-aarch64
+    #     ls
+    #     cat recipe.yaml
+    # - name: Generate recipes for macOS
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
+    #   run: |
+    #     git clean -fdx
+    #     cp vinca_osx.yaml vinca.yaml
+    #     vinca --platform osx-64
+    #     ls
+    #     cat recipe.yaml
+    # - name: Generate recipes for macOS-ARM64
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
+    #   run: |
+    #     git clean -fdx
+    #     cp vinca_osx_arm64.yaml vinca.yaml
+    #     vinca --platform osx-arm64
+    #     ls
+    #     cat recipe.yaml
+    # - name: Generate recipes for Windows
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
+    #   run: |
+    #     git clean -fdx
+    #     cp vinca_win.yaml vinca.yaml
+    #     vinca --platform win-64
+    #     ls
+    #     cat recipe.yaml
+    # - name: Build recipes for Linux
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+    #   run: |
+    #     boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+    # - name: Build recipes for Linux-ARM64
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+    #   run: |
+    #     boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
+    # - name: Build recipes for macOS
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
+    #   run: |
+    #     boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+    # - name: Build recipes for macOS-ARM64
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
+    #   run: |
+    #     boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
+    # - name: Build recipes for Windows
+    #   shell: bash -l {0}
+    #   if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
+    #   run: |
+    #     boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml

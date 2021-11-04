@@ -1,6 +1,6 @@
 package:
   name: ros-distro-mutex
-  version: 0.2.0
+  version: 0.2.1
 
 build:
   number: 0
@@ -33,7 +33,7 @@ requirements:
     - boost-cpp 1.74
     - log4cxx 0.11
     - pcl 1.11
-    - libopencv 4.5.2
+    - libopencv 4.5.3
     - poco 1.11
     - gazebo 11
     - ogre 1.10.12
