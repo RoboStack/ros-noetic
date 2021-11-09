@@ -1,0 +1,264 @@
+From 212e2dc46740bc4ed2faddfebc34fc7758c3183d Mon Sep 17 00:00:00 2001
+From: Sean Yen <seanyen@microsoft.com>
+Date: Fri, 29 May 2020 11:28:06 -0700
+Subject: [PATCH 1/5] Make GTK3 and harfbuzz optional
+
+---
+ image_view/CMakeLists.txt | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/image_view/CMakeLists.txt b/image_view/CMakeLists.txt
+index 747e0ab26..8bb5ec167 100644
+--- a/image_view/CMakeLists.txt
++++ b/image_view/CMakeLists.txt
+@@ -39,10 +39,16 @@ if(ANDROID)
+ endif()
+ 
+ find_package(PkgConfig REQUIRED)
+-pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
++pkg_check_modules(GTK3 gtk+-3.0)
++if(NOT GTK3_FOUND)
++  message(STATUS "GTK3 is not found. Some features are disabled.")
++endif()
+ include_directories(${GTK3_INCLUDE_DIRS})
+ 
+-pkg_check_modules(PC_HB REQUIRED harfbuzz)
++pkg_check_modules(PC_HB harfbuzz)
++if(NOT PC_HB_FOUND)
++  message(STATUS "harfbuzz is not found. Some features are disabled.")
++endif()
+ include_directories(${PC_HB_INCLUDE_DIRS})
+ 
+ # Nodelet library
+
+From d9c5ac21c9f8c1bfb6a01953f74f0991291c6e7b Mon Sep 17 00:00:00 2001
+From: Sean Yen <seanyen@microsoft.com>
+Date: Thu, 8 Oct 2020 12:16:52 -0700
+Subject: [PATCH 2/5] Update image_view/CMakeLists.txt
+
+Co-authored-by: Joshua Whitley <josh.whitley@autoware.org>
+---
+ image_view/CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/image_view/CMakeLists.txt b/image_view/CMakeLists.txt
+index 8bb5ec167..8af34f512 100644
+--- a/image_view/CMakeLists.txt
++++ b/image_view/CMakeLists.txt
+@@ -46,10 +46,11 @@ endif()
+ include_directories(${GTK3_INCLUDE_DIRS})
+ 
+ pkg_check_modules(PC_HB harfbuzz)
+-if(NOT PC_HB_FOUND)
++if(PC_HB_FOUND)
++  include_directories(${PC_HB_INCLUDE_DIRS})
++else()
+   message(STATUS "harfbuzz is not found. Some features are disabled.")
+ endif()
+-include_directories(${PC_HB_INCLUDE_DIRS})
+ 
+ # Nodelet library
+ add_library(image_view src/nodelets/image_nodelet.cpp src/nodelets/disparity_nodelet.cpp src/nodelets/window_thread.cpp)
+
+From b81bfb5398e740563644efc42fea6132d7b8cb87 Mon Sep 17 00:00:00 2001
+From: Sean Yen <seanyen@microsoft.com>
+Date: Thu, 8 Oct 2020 12:17:04 -0700
+Subject: [PATCH 3/5] Update image_view/CMakeLists.txt
+
+Co-authored-by: Joshua Whitley <josh.whitley@autoware.org>
+---
+ image_view/CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/image_view/CMakeLists.txt b/image_view/CMakeLists.txt
+index 8af34f512..14b4a8cab 100644
+--- a/image_view/CMakeLists.txt
++++ b/image_view/CMakeLists.txt
+@@ -40,10 +40,11 @@ endif()
+ 
+ find_package(PkgConfig REQUIRED)
+ pkg_check_modules(GTK3 gtk+-3.0)
+-if(NOT GTK3_FOUND)
++if(GTK3_FOUND)
++  include_directories(${GTK3_INCLUDE_DIRS})
++else()
+   message(STATUS "GTK3 is not found. Some features are disabled.")
+ endif()
+-include_directories(${GTK3_INCLUDE_DIRS})
+ 
+ pkg_check_modules(PC_HB harfbuzz)
+ if(PC_HB_FOUND)
+
+From 65bad160230f14b3014243a30f073cdd45b32236 Mon Sep 17 00:00:00 2001
+From: seanyen <seanyen@microsoft.com>
+Date: Fri, 29 Jan 2021 13:18:06 -0800
+Subject: [PATCH 4/5] remove harfbuzz.
+
+---
+ image_view/CMakeLists.txt | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/image_view/CMakeLists.txt b/image_view/CMakeLists.txt
+index 14b4a8cab..4cbf2cd6b 100644
+--- a/image_view/CMakeLists.txt
++++ b/image_view/CMakeLists.txt
+@@ -46,13 +46,6 @@ else()
+   message(STATUS "GTK3 is not found. Some features are disabled.")
+ endif()
+ 
+-pkg_check_modules(PC_HB harfbuzz)
+-if(PC_HB_FOUND)
+-  include_directories(${PC_HB_INCLUDE_DIRS})
+-else()
+-  message(STATUS "harfbuzz is not found. Some features are disabled.")
+-endif()
+-
+ # Nodelet library
+ add_library(image_view src/nodelets/image_nodelet.cpp src/nodelets/disparity_nodelet.cpp src/nodelets/window_thread.cpp)
+ target_link_libraries(image_view ${catkin_LIBRARIES}
+
+From 56e7e0269345f5c0696ec82fe5b5f6fbc144073f Mon Sep 17 00:00:00 2001
+From: seanyen <seanyen@microsoft.com>
+Date: Fri, 29 Jan 2021 13:24:27 -0800
+Subject: [PATCH 5/5] remove GTK3 dep.
+
+---
+ image_view/CMakeLists.txt                     | 10 -------
+ image_view/package.xml                        |  2 --
+ image_view/src/nodelets/disparity_nodelet.cpp | 27 -------------------
+ image_view/src/nodes/stereo_view.cpp          | 19 -------------
+ 4 files changed, 58 deletions(-)
+
+diff --git a/image_view/CMakeLists.txt b/image_view/CMakeLists.txt
+index 4cbf2cd6b..551fe9b30 100644
+--- a/image_view/CMakeLists.txt
++++ b/image_view/CMakeLists.txt
+@@ -38,18 +38,9 @@ if(ANDROID)
+   return()
+ endif()
+ 
+-find_package(PkgConfig REQUIRED)
+-pkg_check_modules(GTK3 gtk+-3.0)
+-if(GTK3_FOUND)
+-  include_directories(${GTK3_INCLUDE_DIRS})
+-else()
+-  message(STATUS "GTK3 is not found. Some features are disabled.")
+-endif()
+-
+ # Nodelet library
+ add_library(image_view src/nodelets/image_nodelet.cpp src/nodelets/disparity_nodelet.cpp src/nodelets/window_thread.cpp)
+ target_link_libraries(image_view ${catkin_LIBRARIES}
+-                                 ${GTK3_LIBRARIES}
+                                  ${OpenCV_LIBRARIES}
+                                  ${Boost_LIBRARIES}
+ )
+@@ -77,7 +68,6 @@ target_link_libraries(disparity_view ${catkin_LIBRARIES}
+ add_executable(stereo_view src/nodes/stereo_view.cpp)
+ target_link_libraries(stereo_view ${Boost_LIBRARIES}
+                                   ${catkin_LIBRARIES}
+-                                  ${GTK3_LIBRARIES}
+                                   ${OpenCV_LIBRARIES}
+ )
+ 
+diff --git a/image_view/package.xml b/image_view/package.xml
+index 9154fce4d..3cae03c57 100644
+--- a/image_view/package.xml
++++ b/image_view/package.xml
+@@ -23,7 +23,6 @@
+   <build_depend>camera_calibration_parsers</build_depend>
+   <build_depend version_gte="1.11.13">cv_bridge</build_depend>
+   <build_depend>dynamic_reconfigure</build_depend>
+-  <build_depend>gtk3</build_depend>
+   <build_depend>image_transport</build_depend>
+   <build_depend>message_filters</build_depend>
+   <build_depend>message_generation</build_depend>
+@@ -37,7 +36,6 @@
+   <run_depend>camera_calibration_parsers</run_depend>
+   <run_depend version_gte="1.11.13">cv_bridge</run_depend>
+   <run_depend>dynamic_reconfigure</run_depend>
+-  <run_depend>gtk3</run_depend>
+   <run_depend>image_transport</run_depend>
+   <run_depend>message_filters</run_depend>
+   <run_depend>nodelet</run_depend>
+diff --git a/image_view/src/nodelets/disparity_nodelet.cpp b/image_view/src/nodelets/disparity_nodelet.cpp
+index e177a8762..dc324b7d5 100644
+--- a/image_view/src/nodelets/disparity_nodelet.cpp
++++ b/image_view/src/nodelets/disparity_nodelet.cpp
+@@ -38,25 +38,6 @@
+ #include <opencv2/highgui/highgui.hpp>
+ #include "window_thread.h"
+ 
+-#ifdef HAVE_GTK
+-#include <gtk/gtk.h>
+-
+-// Platform-specific workaround for #3026: image_view doesn't close when
+-// closing image window. On platforms using GTK+ we connect this to the
+-// window's "destroy" event so that image_view exits.
+-static void destroyNode(GtkWidget *widget, gpointer data)
+-{
+-  exit(0);
+-}
+-
+-static void destroyNodelet(GtkWidget *widget, gpointer data)
+-{
+-  // We can't actually unload the nodelet from here, but we can at least
+-  // unsubscribe from the image topic.
+-  reinterpret_cast<ros::Subscriber*>(data)->shutdown();
+-}
+-#endif
+-
+ 
+ namespace image_view {
+ 
+@@ -103,14 +84,6 @@ void DisparityNodelet::onInit()
+ 
+   //cv::namedWindow(window_name_, autosize ? cv::WND_PROP_AUTOSIZE : 0);
+ #if CV_MAJOR_VERSION ==2
+-#ifdef HAVE_GTK
+-  // Register appropriate handler for when user closes the display window
+-  GtkWidget *widget = GTK_WIDGET( cvGetWindowHandle(window_name_.c_str()) );
+-  if (shutdown_on_close)
+-    g_signal_connect(widget, "destroy", G_CALLBACK(destroyNode), NULL);
+-  else
+-    g_signal_connect(widget, "destroy", G_CALLBACK(destroyNodelet), &sub_);
+-#endif
+   // Start the OpenCV window thread so we don't have to waitKey() somewhere
+   startWindowThread();
+ #endif
+diff --git a/image_view/src/nodes/stereo_view.cpp b/image_view/src/nodes/stereo_view.cpp
+index 64a01ccb3..51c80eb9f 100644
+--- a/image_view/src/nodes/stereo_view.cpp
++++ b/image_view/src/nodes/stereo_view.cpp
+@@ -49,17 +49,6 @@
+ #include <boost/thread.hpp>
+ #include <boost/format.hpp>
+ 
+-#ifdef HAVE_GTK
+-#include <gtk/gtk.h>
+-
+-// Platform-specific workaround for #3026: image_view doesn't close when
+-// closing image window. On platforms using GTK+ we connect this to the
+-// window's "destroy" event so that image_view exits.
+-static void destroy(GtkWidget *widget, gpointer data)
+-{
+-  ros::shutdown();
+-}
+-#endif
+ 
+ namespace enc = sensor_msgs::image_encodings;
+ 
+@@ -380,14 +369,6 @@ class StereoView
+     cv::setMouseCallback("right",     &StereoView::mouseCb, this);
+     cv::setMouseCallback("disparity", &StereoView::mouseCb, this);
+ #if CV_MAJOR_VERSION == 2
+-#ifdef HAVE_GTK
+-    g_signal_connect(GTK_WIDGET( cvGetWindowHandle("left") ),
+-                     "destroy", G_CALLBACK(destroy), NULL);
+-    g_signal_connect(GTK_WIDGET( cvGetWindowHandle("right") ),
+-                     "destroy", G_CALLBACK(destroy), NULL);
+-    g_signal_connect(GTK_WIDGET( cvGetWindowHandle("disparity") ),
+-                     "destroy", G_CALLBACK(destroy), NULL);
+-#endif
+     cvStartWindowThread();
+ #endif
+ 
