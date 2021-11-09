@@ -45,6 +45,9 @@ packages_select_by_deps:
   # - tesseract-srdf
   # - tesseract-support
   # - robot-calibration
+  # - mbf-costmap-nav
+  # - mbf-simple-nav
+  # - mbf-abstract-nav
 
   - openslam-gmapping
   - turtlesim
@@ -266,8 +269,6 @@ packages_select_by_deps:
   - locomotor-msgs
   - map-organizer
   - marti-nav-msgs
-  - mbf-costmap-nav
-  - mbf-simple-nav
   - mesh-msgs-transform
   - mir-driver
   - nav-core2
@@ -475,7 +476,6 @@ packages_select_by_deps:
   - marti-sensor-msgs
   - marti-status-msgs
   - marti-visualization-msgs
-  - mbf-abstract-nav
   - mcl-3dl-msgs
   - mesh-msgs
   - message-to-tf
