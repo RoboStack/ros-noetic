@@ -66,7 +66,12 @@ packages_select_by_deps:
   # - swri_image_util
   # - swri_geometry_util
   # - swri_route_util
-  
+  # - toposens-driver
+  # - toposens-markers
+  # - toposens
+  # - toposens-description
+  # - toposens-msgs
+
   ##
   #  TODO Linux 
   ##
@@ -481,8 +486,6 @@ packages_select_by_deps:
   - tesseract-geometry
   - tesseract-support
   - thunder-line-follower-pmr3100
-  - toposens-driver
-  - toposens-markers
   - track-odometry
   - trajectory-tracker
   - trajectory-tracker-rviz-plugins
@@ -515,7 +518,6 @@ packages_select_by_deps:
   - wireless-watcher
   - wu-ros-tools
   - moveit-msgs
-  - toposens
   - pinocchio
   - rviz
   - libuvc-ros
@@ -834,8 +836,6 @@ packages_select_by_deps:
   - tf2-bullet
   - tf2-tools
   - timestamp-tools
-  - toposens-description
-  - toposens-msgs
   - trajectory-tracker-msgs
   - turtlebot3-gazebo
   - twist-recovery
