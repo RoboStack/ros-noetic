@@ -68,10 +68,10 @@ index bddf90f..d104692 100644
  if(MSVC)
    set_target_properties(${PROJECT_NAME}_boost PROPERTIES
 
-diff --git a/cv_bridge/package.xml b/cv_bridge/package.xml
+diff --git a/package.xml b/package.xml
 index 59e139f8..8d365f3e 100644
---- a/cv_bridge/package.xml
-+++ b/cv_bridge/package.xml
+--- a/package.xml
++++ b/package.xml
 @@ -2,8 +2,7 @@
    <name>cv_bridge</name>
    <version>1.15.0</version>
