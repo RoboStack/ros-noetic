@@ -1,7 +1,7 @@
 packages:
   - libopencv
-  - gdal
-  - libgdal
+  # - gdal  # cannot currently migrate because qt then conflicts because of differing icu dependencies
+  # - libgdal
   - hdf5
   - vtk
   - proj
