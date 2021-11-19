@@ -4,3 +4,4 @@ packages:
   - libgdal
   - hdf5
   - vtk
+  - proj
