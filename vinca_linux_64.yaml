@@ -72,6 +72,7 @@ packages_select_by_deps:
   # - toposens
   # - toposens-description
   # - toposens-msgs
+  # - mesh_client
 
   ##
   #  TODO Linux 
@@ -861,7 +862,6 @@ packages_select_by_deps:
   - xpp-msgs
   - xpp-states
   - xv-11-laser-driver
-  - mesh_client
   - ifm3d
   - rviz
   - ur_client_library
