@@ -35,6 +35,19 @@ packages_select_by_deps:
 
   # Fix after rebuild
   # - ur_client_library
+  # - plotjuggler_ros
+  # - tsid
+  # - mavros
+  # - tesseract-collision
+  # - tesseract-common
+  # - tesseract-geometry
+  # - tesseract-scene-graph
+  # - tesseract-srdf
+  # - tesseract-support
+  # - robot-calibration
+  # - mbf-costmap-nav
+  # - mbf-simple-nav
+  # - mbf-abstract-nav
 
   - openslam-gmapping
   - turtlesim
@@ -137,7 +150,6 @@ packages_select_by_deps:
   - pr2-mechanism-model
   - pr2-tuckarm
   - rc-reason-clients
-  - robot-calibration
   - robot-controllers
   - robot-mechanism-controllers
   - ros-control-boilerplate
@@ -155,12 +167,6 @@ packages_select_by_deps:
   - swri-profiler-tools
   - swri-roscpp
   - teleop-tools
-  - tesseract-collision
-  - tesseract-common
-  - tesseract-geometry
-  - tesseract-scene-graph
-  - tesseract-srdf
-  - tesseract-support
   - test-osm
   - toposens-description
   - trac-ik
@@ -170,7 +176,6 @@ packages_select_by_deps:
   - trac-ik-python
   - track-odometry
   - trajectory-tracker
-  - tsid
   - turtlebot3-autorace-driving
   - turtlebot3-simulations
   - ublox
@@ -264,8 +269,6 @@ packages_select_by_deps:
   - locomotor-msgs
   - map-organizer
   - marti-nav-msgs
-  - mbf-costmap-nav
-  - mbf-simple-nav
   - mesh-msgs-transform
   - mir-driver
   - nav-core2
@@ -473,7 +476,6 @@ packages_select_by_deps:
   - marti-sensor-msgs
   - marti-status-msgs
   - marti-visualization-msgs
-  - mbf-abstract-nav
   - mcl-3dl-msgs
   - mesh-msgs
   - message-to-tf
@@ -692,10 +694,8 @@ packages_select_by_deps:
   - ros_numpy
   - velodyne_simulator
   - rviz
-  - mavros
   - hector_gazebo_plugins
   - navigation
-  - plotjuggler_ros
   - catkin
   - desktop
   - desktop_full

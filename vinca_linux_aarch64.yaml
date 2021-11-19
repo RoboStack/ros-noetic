@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 5
+build_number: 6
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -27,24 +27,25 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  # # TODO
+  # after rebuild
+  - plotjuggler_ros
+  - plotjuggler
+
+  # # DONE
   - fcl
   - ros_numpy
   - eigenpy
   - catkin
   - franka_msgs
-  # # DONE
   - pybind11_catkin  # needs to be unvendored
   - libfranka
   - rostime
   - kdl_parser_py
-  - plotjuggler_ros
   - cnpy
   - imu_tools
   - moveit_visual_tools
   - rviz_visual_tools
   - rviz_imu_plugin
-  - plotjuggler
   - slam_toolbox
   - webots-ros
   - ros_numpy

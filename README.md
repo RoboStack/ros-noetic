@@ -4,11 +4,12 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/)
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.ai)
 
-[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20linux%E2%80%93aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
+[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20linux%E2%80%93aarch64%20%7C%20macos%E2%80%93arm64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/8/buildbranch_linux?label=build%20linux&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=8&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/10/buildbranch_win?label=build%20win&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=10&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/9/buildbranch_osx?label=build%20macos&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=9&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/11/buildbranch_linux_aarch64?label=build%20aarch64&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=11&_a=summary)
+[![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/29/buildbranch_osx_arm64?label=build%20macos-arm64&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=29&_a=summary)
 
 [![GitHub issues](https://img.shields.io/github/issues-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues?q=is%3Aissue+is%3Aclosed)
@@ -38,6 +39,9 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 > Note: Make sure to _not_ install the ROS packages (in particular the `ros-noetic-catkin` package) in your base environment as this leads to issues down the track. On the other hand, conda and mamba must not be installed in the robostackenv, they should only be installed in base. Also do not source the system ROS environment, as the `PYTHONPATH` set in the setup script conflicts with the conda environment.
 
 ```bash
+# if you don't have mamba yet, install it first in the base environment (not needed when using mambaforge):
+conda install mamba -c conda-forge
+
 conda create -n robostackenv python=3.8
 conda activate robostackenv
 # this adds the conda-forge channel to the new created environment configuration 
@@ -47,14 +51,9 @@ conda config --env --add channels robostack
 # it's very much advised to use strict channel priority
 conda config --env --set channel_priority strict
 
-# either
-conda install ros-noetic-desktop
-# or if you have mamba and want to use it
 mamba install ros-noetic-desktop
 
-# optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws - with conda:
-conda install compilers cmake pkg-config make ninja
-# or with mamba:
+# optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws:
 mamba install compilers cmake pkg-config make ninja
 
 # on linux and osx (but not Windows) you might want to:
@@ -66,7 +65,7 @@ mamba install catkin_tools
 mamba install mesa-libgl-devel-cos6-x86_64 mesa-dri-drivers-cos6-x86_64 libselinux-cos6-x86_64 libxdamage-cos6-x86_64 libxxf86vm-cos6-x86_64 libxext-cos6-x86_64 xorg-libxfixes
 
 # on Windows, install the Visual Studio command prompt via Conda:
-conda install vs2019_win-64
+mamba install vs2019_win-64
 
 # note that in this case, you should also install the necessary dependencies with conda/mamba, if possible
 

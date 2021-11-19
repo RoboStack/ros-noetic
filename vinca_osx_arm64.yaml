@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 0
+build_number: 1
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -32,6 +32,11 @@ packages_select_by_deps:
   ##
   - catkin
   - robot
-  - perception
+  # - perception
+  - image_common
+  - image_pipeline
+  - image_transport_plugins
+  - laser_pipeline
+  - vision_opencv
   
 patch_dir: patch

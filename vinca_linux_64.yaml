@@ -41,6 +41,37 @@ packages_select_by_deps:
   # - mrpt2
   # - ifopt
   # - lvr2
+  # - plotjuggler
+  # - plotjuggler_ros
+  # - tsid
+  # - sesame_ros
+  # - ethercat_grant
+  # - ros_ign
+  # - swri-geometry-util
+  # - swri-opencv-util
+  # - swri-transform-util
+  # - swri-console-util
+  # - swri-opencv-util
+  # - swri-profiler
+  # - swri-profiler-tools
+  # - swri-console
+  # - swri-dbw-interface
+  # - swri-math-util
+  # - swri-nodelet
+  # - swri-prefix-tools
+  # - swri-profiler-msgs
+  # - swri-rospy
+  # - swri-serial-util
+  # - swri-string-util
+  # - swri-system-util
+  # - swri_image_util
+  # - swri_geometry_util
+  # - swri_route_util
+  # - toposens-driver
+  # - toposens-markers
+  # - toposens
+  # - toposens-description
+  # - toposens-msgs
 
   ##
   #  TODO Linux 
@@ -147,9 +178,6 @@ packages_select_by_deps:
   - rqt-image-view
   - stag-ros
   - stereo-image-proc
-  - swri-geometry-util
-  - swri-opencv-util
-  - swri-transform-util
   - theora-image-transport
   - turtlebot3-autorace-camera
   - turtlebot3-autorace-detect
@@ -454,21 +482,14 @@ packages_select_by_deps:
   - sot-tools
   - speed-scaling-interface
   - speed-scaling-state-controller
-  - swri-console-util
-  - swri-opencv-util
-  - swri-profiler
-  - swri-profiler-tools
   - teleop-tools
   - tesseract-common
   - tesseract-geometry
   - tesseract-support
   - thunder-line-follower-pmr3100
-  - toposens-driver
-  - toposens-markers
   - track-odometry
   - trajectory-tracker
   - trajectory-tracker-rviz-plugins
-  - tsid
   - turtlebot3-autorace-2020
   - turtlebot3-autorace-camera
   - turtlebot3-autorace-core
@@ -498,7 +519,6 @@ packages_select_by_deps:
   - wireless-watcher
   - wu-ros-tools
   - moveit-msgs
-  - toposens
   - pinocchio
   - rviz
   - libuvc-ros
@@ -654,7 +674,6 @@ packages_select_by_deps:
   - lanelet2-core
   - laser-filtering
   - laser-filters-jsk-patch
-  - laser-filters-jsk-patch
   - laser-scan-densifier
   - laser-scan-sparsifier
   - laser-scan-splitter
@@ -809,16 +828,6 @@ packages_select_by_deps:
   - sound-play
   - speech-recognition-msgs
   - stag-ros
-  - swri-console
-  - swri-dbw-interface
-  - swri-math-util
-  - swri-nodelet
-  - swri-prefix-tools
-  - swri-profiler-msgs
-  - swri-rospy
-  - swri-serial-util
-  - swri-string-util
-  - swri-system-util
   - tablet-socket-msgs
   - taskflow
   - teleop-legged-robots
@@ -828,8 +837,6 @@ packages_select_by_deps:
   - tf2-bullet
   - tf2-tools
   - timestamp-tools
-  - toposens-description
-  - toposens-msgs
   - trajectory-tracker-msgs
   - turtlebot3-gazebo
   - twist-recovery
@@ -874,9 +881,7 @@ packages_select_by_deps:
   - sainsmart_relay_usb
   - mqtt_bridge
   - mapviz_plugins
-  - swri_image_util
   - exotica_core
-  - sesame_ros
   - catkin
   
   #
@@ -890,7 +895,6 @@ packages_select_by_deps:
   - fkie_message_filters
   - fkie_potree_rviz_plugin
   - fkie_multimaster
-  - ethercat_grant
   - fetch_open_auto_dock
   - fetch_tools
   - fetch_drivers
@@ -917,8 +921,6 @@ packages_select_by_deps:
   - ypspur_ros
   - zbar_ros
   - mapviz
-  - swri_geometry_util
-  - swri_route_util
   - tf2_web_republisher
   - fetch_ros
   - spacenav_node
@@ -929,7 +931,6 @@ packages_select_by_deps:
   - behaviortree_cpp_v3
   - codec_image_transport
   - kdl_parser_py
-  - ros_ign
   - velodyne_simulator
   - catkin
   - hector_gazebo_plugins
@@ -941,7 +942,6 @@ packages_select_by_deps:
   - cnpy
   - robot_localization
   - moveit_visual_tools
-  - plotjuggler_ros
   - ros_core
   - rviz
   - desktop
@@ -957,7 +957,6 @@ packages_select_by_deps:
   - urg_node
   - teb_local_planner
   - joy
-  - plotjuggler
   - libfranka
   - franka_visualization
   - franka_msgs

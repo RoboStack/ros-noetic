@@ -58,3 +58,16 @@ index 7fc07154..33682f5c 100644
      break;
    }
  }
+diff --git a/src/rviz/mesh_loader.cpp b/src/rviz/mesh_loader.cpp
+index 18659169d..06d3200ce 100644
+--- a/src/rviz/mesh_loader.cpp
++++ b/src/rviz/mesh_loader.cpp
+@@ -768,7 +768,7 @@ Ogre::SkeletonPtr loadSkeletonFromResource(const std::string& resource_path)
+     Ogre::SkeletonSerializer ser;
+     Ogre::DataStreamPtr stream(new Ogre::MemoryDataStream(res.data.get(), res.size));
+     Ogre::SkeletonPtr skeleton = Ogre::SkeletonManager::getSingleton().create(
+-        skeleton_path.filename().c_str(), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true);
++        skeleton_path.filename().string().c_str(), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true);
+     ser.importSkeleton(stream, skeleton.get());
+ 
+     return skeleton;
