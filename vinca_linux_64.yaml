@@ -40,6 +40,7 @@ packages_select_by_deps:
   # - rtabmap
   # - mrpt2
   # - ifopt
+  # - lvr2
 
   ##
   #  TODO Linux 
@@ -854,7 +855,6 @@ packages_select_by_deps:
   - xpp-states
   - xv-11-laser-driver
   - mesh_client
-  - lvr2
   - ifm3d
   - rviz
   - ur_client_library
