@@ -624,7 +624,7 @@ poco:
 poppler:
   - '21.08'
 proj:
-  - 8.0.1
+  - 8.2.0
 pybind11_abi:
   - 4
 python:
