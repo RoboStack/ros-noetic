@@ -5,6 +5,7 @@ packages:
   - hdf5
   - vtk
   - proj
+  - pcl
 
 packages_ignore:
   - lvr2
