@@ -11,3 +11,4 @@ packages_ignore:
   - lvr2
   - safety_limiter
   - grid_map_filters
+  - mrpt2
