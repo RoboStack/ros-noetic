@@ -8,3 +8,4 @@ packages:
 
 packages_ignore:
   - lvr2
+  - safety_limiter
