@@ -32,7 +32,7 @@ requirements:
   run_constrained:
     - boost-cpp 1.74
     - log4cxx 0.11
-    - pcl 1.11
+    - pcl 1.12
     - libopencv 4.5.3
     - poco 1.11
     - gazebo 11
