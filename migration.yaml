@@ -12,3 +12,4 @@ packages_ignore:
   - safety_limiter
   - grid_map_filters
   - mrpt2
+  - swri_transform_util
