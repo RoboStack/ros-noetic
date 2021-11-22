@@ -21,7 +21,7 @@ index c9adfe3..763fb46 100644
  OPTION(BUILD_EXAMPLES "Build examples" ON)
  
  ####### DEPENDENCIES #######
--IF(ANDROID)
+-IF(MOBILE_BUILD)
 +IF(TRUE)
  option(WITH_QT            "Include Qt support"                   OFF)
  ELSE()
