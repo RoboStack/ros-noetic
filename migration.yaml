@@ -13,3 +13,4 @@ packages_ignore:
   - grid_map_filters
   - mrpt2
   - swri_transform_util
+  - rtabmap
