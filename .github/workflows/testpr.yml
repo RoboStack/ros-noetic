@@ -56,12 +56,12 @@ jobs:
         conda info
         conda config --show
         mamba install -y pip rospkg networkx libmambapy rich "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
-        mamba install -y boa --only-deps
+        mamba install -y boa # --only-deps
     - name: install vinca and boa master
       shell: bash -l {0}
       run: |
         # for now we need boa master
-        pip install git+https://github.com/mamba-org/boa@master
+        # pip install git+https://github.com/mamba-org/boa@master
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/wolfv/vinca.git@migrate_ii --no-deps
     # For some reason, the Strawberry perl's pkg-config is found
