@@ -55,7 +55,7 @@ jobs:
       run: |
         conda info
         conda config --show
-        mamba install -y pip rospkg networkx rich "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        mamba install -y pip rospkg networkx libmambapy rich "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
         mamba install -y boa --only-deps
     - name: install vinca and boa master
       shell: bash -l {0}
