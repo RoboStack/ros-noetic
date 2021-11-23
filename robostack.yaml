@@ -224,7 +224,7 @@ libfreetype6:
 libfreetype6-dev:
   robostack: [freetype]
 libftdi-dev:
-  robostack: [libftdi, libusb]
+  robostack: [libftdi, libusb * *_5]
 libgazebo11-dev:
   robostack: [gazebo]
 libgazebo9-dev:
@@ -378,7 +378,7 @@ libtool:
 libturbojpeg:
   robostack: [libjpeg-turbo]
 libudev-dev:
-  robostack: [libusb]
+  robostack: [libusb * *_5]
 liburdfdom-dev:
   robostack: [urdfdom]
 liburdfdom-headers-dev:
@@ -386,13 +386,13 @@ liburdfdom-headers-dev:
 liburdfdom-tools:
   robostack: [urdfdom]
 libusb-1.0:
-  robostack: [libusb]
+  robostack: [libusb * *_5]
 libusb-1.0-dev:
-  robostack: [libusb]
+  robostack: [libusb * *_5]
 libusb-dev:
-  robostack: [libusb]
+  robostack: [libusb * *_5]
 libuvc-dev:
-  robostack: [libuvc, libusb]
+  robostack: [libuvc, libusb * *_5]
 libvtk:
   robostack: [vtk]
 libvtk-qt:
@@ -851,7 +851,7 @@ tinyxml:
 tinyxml2:
   robostack: [tinyxml2]
 udev:
-  robostack: [libusb]
+  robostack: [libusb * *_5]
 uncrustify:
   robostack: [uncrustify]
 unzip:

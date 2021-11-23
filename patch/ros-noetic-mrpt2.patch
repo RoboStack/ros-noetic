@@ -202,8 +202,93 @@ index c45fc79..d7d7c6c 100644
  if(CMAKE_MRPT_HAS_OPENNI2)
  	target_link_libraries(hwdrivers PRIVATE ${MRPT_OPENNI2_LIBRARIES})
  endif()
+diff --git a/libs/img/CMakeLists.txt b/libs/img/CMakeLists.txt
+index 919b683..c4882b1 100644
+--- a/libs/img/CMakeLists.txt
++++ b/libs/img/CMakeLists.txt
+@@ -21,13 +21,13 @@ if(BUILD_mrpt-img)
+ 	endif()
+ 
+ 	if(CMAKE_MRPT_HAS_OPENCV)
+-		target_link_libraries(img PRIVATE imp_opencv)
++		target_link_libraries(img PUBLIC imp_opencv)
+ 	endif()
+ 	if(CMAKE_MRPT_HAS_JPEG)
+ 		if(NOT CMAKE_MRPT_HAS_JPEG_SYSTEM)
+ 			add_dependencies(img JPEG)
+ 		endif()
+-		target_link_libraries(img PRIVATE ${JPEG_LIBRARIES})
++		target_link_libraries(img PUBLIC ${JPEG_LIBRARIES})
+ 	endif()
+ 
+ endif()
+diff --git a/libs/maps/CMakeLists.txt b/libs/maps/CMakeLists.txt
+index 55139c9..ed539f1 100644
+--- a/libs/maps/CMakeLists.txt
++++ b/libs/maps/CMakeLists.txt
+@@ -30,7 +30,7 @@ define_mrpt_lib(
+ 
+ if(BUILD_mrpt-maps)
+ 	if(CMAKE_MRPT_HAS_LIBLAS)
+-		target_link_libraries(maps PRIVATE ${LAS_LIBS})
++		target_link_libraries(maps PUBLIC ${LAS_LIBS})
+ 	endif()
+ 
+ 	if (CMAKE_MRPT_HAS_OCTOMAP)
+@@ -40,10 +40,10 @@ if(BUILD_mrpt-maps)
+ 		if(TARGET "EP_octomap")
+ 			add_dependencies(maps EP_octomap)
+ 		endif()
+-		target_link_libraries(maps PRIVATE ${OCTOMAP_LIBRARIES})
++		target_link_libraries(maps PUBLIC ${OCTOMAP_LIBRARIES})
+ 	endif()
+ 
+-	target_link_libraries(maps PRIVATE ${MRPT_OPENGL_LIBS})
++	target_link_libraries(maps PUBLIC ${MRPT_OPENGL_LIBS})
+ 
+ 
+ 	# Windows only: the mxplus lib internally requires linking with opencv (sigh...)
+diff --git a/libs/math/CMakeLists.txt b/libs/math/CMakeLists.txt
+index 5c9cfbb..9213adb 100644
+--- a/libs/math/CMakeLists.txt
++++ b/libs/math/CMakeLists.txt
+@@ -83,7 +83,7 @@ if(BUILD_mrpt-math)
+ 	endif()
+ 
+ 	if (NOT "${SuiteSparse_LIBRARIES}" STREQUAL "")
+-		target_link_libraries(math PRIVATE ${SuiteSparse_LIBRARIES})
++		target_link_libraries(math PUBLIC ${SuiteSparse_LIBRARIES})
+ 	endif ()
+ 	if (NOT "${SuiteSparse_LIBRARIES}" STREQUAL "")
+ 		target_include_directories(math PUBLIC ${SuiteSparse_INCLUDE_DIRS})
+diff --git a/libs/opengl/CMakeLists.txt b/libs/opengl/CMakeLists.txt
+index 9a9ac68..4321632 100644
+--- a/libs/opengl/CMakeLists.txt
++++ b/libs/opengl/CMakeLists.txt
+@@ -44,11 +44,11 @@ if(BUILD_mrpt-opengl)
+ 	endif()
+ 
+ 	# Link against gl, glu, glut:
+-	target_link_libraries(opengl PRIVATE
++	target_link_libraries(opengl PUBLIC
+ 		${MRPT_OPENGL_LIBS}
+ 		)
+ 	if (TARGET mrpt_glew) # Basically, for Windows
+-		target_link_libraries(opengl PRIVATE mrpt_glew)
++		target_link_libraries(opengl PUBLIC mrpt_glew)
+ 	endif()
+ 
+ 	# Link against assimp:
+@@ -56,6 +56,6 @@ if(BUILD_mrpt-opengl)
+ 		if(TARGET "EP_assimp")
+ 			add_dependencies(opengl EP_assimp)
+ 		endif()
+-		target_link_libraries(opengl PRIVATE ${ASSIMP_LIBRARIES})
++		target_link_libraries(opengl PUBLIC ${ASSIMP_LIBRARIES})
+ 	endif ()
+ endif()
 diff --git a/libs/serialization/CMakeLists.txt b/libs/serialization/CMakeLists.txt
-index 9b711d4..a6c65fa 100644
+index 9b711d4..5f85caf 100644
 --- a/libs/serialization/CMakeLists.txt
 +++ b/libs/serialization/CMakeLists.txt
 @@ -1,16 +1,8 @@
@@ -230,7 +315,7 @@ index 9b711d4..a6c65fa 100644
  
  if(BUILD_mrpt-serialization)
 -	target_link_libraries(serialization PRIVATE ${tst_json_dep})
-+	target_link_libraries(serialization PRIVATE ${JSONCPP_LIBRARIES})
++	target_link_libraries(serialization PUBLIC ${JSONCPP_LIBRARIES})
  endif( )
 diff --git a/libs/serialization/include/mrpt/serialization/CSchemeArchive.h b/libs/serialization/include/mrpt/serialization/CSchemeArchive.h
 index 744c14c..03ecf55 100644
