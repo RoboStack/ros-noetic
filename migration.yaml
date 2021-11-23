@@ -8,12 +8,12 @@ packages:
   - pcl
 
 packages_ignore:
-#   - lvr2  # needs qt migration to icu69
-  - safety_limiter
-  - grid_map_filters
-#   - mrpt2  # several build errors
-#   - swri_transform_util  # incompatible with proj8 https://github.com/swri-robotics/marti_common/issues/642
-  - rtabmap
+  - lvr2  # needs qt migration to icu69
+  # - safety_limiter
+  # - grid_map_filters
+  - mrpt2  # several build errors
+  - swri_transform_util  # incompatible with proj8 https://github.com/swri-robotics/marti_common/issues/642
+  # - rtabmap
 
 packages_force_migrate:
   - grid_map_cv
