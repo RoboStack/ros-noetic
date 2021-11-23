@@ -58,7 +58,7 @@ ur_client_library:
 mqtt_bridge:
   add_run: ["inject", "msgpack-python", "paho-mqtt", "pymongo"]
 mrpt2:
-  add_host:  ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
+  add_host:  ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi", "pkg-config"]
   add_run:   ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
 theora_image_transport:
