@@ -385,11 +385,11 @@ liburdfdom-headers-dev:
   robostack: [urdfdom_headers]
 liburdfdom-tools:
   robostack: [urdfdom]
-libusb * *_5-1.0:
+libusb-1.0:
   robostack: [libusb * *_5]
-libusb * *_5-1.0-dev:
+libusb-1.0-dev:
   robostack: [libusb * *_5]
-libusb * *_5-dev:
+libusb-dev:
   robostack: [libusb * *_5]
 libuvc-dev:
   robostack: [libuvc, libusb * *_5]
