@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c9adfe3..763fb46 100644
+index 3c1a46f..bd564f5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -74,14 +74,6 @@ IF(MINGW)
+@@ -79,14 +79,6 @@ IF(MINGW)
      SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import")
  ENDIF(MINGW)
  
@@ -17,7 +17,7 @@ index c9adfe3..763fb46 100644
  #The CDT Error Parser cannot handle error messages that span 
  #more than one line, which is the default gcc behavior. 
  #In order to force gcc to generate single line error messages with no line wrapping
-@@ -157,14 +149,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
+@@ -162,14 +154,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
  OPTION(BUILD_EXAMPLES "Build examples" ON)
  
  ####### DEPENDENCIES #######
@@ -25,7 +25,8 @@ index c9adfe3..763fb46 100644
 +IF(TRUE)
  option(WITH_QT            "Include Qt support"                   OFF)
  ELSE()
- option(WITH_QT            "Include Qt support"                   ON)
+-option(WITH_QT            "Include Qt support"                   ON)
++option(WITH_QT            "Include Qt support"                   OFF)
  ENDIF()
  option(WITH_ORB_OCTREE    "Include ORB Octree feature support"   ON)
  option(WITH_TORCH         "Include Torch support (SuperPoint)"   OFF)
@@ -34,7 +35,26 @@ index c9adfe3..763fb46 100644
  option(WITH_PYTHON_THREADING  "Use more than one Python interpreter."  OFF)
  option(WITH_PDAL          "Include PDAL support"                 ON)
  option(WITH_FREENECT      "Include Freenect support"             ON)
-@@ -325,6 +317,8 @@ IF(WITH_QT)
+@@ -225,7 +217,7 @@ FIND_PACKAGE(OpenCV REQUIRED QUIET)
+ IF(WITH_QT)
+ FIND_PACKAGE(PCL 1.7 REQUIRED QUIET COMPONENTS common io kdtree search surface filters registration sample_consensus segmentation visualization)
+ ELSE()
+-FIND_PACKAGE(PCL 1.7 REQUIRED QUIET COMPONENTS common io kdtree search surface filters registration sample_consensus segmentation )
++FIND_PACKAGE(PCL 1.7 REQUIRED QUIET COMPONENTS common io kdtree search surface filters registration sample_consensus segmentation)
+ ENDIF()
+ if(PCL_COMPILE_OPTIONS)
+   if("${PCL_COMPILE_OPTIONS}" MATCHES "-march=native")
+@@ -282,7 +274,8 @@ IF(ZLIB_FOUND)
+ ENDIF(ZLIB_FOUND)
+ 
+ SET(ADD_VTK_GUI_SUPPORT_QT_TO_CONF FALSE)
+-IF(WITH_QT)
++SET(WITH_QT OFF)
++IF(WITH_QT AND FALSE)
+     FIND_PACKAGE(VTK)
+     IF(NOT VTK_FOUND)
+         MESSAGE(FATAL_ERROR "VTK is required when using Qt. Set -DWITH_QT=OFF if you don't want gui tools.")
+@@ -346,6 +339,8 @@ IF(WITH_QT)
          ENDIF()
          ADD_DEFINITIONS(-DQT_NO_KEYWORDS) # To avoid conflicts with boost signals/foreach and Qt macros
      ENDIF(QT4_FOUND OR Qt5_FOUND)
@@ -43,7 +63,7 @@ index c9adfe3..763fb46 100644
  ENDIF(WITH_QT)
  
  IF(WITH_TORCH)
-@@ -335,7 +329,7 @@ IF(WITH_TORCH)
+@@ -356,7 +351,7 @@ IF(WITH_TORCH)
  ENDIF(WITH_TORCH)
  
  IF(WITH_PYTHON)
@@ -52,11 +72,34 @@ index c9adfe3..763fb46 100644
      IF(Python3_FOUND)
          MESSAGE(STATUS "Found Python3")
      ENDIF(Python3_FOUND)
+@@ -990,7 +985,7 @@ IF(ANDROID)
+    IF(BUILD_APP)
+       ADD_SUBDIRECTORY( app )
+    ENDIF(BUILD_APP)
+-ELSEIF(Qt5_FOUND OR (QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND))
++ELSEIF(FALSE AND Qt5_FOUND OR (QT4_FOUND AND QT_QTCORE_FOUND AND QT_QTGUI_FOUND))
+    ADD_SUBDIRECTORY( guilib )
+    IF(BUILD_APP)
+       ADD_SUBDIRECTORY( app )
+diff --git a/corelib/include/rtabmap/core/PythonInterface.h b/corelib/include/rtabmap/core/PythonInterface.h
+index 2216cb5..8d7896b 100644
+--- a/corelib/include/rtabmap/core/PythonInterface.h
++++ b/corelib/include/rtabmap/core/PythonInterface.h
+@@ -11,6 +11,9 @@
+ 
+ #include <string>
+ #include <rtabmap/utilite/UMutex.h>
++#ifdef slots
++#undef slots
++#endif
+ #include <Python.h>
+ 
+ namespace rtabmap {
 diff --git a/corelib/src/CMakeLists.txt b/corelib/src/CMakeLists.txt
-index 2f7f005..9e2e659 100644
+index 22bc425..24b2513 100644
 --- a/corelib/src/CMakeLists.txt
 +++ b/corelib/src/CMakeLists.txt
-@@ -155,6 +155,13 @@ SET(LIBRARIES
+@@ -157,6 +157,13 @@ SET(LIBRARIES
  	${ZLIB_LIBRARIES} 
  )
  
@@ -70,7 +113,7 @@ index 2f7f005..9e2e659 100644
  IF(Sqlite3_FOUND)
      SET(INCLUDE_DIRS
  		${INCLUDE_DIRS}
-@@ -195,6 +202,7 @@ IF(Python3_FOUND)
+@@ -197,6 +204,7 @@ IF(Python3_FOUND)
  	SET(LIBRARIES
  		${LIBRARIES}
  		Python3::Python
@@ -78,7 +121,7 @@ index 2f7f005..9e2e659 100644
  	)
  	SET(SRC_FILES
  		${SRC_FILES}
-@@ -206,6 +214,8 @@ IF(Python3_FOUND)
+@@ -208,6 +216,8 @@ IF(Python3_FOUND)
  	    ${TORCH_INCLUDE_DIRS}
  	    ${CMAKE_CURRENT_SOURCE_DIR}/python
  		${INCLUDE_DIRS}
@@ -87,6 +130,51 @@ index 2f7f005..9e2e659 100644
  	)
  ENDIF(Python3_FOUND)
  
+@@ -678,6 +688,10 @@ IF(GTSAM_FOUND)
+ 	)
+ ENDIF(GTSAM_FOUND)
+ 
++IF(NOT VTK_FOUND)
++  add_definitions("-DDISABLE_VTK")
++ENDIF(VTK_FOUND)
++
+ IF(WITH_MADGWICK)
+ 	SET(SRC_FILES
+ 		${SRC_FILES}
+diff --git a/guilib/include/rtabmap/gui/CloudViewer.h b/guilib/include/rtabmap/gui/CloudViewer.h
+index 550aacb..7d302d4 100644
+--- a/guilib/include/rtabmap/gui/CloudViewer.h
++++ b/guilib/include/rtabmap/gui/CloudViewer.h
+@@ -35,9 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include "rtabmap/gui/CloudViewerInteractorStyle.h"
+ 
+ #if VTK_MAJOR_VERSION > 8
+-#ifndef slots
+-#define slots Q_SLOTS
+-#endif
+ #include <QVTKOpenGLNativeWidget.h>
+ using PCLQVTKWidget = QVTKOpenGLNativeWidget;
+ #else
+diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
+index bf8a464..3cb0d65 100644
+--- a/tools/CMakeLists.txt
++++ b/tools/CMakeLists.txt
+@@ -11,7 +11,6 @@ ADD_SUBDIRECTORY( Recovery )
+ ADD_SUBDIRECTORY( Reprocess )
+ ADD_SUBDIRECTORY( DetectMoreLoopClosures )
+ ADD_SUBDIRECTORY( Export )
+-ADD_SUBDIRECTORY( Report )
+ ADD_SUBDIRECTORY( Info )
+ ADD_SUBDIRECTORY( CleanupLocalGrids )
+ ADD_SUBDIRECTORY( GlobalBundleAdjustment )
+@@ -28,6 +27,7 @@ IF(TARGET rtabmap_gui)
+ 	ADD_SUBDIRECTORY( DataRecorder )
+ 	ADD_SUBDIRECTORY( Calibration )
+ 	ADD_SUBDIRECTORY( Matcher )
++	ADD_SUBDIRECTORY( Report )
+ ELSE()
+    MESSAGE(STATUS "RTAB-Map GUI lib is not built, some tools won't be built...")
+ ENDIF()
 diff --git a/tools/EurocDataset/CMakeLists.txt b/tools/EurocDataset/CMakeLists.txt
 index 3b1e5e4..2f23770 100644
 --- a/tools/EurocDataset/CMakeLists.txt
@@ -100,18 +188,3 @@ index 3b1e5e4..2f23770 100644
  ENDIF(NOT yaml-cpp_FOUND)
  
  IF(yaml-cpp_FOUND)
-diff --git a/guilib/include/rtabmap/gui/CloudViewer.h b/guilib/include/rtabmap/gui/CloudViewer.h
-index 550aacbf7..02dce5278 100644
---- a/guilib/include/rtabmap/gui/CloudViewer.h
-+++ b/guilib/include/rtabmap/gui/CloudViewer.h
-@@ -34,10 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- #include "rtabmap/core/StereoCameraModel.h"
- #include "rtabmap/gui/CloudViewerInteractorStyle.h"
- 
--#if VTK_MAJOR_VERSION > 8
--#ifndef slots
--#define slots Q_SLOTS
--#endif
- #include <QVTKOpenGLNativeWidget.h>
- using PCLQVTKWidget = QVTKOpenGLNativeWidget;
- #else
