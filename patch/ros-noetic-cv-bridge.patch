@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 839e2b6..6dac00e 100644
+index ef804b9..6dac00e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -3,33 +3,13 @@ project(cv_bridge)
@@ -28,7 +28,7 @@ index 839e2b6..6dac00e 100644
 -endif()
 +find_package(Boost REQUIRED python)
  
--find_package(OpenCV ${_opencv_version4} REQUIRED
+-find_package(OpenCV ${_opencv_version} REQUIRED
 +find_package(OpenCV 4 REQUIRED
    COMPONENTS
      opencv_core
@@ -38,47 +38,3 @@ index 839e2b6..6dac00e 100644
  )
  
  catkin_package(
-
-diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index bddf90f..d104692 100644
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
-@@ -39,10 +39,13 @@ endif()
- add_library(${PROJECT_NAME}_boost module.cpp module_opencv4.cpp)
- target_link_libraries(${PROJECT_NAME}_boost ${Boost_LIBRARIES}
-                                             ${catkin_LIBRARIES}
--                                            ${PYTHON_LIBRARIES}
-                                             ${PROJECT_NAME}
- )
- 
-+if(NOT APPLE)
-+  target_link_libraries(${PROJECT_NAME}_boost ${PYTHON_LIBRARIES})
-+endif()
-+
- set_target_properties(${PROJECT_NAME}_boost PROPERTIES
-                       LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_PYTHON_DESTINATION}/${PROJECT_NAME}/boost/
-                       RUNTIME_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_PYTHON_DESTINATION}/${PROJECT_NAME}/boost/
-@@ -51,6 +54,8 @@ set_target_properties(${PROJECT_NAME}_boost PROPERTIES
- if(APPLE)
-   set_target_properties(${PROJECT_NAME}_boost PROPERTIES
-                         SUFFIX ".so")
-+  set_target_properties(${PROJECT_NAME}_boost PROPERTIES
-+                        LINK_FLAGS "-undefined dynamic_lookup")
- endif()
- if(MSVC)
-   set_target_properties(${PROJECT_NAME}_boost PROPERTIES
-
-diff --git a/package.xml b/package.xml
-index 59e139f8..8d365f3e 100644
---- a/package.xml
-+++ b/package.xml
-@@ -2,8 +2,7 @@
-   <name>cv_bridge</name>
-   <version>1.15.0</version>
-   <description>
--    This contains CvBridge, which converts between ROS
--    Image messages and OpenCV images.
-+    This contains CvBridge, which converts between ROS Image messages and OpenCV images.
-   </description>
-   <author>Patrick Mihelich</author>
-   <author>James Bowman</author>
