@@ -263,6 +263,8 @@ libgts:
   robostack: [gts]
 libhdf5-dev:
   robostack: [hdf5]
+libi2c-dev:
+  robostack: [libi2c]
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
