@@ -36,7 +36,8 @@ python:
   # part of a zip_keys: python, python_impl, numpy
   # - 3.6.* *_cpython    # [not (osx and arm64)]
   # - 3.7.* *_cpython    # [not (osx and arm64)]
-  - 3.8.* *_cpython
+  # - 3.8.* *_cpython
+  - 3.9.* *_cpython
 python_impl:
   # part of a zip_keys: python, python_impl, numpy
   # - cpython   # [not (osx and arm64)]
