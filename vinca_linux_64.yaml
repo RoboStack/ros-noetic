@@ -37,11 +37,11 @@ packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ## Only limited number of packages to reduce maintainer burden
-  - desktop
-  - amcl
-  - map-server
-  - move-base
-  - gmapping
+  # - desktop
+  # - amcl
+  # - map-server
+  # - move-base
+  # - gmapping
   # - desktop_full
   # - moveit
   # - rosbridge_suite

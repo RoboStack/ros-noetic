@@ -30,13 +30,12 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  - catkin
-  - robot
-  # - perception
-  - image_common
-  - image_pipeline
-  - image_transport_plugins
-  - laser_pipeline
-  - vision_opencv
+  # - catkin
+  # - robot
+  # - image_common
+  # - image_pipeline
+  # - image_transport_plugins
+  # - laser_pipeline
+  # - vision_opencv
   
 patch_dir: patch

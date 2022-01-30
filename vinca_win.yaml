@@ -30,15 +30,15 @@ skip_existing:
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
-  - desktop
-  # - desktop_full
-  # - moveit
-  # - rosbridge_suite
-  # - robot_localization
-  - amcl
-  - map-server
-  - move-base
-  - gmapping
+  # - desktop
+  # # - desktop_full
+  # # - moveit
+  # # - rosbridge_suite
+  # # - robot_localization
+  # - amcl
+  # - map-server
+  # - move-base
+  # - gmapping
 
   # - pybind11_catkin  # need to be unvendored
 
