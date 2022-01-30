@@ -9,10 +9,7 @@ gazebo:
   - '11'
 numpy:
   # part of a zip_keys: python, python_impl, numpy
-  - 1.18   # [not (osx and arm64)]
-  # - 1.18   # [not (osx and arm64)]
-  # - 1.18   # [not (osx and arm64)]
-  - 1.19   # [osx and arm64]
+  - 1.19
 ogre:
   - 1.10.12
 pcl:
