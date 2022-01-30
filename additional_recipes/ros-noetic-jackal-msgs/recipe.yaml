@@ -17,7 +17,7 @@ build:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
   skip:
-    - osx and arm64
+    - True
 source:
   git_url: https://github.com/clearpath-gbp/jackal-release.git
   git_rev: release/melodic/jackal_msgs/0.7.3-1
