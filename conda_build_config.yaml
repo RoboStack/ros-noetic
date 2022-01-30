@@ -47,7 +47,7 @@ MACOSX_DEPLOYMENT_TARGET:      # [osx]
   - 11.0                       # [osx and arm64]
   - 10.14                      # [osx and x86_64]
 CONDA_BUILD_SYSROOT:
-  - /Applications/Xcode_12.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk  # [osx and arm64]
+  - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  # [osx and arm64]
 
 # fix build metadata, needed for mapviz
 replacements:
