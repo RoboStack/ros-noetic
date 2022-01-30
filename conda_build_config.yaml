@@ -7,8 +7,6 @@ console_bridge:
   - 1.0
 gazebo:
   - '11'
-libprotobuf:
-  - 3.18
 numpy:
   # part of a zip_keys: python, python_impl, numpy
   - 1.18   # [not (osx and arm64)]
@@ -18,9 +16,7 @@ numpy:
 ogre:
   - 1.10.12
 pcl:
-  - 1.11.1
-spdlog:
-  - 1.9.0
+  - 1.12.0
 # tbb pinned on Windows due to https://stackoverflow.com/questions/64510477/error-c2061-syntax-error-identifier-concurrent-vectortemplate-type-paramet
 # tbb pinned on Unix due to https://github.com/conda-forge/gazebo-feedstock/issues/57
 tbb:

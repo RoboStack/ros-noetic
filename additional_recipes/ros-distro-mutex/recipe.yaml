@@ -1,13 +1,13 @@
 package:
   name: ros-distro-mutex
-  version: 0.2.0
+  version: 0.3.0
 
 build:
   number: 0
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.2 noetic
+    - ros-distro-mutex 0.3 noetic
 
 requirements:
   # NOTE:
@@ -32,8 +32,8 @@ requirements:
   run_constrained:
     - boost-cpp 1.74
     - log4cxx 0.11
-    - pcl 1.11
-    - libopencv 4.5.2
+    - pcl 1.12
+    - libopencv 4.5.5
     - poco 1.11
     - gazebo 11
     - ogre 1.10.12
