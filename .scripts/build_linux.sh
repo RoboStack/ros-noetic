@@ -29,11 +29,7 @@ conda config --add channels robostack
 conda config --set channel_priority strict
 
 conda update conda -c conda-forge
-conda install --yes --quiet pip conda-build anaconda-client mamba
-
-# install boa from master
-# baaaad
-pip install git+https://github.com/mamba-org/boa.git@master
+conda install --yes --quiet pip conda-build anaconda-client mamba boa
 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 # export PATH="$HOME/miniconda/bin:$PATH"

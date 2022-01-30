@@ -33,6 +33,10 @@ packages_select_by_deps:
   # - moveit
   # - rosbridge_suite
   # - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
 
   ##
   #  TODO OSX
