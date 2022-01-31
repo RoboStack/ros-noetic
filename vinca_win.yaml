@@ -33,7 +33,7 @@ packages_select_by_deps:
   - desktop
   # - rviz
   - desktop_full
-  - moveit
+  # - moveit
   # - rosbridge_suite
   # - robot_localization
   # - amcl
