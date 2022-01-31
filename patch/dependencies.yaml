@@ -2,6 +2,8 @@ moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
 pcl_conversions:
   add_host: ["REQUIRE_OPENGL"]
+pcl_ros:
+  add_host: ["REQUIRE_OPENGL"]
 grid_map_demos:
   add_host: ["REQUIRE_OPENGL"]
 gazebo_dev:
