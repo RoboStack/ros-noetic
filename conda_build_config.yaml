@@ -24,6 +24,8 @@ tbb_devel:
   - 2020.2  # [not win]
 libpqxx:
   - 6
+setuptools:
+  - 59
 
 python:
   # part of a zip_keys: python, python_impl, numpy
