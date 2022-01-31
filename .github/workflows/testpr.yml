@@ -37,7 +37,7 @@ jobs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         mamba-version: "*"
-        channels: robostack,conda-forge
+        channels: robostack,robostack-experimental,conda-forge
         channel-priority: true
         auto-activate-base: true
         activate-environment: ""

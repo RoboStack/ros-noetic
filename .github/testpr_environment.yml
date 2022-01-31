@@ -1,6 +1,7 @@
 name: base
 channels:
   - robostack
+  - robostack-experimental
   - conda-forge
 dependencies:
   - python 3.9.*

@@ -29,14 +29,14 @@ skip_existing:
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
   - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - desktop_full
-  # - moveit
-  # - rosbridge_suite
-  # - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - desktop_full
+  - moveit
+  - rosbridge_suite
+  - robot_localization
 
 
   # # after rebuild
