@@ -28,8 +28,8 @@ skip_existing:
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
-  - catkin
-  # - desktop
+  # - catkin
+  - desktop
   # - desktop_full
   # - moveit
   # - rosbridge_suite
