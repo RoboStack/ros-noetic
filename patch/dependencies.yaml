@@ -1,5 +1,7 @@
 moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
+pcl_conversions:
+  add_host: ["REQUIRE_OPENGL"]
 grid_map_demos:
   add_host: ["REQUIRE_OPENGL"]
 gazebo_dev:
@@ -64,7 +66,7 @@ mrpt2:
 theora_image_transport:
   add_host: ["pkg-config"]
 image_view:
-  add_host: ["pkg-config"]
+  add_host: ["REQUIRE_OPENGL", "pkg-config"]
 rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
