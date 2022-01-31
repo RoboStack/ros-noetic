@@ -166,20 +166,25 @@ index c72b8599..6b39d3a2 100644
  
  if(SETUPTOOLS_DEB_LAYOUT)
 diff --git a/cmake/interrogate_setup_dot_py.py b/cmake/interrogate_setup_dot_py.py
-index 5e25fbf8..812f14bf 100644
+index 5e25fbf8..e8d70451 100644
 --- a/cmake/interrogate_setup_dot_py.py
 +++ b/cmake/interrogate_setup_dot_py.py
-@@ -39,12 +39,6 @@
- 
+@@ -40,14 +40,14 @@
  setup_modules = []
  
--try:
+ try:
 -    import distutils.core
 -    setup_modules.append(distutils.core)
--except ImportError:
--    pass
--
++    import setuptools
++    setup_modules.append(setuptools)
+ except ImportError:
+     pass
+ 
  try:
-     import setuptools
-     setup_modules.append(setuptools)
-
+-    import setuptools
+-    setup_modules.append(setuptools)
++    import distutils.core
++    setup_modules.append(distutils.core)
+ except ImportError:
+     pass
+ 
