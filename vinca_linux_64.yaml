@@ -38,8 +38,8 @@ packages_select_by_deps:
 
   ## Only limited number of packages to reduce maintainer burden
   # - visualization-tutorials
-  - viz
-  # - desktop
+  # - viz
+  - desktop
   # - amcl
   # - map-server
   # - move-base
