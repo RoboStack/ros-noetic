@@ -3,7 +3,7 @@ package:
   version: 0.3.0
 
 build:
-  number: 1
+  number: 2
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
@@ -38,7 +38,6 @@ requirements:
     - gazebo 11
     - ogre 1.10.12
     - libpqxx 6
-    - setuptools 59
 
 about:
   home: https://github.com/robostack/ros-noetic
