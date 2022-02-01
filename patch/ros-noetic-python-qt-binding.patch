@@ -42,7 +42,7 @@ index 0000000..9353bab
 +define-macros = [@SIP_EXTRA_DEFINES@]
 +exceptions = true
 diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
-index a055cf5..971671c 100644
+index a055cf5..e30c04f 100644
 --- a/cmake/sip_helper.cmake
 +++ b/cmake/sip_helper.cmake
 @@ -18,7 +18,7 @@ execute_process(
@@ -70,7 +70,7 @@ index a055cf5..971671c 100644
  #
  # Run the SIP generator and compile the generated code into a library.
  #
-@@ -89,32 +98,88 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -89,32 +98,99 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
      # SIP configure doesn't handle CMake targets
      catkin_replace_imported_library_targets(LIBRARIES ${LIBRARIES})
  
@@ -104,18 +104,29 @@ index a055cf5..971671c 100644
 +
 +        # SIP expects the libraries WITHOUT the file extension.
 +        set(SIP_LIBARIES "")
++        set(SIP_LIBRARY_DIRS "")
 +        foreach(_x ${LIBRARIES} ${PYTHON_LIBRARIES})
-+          get_filename_component(_x_NAME "${_x}" NAME_WLE)
-+          get_filename_component(_x_DIR "${_x}" DIRECTORY)
-+          get_filename_component(_x "${_x_DIR}/${_x_NAME}" ABSOLUTE)
-+          set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x}\"")
++          string(FIND "${_x}" "/" STARTSWITHSLASH)
++          if("${STARTSWITHSLASH}" EQUAL 0)
++            get_filename_component(_x_NAME "${_x}" NAME_WLE)
++            get_filename_component(_x_DIR "${_x}" DIRECTORY)
++            get_filename_component(_x "${_x_DIR}/${_x_NAME}" ABSOLUTE)
++            STRING(REGEX REPLACE "^lib" "" _x_NAME_NOPREFIX ${_x_NAME})
++            string(FIND "${_x_NAME_NOPREFIX}" "$<TARGET_FILE" out)
++            if("${out}" EQUAL 0)
++            else()
++              set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x_NAME_NOPREFIX}\"")
++              set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
++            endif()
++          else()
++            # set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x}\"")
++          endif()
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBARIES ${SIP_LIBARIES})
 +
-+        set(SIP_LIBRARY_DIRS "")
-+        foreach(_x ${LIBRARY_DIRS})
-+          set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
-+        endforeach()
++        # foreach(_x ${LIBRARY_DIRS})
++        #   set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
++        # endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBRARY_DIRS ${SIP_LIBRARY_DIRS})
 +
 +        set(SIP_EXTRA_DEFINES "")
