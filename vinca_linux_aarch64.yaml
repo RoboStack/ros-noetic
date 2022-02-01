@@ -33,7 +33,7 @@ packages_select_by_deps:
   - map-server
   - move-base
   - gmapping
-  - desktop_full
+  # - desktop_full
   - moveit
   - rosbridge_suite
   - robot_localization

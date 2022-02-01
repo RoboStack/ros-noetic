@@ -30,13 +30,11 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  # - qt-gui-cpp  # needs manual build
-  # - catkin
-  # - robot
-  - laser-geometry
-  - interactive-markers
-  # - rviz
-  # - desktop
+  - qt-gui-cpp  # needs manual build
+  - catkin
+  - robot
+  - rviz
+  - desktop
   # - image_common
   # - image_pipeline
   # - image_transport_plugins
