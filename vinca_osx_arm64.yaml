@@ -33,8 +33,8 @@ packages_select_by_deps:
   # - qt-gui-cpp  # needs manual build
   # - catkin
   # - robot
-  # - python_qt_binding
-  - desktop
+  - rviz
+  # - desktop
   # - image_common
   # - image_pipeline
   # - image_transport_plugins
