@@ -43,7 +43,7 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 # if you don't have mamba yet, install it first in the base environment (not needed when using mambaforge):
 conda install mamba -c conda-forge
 
-conda create -n robostackenv python=3.9
+conda create -n robostackenv python=3.9 -c conda-forge
 conda activate robostackenv
 # this adds the conda-forge channel to the new created environment configuration 
 conda config --env --add channels conda-forge
