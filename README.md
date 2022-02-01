@@ -47,6 +47,8 @@ conda create -n robostackenv python=3.9
 conda activate robostackenv
 # this adds the conda-forge channel to the new created environment configuration 
 conda config --env --add channels conda-forge
+# and the robostack channels
+conda config --env --add channels robostack-experimental
 # and the robostack channel
 conda config --env --add channels robostack
 # it's very much advised to use strict channel priority

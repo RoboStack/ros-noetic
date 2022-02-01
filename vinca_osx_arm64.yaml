@@ -30,6 +30,7 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
+  # - qt-gui-cpp  # needs manual build
   # - catkin
   # - robot
   # - python_qt_binding
