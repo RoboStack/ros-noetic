@@ -48,6 +48,11 @@ pwd
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
+	if [[ ${recipe} == *"gazebo-ros" || ${recipe} == *"gazebo-ros-control" ]]; then
+		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config_old_linux_compiler.yaml
+	else
+		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
+	fi
 	boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
 done
 

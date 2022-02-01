@@ -44,11 +44,13 @@ packages_select_by_deps:
   # - map-server
   # - move-base
   # - gmapping
-  - desktop_full
+  - simulators
+  # - desktop_full
   # - moveit
   # - rosbridge_suite
   # - robot_localization
   # - gazebo-ros  # needs building with old c/c++ compiler
+  # - gazebo-ros-control  # needs building with old c/c++ compiler
 
   ## TODO AFTER REBUILD
   # - rtabmap
