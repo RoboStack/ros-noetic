@@ -9,7 +9,7 @@ conda_index:
 build_number: 15
 
 # Ignore all dependencies of selected packages
-skip_all_deps: true
+skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
@@ -24,13 +24,12 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
   # - catkin
-  - python_qt_binding
-  # - desktop
+  - desktop
   # - desktop_full
   # - moveit
   # - rosbridge_suite
