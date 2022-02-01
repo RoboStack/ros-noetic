@@ -34,12 +34,12 @@ packages_select_by_deps:
   # - rviz
   - desktop_full
   # - moveit
-  # - rosbridge_suite
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
+  - rosbridge_suite
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
 
   # - pybind11_catkin  # need to be unvendored
 
