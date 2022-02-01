@@ -452,7 +452,12 @@ msgpack:
 muparser:
   robostack: [muparser]
 netpbm:
-  robostack: [netpbm]
+  robostack:
+    linux-aarch64: []
+    osx-arm64: []
+    linux: [netpbm]
+    osx: [netpbm]
+    win64: []
 nlopt:
   robostack: [nlopt]
 ocl-icd-opencl-dev:
