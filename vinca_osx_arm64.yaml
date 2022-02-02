@@ -37,6 +37,7 @@ packages_select_by_deps:
   - desktop
   - perception
   - moveit
+  - turtlebot3
   # - desktop-full  # missing gazebo
   
 patch_dir: patch
