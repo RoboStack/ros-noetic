@@ -39,7 +39,7 @@ packages_select_by_deps:
   - move-base
   - gmapping
   - fcl
-  # - desktop_full
+  - desktop_full
   # - moveit
 
   # - pybind11_catkin  # need to be unvendored

@@ -36,7 +36,7 @@ packages_select_by_deps:
   - moveit
   - rosbridge_suite
   - robot_localization
-  # - desktop_full
+  - desktop_full
 
 
   # # after rebuild

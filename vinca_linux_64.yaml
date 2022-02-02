@@ -43,8 +43,8 @@ packages_select_by_deps:
   - move-base
   - gmapping
   - simulators
-  - desktop_full
-  # - moveit
+  # - desktop_full
+  - moveit
   - rosbridge_suite
   - robot_localization
   - gazebo-ros  # needs building with old c/c++ compiler
