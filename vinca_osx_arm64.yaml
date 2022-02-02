@@ -39,6 +39,7 @@ packages_select_by_deps:
   - moveit
   - turtlebot3
   - eigenpy  # needs manual build
+  - turtlebot3
   # - desktop-full  # missing gazebo
 
 patch_dir: patch
