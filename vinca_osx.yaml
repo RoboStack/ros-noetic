@@ -31,7 +31,9 @@ packages_select_by_deps:
   - catkin
   - rviz
   - desktop
-  - desktop_full
+  # - desktop_full  # needs vtk fix
+  - perception
+  - simulators
   - moveit
   - rosbridge_suite
   - robot_localization

@@ -36,7 +36,9 @@ packages_select_by_deps:
   - moveit
   - rosbridge_suite
   - robot_localization
-  - desktop_full
+  - perception
+  - simulators
+  # - desktop_full  # needs vtk fix
 
 
   # # after rebuild

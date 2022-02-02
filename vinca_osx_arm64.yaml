@@ -38,6 +38,7 @@ packages_select_by_deps:
   - perception
   - moveit
   - turtlebot3
+  - eigenpy  # needs manual build
   # - desktop-full  # missing gazebo
 
 patch_dir: patch

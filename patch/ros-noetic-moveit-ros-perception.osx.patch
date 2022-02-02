@@ -70,3 +70,17 @@ index 4f351b53e..41809a0e3 100644
      context_[thread_id] = std::pair<unsigned, GLuint>(1, window_id);
    }
    else
+diff --git a/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp b/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp
+index 5bbe882391..6acab3f104 100644
+--- a/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp
++++ b/moveit_ros/perception/mesh_filter/src/depth_self_filter_nodelet.cpp
+@@ -91,7 +91,7 @@ void mesh_filter::DepthSelfFiltering::onInit()
+   model_label_ptr_ = std::make_shared<cv_bridge::CvImage>();
+ 
+   mesh_filter_ = std::make_shared<MeshFilter<StereoCameraModel>>(
+-      bind(&TransformProvider::getTransform, &transform_provider_, std::placeholders::_1, std::placeholders::_2),
++      std::bind(&TransformProvider::getTransform, &transform_provider_, std::placeholders::_1, std::placeholders::_2),
+       mesh_filter::StereoCameraModel::REGISTERED_PSDK_PARAMS);
+   mesh_filter_->parameters().setDepthRange(near_clipping_plane_distance_, far_clipping_plane_distance_);
+   mesh_filter_->setShadowThreshold(shadow_threshold_);
+

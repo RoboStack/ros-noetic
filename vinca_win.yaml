@@ -40,7 +40,7 @@ packages_select_by_deps:
   - gmapping
   - fcl
   - desktop_full
-  # - moveit
+  - moveit
 
   # - pybind11_catkin  # need to be unvendored
 
