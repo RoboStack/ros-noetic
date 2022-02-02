@@ -32,14 +32,15 @@ packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
   - desktop
   - rviz
-  - desktop_full
-  - moveit
   - rosbridge_suite
   - robot_localization
   - amcl
   - map-server
   - move-base
   - gmapping
+  # - fcl
+  # - desktop_full
+  # - moveit
 
   # - pybind11_catkin  # need to be unvendored
 

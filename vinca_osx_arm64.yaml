@@ -33,12 +33,9 @@ packages_select_by_deps:
   - qt-gui-cpp  # needs manual build
   - catkin
   - robot
-  - rviz
+  - rviz  # needs manual build
   - desktop
-  # - image_common
-  # - image_pipeline
-  # - image_transport_plugins
-  # - laser_pipeline
-  # - vision_opencv
+  - desktop-full
+  # - moveit
   
 patch_dir: patch

@@ -31,7 +31,7 @@ packages_select_by_deps:
   - catkin
   - rviz
   - desktop
-  # - desktop_full
+  - desktop_full
   # - moveit
   # - rosbridge_suite
   # - robot_localization
