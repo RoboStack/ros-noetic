@@ -35,7 +35,8 @@ packages_select_by_deps:
   - robot
   - rviz  # needs manual build
   - desktop
-  - desktop-full
+  - perception
   # - moveit
+  # - desktop-full  # missing gazebo
   
 patch_dir: patch

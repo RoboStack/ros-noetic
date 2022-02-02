@@ -38,7 +38,7 @@ packages_select_by_deps:
   - map-server
   - move-base
   - gmapping
-  # - fcl
+  - fcl
   # - desktop_full
   # - moveit
 

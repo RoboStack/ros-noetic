@@ -9,7 +9,7 @@ conda_index:
 build_number: 7
 
 # Ignore all dependencies of selected packages
-skip_all_deps: true
+skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
@@ -24,20 +24,19 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
-  - srdfdom
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - moveit
-  # - rosbridge_suite
-  # - robot_localization
-  # # - desktop_full
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - rosbridge_suite
+  - robot_localization
+  # - desktop_full
 
 
   # # after rebuild

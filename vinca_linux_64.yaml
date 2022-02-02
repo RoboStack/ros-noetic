@@ -37,20 +37,18 @@ packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ## Only limited number of packages to reduce maintainer burden
-  # - visualization-tutorials
-  # - viz
   - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
   - simulators
-  # - desktop_full
+  - desktop_full
   # - moveit
-  # - rosbridge_suite
-  # - robot_localization
-  # - gazebo-ros  # needs building with old c/c++ compiler
-  # - gazebo-ros-control  # needs building with old c/c++ compiler
+  - rosbridge_suite
+  - robot_localization
+  - gazebo-ros  # needs building with old c/c++ compiler
+  - gazebo-ros-control  # needs building with old c/c++ compiler
 
   ## TODO AFTER REBUILD
   # - rtabmap

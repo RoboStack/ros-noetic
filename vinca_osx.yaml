@@ -32,13 +32,13 @@ packages_select_by_deps:
   - rviz
   - desktop
   - desktop_full
-  # - moveit
-  # - rosbridge_suite
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
+  - moveit
+  - rosbridge_suite
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
 
   ##
   #  TODO OSX
