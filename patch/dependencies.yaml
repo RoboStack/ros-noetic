@@ -135,6 +135,8 @@ rospilot:
   add_host: ["pkg-config"]
 nav_grid_server:
   add_host: ["pkg-config"]
+map_server:
+  add_host: ["pkg-config"]
 safety_limiter:
   add_host: ["REQUIRE_OPENGL"]
 ifopt:
