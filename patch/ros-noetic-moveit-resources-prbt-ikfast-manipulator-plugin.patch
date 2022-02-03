@@ -1,5 +1,5 @@
 diff --git a/prbt_ikfast_manipulator_plugin/CMakeLists.txt b/prbt_ikfast_manipulator_plugin/CMakeLists.txt
-index adf13c2..08cbced 100644
+index adf13c2..924c202 100644
 --- a/prbt_ikfast_manipulator_plugin/CMakeLists.txt
 +++ b/prbt_ikfast_manipulator_plugin/CMakeLists.txt
 @@ -4,10 +4,12 @@ project(moveit_resources_prbt_ikfast_manipulator_plugin)
@@ -19,3 +19,13 @@ index adf13c2..08cbced 100644
  
  # enable aligned new in gcc7+
  if(CMAKE_COMPILER_IS_GNUCXX)
+@@ -32,8 +34,6 @@ catkin_package()
+ set(IKFAST_LIBRARY_NAME prbt_manipulator_moveit_ikfast_plugin)
+ add_library(${IKFAST_LIBRARY_NAME} src/prbt_manipulator_ikfast_moveit_plugin.cpp)
+ target_link_libraries(${IKFAST_LIBRARY_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+-# suppress warnings about unused variables in OpenRave's solver code
+-target_compile_options(${IKFAST_LIBRARY_NAME} PRIVATE -Wno-unused-variable)
+ 
+ install(TARGETS
+   ${IKFAST_LIBRARY_NAME}
+
