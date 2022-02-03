@@ -12,6 +12,19 @@ index 73f692e68..d17ed79d0 100644
  endif(WITH_OPENGL)
  
  if(APPLE)
+@@ -18,6 +18,12 @@ if(WITH_OPENGL)
+   set(SYSTEM_GL_INCLUDE_DIRS ${GLEW_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
+ endif(WITH_OPENGL)
+ 
++if(MSVC AND ${MSVC_VERSION} GREATER_EQUAL 1915)
++  # You must acknowledge that you understand MSVC resolved a byte alignment issue in this compiler
++  # We get this due to using Eigen objects and allocating those objects with make_shared
++  target_compile_definitions( ${target_name} PRIVATE _ENABLE_EXTENDED_ALIGNED_STORAGE )
++endif()
++
+ if(APPLE)
+   find_package(X11 REQUIRED)
+ endif(APPLE)
 diff --git a/moveit_ros/perception/mesh_filter/include/moveit/mesh_filter/stereo_camera_model.h b/moveit_ros/perception/mesh_filter/include/moveit/mesh_filter/stereo_camera_model.h
 index 5ffd8174d..6445b8d37 100644
 --- a/moveit_ros/perception/mesh_filter/include/moveit/mesh_filter/stereo_camera_model.h
