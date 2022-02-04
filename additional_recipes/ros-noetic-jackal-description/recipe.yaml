@@ -1,11 +1,11 @@
 package:
-  name: ros-noetic-jackal-desktop
-  version: 0.4.0
+  name: ros-noetic-jackal-description
+  version: 0.7.3
 about:
-  home: http://wiki.ros.org/jackal_desktop
+  home: http://wiki.ros.org/jackal_description
   license:
     - BSD
-  summary: Packages for working with Jackal from a ROS desktop.
+  summary: URDF robot description for Jackal
   maintainers:
     - Mike Purvis (mpurvis@clearpathrobotics.com)
 extra:
@@ -16,12 +16,11 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip:
-    - true
+
 source:
-  git_url: https://github.com/clearpath-gbp/jackal_desktop-release.git
-  git_rev: release/melodic/jackal_desktop/0.4.0-1
-  folder: ros-noetic-jackal-desktop/src/work
+  git_url: https://github.com/clearpath-gbp/jackal-release.git
+  git_rev: release/melodic/jackal_description/0.7.3-1
+  folder: ros-noetic-jackal-description/src/work
 requirements:
   build:
     - "{{ compiler('cxx') }}"
@@ -35,8 +34,17 @@ requirements:
   host:
     - python
     - ros-noetic-catkin
-    - ros-noetic-jackal-viz
+    - ros-noetic-roslaunch
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-urdf
+    - ros-noetic-xacro
+    - ros-noetic-lms1xx
+    - ros-noetic-pointgrey-camera-description
   run:
     - python
-    - ros-noetic-jackal-viz
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-urdf
+    - ros-noetic-xacro
+    - ros-noetic-lms1xx
+    - ros-noetic-pointgrey-camera-description
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

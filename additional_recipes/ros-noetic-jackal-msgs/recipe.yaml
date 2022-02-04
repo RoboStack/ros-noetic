@@ -1,11 +1,11 @@
 package:
-  name: ros-noetic-jackal-description
+  name: ros-noetic-jackal-msgs
   version: 0.7.3
 about:
-  home: http://wiki.ros.org/jackal_description
+  home: http://wiki.ros.org/jackal_msgs
   license:
     - BSD
-  summary: URDF robot description for Jackal
+  summary: Messages exclusive to Jackal, especially for representing low-level motor commands and sensors.
   maintainers:
     - Mike Purvis (mpurvis@clearpathrobotics.com)
 extra:
@@ -16,12 +16,11 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip:
-    - true
+
 source:
   git_url: https://github.com/clearpath-gbp/jackal-release.git
-  git_rev: release/melodic/jackal_description/0.7.3-1
-  folder: ros-noetic-jackal-description/src/work
+  git_rev: release/melodic/jackal_msgs/0.7.3-1
+  folder: ros-noetic-jackal-msgs/src/work
 requirements:
   build:
     - "{{ compiler('cxx') }}"
@@ -35,17 +34,11 @@ requirements:
   host:
     - python
     - ros-noetic-catkin
-    - ros-noetic-roslaunch
-    - ros-noetic-robot-state-publisher
-    - ros-noetic-urdf
-    - ros-noetic-xacro
-    - ros-noetic-lms1xx
-    - ros-noetic-pointgrey-camera-description
+    - ros-noetic-message-generation
+    - ros-noetic-std-msgs
+    - ros-noetic-message-runtime
   run:
     - python
-    - ros-noetic-robot-state-publisher
-    - ros-noetic-urdf
-    - ros-noetic-xacro
-    - ros-noetic-lms1xx
-    - ros-noetic-pointgrey-camera-description
+    - ros-noetic-message-runtime
+    - ros-noetic-std-msgs
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

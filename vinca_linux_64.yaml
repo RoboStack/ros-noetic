@@ -45,11 +45,10 @@ packages_select_by_deps:
   - simulators
   # - desktop_full
   - moveit-ros-move-group
-  - moveit
+  - moveit-ros-manipulation
+  # - moveit
   - rosbridge_suite
   - robot_localization
-  - gazebo-ros  # needs building with old c/c++ compiler
-  - gazebo-ros-control  # needs building with old c/c++ compiler
 
   ## TODO AFTER REBUILD
   # - rtabmap

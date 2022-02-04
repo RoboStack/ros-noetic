@@ -1,11 +1,11 @@
 package:
-  name: ros-noetic-jackal-viz
+  name: ros-noetic-jackal-gazebo
   version: 0.4.0
 about:
-  home: http://wiki.ros.org/jackal_viz
+  home: http://wiki.ros.org/jackal_gazebo
   license:
     - BSD
-  summary: Visualization launchers and helpers for Jackal.
+  summary: Launchfiles to use Jackal in Gazebo.
   maintainers:
     - Mike Purvis (mpurvis@clearpathrobotics.com)
 extra:
@@ -16,12 +16,11 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip:
-    - true
+
 source:
-  git_url: https://github.com/clearpath-gbp/jackal_desktop-release.git
-  git_rev: release/melodic/jackal_viz/0.4.0-1
-  folder: ros-noetic-jackal-viz/src/work
+  git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  git_rev: release/melodic/jackal_gazebo/0.4.0-1
+  folder: ros-noetic-jackal-gazebo/src/work
 requirements:
   build:
     - "{{ compiler('cxx') }}"
@@ -36,12 +35,14 @@ requirements:
     - python
     - ros-noetic-catkin
     - ros-noetic-roslaunch
-    - ros-noetic-joint-state-publisher
-    - ros-noetic-joint-state-publisher-gui
-    - ros-noetic-rviz
+    - ros-noetic-gazebo-ros
+    - ros-noetic-gazebo-ros-control
+    - ros-noetic-gazebo-plugins
+    - ros-noetic-hector-gazebo-plugins
   run:
     - python
-    - ros-noetic-joint-state-publisher
-    - ros-noetic-joint-state-publisher-gui
-    - ros-noetic-rviz
+    - ros-noetic-gazebo-ros
+    - ros-noetic-gazebo-ros-control
+    - ros-noetic-gazebo-plugins
+    - ros-noetic-hector-gazebo-plugins
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

@@ -1,11 +1,11 @@
 package:
-  name: ros-noetic-jackal-navigation
-  version: 0.7.3
+  name: ros-noetic-jackal-simulator
+  version: 0.4.0
 about:
-  home: http://wiki.ros.org/jackal_navigation
+  home: http://wiki.ros.org/jackal_simulator
   license:
     - BSD
-  summary: Launch files and code for autonomous navigation of the Jackal
+  summary: Packages for simulating Jackal.
   maintainers:
     - Mike Purvis (mpurvis@clearpathrobotics.com)
 extra:
@@ -16,12 +16,11 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip:
-    - true
+
 source:
-  git_url: https://github.com/clearpath-gbp/jackal-release.git
-  git_rev: release/melodic/jackal_navigation/0.7.3-1
-  folder: ros-noetic-jackal-navigation/src/work
+  git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  git_rev: release/melodic/jackal_simulator/0.4.0-1
+  folder: ros-noetic-jackal-simulator/src/work
 requirements:
   build:
     - "{{ compiler('cxx') }}"
@@ -35,19 +34,8 @@ requirements:
   host:
     - python
     - ros-noetic-catkin
-    - ros-noetic-roslaunch
-    - ros-noetic-amcl
-    - ros-noetic-gmapping
-    - ros-noetic-map-server
-    - ros-noetic-move-base
-    - ros-noetic-urdf
-    - ros-noetic-xacro
+    - ros-noetic-jackal-gazebo
   run:
     - python
-    - ros-noetic-amcl
-    - ros-noetic-gmapping
-    - ros-noetic-map-server
-    - ros-noetic-move-base
-    - ros-noetic-urdf
-    - ros-noetic-xacro
+    - ros-noetic-jackal-gazebo
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
