@@ -121,6 +121,8 @@ dataspeed_pds_lcm:
   add_host: ["pkg-config"]
 exotica_core:
   add_host: ["pkg-config"]
+robot_localization:
+  add_host: ["pkg-config"]
 face_detector:
   add_host: ["yaml-cpp"]
 fadecandy_driver:
