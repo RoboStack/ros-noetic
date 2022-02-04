@@ -6,6 +6,8 @@ pcl_ros:
   add_host: ["REQUIRE_OPENGL"]
 grid_map_demos:
   add_host: ["REQUIRE_OPENGL"]
+moveit_setup_assistant:
+  add_host: ["pkg-config"]
 gazebo_dev:
   add_host: [tbb]
 gazebo_ros:
