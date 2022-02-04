@@ -57,6 +57,9 @@ packages_select_by_deps:
   - teleop-twist-joy
   - twist-mux
   - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
 
   # - pybind11_catkin  # need to be unvendored
 

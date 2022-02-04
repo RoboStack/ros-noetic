@@ -56,5 +56,8 @@ packages_select_by_deps:
   - teleop-twist-joy
   - twist-mux
   - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
 
 patch_dir: patch
