@@ -16,8 +16,7 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip:
-    sel(win): true
+
 
 
 source:
