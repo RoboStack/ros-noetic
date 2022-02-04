@@ -24,39 +24,39 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
-  - catkin
-  - rviz
-  - desktop
-  # - desktop_full  # needs vtk fix
-  - perception
-  - simulators
-  - moveit
-  - rosbridge_suite
-  - robot_localization
-  - amcl
-  - map-server
-  - move-base
-  - gmapping
+  # - catkin
+  # - rviz
+  # - desktop
+  # # - desktop_full  # needs vtk fix
+  # - perception
+  # - simulators
+  # - moveit
+  # - rosbridge_suite
+  # - robot_localization
+  # - amcl
+  # - map-server
+  # - move-base
+  # - gmapping
 
-  # For jackal
-  - hector-gazebo-plugins
-  - lms1xx
-  - gazebo-ros
-  - gazebo-ros-control
-  - gazebo-plugins
-  - controller-manager
-  - interactive_marker_twist_server
-  - diff-drive-controller
-  - joint-state-controller
-  - joy
-  - robot-localization
-  - teleop-twist-joy
-  - twist-mux
-  - pointgrey-camera-description
+  # # For jackal
+  # - hector-gazebo-plugins
+  # - lms1xx
+  # - gazebo-ros
+  # - gazebo-ros-control
+  # - gazebo-plugins
+  # - controller-manager
+  # - interactive_marker_twist_server
+  # - diff-drive-controller
+  # - joint-state-controller
+  # - joy
+  # - robot-localization
+  # - teleop-twist-joy
+  # - twist-mux
+  # - pointgrey-camera-description
 
   ##
   #  TODO OSX
