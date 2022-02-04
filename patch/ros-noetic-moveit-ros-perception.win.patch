@@ -19,7 +19,7 @@ index 73f692e68..d17ed79d0 100644
 +if(MSVC AND ${MSVC_VERSION} GREATER_EQUAL 1915)
 +  # You must acknowledge that you understand MSVC resolved a byte alignment issue in this compiler
 +  # We get this due to using Eigen objects and allocating those objects with make_shared
-+  target_compile_definitions( ${target_name} PRIVATE _ENABLE_EXTENDED_ALIGNED_STORAGE )
++  add_compile_definitions(_ENABLE_EXTENDED_ALIGNED_STORAGE)
 +endif()
 +
  if(APPLE)
