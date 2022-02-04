@@ -54,6 +54,7 @@ packages_select_by_deps:
   - robot-localization
   - teleop-twist-joy
   - twist-mux
+  - pointgrey-camera-description
 
   # # after rebuild
   # - plotjuggler_ros
