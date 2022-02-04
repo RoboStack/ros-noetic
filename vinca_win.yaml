@@ -42,6 +42,21 @@ packages_select_by_deps:
   - desktop_full
   - moveit
 
+  # For jackal
+  - hector-gazebo-plugins
+  - lms1xx
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+
   # - pybind11_catkin  # need to be unvendored
 
   # Fix after rebuild
