@@ -60,6 +60,7 @@ packages_select_by_deps:
   - nmea-msgs
   - geometry-msgs
   - nmea-navsat-driver
+  - rosserial-server
 
   ##
   #  TODO OSX
