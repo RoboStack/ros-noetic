@@ -68,6 +68,8 @@ packages_select_by_deps:
   - geometry-msgs
   - nmea-navsat-driver
   - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
 
   ## TODO AFTER REBUILD
   # - rtabmap

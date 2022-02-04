@@ -61,6 +61,8 @@ packages_select_by_deps:
   - geometry-msgs
   - nmea-navsat-driver
   - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
 
   # - pybind11_catkin  # need to be unvendored
 

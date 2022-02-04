@@ -41,6 +41,7 @@ packages_select_by_deps:
   - map-server
   - move-base
   - gmapping
+  - turtlebot3
 
   # For jackal
   - hector-gazebo-plugins
@@ -61,6 +62,8 @@ packages_select_by_deps:
   - geometry-msgs
   - nmea-navsat-driver
   - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
 
   ##
   #  TODO OSX
