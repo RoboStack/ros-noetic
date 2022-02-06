@@ -51,11 +51,11 @@ packages_select_by_deps:
   # - rosbridge_suite
   # - robot_localization
   # # For jackal
-  # # - hector-gazebo-plugins
+  - hector-gazebo-plugins
   # - lms1xx
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
   # - controller-manager
   # - interactive_marker_twist_server
   # - diff-drive-controller
