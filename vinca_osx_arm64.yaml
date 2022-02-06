@@ -30,39 +30,39 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  - gazebo-dev
-  # - qt-gui-cpp  # needs manual build
-  # - catkin
-  # - robot
-  # - rviz  # needs manual build
-  # - desktop
-  # - perception
-  # - moveit
-  # - eigenpy  # needs manual build
-  # - turtlebot3
-  # # - desktop-full  # missing gazebo
+  - qt-gui-cpp  # needs manual build
+  - catkin
+  - robot
+  - rviz  # needs manual build
+  - desktop
+  - perception
+  - moveit
+  - eigenpy  # needs manual build
+  - turtlebot3
+  # - desktop-full  # missing gazebo
 
-  # # For jackal
-  - hector-gazebo-plugins
-  # - lms1xx
-  - gazebo-ros
-  - gazebo-ros-control
-  - gazebo-plugins
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - gmapping
+  # For jackal
+  # - gazebo-dev  # missing gazebo
+  # - hector-gazebo-plugins  # missing gazebo
+  # - gazebo-ros  # missing gazebo
+  # - gazebo-ros-control  # missing gazebo
+  # - gazebo-plugins  # missing gazebo
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
 
 patch_dir: patch

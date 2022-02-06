@@ -37,7 +37,6 @@ packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
   ## Only limited number of packages to reduce maintainer burden
-  - gazebo-dev
   # - desktop
   # - amcl
   # - map-server
@@ -51,11 +50,12 @@ packages_select_by_deps:
   # - rosbridge_suite
   # - robot_localization
   # # For jackal
-  - hector-gazebo-plugins
-  # - lms1xx
+  - gazebo-dev
   - gazebo-ros
+  - hector-gazebo-plugins
   - gazebo-ros-control
   - gazebo-plugins
+  # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
   # - diff-drive-controller

@@ -30,7 +30,6 @@ skip_existing:
 
 packages_select_by_deps:
   ## Only limited number of packages to reduce maintainer burden
-  - gazebo-dev
   # - desktop
   # - rviz
   # - rosbridge_suite
@@ -44,11 +43,12 @@ packages_select_by_deps:
   # - moveit
 
   # # For jackal
-  - hector-gazebo-plugins
-  # - lms1xx
+  - gazebo-dev
   - gazebo-ros
+  - hector-gazebo-plugins
   - gazebo-ros-control
   - gazebo-plugins
+  # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
   # - diff-drive-controller

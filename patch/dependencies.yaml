@@ -9,15 +9,15 @@ grid_map_demos:
 moveit_setup_assistant:
   add_host: ["pkg-config"]
 gazebo_dev:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel]
 gazebo_ros:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel]
 gazebo_plugins:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel]
 gazebo_ros_control:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel]
 gazebo_pkgs:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel]
 ros_ign_gazebo:
   add_host: ["REQUIRE_OPENGL", {"sel(linux)": "libuuid"}]
 apriltag:

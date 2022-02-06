@@ -9,7 +9,7 @@ conda_index:
 build_number: 7
 
 # Ignore all dependencies of selected packages
-skip_all_deps: false
+skip_all_deps: true
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
@@ -24,43 +24,44 @@ packages_remove_from_deps:
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  ## Only limited number of packages to reduce maintainer burden
-  - desktop
-  - amcl
-  - map-server
-  - move-base
-  - gmapping
-  - moveit
-  - rosbridge_suite
-  - robot_localization
-  - perception
-  - simulators
-  # - desktop_full  # needs vtk fix
+  # ## Only limited number of packages to reduce maintainer burden
+  # - desktop
+  # - amcl
+  # - map-server
+  # - move-base
+  # - gmapping
+  # - moveit
+  # - rosbridge_suite
+  # - robot_localization
+  # - perception
+  # - simulators
+  # # - desktop_full  # needs vtk fix
 
-  # For jackal
+  # # For jackal
   - hector-gazebo-plugins
-  - lms1xx
+  - gazebo-dev
   - gazebo-ros
   - gazebo-ros-control
   - gazebo-plugins
-  - controller-manager
-  - interactive_marker_twist_server
-  - diff-drive-controller
-  - joint-state-controller
-  - joy
-  - robot-localization
-  - teleop-twist-joy
-  - twist-mux
-  - pointgrey-camera-description
-  - nmea-msgs
-  - geometry-msgs
-  - nmea-navsat-driver
-  - rosserial-server
-  - imu-filter-madgwick
-  - rosserial-python
+  # - lms1xx
+  # - controller-manager
+  # - interactive_marker_twist_server
+  # - diff-drive-controller
+  # - joint-state-controller
+  # - joy
+  # - robot-localization
+  # - teleop-twist-joy
+  # - twist-mux
+  # - pointgrey-camera-description
+  # - nmea-msgs
+  # - geometry-msgs
+  # - nmea-navsat-driver
+  # - rosserial-server
+  # - imu-filter-madgwick
+  # - rosserial-python
 
   # # after rebuild
   # - plotjuggler_ros
