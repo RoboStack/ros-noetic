@@ -43,7 +43,7 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 # if you don't have mamba yet, install it first in the base environment (not needed when using mambaforge):
 conda install mamba -c conda-forge
 
-mamba create -n robostackenv ros-noetic-desktop-full python=3.9 -c robostack -c robostack-experimental -c conda-forge --no-channel-priority --override-channels
+mamba create -n robostackenv ros-noetic-desktop python=3.9 -c robostack -c robostack-experimental -c conda-forge --no-channel-priority --override-channels
 conda activate robostackenv
 
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws:
