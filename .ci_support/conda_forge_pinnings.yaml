@@ -125,15 +125,13 @@ channel_targets:
   - conda-forge main
 
 cdt_name:  # [linux]
-  - cos6   # [linux64 and os.environ.get("DEFAULT_LINUX_VERSION", "cos7") == "cos6"]
-  - cos7   # [linux64 and os.environ.get("DEFAULT_LINUX_VERSION", "cos7") == "cos7"]
+  - cos7   # [linux64]
   - cos7   # [linux and aarch64]
   - cos7   # [linux and ppc64le]
   - cos7   # [linux and armv7l]
   - cos7   # [linux and s390x]
 
-  - cos6   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("DEFAULT_LINUX_VERSION", "cos7") == "cos6"]
-  - cos7   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("DEFAULT_LINUX_VERSION", "cos7") == "cos7"]
+  - cos7   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
   - cos7   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
   - cos7   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
   - cos7   # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
