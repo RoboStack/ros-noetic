@@ -38,7 +38,6 @@ conda config --set show_channel_urls true
 conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
 
-conda config --append channels defaults
 conda config --add channels conda-forge
 conda config --add channels robostack-experimental
 conda config --add channels robostack
