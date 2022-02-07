@@ -23,9 +23,10 @@ CONDARC
 # fi
 
 conda config --set remote_max_retries 5
+conda config --append channels defaults
 conda config --add channels conda-forge
 conda config --add channels robostack
-conda config --remove channels defaults
+# conda config --remove channels defaults
 conda config --set channel_priority strict
 
 conda update conda -c conda-forge
