@@ -11,7 +11,7 @@ set -ex
 # Check parameters
 ARCH=${ARCH:-x86_64}
 DOCKER_ARCH=${DOCKER_ARCH:-amd64}
-DOCKERIMAGE=${DOCKERIMAGE:-condaforge/linux-anvil-comp7}
+DOCKERIMAGE=${DOCKERIMAGE:-condaforge/linux-anvil-cos7-x86_64}
 export CONSTRUCT_ROOT=/construct
 
 echo "============= Create build directory ============="
