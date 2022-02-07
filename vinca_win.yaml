@@ -43,11 +43,11 @@ packages_select_by_deps:
   # - moveit
 
   # # For jackal
-  - gazebo-dev
-  - gazebo-ros
+  # - gazebo-dev
+  # - gazebo-ros
   - hector-gazebo-plugins
   - gazebo-ros-control
-  - gazebo-plugins
+  # - gazebo-plugins  # STILL NEEDS DOING
   # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
