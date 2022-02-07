@@ -27,7 +27,7 @@ export "CONDA_BLD_PATH=/opt/conda/build_artifacts"
 conda config --set remote_max_retries 5
 conda config --add channels conda-forge
 conda config --add channels robostack
-conda config --add $CONDA_BLD_PATH
+conda config --add channels $CONDA_BLD_PATH
 conda config --remove channels defaults
 # conda config --set channel_priority strict
 
