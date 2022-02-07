@@ -45,9 +45,9 @@ packages_select_by_deps:
   # # For jackal
   # - gazebo-dev
   # - gazebo-ros
-  - hector-gazebo-plugins
-  - gazebo-ros-control
-  # - gazebo-plugins  # STILL NEEDS DOING
+  # - hector-gazebo-plugins
+  # - gazebo-ros-control
+  - gazebo-plugins  # STILL NEEDS DOING
   # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
