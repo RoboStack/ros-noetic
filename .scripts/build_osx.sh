@@ -33,6 +33,10 @@ set -e
 # echo -e "\n\nRunning the build setup script."
 # # source run_conda_forge_build_setup
 
+export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
+
+mkdir -p $CONDA_BLD_PATH
+conda index $CONDA_BLD_PATH
 conda config --set anaconda_upload yes
 conda config --set show_channel_urls true
 conda config --set auto_update_conda false
@@ -41,9 +45,8 @@ conda config --set add_pip_as_python_dependency false
 conda config --add channels conda-forge
 conda config --add channels robostack-experimental
 conda config --add channels robostack
+conda config --remove channels defaults
 # conda config --set channel_priority strict
-
-export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
 
 # echo -e "\n\nMaking the build clobber file and running the build."
 # make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml
