@@ -42,6 +42,7 @@ packages_select_by_deps:
   - move-base
   - gmapping
   - turtlebot3
+  - turtlebot3-simulations
 
   # # For jackal
   - gazebo-dev
