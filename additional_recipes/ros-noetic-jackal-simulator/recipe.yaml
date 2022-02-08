@@ -16,7 +16,6 @@ build:
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
-  skip: [osx and arm64]
 
 source:
   git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git

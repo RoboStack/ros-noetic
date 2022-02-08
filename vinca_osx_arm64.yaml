@@ -39,14 +39,14 @@ packages_select_by_deps:
   - moveit
   - eigenpy  # needs manual build
   - turtlebot3
-  # - desktop-full  # missing gazebo
+  - desktop-full
 
   # For jackal
-  # - gazebo-dev  # missing gazebo
-  # - hector-gazebo-plugins  # missing gazebo
-  # - gazebo-ros  # missing gazebo
-  # - gazebo-ros-control  # missing gazebo
-  # - gazebo-plugins  # missing gazebo
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
   - lms1xx
   - controller-manager
   - interactive_marker_twist_server
