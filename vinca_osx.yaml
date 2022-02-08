@@ -65,7 +65,22 @@ packages_select_by_deps:
   - rosserial-server
   - imu-filter-madgwick
   - rosserial-python
-
+  - tf2_web_republisher
+  - rosbridge_suite
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
   ##
   #  TODO OSX
   ##
