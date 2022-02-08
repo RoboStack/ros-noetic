@@ -64,6 +64,18 @@ packages_select_by_deps:
   - rosserial-server
   - imu-filter-madgwick
   - rosserial-python
+  - tf2_web_republisher
+  - rosbridge_suite
+  - libfranka
+  - franka
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
 
   # - pybind11_catkin  # need to be unvendored
 
