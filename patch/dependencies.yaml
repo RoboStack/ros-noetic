@@ -152,3 +152,5 @@ rosbridge_library:
 resource_retriever:
   add_host: ["libcurl"]
   add_run: ["libcurl"]
+hector_gazebo_plugins:
+  add_host: ["pkg-config"]
