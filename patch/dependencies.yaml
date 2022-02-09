@@ -11,7 +11,7 @@ moveit_setup_assistant:
 gazebo_dev:
   add_host: [tbb, tbb-devel]
 gazebo_ros:
-  add_host: [tbb, tbb-devel]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_plugins:
   add_host: [tbb, tbb-devel]
 gazebo_ros_control:
