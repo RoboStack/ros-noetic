@@ -39,6 +39,7 @@ packages_select_by_deps:
   - moveit
   - eigenpy  # needs manual build
   - turtlebot3
+  - turtlebot3-simulations
   - desktop-full
 
   # For jackal
