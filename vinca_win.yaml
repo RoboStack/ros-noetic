@@ -76,6 +76,9 @@ packages_select_by_deps:
   - moveit-ros-visualization
   - moveit-ros-planning-interface
   - niryo_one_simulation
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
 
   # - pybind11_catkin  # need to be unvendored
 
