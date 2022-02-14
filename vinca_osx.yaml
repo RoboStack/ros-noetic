@@ -85,6 +85,9 @@ packages_select_by_deps:
   - teb-local-planner
   - turtlebot3
   - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
 
   ##
   #  TODO OSX
@@ -608,7 +611,6 @@ packages_select_by_deps:
   # - razor-imu-9dof
   # - rc-common-msgs
   # - rc-visard-description
-  # - realsense2-description
   # - remote-rosbag-record
   # - rgbd-launch
   # - robot-calibration-msgs
@@ -730,7 +732,6 @@ packages_select_by_deps:
   # - rosserial-python
   # - rosserial-msgs
   # - rviz
-  # - realsense2_camera
   # - tf2_web_republisher
   # - franka_ros
   # - franka_example_controllers
