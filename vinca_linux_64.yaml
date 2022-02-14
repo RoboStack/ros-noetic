@@ -94,6 +94,7 @@ packages_select_by_deps:
   - realsense2_camera
   - realsense2-description
   - ur-msgs
+  - rosdoc-lite
 
   ## TODO AFTER REBUILD
   # - rtabmap
@@ -835,7 +836,6 @@ packages_select_by_deps:
   # - rosbaglive
   # - rosbag-snapshot-msgs
   # - rosdiagnostic
-  # - rosdoc-lite
   # - rosemacs
   # - rosfmt
   # - ros-industrial-cmake-boilerplate

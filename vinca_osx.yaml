@@ -89,6 +89,7 @@ packages_select_by_deps:
   - realsense2_camera
   - realsense2-description
   - ur-msgs
+  - rosdoc-lite
 
   ##
   #  TODO OSX
@@ -629,7 +630,6 @@ packages_select_by_deps:
   # - rosbag-snapshot-msgs
   # - rosbaglive
   # - rosdiagnostic
-  # - rosdoc-lite
   # - rosemacs
   # - rosfmt
   # - rosmon-msgs
