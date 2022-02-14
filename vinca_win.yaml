@@ -82,6 +82,7 @@ packages_select_by_deps:
   - librealsense2
   - realsense2_camera
   - realsense2-description
+  - ur-msgs
 
   # - pybind11_catkin  # need to be unvendored
 
@@ -385,7 +386,6 @@ packages_select_by_deps:
   # - ublox-serialization
   # - udp-com
   # - unique-id
-  # - ur-msgs
   # - urdf-geometry-parser
   # - urg-stamped
   # - usb-cam-hardware-interface

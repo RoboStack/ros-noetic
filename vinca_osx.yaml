@@ -88,6 +88,7 @@ packages_select_by_deps:
   - librealsense2
   - realsense2_camera
   - realsense2-description
+  - ur-msgs
 
   ##
   #  TODO OSX
@@ -700,7 +701,6 @@ packages_select_by_deps:
   # - twist-recovery
   # - ublox-serialization
   # - unique-id
-  # - ur-msgs
   # - urg-stamped
   # - usb-cam-hardware-interface
   # - variant-msgs

@@ -93,6 +93,7 @@ packages_select_by_deps:
   - librealsense2
   - realsense2_camera
   - realsense2-description
+  - ur-msgs
 
   ## TODO AFTER REBUILD
   # - rtabmap
@@ -556,7 +557,6 @@ packages_select_by_deps:
   # - ublox-msgs
   # - unique-identifier
   # - urdf
-  # - ur-msgs
   # - variant
   # - variant-topic-tools
   # - voice-text
