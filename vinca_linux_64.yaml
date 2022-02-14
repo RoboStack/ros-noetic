@@ -90,6 +90,9 @@ packages_select_by_deps:
   - teb-local-planner
   - turtlebot3
   - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
 
   ## TODO AFTER REBUILD
   # - rtabmap
@@ -225,8 +228,6 @@ packages_select_by_deps:
   # - nerian-stereo
   # - opencv-apps
   # - posedetection-msgs
-  # - librealsense2
-  # - realsense2-camera
   # - resized-image-transport
   # - robot-calibration
   # - rqt-image-view
@@ -738,7 +739,6 @@ packages_select_by_deps:
   # - leo-viz
   # - lgsvl-msgs
   # - libpcan
-  # - librealsense2
   # - locomotor-msgs
   # - log-view
   # - lpg-planner
@@ -823,7 +823,6 @@ packages_select_by_deps:
   # - rcdiscover
   # - rc-genicam-api
   # - rc-visard-description
-  # - realsense2-description
   # - remote-rosbag-record
   # - rgbd-launch
   # - robot-calibration-msgs
@@ -920,7 +919,6 @@ packages_select_by_deps:
   # - ifm3d
   # - rviz
   # - ur_client_library
-  # - realsense2_camera
   # - franka_example_controllers
   # - franka_ros
   # - catkin

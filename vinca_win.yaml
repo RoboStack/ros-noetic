@@ -79,6 +79,9 @@ packages_select_by_deps:
   - teb-local-planner
   - turtlebot3
   - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
 
   # - pybind11_catkin  # need to be unvendored
 
@@ -87,9 +90,6 @@ packages_select_by_deps:
   # - drone-wrapper
   # - perception_pcl
   # - velodyne_pcl
-  # - realsense2_camera
-  # - realsense2-description
-  # - librealsense2
 
   # Need to build in own stage
   # - fcl
