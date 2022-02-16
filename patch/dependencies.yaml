@@ -77,6 +77,8 @@ mesh_client:
   add_host: ["REQUIRE_OPENGL", "cgal-cpp"]
 mesh_msgs_conversions:
   add_host: ["pkg-config"]
+mbf_msgs:
+  add_host: ["numpy"]
 map_organizer:
   add_host: ["REQUIRE_OPENGL"]
 libuvc_camera:
