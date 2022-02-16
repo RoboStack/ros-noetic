@@ -73,45 +73,22 @@ index 36fe1bb..4ffb876 100644
  
  	/**
  	 * trackThemAll this function tracks the features based on the parameters
-diff --git a/cmakemodules/FindJsonCpp.cmake b/cmakemodules/FindJsonCpp.cmake
-new file mode 100644
-index 0000000..7520442
---- /dev/null
-+++ b/cmakemodules/FindJsonCpp.cmake
-@@ -0,0 +1,33 @@
-+find_path(JsonCpp_INCLUDE_DIR "json/json.h"
-+  PATH_SUFFIXES "jsoncpp"
-+  DOC "jsoncpp include directory")
-+mark_as_advanced(JsonCpp_INCLUDE_DIR)
-+
-+find_library(JsonCpp_LIBRARY
-+  NAMES jsoncpp
-+  DOC "jsoncpp library")
-+mark_as_advanced(JsonCpp_LIBRARY)
-+
-+if (JsonCpp_INCLUDE_DIR AND EXISTS "${JsonCpp_INCLUDE_DIR}/json/version.h")
-+  file(STRINGS "${JsonCpp_INCLUDE_DIR}/json/version.h" _JsonCpp_version_lines
-+    REGEX "JSONCPP_VERSION_[A-Z]+")
-+  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_MAJOR +([0-9]+).*" "\\1" _JsonCpp_version_major "${_JsonCpp_version_lines}")
-+  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_MINOR +([0-9]+).*" "\\1" _JsonCpp_version_minor "${_JsonCpp_version_lines}")
-+  string(REGEX REPLACE ".*# *define +JSONCPP_VERSION_PATCH +([0-9]+).*" "\\1" _JsonCpp_version_patch "${_JsonCpp_version_lines}")
-+  set(JsonCpp_VERSION "${_JsonCpp_version_major}.${_JsonCpp_version_minor}.${_JsonCpp_version_patch}")
-+  unset(_JsonCpp_version_major)
-+  unset(_JsonCpp_version_minor)
-+  unset(_JsonCpp_version_patch)
-+  unset(_JsonCpp_version_lines)
-+endif ()
-+
-+include(FindPackageHandleStandardArgs)
-+find_package_handle_standard_args(JsonCpp
-+  REQUIRED_VARS JsonCpp_LIBRARY JsonCpp_INCLUDE_DIR
-+  VERSION_VAR JsonCpp_VERSION)
-+
-+if (JsonCpp_FOUND)
-+  set(JsonCpp_INCLUDE_DIRS "${JsonCpp_INCLUDE_DIR}")
-+  set(JsonCpp_LIBRARIES "${JsonCpp_LIBRARY}")
-+endif ()
-+
+diff --git a/cmakemodules/script_jsoncpp.cmake b/cmakemodules/script_jsoncpp.cmake
+index ce10b5b..98dbac3 100644
+--- a/cmakemodules/script_jsoncpp.cmake
++++ b/cmakemodules/script_jsoncpp.cmake
+@@ -6,8 +6,9 @@ option(DISABLE_JSONCPP "Forces NOT using JSONCPP, even if it could be found by C
+ mark_as_advanced(DISABLE_JSONCPP)
+ 
+ if(NOT DISABLE_JSONCPP)
+-	find_package(jsoncpp QUIET)
+-	if(jsoncpp_FOUND)
++	# find_package(jsoncpp QUIET)
++	pkg_check_modules(JSONCPP jsoncpp)
++	if(JSONCPP_FOUND)
+ 		# cmake imported target: "jsoncpp_lib"
+ 		set(CMAKE_MRPT_HAS_JSONCPP 1)
+ 		set(CMAKE_MRPT_HAS_JSONCPP_SYSTEM 1)
 diff --git a/cmakemodules/script_openni2.cmake b/cmakemodules/script_openni2.cmake
 index a0fe762..619d865 100644
 --- a/cmakemodules/script_openni2.cmake
@@ -125,6 +102,19 @@ index a0fe762..619d865 100644
  mark_as_advanced(DISABLE_OPENNI2)
  
  if (DISABLE_OPENNI2) # Allow the user to force not using this lib
+diff --git a/cmakemodules/script_show_final_summary.cmake b/cmakemodules/script_show_final_summary.cmake
+index ca6cdc0..7beaa08 100644
+--- a/cmakemodules/script_show_final_summary.cmake
++++ b/cmakemodules/script_show_final_summary.cmake
+@@ -130,7 +130,7 @@ SHOW_CONFIG_LINE_SYSTEM("Assimp (3D models)                  " CMAKE_MRPT_HAS_AS
+ SHOW_CONFIG_LINE_SYSTEM("ffmpeg libs (Video streaming)       " CMAKE_MRPT_HAS_FFMPEG "[avcodec ${LIBAVCODEC_VERSION}, avutil ${LIBAVUTIL_VERSION}, avformat ${LIBAVFORMAT_VERSION}]")
+ SHOW_CONFIG_LINE_SYSTEM("fyaml (YAML/JSON parsing)           " CMAKE_MRPT_HAS_LIBFYAML)
+ SHOW_CONFIG_LINE_SYSTEM("gtest (Google unit testing library) " CMAKE_MRPT_HAS_GTEST )
+-SHOW_CONFIG_LINE_SYSTEM("jsoncpp (JSON format serialization) " CMAKE_MRPT_HAS_JSONCPP "[Version: ${jsoncpp_VERSION}]")
++SHOW_CONFIG_LINE_SYSTEM("jsoncpp (JSON format serialization) " CMAKE_MRPT_HAS_JSONCPP "[Version: ${JSONCPP_VERSION}]")
+ SHOW_CONFIG_LINE_SYSTEM("libjpeg (jpeg)                      " CMAKE_MRPT_HAS_JPEG)
+ SHOW_CONFIG_LINE_SYSTEM("liblas (ASPRS LAS LiDAR format)     " CMAKE_MRPT_HAS_LIBLAS)
+ SHOW_CONFIG_LINE       ("mexplus                             " CMAKE_MRPT_HAS_MATLAB)
 diff --git a/cmakemodules/script_wxwidgets.cmake b/cmakemodules/script_wxwidgets.cmake
 index 9cbd648..87ede40 100644
 --- a/cmakemodules/script_wxwidgets.cmake
@@ -151,6 +141,17 @@ index 1ca7406..ef6f8a0 100644
  		else(PKG_LIBUSB10_FOUND)
  			message(SEND_ERROR "BUILD_XSENS requires libusb-1.0. Install it or disable BUILD_XSENS")
  		endif(PKG_LIBUSB10_FOUND)
+diff --git a/libs/comms/CMakeLists.txt b/libs/comms/CMakeLists.txt
+index 8e24def..9ea433e 100644
+--- a/libs/comms/CMakeLists.txt
++++ b/libs/comms/CMakeLists.txt
+@@ -18,5 +18,5 @@ endif()
+ target_link_libraries(comms PRIVATE Threads::Threads)
+ 
+ if(CMAKE_MRPT_HAS_FTDI_SYSTEM)
+-    target_link_libraries(comms PRIVATE imp_ftdi)
++    target_link_libraries(comms PUBLIC imp_ftdi ${PKG_LIBUDEV_LIBRARIES} ${PKG_LIBUSB10_LIBRARIES})
+ endif()
 diff --git a/libs/core/CMakeLists.txt b/libs/core/CMakeLists.txt
 index 47c6feb..a2ef97f 100644
 --- a/libs/core/CMakeLists.txt
@@ -201,8 +202,93 @@ index c45fc79..d7d7c6c 100644
  if(CMAKE_MRPT_HAS_OPENNI2)
  	target_link_libraries(hwdrivers PRIVATE ${MRPT_OPENNI2_LIBRARIES})
  endif()
+diff --git a/libs/img/CMakeLists.txt b/libs/img/CMakeLists.txt
+index 919b683..c4882b1 100644
+--- a/libs/img/CMakeLists.txt
++++ b/libs/img/CMakeLists.txt
+@@ -21,13 +21,13 @@ if(BUILD_mrpt-img)
+ 	endif()
+ 
+ 	if(CMAKE_MRPT_HAS_OPENCV)
+-		target_link_libraries(img PRIVATE imp_opencv)
++		target_link_libraries(img PUBLIC imp_opencv)
+ 	endif()
+ 	if(CMAKE_MRPT_HAS_JPEG)
+ 		if(NOT CMAKE_MRPT_HAS_JPEG_SYSTEM)
+ 			add_dependencies(img JPEG)
+ 		endif()
+-		target_link_libraries(img PRIVATE ${JPEG_LIBRARIES})
++		target_link_libraries(img PUBLIC ${JPEG_LIBRARIES})
+ 	endif()
+ 
+ endif()
+diff --git a/libs/maps/CMakeLists.txt b/libs/maps/CMakeLists.txt
+index 55139c9..ed539f1 100644
+--- a/libs/maps/CMakeLists.txt
++++ b/libs/maps/CMakeLists.txt
+@@ -30,7 +30,7 @@ define_mrpt_lib(
+ 
+ if(BUILD_mrpt-maps)
+ 	if(CMAKE_MRPT_HAS_LIBLAS)
+-		target_link_libraries(maps PRIVATE ${LAS_LIBS})
++		target_link_libraries(maps PUBLIC ${LAS_LIBS})
+ 	endif()
+ 
+ 	if (CMAKE_MRPT_HAS_OCTOMAP)
+@@ -40,10 +40,10 @@ if(BUILD_mrpt-maps)
+ 		if(TARGET "EP_octomap")
+ 			add_dependencies(maps EP_octomap)
+ 		endif()
+-		target_link_libraries(maps PRIVATE ${OCTOMAP_LIBRARIES})
++		target_link_libraries(maps PUBLIC ${OCTOMAP_LIBRARIES})
+ 	endif()
+ 
+-	target_link_libraries(maps PRIVATE ${MRPT_OPENGL_LIBS})
++	target_link_libraries(maps PUBLIC ${MRPT_OPENGL_LIBS})
+ 
+ 
+ 	# Windows only: the mxplus lib internally requires linking with opencv (sigh...)
+diff --git a/libs/math/CMakeLists.txt b/libs/math/CMakeLists.txt
+index 5c9cfbb..9213adb 100644
+--- a/libs/math/CMakeLists.txt
++++ b/libs/math/CMakeLists.txt
+@@ -83,7 +83,7 @@ if(BUILD_mrpt-math)
+ 	endif()
+ 
+ 	if (NOT "${SuiteSparse_LIBRARIES}" STREQUAL "")
+-		target_link_libraries(math PRIVATE ${SuiteSparse_LIBRARIES})
++		target_link_libraries(math PUBLIC ${SuiteSparse_LIBRARIES})
+ 	endif ()
+ 	if (NOT "${SuiteSparse_LIBRARIES}" STREQUAL "")
+ 		target_include_directories(math PUBLIC ${SuiteSparse_INCLUDE_DIRS})
+diff --git a/libs/opengl/CMakeLists.txt b/libs/opengl/CMakeLists.txt
+index 9a9ac68..4321632 100644
+--- a/libs/opengl/CMakeLists.txt
++++ b/libs/opengl/CMakeLists.txt
+@@ -44,11 +44,11 @@ if(BUILD_mrpt-opengl)
+ 	endif()
+ 
+ 	# Link against gl, glu, glut:
+-	target_link_libraries(opengl PRIVATE
++	target_link_libraries(opengl PUBLIC
+ 		${MRPT_OPENGL_LIBS}
+ 		)
+ 	if (TARGET mrpt_glew) # Basically, for Windows
+-		target_link_libraries(opengl PRIVATE mrpt_glew)
++		target_link_libraries(opengl PUBLIC mrpt_glew)
+ 	endif()
+ 
+ 	# Link against assimp:
+@@ -56,6 +56,6 @@ if(BUILD_mrpt-opengl)
+ 		if(TARGET "EP_assimp")
+ 			add_dependencies(opengl EP_assimp)
+ 		endif()
+-		target_link_libraries(opengl PRIVATE ${ASSIMP_LIBRARIES})
++		target_link_libraries(opengl PUBLIC ${ASSIMP_LIBRARIES})
+ 	endif ()
+ endif()
 diff --git a/libs/serialization/CMakeLists.txt b/libs/serialization/CMakeLists.txt
-index 9b711d4..e4b6003 100644
+index 9b711d4..5f85caf 100644
 --- a/libs/serialization/CMakeLists.txt
 +++ b/libs/serialization/CMakeLists.txt
 @@ -1,16 +1,8 @@
@@ -217,10 +303,10 @@ index 9b711d4..e4b6003 100644
 -else()
 -	set(tst_json_dep "")
 -endif()
-+find_package(JsonCpp REQUIRED)
++# find_package(JsonCpp REQUIRED)
  # define those deps:
 -set_property(GLOBAL PROPERTY mrpt_serialization_UNIT_TEST_EXTRA_DEPS mrpt-io mrpt-poses ${tst_json_dep})
-+set_property(GLOBAL PROPERTY mrpt_serialization_UNIT_TEST_EXTRA_DEPS mrpt-io mrpt-poses ${JsonCpp_LIBRARIES})
++set_property(GLOBAL PROPERTY mrpt_serialization_UNIT_TEST_EXTRA_DEPS mrpt-io mrpt-poses ${JSONCPP_LIBRARIES})
  
  #---------------------------------------------
  # Macro declared in "DeclareMRPTLib.cmake":
@@ -229,7 +315,7 @@ index 9b711d4..e4b6003 100644
  
  if(BUILD_mrpt-serialization)
 -	target_link_libraries(serialization PRIVATE ${tst_json_dep})
-+	target_link_libraries(serialization PRIVATE ${JsonCpp_LIBRARIES})
++	target_link_libraries(serialization PUBLIC ${JSONCPP_LIBRARIES})
  endif( )
 diff --git a/libs/serialization/include/mrpt/serialization/CSchemeArchive.h b/libs/serialization/include/mrpt/serialization/CSchemeArchive.h
 index 744c14c..03ecf55 100644
@@ -303,14 +389,3 @@ index e7dd05b..75f5afb 100644
    Python3::Python
  )
  
-diff --git a/libs/comms/CMakeLists.txt b/libs/comms/CMakeLists.txt
-index 8e24def..aa9d485 100644
---- a/libs/comms/CMakeLists.txt
-+++ b/libs/comms/CMakeLists.txt
-@@ -18,5 +18,5 @@ endif()
- target_link_libraries(comms PRIVATE Threads::Threads)
- 
- if(CMAKE_MRPT_HAS_FTDI_SYSTEM)
--    target_link_libraries(comms PRIVATE imp_ftdi)
-+    target_link_libraries(comms PUBLIC imp_ftdi ${PKG_LIBUDEV_LIBRARIES})
- endif()

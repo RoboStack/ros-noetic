@@ -22,18 +22,19 @@ CONDARC
 # 	sudo yum install -y install mesa-libGL-devel
 # fi
 
+export "CONDA_BLD_PATH=/opt/conda/build_artifacts"
+
+mkdir -p $CONDA_BLD_PATH
+conda index $CONDA_BLD_PATH
 conda config --set remote_max_retries 5
-conda config --append channels defaults
 conda config --add channels conda-forge
 conda config --add channels robostack
-conda config --set channel_priority strict
+conda config --add channels $CONDA_BLD_PATH
+conda config --remove channels defaults
+# conda config --set channel_priority strict
 
-conda update conda -c conda-forge
-conda install --yes --quiet pip conda-build anaconda-client mamba
-
-# install boa from master
-# baaaad
-pip install git+https://github.com/mamba-org/boa.git@master
+mamba update conda --yes --quiet -c conda-forge
+mamba install --yes --quiet pip conda-build anaconda-client mamba boa
 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 # export PATH="$HOME/miniconda/bin:$PATH"
@@ -41,8 +42,6 @@ conda config --set anaconda_upload yes
 conda config --set show_channel_urls true
 conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
-
-export "CONDA_BLD_PATH=/opt/conda/build_artifacts"
 
 conda info
 conda config --show-sources
@@ -52,7 +51,11 @@ pwd
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
-	boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
+	if [[ ${recipe} == *"gazebo-ros" || ${recipe} == *"gazebo-ros-control" ]]; then
+		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config_old_linux_compiler.yaml
+	else
+		boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
+	fi
 done
 
 anaconda -t ${ANACONDA_API_TOKEN} upload /opt/conda/build_artifacts/linux-*/*.tar.bz2 --force

@@ -165,3 +165,26 @@ index c72b8599..6b39d3a2 100644
  option(SETUPTOOLS_DEB_LAYOUT "Enable debian style python package layout" ${enable_setuptools_deb_layout})
  
  if(SETUPTOOLS_DEB_LAYOUT)
+diff --git a/cmake/interrogate_setup_dot_py.py b/cmake/interrogate_setup_dot_py.py
+index 5e25fbf8..e8d70451 100644
+--- a/cmake/interrogate_setup_dot_py.py
++++ b/cmake/interrogate_setup_dot_py.py
+@@ -40,14 +40,14 @@
+ setup_modules = []
+ 
+ try:
+-    import distutils.core
+-    setup_modules.append(distutils.core)
++    import setuptools
++    setup_modules.append(setuptools)
+ except ImportError:
+     pass
+ 
+ try:
+-    import setuptools
+-    setup_modules.append(setuptools)
++    import distutils.core
++    setup_modules.append(distutils.core)
+ except ImportError:
+     pass
+ 

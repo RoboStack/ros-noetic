@@ -263,6 +263,8 @@ libgts:
   robostack: [gts]
 libhdf5-dev:
   robostack: [hdf5]
+libi2c-dev:
+  robostack: [libi2c]
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
@@ -332,32 +334,32 @@ libqhull:
 libqt5-core:
   robostack:
     linux: [qt 5.12]
-    osx: [qt 5.12]
+    osx: [qt-main]
     win64: [qt 5]
 libqt5-gui:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 libqt5-opengl:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 libqt5-opengl-dev:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 libqt5-widgets:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 libqt5x11extras5-dev:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 libreadline:
   robostack: [readline]
@@ -450,7 +452,12 @@ msgpack:
 muparser:
   robostack: [muparser]
 netpbm:
-  robostack: [netpbm]
+  robostack:
+    linux-aarch64: []
+    osx-arm64: []
+    linux: [netpbm]
+    osx: [netpbm]
+    win64: []
 nlopt:
   robostack: [nlopt]
 ocl-icd-opencl-dev:
@@ -561,7 +568,7 @@ python-pyusb-pip:
 python-qt5-bindings:
   robostack:
     linux: [pyqt 5.12]
-    osx: [pyqt 5.12]
+    osx: [pyqt 5, pyqt-builder]
     win64: [pyqt 5]
 python-rosdep:
   robostack: [rosdep]
@@ -722,17 +729,17 @@ python3-pytest-mock:
 python3-qt5-bindings:
   robostack:
     linux: [pyqt 5.12]
-    osx: [pyqt 5.12]
+    osx: [pyqt 5, pyqt-builder]
     win64: [pyqt 5]
 python3-qt5-bindings-gl:
   robostack:
     linux: [pyqt 5.12]
-    osx: [pyqt 5.12]
+    osx: [pyqt 5, pyqt-builder]
     win64: [pyqt 5]
 python3-qt5-bindings-webkit:
   robostack:
     linux: [pyqt 5.12]
-    osx: [pyqt 5.12]
+    osx: [pyqt, pyqt-builder]
     win64: [pyqt 5]
 python3-requests:
   robostack: [requests]
@@ -791,17 +798,17 @@ python3-zmq:
 qt5-image-formats-plugins:
   robostack:
     linux: [qt 5.12]
-    osx: [qt 5.12]
+    osx: [qt-main]
     win64: [qt 5]
 qt5-qmake:
   robostack:
     linux: [qt 5.12]
-    osx: [qt 5.12]
+    osx: [qt-main]
     win64: [qt 5]
 qtbase5-dev:
   robostack:
     linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt 5.12, REQUIRE_OPENGL]
+    osx: [qt-main, REQUIRE_OPENGL]
     win64: [qt 5]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]

@@ -1,12 +1,12 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.2 noetic
+mutex_package: ros-distro-mutex 0.3 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 1
+build_number: 2
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -30,13 +30,40 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
+  - qt-gui-cpp  # needs manual build
   - catkin
   - robot
-  # - perception
-  - image_common
-  - image_pipeline
-  - image_transport_plugins
-  - laser_pipeline
-  - vision_opencv
-  
+  - rviz  # needs manual build
+  - desktop
+  - perception
+  - moveit
+  - eigenpy  # needs manual build
+  - turtlebot3
+  - turtlebot3-simulations
+  - desktop-full
+
+  # For jackal
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
+
 patch_dir: patch

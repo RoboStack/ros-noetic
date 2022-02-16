@@ -183,17 +183,6 @@ diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/ren
 index 14d83396c..d1a500d30 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
 +++ b/src/rviz/ogre_helpers/render_system.cpp
-@@ -40,6 +40,10 @@
- #include <GL/glx.h>
- #endif
- 
-+#if defined(Q_OS_MAC)
-+#include <OpenGL/gl.h>
-+#endif
-+
- // X.h #defines CursorShape to be "0".  Qt uses CursorShape in normal
- // C++ way.  This wasn't an issue until ogre_logging.h (below)
- // introduced a #include of <QString>.
 @@ -423,7 +423,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(WindowIDType window_id,
          // Created a non-stereo window.  Discard it and try again (below)
          // without the stereo parameter.

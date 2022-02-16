@@ -1,17 +1,23 @@
 moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
+pcl_conversions:
+  add_host: ["REQUIRE_OPENGL"]
+pcl_ros:
+  add_host: ["REQUIRE_OPENGL"]
 grid_map_demos:
   add_host: ["REQUIRE_OPENGL"]
+moveit_setup_assistant:
+  add_host: ["pkg-config"]
 gazebo_dev:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_ros:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_plugins:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_ros_control:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_pkgs:
-  add_host: [tbb]
+  add_host: [tbb, tbb-devel, "pkg-config"]
 ros_ign_gazebo:
   add_host: ["REQUIRE_OPENGL", {"sel(linux)": "libuuid"}]
 apriltag:
@@ -58,13 +64,13 @@ ur_client_library:
 mqtt_bridge:
   add_run: ["inject", "msgpack-python", "paho-mqtt", "pymongo"]
 mrpt2:
-  add_host:  ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
+  add_host:  ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi", "pkg-config"]
   add_run:   ["tinyxml2", "boost-cpp", "jsoncpp", "gtest", "boost", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
 theora_image_transport:
   add_host: ["pkg-config"]
 image_view:
-  add_host: ["pkg-config"]
+  add_host: ["REQUIRE_OPENGL", "pkg-config"]
 rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
@@ -115,6 +121,8 @@ dataspeed_pds_lcm:
   add_host: ["pkg-config"]
 exotica_core:
   add_host: ["pkg-config"]
+robot_localization:
+  add_host: ["pkg-config"]
 face_detector:
   add_host: ["yaml-cpp"]
 fadecandy_driver:
@@ -131,9 +139,20 @@ rospilot:
   add_host: ["pkg-config"]
 nav_grid_server:
   add_host: ["pkg-config"]
+map_server:
+  add_host: ["pkg-config"]
 safety_limiter:
   add_host: ["REQUIRE_OPENGL"]
 ifopt:
   add_host: ["ipopt"]
 tesseract_collision:
   add_build: [{"sel(osx)": "llvm-openmp"}]
+rosbridge_library:
+  add_run: ["pymongo"]
+resource_retriever:
+  add_host: ["libcurl"]
+  add_run: ["libcurl"]
+hector_gazebo_plugins:
+  add_host: ["pkg-config"]
+turtlebot3_gazebo:
+  add_host: ["pkg-config"]

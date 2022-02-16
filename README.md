@@ -4,11 +4,12 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/)
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.ai)
 
-[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20linux%E2%80%93aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
+[![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20linux%E2%80%93aarch64%20%7C%20macos%E2%80%93arm64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/8/buildbranch_linux?label=build%20linux&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=8&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/10/buildbranch_win?label=build%20win&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=10&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/9/buildbranch_osx?label=build%20macos&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=9&_a=summary)
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/11/buildbranch_linux_aarch64?label=build%20aarch64&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=11&_a=summary)
+[![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/robostack/f91d909b-3931-44f7-9823-19fcd42e7d04/29/buildbranch_osx_arm64?label=build%20macos-arm64&style=flat-square)](https://dev.azure.com/robostack/ros_pipelines/_build?definitionId=29&_a=summary)
 
 [![GitHub issues](https://img.shields.io/github/issues-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues?q=is%3Aissue+is%3Aclosed)
@@ -23,11 +24,12 @@ Welcome to RoboStack, which tightly couples ROS with Conda, a cross-platform, la
 ## Attribution
 If you use RoboStack in your academic work, please refer to the following paper:
 ```bibtex
-@article{fischer2021robostack,
-  title={RoboStack: Using the Robot Operating System alongside the Conda and Jupyter Data Science Ecosystems},
-  author={Fischer, Tobias and Vollprecht, Wolf and Traversaro, Silvio and Yen, Sean and Herrero, Carlos and Milford, Michael},
-  journal={arXiv preprint arXiv:2104.12910},
-  year={2021}
+@article{FischerRAM2021,
+    title={A RoboStack Tutorial: Using the Robot Operating System Alongside the Conda and Jupyter Data Science Ecosystems},
+    author={Tobias Fischer and Wolf Vollprecht and Silvio Traversaro and Sean Yen and Carlos Herrero and Michael Milford},
+    journal={IEEE Robotics and Automation Magazine},
+    year={2021},
+    doi={10.1109/MRA.2021.3128367},
 }
 ```
 
@@ -41,16 +43,8 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 # if you don't have mamba yet, install it first in the base environment (not needed when using mambaforge):
 conda install mamba -c conda-forge
 
-conda create -n robostackenv python=3.8
+mamba create -n robostackenv ros-noetic-desktop python=3.9 -c robostack -c robostack-experimental -c conda-forge --no-channel-priority --override-channels
 conda activate robostackenv
-# this adds the conda-forge channel to the new created environment configuration 
-conda config --env --add channels conda-forge
-# and the robostack channel
-conda config --env --add channels robostack
-# it's very much advised to use strict channel priority
-conda config --env --set channel_priority strict
-
-mamba install ros-noetic-desktop
 
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws:
 mamba install compilers cmake pkg-config make ninja
@@ -61,7 +55,7 @@ mamba install catkin_tools
 # see https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-160
 
 # only on linux, if you are having issues finding GL/OpenGL, also do:
-mamba install mesa-libgl-devel-cos6-x86_64 mesa-dri-drivers-cos6-x86_64 libselinux-cos6-x86_64 libxdamage-cos6-x86_64 libxxf86vm-cos6-x86_64 libxext-cos6-x86_64 xorg-libxfixes
+mamba install mesa-libgl-devel-cos7-x86_64 mesa-dri-drivers-cos7-x86_64 libselinux-cos7-x86_64 libxdamage-cos7-x86_64 libxxf86vm-cos7-x86_64 libxext-cos7-x86_64 xorg-libxfixes
 
 # on Windows, install the Visual Studio command prompt via Conda:
 mamba install vs2019_win-64

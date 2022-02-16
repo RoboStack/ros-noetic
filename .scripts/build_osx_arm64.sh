@@ -18,16 +18,9 @@ conda activate base
 conda config --set remote_max_retries 5
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
-conda install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client \
-			  -c conda-forge/label/boa_dev -c conda-forge
+conda install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client -c conda-forge
 
 set -e
-
-# install boa from master
-git clone https://github.com/thesnakepit/boa
-cd boa
-pip install -e .
-cd ..
 
 # echo -e "\n\nSetting up the condarc and mangling the compiler."
 # # setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml
@@ -40,17 +33,19 @@ cd ..
 # echo -e "\n\nRunning the build setup script."
 # # source run_conda_forge_build_setup
 
+export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
+
+mkdir -p $CONDA_BLD_PATH
+conda index $CONDA_BLD_PATH
 conda config --set anaconda_upload yes
 conda config --set show_channel_urls true
 conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
 
-conda config --append channels defaults
 conda config --add channels conda-forge
+conda config --add channels robostack-experimental
 conda config --add channels robostack
-conda config --set channel_priority strict
-
-export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
+# conda config --set channel_priority strict
 
 # echo -e "\n\nMaking the build clobber file and running the build."
 # make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml

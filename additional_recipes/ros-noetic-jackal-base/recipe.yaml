@@ -12,10 +12,12 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 1
+  number: 2
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
+
+
 source:
   git_url: https://github.com/clearpath-gbp/jackal_robot-release.git
   git_rev: release/melodic/jackal_base/0.6.1-1
