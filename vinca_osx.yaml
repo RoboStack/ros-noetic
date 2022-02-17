@@ -90,6 +90,7 @@ packages_select_by_deps:
   - realsense2-description
   - ur-msgs
   - rosdoc-lite
+  - ros_numpy
 
   ##
   #  TODO OSX
@@ -744,14 +745,12 @@ packages_select_by_deps:
   # - franka_description
   # - franka_control
   # - fcl
-  # - ros_numpy
   # - eigenpy
   # - kdl_parser_py
   # - catkin
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
-  # - ros_numpy
   # - velodyne_simulator
   # - rviz
   # - hector_gazebo_plugins

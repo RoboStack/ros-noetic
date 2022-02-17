@@ -95,6 +95,7 @@ packages_select_by_deps:
   - realsense2-description
   - ur-msgs
   - rosdoc-lite
+  - ros_numpy
 
   ## TODO AFTER REBUILD
   # - rtabmap
@@ -987,7 +988,6 @@ packages_select_by_deps:
   # - velodyne_simulator
   # - catkin
   # - hector_gazebo_plugins
-  # - ros_numpy
   # - webots_ros
   # - navigation
   # - mavros

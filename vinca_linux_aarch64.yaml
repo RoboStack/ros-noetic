@@ -62,14 +62,14 @@ packages_select_by_deps:
   - rosserial-server
   - imu-filter-madgwick
   - rosserial-python
-
+  - ros_numpy
+  
   # # after rebuild
   # - plotjuggler_ros
   # - plotjuggler
 
   # # # DONE
   # - fcl
-  # - ros_numpy
   # - eigenpy
   # - catkin
   # - franka_msgs
@@ -84,7 +84,6 @@ packages_select_by_deps:
   # - rviz_imu_plugin
   # - slam_toolbox
   # - webots-ros
-  # - ros_numpy
   # - velodyne_simulator
   # - pointgrey_camera_description
   # - lms1xx

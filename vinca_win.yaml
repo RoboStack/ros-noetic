@@ -83,6 +83,7 @@ packages_select_by_deps:
   - realsense2-description
   - ur-msgs
   - rosdoc-lite
+  - ros_numpy
 
 
   # - pybind11_catkin  # need to be unvendored
@@ -432,7 +433,6 @@ packages_select_by_deps:
   # - image_view
   # - robot_localization
   # - grid_map
-  # - ros_numpy
   # - sparse_bundle_adjustment
   # - velodyne_simulator
   # - nmea_msgs
