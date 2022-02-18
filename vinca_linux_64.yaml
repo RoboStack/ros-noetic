@@ -96,6 +96,11 @@ packages_select_by_deps:
   - ur-msgs
   - rosdoc-lite
   - ros_numpy
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - turtlebot3-teleop
 
   ## TODO AFTER REBUILD
   # - rtabmap
