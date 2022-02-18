@@ -102,6 +102,7 @@ packages_select_by_deps:
   - velocity-controllers
   - turtlebot3-teleop
   - turtlebot3-simulations
+  - slam-toolbox
 
   ## TODO AFTER REBUILD
   # - rtabmap
