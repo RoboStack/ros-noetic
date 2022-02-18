@@ -1,0 +1,69 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b423d97..17e60c8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -40,6 +40,7 @@ find_package(Cholmod REQUIRED)
+ find_package(LAPACK REQUIRED)
+ find_package(Ceres REQUIRED COMPONENTS SuiteSparse)
+ find_package(rostest REQUIRED)
++find_package(TBB REQUIRED CONFIG)
+ 
+ set(CMAKE_INCLUDE_CURRENT_DIR ON)
+ add_definitions(-DQT_NO_KEYWORDS)
+@@ -90,7 +91,7 @@ add_library(ceres_solver_plugin solvers/ceres_solver.cpp)
+ target_link_libraries(ceres_solver_plugin ${catkin_LIBRARIES} 
+                                           ${CERES_LIBRARIES}
+                                           ${Boost_LIBRARIES}
+-                                          ${TBB_LIBRARIES}
++                                          TBB::tbb
+ )
+ 
+ #### Tool lib for mapping
+diff --git a/lib/karto_sdk/CMakeLists.txt b/lib/karto_sdk/CMakeLists.txt
+index ad6ef02..15eab81 100644
+--- a/lib/karto_sdk/CMakeLists.txt
++++ b/lib/karto_sdk/CMakeLists.txt
+@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+ find_package(catkin REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ find_package(Boost REQUIRED system serialization filesystem thread)
+-find_package(TBB REQUIRED)
++find_package(TBB REQUIRED CONFIG)
+ add_compile_options(-std=c++17)
+ 
+ catkin_package(
+@@ -26,7 +26,7 @@ add_definitions(${EIGEN3_DEFINITIONS})
+ 
+ include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS} ${TBB_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+ add_library(kartoSlamToolbox SHARED src/Karto.cpp src/Mapper.cpp)
+-target_link_libraries(kartoSlamToolbox ${Boost_LIBRARIES} ${TBB_LIBRARIES})
++target_link_libraries(kartoSlamToolbox ${Boost_LIBRARIES} TBB::tbb)
+ 
+ install(DIRECTORY include/ DESTINATION include)
+ install(TARGETS kartoSlamToolbox
+diff --git a/lib/karto_sdk/include/karto_sdk/Mapper.h b/lib/karto_sdk/include/karto_sdk/Mapper.h
+index a935383..5607c72 100644
+--- a/lib/karto_sdk/include/karto_sdk/Mapper.h
++++ b/lib/karto_sdk/include/karto_sdk/Mapper.h
+@@ -26,7 +26,7 @@
+ #include <Eigen/Core>
+ 
+ #include "tbb/parallel_for.h"
+-#include "tbb/parallel_do.h"
++#include "tbb/parallel_for_each.h"
+ #include "tbb/blocked_range.h"
+ #include <algorithm>
+ #include <chrono>
+diff --git a/lib/karto_sdk/src/Mapper.cpp b/lib/karto_sdk/src/Mapper.cpp
+index d5683c7..5067032 100644
+--- a/lib/karto_sdk/src/Mapper.cpp
++++ b/lib/karto_sdk/src/Mapper.cpp
+@@ -776,7 +776,7 @@ namespace karto
+     m_nAngles = nAngles;
+     m_searchAngleResolution = searchAngleResolution;
+     m_doPenalize = doPenalize;
+-    tbb::parallel_do(m_yPoses, (*this) );
++    tbb::parallel_for_each(m_yPoses, (*this) );
+ 
+     // find value of best response (in [0; 1])
+     kt_double bestResponse = -1;

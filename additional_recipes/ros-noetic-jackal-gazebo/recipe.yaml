@@ -12,7 +12,7 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 2
+  number: 3
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
@@ -45,4 +45,12 @@ requirements:
     - ros-noetic-gazebo-ros-control
     - ros-noetic-gazebo-plugins
     - ros-noetic-hector-gazebo-plugins
+    - ros-noetic-jackal-description
+    - ros-noetic-jackal-control
+    - ros-noetic-velodyne-simulator
+    - ros-noetic-gazebo-ros-pkgs
+    - ros-noetic-effort-controllers
+    - ros-noetic-position-controllers
+    - ros-noetic-velocity-controllers
+    - joy
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
