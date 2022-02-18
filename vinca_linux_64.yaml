@@ -101,6 +101,7 @@ packages_select_by_deps:
   - effort-controllers
   - velocity-controllers
   - turtlebot3-teleop
+  - turtlebot3-simulations
 
   ## TODO AFTER REBUILD
   # - rtabmap
