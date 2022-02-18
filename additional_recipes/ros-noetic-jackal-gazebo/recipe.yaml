@@ -52,5 +52,5 @@ requirements:
     - ros-noetic-effort-controllers
     - ros-noetic-position-controllers
     - ros-noetic-velocity-controllers
-    - joy
+    - ros-noetic-joy
     - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
