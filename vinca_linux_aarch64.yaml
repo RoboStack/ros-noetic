@@ -6,14 +6,14 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 7
+build_number: 8
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: true
+full_rebuild: false
 
 packages_skip_by_deps:
   # - rviz
@@ -27,43 +27,46 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
+  - rqt-gui
   # ## Only limited number of packages to reduce maintainer burden
-  - desktop
-  - amcl
-  - map-server
-  - move-base
-  - gmapping
-  - moveit
-  - rosbridge_suite
-  - robot_localization
-  - perception
-  - simulators
-  - desktop_full
+  # - desktop
+  # - amcl
+  # - map-server
+  # - move-base
+  # - gmapping
+  # - moveit
+  # - rosbridge_suite
+  # - robot_localization
+  # - perception
+  # - simulators
+  # - desktop_full
 
-  # # For jackal
-  - hector-gazebo-plugins
-  - gazebo-dev
-  - gazebo-ros
-  - gazebo-ros-control
-  - gazebo-plugins
-  - lms1xx
-  - controller-manager
-  - interactive_marker_twist_server
-  - diff-drive-controller
-  - joint-state-controller
-  - joy
-  - robot-localization
-  - teleop-twist-joy
-  - twist-mux
-  - pointgrey-camera-description
-  - nmea-msgs
-  - geometry-msgs
-  - nmea-navsat-driver
-  - rosserial-server
-  - imu-filter-madgwick
-  - rosserial-python
-  - ros_numpy
+  # # # For jackal
+  # - hector-gazebo-plugins
+  # - gazebo-dev
+  # - gazebo-ros
+  # - gazebo-ros-control
+  # - gazebo-plugins
+  # - lms1xx
+  # - controller-manager
+  # - interactive_marker_twist_server
+  # - diff-drive-controller
+  # - joint-state-controller
+  # - joy
+  # - robot-localization
+  # - teleop-twist-joy
+  # - twist-mux
+  # - pointgrey-camera-description
+  # - nmea-msgs
+  # - geometry-msgs
+  # - nmea-navsat-driver
+  # - rosserial-server
+  # - imu-filter-madgwick
+  # - rosserial-python
+  # - ros_numpy
   
+
+  ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild
   # - plotjuggler_ros
   # - plotjuggler
