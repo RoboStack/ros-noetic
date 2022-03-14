@@ -47,6 +47,7 @@ packages_select_by_deps:
   - teb-local-planner
   - slam-toolbox
   - turtlebot3-teleop
+  - force-torque-sensor-controller
   # - desktop
   # - amcl
   # - map-server
