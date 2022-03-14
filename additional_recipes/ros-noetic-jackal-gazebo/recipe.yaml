@@ -12,7 +12,7 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 3
+  number: 2
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
