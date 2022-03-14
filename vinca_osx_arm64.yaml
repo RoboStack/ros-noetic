@@ -41,6 +41,8 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3-simulations
   - desktop-full
+  - realsense2_camera
+  - realsense2_description
 
   # For jackal
   - gazebo-dev
@@ -65,5 +67,12 @@ packages_select_by_deps:
   - imu-filter-madgwick
   - rosserial-python
   - gmapping
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
 
 patch_dir: patch
