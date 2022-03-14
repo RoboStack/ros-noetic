@@ -69,10 +69,10 @@ packages_select_by_deps:
   # - imu-filter-madgwick
   # - rosserial-python
   # - gmapping
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
   # - teb-local-planner
   # - slam-toolbox
   # - turtlebot3-teleop
