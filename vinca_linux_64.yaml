@@ -49,6 +49,7 @@ packages_select_by_deps:
   - slam-toolbox
   - turtlebot3-teleop
   - force-torque-sensor-controller
+  - gripper-action-controller
   # - desktop
   # - amcl
   # - map-server
