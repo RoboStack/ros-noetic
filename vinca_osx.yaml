@@ -37,10 +37,11 @@ packages_select_by_deps:
   - effort-controllers
   - velocity-controllers
   - teb-local-planner
-  - slam-toolbox
   - turtlebot3-teleop
   - force-torque-sensor-controller
   - gripper-action-controller
+  - rqt-gui-cpp
+  - rqt-gui-py
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
