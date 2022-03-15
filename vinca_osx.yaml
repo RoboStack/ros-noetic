@@ -42,6 +42,7 @@ packages_select_by_deps:
   - gripper-action-controller
   - rqt-gui-cpp
   - rqt-gui-py
+  - joint-trajectory-controller
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
