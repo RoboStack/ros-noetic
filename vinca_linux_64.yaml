@@ -51,6 +51,8 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - force-torque-sensor-controller
   - gripper-action-controller
+  - rqt-gui-cpp
+  - rqt-gui-py
   # - desktop
   # - amcl
   # - map-server
