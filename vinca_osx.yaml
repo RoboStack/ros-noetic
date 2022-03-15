@@ -33,7 +33,6 @@ packages_select_by_deps:
   - ackermann-steering-controller
   - rqt-gui
   - velodyne-description
-  - velodyne-simulator
   - effort-controllers
   - velocity-controllers
   - teb-local-planner
@@ -43,6 +42,9 @@ packages_select_by_deps:
   - rqt-gui-cpp
   - rqt-gui-py
   - joint-trajectory-controller
+  - velodyne-simulator
+  - velodyne-gazebo-plugins
+
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
