@@ -44,7 +44,7 @@ packages_select_by_deps:
   - joint-trajectory-controller
   - velodyne-simulator
   - velodyne-gazebo-plugins
-  - ros-workspace
+  - catkin
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
