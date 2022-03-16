@@ -32,6 +32,7 @@ packages_select_by_deps:
   #  TODO OSX-ARM64
   ##
   - rqt-gui
+  - ros-workspace
   # - qt-gui-cpp  # needs manual build
   # - catkin
   # - robot
