@@ -21,7 +21,7 @@ packages_remove_from_deps:
   - stage-ros
   - stage
   # sbcl is not available for osx-arm64
-  - roslisp
+  # - roslisp
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
@@ -31,6 +31,7 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
+  - roslisp
   - rqt-gui
   - catkin
   # - qt-gui-cpp  # needs manual build
