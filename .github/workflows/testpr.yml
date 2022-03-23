@@ -24,13 +24,13 @@ jobs:
             platform: linux-aarch64
           - os: macos-latest
             platform: win-64
-          - os: windows-latest
+          - os: windows-2019
             platform: linux-64
-          - os: windows-latest
+          - os: windows-2019
             platform: linux-aarch64
-          - os: windows-latest
+          - os: windows-2019
             platform: osx-64
-          - os: windows-latest
+          - os: windows-2019
             platform: osx-arm64
     steps:
     - uses: actions/checkout@master
@@ -123,7 +123,7 @@ jobs:
         cat recipe.yaml
     - name: Generate recipes for Windows
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
+      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
         git clean -fdx
         cp vinca_win.yaml vinca.yaml
@@ -152,6 +152,6 @@ jobs:
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
     - name: Build recipes for Windows
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-latest' && matrix.platform == 'win-64'
+      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
