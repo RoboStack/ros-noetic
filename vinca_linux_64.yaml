@@ -58,6 +58,7 @@ packages_select_by_deps:
   - mavros
   - libmavconn
   - mavros-extras
+  - mavlink
   # - desktop
   # - amcl
   # - map-server
