@@ -45,6 +45,10 @@ packages_select_by_deps:
   - velodyne-simulator
   - velodyne-gazebo-plugins
   - catkin
+  - mavros-msgs
+  - mavros
+  - libmavconn
+  - mavros-extras
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
