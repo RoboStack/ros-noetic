@@ -54,6 +54,10 @@ packages_select_by_deps:
   - gripper-action-controller
   - rqt-gui-cpp
   - rqt-gui-py
+  - mavros-msgs
+  - mavros
+  - libmavconn
+  - mavros-extras
   # - desktop
   # - amcl
   # - map-server
