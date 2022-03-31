@@ -49,6 +49,7 @@ packages_select_by_deps:
   - mavros
   - libmavconn
   - mavros-extras
+  - mavlink
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
