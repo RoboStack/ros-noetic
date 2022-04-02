@@ -50,6 +50,9 @@ packages_select_by_deps:
   - libmavconn
   - mavros-extras
   - mavlink
+  - cmake-modules
+  - bondcpp
+  - nodelet
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
