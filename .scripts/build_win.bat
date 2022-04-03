@@ -26,6 +26,10 @@ rmdir /Q/S C:\Strawberry\
 
 set "FEEDSTOCK_ROOT=%cd%"
 
+mkdir %CONDA_BLD_PATH%
+call conda index %CONDA_BLD_PATH%
+
+call conda config --remove channels defaults
 call conda config --add channels conda-forge
 call conda config --add channels robostack
 call conda config --add channels %CONDA_BLD_PATH%
@@ -33,7 +37,8 @@ call conda config --add channels %CONDA_BLD_PATH%
 
 :: conda remove --force m2-git
 
-C:\Miniconda\python.exe -m pip install git+https://github.com/mamba-org/boa.git@master
+:: C:\Miniconda\python.exe -m pip install git+https://github.com/mamba-org/boa.git@master
+call conda install boa=0.9
 if errorlevel 1 exit 1
 
 for %%X in (%CURRENT_RECIPES%) do (
