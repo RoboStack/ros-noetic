@@ -7,8 +7,8 @@ index 32574ad..b7c1b0c 100644
  
 -CC = gcc
 -AR = ar
-+CC ?= gcc
-+AR ?= ar
++# CC ?= gcc
++# AR ?= ar
  
  CFLAGS = -std=gnu99 -fPIC -Wall -Wno-unused-parameter -Wno-unused-function
  CFLAGS += -I. -O3 -fno-strict-overflow
