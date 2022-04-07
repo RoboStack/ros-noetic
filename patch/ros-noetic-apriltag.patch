@@ -1,15 +1,21 @@
 diff --git a/python_build_flags.py b/python_build_flags.py
-index f3f0e79..d80ccec 100644
+index f3f0e79..9c7a61e 100644
 --- a/python_build_flags.py
 +++ b/python_build_flags.py
-@@ -17,11 +17,11 @@ c_flags = [x for x in c_flags if not x.startswith('-O')]
- print(' '.join(c_flags), end=';')
+@@ -2,6 +2,7 @@ from __future__ import print_function
+ import sysconfig
+ import re
+ import numpy as np
++import os
+ conf = sysconfig.get_config_vars()
+ 
+ print('CFLAGS', end=';')
+@@ -18,10 +19,10 @@ print(' '.join(c_flags), end=';')
  
  
--print('LINKER', end=';')
+ print('LINKER', end=';')
 -print(conf.get('BLDSHARED', '').split()[0], end=';')
-+# print('LINKER', end=';')
-+# print(conf.get('BLDSHARED', '').split()[0], end=';')
++print(os.getenv('CC'), end=';')
  
  print('LDFLAGS', end=';')
 -print(' '.join(conf.get('BLDSHARED', '').split()[1:]) + ' ' + conf.get('BLDLIBRARY', '') + ' ' + conf.get('LDFLAGS', ''), end=';')
