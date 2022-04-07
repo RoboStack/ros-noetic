@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-diff --git a/Makefile b/Makefile
-index 32574ad..b7c1b0c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,7 +1,7 @@
- PREFIX ?= /usr/local
- 
--CC = gcc
--AR = ar
-+# CC ?= gcc
-+# AR ?= ar
- 
- CFLAGS = -std=gnu99 -fPIC -Wall -Wno-unused-parameter -Wno-unused-function
- CFLAGS += -I. -O3 -fno-strict-overflow
-=======
->>>>>>> 33015c59 (Test)
 diff --git a/python_build_flags.py b/python_build_flags.py
 index f3f0e79..d80ccec 100644
 --- a/python_build_flags.py
