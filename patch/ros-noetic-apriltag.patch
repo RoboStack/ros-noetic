@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 diff --git a/Makefile b/Makefile
 index 32574ad..b7c1b0c 100644
 --- a/Makefile
@@ -12,12 +13,20 @@ index 32574ad..b7c1b0c 100644
  
  CFLAGS = -std=gnu99 -fPIC -Wall -Wno-unused-parameter -Wno-unused-function
  CFLAGS += -I. -O3 -fno-strict-overflow
+=======
+>>>>>>> 33015c59 (Test)
 diff --git a/python_build_flags.py b/python_build_flags.py
-index f3f0e79..865c85b 100644
+index f3f0e79..d80ccec 100644
 --- a/python_build_flags.py
 +++ b/python_build_flags.py
-@@ -21,7 +21,7 @@ print('LINKER', end=';')
- print(conf.get('BLDSHARED', '').split()[0], end=';')
+@@ -17,11 +17,11 @@ c_flags = [x for x in c_flags if not x.startswith('-O')]
+ print(' '.join(c_flags), end=';')
+ 
+ 
+-print('LINKER', end=';')
+-print(conf.get('BLDSHARED', '').split()[0], end=';')
++# print('LINKER', end=';')
++# print(conf.get('BLDSHARED', '').split()[0], end=';')
  
  print('LDFLAGS', end=';')
 -print(' '.join(conf.get('BLDSHARED', '').split()[1:]) + ' ' + conf.get('BLDLIBRARY', '') + ' ' + conf.get('LDFLAGS', ''), end=';')
