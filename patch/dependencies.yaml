@@ -26,6 +26,8 @@ lvr2:
   add_host: ["libgdal", "pkg-config", "cgal-cpp"]
 rtabmap:
   add_host: ["REQUIRE_OPENGL"]
+rtabmap_ros:
+  add_host: ["REQUIRE_OPENGL"]
 image_view2:
   add_host: ["REQUIRE_OPENGL"]
 swri_image_util:

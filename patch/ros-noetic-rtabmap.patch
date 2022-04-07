@@ -22,7 +22,7 @@ index c9adfe3..763fb46 100644
  
  ####### DEPENDENCIES #######
 -IF(MOBILE_BUILD)
-+IF(TRUE)
++IF(FALSE)
  option(WITH_QT            "Include Qt support"                   OFF)
  ELSE()
  option(WITH_QT            "Include Qt support"                   ON)
