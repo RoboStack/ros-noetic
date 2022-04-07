@@ -6,7 +6,7 @@ export FEEDSTOCK_ROOT=`pwd`
 
 echo -e "\n\nInstalling a fresh version of Miniforge."
 MINIFORGE_URL="https://github.com/conda-forge/miniforge/releases/latest/download"
-MINIFORGE_FILE="Miniforge3-MacOSX-x86_64.sh"
+MINIFORGE_FILE="Mambaforge-MacOSX-x86_64.sh"
 curl -L -O --silent "${MINIFORGE_URL}/${MINIFORGE_FILE}"
 /bin/bash $MINIFORGE_FILE -b
 
@@ -18,7 +18,7 @@ conda activate base
 conda config --set remote_max_retries 5
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
-conda install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client -c conda-forge
+mamba install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa=0.9 quetz-client -c conda-forge
 
 set -e
 
