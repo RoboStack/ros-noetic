@@ -12,7 +12,7 @@ curl -L -O --silent "${MINIFORGE_URL}/${MINIFORGE_FILE}"
 
 echo -e "\n\nConfiguring conda."
 
-source ${HOME}/miniforge3/etc/profile.d/conda.sh
+source ${HOME}/mambaforge/etc/profile.d/conda.sh
 conda activate base
 
 conda config --set remote_max_retries 5
