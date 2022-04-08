@@ -27,32 +27,35 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - ros-control
-  - ros-controllers
-  - imu-sensor-controller
-  - ackermann-steering-controller
+  - python-qt-binding
+  - qt-gui
+  - qt-gui-cpp
+  # - ros-control
+  # - ros-controllers
+  # - imu-sensor-controller
+  # - ackermann-steering-controller
   - rqt-gui
-  - velodyne-description
-  - effort-controllers
-  - velocity-controllers
-  - teb-local-planner
-  - turtlebot3-teleop
-  - force-torque-sensor-controller
-  - gripper-action-controller
+  # - velodyne-description
+  # - effort-controllers
+  # - velocity-controllers
+  # - teb-local-planner
+  # - turtlebot3-teleop
+  # - force-torque-sensor-controller
+  # - gripper-action-controller
   - rqt-gui-cpp
   - rqt-gui-py
-  - joint-trajectory-controller
-  - velodyne-simulator
-  - velodyne-gazebo-plugins
-  - catkin
-  - mavros-msgs
-  - mavros
-  - libmavconn
-  - mavros-extras
-  - mavlink
-  - cmake-modules
-  - bondcpp
-  - nodelet
+  # - joint-trajectory-controller
+  # - velodyne-simulator
+  # - velodyne-gazebo-plugins
+  # - catkin
+  # -  mavros-msgs
+  # -  mavros
+  # - libmavconn
+  # - mavros-extras
+  # - mavlink
+  # - cmake-modules
+  # - bondcpp
+  # - nodelet
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
