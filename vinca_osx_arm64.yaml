@@ -33,11 +33,11 @@ packages_select_by_deps:
   ##
   - python-qt-binding
   - qt-gui
-  # - roslisp
   - rqt-gui
   - rqt-gui-py
   - rqt-gui-cpp
   - qt-gui-cpp
+  # - roslisp
   # - catkin
   # - cmake-modules
   # - bondcpp
