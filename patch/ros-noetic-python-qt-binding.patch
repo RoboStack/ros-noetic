@@ -113,7 +113,7 @@ index a055cf5..e30c04f 100644
 +            get_filename_component(_x "${_x_DIR}/${_x_NAME}" ABSOLUTE)
 +            STRING(REGEX REPLACE "^lib" "" _x_NAME_NOPREFIX ${_x_NAME})
 +            string(FIND "${_x_NAME_NOPREFIX}" "$<TARGET_FILE" out)
-+            if("${out}" EQUAL 0 OR ${_x_NAME_NOPREFIX} STREQUAL "python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
++            if("${out}" EQUAL 0 OR (APPLE AND ${_x_NAME_NOPREFIX} STREQUAL "python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}"))
 +            else()
 +              set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x_NAME_NOPREFIX}\"")
 +              set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
