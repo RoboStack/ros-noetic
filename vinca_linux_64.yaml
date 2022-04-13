@@ -64,6 +64,7 @@ packages_select_by_deps:
   - libmavconn
   - mavros-extras
   - mavlink
+  - kdl-parser-py
   # - desktop
   # - amcl
   # - map-server

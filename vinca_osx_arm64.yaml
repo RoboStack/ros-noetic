@@ -55,6 +55,7 @@ packages_select_by_deps:
   # - desktop-full
   # - realsense2_camera
   # - realsense2_description
+  - kdl-parser-py
 
   # # For jackal
   # - gazebo-dev
