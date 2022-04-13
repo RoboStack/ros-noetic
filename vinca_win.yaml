@@ -44,6 +44,7 @@ packages_select_by_deps:
   # - fcl
   # - desktop_full
   # - moveit
+  - kdl-parser-py
 
   # # For jackal
   # - gazebo-dev
