@@ -35,6 +35,7 @@ packages_select_by_deps:
   # - imu-sensor-controller
   # - ackermann-steering-controller
   - rqt-gui
+
   # - velodyne-description
   # - effort-controllers
   # - velocity-controllers

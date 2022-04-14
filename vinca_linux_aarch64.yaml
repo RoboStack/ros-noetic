@@ -30,6 +30,7 @@ packages_select_by_deps:
   - rqt-gui
   - catkin
   - kdl-parser-py
+
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
   # - amcl
