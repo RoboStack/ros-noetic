@@ -45,7 +45,7 @@ packages_select_by_deps:
   # - desktop_full
   # - moveit
   - kdl-parser-py
-
+  - imu-tools
 
   # # For jackal
   # - gazebo-dev
