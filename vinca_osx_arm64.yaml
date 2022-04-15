@@ -56,7 +56,7 @@ packages_select_by_deps:
   # - realsense2_camera
   # - realsense2_description
   - kdl-parser-py
-
+  - imu-tools
 
   # # For jackal
   # - gazebo-dev
