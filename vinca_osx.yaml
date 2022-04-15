@@ -58,6 +58,7 @@ packages_select_by_deps:
   # - bondcpp
   # - nodelet
   - kdl-parser-py
+  - imu-tools
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
