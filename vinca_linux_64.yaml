@@ -65,7 +65,7 @@ packages_select_by_deps:
   - mavros-extras
   - mavlink
   - kdl-parser-py
-
+  - imu-tools
   # - desktop
   # - amcl
   # - map-server
