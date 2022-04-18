@@ -46,6 +46,7 @@ packages_select_by_deps:
   # - moveit
   - kdl-parser-py
   - imu-tools
+  - rqt-controller-manager
 
   # # For jackal
   # - gazebo-dev
