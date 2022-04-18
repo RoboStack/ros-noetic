@@ -16,7 +16,7 @@ skip_all_deps: false
 full_rebuild: false
 
 packages_skip_by_deps:
-  # - rviz
+  - rviz
   # - diagnostic_updater
 
 packages_remove_from_deps:
@@ -30,6 +30,7 @@ packages_select_by_deps:
   - rqt-gui
   - catkin
   - kdl-parser-py
+  - imu-tools
 
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
