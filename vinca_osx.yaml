@@ -59,6 +59,7 @@ packages_select_by_deps:
   # - nodelet
   - kdl-parser-py
   - imu-tools
+  - rqt-controller-manager
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin

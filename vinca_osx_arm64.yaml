@@ -58,6 +58,7 @@ packages_select_by_deps:
   # - realsense2_description
   - kdl-parser-py
   - imu-tools
+  - rqt-controller-manager
 
   # # For jackal
   # - gazebo-dev

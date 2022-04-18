@@ -66,6 +66,7 @@ packages_select_by_deps:
   - mavlink
   - kdl-parser-py
   - imu-tools
+  - rqt-controller-manager
   # - desktop
   # - amcl
   # - map-server
