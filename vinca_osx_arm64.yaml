@@ -16,6 +16,7 @@ skip_all_deps: false
 full_rebuild: false
 
 packages_skip_by_deps:
+  - rviz
 
 packages_remove_from_deps:
   - stage-ros
