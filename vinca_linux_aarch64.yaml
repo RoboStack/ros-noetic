@@ -17,7 +17,6 @@ full_rebuild: false
 
 packages_skip_by_deps:
   - rviz
-  - rviz-imu-plugin
   # - diagnostic_updater
 
 packages_remove_from_deps:
