@@ -824,7 +824,7 @@ sbcl:
 screen:
   robostack: [screen]
 sdformat:
-  robostack: [libsdformat11]
+  robostack: [libsdformat]
 sdl:
   robostack: [sdl]
 sdl-image:
