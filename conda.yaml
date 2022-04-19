@@ -841,7 +841,7 @@ sbcl:
 screen:
   conda: [screen]
 sdformat:
-  conda: [libsdformat11]
+  conda: [libsdformat]
 sdl:
   conda: [sdl]
 sdl-image:
