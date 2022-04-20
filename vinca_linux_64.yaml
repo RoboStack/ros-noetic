@@ -67,6 +67,7 @@ packages_select_by_deps:
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
+  - dynamixel-sdk
   # - desktop
   # - amcl
   # - map-server
