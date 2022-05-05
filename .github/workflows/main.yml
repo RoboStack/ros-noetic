@@ -20,7 +20,7 @@ jobs:
         vinca --multiple --platform linux-64
     - name: Generate azure pipelines for Linux
       run: |
-        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
+        vinca-gha --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "linux.yml" ]]; then
@@ -45,7 +45,7 @@ jobs:
         vinca --multiple --platform osx-64
     - name: Generate azure pipelines for macOS
       run: |
-        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
+        vinca-gha --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "osx.yml" ]]; then
@@ -70,7 +70,7 @@ jobs:
         vinca --multiple --platform osx-arm64
     - name: Generate azure pipelines for macOS (arm64)
       run: |
-        vinca-azure --platform osx-arm64 --trigger-branch buildbranch_osx_arm64 -d ./recipes --additional-recipes
+        vinca-gha --platform osx-arm64 --trigger-branch buildbranch_osx_arm64 -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "osx_arm64.yml" ]]; then
@@ -95,7 +95,7 @@ jobs:
         vinca --multiple --platform win-64
     - name: Generate azure pipelines for Windows
       run: |
-        vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes --additional-recipes
+        vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes --additional-recipes
     - name: Commit files for Windows
       run: |
         if [[ -f "win.yml" ]]; then
@@ -120,7 +120,7 @@ jobs:
         vinca --multiple --platform linux-aarch64
     - name: Generate azure pipelines for Linux ARM64
       run: |
-        vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
+        vinca-gha --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "linux_aarch64.yml" ]]; then
