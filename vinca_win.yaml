@@ -32,6 +32,7 @@ packages_select_by_deps:
   - rqt-gui
   - catkin
   - teleop_twist_keyboard
+  - perception_pcl
   ## Only limited number of packages to reduce maintainer burden
   # - desktop
   # - rviz
@@ -99,7 +100,6 @@ packages_select_by_deps:
   # Fix after rebuild
   # - mavros
   # - drone-wrapper
-  # - perception_pcl
   # - velodyne_pcl
   # - realsense2_camera
 
