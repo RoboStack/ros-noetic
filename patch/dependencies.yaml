@@ -1,6 +1,8 @@
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]
+sick_tim:
+  add_host: ["pkg-config"]
 moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
 pcl_conversions:
