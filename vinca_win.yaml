@@ -426,7 +426,7 @@ packages_select_by_deps:
   
   # - moveit-msgs
   # - rviz
-  # - rosserial
+  rosserial
   # - rosserial-arduino
   # - rosserial-python
   # - rosserial-msgs
