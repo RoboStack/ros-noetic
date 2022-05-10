@@ -49,6 +49,11 @@ packages_select_by_deps:
   - imu-tools
   - rqt-controller-manager
   # - dynamixel-sdk -- this one not ready for Windows
+  - rosserial
+  - rosserial-server
+  - rosserial-python
+  - rosserial-msgs
+  - rosserial-windows
 
   # # For jackal
   # - gazebo-dev
@@ -69,9 +74,7 @@ packages_select_by_deps:
   # - nmea-msgs
   # - geometry-msgs
   # - nmea-navsat-driver
-  # - rosserial-server
   # - imu-filter-madgwick
-  # - rosserial-python
   # - tf2_web_republisher
   # - rosbridge_suite
   # - libfranka
@@ -426,15 +429,10 @@ packages_select_by_deps:
   
   # - moveit-msgs
   # - rviz
-  rosserial
   # - rosserial-arduino
-  # - rosserial-python
-  # - rosserial-msgs
   # - rosbash
   # - rviz
-  # - rosserial_windows
   # - turtlebot3_fake
-  # - rosserial
   # - tf2_web_republisher
   # - catkin
   # - kdl_parser_py
@@ -445,7 +443,6 @@ packages_select_by_deps:
   # - velodyne_simulator
   # - nmea_msgs
   # - nmea_navsat_driver
-  # - rosserial_server
   # - hardware_interface
   # - moveit
   # - navigation
