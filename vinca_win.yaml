@@ -54,6 +54,7 @@ packages_select_by_deps:
   - rosserial-python
   - rosserial-msgs
   - rosserial-windows
+  - rosserial-client
 
   # # For jackal
   # - gazebo-dev
