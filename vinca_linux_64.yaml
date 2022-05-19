@@ -68,6 +68,7 @@ packages_select_by_deps:
   - imu-tools
   - rqt-controller-manager
   - dynamixel-sdk
+  - hector-trajectory-server
   # - desktop
   # - amcl
   # - map-server
@@ -428,7 +429,6 @@ packages_select_by_deps:
   # - hector-pose-estimation
   # - hector-sensors-description
   # - hector-sensors-gazebo
-  # - hector-trajectory-server
   # - hfl-driver
   # - ifm3d-core
   # - image-cb-detector
