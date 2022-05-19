@@ -61,7 +61,10 @@ packages_select_by_deps:
   - imu-tools
   - rqt-controller-manager
   - dynamixel-sdk
-
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
   # - rviz
