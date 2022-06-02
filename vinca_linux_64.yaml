@@ -71,6 +71,8 @@ packages_select_by_deps:
   - hector-map-tools
   - hector-nav-msgs
   - hector-trajectory-server
+  - radar-msgs
+
   # - desktop
   # - amcl
   # - map-server
@@ -860,7 +862,6 @@ packages_select_by_deps:
   # - py-trees-msgs
   # - qpoases-vendor
   # - qt-gui-app
-  # - radar-msgs
   # - raw-description
   # - rc-common-msgs
   # - rcdiscover
