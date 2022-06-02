@@ -64,6 +64,7 @@ packages_select_by_deps:
   - hector-map-tools
   - hector-nav-msgs
   - hector-trajectory-server
+  - radar-msgs
   
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
@@ -648,7 +649,6 @@ packages_select_by_deps:
   # - py-trees-msgs
   # - pyquaternion
   # - qt-gui-app
-  # - radar-msgs
   # - raw-description
   # - razor-imu-9dof
   # - rc-common-msgs
