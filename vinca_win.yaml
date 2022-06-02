@@ -58,6 +58,8 @@ packages_select_by_deps:
   - hector-map-tools
   - hector-nav-msgs
   - hector-trajectory-server
+  - radar-msgs
+
 
   # # For jackal
   # - gazebo-dev
@@ -319,7 +321,6 @@ packages_select_by_deps:
   # - py-trees-msgs
   # - pyquaternion
   # - qt-gui-app
-  # - radar-msgs
   # - razor-imu-9dof
   # - rc-common-msgs
   # - rc-visard-description
