@@ -64,7 +64,7 @@ packages_select_by_deps:
   - hector-nav-msgs
   - hector-trajectory-server
   - radar-msgs
-
+  - geometry2
 
   # # For jackal
   # - gazebo-dev
