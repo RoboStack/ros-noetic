@@ -72,6 +72,8 @@ packages_select_by_deps:
   - hector-nav-msgs
   - hector-trajectory-server
   - radar-msgs
+  - geometry2
+
 
   # - desktop
   # - amcl
@@ -420,7 +422,6 @@ packages_select_by_deps:
   # - genmypy
   # - geodesy
   # - geographic-info
-  # - geometry2
   # - gpp-prune-path
   # - gpp-update-map
   # - graceful-controller-ros
