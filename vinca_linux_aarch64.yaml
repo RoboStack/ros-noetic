@@ -37,7 +37,7 @@ packages_select_by_deps:
   - hector-nav-msgs
   - hector-trajectory-server
   - radar-msgs
-
+  - geometry2
   
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
