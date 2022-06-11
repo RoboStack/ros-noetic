@@ -48,6 +48,8 @@ packages_select_by_deps:
   - tf2_ros
   - tf2_sensor_msgs
   - tf2_tools
+  - ros_control
+  - ros_controllers
   
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
