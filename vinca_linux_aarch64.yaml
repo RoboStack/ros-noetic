@@ -50,6 +50,9 @@ packages_select_by_deps:
   - tf2_tools
   - ros_control
   - ros_controllers
+  - cv-camera
+  - four-wheel-steering-msgs
+  - urdf-geometry-parser
   
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
