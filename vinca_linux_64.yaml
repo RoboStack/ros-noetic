@@ -83,6 +83,8 @@ packages_select_by_deps:
   - tf2_ros
   - tf2_sensor_msgs
   - tf2_tools
+  - gps-common
+
 
 
   # - desktop
@@ -733,7 +735,6 @@ packages_select_by_deps:
   # - generic-throttle
   # - goal-passer
   # - gpp-interface
-  # - gps-common
   # - graceful-controller
   # - graft
   # - grasping-msgs
