@@ -158,7 +158,7 @@ jobs:
             git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force
         fi
       env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
 
 on:
