@@ -1,0 +1,9 @@
+runners:
+  - name: aws-cpu-arm-runner
+    cloud: aws
+    instance_type: a1.xlarge
+    # AMI for ubuntu/images/hvm-ssd/ubuntu-focal-20.04-arm64-server
+    machine_image: ami-0229f8cfc24033d05
+    preemptible: false
+    workflow: .github/workflows/build_linux_aarch64.yml
+    count: 1
