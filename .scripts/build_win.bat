@@ -16,7 +16,7 @@ set "PATH=%PATH:c:\tools\php;=%"
 :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
 set "PATH=%PATH:ostedtoolcache=%"
 
-call activate base
+call C:\Miniforge\Scripts\activate.bat base
 
 echo "PATH is %PATH%"
 echo "CONDA_BLD_PATH is %CONDA_BLD_PATH%"
