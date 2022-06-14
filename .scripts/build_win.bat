@@ -1,6 +1,5 @@
 setlocal EnableExtensions EnableDelayedExpansion
-call %CONDA%\condabin\conda_hook.bat
-call %CONDA%\condabin\conda.bat activate base
+call activate base
 
 
 set "PATH=%PATH:C:\ProgramData\Chocolatey\bin;=%"
