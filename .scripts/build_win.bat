@@ -37,7 +37,7 @@ call conda.exe config --add channels %CONDA_BLD_PATH%
 :: conda remove --force m2-git
 
 :: C:\Miniconda\python.exe -m pip install git+https://github.com/mamba-org/boa.git@master
-call conda.exe install boa=0.9
+call mamba.exe install boa=0.9
 if errorlevel 1 exit 1
 
 for %%X in (%CURRENT_RECIPES%) do (
