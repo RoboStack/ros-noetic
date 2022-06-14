@@ -26,9 +26,9 @@ rmdir /Q/S C:\Strawberry\
 set "FEEDSTOCK_ROOT=%cd%"
 
 mkdir %CONDA_BLD_PATH%
-call conda index %CONDA_BLD_PATH%
+rem call conda index "%CONDA_BLD_PATH%"
 
-call conda config --remove channels defaults
+rem call conda config --remove channels defaults
 call conda config --add channels conda-forge
 call conda config --add channels robostack
 call conda config --add channels %CONDA_BLD_PATH%
