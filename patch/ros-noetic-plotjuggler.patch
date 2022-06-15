@@ -77,28 +77,3 @@ index 00000000..a2e2757a
 +endforeach()
 +
 +list(REMOVE_DUPLICATES XCB_INCLUDE_DIRS)
-
-diff --git a/plotjuggler_plugins/DataStreamZMQ/CMakeLists.txt b/plotjuggler_plugins/DataStreamZMQ/CMakeLists.txt
-index 68a3c5cc..2e808351 100644
---- a/plotjuggler_plugins/DataStreamZMQ/CMakeLists.txt
-+++ b/plotjuggler_plugins/DataStreamZMQ/CMakeLists.txt
-@@ -1,6 +1,8 @@
- 
- include_directories(../)
- 
-+find_package(cppzmq)
-+
- add_definitions(${QT_DEFINITIONS})
- add_definitions(-DQT_PLUGIN)
- 
-@@ -13,8 +15,10 @@ add_library(DataStreamZMQ SHARED ${SRC} ${UI_SRC}  )
- target_link_libraries(DataStreamZMQ
-     ${Qt5Widgets_LIBRARIES}
-     plotjuggler_base
--    zmq
-+    ${cppzmq_LIBRARY}
-     )
-+    
-+target_include_directories(DataStreamZMQ PUBLIC ${cppzmq_INCLUDE_DIR})
- 
- install(TARGETS DataStreamZMQ DESTINATION ${PJ_PLUGIN_INSTALL_DIRECTORY}  )
