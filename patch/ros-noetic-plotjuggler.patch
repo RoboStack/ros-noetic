@@ -1,5 +1,5 @@
 diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-index 6b650f1b..4d940448 100644
+index 6b650f1b..bc46abe9 100644
 --- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
 +++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
 @@ -4,6 +4,7 @@ project(QtADS LANGUAGES CXX)
