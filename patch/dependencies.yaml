@@ -163,4 +163,4 @@ turtlebot3_gazebo:
 velodyne_gazebo_plugins:
   add_host: ["pkg-config"]
 plotjuggler:
-  add_host: [{"sel(linux)": "elfutils"}, "qt"]
+  add_host: [{"sel(linux)": "elfutils"}]
