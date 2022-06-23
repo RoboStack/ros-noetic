@@ -84,7 +84,8 @@ packages_select_by_deps:
   - tf2_sensor_msgs
   - tf2_tools
   - gps-common
-
+  - plotjuggler
+  - plotjuggler_ros
 
 
   # - desktop
@@ -159,8 +160,6 @@ packages_select_by_deps:
   # - rtabmap
   # - mrpt2
   # - ifopt
-  # - plotjuggler
-  # - plotjuggler_ros
   # - tsid
   # - sesame_ros
   # - ethercat_grant

@@ -1,0 +1,80 @@
+diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+index 6b650f1b..bc46abe9 100644
+--- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
++++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+@@ -4,6 +4,7 @@ project(QtADS LANGUAGES CXX)
+ 
+ include_directories(include/Qads)
+ 
++find_package(XCB REQUIRED)
+ find_package(Qt5 5.5 COMPONENTS Core Gui Widgets REQUIRED)
+ if (UNIX AND NOT APPLE)
+         find_package(Qt5 5.5 COMPONENTS X11Extras REQUIRED)
+@@ -67,7 +68,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
+ 
+ if(UNIX AND NOT APPLE)
+     target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
+-        target_link_libraries(qt_advanced_docking PRIVATE xcb)
++    target_link_libraries(qt_advanced_docking PRIVATE ${XCB_LIBRARIES})
++    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
+ endif()
+ 
+ set_target_properties(qt_advanced_docking PROPERTIES
+diff --git a/cmake/FindXCB.cmake b/cmake/FindXCB.cmake
+new file mode 100644
+index 00000000..a2e2757a
+--- /dev/null
++++ b/cmake/FindXCB.cmake
+@@ -0,0 +1,51 @@
++# - FindXCB
++#
++# Copyright 2015 Valve Coporation
++
++find_package(PkgConfig)
++
++if(NOT XCB_FIND_COMPONENTS)
++    set(XCB_FIND_COMPONENTS xcb)
++endif()
++
++include(FindPackageHandleStandardArgs)
++set(XCB_FOUND true)
++set(XCB_INCLUDE_DIRS "")
++set(XCB_LIBRARIES "")
++foreach(comp ${XCB_FIND_COMPONENTS})
++    # component name
++    string(TOUPPER ${comp} compname)
++    string(REPLACE "-" "_" compname ${compname})
++    # header name
++    string(REPLACE "xcb-" "" headername xcb/${comp}.h)
++    # library name
++    set(libname ${comp})
++
++    pkg_check_modules(PC_${comp} QUIET ${comp})
++
++    find_path(${compname}_INCLUDE_DIR NAMES ${headername}
++        HINTS
++        ${PC_${comp}_INCLUDEDIR}
++        ${PC_${comp}_INCLUDE_DIRS}
++        )
++
++    find_library(${compname}_LIBRARY NAMES ${libname}
++        HINTS
++        ${PC_${comp}_LIBDIR}
++        ${PC_${comp}_LIBRARY_DIRS}
++        )
++
++    find_package_handle_standard_args(${comp}
++        FOUND_VAR ${comp}_FOUND
++        REQUIRED_VARS ${compname}_INCLUDE_DIR ${compname}_LIBRARY)
++    mark_as_advanced(${compname}_INCLUDE_DIR ${compname}_LIBRARY)
++
++    list(APPEND XCB_INCLUDE_DIRS ${${compname}_INCLUDE_DIR})
++    list(APPEND XCB_LIBRARIES ${${compname}_LIBRARY})
++
++    if(NOT ${comp}_FOUND)
++        set(XCB_FOUND false)
++    endif()
++endforeach()
++
++list(REMOVE_DUPLICATES XCB_INCLUDE_DIRS)
+
