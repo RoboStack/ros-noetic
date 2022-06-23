@@ -54,8 +54,7 @@ packages_select_by_deps:
   - four-wheel-steering-msgs
   - urdf-geometry-parser
   - gps-common
-  - plotjuggler
-  - plotjuggler_ros
+
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
   # - amcl
