@@ -77,6 +77,7 @@ packages_select_by_deps:
   - tf2_sensor_msgs
   - tf2_tools
   - gps-common
+  - rosbridge_suite
 
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
@@ -86,7 +87,6 @@ packages_select_by_deps:
   # - perception
   # - simulators
   # - moveit
-  # - rosbridge_suite
   # - robot_localization
   # - amcl
   # - map-server
@@ -118,7 +118,6 @@ packages_select_by_deps:
   # - imu-filter-madgwick
   # - rosserial-python
   # - tf2_web_republisher
-  # - rosbridge_suite
   # - libfranka
   # - franka
   # - franka-gripper
@@ -827,7 +826,6 @@ packages_select_by_deps:
   # - joy
   # - imu_tools
   # - velodyne
-  # - rosbridge_suite
   # - robot_localization
   # - urg_node
   # - teb_local_planner
@@ -858,7 +856,7 @@ packages_select_by_deps:
   # PROBLEMS:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
-    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - behavior_tree  # isn't released?
 
 patch_dir: patch

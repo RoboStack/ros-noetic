@@ -22,7 +22,7 @@ packages_skip_by_deps:
 packages_remove_from_deps:
   - stage-ros
   - stage
-  - kobuki-ftdi  # needs too many patches for ftdi & usb
+  - kobuki-ftdi # needs too many patches for ftdi & usb
   - openni2-camera
   - libpointmatcher
 
@@ -86,7 +86,7 @@ packages_select_by_deps:
   - gps-common
   - plotjuggler
   - plotjuggler_ros
-
+  - rosbridge_suite
 
   # - desktop
   # - amcl
@@ -98,7 +98,6 @@ packages_select_by_deps:
   # - moveit-ros-move-group
   # - moveit-ros-manipulation
   # - moveit
-  # - rosbridge_suite
   # - robot_localization
   # # For jackal
   # - gazebo-dev
@@ -123,7 +122,6 @@ packages_select_by_deps:
   # - imu-filter-madgwick
   # - rosserial-python
   # - tf2_web_republisher
-  # - rosbridge_suite
   # - libfranka
   # - franka
   # - franka-gripper
@@ -191,7 +189,7 @@ packages_select_by_deps:
   # - toposens-msgs
 
   ##
-  #  TODO Linux 
+  #  TODO Linux
   ##
   # - openslam-gmapping
   # - multisense-bringup
@@ -990,7 +988,7 @@ packages_select_by_deps:
   # - mapviz_plugins
   # - exotica_core
   # - catkin
-  
+
   # #
   # # DONE Linux
   # #
@@ -1053,7 +1051,6 @@ packages_select_by_deps:
   # - desktop
   # - desktop_full
   # - franka_control
-  # - rosbridge_suite
   # - moveit
   # - class_loader
   # - imu_tools
@@ -1101,7 +1098,7 @@ packages_select_by_deps:
   # PROBLEMS:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
-    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - behavior_tree  # isn't released?
   # - ff  # has gcc hardcoded
   # - ffha  # has gcc hardcoded
