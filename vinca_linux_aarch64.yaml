@@ -54,6 +54,7 @@ packages_select_by_deps:
   - four-wheel-steering-msgs
   - urdf-geometry-parser
   - gps-common
+  - rosbridge_suite
 
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
@@ -62,7 +63,6 @@ packages_select_by_deps:
   # - move-base
   # - gmapping
   # - moveit
-  # - rosbridge_suite
   # - robot_localization
   # - perception
   # - simulators
@@ -91,7 +91,6 @@ packages_select_by_deps:
   # - imu-filter-madgwick
   # - rosserial-python
   # - ros_numpy
-  
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild
@@ -145,7 +144,6 @@ packages_select_by_deps:
   # - desktop
   # - desktop_full
   # - robot_localization
-  # - rosbridge_suite
   # - teb_local_planner
   # - ros_control
   # - ros_controllers

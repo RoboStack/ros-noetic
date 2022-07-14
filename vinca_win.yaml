@@ -33,10 +33,10 @@ packages_select_by_deps:
   - catkin
   - teleop_twist_keyboard
   - perception_pcl
+  - rosbridge_suite
   ## Only limited number of packages to reduce maintainer burden
   # - desktop
   # - rviz
-  # - rosbridge_suite
   # - robot_localization
   # - amcl
   # - map-server
@@ -72,7 +72,6 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
 
-
   # # For jackal
   # - gazebo-dev
   # - gazebo-ros
@@ -94,7 +93,6 @@ packages_select_by_deps:
   # - nmea-navsat-driver
   # - imu-filter-madgwick
   # - tf2_web_republisher
-  # - rosbridge_suite
   # - libfranka
   # - franka
   # - franka-hw
@@ -443,7 +441,7 @@ packages_select_by_deps:
   # ##
   # # DONE Win
   # ##
-  
+
   # - moveit-msgs
   # - rviz
   # - rosserial-arduino
@@ -473,7 +471,6 @@ packages_select_by_deps:
   # - turtlebot3
   # - rqt_gui_cpp
   # - ros_control
-  # - rosbridge_suite
   # - class_loader
   # - ros_controllers
   # - joy
@@ -515,7 +512,7 @@ packages_select_by_deps:
   # PROBLEMS:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
-    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - franka_example_controllers
   # - franka_ros
 
