@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 038a4313..f9ca5ac8 100644
+index d623dd4e..0d1c07bb 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -102,10 +102,10 @@ if(APPLE)
+@@ -98,10 +98,10 @@ if(APPLE)
  endif()
  
  # Prefer newer vender-specific OpenGL library
@@ -17,7 +17,7 @@ index 038a4313..f9ca5ac8 100644
  
  set(CMAKE_AUTOMOC ON)
  
-@@ -218,7 +218,7 @@ catkin_package(
+@@ -214,7 +214,7 @@ catkin_package(
  
  #catkin_lint: ignore_once external_directory
  include_directories(src ${EXPORT_HEADER_DIR})
@@ -43,26 +43,8 @@ index 4b3c5b82..e714db0f 100644
  font "Liberation Sans"
  {
    type truetype
-diff --git a/src/python_bindings/sip/CMakeLists.txt b/src/python_bindings/sip/CMakeLists.txt
-index 847f75bc..9e5f8ba6 100644
---- a/src/python_bindings/sip/CMakeLists.txt
-+++ b/src/python_bindings/sip/CMakeLists.txt
-@@ -67,7 +67,12 @@ if(sip_helper_FOUND)
-     DEPENDENCIES rviz
-   )
-   if(APPLE)
--    set(rviz_sip_LIBRARY_FILE librviz_sip.so)
-+     # Okay-ish hack for now
-+     if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
-+       set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-darwin.so")
-+     else()
-+       set(rviz_sip_LIBRARY_FILE librviz_sip.so)
-+     endif()  
-   elseif(WIN32)
-     set(rviz_sip_LIBRARY_FILE librviz_sip.pyd)
-   else()
 diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
-index 34f46d6e..c802f776 100644
+index 4005f982..c0441de8 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp
 +++ b/src/rviz/ogre_helpers/render_system.cpp
 @@ -159,9 +159,10 @@ void RenderSystem::setupDummyWindowId()
