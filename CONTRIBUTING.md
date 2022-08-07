@@ -40,8 +40,8 @@ conda config --set channel_priority strict
 6. `cp vinca_linux_64.yaml vinca.yaml` (replace with your platform as necessary)
 7. Modify `vinca.yaml` as you please, e.g. add new packages to be built.
 8. Run vinca to generate the recipe by executing `vinca --multiple`
-9. Copy the generated recipe to the current folder: `cp recipes/ros-noetic-XXX.yaml recipe.yaml` - note that at least one package needs to be (re)build for this folder to show up. See more info below.
-10. Build the recipe using boa: `boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml`
+9. Move to the `recipes/ros-noetic-XXX/` folder to find the recipes that need to be (re)build. Note that at least one package needs to be (re)build for folder to show up.
+10. Build the recipe from the recipe folder using boa: `boa build . -m ../../.ci_support/conda_forge_pinnings.yaml -m ../../conda_build_config.yaml`
 
 # How does it work?
 - The `vinca.yaml` file specifies which packages should be built. 

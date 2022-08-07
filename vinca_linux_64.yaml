@@ -87,6 +87,8 @@ packages_select_by_deps:
   - plotjuggler
   - plotjuggler_ros
   - rosbridge_suite
+  - swri-console
+
 
   # - desktop
   # - amcl
@@ -169,7 +171,6 @@ packages_select_by_deps:
   # - swri-opencv-util
   # - swri-profiler
   # - swri-profiler-tools
-  # - swri-console
   # - swri-dbw-interface
   # - swri-math-util
   # - swri-nodelet
