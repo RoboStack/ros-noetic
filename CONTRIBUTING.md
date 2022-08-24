@@ -28,13 +28,13 @@ Sometimes, it may be required to patch the packages. An example of how to do so 
 2. `cd ros-noetic`
 3. `conda env create -f env/robostackenv.yaml `
 4. Make a symbolic link between your platform's yaml and `vinca.yaml`. Examples
-* `ln vinca_linux_64.yaml vinca.yaml` 
-* `ln vinca_osx.yaml vinca.yaml`
+* `ln -s vinca_linux_64.yaml vinca.yaml` 
+* `ln -s vinca_osx.yaml vinca.yaml`
 * `mklink vinca.yaml vinca_win.yaml`
-5. Modify your environments yaml as you please, e.g. add new packages to be built.
+5. Modify your platform's yaml as you please, e.g. add new packages to be built.
 6. Run vinca to generate the recipe by executing `vinca --multiple`
-7. Move to the `recipes` folder to find the recipes that need to be (re)build. Note that at least one package needs to be (re)build for folder to show up.
-8. Build the recipe from the recipe folder using boa: `boa build . -m ../.ci_support/conda_forge_pinnings.yaml -m ../conda_build_config.yaml`
+7. Move to the `recipes` folder to find the recipes that need to be (re)build: `cd recipes`. Note that at least one package needs to be (re)build for folder to show up.
+8. Build the recipes from within the `recipes` folder using boa: `boa build . -m ../.ci_support/conda_forge_pinnings.yaml -m ../conda_build_config.yaml`
 
 # How does it work?
 - The `vinca.yaml` file specifies which packages should be built. 
