@@ -24,27 +24,17 @@ Sometimes, it may be required to patch the packages. An example of how to do so 
 
 # Testing changes locally
 
-1. Create a new conda environment and add the conda-forge and robostack channels:
-```
-conda create -n robostackenv python=3.9
-conda activate robostackenv
-conda config --append channels defaults
-conda config --add channels conda-forge
-conda config --add channels robostack
-conda config --set channel_priority strict
-```
-2. Install some dependencies: `conda install pip conda-build anaconda-client mamba conda catkin_pkg ruamel.yaml rosdistro empy networkx requests boa`
-3. Install vinca: `pip install git+https://github.com/RoboStack/vinca.git@master --no-deps`
-4. Clone this repo: `git clone https://github.com/RoboStack/ros-noetic.git`
-5. `cd ros-noetic`
-6. Make a symbolic link between your platform's yaml and `vinca.yaml`. Examples
+1. Clone this repo: `git clone https://github.com/RoboStack/ros-noetic.git`
+2. `cd ros-noetic`
+3. `conda env create -f env/robostackenv.yaml `
+4. Make a symbolic link between your platform's yaml and `vinca.yaml`. Examples
 * `ln vinca_linux_64.yaml vinca.yaml` 
 * `ln vinca_osx.yaml vinca.yaml`
 * `mklink vinca.yaml vinca_win.yaml`
-7. Modify your environments yaml as you please, e.g. add new packages to be built.
-8. Run vinca to generate the recipe by executing `vinca --multiple`
-9. Move to the `recipes` folder to find the recipes that need to be (re)build. Note that at least one package needs to be (re)build for folder to show up.
-10. Build the recipe from the recipe folder using boa: `boa build . -m ../.ci_support/conda_forge_pinnings.yaml -m ../conda_build_config.yaml`
+5. Modify your environments yaml as you please, e.g. add new packages to be built.
+6. Run vinca to generate the recipe by executing `vinca --multiple`
+7. Move to the `recipes` folder to find the recipes that need to be (re)build. Note that at least one package needs to be (re)build for folder to show up.
+8. Build the recipe from the recipe folder using boa: `boa build . -m ../.ci_support/conda_forge_pinnings.yaml -m ../conda_build_config.yaml`
 
 # How does it work?
 - The `vinca.yaml` file specifies which packages should be built. 
