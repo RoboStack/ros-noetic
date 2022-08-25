@@ -1,0 +1,5 @@
+vinca.yaml
+recipes/
+*.bat
+*.sh
+*.json
