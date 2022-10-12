@@ -88,6 +88,8 @@ packages_select_by_deps:
   - plotjuggler_ros
   - rosbridge_suite
   - swri-console
+  - pcl-ros
+  - pcl-conversions
 
 
   # - desktop

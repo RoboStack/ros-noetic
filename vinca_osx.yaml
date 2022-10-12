@@ -78,6 +78,8 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
+  - pcl-ros
+  - pcl-conversions
 
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
