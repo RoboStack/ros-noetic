@@ -33,7 +33,6 @@ requirements:
     - boost-cpp 1.74
     - log4cxx 0.11
     - pcl 1.12
-    - libopencv 4.5.5
     - poco 1.11
     - gazebo 11
     - ogre 1.10.12
