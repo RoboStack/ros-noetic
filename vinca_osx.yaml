@@ -35,7 +35,9 @@ packages_select_by_deps:
   # - imu-sensor-controller
   # - ackermann-steering-controller
   - rqt-gui
-
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
   # - velodyne-description
   # - effort-controllers
   # - velocity-controllers

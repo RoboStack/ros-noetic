@@ -38,6 +38,9 @@ packages_select_by_deps:
   - rqt-gui-py
   - rqt-gui-cpp
   - qt-gui-cpp
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
   # - roslisp
   # - catkin
   # - cmake-modules

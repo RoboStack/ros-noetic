@@ -41,6 +41,9 @@ packages_select_by_deps:
   - find-object-2d
   - rtabmap
   - rtabmap-ros
+  - convex-decomposition
+  - pcl-ros
+  - pcl-conversions
   ## Only limited number of packages to reduce maintainer burden
   - catkin
   - ros-control

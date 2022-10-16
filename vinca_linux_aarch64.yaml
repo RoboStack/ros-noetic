@@ -55,7 +55,8 @@ packages_select_by_deps:
   - urdf-geometry-parser
   - gps-common
   - rosbridge_suite
-
+  - pcl-ros
+  - pcl-conversions
   # ## Only limited number of packages to reduce maintainer burden
   # - desktop
   # - amcl
