@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c9adfe3..763fb46 100644
+index 6f9c28f4b..7390fc010 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -74,14 +74,6 @@ IF(MINGW)
+@@ -79,14 +79,6 @@ IF(MINGW)
      SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import")
  ENDIF(MINGW)
  
@@ -17,7 +17,7 @@ index c9adfe3..763fb46 100644
  #The CDT Error Parser cannot handle error messages that span 
  #more than one line, which is the default gcc behavior. 
  #In order to force gcc to generate single line error messages with no line wrapping
-@@ -157,14 +149,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
+@@ -162,14 +154,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
  OPTION(BUILD_EXAMPLES "Build examples" ON)
  
  ####### DEPENDENCIES #######
@@ -34,7 +34,7 @@ index c9adfe3..763fb46 100644
  option(WITH_PYTHON_THREADING  "Use more than one Python interpreter."  OFF)
  option(WITH_PDAL          "Include PDAL support"                 ON)
  option(WITH_FREENECT      "Include Freenect support"             ON)
-@@ -325,6 +317,8 @@ IF(WITH_QT)
+@@ -348,6 +340,8 @@ IF(WITH_QT)
          ENDIF()
          ADD_DEFINITIONS(-DQT_NO_KEYWORDS) # To avoid conflicts with boost signals/foreach and Qt macros
      ENDIF(QT4_FOUND OR Qt5_FOUND)
@@ -42,21 +42,12 @@ index c9adfe3..763fb46 100644
 +    add_compile_definitions(DISABLE_VTK)
  ENDIF(WITH_QT)
  
- IF(WITH_TORCH)
-@@ -335,7 +329,7 @@ IF(WITH_TORCH)
- ENDIF(WITH_TORCH)
- 
- IF(WITH_PYTHON)
--    FIND_PACKAGE(Python3 COMPONENTS Interpreter Development)
-+    FIND_PACKAGE(Python3 COMPONENTS Interpreter Development NumPy)
-     IF(Python3_FOUND)
-         MESSAGE(STATUS "Found Python3")
-     ENDIF(Python3_FOUND)
+ IF(NOT VTK_FOUND)
 diff --git a/corelib/src/CMakeLists.txt b/corelib/src/CMakeLists.txt
-index 2f7f005..9e2e659 100644
+index 9df6b45fd..78c02b658 100644
 --- a/corelib/src/CMakeLists.txt
 +++ b/corelib/src/CMakeLists.txt
-@@ -155,6 +155,13 @@ SET(LIBRARIES
+@@ -159,6 +159,13 @@ SET(LIBRARIES
  	${ZLIB_LIBRARIES} 
  )
  
@@ -70,23 +61,15 @@ index 2f7f005..9e2e659 100644
  IF(Sqlite3_FOUND)
      SET(INCLUDE_DIRS
  		${INCLUDE_DIRS}
-@@ -195,6 +202,7 @@ IF(Python3_FOUND)
- 	SET(LIBRARIES
- 		${LIBRARIES}
- 		Python3::Python
-+		Python3::NumPy
- 	)
- 	SET(SRC_FILES
- 		${SRC_FILES}
-@@ -206,6 +214,8 @@ IF(Python3_FOUND)
+@@ -210,6 +217,8 @@ IF(WITH_PYTHON AND Python3_FOUND)
+ 	 SET(INCLUDE_DIRS
  	    ${TORCH_INCLUDE_DIRS}
  	    ${CMAKE_CURRENT_SOURCE_DIR}/python
++	    ${Python3_INCLUDE_DIRS}
++	    ${Python3_NumPy_INCLUDE_DIRS}
  		${INCLUDE_DIRS}
-+		${Python3_INCLUDE_DIRS}
-+		${Python3_NumPy_INCLUDE_DIRS}
  	)
- ENDIF(Python3_FOUND)
- 
+ ENDIF(WITH_PYTHON AND Python3_FOUND)
 diff --git a/tools/EurocDataset/CMakeLists.txt b/tools/EurocDataset/CMakeLists.txt
 index 3b1e5e4..2f23770 100644
 --- a/tools/EurocDataset/CMakeLists.txt
