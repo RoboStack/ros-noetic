@@ -22,7 +22,7 @@ numpy:
 pcl:
   - 1.12.0
 ogre:
-  - 1.12.*
+  - 1.10.12
 qt-main:
   - 5.15
 urdfdom:
