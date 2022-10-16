@@ -16,7 +16,7 @@ skip_all_deps: false
 full_rebuild: true
 
 packages_skip_by_deps:
-  - rviz
+  # - rviz
   # - diagnostic_updater
 
 packages_remove_from_deps:
