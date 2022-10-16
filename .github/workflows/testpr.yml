@@ -50,17 +50,16 @@ jobs:
 
     - shell: bash -l {0}
       run: |
+        conda config --show channels | grep defaults && conda config --remove channels defaults
         conda info
         conda config --show
-        mamba install -y pip rospkg libmambapy rich networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
-        mamba install -y boa 
+        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        mamba install -y boa=0.9
     - name: install vinca and boa master
       shell: bash -l {0}
       run: |
-        # for now we need boa master
-        # pip install git+https://github.com/mamba-org/boa@master
         # use no-deps for now, otherwise problems with ruamel.
-        pip install git+https://github.com/RoboStack/vinca.git@master --no-deps
+        pip install git+https://github.com/RoboStack/vinca.git --no-deps
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
     - name: Debug pkg-config problem

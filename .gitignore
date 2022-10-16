@@ -3,3 +3,4 @@ recipes/
 *.bat
 *.sh
 *.json
+.DS_Store
