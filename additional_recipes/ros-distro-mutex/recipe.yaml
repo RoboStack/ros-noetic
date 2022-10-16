@@ -1,13 +1,13 @@
 package:
   name: ros-distro-mutex
-  version: 0.3.0
+  version: 0.4.0
 
 build:
-  number: 2
+  number: 3
   string: noetic
   run_exports:
     # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.3 noetic
+    - ros-distro-mutex 0.4 noetic
 
 requirements:
   # NOTE:
