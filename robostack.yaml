@@ -477,7 +477,6 @@ netpbm:
     osx-arm64: []
     linux: [netpbm]
     osx: [netpbm]
-    osx-arm64: []
     win64: []
 nlohmann-json-dev:
   robostack: [nlohmann_json]
