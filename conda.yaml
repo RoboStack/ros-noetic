@@ -32,8 +32,12 @@ bullet:
   conda: [bullet]
 bzip2:
   conda: [bzip2]
+cartographer:
+  conda: [cartographer]
 ca-certificates:
   conda: [ca-certificates]
+clang-tidy:
+  conda: [clang-tools]
 cmake:
   conda: [cmake]
 coinor-libcbc-dev:
@@ -139,16 +143,22 @@ gtk3:
     ]
 ignition-common4:
   conda: [libignition-common4]
+ignition-cmake2:
+  conda: [libignition-cmake2]
 ignition-gazebo3:
   conda: [libignition-gazebo5]
 ignition-gazebo5:
   conda: [libignition-gazebo5]
+ignition-gazebo6:
+  conda: [libignition-gazebo6]
 ignition-gui5:
   conda: [libignition-gui5]
 ignition-math6:
   conda: [libignition-math6]
 ignition-msgs5:
   conda: [libignition-msgs5]
+ignition-msgs8:
+  conda: [libignition-msgs8]
 ignition-msgs7:
   conda: [libignition-msgs7]
 ignition-rendering5:
@@ -157,6 +167,8 @@ ignition-transport8:
   conda: [libignition-transport8]
 ignition-transport10:
   conda: [libignition-transport10]
+ignition-transport11:
+  conda: [libignition-transport11]
 java:
   conda: [openjdk]
 jupyter-notebook:
@@ -169,6 +181,8 @@ lcov:
   conda: [lcov]
 leveldb:
   conda: [leveldb]
+libabsl-dev:
+  conda: [abseil-cpp]
 libblas-dev:
   conda: [libblas, libcblas]
 libboost-chrono-dev:
@@ -282,6 +296,8 @@ libhdf5-dev:
   conda: [hdf5]
 libi2c-dev:
   conda: [libi2c]
+liblttng-ust-dev:
+  conda: [lttng-ust]
 libjpeg:
   conda: [libjpeg-turbo]
 libjsoncpp:
@@ -321,6 +337,8 @@ libomp-dev:
 libopenblas-dev:
   conda: [libblas]
 libopencv-dev:
+  conda: [py-opencv, libopencv, REQUIRE_OPENGL]
+libopencv-imgproc-dev:
   conda: [py-opencv, libopencv, REQUIRE_OPENGL]
 libopenni-dev:
   conda: []
@@ -396,6 +414,8 @@ libtool:
   conda: [libtool]
 libturbojpeg:
   conda: [libjpeg-turbo]
+libtins-dev:
+  conda: [libtins]
 libudev-dev:
   conda: [libusb]
 liburdfdom-dev:
@@ -474,7 +494,10 @@ netpbm:
     osx-arm64: []
     linux: [netpbm]
     osx: [netpbm]
+    osx-arm64: []
     win64: []
+nlohmann-json-dev:
+  conda: [nlohmann_json]
 nlopt:
   conda: [nlopt]
 ocl-icd-opencl-dev:
@@ -502,6 +525,8 @@ protobuf-dev:
   conda: [libprotobuf, protobuf]
 pugixml-dev:
   conda: [pugixml]
+pybind11-dev:
+  conda: [pybind11]
 pycodestyle:
   conda: [pycodestyle]
 pydocstyle:
@@ -657,6 +682,12 @@ python3-empy:
   conda: [empy]
 python3-flake8:
   conda: [flake8]
+python3-flask:
+  conda: [flask]
+python3-flask-cors:
+  conda: [flask-cors]
+python3-fiona:
+  conda: [fiona]
 python3-future:
   conda: [future]
 python3-github:
@@ -679,6 +710,8 @@ python3-importlib-metadata:
   conda: [importlib-metadata]
 python3-importlib-resources:
   conda: [importlib_resources]
+python3-jinja2:
+  conda: [jinja2]
 python3-kitchen:
   conda: [kitchen]
 python3-lark-parser:
@@ -762,6 +795,8 @@ python3-requests:
   conda: [requests]
 python3-requests-oauthlib:
   conda: [requests-oauthlib]
+python3-rtree:
+  conda: [rtree]
 python3-rosdep:
   conda: [rosdep]
 python3-rosdep-modules:
@@ -802,6 +837,8 @@ python3-tornado:
   conda: [tornado]
 python3-twisted:
   conda: [twisted]
+python3-typeguard:
+  conda: [typeguard]
 python3-usb:
   conda: [pyusb]
 python3-venv:
@@ -842,6 +879,8 @@ screen:
   conda: [screen]
 sdformat:
   conda: [libsdformat]
+sdformat12:
+  conda: [libsdformat12]
 sdl:
   conda: [sdl]
 sdl-image:
@@ -860,6 +899,8 @@ subversion:
   conda: [subversion]
 suitesparse:
   conda: [suitesparse]
+sqlite3:
+  conda: [sqlite 3.*]
 swig:
   conda: [swig]
 sysstat:
