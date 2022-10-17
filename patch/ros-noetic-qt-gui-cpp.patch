@@ -2,7 +2,7 @@ diff --git a/src/qt_gui_cpp_sip/CMakeLists.txt b/src/qt_gui_cpp_sip/CMakeLists.t
 index 370457fe..db1ca537 100644
 --- a/src/qt_gui_cpp_sip/CMakeLists.txt
 +++ b/src/qt_gui_cpp_sip/CMakeLists.txt
-@@ -47,7 +47,11 @@ if(sip_helper_FOUND)
+@@ -47,11 +47,19 @@ if(sip_helper_FOUND)
    )
  
    if(APPLE)
@@ -15,6 +15,15 @@ index 370457fe..db1ca537 100644
    elseif(WIN32)
      set(LIBQT_GUI_CPP_SIP_SUFFIX .pyd)
    else()
+-    set(LIBQT_GUI_CPP_SIP_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
++    if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
++      set(LIBQT_GUI_CPP_SIP_SUFFIX ".cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
++    else()
++      set(LIBQT_GUI_CPP_SIP_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
++    endif()
+   endif()
+ 
+   install(FILES ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/libqt_gui_cpp_sip${LIBQT_GUI_CPP_SIP_SUFFIX}
 diff --git a/src/qt_gui_cpp_sip/qt_gui_cpp.sip b/src/qt_gui_cpp_sip/qt_gui_cpp.sip
 index ef3c52d7..cd02078d 100644
 --- a/src/qt_gui_cpp_sip/qt_gui_cpp.sip
