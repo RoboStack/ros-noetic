@@ -367,35 +367,17 @@ libqglviewer-dev-qt5:
 libqhull:
   conda: [qhull]
 libqt5-core:
-  conda:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5-gui:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl-dev:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5-widgets:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5x11extras5-dev:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 libreadline:
   conda: [readline]
 libreadline-dev:
@@ -607,10 +589,7 @@ python-pygraphviz:
 python-pyusb-pip:
   conda: [pyusb]
 python-qt5-bindings:
-  conda:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  conda: [pyqt, pyqt-builder]
 python-rosdep:
   conda: [rosdep]
 python-rosdep-modules:
@@ -776,20 +755,11 @@ python3-pytest-cov:
 python3-pytest-mock:
   conda: [pytest-mock]
 python3-qt5-bindings:
-  conda:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  conda: [pyqt, pyqt-builder]
 python3-qt5-bindings-gl:
-  conda:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  conda: [pyqt, pyqt-builder]
 python3-qt5-bindings-webkit:
-  conda:
-    linux: [pyqt 5.12]
-    osx: [pyqt, pyqt-builder]
-    win64: [pyqt 5]
+  conda: [pyqtwebengine]
 python3-requests:
   conda: [requests]
 python3-requests-oauthlib:
@@ -849,20 +819,11 @@ python3-yaml:
 python3-zmq:
   conda: [pyzmq]
 qt5-image-formats-plugins:
-  conda:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 qt5-qmake:
-  conda:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
-  conda:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  conda: [qt-main, REQUIRE_OPENGL]
 roboticstoolbox-python:
   conda: [roboticstoolbox-python]
 rsync:

@@ -23,6 +23,8 @@ pcl:
   - 1.12.1
 ogre:
   - 1.10.12
+qt:
+  - 5.15
 qt-main:
   - 5.15
 urdfdom:

@@ -350,35 +350,17 @@ libqglviewer-dev-qt5:
 libqhull:
   robostack: [qhull]
 libqt5-core:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-gui:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-widgets:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5x11extras5-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libreadline:
   robostack: [readline]
 libreadline-dev:
@@ -590,10 +572,7 @@ python-pygraphviz:
 python-pyusb-pip:
   robostack: [pyusb]
 python-qt5-bindings:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python-rosdep:
   robostack: [rosdep]
 python-rosdep-modules:
@@ -759,20 +738,11 @@ python3-pytest-cov:
 python3-pytest-mock:
   robostack: [pytest-mock]
 python3-qt5-bindings:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python3-qt5-bindings-gl:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python3-qt5-bindings-webkit:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqtwebengine]
 python3-requests:
   robostack: [requests]
 python3-requests-oauthlib:
@@ -832,20 +802,11 @@ python3-yaml:
 python3-zmq:
   robostack: [pyzmq]
 qt5-image-formats-plugins:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 qt5-qmake:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]
 rsync:
