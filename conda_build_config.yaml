@@ -20,7 +20,7 @@ proj:
 numpy:
   - 1.20
 pcl:
-  - 1.12.0
+  - 1.12.1
 ogre:
   - 1.10.12
 qt-main:
