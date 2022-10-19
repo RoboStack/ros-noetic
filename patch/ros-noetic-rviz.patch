@@ -1,4 +1,21 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d623dd4e7..cd195e488 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,11 @@
+ cmake_minimum_required(VERSION 3.0.2)
+ project(rviz)
+ 
++## Restrict Windows header namespace usage
++if(WIN32)
++  add_definitions(-DNOGDI)
++endif()
++
+ if (POLICY CMP0042)
+   cmake_policy(SET CMP0042 NEW)
+ endif()
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index d623dd4e..0d1c07bb 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
