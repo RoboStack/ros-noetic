@@ -12,7 +12,7 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 2
+  number: 3
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
@@ -20,7 +20,7 @@ build:
 
 source:
   git_url: https://github.com/clearpath-gbp/jackal_desktop-release.git
-  git_rev: release/melodic/jackal_viz/0.4.0-1
+  git_rev: release/noetic/jackal_viz/0.4.0-1
   folder: ros-noetic-jackal-viz/src/work
 requirements:
   build:

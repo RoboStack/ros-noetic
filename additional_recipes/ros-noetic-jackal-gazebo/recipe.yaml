@@ -12,14 +12,14 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 2
+  number: 3
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
 
 source:
   git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git
-  git_rev: release/melodic/jackal_gazebo/0.4.0-1
+  git_rev: release/noetic/jackal_gazebo/0.4.0-1
   folder: ros-noetic-jackal-gazebo/src/work
 requirements:
   build:
