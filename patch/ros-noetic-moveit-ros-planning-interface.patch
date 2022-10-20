@@ -1,10 +1,10 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bcc6070c8..78c0637bf 100644
+index 73f1aa3ea4..67528cf75c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -28,6 +28,9 @@ find_package(catkin REQUIRED COMPONENTS
-   rosconsole
+@@ -19,6 +19,9 @@ find_package(catkin REQUIRED COMPONENTS
  )
+ moveit_build_options()
  
 +find_package(PkgConfig REQUIRED)
 +pkg_check_modules(EIGENPY REQUIRED eigenpy)
@@ -12,7 +12,7 @@ index bcc6070c8..78c0637bf 100644
  find_package(PythonInterp REQUIRED)
  find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
  
-@@ -88,8 +91,11 @@ include_directories(SYSTEM
+@@ -77,8 +80,11 @@ include_directories(SYSTEM
                      ${catkin_INCLUDE_DIRS}
                      ${Boost_INCLUDE_DIRS}
                      ${EIGEN3_INCLUDE_DIRS}
@@ -25,7 +25,7 @@ index bcc6070c8..78c0637bf 100644
  add_subdirectory(common_planning_interface_objects)
  add_subdirectory(planning_scene_interface)
 diff --git a/move_group_interface/CMakeLists.txt b/move_group_interface/CMakeLists.txt
-index d822174bf..c3eb1686c 100644
+index d822174bf0..c3eb1686c0 100644
 --- a/move_group_interface/CMakeLists.txt
 +++ b/move_group_interface/CMakeLists.txt
 @@ -2,7 +2,7 @@ set(MOVEIT_LIB_NAME moveit_move_group_interface)
@@ -38,10 +38,10 @@ index d822174bf..c3eb1686c 100644
  
  add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_move_group.cpp)
 diff --git a/move_group_interface/include/moveit/move_group_interface/move_group_interface.h b/move_group_interface/include/moveit/move_group_interface/move_group_interface.h
-index ec8d70f0b..0e8c6b340 100644
+index 17de157197..fdae58ab37 100644
 --- a/move_group_interface/include/moveit/move_group_interface/move_group_interface.h
 +++ b/move_group_interface/include/moveit/move_group_interface/move_group_interface.h
-@@ -55,6 +55,20 @@
+@@ -56,6 +56,20 @@
  #include <utility>
  #include <tf2_ros/buffer.h>
  
@@ -62,7 +62,7 @@ index ec8d70f0b..0e8c6b340 100644
  namespace moveit
  {
  /** \brief Simple interface to MoveIt components */
-@@ -96,7 +110,7 @@ MOVEIT_CLASS_FORWARD(MoveGroupInterface);
+@@ -70,7 +84,7 @@ MOVEIT_CLASS_FORWARD(MoveGroupInterface);  // Defines MoveGroupInterfacePtr, Con
      \brief Client class to conveniently use the ROS interfaces provided by the move_group node.
  
      This class includes many default settings to make things easy to use. */
@@ -71,3 +71,17 @@ index ec8d70f0b..0e8c6b340 100644
  {
  public:
    /** \brief Default ROS parameter name from where to read the robot's URDF. Set to 'robot_description' */
+diff --git a/py_bindings_tools/CMakeLists.txt b/py_bindings_tools/CMakeLists.txt
+index 1f82d7e4dc..9ef98d8136 100644
+--- a/py_bindings_tools/CMakeLists.txt
++++ b/py_bindings_tools/CMakeLists.txt
+@@ -1,5 +1,9 @@
+ set(MOVEIT_LIB_NAME moveit_py_bindings_tools)
+ 
++find_package(PythonInterp REQUIRED)
++find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
++
++
+ add_library(${MOVEIT_LIB_NAME} src/roscpp_initializer.cpp)
+ set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ target_link_libraries(${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
