@@ -221,6 +221,10 @@ libconsole-bridge-dev:
   robostack: [console_bridge]
 libcunit-dev:
   robostack: [cunit]
+libcurl:
+  robostack: [libcurl]
+libcurl-dev:
+  robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
 libfcl-dev:

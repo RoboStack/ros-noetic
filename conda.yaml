@@ -238,6 +238,10 @@ libconsole-bridge-dev:
   conda: [console_bridge]
 libcunit-dev:
   conda: [cunit]
+libcurl:
+  conda: [libcurl]
+libcurl-dev:
+  conda: [libcurl]
 libdc1394-dev:
   conda: [libdc1394]
 libfcl-dev:
