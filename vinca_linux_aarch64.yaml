@@ -57,40 +57,40 @@ packages_select_by_deps:
   - pcl-ros
   - pcl-conversions
   # ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - moveit
-  # - robot_localization
-  # - perception
-  # - simulators
-  # - desktop_full
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - robot_localization
+  - perception
+  - simulators
+  - desktop_full
 
   # # # For jackal
-  # - hector-gazebo-plugins
-  # - gazebo-dev
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - ros_numpy
+  - hector-gazebo-plugins
+  - gazebo-dev
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - ros_numpy
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild

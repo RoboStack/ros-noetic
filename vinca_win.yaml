@@ -35,16 +35,16 @@ packages_select_by_deps:
   - perception_pcl
   - rosbridge_suite
   ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - rviz
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - fcl
-  # - desktop_full
-  # - moveit
+  - desktop
+  - rviz
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - fcl
+  - desktop_full
+  - moveit
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager

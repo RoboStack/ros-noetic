@@ -30,35 +30,31 @@ packages_select_by_deps:
   - python-qt-binding
   - qt-gui
   - qt-gui-cpp
-  # - ros-control
-  # - ros-controllers
-  # - imu-sensor-controller
-  # - ackermann-steering-controller
+  - ros-control
+  - ros-controllers
+  - imu-sensor-controller
+  - ackermann-steering-controller
   - rqt-gui
   - rqt-ez-publisher
   - pcl-ros
   - pcl-conversions
-  # - velodyne-description
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - turtlebot3-teleop
-  # - force-torque-sensor-controller
-  # - gripper-action-controller
+  - velodyne-description
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - turtlebot3-teleop
+  - force-torque-sensor-controller
+  - gripper-action-controller
   - rqt-gui-cpp
   - rqt-gui-py
-  # - joint-trajectory-controller
-  # - velodyne-simulator
-  # - velodyne-gazebo-plugins
-  # - catkin
+  - joint-trajectory-controller
+  - velodyne-simulator
+  - velodyne-gazebo-plugins
   # -  mavros-msgs
   # -  mavros
   # - libmavconn
   # - mavros-extras
   # - mavlink
-  # - cmake-modules
-  # - bondcpp
-  # - nodelet
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
@@ -82,67 +78,67 @@ packages_select_by_deps:
   - rosbridge_suite
 
   # ## Only limited number of packages to reduce maintainer burden
-  # - catkin
-  # - rviz
-  # - desktop
-  # - desktop_full
-  # - perception
-  # - simulators
-  # - moveit
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - turtlebot3
-  # - turtlebot3-simulations
+  - catkin
+  - rviz
+  - desktop
+  - desktop_full
+  - perception
+  - simulators
+  - moveit
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - turtlebot3
+  - turtlebot3-simulations
 
   # # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - tf2_web_republisher
-  # - libfranka
-  # - franka
-  # - franka-gripper
-  # - franka-hw
-  # - franka-msgs
-  # - franka-description
-  # - franka-control
-  # - franka_example_controllers
-  # - franka_ros
-  # - combined-robot-hw
-  # - panda-moveit-config
-  # - moveit-ros-visualization
-  # - moveit-ros-planning-interface
-  # - niryo_one_simulation
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
-  # - librealsense2
-  # - realsense2_camera
-  # - realsense2-description
-  # - ur-msgs
-  # - rosdoc-lite
-  # - ros_numpy
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##

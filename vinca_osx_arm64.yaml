@@ -41,24 +41,18 @@ packages_select_by_deps:
   - rqt-ez-publisher
   - pcl-ros
   - pcl-conversions
-  # - roslisp
-  # - catkin
-  # - cmake-modules
-  # - bondcpp
-  # - nodelet
+  - roslisp
   # - qt-gui-cpp  # needs manual build
-  # - catkin
-  # - robot
   # - rviz  # needs manual build
-  # - desktop
-  # - perception
-  # - moveit
+  - desktop
+  - perception
+  - moveit
   # - eigenpy  # needs manual build
-  # - turtlebot3
-  # - turtlebot3-simulations
-  # - desktop-full
-  # - realsense2_camera
-  # - realsense2_description
+  - turtlebot3
+  - turtlebot3-simulations
+  - desktop-full
+  - realsense2_camera
+  - realsense2_description
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
@@ -82,34 +76,34 @@ packages_select_by_deps:
   - rosbridge_suite
 
   # # For jackal
-  # - gazebo-dev
-  # - hector-gazebo-plugins
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - gmapping
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - slam-toolbox
-  # - turtlebot3-teleop
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
 
 patch_dir: patch
