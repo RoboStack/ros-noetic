@@ -378,6 +378,10 @@ libqt5-opengl:
   conda: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl-dev:
   conda: [qt-main, REQUIRE_OPENGL]
+libqt5-svg-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-websockets-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
 libqt5-widgets:
   conda: [qt-main, REQUIRE_OPENGL]
 libqt5x11extras5-dev:
