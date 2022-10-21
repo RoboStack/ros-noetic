@@ -42,7 +42,7 @@ index 0000000..9353bab
 +define-macros = [@SIP_EXTRA_DEFINES@]
 +exceptions = true
 diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
-index a055cf5..10729b4 100644
+index a055cf5..a27a6cd 100644
 --- a/cmake/sip_helper.cmake
 +++ b/cmake/sip_helper.cmake
 @@ -18,7 +18,7 @@ execute_process(
@@ -70,7 +70,7 @@ index a055cf5..10729b4 100644
  #
  # Run the SIP generator and compile the generated code into a library.
  #
-@@ -89,32 +98,85 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -89,32 +98,95 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
      # SIP configure doesn't handle CMake targets
      catkin_replace_imported_library_targets(LIBRARIES ${LIBRARIES})
  
@@ -105,6 +105,13 @@ index a055cf5..10729b4 100644
 +        # SIP expects the libraries WITHOUT the file extension.
 +        set(SIP_LIBARIES "")
 +        set(SIP_LIBRARY_DIRS "")
++        foreach(_x ${LIBRARY_DIRS})
++          if("${_x}" EQUAL 0 OR "${_x}" STREQUAL "")
++          else()
++            set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
++          endif()
++        endforeach()
++
 +        foreach(_x ${LIBRARIES} ${PYTHON_LIBRARIES})
 +          get_filename_component(_x_NAME "${_x}" NAME_WLE)
 +          get_filename_component(_x_DIR "${_x}" DIRECTORY)
@@ -115,7 +122,10 @@ index a055cf5..10729b4 100644
 +          if("${out}" EQUAL 0)
 +          else()
 +            set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x_NAME_NOPREFIX}\"")
-+            set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
++            if("${_x_DIR}" EQUAL 0 OR "${_x_DIR}" STREQUAL "")
++            else()
++              set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
++            endif()
 +          endif()
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBARIES ${SIP_LIBARIES})
