@@ -1,13 +1,17 @@
 diff --git a/src/qt_gui_cpp_sip/CMakeLists.txt b/src/qt_gui_cpp_sip/CMakeLists.txt
-index 370457fe..8c629182 100644
+index 370457fe..8126bf2c 100644
 --- a/src/qt_gui_cpp_sip/CMakeLists.txt
 +++ b/src/qt_gui_cpp_sip/CMakeLists.txt
-@@ -28,10 +28,21 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
+@@ -26,12 +26,25 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
+   ${qt_gui_cpp_HDRS_DIR}/settings.h
+ )
  
++find_package(OpenGL REQUIRED)
++
  # maintain context for different named target
  set(qt_gui_cpp_sip_INCLUDE_DIRS ${qt_gui_cpp_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/../../include" ${catkin_INCLUDE_DIRS})
 -set(qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-+set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
++set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OPENGL_LIBRARIES})
  set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
  set(qt_gui_cpp_sip_LDFLAGS_OTHER ${qt_gui_cpp_LDFLAGS_OTHER})
  
@@ -25,7 +29,7 @@ index 370457fe..8c629182 100644
  find_package(python_qt_binding REQUIRED)
  include(${python_qt_binding_EXTRAS_DIR}/sip_helper.cmake)
  
-@@ -47,11 +58,19 @@ if(sip_helper_FOUND)
+@@ -47,11 +60,19 @@ if(sip_helper_FOUND)
    )
  
    if(APPLE)
