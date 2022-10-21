@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d623dd4e7..cd195e488 100644
+index d623dd4e..e4490137 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,11 @@
@@ -14,12 +14,7 @@ index d623dd4e7..cd195e488 100644
  if (POLICY CMP0042)
    cmake_policy(SET CMP0042 NEW)
  endif()
-
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d623dd4e..0d1c07bb 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -98,10 +98,10 @@ if(APPLE)
+@@ -98,10 +103,10 @@ if(APPLE)
  endif()
  
  # Prefer newer vender-specific OpenGL library
@@ -34,7 +29,7 @@ index d623dd4e..0d1c07bb 100644
  
  set(CMAKE_AUTOMOC ON)
  
-@@ -214,7 +214,7 @@ catkin_package(
+@@ -214,7 +219,7 @@ catkin_package(
  
  #catkin_lint: ignore_once external_directory
  include_directories(src ${EXPORT_HEADER_DIR})
@@ -61,10 +56,10 @@ index 4b3c5b82..e714db0f 100644
  {
    type truetype
 diff --git a/src/python_bindings/sip/CMakeLists.txt b/src/python_bindings/sip/CMakeLists.txt
-index efbb497b..7a2a60e6 100644
+index efbb497b..d7425993 100644
 --- a/src/python_bindings/sip/CMakeLists.txt
 +++ b/src/python_bindings/sip/CMakeLists.txt
-@@ -69,7 +69,12 @@ if(sip_helper_FOUND)
+@@ -69,11 +69,20 @@ if(sip_helper_FOUND)
    if(DEFINED PYTHON_EXTENSION_MODULE_SUFFIX)
      set(rviz_sip_LIBRARY_FILE librviz_sip${PYTHON_EXTENSION_MODULE_SUFFIX})
    elseif(APPLE)
@@ -78,6 +73,15 @@ index efbb497b..7a2a60e6 100644
    elseif(WIN32)
      set(rviz_sip_LIBRARY_FILE librviz_sip.pyd)
    else()
+-    set(rviz_sip_LIBRARY_FILE librviz_sip${CMAKE_SHARED_LIBRARY_SUFFIX})
++    if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
++      set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
++    else()
++      set(rviz_sip_LIBRARY_FILE librviz_sip${CMAKE_SHARED_LIBRARY_SUFFIX})
++    endif()
+   endif()
+   #catkin_lint: ignore_once external_file
+   install(FILES ${CATKIN_DEVEL_PREFIX}/${PYTHON_INSTALL_DIR}/rviz/${rviz_sip_LIBRARY_FILE}
 diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
 index 4005f982..c0441de8 100644
 --- a/src/rviz/ogre_helpers/render_system.cpp

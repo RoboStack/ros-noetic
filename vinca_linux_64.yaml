@@ -39,8 +39,8 @@ packages_select_by_deps:
   - apriltag
   - apriltag-ros
   - find-object-2d
-  - rtabmap
-  - rtabmap-ros
+  # - rtabmap
+  # - rtabmap-ros
   - convex-decomposition
   - pcl-ros
   - pcl-conversions
