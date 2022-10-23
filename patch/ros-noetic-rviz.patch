@@ -56,20 +56,23 @@ index 4b3c5b82..e714db0f 100644
  {
    type truetype
 diff --git a/src/python_bindings/sip/CMakeLists.txt b/src/python_bindings/sip/CMakeLists.txt
-index efbb497b..0f99d949 100644
+index efbb497b..f68732cf 100644
 --- a/src/python_bindings/sip/CMakeLists.txt
 +++ b/src/python_bindings/sip/CMakeLists.txt
-@@ -48,6 +48,9 @@ set(rviz_sip_INCLUDE_DIRS
+@@ -48,7 +48,11 @@ set(rviz_sip_INCLUDE_DIRS
    ${OGRE_INCLUDE_DIRS}
    ${catkin_INCLUDE_DIRS}
  )
+-set(rviz_sip_LIBRARIES ${rviz_LIBRARIES} ${PROJECT_NAME})
 +
 +find_package(OpenGL REQUIRED)
 +find_package(Threads REQUIRED)
- set(rviz_sip_LIBRARIES ${rviz_LIBRARIES} ${PROJECT_NAME})
++message(WARNING "TEST: ${OPENGL_gl_LIBRARY}")
++set(rviz_sip_LIBRARIES ${rviz_LIBRARIES} ${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
  set(rviz_sip_LIBRARY_DIRS ${rviz_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_LIB_DESTINATION})
  if (MSVC)
-@@ -56,6 +59,10 @@ else()
+   set(rviz_sip_LDFLAGS_OTHER ${rviz_LDFLAGS_OTHER} /LIBPATH:\"${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_LIB_DESTINATION}\")
+@@ -56,6 +60,10 @@ else()
    set(rviz_sip_LDFLAGS_OTHER ${rviz_LDFLAGS_OTHER} -Wl,-rpath,\\"${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_LIB_DESTINATION}\\")
  endif()
  
@@ -80,7 +83,7 @@ index efbb497b..0f99d949 100644
  if(sip_helper_FOUND)
    list(APPEND rviz_BINDINGS "sip")
    set(rviz_BINDINGS "${rviz_BINDINGS}" PARENT_SCOPE)
-@@ -69,11 +76,21 @@ if(sip_helper_FOUND)
+@@ -69,11 +77,21 @@ if(sip_helper_FOUND)
    if(DEFINED PYTHON_EXTENSION_MODULE_SUFFIX)
      set(rviz_sip_LIBRARY_FILE librviz_sip${PYTHON_EXTENSION_MODULE_SUFFIX})
    elseif(APPLE)
