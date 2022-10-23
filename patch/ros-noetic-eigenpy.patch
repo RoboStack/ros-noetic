@@ -1,7 +1,34 @@
 diff --git a/cmake/python.cmake b/cmake/python.cmake
-index aa5c452..4b976a1 100644
+index aa5c452..63b5dc2 100644
 --- a/cmake/python.cmake
 +++ b/cmake/python.cmake
+@@ -167,7 +167,7 @@ macro(FINDPYTHON)
+       set(Python${_PYTHON_VERSION_MAJOR}_EXECUTABLE ${PYTHON_EXECUTABLE})
+       set(Python${_PYTHON_VERSION_MAJOR}_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+ 
+-      find_package("Python${_PYTHON_VERSION_MAJOR}" REQUIRED
++      find_package(Python REQUIRED
+                    COMPONENTS ${PYTHON_COMPONENTS})
+     else()
+       # No hint was provided. We can then check for first Python 2, then Python
+@@ -185,7 +185,7 @@ macro(FINDPYTHON)
+       endif(NOT Python2_FOUND)
+     endif(PYTHON_EXECUTABLE)
+ 
+-    set(_PYTHON_PREFIX "Python${_PYTHON_VERSION_MAJOR}")
++    set(_PYTHON_PREFIX "Python")
+ 
+     if(${_PYTHON_PREFIX}_FOUND)
+       set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
+@@ -206,7 +206,7 @@ macro(FINDPYTHON)
+ 
+     if(SEARCH_FOR_NUMPY)
+       set(NUMPY_INCLUDE_DIRS
+-          "${Python${_PYTHON_VERSION_MAJOR}_NumPy_INCLUDE_DIRS}")
++          "${Python_NumPy_INCLUDE_DIRS}")
+       string(REPLACE "\\" "/" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
+       file(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
+     endif()
 @@ -620,30 +620,9 @@ endmacro()
  macro(FIND_NUMPY)
    # Detect numpy.
