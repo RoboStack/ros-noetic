@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fda47db..b531c20 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -66,7 +66,7 @@ compute_project_args(PROJECT_ARGS LANGUAGES CXX)
+ project(${PROJECT_NAME} ${PROJECT_ARGS})
+ 
+ include("${JRL_CMAKE_MODULES}/boost.cmake")
+-include("${JRL_CMAKE_MODULES}/python.cmake")
++# include("${JRL_CMAKE_MODULES}/python.cmake")
+ include("${JRL_CMAKE_MODULES}/ide.cmake")
+ include("${JRL_CMAKE_MODULES}/apple.cmake")
+ 
+diff --git a/cmake/_unittests/python/CMakeLists.txt b/cmake/_unittests/python/CMakeLists.txt
+index 1d04e1d..dcbc3eb 100644
+--- a/cmake/_unittests/python/CMakeLists.txt
++++ b/cmake/_unittests/python/CMakeLists.txt
+@@ -9,7 +9,7 @@ set(PROJECT_URL http://jrl-cmakemodules.readthedocs.io)
+ include(../macros.cmake)
+ 
+ include(../../base.cmake)
+-include(../../python.cmake)
++# include(../../python.cmake)
+ 
+ compute_project_args(PROJECT_ARGS)
+ project(${PROJECT_NAME} ${PROJECT_ARGS})
