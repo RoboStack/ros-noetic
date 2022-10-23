@@ -1,3 +1,6 @@
+ompl:
+  add_host: ["ompl"]
+  add_run: ["ompl"]
 moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
 pcl_conversions:
@@ -7,7 +10,7 @@ pcl_ros:
 grid_map_demos:
   add_host: ["REQUIRE_OPENGL"]
 moveit_setup_assistant:
-  add_host: ["pkg-config"]
+  add_host: ["pkg-config", "ompl"]
 gazebo_dev:
   add_host: [tbb, tbb-devel, "pkg-config"]
 gazebo_ros:
