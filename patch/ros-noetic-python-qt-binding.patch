@@ -70,7 +70,7 @@ index a055cf5..a27a6cd 100644
  #
  # Run the SIP generator and compile the generated code into a library.
  #
-@@ -89,32 +98,95 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -89,32 +98,89 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
      # SIP configure doesn't handle CMake targets
      catkin_replace_imported_library_targets(LIBRARIES ${LIBRARIES})
  
@@ -106,10 +106,7 @@ index a055cf5..a27a6cd 100644
 +        set(SIP_LIBARIES "")
 +        set(SIP_LIBRARY_DIRS "")
 +        foreach(_x ${LIBRARY_DIRS})
-+          if("${_x}" EQUAL 0 OR "${_x}" STREQUAL "")
-+          else()
-+            set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
-+          endif()
++          set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
 +        endforeach()
 +
 +        foreach(_x ${LIBRARIES} ${PYTHON_LIBRARIES})
@@ -122,10 +119,7 @@ index a055cf5..a27a6cd 100644
 +          if("${out}" EQUAL 0)
 +          else()
 +            set(SIP_LIBARIES "${SIP_LIBARIES},\"${_x_NAME_NOPREFIX}\"")
-+            if("${_x_DIR}" EQUAL 0 OR "${_x_DIR}" STREQUAL "")
-+            else()
-+              set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
-+            endif()
++            set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x_DIR}\"")
 +          endif()
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBARIES ${SIP_LIBARIES})
