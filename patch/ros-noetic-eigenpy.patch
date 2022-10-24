@@ -1,35 +1,223 @@
 diff --git a/cmake/python.cmake b/cmake/python.cmake
-index aa5c452..63b5dc2 100644
+index aa5c452..dc03e24 100644
 --- a/cmake/python.cmake
 +++ b/cmake/python.cmake
-@@ -167,7 +167,7 @@ macro(FINDPYTHON)
-       set(Python${_PYTHON_VERSION_MAJOR}_EXECUTABLE ${PYTHON_EXECUTABLE})
-       set(Python${_PYTHON_VERSION_MAJOR}_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+@@ -72,193 +72,29 @@ macro(FINDPYTHON)
+   endif()
+   set(FINDPYTHON_ALREADY_CALLED TRUE)
  
+-  if(NOT PYTHON_COMPONENTS)
+-    set(PYTHON_COMPONENTS Interpreter Development)
+-  endif()
+-
+-  list(FIND PYTHON_COMPONENTS "NumPy" _npindex)
+-  if(NOT ${_npindex} EQUAL -1)
+-    set(SEARCH_FOR_NUMPY TRUE)
+-  endif()
+-
+-  if(CMAKE_VERSION VERSION_LESS "3.18")
+-    # IF("Development.Module" IN_LIST PYTHON_COMPONENTS) -- require CMake 3.3
+-    list(FIND PYTHON_COMPONENTS "Development.Module" _index)
+-    if(NOT ${_index} EQUAL -1)
+-      message(
+-        STATUS
+-          "For CMake < 3.18, Development.Module is not available. Falling back to Development"
+-      )
+-      list(REMOVE_ITEM PYTHON_COMPONENTS Development.Module)
+-      set(PYTHON_COMPONENTS ${PYTHON_COMPONENTS} Development)
+-    endif()
+-    if(CMAKE_VERSION VERSION_LESS "3.14")
+-      if(SEARCH_FOR_NUMPY)
+-        message(
+-          STATUS
+-            "For CMake < 3.14, NumPy is not available. Falling back to custom FIND_NUMPY()"
+-        )
+-        list(REMOVE_ITEM PYTHON_COMPONENTS NumPy)
+-      endif()
+-    endif()
++  find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
++
++  set(_PYTHON_PREFIX "Python")
++
++  if(${_PYTHON_PREFIX}_FOUND)
++    set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
++    set(PYTHON_LIBRARY ${${_PYTHON_PREFIX}_LIBRARIES})
++    set(PYTHON_LIBRARIES ${${_PYTHON_PREFIX}_LIBRARIES})
++    set(PYTHON_INCLUDE_DIR ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
++    set(PYTHON_INCLUDE_DIRS ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
++    set(PYTHON_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
++    set(PYTHONLIBS_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
++    set(PYTHON_FOUND ${${_PYTHON_PREFIX}_FOUND})
++    set(PYTHONLIBS_FOUND ${${_PYTHON_PREFIX}_FOUND})
++    set(PYTHON_VERSION_MAJOR ${${_PYTHON_PREFIX}_VERSION_MAJOR})
++    set(PYTHON_VERSION_MINOR ${${_PYTHON_PREFIX}_VERSION_MINOR})
++    set(PYTHON_VERSION_PATCH ${${_PYTHON_PREFIX}_VERSION_PATCH})
++  else()
++    message(FATAL_ERROR "Python executable has not been found.")
+   endif()
+ 
+-  if(NOT CMAKE_VERSION VERSION_LESS "3.12")
+-
+-    if(DEFINED PYTHON_EXECUTABLE
+-       OR DEFINED Python_EXECUTABLE
+-       OR DEFINED Python2_EXECUTABLE
+-       OR DEFINED Python3_EXECUTABLE)
+-
+-      if(NOT DEFINED PYTHON_EXECUTABLE)
+-        if(DEFINED Python_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
+-        elseif(DEFINED Python2_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python2_EXECUTABLE})
+-        elseif(DEFINED Python3_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
+-        endif()
+-      endif()
+-
+-      if(NOT DEFINED Python_EXCUTABLE)
+-        set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      endif()
+-    else()
+-      # Search for the default python of the system, if exists
+-      find_program(PYTHON_EXECUTABLE python)
+-    endif()
+-
+-    if(PYTHON_EXECUTABLE)
+-      if(NOT EXISTS ${PYTHON_EXECUTABLE})
+-        message(
+-          FATAL_ERROR
+-            "${PYTHON_EXECUTABLE} is not a valid path to the Python executable")
+-      endif()
+-      execute_process(
+-        COMMAND ${PYTHON_EXECUTABLE} --version
+-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+-        RESULT_VARIABLE _PYTHON_VERSION_RESULT_VARIABLE
+-        OUTPUT_VARIABLE _PYTHON_VERSION_OUTPUT
+-        ERROR_VARIABLE _PYTHON_VERSION_OUTPUT
+-        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_STRIP_TRAILING_WHITESPACE)
+-
+-      # Provide some hints according to the current PYTHON_EXECUTABLE
+-      if(NOT DEFINED PYTHON_INCLUDE_DIR)
+-        execute_process(
+-          COMMAND
+-            "${PYTHON_EXECUTABLE}" "-c"
+-            "import distutils.sysconfig as sysconfig; print(sysconfig.get_python_inc())"
+-          OUTPUT_VARIABLE PYTHON_INCLUDE_DIR
+-          ERROR_QUIET)
+-        string(STRIP "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-        file(TO_CMAKE_PATH "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-      endif()
+-
+-      if(NOT "${_PYTHON_VERSION_RESULT_VARIABLE}" STREQUAL "0")
+-        message(FATAL_ERROR "${PYTHON_EXECUTABLE} --version did not succeed.")
+-      endif(NOT "${_PYTHON_VERSION_RESULT_VARIABLE}" STREQUAL "0")
+-      string(REGEX REPLACE "Python " "" _PYTHON_VERSION
+-                           ${_PYTHON_VERSION_OUTPUT})
+-      string(REGEX REPLACE "\\." ";" _PYTHON_VERSION ${_PYTHON_VERSION})
+-      list(GET _PYTHON_VERSION 0 _PYTHON_VERSION_MAJOR)
+-
+-      # Hint for finding the right Python version
+-      set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      set(Python${_PYTHON_VERSION_MAJOR}_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      set(Python${_PYTHON_VERSION_MAJOR}_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+-
 -      find_package("Python${_PYTHON_VERSION_MAJOR}" REQUIRED
-+      find_package(Python REQUIRED
-                    COMPONENTS ${PYTHON_COMPONENTS})
-     else()
-       # No hint was provided. We can then check for first Python 2, then Python
-@@ -185,7 +185,7 @@ macro(FINDPYTHON)
-       endif(NOT Python2_FOUND)
-     endif(PYTHON_EXECUTABLE)
- 
+-                   COMPONENTS ${PYTHON_COMPONENTS})
+-    else()
+-      # No hint was provided. We can then check for first Python 2, then Python
+-      # 3
+-      find_package(Python2 QUIET COMPONENTS ${PYTHON_COMPONENTS})
+-      if(NOT Python2_FOUND)
+-        find_package(Python3 QUIET COMPONENTS ${PYTHON_COMPONENTS})
+-        if(NOT Python3_FOUND)
+-          message(FATAL_ERROR "Python executable has not been found.")
+-        else()
+-          set(_PYTHON_VERSION_MAJOR 3)
+-        endif(NOT Python3_FOUND)
+-      else()
+-        set(_PYTHON_VERSION_MAJOR 2)
+-      endif(NOT Python2_FOUND)
+-    endif(PYTHON_EXECUTABLE)
+-
 -    set(_PYTHON_PREFIX "Python${_PYTHON_VERSION_MAJOR}")
-+    set(_PYTHON_PREFIX "Python")
- 
-     if(${_PYTHON_PREFIX}_FOUND)
-       set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
-@@ -206,7 +206,7 @@ macro(FINDPYTHON)
- 
-     if(SEARCH_FOR_NUMPY)
-       set(NUMPY_INCLUDE_DIRS
+-
+-    if(${_PYTHON_PREFIX}_FOUND)
+-      set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
+-      set(PYTHON_LIBRARY ${${_PYTHON_PREFIX}_LIBRARIES})
+-      set(PYTHON_LIBRARIES ${${_PYTHON_PREFIX}_LIBRARIES})
+-      set(PYTHON_INCLUDE_DIR ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
+-      set(PYTHON_INCLUDE_DIRS ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
+-      set(PYTHON_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
+-      set(PYTHONLIBS_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
+-      set(PYTHON_FOUND ${${_PYTHON_PREFIX}_FOUND})
+-      set(PYTHONLIBS_FOUND ${${_PYTHON_PREFIX}_FOUND})
+-      set(PYTHON_VERSION_MAJOR ${${_PYTHON_PREFIX}_VERSION_MAJOR})
+-      set(PYTHON_VERSION_MINOR ${${_PYTHON_PREFIX}_VERSION_MINOR})
+-      set(PYTHON_VERSION_PATCH ${${_PYTHON_PREFIX}_VERSION_PATCH})
+-    else()
+-      message(FATAL_ERROR "Python executable has not been found.")
+-    endif()
+-
+-    if(SEARCH_FOR_NUMPY)
+-      set(NUMPY_INCLUDE_DIRS
 -          "${Python${_PYTHON_VERSION_MAJOR}_NumPy_INCLUDE_DIRS}")
-+          "${Python_NumPy_INCLUDE_DIRS}")
-       string(REPLACE "\\" "/" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
-       file(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
-     endif()
-@@ -620,30 +620,9 @@ endmacro()
+-      string(REPLACE "\\" "/" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
+-      file(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
+-    endif()
+-
+-  else(NOT CMAKE_VERSION VERSION_LESS "3.12")
+-
+-    find_package(PythonInterp ${ARGN})
+-    if(NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
+-      message(FATAL_ERROR "Python executable has not been found.")
+-    endif(NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
+-    message(STATUS "PythonInterp: ${PYTHON_EXECUTABLE}")
+-
+-    # Set PYTHON_INCLUDE_DIR variables if it is not defined by the user
+-    if(DEFINED PYTHON_EXECUTABLE)
+-      # Retrieve the corresponding value of PYTHON_INCLUDE_DIR if it is not
+-      # defined
+-      if(NOT DEFINED PYTHON_INCLUDE_DIR)
+-        execute_process(
+-          COMMAND
+-            "${PYTHON_EXECUTABLE}" "-c"
+-            "import distutils.sysconfig as sysconfig; print(sysconfig.get_python_inc())"
+-          OUTPUT_VARIABLE PYTHON_INCLUDE_DIR
+-          ERROR_QUIET)
+-        string(STRIP "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-      endif(NOT DEFINED PYTHON_INCLUDE_DIR)
+-      set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
+-
+-    endif(DEFINED PYTHON_EXECUTABLE)
+-
+-    # Inform PythonLibs of the required version of PythonInterp
+-    set(PYTHONLIBS_VERSION_STRING ${PYTHON_VERSION_STRING})
+-
+-    find_package(PythonLibs ${ARGN})
+-    message(STATUS "PythonLibraries: ${PYTHON_LIBRARIES}")
+-    if(NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+-      message(FATAL_ERROR "Python has not been found.")
+-    endif(NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+-
+-    string(REPLACE "." ";" _PYTHONLIBS_VERSION ${PYTHONLIBS_VERSION_STRING})
+-    list(GET _PYTHONLIBS_VERSION 0 PYTHONLIBS_VERSION_MAJOR)
+-    list(GET _PYTHONLIBS_VERSION 1 PYTHONLIBS_VERSION_MINOR)
+-
+-    if(NOT ${PYTHON_VERSION_MAJOR} EQUAL ${PYTHONLIBS_VERSION_MAJOR}
+-       OR NOT ${PYTHON_VERSION_MINOR} EQUAL ${PYTHONLIBS_VERSION_MINOR})
+-      message(
+-        FATAL_ERROR
+-          "Python interpreter and libraries are in different version: ${PYTHON_VERSION_STRING} vs ${PYTHONLIBS_VERSION_STRING}"
+-      )
+-    endif(NOT ${PYTHON_VERSION_MAJOR} EQUAL ${PYTHONLIBS_VERSION_MAJOR}
+-          OR NOT ${PYTHON_VERSION_MINOR} EQUAL ${PYTHONLIBS_VERSION_MINOR})
+-
+-  endif(NOT CMAKE_VERSION VERSION_LESS "3.12")
++  set(NUMPY_INCLUDE_DIRS
++      "${Python_NumPy_INCLUDE_DIRS}")
+ 
+   # Find PYTHON_LIBRARY_DIRS
+   get_filename_component(PYTHON_LIBRARY_DIRS "${PYTHON_LIBRARIES}" PATH)
+@@ -620,30 +456,9 @@ endmacro()
  macro(FIND_NUMPY)
    # Detect numpy.
    message(STATUS "Checking for NumPy")
