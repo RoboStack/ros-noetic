@@ -129,7 +129,7 @@ packages_select_by_deps:
   # - franka-gripper
   # - franka-hw
   # - franka-msgs
-  # - franka-description
+  - franka-description
   # - franka-control
   # - franka_example_controllers
   # - franka_ros
