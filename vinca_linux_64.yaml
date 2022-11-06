@@ -912,7 +912,7 @@ packages_select_by_deps:
   # - ros-type-introspection
   # - rqt
   # - rqt-controller-manager
-  # - rqt-ez-publisher
+  - rqt-ez-publisher
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
   # - safety-limiter-msgs
