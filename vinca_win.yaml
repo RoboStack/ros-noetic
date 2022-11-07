@@ -365,7 +365,7 @@ packages_select_by_deps:
   # - rostwitter
   # - rqt
   # - rqt-controller-manager
-  - rqt-ez-publisher
+  # - rqt-ez-publisher
   # - rqt-ground-robot-teleop
   # - rx-service-tools
   # - safety-limiter-msgs
