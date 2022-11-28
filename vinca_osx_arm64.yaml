@@ -105,5 +105,6 @@ packages_select_by_deps:
   - teb-local-planner
   - slam-toolbox
   - turtlebot3-teleop
+  - move-base
 
 patch_dir: patch
