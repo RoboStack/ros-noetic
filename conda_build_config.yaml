@@ -1,22 +1,11 @@
-
 assimp:
-  - 5.2.4
+  - 5.2.5
 hdf5:
   - 1.12.2
-icu:
-  - 70
-ipopt:
-  - 3.14.10
 gazebo:
   - '11'
-libprotobuf:
-  - '3.21'
 libpqxx:
   - 6
-pango:
-  - 1.50
-proj:
-  - 9.1.0
 numpy:
   - 1.20
 pcl:
@@ -27,8 +16,6 @@ qt:
   - 5.15
 qt-main:
   - 5.15
-urdfdom:
-  - '3.1'
   
 cdt_name:  # [linux]
   - cos7   # [linux]
