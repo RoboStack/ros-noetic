@@ -14,7 +14,7 @@ dependencies:
 - empy
 - networkx
 - requests
-- boa=0.9
+- boa
 - pip
 - pip:
   - git+https://github.com/RoboStack/vinca.git@master

@@ -6,8 +6,7 @@ build:
   number: 3
   string: noetic
   run_exports:
-    # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.4 noetic
+    - "{{ pin_subpackage('ros-distro-mutex', max_pin='x.x') }}"
 
 requirements:
   # NOTE:

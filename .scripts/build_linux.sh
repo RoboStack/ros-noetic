@@ -34,7 +34,7 @@ conda config --remove channels defaults
 # conda config --set channel_priority strict
 
 mamba update conda --yes --quiet -c conda-forge
-mamba install --yes --quiet pip conda-build=3.21.8 anaconda-client mamba boa=0.9
+mamba install --yes --quiet pip conda-build anaconda-client mamba boa
 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 # export PATH="$HOME/miniconda/bin:$PATH"
