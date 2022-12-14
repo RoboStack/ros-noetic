@@ -81,7 +81,7 @@ index a055cf5..a27a6cd 100644
 -        WORKING_DIRECTORY ${sip_SOURCE_DIR}
 -        COMMENT "Running SIP generator for ${PROJECT_NAME} Python bindings..."
 -    )
-+    if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
++    if(TRUE)
 +        # Since v5, SIP implements the backend per PEP 517, PEP 518
 +        # Here we synthesize `pyproject.toml` and run `pip install`
 +

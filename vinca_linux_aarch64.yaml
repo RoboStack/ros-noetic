@@ -27,48 +27,47 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
 
 packages_select_by_deps:
-  - eigenpy
-  # - rqt-gui
-  # - catkin
-  # - kdl-parser-py
-  # - imu-tools
-  # - rqt-controller-manager
-  # - dynamixel-sdk
-  # - hector-map-tools
-  # - hector-nav-msgs
-  # - hector-trajectory-server
-  # - radar-msgs
-  # - geometry2
-  # - tf2
-  # - tf2_bullet
-  # - tf2_eigen
-  # - tf2_geometry_msgs
-  # - tf2_kdl
-  # - tf2_msgs
-  # - tf2_py
-  # - tf2_ros
-  # - tf2_sensor_msgs
-  # - tf2_tools
-  # - ros_control
-  # - ros_controllers
-  # - cv-camera
-  # - four-wheel-steering-msgs
-  # - urdf-geometry-parser
-  # - gps-common
-  # - rosbridge_suite
-  # - pcl-ros
-  # - pcl-conversions
-  # # ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - moveit
-  # - robot_localization
-  # - perception
-  # - simulators
-  # - desktop_full
+  - rqt-gui
+  - catkin
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - ros_control
+  - ros_controllers
+  - cv-camera
+  - four-wheel-steering-msgs
+  - urdf-geometry-parser
+  - gps-common
+  - rosbridge_suite
+  - pcl-ros
+  - pcl-conversions
+  # ## Only limited number of packages to reduce maintainer burden
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - robot_localization
+  - perception
+  - simulators
+  - desktop_full
 
   # # # # For jackal
   # - hector-gazebo-plugins
