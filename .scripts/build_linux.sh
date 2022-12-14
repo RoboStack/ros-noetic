@@ -26,6 +26,7 @@ export "CONDA_BLD_PATH=/opt/conda/build_artifacts"
 
 mkdir -p $CONDA_BLD_PATH
 conda index $CONDA_BLD_PATH
+
 conda config --set remote_max_retries 5
 conda config --add channels conda-forge
 conda config --add channels robostack
