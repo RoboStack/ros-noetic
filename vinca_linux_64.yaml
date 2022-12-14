@@ -16,6 +16,7 @@ skip_all_deps: false
 full_rebuild: true
 
 packages_skip_by_deps:
+  - eigenpy
   # - ros_core
   # - diagnostic_updater
 

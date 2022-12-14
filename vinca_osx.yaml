@@ -18,6 +18,7 @@ full_rebuild: true
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
+  - eigenpy
 
 packages_remove_from_deps:
   - stage-ros
