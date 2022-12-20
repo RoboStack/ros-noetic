@@ -90,6 +90,8 @@ packages_select_by_deps:
   - swri-console
   - panda_moveit_config
   - handeye
+  - criutils
+  - baldor
 
   # - desktop
   # - amcl
