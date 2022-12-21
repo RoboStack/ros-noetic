@@ -701,7 +701,7 @@ packages_select_by_deps:
   # - rqt
   # - rqt-controller-manager
   # - rqt-drone-teleop
-  # - rqt-ez-publisher
+  - rqt-ez-publisher
   # - rqt-ground-robot-teleop
   # - rqt-joint-trajectory-controller
   # - rx-service-tools

@@ -90,7 +90,10 @@ packages_select_by_deps:
   - swri-console
   - pcl-ros
   - pcl-conversions
-
+  - panda_moveit_config
+  - handeye
+  - criutils
+  - baldor
 
   # - desktop
   # - amcl
@@ -131,7 +134,7 @@ packages_select_by_deps:
   # - franka-gripper
   # - franka-hw
   # - franka-msgs
-  # - franka-description
+  - franka-description
   # - franka-control
   # - franka_example_controllers
   # - franka_ros
@@ -740,7 +743,6 @@ packages_select_by_deps:
   # - grasping-msgs
   # - grid-map-costmap-2d
   # - grid-map-sdf
-  # - handeye
   # - hector-gazebo-thermal-camera
   # - hector-gazebo-worlds
   # - hector-imu-attitude-to-tf
@@ -914,7 +916,7 @@ packages_select_by_deps:
   # - ros-type-introspection
   # - rqt
   # - rqt-controller-manager
-  # - rqt-ez-publisher
+  - rqt-ez-publisher
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
   # - safety-limiter-msgs
