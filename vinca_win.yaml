@@ -71,6 +71,7 @@ packages_select_by_deps:
   - tf2_sensor_msgs
   - tf2_tools
   - gps-common
+  - rosmon
 
   # # For jackal
   # - gazebo-dev

@@ -77,6 +77,7 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
+  - rosmon
 
   # # For jackal
   # - gazebo-dev
