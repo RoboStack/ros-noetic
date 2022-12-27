@@ -93,6 +93,8 @@ packages_select_by_deps:
   - criutils
   - baldor
   - rosmon
+  - catch-ros
+  - rosfmt
 
   # - desktop
   # - amcl
