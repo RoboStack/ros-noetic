@@ -93,6 +93,7 @@ packages_select_by_deps:
   - criutils
   - baldor
   - rosmon
+  - rosmon-msgs
   - catch-ros
   - rosfmt
 
