@@ -96,6 +96,7 @@ packages_select_by_deps:
   - rosmon-msgs
   - catch-ros
   - rosfmt
+  - rqt-rosmon
 
   # - desktop
   # - amcl
