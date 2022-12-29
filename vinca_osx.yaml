@@ -78,7 +78,7 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
-  - rosmon
+
 
   # ## Only limited number of packages to reduce maintainer burden
   # - catkin
