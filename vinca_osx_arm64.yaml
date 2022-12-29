@@ -78,6 +78,7 @@ packages_select_by_deps:
   - gps-common
   - rosbridge_suite
 
+
   # # For jackal
   # - gazebo-dev
   # - hector-gazebo-plugins

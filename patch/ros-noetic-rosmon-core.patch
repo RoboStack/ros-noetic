@@ -1,0 +1,24 @@
+diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
+index 7dec1cc..da51913 100644
+--- a/src/monitor/shim.cpp
++++ b/src/monitor/shim.cpp
+@@ -15,6 +15,19 @@
+ #include <sys/resource.h>
+ #include <sys/prctl.h>
+ 
++// **NOTE: Adapted from https://reviews.llvm.org/D39717 **
++// Sufficiently old kernel headers don't provide this value, but we can still
++// call prctl with it. If the runtime kernel is new enough, the prctl call will
++// have the desired effect; if the kernel is too old, the call will error and we
++// can ignore said error.
++#ifndef PR_SET_PTRACER
++#define PR_SET_PTRACER 0x59616d61
++#endif
++
++#ifndef PR_SET_PTRACER_ANY
++#define PR_SET_PTRACER_ANY ((unsigned long)-1)
++#endif
++
+ static const struct option OPTIONS[] = {
+ 	{"help", no_argument, nullptr, 'h'},
+ 	{"namespace", required_argument, nullptr, 'n'},

@@ -92,6 +92,11 @@ packages_select_by_deps:
   - handeye
   - criutils
   - baldor
+  - rosmon
+  - rosmon-msgs
+  - catch-ros
+  - rosfmt
+  - rqt-rosmon
 
   # - desktop
   # - amcl
