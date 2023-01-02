@@ -188,3 +188,81 @@ index 5e25fbf8..e8d70451 100644
  except ImportError:
      pass
  
+diff --git a/cmake/catkin_libraries.cmake b/cmake/catkin_libraries.cmake
+index b19f4c8aa..de8fd2d1f 100644
+--- a/cmake/catkin_libraries.cmake
++++ b/cmake/catkin_libraries.cmake
+@@ -114,6 +114,40 @@ function(catkin_unpack_libraries_with_build_configuration VAR)
+   set(${VAR} "${result}" PARENT_SCOPE)
+ endfunction()
+ 
++#
++# Find libraries by imported location or soname with location dir as hint
++#
++# :param VAR: the output variable name
++# :type VAR: string
++# :param LIB: the imported target to find the library for
++# :type LIB: string
++# :type ARGN: selected config to query in the target's properties
++# :type ARGN: string
++#
++# @public
++#
++function(catkin_find_library_imported_location_library VAR LIB)
++  set(lib ${LIB})
++  if(ARGN)
++    set(cfg _${ARGN})
++  endif()
++  set(imported_location_libnames)
++  get_target_property(imported_soname ${lib} IMPORTED_SONAME${cfg})
++  if(imported_soname)
++    list(APPEND imported_location_libnames ${imported_soname})
++  endif()
++  get_target_property(imported_location ${lib} IMPORTED_LOCATION${cfg})
++  if(imported_location)
++    get_filename_component(imported_location_name ${imported_location} NAME)
++    get_filename_component(imported_location_dir ${imported_location} DIRECTORY)
++    list(APPEND imported_location_libnames ${imported_location_name})
++  endif()
++  if(imported_location_libnames)
++    find_library(imported_location_library NAMES ${imported_location_libnames} HINTS ${imported_location_dir})
++  endif()
++  set(${VAR} "${imported_location_library}" PARENT_SCOPE)
++endfunction()
++
+ #
+ # Replace imported library target names with the library name.
+ #
+@@ -142,10 +176,9 @@ function(catkin_replace_imported_library_targets VAR)
+           list(APPEND result ${${lib}_resolved_libs})
+         endif()
+       elseif(${${lib}_imported})
+-        set(imported_libraries)  # empty list
+-        get_target_property(${lib}_imported_location ${lib} IMPORTED_LOCATION)
+-        if(${lib}_imported_location)
+-          list(APPEND imported_libraries ${${lib}_imported_location})
++        catkin_find_library_imported_location_library(${lib}_imported_location_library ${lib})
++        if(${lib}_imported_location_library)
++          list(APPEND imported_libraries ${${lib}_imported_location_library})
+         else()
+           get_target_property(${lib}_imported_configurations ${lib} IMPORTED_CONFIGURATIONS)
+           foreach(cfg ${${lib}_imported_configurations})
+@@ -156,11 +189,14 @@ function(catkin_replace_imported_library_targets VAR)
+               if(NOT ${lib}_imported_location_${cfg})
+                 get_target_property(${lib}_imported_location_${cfg} ${lib} IMPORTED_LOCATION_${cfg})
+               endif()
++              if(${lib}_imported_location_${cfg})
++                list(APPEND imported_libraries ${${lib}_imported_location_${cfg}})
++              endif()
+             else()
+-              get_target_property(${lib}_imported_location_${cfg} ${lib} IMPORTED_LOCATION_${cfg})
+-            endif()
+-            if(${lib}_imported_location_${cfg})
+-              list(APPEND imported_libraries ${${lib}_imported_location_${cfg}})
++              catkin_find_library_imported_location_library(${lib}_imported_location_library_${cfg} ${lib} ${cfg})
++              if(${lib}_imported_location_library_${cfg})
++                list(APPEND imported_libraries ${${lib}_imported_location_library_${cfg}})
++              endif()
+             endif()
+           endforeach()
+         endif()
