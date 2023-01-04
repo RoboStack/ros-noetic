@@ -34,6 +34,7 @@ build_in_own_azure_stage:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11

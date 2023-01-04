@@ -43,8 +43,8 @@ conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
 
 conda config --add channels conda-forge
-conda config --add channels robostack-experimental
 conda config --add channels robostack
+conda config --add channels robostack-staging
 conda config --add channels $CONDA_BLD_PATH
 # conda config --set channel_priority strict
 

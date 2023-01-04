@@ -30,6 +30,7 @@ conda index $CONDA_BLD_PATH
 conda config --set remote_max_retries 5
 conda config --add channels conda-forge
 conda config --add channels robostack
+conda config --add channels robostack-staging
 conda config --add channels $CONDA_BLD_PATH
 conda config --remove channels defaults
 # conda config --set channel_priority strict
