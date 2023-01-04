@@ -79,6 +79,7 @@ packages_select_by_deps:
   - gps-common
   - rosbridge_suite
 
+
   # ## Only limited number of packages to reduce maintainer burden
   - catkin
   - rviz

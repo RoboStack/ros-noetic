@@ -93,6 +93,13 @@ packages_select_by_deps:
   - plotjuggler_ros
   - rosbridge_suite
   - swri-console
+  - panda_moveit_config
+  - handeye
+  - criutils
+  - baldor
+  - rosmon
+  - catch-ros
+  - rosfmt
 
   - desktop
   - amcl
@@ -741,7 +748,6 @@ packages_select_by_deps:
   # - grasping-msgs
   # - grid-map-costmap-2d
   # - grid-map-sdf
-  # - handeye
   # - hector-gazebo-thermal-camera
   # - hector-gazebo-worlds
   # - hector-imu-attitude-to-tf
