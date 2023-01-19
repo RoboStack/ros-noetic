@@ -1,16 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 56fd522..4574e58 100644
+index cc7f3341..eac0a60f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -114,7 +114,6 @@ catkin_package(
-     tf2_ros
+@@ -115,7 +115,6 @@ catkin_package(
    DEPENDS
      ${EIGEN_PACKAGE}
+     GeographicLib
 -    YAML_CPP
  )
  
  ###########
-@@ -127,8 +126,6 @@ include_directories(
+@@ -128,8 +127,6 @@ include_directories(
    ${EIGEN3_INCLUDE_DIRS}
    ${YAML_CPP_INCLUDE_DIRS})
  

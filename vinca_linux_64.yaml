@@ -1,21 +1,22 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.3 noetic
+mutex_package: ros-distro-mutex 0.4 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 14
+build_number: 15
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
+  - eigenpy
   # - ros_core
   # - diagnostic_updater
 
@@ -33,14 +34,18 @@ build_in_own_azure_stage:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
   - apriltag
   - apriltag-ros
   - find-object-2d
-  - rtabmap
-  - rtabmap-ros
+  # - rtabmap
+  # - rtabmap-ros
+  - convex-decomposition
+  - pcl-ros
+  - pcl-conversions
   ## Only limited number of packages to reduce maintainer burden
   - catkin
   - ros-control
@@ -93,75 +98,72 @@ packages_select_by_deps:
   - criutils
   - baldor
   - rosmon
-  - rosmon-msgs
   - catch-ros
   - rosfmt
-  - rqt-rosmon
 
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - simulators
-  # - desktop_full
-  # - moveit-ros-move-group
-  # - moveit-ros-manipulation
-  # - moveit
-  # - robot_localization
-  # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - tf2_web_republisher
-  # - libfranka
-  # - franka
-  # - franka-gripper
-  # - franka-hw
-  # - franka-msgs
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - simulators
+  - desktop_full
+  - moveit-ros-move-group
+  - moveit-ros-manipulation
+  - moveit
+  - robot_localization
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
   - franka-description
-  # - franka-control
-  # - franka_example_controllers
-  # - franka_ros
-  # - combined-robot-hw
-  # - panda-moveit-config
-  # - moveit-ros-visualization
-  # - moveit-ros-planning-interface
-  # - niryo_one_simulation
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
-  # - librealsense2
-  # - realsense2_camera
-  # - realsense2-description
-  # - ur-msgs
-  # - rosdoc-lite
-  # - ros_numpy
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - turtlebot3-teleop
-  # - turtlebot3-simulations
-  # - slam-toolbox
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - turtlebot3-teleop
+  - turtlebot3-simulations
+  - slam-toolbox
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD

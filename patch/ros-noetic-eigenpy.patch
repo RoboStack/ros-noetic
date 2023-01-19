@@ -1,0 +1,2837 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fda47db..06dbbe3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,6 +12,8 @@ set(PROJECT_USE_KEYWORD_LINK_LIBRARIES TRUE)
+ set(PROJECT_CUSTOM_HEADER_EXTENSION "hpp")
+ set(PROJECT_COMPATIBILITY_VERSION AnyNewerVersion)
+ 
++find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
++
+ # Check if the submodule cmake have been initialized
+ set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
+ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/cmake/base.cmake")
+@@ -34,9 +36,6 @@ endif()
+ IF(NOT DEFINED CMAKE_BUILD_TYPE)
+   SET(CMAKE_BUILD_TYPE "Release")
+ ENDIF()
+-IF(NOT DEFINED PYTHON_EXECUTABLE)
+-  SET(PYTHON_EXECUTABLE "/usr/bin/python3") # specify python3 so that Debian Buster passes
+-ENDIF()
+ IF(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+   SET(CMAKE_INSTALL_LIBDIR "lib/")
+ ENDIF()
+diff --git a/cmake/cython/python/FindPython.cmake b/cmake/cython/python/FindPython.cmake
+deleted file mode 100644
+index 1c134e2..0000000
+--- a/cmake/cython/python/FindPython.cmake
++++ /dev/null
+@@ -1,224 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#[=======================================================================[.rst:
+-FindPython
+-----------
+-
+-Find Python interpreter, compiler and development environment (include
+-directories and libraries).
+-
+-Three components are supported:
+-
+-* ``Interpreter``: search for Python interpreter.
+-* ``Compiler``: search for Python compiler. Only offered by IronPython.
+-* ``Development``: search for development artifacts (include directories and
+-  libraries).
+-* ``NumPy``: search for NumPy include directories.
+-
+-If no ``COMPONENTS`` is specified, ``Interpreter`` is assumed.
+-
+-To ensure consistent versions between components ``Interpreter``, ``Compiler``,
+-``Development`` and ``NumPy``, specify all components at the same time::
+-
+-  find_package (Python COMPONENTS Interpreter Development)
+-
+-This module looks preferably for version 3 of Python. If not found, version 2
+-is searched.
+-To manage concurrent versions 3 and 2 of Python, use :module:`FindPython3` and
+-:module:`FindPython2` modules rather than this one.
+-
+-.. note::
+-
+-  If components ``Interpreter`` and ``Development`` are both specified, this
+-  module search only for interpreter with same platform architecture as the one
+-  defined by ``CMake`` configuration. This contraint does not apply if only
+-  ``Interpreter`` component is specified.
+-
+-Imported Targets
+-^^^^^^^^^^^^^^^^
+-
+-This module defines the following :ref:`Imported Targets <Imported Targets>`
+-(when :prop_gbl:`CMAKE_ROLE` is ``PROJECT``):
+-
+-``Python::Interpreter``
+-  Python interpreter. Target defined if component ``Interpreter`` is found.
+-``Python::Compiler``
+-  Python compiler. Target defined if component ``Compiler`` is found.
+-``Python::Python``
+-  Python library. Target defined if component ``Development`` is found.
+-``Python::NumPy``
+-  NumPy Python library. Target defined if component ``NumPy`` is found.
+-
+-Result Variables
+-^^^^^^^^^^^^^^^^
+-
+-This module will set the following variables in your project
+-(see :ref:`Standard Variable Names <CMake Developer Standard Variable Names>`):
+-
+-``Python_FOUND``
+-  System has the Python requested components.
+-``Python_Interpreter_FOUND``
+-  System has the Python interpreter.
+-``Python_EXECUTABLE``
+-  Path to the Python interpreter.
+-``Python_INTERPRETER_ID``
+-  A short string unique to the interpreter. Possible values include:
+-    * Python
+-    * ActivePython
+-    * Anaconda
+-    * Canopy
+-    * IronPython
+-``Python_STDLIB``
+-  Standard platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=True)``.
+-``Python_STDARCH``
+-  Standard platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=True)``.
+-``Python_SITELIB``
+-  Third-party platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=False)``.
+-``Python_SITEARCH``
+-  Third-party platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=False)``.
+-``Python_Compiler_FOUND``
+-  System has the Python compiler.
+-``Python_COMPILER``
+-  Path to the Python compiler. Only offered by IronPython.
+-``Python_COMPILER_ID``
+-  A short string unique to the compiler. Possible values include:
+-    * IronPython
+-``Python_Development_FOUND``
+-  System has the Python development artifacts.
+-``Python_INCLUDE_DIRS``
+-  The Python include directories.
+-``Python_LIBRARIES``
+-  The Python libraries.
+-``Python_LIBRARY_DIRS``
+-  The Python library directories.
+-``Python_RUNTIME_LIBRARY_DIRS``
+-  The Python runtime library directories.
+-``Python_VERSION``
+-  Python version.
+-``Python_VERSION_MAJOR``
+-  Python major version.
+-``Python_VERSION_MINOR``
+-  Python minor version.
+-``Python_VERSION_PATCH``
+-  Python patch version.
+-``Python_NumPy_FOUND``
+-  System has the NumPy.
+-``Python_NumPy_INCLUDE_DIRS``
+-  The NumPy include directries.
+-``Python_NumPy_VERSION``
+-  The NumPy version.
+-
+-Hints
+-^^^^^
+-
+-``Python_ROOT_DIR``
+-  Define the root directory of a Python installation.
+-
+-``Python_USE_STATIC_LIBS``
+-  * If not defined, search for shared libraries and static libraries in that
+-    order.
+-  * If set to TRUE, search **only** for static libraries.
+-  * If set to FALSE, search **only** for shared libraries.
+-
+-``Python_FIND_REGISTRY``
+-  On Windows the ``Python_FIND_REGISTRY`` variable determine the order
+-  of preference between registry and environment variables.
+-  the ``Python_FIND_REGISTRY`` variable can be set to empty or one of the
+-  following:
+-
+-  * ``FIRST``: Try to use registry before environment variables.
+-    This is the default.
+-  * ``LAST``: Try to use registry after environment variables.
+-  * ``NEVER``: Never try to use registry.
+-
+-``CMAKE_FIND_FRAMEWORK``
+-  On OS X the :variable:`CMAKE_FIND_FRAMEWORK` variable determine the order of
+-  preference between Apple-style and unix-style package components.
+-
+-  .. note::
+-
+-    Value ``ONLY`` is not supported so ``FIRST`` will be used instead.
+-
+-.. note::
+-
+-  If a Python virtual environment is configured, set variable
+-  ``Python_FIND_REGISTRY`` (Windows) or ``CMAKE_FIND_FRAMEWORK`` (macOS) with
+-  value ``LAST`` or ``NEVER`` to select it preferably.
+-
+-Commands
+-^^^^^^^^
+-
+-This module defines the command ``Python_add_library`` (when
+-:prop_gbl:`CMAKE_ROLE` is ``PROJECT``), which has the same semantics as
+-:command:`add_library`, but takes care of Python module naming rules
+-(only applied if library is of type ``MODULE``), and adds a dependency to target
+-``Python::Python``::
+-
+-  Python_add_library (my_module MODULE src1.cpp)
+-
+-If library type is not specified, ``MODULE`` is assumed.
+-#]=======================================================================]
+-
+-
+-set (_PYTHON_PREFIX Python)
+-
+-if (DEFINED Python_FIND_VERSION)
+-  set (_Python_REQUIRED_VERSION_MAJOR ${Python_FIND_VERSION_MAJOR})
+-
+-  include (${CMAKE_CURRENT_LIST_DIR}/FindPython/Support.cmake)
+-else()
+-  # iterate over versions in quiet and NOT required modes to avoid multiple
+-  # "Found" messages and prematurally failure.
+-  set (_Python_QUIETLY ${Python_FIND_QUIETLY})
+-  set (_Python_REQUIRED ${Python_FIND_REQUIRED})
+-  set (Python_FIND_QUIETLY TRUE)
+-  set (Python_FIND_REQUIRED FALSE)
+-
+-  set (_Python_REQUIRED_VERSIONS 3 2)
+-  set (_Python_REQUIRED_VERSION_LAST 2)
+-
+-  foreach (_Python_REQUIRED_VERSION_MAJOR IN LISTS _Python_REQUIRED_VERSIONS)
+-    set (Python_FIND_VERSION ${_Python_REQUIRED_VERSION_MAJOR})
+-    include (${CMAKE_CURRENT_LIST_DIR}/FindPython/Support.cmake)
+-    if (Python_FOUND OR
+-        _Python_REQUIRED_VERSION_MAJOR EQUAL _Python_REQUIRED_VERSION_LAST)
+-      break()
+-    endif()
+-    # clean-up some CACHE variables to ensure look-up restart from scratch
+-    foreach (_Python_ITEM IN LISTS _Python_CACHED_VARS)
+-      unset (${_Python_ITEM} CACHE)
+-    endforeach()
+-  endforeach()
+-
+-  unset (Python_FIND_VERSION)
+-
+-  set (Python_FIND_QUIETLY ${_Python_QUIETLY})
+-  set (Python_FIND_REQUIRED ${_Python_REQUIRED})
+-  if (Python_FIND_REQUIRED OR NOT Python_FIND_QUIETLY)
+-    # call again validation command to get "Found" or error message
+-    find_package_handle_standard_args (Python HANDLE_COMPONENTS
+-                                              REQUIRED_VARS ${_Python_REQUIRED_VARS}
+-                                              VERSION_VAR Python_VERSION)
+-  endif()
+-endif()
+-
+-if (COMMAND __Python_add_library)
+-  macro (Python_add_library)
+-    __Python_add_library (Python ${ARGV})
+-  endmacro()
+-endif()
+-
+-unset (_PYTHON_PREFIX)
+diff --git a/cmake/cython/python/FindPython/Support.cmake b/cmake/cython/python/FindPython/Support.cmake
+deleted file mode 100644
+index 82f0493..0000000
+--- a/cmake/cython/python/FindPython/Support.cmake
++++ /dev/null
+@@ -1,1324 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#
+-# This file is a "template" file used by various FindPython modules.
+-#
+-
+-cmake_policy (VERSION 3.5)
+-
+-#
+-# Initial configuration
+-#
+-if (NOT DEFINED _PYTHON_PREFIX)
+-  message (FATAL_ERROR "FindPython: INTERNAL ERROR")
+-endif()
+-if (NOT DEFINED _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-  message (FATAL_ERROR "FindPython: INTERNAL ERROR")
+-endif()
+-if (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 3)
+-  set(_${_PYTHON_PREFIX}_VERSIONS 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+-elseif (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 2)
+-  set(_${_PYTHON_PREFIX}_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
+-else()
+-  message (FATAL_ERROR "FindPython: INTERNAL ERROR")
+-endif()
+-
+-get_property(_${_PYTHON_PREFIX}_CMAKE_ROLE GLOBAL PROPERTY CMAKE_ROLE)
+-
+-
+-#
+-# helper commands
+-#
+-macro (_PYTHON_DISPLAY_FAILURE _PYTHON_MSG)
+-  if (${_PYTHON_PREFIX}_FIND_REQUIRED)
+-    message (FATAL_ERROR "${_PYTHON_MSG}")
+-  else()
+-    if (NOT ${_PYTHON_PREFIX}_FIND_QUIETLY)
+-      message(STATUS "${_PYTHON_MSG}")
+-    endif ()
+-  endif()
+-
+-  set (${_PYTHON_PREFIX}_FOUND FALSE)
+-  string (TOUPPER "${_PYTHON_PREFIX}" _${_PYTHON_PREFIX}_UPPER_PREFIX)
+-  set (${_PYTHON_UPPER_PREFIX}_FOUND FALSE)
+-  return()
+-endmacro()
+-
+-
+-macro (_PYTHON_FIND_FRAMEWORKS)
+-  set (${_PYTHON_PREFIX}_FRAMEWORKS)
+-  if (APPLE)
+-    set (_pff_frameworks ${CMAKE_FRAMEWORK_PATH}
+-                    $ENV{CMAKE_FRAMEWORK_PATH}
+-                    ~/Library/Frameworks
+-                    /usr/local/Frameworks
+-                    ${CMAKE_SYSTEM_FRAMEWORK_PATH})
+-    list (REMOVE_DUPLICATES _pff_frameworks)
+-    foreach (_pff_framework IN LISTS _pff_frameworks)
+-      if (EXISTS ${_pff_framework}/Python.framework)
+-        list (APPEND ${_PYTHON_PREFIX}_FRAMEWORKS ${_pff_framework}/Python.framework)
+-      endif()
+-    endforeach()
+-    unset (_pff_frameworks)
+-    unset (_pff_framework)
+-  endif()
+-endmacro()
+-
+-function (_PYTHON_GET_FRAMEWORKS _PYTHON_PGF_FRAMEWORK_PATHS _PYTHON_VERSION)
+-  set (_PYTHON_FRAMEWORK_PATHS)
+-  foreach (_PYTHON_FRAMEWORK IN LISTS ${_PYTHON_PREFIX}_FRAMEWORKS)
+-    list (APPEND _PYTHON_FRAMEWORK_PATHS
+-          "${_PYTHON_FRAMEWORK}/Versions/${_PYTHON_VERSION}")
+-  endforeach()
+-  set (${_PYTHON_PGF_FRAMEWORK_PATHS} ${_PYTHON_FRAMEWORK_PATHS} PARENT_SCOPE)
+-endfunction()
+-
+-
+-function (_PYTHON_VALIDATE_INTERPRETER)
+-  if (NOT ${_PYTHON_PREFIX}_EXECUTABLE)
+-    return()
+-  endif()
+-
+-  if (ARGC EQUAL 1)
+-    set (expected_version ${ARGV0})
+-  else()
+-    unset (expected_version)
+-  endif()
+-
+-  get_filename_component (python_name "${${_PYTHON_PREFIX}_EXECUTABLE}" NAME)
+-
+-  if (expected_version AND NOT python_name STREQUAL "python${expected_version}${CMAKE_EXECUTABLE_SUFFIX}")
+-    # executable found must have a specific version
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                             "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
+-                     RESULT_VARIABLE result
+-                     OUTPUT_VARIABLE version
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (result OR NOT version EQUAL expected_version)
+-      # interpreter not usable or has wrong major version
+-      set (${_PYTHON_PREFIX}_EXECUTABLE ${_PYTHON_PREFIX}_EXECUTABLE-NOTFOUND CACHE INTERNAL "" FORCE)
+-      return()
+-    endif()
+-  else()
+-    if (NOT python_name STREQUAL "python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}${CMAKE_EXECUTABLE_SUFFIX}")
+-      # executable found do not have version in name
+-      # ensure major version is OK
+-      execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                               "import sys; sys.stdout.write(str(sys.version_info[0]))"
+-                       RESULT_VARIABLE result
+-                       OUTPUT_VARIABLE version
+-                       ERROR_QUIET
+-                       OUTPUT_STRIP_TRAILING_WHITESPACE)
+-      if (result OR NOT version EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-        # interpreter not usable or has wrong major version
+-        set (${_PYTHON_PREFIX}_EXECUTABLE ${_PYTHON_PREFIX}_EXECUTABLE-NOTFOUND CACHE INTERNAL "" FORCE)
+-        return()
+-      endif()
+-    endif()
+-  endif()
+-
+-  if (CMAKE_SIZEOF_VOID_P AND "Development" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
+-      AND NOT CMAKE_CROSSCOMPILING)
+-    # In this case, interpreter must have same architecture as environment
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                             "import sys, struct; sys.stdout.write(str(struct.calcsize(\"P\")))"
+-                     RESULT_VARIABLE result
+-                     OUTPUT_VARIABLE size
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (result OR NOT size EQUAL CMAKE_SIZEOF_VOID_P)
+-      # interpreter not usable or has wrong architecture
+-      set (${_PYTHON_PREFIX}_EXECUTABLE ${_PYTHON_PREFIX}_EXECUTABLE-NOTFOUND CACHE INTERNAL "" FORCE)
+-      return()
+-    endif()
+-  endif()
+-endfunction()
+-
+-
+-function (_PYTHON_VALIDATE_COMPILER expected_version)
+-  if (NOT ${_PYTHON_PREFIX}_COMPILER)
+-    return()
+-  endif()
+-
+-  # retrieve python environment version from compiler
+-  set (working_dir "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/PythonCompilerVersion.dir")
+-  file (WRITE "${working_dir}/version.py" "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))\n")
+-  execute_process (COMMAND "${${_PYTHON_PREFIX}_COMPILER}" /target:exe /embed "${working_dir}/version.py"
+-                   WORKING_DIRECTORY "${working_dir}"
+-                   OUTPUT_QUIET
+-                   ERROR_QUIET
+-                   OUTPUT_STRIP_TRAILING_WHITESPACE)
+-  execute_process (COMMAND "${working_dir}/version"
+-                   WORKING_DIRECTORY "${working_dir}"
+-                   RESULT_VARIABLE result
+-                   OUTPUT_VARIABLE version
+-                   ERROR_QUIET)
+-  file (REMOVE_RECURSE "${_${_PYTHON_PREFIX}_VERSION_DIR}")
+-
+-  if (result OR NOT version EQUAL expected_version)
+-    # Compiler not usable or has wrong major version
+-    set (${_PYTHON_PREFIX}_COMPILER ${_PYTHON_PREFIX}_COMPILER-NOTFOUND CACHE INTERNAL "" FORCE)
+-  endif()
+-endfunction()
+-
+-
+-function (_PYTHON_FIND_RUNTIME_LIBRARY _PYTHON_LIB)
+-  string (REPLACE "_RUNTIME" "" _PYTHON_LIB "${_PYTHON_LIB}")
+-  # look at runtime part on systems supporting it
+-  if (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR
+-      (CMAKE_SYSTEM_NAME MATCHES "MSYS|CYGWIN"
+-        AND ${_PYTHON_LIB} MATCHES "${CMAKE_IMPORT_LIBRARY_SUFFIX}$"))
+-    set (CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_SHARED_LIBRARY_SUFFIX})
+-    # MSYS has a special syntax for runtime libraries
+-    if (CMAKE_SYSTEM_NAME MATCHES "MSYS")
+-      list (APPEND CMAKE_FIND_LIBRARY_PREFIXES "msys-")
+-    endif()
+-    find_library (${ARGV})
+-  endif()
+-endfunction()
+-
+-
+-function (_PYTHON_SET_LIBRARY_DIRS _PYTHON_SLD_RESULT)
+-  unset (_PYTHON_DIRS)
+-  set (_PYTHON_LIBS ${ARGV})
+-  list (REMOVE_AT _PYTHON_LIBS 0)
+-  foreach (_PYTHON_LIB IN LISTS _PYTHON_LIBS)
+-    if (${_PYTHON_LIB})
+-      get_filename_component (_PYTHON_DIR "${${_PYTHON_LIB}}" DIRECTORY)
+-      list (APPEND _PYTHON_DIRS "${_PYTHON_DIR}")
+-    endif()
+-  endforeach()
+-  if (_PYTHON_DIRS)
+-    list (REMOVE_DUPLICATES _PYTHON_DIRS)
+-  endif()
+-  set (${_PYTHON_SLD_RESULT} ${_PYTHON_DIRS} PARENT_SCOPE)
+-endfunction()
+-
+-
+-# If major version is specified, it must be the same as internal major version
+-if (DEFINED ${_PYTHON_PREFIX}_FIND_VERSION_MAJOR
+-    AND NOT ${_PYTHON_PREFIX}_FIND_VERSION_MAJOR VERSION_EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-  _python_display_failure ("Could NOT find ${_PYTHON_PREFIX}: Wrong major version specified is \"${${_PYTHON_PREFIX}_FIND_VERSION_MAJOR}\", but expected major version is \"${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}\"")
+-endif()
+-
+-
+-# handle components
+-if (NOT ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-  set (${_PYTHON_PREFIX}_FIND_COMPONENTS Interpreter)
+-  set (${_PYTHON_PREFIX}_FIND_REQUIRED_Interpreter TRUE)
+-endif()
+-if ("NumPy" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-  list (APPEND ${_PYTHON_PREFIX}_FIND_COMPONENTS "Interpreter" "Development")
+-  list (REMOVE_DUPLICATES ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-endif()
+-foreach (_${_PYTHON_PREFIX}_COMPONENT IN LISTS ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-  set (${_PYTHON_PREFIX}_${_${_PYTHON_PREFIX}_COMPONENT}_FOUND FALSE)
+-endforeach()
+-unset (_${_PYTHON_PREFIX}_FIND_VERSIONS)
+-
+-# Set versions to search
+-## default: search any version
+-set (_${_PYTHON_PREFIX}_FIND_VERSIONS ${_${_PYTHON_PREFIX}_VERSIONS})
+-
+-if (${_PYTHON_PREFIX}_FIND_VERSION_COUNT GREATER 1)
+-  if (${_PYTHON_PREFIX}_FIND_VERSION_EXACT)
+-    set (_${_PYTHON_PREFIX}_FIND_VERSIONS ${${_PYTHON_PREFIX}_FIND_VERSION_MAJOR}.${${_PYTHON_PREFIX}_FIND_VERSION_MINOR})
+-  else()
+-    unset (_${_PYTHON_PREFIX}_FIND_VERSIONS)
+-    # add all compatible versions
+-    foreach (_${_PYTHON_PREFIX}_VERSION IN LISTS _${_PYTHON_PREFIX}_VERSIONS)
+-      if (_${_PYTHON_PREFIX}_VERSION VERSION_GREATER_EQUAL ${_PYTHON_PREFIX}_FIND_VERSION)
+-        list (APPEND _${_PYTHON_PREFIX}_FIND_VERSIONS ${_${_PYTHON_PREFIX}_VERSION})
+-      endif()
+-    endforeach()
+-  endif()
+-endif()
+-
+-# Python and Anaconda distributions: define which architectures can be used
+-if (CMAKE_SIZEOF_VOID_P)
+-  # In this case, search only for 64bit or 32bit
+-  math (EXPR _${_PYTHON_PREFIX}_ARCH "${CMAKE_SIZEOF_VOID_P} * 8")
+-  set (_${_PYTHON_PREFIX}_ARCH2 ${_${_PYTHON_PREFIX}_ARCH})
+-else()
+-  # architecture unknown, search for both 64bit and 32bit
+-  set (_${_PYTHON_PREFIX}_ARCH 64)
+-  set (_${_PYTHON_PREFIX}_ARCH2 32)
+-endif()
+-
+-# IronPython support
+-if (CMAKE_SIZEOF_VOID_P)
+-  # In this case, search only for 64bit or 32bit
+-  math (EXPR _${_PYTHON_PREFIX}_ARCH "${CMAKE_SIZEOF_VOID_P} * 8")
+-  set (_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES ipy${_${_PYTHON_PREFIX}_ARCH} ipy)
+-else()
+-  # architecture unknown, search for natural interpreter
+-  set (_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES ipy)
+-endif()
+-set (_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES net45 net40)
+-
+-# Apple frameworks handling
+-_python_find_frameworks ()
+-
+-# Save CMAKE_FIND_APPBUNDLE
+-if (DEFINED CMAKE_FIND_APPBUNDLE)
+-  set (_${_PYTHON_PREFIX}_CMAKE_FIND_APPBUNDLE ${CMAKE_FIND_APPBUNDLE})
+-else()
+-  unset (_${_PYTHON_PREFIX}_CMAKE_FIND_APPBUNDLE)
+-endif()
+-# To avoid app bundle lookup
+-set (CMAKE_FIND_APPBUNDLE "NEVER")
+-
+-# Save CMAKE_FIND_FRAMEWORK
+-if (DEFINED CMAKE_FIND_FRAMEWORK)
+-  set (_${_PYTHON_PREFIX}_CMAKE_FIND_FRAMEWORK ${CMAKE_FIND_FRAMEWORK})
+-  if (CMAKE_FIND_FRAMEWORK STREQUAL "ONLY")
+-    message (AUTHOR_WARNING "Find${_PYTHON_PREFIX}: CMAKE_FIND_FRAMEWORK: 'ONLY' value is not supported. 'FIRST' will be used instead.")
+-    set (_${_PYTHON_PREFIX}_FIND_FRAMEWORK "FIRST")
+-  else()
+-    set (_${_PYTHON_PREFIX}_FIND_FRAMEWORK ${CMAKE_FIND_FRAMEWORK})
+-  endif()
+-else()
+-  unset (_${_PYTHON_PREFIX}_CMAKE_FIND_FRAMEWORK)
+-  set (_${_PYTHON_PREFIX}_FIND_FRAMEWORK "FIRST")
+-endif()
+-# To avoid framework lookup
+-set (CMAKE_FIND_FRAMEWORK "NEVER")
+-
+-# Windows Registry handling
+-if (DEFINED ${_PYTHON_PREFIX}_FIND_REGISTRY)
+-  if (NOT ${_PYTHON_PREFIX}_FIND_REGISTRY MATCHES "^(FIRST|LAST|NEVER)$")
+-    message (AUTHOR_WARNING "Find${_PYTHON_PREFIX}: ${${_PYTHON_PREFIX}_FIND_REGISTRY}: invalid value for '${_PYTHON_PREFIX}_FIND_REGISTRY'. 'FIRST', 'LAST' or 'NEVER' expected.")
+-    set (_${_PYTHON_PREFIX}_FIND_REGISTRY "FIRST")
+-  else()
+-    set (_${_PYTHON_PREFIX}_FIND_REGISTRY ${${_PYTHON_PREFIX}_FIND_REGISTRY})
+-  endif()
+-else()
+-  set (_${_PYTHON_PREFIX}_FIND_REGISTRY "FIRST")
+-endif()
+-
+-
+-unset (_${_PYTHON_PREFIX}_REQUIRED_VARS)
+-unset (_${_PYTHON_PREFIX}_CACHED_VARS)
+-
+-
+-# first step, search for the interpreter
+-if ("Interpreter" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-  list (APPEND _${_PYTHON_PREFIX}_CACHED_VARS ${_PYTHON_PREFIX}_EXECUTABLE)
+-  if (${_PYTHON_PREFIX}_FIND_REQUIRED_Interpreter)
+-    list (APPEND _${_PYTHON_PREFIX}_REQUIRED_VARS ${_PYTHON_PREFIX}_EXECUTABLE)
+-  endif()
+-
+-  set (_${_PYTHON_PREFIX}_HINTS "${${_PYTHON_PREFIX}_ROOT_DIR}" ENV ${_PYTHON_PREFIX}_ROOT_DIR)
+-
+-  # look-up for various versions and locations
+-  foreach (_${_PYTHON_PREFIX}_VERSION IN LISTS _${_PYTHON_PREFIX}_FIND_VERSIONS)
+-    string (REPLACE "." "" _${_PYTHON_PREFIX}_VERSION_NO_DOTS ${_${_PYTHON_PREFIX}_VERSION})
+-
+-    _python_get_frameworks (_${_PYTHON_PREFIX}_FRAMEWORK_PATHS ${_${_PYTHON_PREFIX}_VERSION})
+-
+-    # Apple frameworks handling
+-    if (APPLE AND _${_PYTHON_PREFIX}_FIND_FRAMEWORK STREQUAL "FIRST")
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                    NAMES_PER_DIR
+-                    PATHS ${_${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                    PATH_SUFFIXES bin
+-                    NO_CMAKE_PATH
+-                    NO_CMAKE_ENVIRONMENT_PATH
+-                    NO_SYSTEM_ENVIRONMENT_PATH
+-                    NO_CMAKE_SYSTEM_PATH)
+-    endif()
+-
+-    # Windows registry
+-    if (WIN32 AND _${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "FIRST")
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                          python
+-                          ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
+-                    NAMES_PER_DIR
+-                    HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                    PATHS [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\IronPython\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                    PATH_SUFFIXES bin ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                    NO_SYSTEM_ENVIRONMENT_PATH
+-                    NO_CMAKE_SYSTEM_PATH)
+-    endif()
+-
+-    # try using HINTS
+-    find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                  NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                        python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                        python
+-                        ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
+-                  NAMES_PER_DIR
+-                  HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                  PATH_SUFFIXES bin ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                  NO_SYSTEM_ENVIRONMENT_PATH
+-                  NO_CMAKE_SYSTEM_PATH)
+-    # try using standard paths.
+-    if (WIN32)
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                          python
+-                          ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
+-                    NAMES_PER_DIR)
+-    else()
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                    NAMES_PER_DIR)
+-    endif()
+-
+-    # Apple frameworks handling
+-    if (APPLE AND _${_PYTHON_PREFIX}_FIND_FRAMEWORK STREQUAL "LAST")
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                    NAMES_PER_DIR
+-                    PATHS ${_${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                    PATH_SUFFIXES bin
+-                    NO_DEFAULT_PATH)
+-    endif()
+-
+-    # Windows registry
+-    if (WIN32 AND _${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "LAST")
+-      find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION}
+-                          python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                          python
+-                          ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
+-                    NAMES_PER_DIR
+-                    PATHS [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-                          [HKEY_LOCAL_MACHINE\\SOFTWARE\\IronPython\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                    PATH_SUFFIXES bin ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                    NO_DEFAULT_PATH)
+-    endif()
+-
+-    _python_validate_interpreter (${_${_PYTHON_PREFIX}_VERSION})
+-    if (${_PYTHON_PREFIX}_EXECUTABLE)
+-      break()
+-    endif()
+-  endforeach()
+-
+-  if (NOT ${_PYTHON_PREFIX}_EXECUTABLE)
+-    # No specific version found. Retry with generic names
+-    # try using HINTS
+-    find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                  NAMES python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                        python
+-                        ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES}
+-                  NAMES_PER_DIR
+-                  HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                  PATH_SUFFIXES bin ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                  NO_SYSTEM_ENVIRONMENT_PATH
+-                  NO_CMAKE_SYSTEM_PATH)
+-    # try using standard paths.
+-    # NAMES_PER_DIR is not defined on purpose to have a chance to find
+-    # expected version.
+-    # For example, typical systems have 'python' for version 2.* and 'python3'
+-    # for version 3.*. So looking for names per dir will find, potentially,
+-    # systematically 'python' (i.e. version 2) even if version 3 is searched.
+-    find_program (${_PYTHON_PREFIX}_EXECUTABLE
+-                  NAMES python${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}
+-                        python
+-                        ${_${_PYTHON_PREFIX}_IRON_PYTHON_NAMES})
+-
+-    _python_validate_interpreter ()
+-  endif()
+-
+-  # retrieve exact version of executable found
+-  if (${_PYTHON_PREFIX}_EXECUTABLE)
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                             "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:3]]))"
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE ${_PYTHON_PREFIX}_VERSION
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-      string (REGEX MATCHALL "[0-9]+" _${_PYTHON_PREFIX}_VERSIONS "${${_PYTHON_PREFIX}_VERSION}")
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 0 ${_PYTHON_PREFIX}_VERSION_MAJOR)
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 1 ${_PYTHON_PREFIX}_VERSION_MINOR)
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 2 ${_PYTHON_PREFIX}_VERSION_PATCH)
+-    else()
+-      # Interpreter is not usable
+-      set (${_PYTHON_PREFIX}_EXECUTABLE ${_PYTHON_PREFIX}_EXECUTABLE-NOTFOUND CACHE INTERNAL "" FORCE)
+-      unset (${_PYTHON_PREFIX}_VERSION)
+-    endif()
+-  endif()
+-
+-  if (${_PYTHON_PREFIX}_EXECUTABLE
+-      AND ${_PYTHON_PREFIX}_VERSION_MAJOR VERSION_EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-    set (${_PYTHON_PREFIX}_Interpreter_FOUND TRUE)
+-    # Use interpreter version for future searches to ensure consistency
+-    set (_${_PYTHON_PREFIX}_FIND_VERSIONS ${${_PYTHON_PREFIX}_VERSION_MAJOR}.${${_PYTHON_PREFIX}_VERSION_MINOR})
+-  endif()
+-
+-  if (${_PYTHON_PREFIX}_Interpreter_FOUND)
+-    if (NOT CMAKE_SIZEOF_VOID_P)
+-      # determine interpreter architecture
+-      execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c "import sys; print(sys.maxsize > 2**32)"
+-                       RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                       OUTPUT_VARIABLE ${_PYTHON_PREFIX}_IS64BIT
+-                       ERROR_VARIABLE ${_PYTHON_PREFIX}_IS64BIT)
+-      if (NOT _${_PYTHON_PREFIX}_RESULT)
+-        if (${_PYTHON_PREFIX}_IS64BIT)
+-          set (_${_PYTHON_PREFIX}_ARCH 64)
+-          set (_${_PYTHON_PREFIX}_ARCH2 64)
+-        else()
+-          set (_${_PYTHON_PREFIX}_ARCH 32)
+-          set (_${_PYTHON_PREFIX}_ARCH2 32)
+-        endif()
+-      endif()
+-    endif()
+-
+-    # retrieve interpreter identity
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -V
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE ${_PYTHON_PREFIX}_INTERPRETER_ID
+-                     ERROR_VARIABLE ${_PYTHON_PREFIX}_INTERPRETER_ID)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-      if (${_PYTHON_PREFIX}_INTERPRETER_ID MATCHES "Anaconda")
+-        set (${_PYTHON_PREFIX}_INTERPRETER_ID "Anaconda")
+-      elseif (${_PYTHON_PREFIX}_INTERPRETER_ID MATCHES "Enthought")
+-        set (${_PYTHON_PREFIX}_INTERPRETER_ID "Canopy")
+-      else()
+-        string (REGEX REPLACE "^([^ ]+).*" "\\1" ${_PYTHON_PREFIX}_INTERPRETER_ID "${${_PYTHON_PREFIX}_INTERPRETER_ID}")
+-        if (${_PYTHON_PREFIX}_INTERPRETER_ID STREQUAL "Python")
+-          # try to get a more precise ID
+-          execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c "import sys; print(sys.copyright)"
+-                           RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                           OUTPUT_VARIABLE ${_PYTHON_PREFIX}_COPYRIGHT
+-                           ERROR_QUIET)
+-          if (${_PYTHON_PREFIX}_COPYRIGHT MATCHES "ActiveState")
+-            set (${_PYTHON_PREFIX}_INTERPRETER_ID "ActivePython")
+-          endif()
+-        endif()
+-      endif()
+-    else()
+-      set (${_PYTHON_PREFIX}_INTERPRETER_ID Python)
+-    endif()
+-  else()
+-    unset (${_PYTHON_PREFIX}_INTERPRETER_ID)
+-  endif()
+-
+-  # retrieve various package installation directories
+-  execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c "import sys; from distutils import sysconfig;sys.stdout.write(';'.join([sysconfig.get_python_lib(plat_specific=False,standard_lib=True),sysconfig.get_python_lib(plat_specific=True,standard_lib=True),sysconfig.get_python_lib(plat_specific=False,standard_lib=False),sysconfig.get_python_lib(plat_specific=True,standard_lib=False)]))"
+-
+-                   RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                   OUTPUT_VARIABLE _${_PYTHON_PREFIX}_LIBPATHS
+-                   ERROR_QUIET)
+-  if (NOT _${_PYTHON_PREFIX}_RESULT)
+-    list (GET _${_PYTHON_PREFIX}_LIBPATHS 0 ${_PYTHON_PREFIX}_STDLIB)
+-    list (GET _${_PYTHON_PREFIX}_LIBPATHS 1 ${_PYTHON_PREFIX}_STDARCH)
+-    list (GET _${_PYTHON_PREFIX}_LIBPATHS 2 ${_PYTHON_PREFIX}_SITELIB)
+-    list (GET _${_PYTHON_PREFIX}_LIBPATHS 3 ${_PYTHON_PREFIX}_SITEARCH)
+-  else()
+-    unset (${_PYTHON_PREFIX}_STDLIB)
+-    unset (${_PYTHON_PREFIX}_STDARCH)
+-    unset (${_PYTHON_PREFIX}_SITELIB)
+-    unset (${_PYTHON_PREFIX}_SITEARCH)
+-  endif()
+-
+-  mark_as_advanced (${_PYTHON_PREFIX}_EXECUTABLE)
+-endif()
+-
+-
+-# second step, search for compiler (IronPython)
+-if ("Compiler" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS)
+-  list (APPEND _${_PYTHON_PREFIX}_CACHED_VARS ${_PYTHON_PREFIX}_COMPILER)
+-  if (${_PYTHON_PREFIX}_FIND_REQUIRED_Compiler)
+-    list (APPEND _${_PYTHON_PREFIX}_REQUIRED_VARS ${_PYTHON_PREFIX}_COMPILER)
+-  endif()
+-
+-  # IronPython specific artifacts
+-  # If IronPython interpreter is found, use its path
+-  unset (_${_PYTHON_PREFIX}_IRON_ROOT)
+-  if (${_PYTHON_PREFIX}_Interpreter_FOUND AND ${_PYTHON_PREFIX}_INTERPRETER_ID STREQUAL "IronPython")
+-    get_filename_component (_${_PYTHON_PREFIX}_IRON_ROOT "${${_PYTHON_PREFIX}_EXECUTABLE}" DIRECTORY)
+-  endif()
+-
+-  # try using root dir and registry
+-  foreach (_${_PYTHON_PREFIX}_VERSION IN LISTS _${_PYTHON_PREFIX}_FIND_VERSIONS)
+-    if (_${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "FIRST")
+-      find_program (${_PYTHON_PREFIX}_COMPILER
+-                    NAMES ipyc
+-                    HINTS ${_${_PYTHON_PREFIX}_IRON_ROOT} ${_${_PYTHON_PREFIX}_HINTS}
+-                    PATHS [HKEY_LOCAL_MACHINE\\SOFTWARE\\IronPython\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                    PATH_SUFFIXES ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                    NO_SYSTEM_ENVIRONMENT_PATH
+-                    NO_CMAKE_SYSTEM_PATH)
+-    endif()
+-
+-    find_program (${_PYTHON_PREFIX}_COMPILER
+-                  NAMES ipyc
+-                  HINTS ${_${_PYTHON_PREFIX}_IRON_ROOT} ${_${_PYTHON_PREFIX}_HINTS}
+-                  PATH_SUFFIXES ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                  NO_SYSTEM_ENVIRONMENT_PATH
+-                  NO_CMAKE_SYSTEM_PATH)
+-
+-    if (_${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "LAST")
+-      find_program (${_PYTHON_PREFIX}_COMPILER
+-                    NAMES ipyc
+-                    PATHS [HKEY_LOCAL_MACHINE\\SOFTWARE\\IronPython\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-                    PATH_SUFFIXES ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES}
+-                    NO_DEFAULT_PATH)
+-    endif()
+-
+-    _python_validate_compiler (${_${_PYTHON_PREFIX}_VERSION})
+-    if (${_PYTHON_PREFIX}_COMPILER)
+-      break()
+-    endif()
+-  endforeach()
+-
+-  # no specific version found, re-try in standard paths
+-  find_program (${_PYTHON_PREFIX}_COMPILER
+-                NAMES ipyc
+-                HINTS ${_${_PYTHON_PREFIX}_IRON_ROOT} ${_${_PYTHON_PREFIX}_HINTS}
+-                PATH_SUFFIXES ${_${_PYTHON_PREFIX}_IRON_PYTHON_PATH_SUFFIXES})
+-
+-  if (${_PYTHON_PREFIX}_COMPILER)
+-    # retrieve python environment version from compiler
+-    set (_${_PYTHON_PREFIX}_VERSION_DIR "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/PythonCompilerVersion.dir")
+-    file (WRITE "${_${_PYTHON_PREFIX}_VERSION_DIR}/version.py" "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:3]]))\n")
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_COMPILER}" /target:exe /embed "${_${_PYTHON_PREFIX}_VERSION_DIR}/version.py"
+-                     WORKING_DIRECTORY "${_${_PYTHON_PREFIX}_VERSION_DIR}"
+-                     OUTPUT_QUIET
+-                     ERROR_QUIET)
+-    execute_process (COMMAND "${_${_PYTHON_PREFIX}_VERSION_DIR}/version"
+-                     WORKING_DIRECTORY "${_${_PYTHON_PREFIX}_VERSION_DIR}"
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE _${_PYTHON_PREFIX}_VERSION
+-                     ERROR_QUIET)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-      string (REGEX MATCHALL "[0-9]+" _${_PYTHON_PREFIX}_VERSIONS "${_${_PYTHON_PREFIX}_VERSION}")
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 0 _${_PYTHON_PREFIX}_VERSION_MAJOR)
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 1 _${_PYTHON_PREFIX}_VERSION_MINOR)
+-      list (GET _${_PYTHON_PREFIX}_VERSIONS 2 _${_PYTHON_PREFIX}_VERSION_PATCH)
+-
+-      if (NOT ${_PYTHON_PREFIX}_Interpreter_FOUND)
+-        # set public version information
+-        set (${_PYTHON_PREFIX}_VERSION ${_${_PYTHON_PREFIX}_VERSION})
+-        set (${_PYTHON_PREFIX}_VERSION_MAJOR ${_${_PYTHON_PREFIX}_VERSION_MAJOR})
+-        set (${_PYTHON_PREFIX}_VERSION_MINOR ${_${_PYTHON_PREFIX}_VERSION_MINOR})
+-        set (${_PYTHON_PREFIX}_VERSION_PATCH ${_${_PYTHON_PREFIX}_VERSION_PATCH})
+-      endif()
+-    else()
+-      # compiler not usable
+-      set (${_PYTHON_PREFIX}_COMPILER ${_PYTHON_PREFIX}_COMPILER-NOTFOUND CACHE INTERNAL "" FORCE)
+-    endif()
+-    file (REMOVE_RECURSE "${_${_PYTHON_PREFIX}_VERSION_DIR}")
+-  endif()
+-
+-  if (${_PYTHON_PREFIX}_COMPILER)
+-    if (${_PYTHON_PREFIX}_Interpreter_FOUND)
+-      # Compiler must be compatible with interpreter
+-      if (${_${_PYTHON_PREFIX}_VERSION_MAJOR}.${_${_PYTHON_PREFIX}_VERSION_MINOR} VERSION_EQUAL ${${_PYTHON_PREFIX}_VERSION_MAJOR}.${${_PYTHON_PREFIX}_VERSION_MINOR})
+-        set (${_PYTHON_PREFIX}_Compiler_FOUND TRUE)
+-      endif()
+-    elseif (${_PYTHON_PREFIX}_VERSION_MAJOR VERSION_EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-      set (${_PYTHON_PREFIX}_Compiler_FOUND TRUE)
+-    # Use compiler version for future searches to ensure consistency
+-    set (_${_PYTHON_PREFIX}_FIND_VERSIONS ${${_PYTHON_PREFIX}_VERSION_MAJOR}.${${_PYTHON_PREFIX}_VERSION_MINOR})
+-    endif()
+-  endif()
+-
+-  if (${_PYTHON_PREFIX}_Compiler_FOUND)
+-    set (${_PYTHON_PREFIX}_COMPILER_ID IronPython)
+-  else()
+-    unset (${_PYTHON_PREFIX}_COMPILER_ID)
+-  endif()
+-
+-  mark_as_advanced (${_PYTHON_PREFIX}_COMPILER)
+-endif()
+-
+-
+-# third step, search for the development artifacts
+-## Development environment is not compatible with IronPython interpreter
+-if ("Development" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
+-    AND NOT ${_PYTHON_PREFIX}_INTERPRETER_ID STREQUAL "IronPython")
+-  list (APPEND _${_PYTHON_PREFIX}_CACHED_VARS ${_PYTHON_PREFIX}_LIBRARY
+-                                              ${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                                              ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE
+-                                              ${_PYTHON_PREFIX}_LIBRARY_DEBUG
+-                                              ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG
+-                                              ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-  if (${_PYTHON_PREFIX}_FIND_REQUIRED_Development)
+-    list (APPEND _${_PYTHON_PREFIX}_REQUIRED_VARS ${_PYTHON_PREFIX}_LIBRARY
+-                                                  ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-  endif()
+-
+-  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES
+-  unset (_${_PYTHON_PREFIX}_CMAKE_FIND_LIBRARY_SUFFIXES)
+-  if (DEFINED ${_PYTHON_PREFIX}_USE_STATIC_LIBS AND NOT WIN32)
+-    set(_${_PYTHON_PREFIX}_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+-    if(${_PYTHON_PREFIX}_USE_STATIC_LIBS)
+-      set (CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX})
+-    else()
+-      list (REMOVE_ITEM CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX})
+-    endif()
+-  else()
+-  endif()
+-
+-  # if python interpreter is found, use its location and version to ensure consistency
+-  # between interpreter and development environment
+-  unset (_${_PYTHON_PREFIX}_PREFIX)
+-  if (${_PYTHON_PREFIX}_Interpreter_FOUND)
+-    execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                             "import sys; from distutils import sysconfig; sys.stdout.write(sysconfig.PREFIX)"
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE _${_PYTHON_PREFIX}_PREFIX
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (_${_PYTHON_PREFIX}_RESULT)
+-      unset (_${_PYTHON_PREFIX}_PREFIX)
+-    endif()
+-  endif()
+-  set (_${_PYTHON_PREFIX}_HINTS "${_${_PYTHON_PREFIX}_PREFIX}" "${${_PYTHON_PREFIX}_ROOT_DIR}" ENV ${_PYTHON_PREFIX}_ROOT_DIR)
+-
+-  foreach (_${_PYTHON_PREFIX}_VERSION IN LISTS _${_PYTHON_PREFIX}_FIND_VERSIONS)
+-    string (REPLACE "." "" _${_PYTHON_PREFIX}_VERSION_NO_DOTS ${_${_PYTHON_PREFIX}_VERSION})
+-
+-    # try to use pythonX.Y-config tool
+-    set (_${_PYTHON_PREFIX}_CONFIG_NAMES)
+-    if (DEFINED CMAKE_LIBRARY_ARCHITECTURE)
+-      set (_${_PYTHON_PREFIX}_CONFIG_NAMES "${CMAKE_LIBRARY_ARCHITECTURE}-python${_${_PYTHON_PREFIX}_VERSION}-config")
+-    endif()
+-    list (APPEND _${_PYTHON_PREFIX}_CONFIG_NAMES "python${_${_PYTHON_PREFIX}_VERSION}-config")
+-    find_program (_${_PYTHON_PREFIX}_CONFIG
+-                  NAMES ${_${_PYTHON_PREFIX}_CONFIG_NAMES}
+-                  NAMES_PER_DIR
+-                  HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                  PATH_SUFFIXES bin)
+-    unset (_${_PYTHON_PREFIX}_CONFIG_NAMES)
+-
+-    if (NOT _${_PYTHON_PREFIX}_CONFIG)
+-      continue()
+-    endif()
+-    if (DEFINED CMAKE_LIBRARY_ARCHITECTURE)
+-      # check that config tool match library architecture
+-      execute_process (COMMAND "${_${_PYTHON_PREFIX}_CONFIG}" --configdir
+-                       RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                       OUTPUT_VARIABLE _${_PYTHON_PREFIX}_CONFIGDIR
+-                       ERROR_QUIET
+-                       OUTPUT_STRIP_TRAILING_WHITESPACE)
+-      if (_${_PYTHON_PREFIX}_RESULT)
+-        unset (_${_PYTHON_PREFIX}_CONFIG CACHE)
+-        continue()
+-      endif()
+-      string(FIND "${_${_PYTHON_PREFIX}_CONFIGDIR}" "${CMAKE_LIBRARY_ARCHITECTURE}" _${_PYTHON_PREFIX}_RESULT)
+-      if (_${_PYTHON_PREFIX}_RESULT EQUAL -1)
+-        unset (_${_PYTHON_PREFIX}_CONFIG CACHE)
+-        continue()
+-      endif()
+-    endif()
+-
+-    # retrieve root install directory
+-    execute_process (COMMAND "${_${_PYTHON_PREFIX}_CONFIG}" --prefix
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE _${_PYTHON_PREFIX}_PREFIX
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (_${_PYTHON_PREFIX}_RESULT)
+-      # python-config is not usable
+-      unset (_${_PYTHON_PREFIX}_CONFIG CACHE)
+-      continue()
+-    endif()
+-    set (_${_PYTHON_PREFIX}_HINTS "${_${_PYTHON_PREFIX}_PREFIX}" "${${_PYTHON_PREFIX}_ROOT_DIR}" ENV ${_PYTHON_PREFIX}_ROOT_DIR)
+-
+-    # retrieve library
+-    execute_process (COMMAND "${_${_PYTHON_PREFIX}_CONFIG}" --ldflags
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE _${_PYTHON_PREFIX}_FLAGS
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-      # retrieve library directory
+-      string (REGEX MATCHALL "-L[^ ]+" _${_PYTHON_PREFIX}_LIB_DIRS "${_${_PYTHON_PREFIX}_FLAGS}")
+-      string (REPLACE "-L" "" _${_PYTHON_PREFIX}_LIB_DIRS "${_${_PYTHON_PREFIX}_LIB_DIRS}")
+-      list (REMOVE_DUPLICATES _${_PYTHON_PREFIX}_LIB_DIRS)
+-      # retrieve library name
+-      string (REGEX MATCHALL "-lpython[^ ]+" _${_PYTHON_PREFIX}_LIB_NAMES "${_${_PYTHON_PREFIX}_FLAGS}")
+-      string (REPLACE "-l" "" _${_PYTHON_PREFIX}_LIB_NAMES "${_${_PYTHON_PREFIX}_LIB_NAMES}")
+-      list (REMOVE_DUPLICATES _${_PYTHON_PREFIX}_LIB_NAMES)
+-
+-      find_library (${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                    NAMES ${_${_PYTHON_PREFIX}_LIB_NAMES}
+-                    NAMES_PER_DIR
+-                    HINTS ${_${_PYTHON_PREFIX}_HINTS} ${_${_PYTHON_PREFIX}_LIB_DIRS}
+-                    PATH_SUFFIXES lib
+-                    NO_SYSTEM_ENVIRONMENT_PATH
+-                    NO_CMAKE_SYSTEM_PATH)
+-      # retrieve runtime library
+-      if (${_PYTHON_PREFIX}_LIBRARY_RELEASE)
+-        get_filename_component (_${_PYTHON_PREFIX}_PATH "${${_PYTHON_PREFIX}_LIBRARY_RELEASE}" DIRECTORY)
+-        get_filename_component (_${_PYTHON_PREFIX}_PATH2 "${_${_PYTHON_PREFIX}_PATH}" DIRECTORY)
+-        _python_find_runtime_library (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE
+-                                      NAMES ${_${_PYTHON_PREFIX}_LIB_NAMES}
+-                                      NAMES_PER_DIR
+-                                      HINTS "${_${_PYTHON_PREFIX}_PATH}" "${_${_PYTHON_PREFIX}_PATH2}" ${_${_PYTHON_PREFIX}_HINTS}
+-                                      PATH_SUFFIXES bin
+-                                      NO_SYSTEM_ENVIRONMENT_PATH
+-                                      NO_CMAKE_SYSTEM_PATH)
+-      endif()
+-    endif()
+-
+-    # retrieve include directory
+-    execute_process (COMMAND "${_${_PYTHON_PREFIX}_CONFIG}" --includes
+-                     RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                     OUTPUT_VARIABLE _${_PYTHON_PREFIX}_FLAGS
+-                     ERROR_QUIET
+-                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-      # retrieve include directory
+-      string (REGEX MATCHALL "-I[^ ]+" _${_PYTHON_PREFIX}_INCLUDE_DIRS "${_${_PYTHON_PREFIX}_FLAGS}")
+-      string (REPLACE "-I" "" _${_PYTHON_PREFIX}_INCLUDE_DIRS "${_${_PYTHON_PREFIX}_INCLUDE_DIRS}")
+-      list (REMOVE_DUPLICATES _${_PYTHON_PREFIX}_INCLUDE_DIRS)
+-
+-      find_path (${_PYTHON_PREFIX}_INCLUDE_DIR
+-                 NAMES Python.h
+-                 HINTS ${_${_PYTHON_PREFIX}_INCLUDE_DIRS}
+-                 NO_SYSTEM_ENVIRONMENT_PATH
+-                 NO_CMAKE_SYSTEM_PATH)
+-    endif()
+-
+-    if (${_PYTHON_PREFIX}_LIBRARY_RELEASE AND ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-      break()
+-    endif()
+-  endforeach()
+-
+-  # Rely on HINTS and standard paths if config tool failed to locate artifacts
+-  if (NOT (${_PYTHON_PREFIX}_LIBRARY_RELEASE OR ${_PYTHON_PREFIX}_LIBRARY_DEBUG) OR NOT ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-    foreach (_${_PYTHON_PREFIX}_VERSION IN LISTS _${_PYTHON_PREFIX}_FIND_VERSIONS)
+-      string (REPLACE "." "" _${_PYTHON_PREFIX}_VERSION_NO_DOTS ${_${_PYTHON_PREFIX}_VERSION})
+-
+-      _python_get_frameworks (_${_PYTHON_PREFIX}_FRAMEWORK_PATHS ${_${_PYTHON_PREFIX}_VERSION})
+-
+-      set (_${_PYTHON_PREFIX}_REGISTRY_PATHS
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath]
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_${_PYTHON_PREFIX}_VERSION}\\InstallPath]
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH}\\InstallPath]
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\ContinuumAnalytics\\Anaconda${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}-${_${_PYTHON_PREFIX}_ARCH2}\\InstallPath])
+-
+-      if (APPLE AND _${_PYTHON_PREFIX}_FIND_FRAMEWORK STREQUAL "FIRST")
+-        find_library (${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                      NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}
+-                            python${_${_PYTHON_PREFIX}_VERSION}mu
+-                            python${_${_PYTHON_PREFIX}_VERSION}m
+-                            python${_${_PYTHON_PREFIX}_VERSION}u
+-                            python${_${_PYTHON_PREFIX}_VERSION}
+-                      NAMES_PER_DIR
+-                      PATHS ${_${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                      PATH_SUFFIXES lib/${CMAKE_LIBRARY_ARCHITECTURE} lib libs
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}mu
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}m
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}u
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config
+-                      NO_CMAKE_PATH
+-                      NO_CMAKE_ENVIRONMENT_PATH
+-                      NO_SYSTEM_ENVIRONMENT_PATH
+-                      NO_CMAKE_SYSTEM_PATH)
+-      endif()
+-
+-      if (WIN32 AND _${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "FIRST")
+-        find_library (${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                      NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}
+-                            python${_${_PYTHON_PREFIX}_VERSION}mu
+-                            python${_${_PYTHON_PREFIX}_VERSION}m
+-                            python${_${_PYTHON_PREFIX}_VERSION}u
+-                            python${_${_PYTHON_PREFIX}_VERSION}
+-                      NAMES_PER_DIR
+-                      HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                      PATHS ${_${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                      PATH_SUFFIXES lib/${CMAKE_LIBRARY_ARCHITECTURE} lib libs
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}mu
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}m
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}u
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}
+-                                    lib/python${_${_PYTHON_PREFIX}_VERSION}/config
+-                      NO_SYSTEM_ENVIRONMENT_PATH
+-                      NO_CMAKE_SYSTEM_PATH)
+-      endif()
+-
+-      # search in HINTS locations
+-      find_library (${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}
+-                          python${_${_PYTHON_PREFIX}_VERSION}mu
+-                          python${_${_PYTHON_PREFIX}_VERSION}m
+-                          python${_${_PYTHON_PREFIX}_VERSION}u
+-                          python${_${_PYTHON_PREFIX}_VERSION}
+-                    NAMES_PER_DIR
+-                    HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                    PATH_SUFFIXES lib/${CMAKE_LIBRARY_ARCHITECTURE} lib libs
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}mu
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}m
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}u
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config
+-                    NO_SYSTEM_ENVIRONMENT_PATH
+-                    NO_CMAKE_SYSTEM_PATH)
+-
+-      if (APPLE AND _${_PYTHON_PREFIX}_FIND_FRAMEWORK STREQUAL "LAST")
+-        set (__${_PYTHON_PREFIX}_FRAMEWORK_PATHS ${_${_PYTHON_PREFIX}_FRAMEWORK_PATHS})
+-      else()
+-        unset (__${_PYTHON_PREFIX}_FRAMEWORK_PATHS)
+-      endif()
+-
+-      if (WIN32 AND _${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "LAST")
+-        set (__${_PYTHON_PREFIX}_REGISTRY_PATHS ${_${_PYTHON_PREFIX}_REGISTRY_PATHS})
+-      else()
+-        unset (__${_PYTHON_PREFIX}_REGISTRY_PATHS)
+-      endif()
+-
+-      # search in all default paths
+-      find_library (${_PYTHON_PREFIX}_LIBRARY_RELEASE
+-                    NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}
+-                          python${_${_PYTHON_PREFIX}_VERSION}mu
+-                          python${_${_PYTHON_PREFIX}_VERSION}m
+-                          python${_${_PYTHON_PREFIX}_VERSION}u
+-                          python${_${_PYTHON_PREFIX}_VERSION}
+-                    NAMES_PER_DIR
+-                    PATHS ${__${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                          ${__${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                    PATH_SUFFIXES lib/${CMAKE_LIBRARY_ARCHITECTURE} lib libs
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}mu
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}m
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}u
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config-${_${_PYTHON_PREFIX}_VERSION}
+-                                  lib/python${_${_PYTHON_PREFIX}_VERSION}/config)
+-      # retrieve runtime library
+-      if (${_PYTHON_PREFIX}_LIBRARY_RELEASE)
+-        get_filename_component (_${_PYTHON_PREFIX}_PATH "${${_PYTHON_PREFIX}_LIBRARY_RELEASE}" DIRECTORY)
+-        get_filename_component (_${_PYTHON_PREFIX}_PATH2 "${_${_PYTHON_PREFIX}_PATH}" DIRECTORY)
+-        _python_find_runtime_library (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE
+-                                      NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}
+-                                            python${_${_PYTHON_PREFIX}_VERSION}mu
+-                                            python${_${_PYTHON_PREFIX}_VERSION}m
+-                                            python${_${_PYTHON_PREFIX}_VERSION}u
+-                                            python${_${_PYTHON_PREFIX}_VERSION}
+-                                      NAMES_PER_DIR
+-                                      HINTS "${_${_PYTHON_PREFIX}_PATH}" "${_${_PYTHON_PREFIX}_PATH2}" ${_${_PYTHON_PREFIX}_HINTS}
+-                                      PATH_SUFFIXES bin)
+-      endif()
+-
+-      if (WIN32)
+-        # search for debug library
+-        if (${_PYTHON_PREFIX}_LIBRARY_RELEASE)
+-          # use library location as a hint
+-          get_filename_component (_${_PYTHON_PREFIX}_PATH "${${_PYTHON_PREFIX}_LIBRARY_RELEASE}" DIRECTORY)
+-          find_library (${_PYTHON_PREFIX}_LIBRARY_DEBUG
+-                        NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}_d
+-                        NAMES_PER_DIR
+-                        HINTS "${_${_PYTHON_PREFIX}_PATH}" ${_${_PYTHON_PREFIX}_HINTS}
+-                        NO_DEFAULT_PATH)
+-        else()
+-          # search first in known locations
+-          if (_${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "FIRST")
+-            find_library (${_PYTHON_PREFIX}_LIBRARY_DEBUG
+-                          NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}_d
+-                          NAMES_PER_DIR
+-                          HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                          PATHS ${_${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                          PATH_SUFFIXES lib libs
+-                          NO_SYSTEM_ENVIRONMENT_PATH
+-                          NO_CMAKE_SYSTEM_PATH)
+-          endif()
+-          # search in all default paths
+-          find_library (${_PYTHON_PREFIX}_LIBRARY_DEBUG
+-                        NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}_d
+-                        NAMES_PER_DIR
+-                        HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                        PATHS ${__${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                        PATH_SUFFIXES lib libs)
+-        endif()
+-        if (${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-          get_filename_component (_${_PYTHON_PREFIX}_PATH "${${_PYTHON_PREFIX}_LIBRARY_DEBUG}" DIRECTORY)
+-          get_filename_component (_${_PYTHON_PREFIX}_PATH2 "${_${_PYTHON_PREFIX}_PATH}" DIRECTORY)
+-          _python_find_runtime_library (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG
+-                                        NAMES python${_${_PYTHON_PREFIX}_VERSION_NO_DOTS}_d
+-                                        NAMES_PER_DIR
+-                                        HINTS "${_${_PYTHON_PREFIX}_PATH}" "${_${_PYTHON_PREFIX}_PATH2}" ${_${_PYTHON_PREFIX}_HINTS}
+-                                        PATH_SUFFIXES bin)
+-        endif()
+-      endif()
+-
+-      # Don't search for include dir until library location is known
+-      if (${_PYTHON_PREFIX}_LIBRARY_RELEASE OR ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-        unset (_${_PYTHON_PREFIX}_INCLUDE_HINTS)
+-
+-        if (${_PYTHON_PREFIX}_EXECUTABLE)
+-          # pick up include directory from configuration
+-          execute_process (COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-                                   "import sys; import sysconfig; sys.stdout.write(sysconfig.get_path('include'))"
+-                           RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                           OUTPUT_VARIABLE _${_PYTHON_PREFIX}_PATH
+-                           ERROR_QUIET
+-                           OUTPUT_STRIP_TRAILING_WHITESPACE)
+-           if (NOT _${_PYTHON_PREFIX}_RESULT)
+-             file (TO_CMAKE_PATH "${_${_PYTHON_PREFIX}_PATH}" _${_PYTHON_PREFIX}_PATH)
+-             list (APPEND _${_PYTHON_PREFIX}_INCLUDE_HINTS "${_${_PYTHON_PREFIX}_PATH}")
+-           endif()
+-        endif()
+-
+-        foreach (_${_PYTHON_PREFIX}_LIB IN ITEMS ${_PYTHON_PREFIX}_LIBRARY_RELEASE ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-          if (${_${_PYTHON_PREFIX}_LIB})
+-            # Use the library's install prefix as a hint
+-            if (${_${_PYTHON_PREFIX}_LIB} MATCHES "^(.+/Frameworks/Python.framework/Versions/[0-9.]+)")
+-              list (APPEND _${_PYTHON_PREFIX}_INCLUDE_HINTS "${CMAKE_MATCH_1}")
+-            elseif (${_${_PYTHON_PREFIX}_LIB} MATCHES "^(.+)/lib(64|32)?/python[0-9.]+/config")
+-              list (APPEND _${_PYTHON_PREFIX}_INCLUDE_HINTS "${CMAKE_MATCH_1}")
+-            elseif (DEFINED CMAKE_LIBRARY_ARCHITECTURE AND ${_${_PYTHON_PREFIX}_LIB} MATCHES "^(.+)/lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+-              list (APPEND _${_PYTHON_PREFIX}_INCLUDE_HINTS "${CMAKE_MATCH_1}")
+-            else()
+-              # assume library is in a directory under root
+-              get_filename_component (_${_PYTHON_PREFIX}_PREFIX "${${_${_PYTHON_PREFIX}_LIB}}" DIRECTORY)
+-              get_filename_component (_${_PYTHON_PREFIX}_PREFIX "${_${_PYTHON_PREFIX}_PREFIX}" DIRECTORY)
+-              list (APPEND _${_PYTHON_PREFIX}_INCLUDE_HINTS "${_${_PYTHON_PREFIX}_PREFIX}")
+-            endif()
+-          endif()
+-        endforeach()
+-        list (REMOVE_DUPLICATES _${_PYTHON_PREFIX}_INCLUDE_HINTS)
+-
+-        if (APPLE AND _${_PYTHON_PREFIX}_FIND_FRAMEWORK STREQUAL "FIRST")
+-          find_path (${_PYTHON_PREFIX}_INCLUDE_DIR
+-                     NAMES Python.h
+-                     HINTS ${_${_PYTHON_PREFIX}_HINTS}
+-                     PATHS ${_${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                     PATH_SUFFIXES include/python${_${_PYTHON_PREFIX}_VERSION}mu
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}m
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}u
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}
+-                                   include
+-                     NO_CMAKE_PATH
+-                     NO_CMAKE_ENVIRONMENT_PATH
+-                     NO_SYSTEM_ENVIRONMENT_PATH
+-                     NO_CMAKE_SYSTEM_PATH)
+-        endif()
+-
+-        if (WIN32 AND _${_PYTHON_PREFIX}_FIND_REGISTRY STREQUAL "FIRST")
+-          find_path (${_PYTHON_PREFIX}_INCLUDE_DIR
+-                     NAMES Python.h
+-                     HINTS ${_${_PYTHON_PREFIX}_INCLUDE_HINTS} ${_${_PYTHON_PREFIX}_HINTS}
+-                     PATHS ${_${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                     PATH_SUFFIXES include/python${_${_PYTHON_PREFIX}_VERSION}mu
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}m
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}u
+-                                   include/python${_${_PYTHON_PREFIX}_VERSION}
+-                                   include
+-                     NO_SYSTEM_ENVIRONMENT_PATH
+-                     NO_CMAKE_SYSTEM_PATH)
+-        endif()
+-
+-        find_path (${_PYTHON_PREFIX}_INCLUDE_DIR
+-                   NAMES Python.h
+-                   HINTS ${_${_PYTHON_PREFIX}_INCLUDE_HINTS} ${_${_PYTHON_PREFIX}_HINTS}
+-                   PATHS ${__${_PYTHON_PREFIX}_FRAMEWORK_PATHS}
+-                         ${__${_PYTHON_PREFIX}_REGISTRY_PATHS}
+-                   PATH_SUFFIXES include/python${_${_PYTHON_PREFIX}_VERSION}mu
+-                                 include/python${_${_PYTHON_PREFIX}_VERSION}m
+-                                 include/python${_${_PYTHON_PREFIX}_VERSION}u
+-                                 include/python${_${_PYTHON_PREFIX}_VERSION}
+-                                 include
+-                   NO_SYSTEM_ENVIRONMENT_PATH
+-                   NO_CMAKE_SYSTEM_PATH)
+-      endif()
+-
+-      if ((${_PYTHON_PREFIX}_LIBRARY_RELEASE OR ${_PYTHON_PREFIX}_LIBRARY_DEBUG) AND ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-        break()
+-      endif()
+-    endforeach()
+-
+-    # search header file in standard locations
+-    find_path (${_PYTHON_PREFIX}_INCLUDE_DIR
+-               NAMES Python.h)
+-  endif()
+-
+-  if (${_PYTHON_PREFIX}_INCLUDE_DIR)
+-    # retrieve version from header file
+-    file (STRINGS "${${_PYTHON_PREFIX}_INCLUDE_DIR}/patchlevel.h" _${_PYTHON_PREFIX}_VERSION
+-          REGEX "^#define[ \t]+PY_VERSION[ \t]+\"[^\"]+\"")
+-    string (REGEX REPLACE "^#define[ \t]+PY_VERSION[ \t]+\"([^\"]+)\".*" "\\1"
+-                          _${_PYTHON_PREFIX}_VERSION "${_${_PYTHON_PREFIX}_VERSION}")
+-    string (REGEX MATCHALL "[0-9]+" _${_PYTHON_PREFIX}_VERSIONS "${_${_PYTHON_PREFIX}_VERSION}")
+-    list (GET _${_PYTHON_PREFIX}_VERSIONS 0 _${_PYTHON_PREFIX}_VERSION_MAJOR)
+-    list (GET _${_PYTHON_PREFIX}_VERSIONS 1 _${_PYTHON_PREFIX}_VERSION_MINOR)
+-    list (GET _${_PYTHON_PREFIX}_VERSIONS 2 _${_PYTHON_PREFIX}_VERSION_PATCH)
+-
+-    if (NOT ${_PYTHON_PREFIX}_Interpreter_FOUND AND NOT ${_PYTHON_PREFIX}_Compiler_FOUND)
+-      # set public version information
+-      set (${_PYTHON_PREFIX}_VERSION ${_${_PYTHON_PREFIX}_VERSION})
+-      set (${_PYTHON_PREFIX}_VERSION_MAJOR ${_${_PYTHON_PREFIX}_VERSION_MAJOR})
+-      set (${_PYTHON_PREFIX}_VERSION_MINOR ${_${_PYTHON_PREFIX}_VERSION_MINOR})
+-      set (${_PYTHON_PREFIX}_VERSION_PATCH ${_${_PYTHON_PREFIX}_VERSION_PATCH})
+-    endif()
+-  endif()
+-
+-  # define public variables
+-  include (SelectLibraryConfigurations)
+-  select_library_configurations (${_PYTHON_PREFIX})
+-  if (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE)
+-    set (${_PYTHON_PREFIX}_RUNTIME_LIBRARY "${${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE}")
+-  elseif (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG)
+-    set (${_PYTHON_PREFIX}_RUNTIME_LIBRARY "${${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG}")
+-  else()
+-    set (${_PYTHON_PREFIX}_RUNTIME_LIBRARY "$${_PYTHON_PREFIX}_RUNTIME_LIBRARY-NOTFOUND")
+-  endif()
+-
+-  _python_set_library_dirs (${_PYTHON_PREFIX}_LIBRARY_DIRS
+-                            ${_PYTHON_PREFIX}_LIBRARY_RELEASE ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-  if (UNIX)
+-    if (${_PYTHON_PREFIX}_LIBRARY_RELEASE MATCHES "${CMAKE_SHARED_LIBRARY_SUFFIX}$"
+-        OR ${_PYTHON_PREFIX}_LIBRARY_RELEASE MATCHES "${CMAKE_SHARED_LIBRARY_SUFFIX}$")
+-      set (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DIRS ${${_PYTHON_PREFIX}_LIBRARY_DIRS})
+-    endif()
+-  else()
+-      _python_set_library_dirs (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DIRS
+-                                ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG)
+-  endif()
+-
+-  set (${_PYTHON_PREFIX}_INCLUDE_DIRS "${${_PYTHON_PREFIX}_INCLUDE_DIR}")
+-
+-  mark_as_advanced (${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE
+-                    ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG
+-                    ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-
+-  if ((${_PYTHON_PREFIX}_LIBRARY_RELEASE OR ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-      AND ${_PYTHON_PREFIX}_INCLUDE_DIR)
+-    if (${_PYTHON_PREFIX}_Interpreter_FOUND OR ${_PYTHON_PREFIX}_Compiler_FOUND)
+-      # development environment must be compatible with interpreter/compiler
+-      if (${_${_PYTHON_PREFIX}_VERSION_MAJOR}.${_${_PYTHON_PREFIX}_VERSION_MINOR} VERSION_EQUAL ${${_PYTHON_PREFIX}_VERSION_MAJOR}.${${_PYTHON_PREFIX}_VERSION_MINOR})
+-        set (${_PYTHON_PREFIX}_Development_FOUND TRUE)
+-      endif()
+-    elseif (${_PYTHON_PREFIX}_VERSION_MAJOR VERSION_EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-      set (${_PYTHON_PREFIX}_Development_FOUND TRUE)
+-    endif()
+-  endif()
+-
+-  # Restore the original find library ordering
+-  if (DEFINED _${_PYTHON_PREFIX}_CMAKE_FIND_LIBRARY_SUFFIXES)
+-    set (CMAKE_FIND_LIBRARY_SUFFIXES ${_${_PYTHON_PREFIX}_CMAKE_FIND_LIBRARY_SUFFIXES})
+-  endif()
+-endif()
+-
+-if ("NumPy" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS AND ${_PYTHON_PREFIX}_Interpreter_FOUND)
+-  list (APPEND _${_PYTHON_PREFIX}_CACHED_VARS ${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR)
+-  if (${_PYTHON_PREFIX}_FIND_REQUIRED_NumPy)
+-    list (APPEND _${_PYTHON_PREFIX}_REQUIRED_VARS ${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR)
+-  endif()
+-  execute_process(
+-      COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-              "from __future__ import print_function\ntry: import numpy; print(numpy.get_include(), end='')\nexcept:pass\n"
+-      RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-      OUTPUT_VARIABLE _${_PYTHON_PREFIX}_NumPy_PATH
+-      ERROR_QUIET
+-      OUTPUT_STRIP_TRAILING_WHITESPACE)
+-  if (NOT _${_PYTHON_PREFIX}_RESULT)
+-    find_path(${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR
+-              NAMES "numpy/arrayobject.h" "numpy/numpyconfig.h"
+-              HINTS "${_${_PYTHON_PREFIX}_NumPy_PATH}"
+-              NO_DEFAULT_PATH)
+-  endif()
+-  if(${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR)
+-    set(${_PYTHON_PREFIX}_NumPy_INCLUDE_DIRS "${${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR}")
+-    set(${_PYTHON_PREFIX}_NumPy_FOUND TRUE)
+-  endif()
+-  if(${_PYTHON_PREFIX}_NumPy_FOUND)
+-    execute_process(
+-            COMMAND "${${_PYTHON_PREFIX}_EXECUTABLE}" -c
+-            "from __future__ import print_function\ntry: import numpy; print(numpy.__version__, end='')\nexcept:pass\n"
+-            RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-            OUTPUT_VARIABLE _${_PYTHON_PREFIX}_NumPy_VERSION)
+-    if (NOT _${_PYTHON_PREFIX}_RESULT)
+-       set(${_PYTHON_PREFIX}_NumPy_VERSION "${_${_PYTHON_PREFIX}_NumPy_VERSION}")
+-    endif()
+-  endif()
+-  # final step: set NumPy founded only if Development component is founded as well
+-  if (NOT ${_PYTHON_PREFIX}_Development_FOUND)
+-    set(${_PYTHON_PREFIX}_NumPy_FOUND FALSE)
+-  endif()
+-endif()
+-
+-# final validation
+-if (${_PYTHON_PREFIX}_VERSION_MAJOR AND
+-    NOT ${_PYTHON_PREFIX}_VERSION_MAJOR VERSION_EQUAL _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+-  _python_display_failure ("Could NOT find ${_PYTHON_PREFIX}: Found unsuitable major version \"${${_PYTHON_PREFIX}_VERSION_MAJOR}\", but required major version is exact version \"${_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR}\"")
+-endif()
+-
+-include (FindPackageHandleStandardArgs)
+-find_package_handle_standard_args (${_PYTHON_PREFIX}
+-                                   REQUIRED_VARS ${_${_PYTHON_PREFIX}_REQUIRED_VARS}
+-                                   VERSION_VAR ${_PYTHON_PREFIX}_VERSION
+-                                   HANDLE_COMPONENTS)
+-
+-# Create imported targets and helper functions
+-if(_${_PYTHON_PREFIX}_CMAKE_ROLE STREQUAL "PROJECT")
+-  if ("Interpreter" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
+-      AND ${_PYTHON_PREFIX}_Interpreter_FOUND
+-      AND NOT TARGET ${_PYTHON_PREFIX}::Interpreter)
+-    add_executable (${_PYTHON_PREFIX}::Interpreter IMPORTED)
+-    set_property (TARGET ${_PYTHON_PREFIX}::Interpreter
+-                  PROPERTY IMPORTED_LOCATION "${${_PYTHON_PREFIX}_EXECUTABLE}")
+-  endif()
+-
+-  if ("Compiler" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
+-      AND ${_PYTHON_PREFIX}_Compiler_FOUND
+-      AND NOT TARGET ${_PYTHON_PREFIX}::Compiler)
+-    add_executable (${_PYTHON_PREFIX}::Compiler IMPORTED)
+-    set_property (TARGET ${_PYTHON_PREFIX}::Compiler
+-                  PROPERTY IMPORTED_LOCATION "${${_PYTHON_PREFIX}_COMPILER}")
+-  endif()
+-
+-  if ("Development" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS
+-      AND ${_PYTHON_PREFIX}_Development_FOUND AND NOT TARGET ${_PYTHON_PREFIX}::Python)
+-
+-    if (${_PYTHON_PREFIX}_LIBRARY_RELEASE MATCHES "${CMAKE_SHARED_LIBRARY_SUFFIX}$"
+-        OR ${_PYTHON_PREFIX}_LIBRARY_DEBUG MATCHES "${CMAKE_SHARED_LIBRARY_SUFFIX}$"
+-        OR ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE OR ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG)
+-      set (_${_PYTHON_PREFIX}_LIBRARY_TYPE SHARED)
+-    else()
+-      set (_${_PYTHON_PREFIX}_LIBRARY_TYPE STATIC)
+-    endif()
+-
+-    add_library (${_PYTHON_PREFIX}::Python ${_${_PYTHON_PREFIX}_LIBRARY_TYPE} IMPORTED)
+-
+-    set_property (TARGET ${_PYTHON_PREFIX}::Python
+-                  PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${${_PYTHON_PREFIX}_INCLUDE_DIR}")
+-
+-    if ((${_PYTHON_PREFIX}_LIBRARY_RELEASE AND ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE)
+-        OR (${_PYTHON_PREFIX}_LIBRARY_DEBUG AND ${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG))
+-      # System manage shared libraries in two parts: import and runtime
+-      if (${_PYTHON_PREFIX}_LIBRARY_RELEASE AND ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-        set_property (TARGET ${_PYTHON_PREFIX}::Python PROPERTY IMPORTED_CONFIGURATIONS RELEASE DEBUG)
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
+-                                          IMPORTED_IMPLIB_RELEASE "${${_PYTHON_PREFIX}_LIBRARY_RELEASE}"
+-                                          IMPORTED_LOCATION_RELEASE "${${_PYTHON_PREFIX}_RUNTIME_LIBRARY_RELEASE}")
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
+-                                          IMPORTED_IMPLIB_DEBUG "${${_PYTHON_PREFIX}_LIBRARY_DEBUG}"
+-                                          IMPORTED_LOCATION_DEBUG "${${_PYTHON_PREFIX}_RUNTIME_LIBRARY_DEBUG}")
+-      else()
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+-                                          IMPORTED_IMPLIB "${${_PYTHON_PREFIX}_LIBRARY}"
+-                                          IMPORTED_LOCATION "${${_PYTHON_PREFIX}_RUNTIME_LIBRARY}")
+-      endif()
+-    else()
+-      if (${_PYTHON_PREFIX}_LIBRARY_RELEASE AND ${_PYTHON_PREFIX}_LIBRARY_DEBUG)
+-        set_property (TARGET ${_PYTHON_PREFIX}::Python PROPERTY IMPORTED_CONFIGURATIONS RELEASE DEBUG)
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
+-                                          IMPORTED_LOCATION_RELEASE "${${_PYTHON_PREFIX}_LIBRARY_RELEASE}")
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
+-                                          IMPORTED_LOCATION_DEBUG "${${_PYTHON_PREFIX}_LIBRARY_DEBUG}")
+-      else()
+-        set_target_properties (${_PYTHON_PREFIX}::Python
+-                               PROPERTIES IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+-                                          IMPORTED_LOCATION "${${_PYTHON_PREFIX}_LIBRARY}")
+-      endif()
+-    endif()
+-
+-    if (_${_PYTHON_PREFIX}_CONFIG AND _${_PYTHON_PREFIX}_LIBRARY_TYPE STREQUAL "STATIC")
+-      # extend link information with dependent libraries
+-      execute_process (COMMAND "${_${_PYTHON_PREFIX}_CONFIG}" --ldflags
+-                       RESULT_VARIABLE _${_PYTHON_PREFIX}_RESULT
+-                       OUTPUT_VARIABLE _${_PYTHON_PREFIX}_FLAGS
+-                       ERROR_QUIET
+-                       OUTPUT_STRIP_TRAILING_WHITESPACE)
+-      if (NOT _${_PYTHON_PREFIX}_RESULT)
+-        string (REGEX MATCHALL "-[Ll][^ ]+" _${_PYTHON_PREFIX}_LINK_LIBRARIES "${_${_PYTHON_PREFIX}_FLAGS}")
+-        # remove elements relative to python library itself
+-        list (FILTER _${_PYTHON_PREFIX}_LINK_LIBRARIES EXCLUDE REGEX "-lpython")
+-        foreach (_${_PYTHON_PREFIX}_DIR IN LISTS ${_PYTHON_PREFIX}_LIBRARY_DIRS)
+-          list (FILTER _${_PYTHON_PREFIX}_LINK_LIBRARIES EXCLUDE REGEX "-L${${_PYTHON_PREFIX}_DIR}")
+-        endforeach()
+-        set_property (TARGET ${_PYTHON_PREFIX}::Python
+-                      PROPERTY INTERFACE_LINK_LIBRARIES ${_${_PYTHON_PREFIX}_LINK_LIBRARIES})
+-      endif()
+-    endif()
+-
+-    #
+-    # PYTHON_ADD_LIBRARY (<name> [STATIC|SHARED|MODULE] src1 src2 ... srcN)
+-    # It is used to build modules for python.
+-    #
+-    function (__${_PYTHON_PREFIX}_ADD_LIBRARY prefix name)
+-      cmake_parse_arguments (PARSE_ARGV 2 PYTHON_ADD_LIBRARY
+-                             "STATIC;SHARED;MODULE" "" "")
+-
+-      unset (type)
+-      if (NOT (PYTHON_ADD_LIBRARY_STATIC
+-            OR PYTHON_ADD_LIBRARY_SHARED
+-            OR PYTHON_ADD_LIBRARY_MODULE))
+-        set (type MODULE)
+-      endif()
+-      add_library (${name} ${type} ${ARGN})
+-      target_link_libraries (${name} PRIVATE ${prefix}::Python)
+-
+-      # customize library name to follow module name rules
+-      get_property (type TARGET ${name} PROPERTY TYPE)
+-      if (type STREQUAL "MODULE_LIBRARY")
+-        set_property (TARGET ${name} PROPERTY PREFIX "")
+-        if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+-          set_property (TARGET ${name} PROPERTY SUFFIX ".pyd")
+-        endif()
+-      endif()
+-    endfunction()
+-  endif()
+-
+-  if ("NumPy" IN_LIST ${_PYTHON_PREFIX}_FIND_COMPONENTS AND ${_PYTHON_PREFIX}_NumPy_FOUND
+-      AND NOT TARGET ${_PYTHON_PREFIX}::NumPy AND TARGET ${_PYTHON_PREFIX}::Python)
+-    add_library (${_PYTHON_PREFIX}::NumPy INTERFACE IMPORTED)
+-    set_property (TARGET ${_PYTHON_PREFIX}::NumPy
+-                  PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${${_PYTHON_PREFIX}_NumPy_INCLUDE_DIR}")
+-    target_link_libraries (${_PYTHON_PREFIX}::NumPy INTERFACE ${_PYTHON_PREFIX}::Python)
+-  endif()
+-endif()
+-
+-# final clean-up
+-
+-# Restore CMAKE_FIND_APPBUNDLE
+-if (DEFINED _${_PYTHON_PREFIX}_CMAKE_FIND_APPBUNDLE)
+-  set (CMAKE_FIND_APPBUNDLE ${_${_PYTHON_PREFIX}_CMAKE_FIND_APPBUNDLE})
+-  unset (_${_PYTHON_PREFIX}_CMAKE_FIND_APPBUNDLE)
+-else()
+-  unset (CMAKE_FIND_APPBUNDLE)
+-endif()
+-# Restore CMAKE_FIND_FRAMEWORK
+-if (DEFINED _${_PYTHON_PREFIX}_CMAKE_FIND_FRAMEWORK)
+-  set (CMAKE_FIND_FRAMEWORK ${_${_PYTHON_PREFIX}_CMAKE_FIND_FRAMEWORK})
+-  unset (_${_PYTHON_PREFIX}_CMAKE_FIND_FRAMEWORK)
+-else()
+-  unset (CMAKE_FIND_FRAMEWORK)
+-endif()
+-
+-unset (_${_PYTHON_PREFIX}_CONFIG CACHE)
+diff --git a/cmake/cython/python/FindPython2.cmake b/cmake/cython/python/FindPython2.cmake
+deleted file mode 100644
+index b9c0b6b..0000000
+--- a/cmake/cython/python/FindPython2.cmake
++++ /dev/null
+@@ -1,189 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#[=======================================================================[.rst:
+-FindPython2
+------------
+-
+-Find Python 2 interpreter, compiler and development environment (include
+-directories and libraries).
+-
+-Three components are supported:
+-
+-* ``Interpreter``: search for Python 2 interpreter
+-* ``Compiler``: search for Python 2 compiler. Only offered by IronPython.
+-* ``Development``: search for development artifacts (include directories and
+-  libraries)
+-* ``NumPy``: search for NumPy include directories.
+-
+-If no ``COMPONENTS`` is specified, ``Interpreter`` is assumed.
+-
+-To ensure consistent versions between components ``Interpreter``, ``Compiler``,
+-``Development`` and ``NumPy``, specify all components at the same time::
+-
+-  find_package (Python2 COMPONENTS Interpreter Development)
+-
+-This module looks only for version 2 of Python. This module can be used
+-concurrently with :module:`FindPython3` module to use both Python versions.
+-
+-The :module:`FindPython` module can be used if Python version does not matter
+-for you.
+-
+-.. note::
+-
+-  If components ``Interpreter`` and ``Development`` are both specified, this
+-  module search only for interpreter with same platform architecture as the one
+-  defined by ``CMake`` configuration. This contraint does not apply if only
+-  ``Interpreter`` component is specified.
+-
+-Imported Targets
+-^^^^^^^^^^^^^^^^
+-
+-This module defines the following :ref:`Imported Targets <Imported Targets>`
+-(when :prop_gbl:`CMAKE_ROLE` is ``PROJECT``):
+-
+-``Python2::Interpreter``
+-  Python 2 interpreter. Target defined if component ``Interpreter`` is found.
+-``Python2::Compiler``
+-  Python 2 compiler. Target defined if component ``Compiler`` is found.
+-``Python2::Python``
+-  Python 2 library. Target defined if component ``Development`` is found.
+-``Python2::NumPy``
+-  NumPy library for Python 2. Target defined if component ``NumPy`` is found.
+-
+-Result Variables
+-^^^^^^^^^^^^^^^^
+-
+-This module will set the following variables in your project
+-(see :ref:`Standard Variable Names <CMake Developer Standard Variable Names>`):
+-
+-``Python2_FOUND``
+-  System has the Python 2 requested components.
+-``Python2_Interpreter_FOUND``
+-  System has the Python 2 interpreter.
+-``Python2_EXECUTABLE``
+-  Path to the Python 2 interpreter.
+-``Python2_INTERPRETER_ID``
+-  A short string unique to the interpreter. Possible values include:
+-    * Python
+-    * ActivePython
+-    * Anaconda
+-    * Canopy
+-    * IronPython
+-``Python2_STDLIB``
+-  Standard platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=True)``.
+-``Python2_STDARCH``
+-  Standard platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=True)``.
+-``Python2_SITELIB``
+-  Third-party platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=False)``.
+-``Python2_SITEARCH``
+-  Third-party platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=False)``.
+-``Python2_Compiler_FOUND``
+-  System has the Python 2 compiler.
+-``Python2_COMPILER``
+-  Path to the Python 2 compiler. Only offered by IronPython.
+-``Python2_COMPILER_ID``
+-  A short string unique to the compiler. Possible values include:
+-    * IronPython
+-``Python2_Development_FOUND``
+-  System has the Python 2 development artifacts.
+-``Python2_INCLUDE_DIRS``
+-  The Python 2 include directories.
+-``Python2_LIBRARIES``
+-  The Python 2 libraries.
+-``Python2_LIBRARY_DIRS``
+-  The Python 2 library directories.
+-``Python2_RUNTIME_LIBRARY_DIRS``
+-  The Python 2 runtime library directories.
+-``Python2_VERSION``
+-  Python 2 version.
+-``Python2_VERSION_MAJOR``
+-  Python 2 major version.
+-``Python2_VERSION_MINOR``
+-  Python 2 minor version.
+-``Python2_VERSION_PATCH``
+-  Python 2 patch version.
+-``Python2_NumPy_FOUND``
+-  System has the NumPy.
+-``Python2_NumPy_INCLUDE_DIRS``
+-  The NumPy include directries.
+-``Python2_NumPy_VERSION``
+-  The NumPy version.
+-
+-Hints
+-^^^^^
+-
+-``Python2_ROOT_DIR``
+-  Define the root directory of a Python 2 installation.
+-
+-``Python2_USE_STATIC_LIBS``
+-  * If not defined, search for shared libraries and static libraries in that
+-    order.
+-  * If set to TRUE, search **only** for static libraries.
+-  * If set to FALSE, search **only** for shared libraries.
+-
+-``Python2_FIND_REGISTRY``
+-  On Windows the ``Python2_FIND_REGISTRY`` variable determine the order
+-  of preference between registry and environment variables.
+-  the ``Python2_FIND_REGISTRY`` variable can be set to empty or one of the
+-  following:
+-
+-  * ``FIRST``: Try to use registry before environment variables.
+-    This is the default.
+-  * ``LAST``: Try to use registry after environment variables.
+-  * ``NEVER``: Never try to use registry.
+-
+-``CMAKE_FIND_FRAMEWORK``
+-  On macOS the :variable:`CMAKE_FIND_FRAMEWORK` variable determine the order of
+-  preference between Apple-style and unix-style package components.
+-
+-  .. note::
+-
+-    Value ``ONLY`` is not supported so ``FIRST`` will be used instead.
+-
+-.. note::
+-
+-  If a Python virtual environment is configured, set variable
+-  ``Python_FIND_REGISTRY`` (Windows) or ``CMAKE_FIND_FRAMEWORK`` (macOS) with
+-  value ``LAST`` or ``NEVER`` to select it preferably.
+-
+-Commands
+-^^^^^^^^
+-
+-This module defines the command ``Python2_add_library`` (when
+-:prop_gbl:`CMAKE_ROLE` is ``PROJECT``), which has the same semantics as
+-:command:`add_library`, but takes care of Python module naming rules
+-(only applied if library is of type ``MODULE``), and adds a dependency to target
+-``Python2::Python``::
+-
+-  Python2_add_library (my_module MODULE src1.cpp)
+-
+-If library type is not specified, ``MODULE`` is assumed.
+-#]=======================================================================]
+-
+-
+-set (_PYTHON_PREFIX Python2)
+-
+-set (_Python2_REQUIRED_VERSION_MAJOR 2)
+-
+-include (${CMAKE_CURRENT_LIST_DIR}/FindPython/Support.cmake)
+-
+-if (COMMAND __Python2_add_library)
+-  macro (Python2_add_library)
+-    __Python2_add_library (Python2 ${ARGV})
+-  endmacro()
+-endif()
+-
+-unset (_PYTHON_PREFIX)
+diff --git a/cmake/cython/python/FindPython3.cmake b/cmake/cython/python/FindPython3.cmake
+deleted file mode 100644
+index c2f3384..0000000
+--- a/cmake/cython/python/FindPython3.cmake
++++ /dev/null
+@@ -1,189 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#[=======================================================================[.rst:
+-FindPython3
+------------
+-
+-Find Python 3 interpreter, compiler and development environment (include
+-directories and libraries).
+-
+-Three components are supported:
+-
+-* ``Interpreter``: search for Python 3 interpreter
+-* ``Compiler``: search for Python 3 compiler. Only offered by IronPython.
+-* ``Development``: search for development artifacts (include directories and
+-  libraries)
+-* ``NumPy``: search for NumPy include directories.
+-
+-If no ``COMPONENTS`` is specified, ``Interpreter`` is assumed.
+-
+-To ensure consistent versions between components ``Interpreter``, ``Compiler``,
+-``Development`` and ``NumPy``, specify all components at the same time::
+-
+-  find_package (Python3 COMPONENTS Interpreter Development)
+-
+-This module looks only for version 3 of Python. This module can be used
+-concurrently with :module:`FindPython2` module to use both Python versions.
+-
+-The :module:`FindPython` module can be used if Python version does not matter
+-for you.
+-
+-.. note::
+-
+-  If components ``Interpreter`` and ``Development`` are both specified, this
+-  module search only for interpreter with same platform architecture as the one
+-  defined by ``CMake`` configuration. This contraint does not apply if only
+-  ``Interpreter`` component is specified.
+-
+-Imported Targets
+-^^^^^^^^^^^^^^^^
+-
+-This module defines the following :ref:`Imported Targets <Imported Targets>`
+-(when :prop_gbl:`CMAKE_ROLE` is ``PROJECT``):
+-
+-``Python3::Interpreter``
+-  Python 3 interpreter. Target defined if component ``Interpreter`` is found.
+-``Python3::Compiler``
+-  Python 3 compiler. Target defined if component ``Compiler`` is found.
+-``Python3::Python``
+-  Python 3 library. Target defined if component ``Development`` is found.
+-``Python3::NumPy``
+-  NumPy library for Python 3. Target defined if component ``NumPy`` is found.
+-
+-Result Variables
+-^^^^^^^^^^^^^^^^
+-
+-This module will set the following variables in your project
+-(see :ref:`Standard Variable Names <CMake Developer Standard Variable Names>`):
+-
+-``Python3_FOUND``
+-  System has the Python 3 requested components.
+-``Python3_Interpreter_FOUND``
+-  System has the Python 3 interpreter.
+-``Python3_EXECUTABLE``
+-  Path to the Python 3 interpreter.
+-``Python3_INTERPRETER_ID``
+-  A short string unique to the interpreter. Possible values include:
+-    * Python
+-    * ActivePython
+-    * Anaconda
+-    * Canopy
+-    * IronPython
+-``Python3_STDLIB``
+-  Standard platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=True)``.
+-``Python3_STDARCH``
+-  Standard platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=True)``.
+-``Python3_SITELIB``
+-  Third-party platform independent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=False)``.
+-``Python3_SITEARCH``
+-  Third-party platform dependent installation directory.
+-
+-  Information returned by
+-  ``distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=False)``.
+-``Python3_Compiler_FOUND``
+-  System has the Python 3 compiler.
+-``Python3_COMPILER``
+-  Path to the Python 3 compiler. Only offered by IronPython.
+-``Python3_COMPILER_ID``
+-  A short string unique to the compiler. Possible values include:
+-    * IronPython
+-``Python3_Development_FOUND``
+-  System has the Python 3 development artifacts.
+-``Python3_INCLUDE_DIRS``
+-  The Python 3 include directories.
+-``Python3_LIBRARIES``
+-  The Python 3 libraries.
+-``Python3_LIBRARY_DIRS``
+-  The Python 3 library directories.
+-``Python3_RUNTIME_LIBRARY_DIRS``
+-  The Python 3 runtime library directories.
+-``Python3_VERSION``
+-  Python 3 version.
+-``Python3_VERSION_MAJOR``
+-  Python 3 major version.
+-``Python3_VERSION_MINOR``
+-  Python 3 minor version.
+-``Python3_VERSION_PATCH``
+-  Python 3 patch version.
+-``Python3_NumPy_FOUND``
+-  System has the NumPy.
+-``Python3_NumPy_INCLUDE_DIRS``
+-  The NumPy include directries.
+-``Python3_NumPy_VERSION``
+-  The NumPy version.
+-
+-Hints
+-^^^^^
+-
+-``Python3_ROOT_DIR``
+-  Define the root directory of a Python 3 installation.
+-
+-``Python3_USE_STATIC_LIBS``
+-  * If not defined, search for shared libraries and static libraries in that
+-    order.
+-  * If set to TRUE, search **only** for static libraries.
+-  * If set to FALSE, search **only** for shared libraries.
+-
+-``Python3_FIND_REGISTRY``
+-  On Windows the ``Python3_FIND_REGISTRY`` variable determine the order
+-  of preference between registry and environment variables.
+-  the ``Python3_FIND_REGISTRY`` variable can be set to empty or one of the
+-  following:
+-
+-  * ``FIRST``: Try to use registry before environment variables.
+-    This is the default.
+-  * ``LAST``: Try to use registry after environment variables.
+-  * ``NEVER``: Never try to use registry.
+-
+-``CMAKE_FIND_FRAMEWORK``
+-  On OS X the :variable:`CMAKE_FIND_FRAMEWORK` variable determine the order of
+-  preference between Apple-style and unix-style package components.
+-
+-  .. note::
+-
+-    Value ``ONLY`` is not supported so ``FIRST`` will be used instead.
+-
+-.. note::
+-
+-  If a Python virtual environment is configured, set variable
+-  ``Python_FIND_REGISTRY`` (Windows) or ``CMAKE_FIND_FRAMEWORK`` (macOS) with
+-  value ``LAST`` or ``NEVER`` to select it preferably.
+-
+-Commands
+-^^^^^^^^
+-
+-This module defines the command ``Python3_add_library`` (when
+-:prop_gbl:`CMAKE_ROLE` is ``PROJECT``), which has the same semantics as
+-:command:`add_library`, but takes care of Python module naming rules
+-(only applied if library is of type ``MODULE``), and adds a dependency to target
+-``Python3::Python``::
+-
+-  Python3_add_library (my_module MODULE src1.cpp)
+-
+-If library type is not specified, ``MODULE`` is assumed.
+-#]=======================================================================]
+-
+-
+-set (_PYTHON_PREFIX Python3)
+-
+-set (_Python3_REQUIRED_VERSION_MAJOR 3)
+-
+-include (${CMAKE_CURRENT_LIST_DIR}/FindPython/Support.cmake)
+-
+-if (COMMAND __Python3_add_library)
+-  macro (Python3_add_library)
+-    __Python3_add_library (Python3 ${ARGV})
+-  endmacro()
+-endif()
+-
+-unset (_PYTHON_PREFIX)
+diff --git a/cmake/cython/python/README.md b/cmake/cython/python/README.md
+deleted file mode 100644
+index 19a931a..0000000
+--- a/cmake/cython/python/README.md
++++ /dev/null
+@@ -1,6 +0,0 @@
+-These files are taken from CMake v3.14.5 at
+-[github](https://github.com/Kitware/CMake/tree/f3e9a6ff62f6f58cd661dd447c22a01c50f6f4ad)
+-with small modifications to allow them to work outside of their expected
+-location.
+-
+-They are used in the modules for CMake < 3.12
+diff --git a/cmake/python.cmake b/cmake/python.cmake
+index aa5c452..0c5a284 100644
+--- a/cmake/python.cmake
++++ b/cmake/python.cmake
+@@ -55,14 +55,6 @@
+ # nothing for CMake < 3.12 which doesn't have those. This also export: -
+ # `FIND_NUMPY` and/or `SEARCH_FOR_BOOST_PYTHON` if necessary.
+ 
+-if(CMAKE_VERSION VERSION_LESS "3.2")
+-  set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/python ${CMAKE_MODULE_PATH})
+-  message(
+-    STATUS
+-      "CMake versions older than 3.2 do not properly find Python. Custom macros are used to find it."
+-  )
+-endif(CMAKE_VERSION VERSION_LESS "3.2")
+-
+ macro(FINDPYTHON)
+   if(DEFINED FINDPYTHON_ALREADY_CALLED)
+     message(
+@@ -72,193 +64,29 @@ macro(FINDPYTHON)
+   endif()
+   set(FINDPYTHON_ALREADY_CALLED TRUE)
+ 
+-  if(NOT PYTHON_COMPONENTS)
+-    set(PYTHON_COMPONENTS Interpreter Development)
+-  endif()
+-
+-  list(FIND PYTHON_COMPONENTS "NumPy" _npindex)
+-  if(NOT ${_npindex} EQUAL -1)
+-    set(SEARCH_FOR_NUMPY TRUE)
+-  endif()
+-
+-  if(CMAKE_VERSION VERSION_LESS "3.18")
+-    # IF("Development.Module" IN_LIST PYTHON_COMPONENTS) -- require CMake 3.3
+-    list(FIND PYTHON_COMPONENTS "Development.Module" _index)
+-    if(NOT ${_index} EQUAL -1)
+-      message(
+-        STATUS
+-          "For CMake < 3.18, Development.Module is not available. Falling back to Development"
+-      )
+-      list(REMOVE_ITEM PYTHON_COMPONENTS Development.Module)
+-      set(PYTHON_COMPONENTS ${PYTHON_COMPONENTS} Development)
+-    endif()
+-    if(CMAKE_VERSION VERSION_LESS "3.14")
+-      if(SEARCH_FOR_NUMPY)
+-        message(
+-          STATUS
+-            "For CMake < 3.14, NumPy is not available. Falling back to custom FIND_NUMPY()"
+-        )
+-        list(REMOVE_ITEM PYTHON_COMPONENTS NumPy)
+-      endif()
+-    endif()
++  find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
++
++  set(_PYTHON_PREFIX "Python")
++
++  if(${_PYTHON_PREFIX}_FOUND)
++    set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
++    set(PYTHON_LIBRARY ${${_PYTHON_PREFIX}_LIBRARIES})
++    set(PYTHON_LIBRARIES ${${_PYTHON_PREFIX}_LIBRARIES})
++    set(PYTHON_INCLUDE_DIR ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
++    set(PYTHON_INCLUDE_DIRS ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
++    set(PYTHON_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
++    set(PYTHONLIBS_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
++    set(PYTHON_FOUND ${${_PYTHON_PREFIX}_FOUND})
++    set(PYTHONLIBS_FOUND ${${_PYTHON_PREFIX}_FOUND})
++    set(PYTHON_VERSION_MAJOR ${${_PYTHON_PREFIX}_VERSION_MAJOR})
++    set(PYTHON_VERSION_MINOR ${${_PYTHON_PREFIX}_VERSION_MINOR})
++    set(PYTHON_VERSION_PATCH ${${_PYTHON_PREFIX}_VERSION_PATCH})
++  else()
++    message(FATAL_ERROR "Python executable has not been found.")
+   endif()
+ 
+-  if(NOT CMAKE_VERSION VERSION_LESS "3.12")
+-
+-    if(DEFINED PYTHON_EXECUTABLE
+-       OR DEFINED Python_EXECUTABLE
+-       OR DEFINED Python2_EXECUTABLE
+-       OR DEFINED Python3_EXECUTABLE)
+-
+-      if(NOT DEFINED PYTHON_EXECUTABLE)
+-        if(DEFINED Python_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
+-        elseif(DEFINED Python2_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python2_EXECUTABLE})
+-        elseif(DEFINED Python3_EXECUTABLE)
+-          set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
+-        endif()
+-      endif()
+-
+-      if(NOT DEFINED Python_EXCUTABLE)
+-        set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      endif()
+-    else()
+-      # Search for the default python of the system, if exists
+-      find_program(PYTHON_EXECUTABLE python)
+-    endif()
+-
+-    if(PYTHON_EXECUTABLE)
+-      if(NOT EXISTS ${PYTHON_EXECUTABLE})
+-        message(
+-          FATAL_ERROR
+-            "${PYTHON_EXECUTABLE} is not a valid path to the Python executable")
+-      endif()
+-      execute_process(
+-        COMMAND ${PYTHON_EXECUTABLE} --version
+-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+-        RESULT_VARIABLE _PYTHON_VERSION_RESULT_VARIABLE
+-        OUTPUT_VARIABLE _PYTHON_VERSION_OUTPUT
+-        ERROR_VARIABLE _PYTHON_VERSION_OUTPUT
+-        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_STRIP_TRAILING_WHITESPACE)
+-
+-      # Provide some hints according to the current PYTHON_EXECUTABLE
+-      if(NOT DEFINED PYTHON_INCLUDE_DIR)
+-        execute_process(
+-          COMMAND
+-            "${PYTHON_EXECUTABLE}" "-c"
+-            "import distutils.sysconfig as sysconfig; print(sysconfig.get_python_inc())"
+-          OUTPUT_VARIABLE PYTHON_INCLUDE_DIR
+-          ERROR_QUIET)
+-        string(STRIP "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-        file(TO_CMAKE_PATH "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-      endif()
+-
+-      if(NOT "${_PYTHON_VERSION_RESULT_VARIABLE}" STREQUAL "0")
+-        message(FATAL_ERROR "${PYTHON_EXECUTABLE} --version did not succeed.")
+-      endif(NOT "${_PYTHON_VERSION_RESULT_VARIABLE}" STREQUAL "0")
+-      string(REGEX REPLACE "Python " "" _PYTHON_VERSION
+-                           ${_PYTHON_VERSION_OUTPUT})
+-      string(REGEX REPLACE "\\." ";" _PYTHON_VERSION ${_PYTHON_VERSION})
+-      list(GET _PYTHON_VERSION 0 _PYTHON_VERSION_MAJOR)
+-
+-      # Hint for finding the right Python version
+-      set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      set(Python${_PYTHON_VERSION_MAJOR}_EXECUTABLE ${PYTHON_EXECUTABLE})
+-      set(Python${_PYTHON_VERSION_MAJOR}_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+-
+-      find_package("Python${_PYTHON_VERSION_MAJOR}" REQUIRED
+-                   COMPONENTS ${PYTHON_COMPONENTS})
+-    else()
+-      # No hint was provided. We can then check for first Python 2, then Python
+-      # 3
+-      find_package(Python2 QUIET COMPONENTS ${PYTHON_COMPONENTS})
+-      if(NOT Python2_FOUND)
+-        find_package(Python3 QUIET COMPONENTS ${PYTHON_COMPONENTS})
+-        if(NOT Python3_FOUND)
+-          message(FATAL_ERROR "Python executable has not been found.")
+-        else()
+-          set(_PYTHON_VERSION_MAJOR 3)
+-        endif(NOT Python3_FOUND)
+-      else()
+-        set(_PYTHON_VERSION_MAJOR 2)
+-      endif(NOT Python2_FOUND)
+-    endif(PYTHON_EXECUTABLE)
+-
+-    set(_PYTHON_PREFIX "Python${_PYTHON_VERSION_MAJOR}")
+-
+-    if(${_PYTHON_PREFIX}_FOUND)
+-      set(PYTHON_EXECUTABLE ${${_PYTHON_PREFIX}_EXECUTABLE})
+-      set(PYTHON_LIBRARY ${${_PYTHON_PREFIX}_LIBRARIES})
+-      set(PYTHON_LIBRARIES ${${_PYTHON_PREFIX}_LIBRARIES})
+-      set(PYTHON_INCLUDE_DIR ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
+-      set(PYTHON_INCLUDE_DIRS ${${_PYTHON_PREFIX}_INCLUDE_DIRS})
+-      set(PYTHON_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
+-      set(PYTHONLIBS_VERSION_STRING ${${_PYTHON_PREFIX}_VERSION})
+-      set(PYTHON_FOUND ${${_PYTHON_PREFIX}_FOUND})
+-      set(PYTHONLIBS_FOUND ${${_PYTHON_PREFIX}_FOUND})
+-      set(PYTHON_VERSION_MAJOR ${${_PYTHON_PREFIX}_VERSION_MAJOR})
+-      set(PYTHON_VERSION_MINOR ${${_PYTHON_PREFIX}_VERSION_MINOR})
+-      set(PYTHON_VERSION_PATCH ${${_PYTHON_PREFIX}_VERSION_PATCH})
+-    else()
+-      message(FATAL_ERROR "Python executable has not been found.")
+-    endif()
+-
+-    if(SEARCH_FOR_NUMPY)
+-      set(NUMPY_INCLUDE_DIRS
+-          "${Python${_PYTHON_VERSION_MAJOR}_NumPy_INCLUDE_DIRS}")
+-      string(REPLACE "\\" "/" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
+-      file(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
+-    endif()
+-
+-  else(NOT CMAKE_VERSION VERSION_LESS "3.12")
+-
+-    find_package(PythonInterp ${ARGN})
+-    if(NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
+-      message(FATAL_ERROR "Python executable has not been found.")
+-    endif(NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
+-    message(STATUS "PythonInterp: ${PYTHON_EXECUTABLE}")
+-
+-    # Set PYTHON_INCLUDE_DIR variables if it is not defined by the user
+-    if(DEFINED PYTHON_EXECUTABLE)
+-      # Retrieve the corresponding value of PYTHON_INCLUDE_DIR if it is not
+-      # defined
+-      if(NOT DEFINED PYTHON_INCLUDE_DIR)
+-        execute_process(
+-          COMMAND
+-            "${PYTHON_EXECUTABLE}" "-c"
+-            "import distutils.sysconfig as sysconfig; print(sysconfig.get_python_inc())"
+-          OUTPUT_VARIABLE PYTHON_INCLUDE_DIR
+-          ERROR_QUIET)
+-        string(STRIP "${PYTHON_INCLUDE_DIR}" PYTHON_INCLUDE_DIR)
+-      endif(NOT DEFINED PYTHON_INCLUDE_DIR)
+-      set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
+-
+-    endif(DEFINED PYTHON_EXECUTABLE)
+-
+-    # Inform PythonLibs of the required version of PythonInterp
+-    set(PYTHONLIBS_VERSION_STRING ${PYTHON_VERSION_STRING})
+-
+-    find_package(PythonLibs ${ARGN})
+-    message(STATUS "PythonLibraries: ${PYTHON_LIBRARIES}")
+-    if(NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+-      message(FATAL_ERROR "Python has not been found.")
+-    endif(NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+-
+-    string(REPLACE "." ";" _PYTHONLIBS_VERSION ${PYTHONLIBS_VERSION_STRING})
+-    list(GET _PYTHONLIBS_VERSION 0 PYTHONLIBS_VERSION_MAJOR)
+-    list(GET _PYTHONLIBS_VERSION 1 PYTHONLIBS_VERSION_MINOR)
+-
+-    if(NOT ${PYTHON_VERSION_MAJOR} EQUAL ${PYTHONLIBS_VERSION_MAJOR}
+-       OR NOT ${PYTHON_VERSION_MINOR} EQUAL ${PYTHONLIBS_VERSION_MINOR})
+-      message(
+-        FATAL_ERROR
+-          "Python interpreter and libraries are in different version: ${PYTHON_VERSION_STRING} vs ${PYTHONLIBS_VERSION_STRING}"
+-      )
+-    endif(NOT ${PYTHON_VERSION_MAJOR} EQUAL ${PYTHONLIBS_VERSION_MAJOR}
+-          OR NOT ${PYTHON_VERSION_MINOR} EQUAL ${PYTHONLIBS_VERSION_MINOR})
+-
+-  endif(NOT CMAKE_VERSION VERSION_LESS "3.12")
++  set(NUMPY_INCLUDE_DIRS
++      "${Python_NumPy_INCLUDE_DIRS}")
+ 
+   # Find PYTHON_LIBRARY_DIRS
+   get_filename_component(PYTHON_LIBRARY_DIRS "${PYTHON_LIBRARIES}" PATH)
+@@ -620,30 +448,9 @@ endmacro()
+ macro(FIND_NUMPY)
+   # Detect numpy.
+   message(STATUS "Checking for NumPy")
+-  execute_process(
+-    COMMAND "${PYTHON_EXECUTABLE}" "-c" "import numpy; print (True)"
+-    OUTPUT_VARIABLE IS_NUMPY
+-    ERROR_QUIET)
+-  if(NOT IS_NUMPY)
+-    message(FATAL_ERROR "Failed to detect numpy")
+-  else()
+-    if(NOT NUMPY_INCLUDE_DIRS)
+-      execute_process(
+-        COMMAND "${PYTHON_EXECUTABLE}" "-c"
+-                "import numpy; print (numpy.get_include())"
+-        OUTPUT_VARIABLE NUMPY_INCLUDE_DIRS
+-        ERROR_QUIET)
+-      string(REGEX REPLACE "\n$" "" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
+-      file(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
+-    endif()
+-    message(STATUS "  NUMPY_INCLUDE_DIRS=${NUMPY_INCLUDE_DIRS}")
+-    # Retrive NUMPY_VERSION
+-    execute_process(
+-      COMMAND "${PYTHON_EXECUTABLE}" "-c"
+-              "import numpy; print (numpy.__version__)"
+-      OUTPUT_VARIABLE NUMPY_VERSION
+-      ERROR_QUIET)
+-    string(REGEX REPLACE "\n$" "" NUMPY_VERSION "${NUMPY_VERSION}")
+-    message(STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")
+-  endif()
++  find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
++  set(NUMPY_INCLUDE_DIRS ${Python_NumPy_INCLUDE_DIRS})
++  set(NUMPY_VERSION ${Python_NumPy_VERSION})
++  message(STATUS "  NUMPY_INCLUDE_DIRS=${NUMPY_INCLUDE_DIRS}")
++  message(STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")
+ endmacro()
+diff --git a/cmake/python/FindPythonInterp.cmake b/cmake/python/FindPythonInterp.cmake
+deleted file mode 100644
+index 1e01a99..0000000
+--- a/cmake/python/FindPythonInterp.cmake
++++ /dev/null
+@@ -1,171 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#[=======================================================================[.rst:
+-FindPythonInterp
+-----------------
+-
+-.. deprecated:: 3.12
+-
+-  Use :module:`FindPython3`, :module:`FindPython2` or :module:`FindPython` instead.
+-
+-Find python interpreter
+-
+-This module finds if Python interpreter is installed and determines
+-where the executables are.  This code sets the following variables:
+-
+-::
+-
+-  PYTHONINTERP_FOUND         - Was the Python executable found
+-  PYTHON_EXECUTABLE          - path to the Python interpreter
+-
+-
+-
+-::
+-
+-  PYTHON_VERSION_STRING      - Python version found e.g. 2.5.2
+-  PYTHON_VERSION_MAJOR       - Python major version found e.g. 2
+-  PYTHON_VERSION_MINOR       - Python minor version found e.g. 5
+-  PYTHON_VERSION_PATCH       - Python patch version found e.g. 2
+-
+-
+-
+-The Python_ADDITIONAL_VERSIONS variable can be used to specify a list
+-of version numbers that should be taken into account when searching
+-for Python.  You need to set this variable before calling
+-find_package(PythonInterp).
+-
+-If calling both ``find_package(PythonInterp)`` and
+-``find_package(PythonLibs)``, call ``find_package(PythonInterp)`` first to
+-get the currently active Python version by default with a consistent version
+-of PYTHON_LIBRARIES.
+-
+-.. note::
+-
+-  A call to ``find_package(PythonInterp ${V})`` for python version ``V``
+-  may find a ``python`` executable with no version suffix.  In this case
+-  no attempt is made to avoid python executables from other versions.
+-  Use :module:`FindPython3`, :module:`FindPython2` or :module:`FindPython`
+-  instead.
+-
+-#]=======================================================================]
+-
+-unset(_Python_NAMES)
+-
+-set(_PYTHON1_VERSIONS 1.6 1.5)
+-set(_PYTHON2_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
+-set(_PYTHON3_VERSIONS 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+-
+-if(PythonInterp_FIND_VERSION)
+-    if(PythonInterp_FIND_VERSION_COUNT GREATER 1)
+-        set(_PYTHON_FIND_MAJ_MIN "${PythonInterp_FIND_VERSION_MAJOR}.${PythonInterp_FIND_VERSION_MINOR}")
+-        list(APPEND _Python_NAMES
+-             python${_PYTHON_FIND_MAJ_MIN}
+-             python${PythonInterp_FIND_VERSION_MAJOR})
+-        unset(_PYTHON_FIND_OTHER_VERSIONS)
+-        if(NOT PythonInterp_FIND_VERSION_EXACT)
+-            foreach(_PYTHON_V ${_PYTHON${PythonInterp_FIND_VERSION_MAJOR}_VERSIONS})
+-                if(NOT _PYTHON_V VERSION_LESS _PYTHON_FIND_MAJ_MIN)
+-                    list(APPEND _PYTHON_FIND_OTHER_VERSIONS ${_PYTHON_V})
+-                endif()
+-             endforeach()
+-        endif()
+-        unset(_PYTHON_FIND_MAJ_MIN)
+-    else()
+-        list(APPEND _Python_NAMES python${PythonInterp_FIND_VERSION_MAJOR})
+-        set(_PYTHON_FIND_OTHER_VERSIONS ${_PYTHON${PythonInterp_FIND_VERSION_MAJOR}_VERSIONS})
+-    endif()
+-else()
+-    set(_PYTHON_FIND_OTHER_VERSIONS ${_PYTHON3_VERSIONS} ${_PYTHON2_VERSIONS} ${_PYTHON1_VERSIONS})
+-endif()
+-find_program(PYTHON_EXECUTABLE NAMES ${_Python_NAMES})
+-
+-# Set up the versions we know about, in the order we will search. Always add
+-# the user supplied additional versions to the front.
+-set(_Python_VERSIONS ${Python_ADDITIONAL_VERSIONS})
+-# If FindPythonInterp has already found the major and minor version,
+-# insert that version next to get consistent versions of the interpreter and
+-# library.
+-if(DEFINED PYTHONLIBS_VERSION_STRING)
+-  string(REPLACE "." ";" _PYTHONLIBS_VERSION "${PYTHONLIBS_VERSION_STRING}")
+-  list(GET _PYTHONLIBS_VERSION 0 _PYTHONLIBS_VERSION_MAJOR)
+-  list(GET _PYTHONLIBS_VERSION 1 _PYTHONLIBS_VERSION_MINOR)
+-  list(APPEND _Python_VERSIONS ${_PYTHONLIBS_VERSION_MAJOR}.${_PYTHONLIBS_VERSION_MINOR})
+-endif()
+-# Search for the current active python version first
+-list(APPEND _Python_VERSIONS ";")
+-list(APPEND _Python_VERSIONS ${_PYTHON_FIND_OTHER_VERSIONS})
+-
+-unset(_PYTHON_FIND_OTHER_VERSIONS)
+-unset(_PYTHON1_VERSIONS)
+-unset(_PYTHON2_VERSIONS)
+-unset(_PYTHON3_VERSIONS)
+-
+-# Search for newest python version if python executable isn't found
+-if(NOT PYTHON_EXECUTABLE)
+-    foreach(_CURRENT_VERSION IN LISTS _Python_VERSIONS)
+-      set(_Python_NAMES python${_CURRENT_VERSION})
+-      if(CMAKE_HOST_WIN32)
+-        list(APPEND _Python_NAMES python)
+-      endif()
+-      find_program(PYTHON_EXECUTABLE
+-        NAMES ${_Python_NAMES}
+-        PATHS
+-            [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]
+-            [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-32\\InstallPath]
+-            [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-64\\InstallPath]
+-            [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]
+-            [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-32\\InstallPath]
+-            [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-64\\InstallPath]
+-        )
+-    endforeach()
+-endif()
+-
+-# determine python version string
+-if(PYTHON_EXECUTABLE)
+-    execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c
+-                            "import sys; sys.stdout.write(';'.join([str(x) for x in sys.version_info[:3]]))"
+-                    OUTPUT_VARIABLE _VERSION
+-                    RESULT_VARIABLE _PYTHON_VERSION_RESULT
+-                    ERROR_QUIET)
+-    if(NOT _PYTHON_VERSION_RESULT)
+-        string(REPLACE ";" "." PYTHON_VERSION_STRING "${_VERSION}")
+-        list(GET _VERSION 0 PYTHON_VERSION_MAJOR)
+-        list(GET _VERSION 1 PYTHON_VERSION_MINOR)
+-        list(GET _VERSION 2 PYTHON_VERSION_PATCH)
+-        if(PYTHON_VERSION_PATCH EQUAL 0)
+-            # it's called "Python 2.7", not "2.7.0"
+-            string(REGEX REPLACE "\\.0$" "" PYTHON_VERSION_STRING "${PYTHON_VERSION_STRING}")
+-        endif()
+-    else()
+-        # sys.version predates sys.version_info, so use that
+-        # sys.version was first documented for Python 1.5, so assume version 1.4
+-        # if retrieving sys.version fails.
+-        execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c "try: import sys; sys.stdout.write(sys.version)\nexcept: sys.stdout.write(\"1.4.0\")"
+-                        OUTPUT_VARIABLE _VERSION
+-                        RESULT_VARIABLE _PYTHON_VERSION_RESULT
+-                        ERROR_QUIET)
+-        if(NOT _PYTHON_VERSION_RESULT)
+-            string(REGEX REPLACE " .*" "" PYTHON_VERSION_STRING "${_VERSION}")
+-            string(REGEX REPLACE "^([0-9]+)\\.[0-9]+.*" "\\1" PYTHON_VERSION_MAJOR "${PYTHON_VERSION_STRING}")
+-            string(REGEX REPLACE "^[0-9]+\\.([0-9])+.*" "\\1" PYTHON_VERSION_MINOR "${PYTHON_VERSION_STRING}")
+-            if(PYTHON_VERSION_STRING MATCHES "^[0-9]+\\.[0-9]+\\.([0-9]+)")
+-                set(PYTHON_VERSION_PATCH "${CMAKE_MATCH_1}")
+-            else()
+-                set(PYTHON_VERSION_PATCH "0")
+-            endif()
+-        else()
+-            unset(PYTHON_VERSION_STRING)
+-            unset(PYTHON_VERSION_MAJOR)
+-            unset(PYTHON_VERSION_MINOR)
+-            unset(PYTHON_VERSION_PATCH)
+-        endif()
+-    endif()
+-    unset(_PYTHON_VERSION_RESULT)
+-    unset(_VERSION)
+-endif()
+-
+-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+-FIND_PACKAGE_HANDLE_STANDARD_ARGS(PythonInterp REQUIRED_VARS PYTHON_EXECUTABLE VERSION_VAR PYTHON_VERSION_STRING)
+-
+-mark_as_advanced(PYTHON_EXECUTABLE)
+diff --git a/cmake/python/FindPythonLibs.cmake b/cmake/python/FindPythonLibs.cmake
+deleted file mode 100644
+index d3ec7be..0000000
+--- a/cmake/python/FindPythonLibs.cmake
++++ /dev/null
+@@ -1,399 +0,0 @@
+-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+-# file Copyright.txt or https://cmake.org/licensing for details.
+-
+-#[=======================================================================[.rst:
+-FindPythonLibs
+---------------
+-
+-.. deprecated:: 3.12
+-
+-  Use :module:`FindPython3`, :module:`FindPython2` or :module:`FindPython` instead.
+-
+-Find python libraries
+-
+-This module finds if Python is installed and determines where the
+-include files and libraries are.  It also determines what the name of
+-the library is.  This code sets the following variables:
+-
+-::
+-
+-  PYTHONLIBS_FOUND           - have the Python libs been found
+-  PYTHON_LIBRARIES           - path to the python library
+-  PYTHON_INCLUDE_PATH        - path to where Python.h is found (deprecated)
+-  PYTHON_INCLUDE_DIRS        - path to where Python.h is found
+-  PYTHON_DEBUG_LIBRARIES     - path to the debug library (deprecated)
+-  PYTHONLIBS_VERSION_STRING  - version of the Python libs found (since CMake 2.8.8)
+-
+-
+-
+-The Python_ADDITIONAL_VERSIONS variable can be used to specify a list
+-of version numbers that should be taken into account when searching
+-for Python.  You need to set this variable before calling
+-find_package(PythonLibs).
+-
+-If you'd like to specify the installation of Python to use, you should
+-modify the following cache variables:
+-
+-::
+-
+-  PYTHON_LIBRARY             - path to the python library
+-  PYTHON_INCLUDE_DIR         - path to where Python.h is found
+-
+-If calling both ``find_package(PythonInterp)`` and
+-``find_package(PythonLibs)``, call ``find_package(PythonInterp)`` first to
+-get the currently active Python version by default with a consistent version
+-of PYTHON_LIBRARIES.
+-#]=======================================================================]
+-
+-# Use the executable's path as a hint
+-set(_Python_LIBRARY_PATH_HINT)
+-if(IS_ABSOLUTE "${PYTHON_EXECUTABLE}")
+-  if(WIN32)
+-    get_filename_component(_Python_PREFIX "${PYTHON_EXECUTABLE}" PATH)
+-    if(_Python_PREFIX)
+-      set(_Python_LIBRARY_PATH_HINT ${_Python_PREFIX}/libs)
+-    endif()
+-    unset(_Python_PREFIX)
+-  else()
+-    get_filename_component(_Python_PREFIX "${PYTHON_EXECUTABLE}" PATH)
+-    get_filename_component(_Python_PREFIX "${_Python_PREFIX}" PATH)
+-    if(_Python_PREFIX)
+-      set(_Python_LIBRARY_PATH_HINT ${_Python_PREFIX}/lib)
+-    endif()
+-    unset(_Python_PREFIX)
+-  endif()
+-endif()
+-
+-include(${CMAKE_CURRENT_LIST_DIR}/CMakeFindFrameworks.cmake)
+-# Search for the python framework on Apple.
+-CMAKE_FIND_FRAMEWORKS(Python)
+-
+-# Save CMAKE_FIND_FRAMEWORK
+-if(DEFINED CMAKE_FIND_FRAMEWORK)
+-  set(_PythonLibs_CMAKE_FIND_FRAMEWORK ${CMAKE_FIND_FRAMEWORK})
+-else()
+-  unset(_PythonLibs_CMAKE_FIND_FRAMEWORK)
+-endif()
+-# To avoid picking up the system Python.h pre-maturely.
+-set(CMAKE_FIND_FRAMEWORK LAST)
+-
+-set(_PYTHON1_VERSIONS 1.6 1.5)
+-set(_PYTHON2_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
+-set(_PYTHON3_VERSIONS 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+-
+-if(PythonLibs_FIND_VERSION)
+-    if(PythonLibs_FIND_VERSION_COUNT GREATER 1)
+-        set(_PYTHON_FIND_MAJ_MIN "${PythonLibs_FIND_VERSION_MAJOR}.${PythonLibs_FIND_VERSION_MINOR}")
+-        unset(_PYTHON_FIND_OTHER_VERSIONS)
+-        if(PythonLibs_FIND_VERSION_EXACT)
+-            if(_PYTHON_FIND_MAJ_MIN STREQUAL PythonLibs_FIND_VERSION)
+-                set(_PYTHON_FIND_OTHER_VERSIONS "${PythonLibs_FIND_VERSION}")
+-            else()
+-                set(_PYTHON_FIND_OTHER_VERSIONS "${PythonLibs_FIND_VERSION}" "${_PYTHON_FIND_MAJ_MIN}")
+-            endif()
+-        else()
+-            foreach(_PYTHON_V ${_PYTHON${PythonLibs_FIND_VERSION_MAJOR}_VERSIONS})
+-                if(NOT _PYTHON_V VERSION_LESS _PYTHON_FIND_MAJ_MIN)
+-                    list(APPEND _PYTHON_FIND_OTHER_VERSIONS ${_PYTHON_V})
+-                endif()
+-             endforeach()
+-        endif()
+-        unset(_PYTHON_FIND_MAJ_MIN)
+-    else()
+-        set(_PYTHON_FIND_OTHER_VERSIONS ${_PYTHON${PythonLibs_FIND_VERSION_MAJOR}_VERSIONS})
+-    endif()
+-else()
+-    set(_PYTHON_FIND_OTHER_VERSIONS ${_PYTHON3_VERSIONS} ${_PYTHON2_VERSIONS} ${_PYTHON1_VERSIONS})
+-endif()
+-
+-# Set up the versions we know about, in the order we will search. Always add
+-# the user supplied additional versions to the front.
+-# If FindPythonInterp has already found the major and minor version,
+-# insert that version between the user supplied versions and the stock
+-# version list.
+-set(_Python_VERSIONS ${Python_ADDITIONAL_VERSIONS})
+-if(DEFINED PYTHON_VERSION_MAJOR AND DEFINED PYTHON_VERSION_MINOR)
+-  list(APPEND _Python_VERSIONS ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR})
+-endif()
+-list(APPEND _Python_VERSIONS ${_PYTHON_FIND_OTHER_VERSIONS})
+-
+-unset(_PYTHON_FIND_OTHER_VERSIONS)
+-unset(_PYTHON1_VERSIONS)
+-unset(_PYTHON2_VERSIONS)
+-unset(_PYTHON3_VERSIONS)
+-
+-# Python distribution: define which architectures can be used
+-if (CMAKE_SIZEOF_VOID_P)
+-  # In this case, search only for 64bit or 32bit
+-  math (EXPR _PYTHON_ARCH "${CMAKE_SIZEOF_VOID_P} * 8")
+-  set (_PYTHON_ARCH2 _PYTHON_PREFIX_ARCH})
+-else()
+-  if (PYTHON_EXECUTABLE)
+-    # determine interpreter architecture
+-    execute_process (COMMAND "${PYTHON_EXECUTABLE}" -c "import sys; print(sys.maxsize > 2**32)"
+-                     RESULT_VARIABLE _PYTHON_RESULT
+-                     OUTPUT_VARIABLE _PYTHON_IS64BIT
+-                     ERROR_VARIABLE _PYTHON_IS64BIT)
+-      if (NOT _PYTHON_RESULT)
+-        if (_PYTHON_IS64BIT)
+-          set (_PYTHON_ARCH 64)
+-          set (_PYTHON_ARCH2 64)
+-        else()
+-          set (_PYTHON_ARCH 32)
+-          set (_PYTHON_ARCH2 32)
+-        endif()
+-      endif()
+-  else()
+-    # architecture unknown, search for both 64bit and 32bit
+-    set (_PYTHON_ARCH 64)
+-    set (_PYTHON_ARCH2 32)
+-  endif()
+-endif()
+-
+-foreach(_CURRENT_VERSION ${_Python_VERSIONS})
+-  string(REPLACE "." "" _CURRENT_VERSION_NO_DOTS ${_CURRENT_VERSION})
+-  if(WIN32)
+-    find_library(PYTHON_DEBUG_LIBRARY
+-      NAMES python${_CURRENT_VERSION_NO_DOTS}_d python
+-      NAMES_PER_DIR
+-      HINTS ${_Python_LIBRARY_PATH_HINT}
+-      PATHS
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs/Debug
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs/Debug
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs/Debug
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs/Debug
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs/Debug
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs/Debug
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs
+-      )
+-  endif()
+-
+-  set(PYTHON_FRAMEWORK_LIBRARIES)
+-  if(Python_FRAMEWORKS AND NOT PYTHON_LIBRARY)
+-    foreach(dir ${Python_FRAMEWORKS})
+-      list(APPEND PYTHON_FRAMEWORK_LIBRARIES
+-           ${dir}/Versions/${_CURRENT_VERSION}/lib)
+-    endforeach()
+-  endif()
+-  find_library(PYTHON_LIBRARY
+-    NAMES
+-      python${_CURRENT_VERSION_NO_DOTS}
+-      python${_CURRENT_VERSION}mu
+-      python${_CURRENT_VERSION}m
+-      python${_CURRENT_VERSION}u
+-      python${_CURRENT_VERSION}
+-    NAMES_PER_DIR
+-    HINTS
+-      ${_Python_LIBRARY_PATH_HINT}
+-    PATHS
+-      ${PYTHON_FRAMEWORK_LIBRARIES}
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs
+-      [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/libs
+-      [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/libs
+-  )
+-  # Look for the static library in the Python config directory
+-  find_library(PYTHON_LIBRARY
+-    NAMES python${_CURRENT_VERSION_NO_DOTS} python${_CURRENT_VERSION}
+-    NAMES_PER_DIR
+-    # This is where the static library is usually located
+-    PATH_SUFFIXES python${_CURRENT_VERSION}/config
+-  )
+-
+-  # Don't search for include dir until library location is known
+-  if(PYTHON_LIBRARY)
+-
+-    # Use the library's install prefix as a hint
+-    set(_Python_INCLUDE_PATH_HINT)
+-    # PYTHON_LIBRARY may contain a list because of SelectLibraryConfigurations
+-    # which may have been run previously. If it is the case, the list can be:
+-    #   optimized;<FILEPATH_TO_RELEASE_LIBRARY>;debug;<FILEPATH_TO_DEBUG_LIBRARY>
+-    foreach(lib ${PYTHON_LIBRARY} ${PYTHON_DEBUG_LIBRARY})
+-      if(IS_ABSOLUTE "${lib}")
+-        get_filename_component(_Python_PREFIX "${lib}" PATH)
+-        get_filename_component(_Python_PREFIX "${_Python_PREFIX}" PATH)
+-        if(_Python_PREFIX)
+-          list(APPEND _Python_INCLUDE_PATH_HINT ${_Python_PREFIX}/include)
+-        endif()
+-        unset(_Python_PREFIX)
+-      endif()
+-    endforeach()
+-
+-    # Add framework directories to the search paths
+-    set(PYTHON_FRAMEWORK_INCLUDES)
+-    if(Python_FRAMEWORKS AND NOT PYTHON_INCLUDE_DIR)
+-      foreach(dir ${Python_FRAMEWORKS})
+-        list(APPEND PYTHON_FRAMEWORK_INCLUDES
+-          ${dir}/Versions/${_CURRENT_VERSION}/include)
+-      endforeach()
+-    endif()
+-
+-    find_path(PYTHON_INCLUDE_DIR
+-      NAMES Python.h
+-      HINTS
+-        ${_Python_INCLUDE_PATH_HINT}
+-      PATHS
+-        ${PYTHON_FRAMEWORK_INCLUDES}
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/include
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/include
+-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/include
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}\\InstallPath]/include
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH}\\InstallPath]/include
+-        [HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\${_CURRENT_VERSION}-${_PYTHON_ARCH2}\\InstallPath]/include
+-      PATH_SUFFIXES
+-        python${_CURRENT_VERSION}mu
+-        python${_CURRENT_VERSION}m
+-        python${_CURRENT_VERSION}u
+-        python${_CURRENT_VERSION}
+-    )
+-  endif()
+-
+-  # For backward compatibility, set PYTHON_INCLUDE_PATH.
+-  set(PYTHON_INCLUDE_PATH "${PYTHON_INCLUDE_DIR}")
+-
+-  if(PYTHON_INCLUDE_DIR AND EXISTS "${PYTHON_INCLUDE_DIR}/patchlevel.h")
+-    file(STRINGS "${PYTHON_INCLUDE_DIR}/patchlevel.h" python_version_str
+-         REGEX "^#define[ \t]+PY_VERSION[ \t]+\"[^\"]+\"")
+-    string(REGEX REPLACE "^#define[ \t]+PY_VERSION[ \t]+\"([^\"]+)\".*" "\\1"
+-                         PYTHONLIBS_VERSION_STRING "${python_version_str}")
+-    unset(python_version_str)
+-  endif()
+-
+-  if(PYTHON_LIBRARY AND PYTHON_INCLUDE_DIR)
+-    break()
+-  endif()
+-endforeach()
+-
+-unset(_Python_INCLUDE_PATH_HINT)
+-unset(_Python_LIBRARY_PATH_HINT)
+-
+-mark_as_advanced(
+-  PYTHON_DEBUG_LIBRARY
+-  PYTHON_LIBRARY
+-  PYTHON_INCLUDE_DIR
+-)
+-
+-# We use PYTHON_INCLUDE_DIR, PYTHON_LIBRARY and PYTHON_DEBUG_LIBRARY for the
+-# cache entries because they are meant to specify the location of a single
+-# library. We now set the variables listed by the documentation for this
+-# module.
+-set(PYTHON_INCLUDE_DIRS "${PYTHON_INCLUDE_DIR}")
+-set(PYTHON_DEBUG_LIBRARIES "${PYTHON_DEBUG_LIBRARY}")
+-
+-# These variables have been historically named in this module different from
+-# what SELECT_LIBRARY_CONFIGURATIONS() expects.
+-set(PYTHON_LIBRARY_DEBUG "${PYTHON_DEBUG_LIBRARY}")
+-set(PYTHON_LIBRARY_RELEASE "${PYTHON_LIBRARY}")
+-include(${CMAKE_CURRENT_LIST_DIR}/SelectLibraryConfigurations.cmake)
+-SELECT_LIBRARY_CONFIGURATIONS(PYTHON)
+-# SELECT_LIBRARY_CONFIGURATIONS() sets ${PREFIX}_FOUND if it has a library.
+-# Unset this, this prefix doesn't match the module prefix, they are different
+-# for historical reasons.
+-unset(PYTHON_FOUND)
+-
+-# Restore CMAKE_FIND_FRAMEWORK
+-if(DEFINED _PythonLibs_CMAKE_FIND_FRAMEWORK)
+-  set(CMAKE_FIND_FRAMEWORK ${_PythonLibs_CMAKE_FIND_FRAMEWORK})
+-  unset(_PythonLibs_CMAKE_FIND_FRAMEWORK)
+-else()
+-  unset(CMAKE_FIND_FRAMEWORK)
+-endif()
+-
+-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+-FIND_PACKAGE_HANDLE_STANDARD_ARGS(PythonLibs
+-                                  REQUIRED_VARS PYTHON_LIBRARIES PYTHON_INCLUDE_DIRS
+-                                  VERSION_VAR PYTHONLIBS_VERSION_STRING)
+-
+-# PYTHON_ADD_MODULE(<name> src1 src2 ... srcN) is used to build modules for python.
+-# PYTHON_WRITE_MODULES_HEADER(<filename>) writes a header file you can include
+-# in your sources to initialize the static python modules
+-function(PYTHON_ADD_MODULE _NAME )
+-  get_property(_TARGET_SUPPORTS_SHARED_LIBS
+-    GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS)
+-  option(PYTHON_ENABLE_MODULE_${_NAME} "Add module ${_NAME}" TRUE)
+-  option(PYTHON_MODULE_${_NAME}_BUILD_SHARED
+-    "Add module ${_NAME} shared" ${_TARGET_SUPPORTS_SHARED_LIBS})
+-
+-  # Mark these options as advanced
+-  mark_as_advanced(PYTHON_ENABLE_MODULE_${_NAME}
+-    PYTHON_MODULE_${_NAME}_BUILD_SHARED)
+-
+-  if(PYTHON_ENABLE_MODULE_${_NAME})
+-    if(PYTHON_MODULE_${_NAME}_BUILD_SHARED)
+-      set(PY_MODULE_TYPE MODULE)
+-    else()
+-      set(PY_MODULE_TYPE STATIC)
+-      set_property(GLOBAL  APPEND  PROPERTY  PY_STATIC_MODULES_LIST ${_NAME})
+-    endif()
+-
+-    set_property(GLOBAL  APPEND  PROPERTY  PY_MODULES_LIST ${_NAME})
+-    add_library(${_NAME} ${PY_MODULE_TYPE} ${ARGN})
+-#    target_link_libraries(${_NAME} ${PYTHON_LIBRARIES})
+-
+-    if(PYTHON_MODULE_${_NAME}_BUILD_SHARED)
+-      set_target_properties(${_NAME} PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}")
+-      if(WIN32 AND NOT CYGWIN)
+-        set_target_properties(${_NAME} PROPERTIES SUFFIX ".pyd")
+-      endif()
+-    endif()
+-
+-  endif()
+-endfunction()
+-
+-function(PYTHON_WRITE_MODULES_HEADER _filename)
+-
+-  get_property(PY_STATIC_MODULES_LIST  GLOBAL  PROPERTY PY_STATIC_MODULES_LIST)
+-
+-  get_filename_component(_name "${_filename}" NAME)
+-  string(REPLACE "." "_" _name "${_name}")
+-  string(TOUPPER ${_name} _nameUpper)
+-  set(_filename ${CMAKE_CURRENT_BINARY_DIR}/${_filename})
+-
+-  set(_filenameTmp "${_filename}.in")
+-  file(WRITE ${_filenameTmp} "/*Created by cmake, do not edit, changes will be lost*/\n")
+-  file(APPEND ${_filenameTmp}
+-"#ifndef ${_nameUpper}
+-#define ${_nameUpper}
+-
+-#include <Python.h>
+-
+-#ifdef __cplusplus
+-extern \"C\" {
+-#endif /* __cplusplus */
+-
+-")
+-
+-  foreach(_currentModule ${PY_STATIC_MODULES_LIST})
+-    file(APPEND ${_filenameTmp} "extern void init${PYTHON_MODULE_PREFIX}${_currentModule}(void);\n\n")
+-  endforeach()
+-
+-  file(APPEND ${_filenameTmp}
+-"#ifdef __cplusplus
+-}
+-#endif /* __cplusplus */
+-
+-")
+-
+-
+-  foreach(_currentModule ${PY_STATIC_MODULES_LIST})
+-    file(APPEND ${_filenameTmp} "int ${_name}_${_currentModule}(void) \n{\n  static char name[]=\"${PYTHON_MODULE_PREFIX}${_currentModule}\"; return PyImport_AppendInittab(name, init${PYTHON_MODULE_PREFIX}${_currentModule});\n}\n\n")
+-  endforeach()
+-
+-  file(APPEND ${_filenameTmp} "void ${_name}_LoadAllPythonModules(void)\n{\n")
+-  foreach(_currentModule ${PY_STATIC_MODULES_LIST})
+-    file(APPEND ${_filenameTmp} "  ${_name}_${_currentModule}();\n")
+-  endforeach()
+-  file(APPEND ${_filenameTmp} "}\n\n")
+-  file(APPEND ${_filenameTmp} "#ifndef EXCLUDE_LOAD_ALL_FUNCTION\nvoid CMakeLoadAllPythonModules(void)\n{\n  ${_name}_LoadAllPythonModules();\n}\n#endif\n\n#endif\n")
+-
+-# with configure_file() cmake complains that you may not use a file created using file(WRITE) as input file for configure_file()
+-  execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_filenameTmp}" "${_filename}" OUTPUT_QUIET ERROR_QUIET)
+-
+-endfunction()

@@ -1,23 +1,24 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.3 noetic
+mutex_package: ros-distro-mutex 0.4 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 12
+build_number: 13
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
-  - rviz
+  # - rviz
   # - diagnostic_updater
+  - eigenpy
 
 packages_remove_from_deps:
   # see https://github.com/RoboStack/ros-noetic/issues/25
@@ -27,6 +28,7 @@ packages_remove_from_deps:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
   - rqt-gui
@@ -35,16 +37,16 @@ packages_select_by_deps:
   - perception_pcl
   - rosbridge_suite
   ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - rviz
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - fcl
-  # - desktop_full
-  # - moveit
+  - desktop
+  - rviz
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - fcl
+  - desktop_full
+  - moveit
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
@@ -71,8 +73,9 @@ packages_select_by_deps:
   - tf2_sensor_msgs
   - tf2_tools
   - gps-common
-
-
+  - pcl-ros
+  - pcl-conversions
+  
   # # For jackal
   # - gazebo-dev
   # - gazebo-ros

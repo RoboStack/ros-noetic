@@ -1,27 +1,32 @@
-console_bridge:
-  - 1.0
+assimp:
+  - 5.2.5
+hdf5:
+  - 1.12.2
 gazebo:
   - '11'
-numpy:
-  # part of a zip_keys: python, python_impl, numpy
-  - 1.19
-ogre:
-  - 1.10.12
-pcl:
-  - 1.12.0
 libpqxx:
   - 6
+numpy:
+  - 1.20
+pcl:
+  - 1.12.1
+ogre:
+  - 1.10.12
+qt:
+  - 5.15
+qt-main:
+  - 5.15
+  
+cdt_name:  # [linux]
+  - cos7   # [linux]
+
+# Workaround for https://github.com/RoboStack/ros-galactic/pull/86#issuecomment-1079811424
+setuptools:  # [win]
+  - 61.0.0  # [win]
 
 python:
-  # part of a zip_keys: python, python_impl, numpy
-  # - 3.6.* *_cpython    # [not (osx and arm64)]
-  # - 3.7.* *_cpython    # [not (osx and arm64)]
-  # - 3.8.* *_cpython
   - 3.9.* *_cpython
 python_impl:
-  # part of a zip_keys: python, python_impl, numpy
-  # - cpython   # [not (osx and arm64)]
-  # - cpython   # [not (osx and arm64)]
   - cpython
 
 # Project overrides
@@ -36,7 +41,8 @@ MACOSX_DEPLOYMENT_TARGET:      # [osx]
 CONDA_BUILD_SYSROOT:
   - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  # [osx and arm64]
 
-# fix build metadata, needed for mapviz
+
+# fix build metadata, needed for mapviz and moveit-core
 replacements:
   all_replacements:
     - tag: 'pkg-config build metadata'
@@ -55,4 +61,3 @@ replacements:
         - '*.cmake'
       regex_re: '([^;\s"]+/MacOSX\d*\.?\d*\.sdk)'
       replacement_re: '$ENV{CONDA_BUILD_SYSROOT}'
-

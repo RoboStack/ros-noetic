@@ -1,5 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c3b03ef..de89fcc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -158,7 +158,7 @@ install(EXPORT FrankaTargets
+ # Ignore find_package(Franka) in subprojects.
+ set(FRANKA_IS_FOUND TRUE)
+ 
+-option(BUILD_TESTS "Build tests" ON)
++option(BUILD_TESTS "Build tests" OFF)
+ if(BUILD_TESTS)
+   enable_testing()
+   add_subdirectory(test)
 diff --git a/src/network.cpp b/src/network.cpp
-index 8df6939..b92f7b6 100644
+index 9d47072..dded9ed 100644
 --- a/src/network.cpp
 +++ b/src/network.cpp
 @@ -5,6 +5,14 @@
@@ -17,80 +30,3 @@ index 8df6939..b92f7b6 100644
  using namespace std::string_literals;  // NOLINT(google-build-using-namespace)
  
  namespace franka {
-
-
-diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
-index 3306c67..a79e8ef 100644
---- a/test/CMakeLists.txt
-+++ b/test/CMakeLists.txt
-@@ -62,69 +62,3 @@ target_link_libraries(run_all_tests PUBLIC ${TEST_DEPENDENCIES})
- 
- add_test(Default run_all_tests --gtest_output=xml:${TEST_OUTPUT_DIR}/default.xml)
- 
--if(BUILD_COVERAGE)
--  find_program(LCOV_PROG lcov)
--  if(NOT LCOV_PROG)
--    message(FATAL_ERROR "lcov not found.")
--  endif()
--
--  find_program(GENHTML_PROG genhtml)
--  if(NOT GENHTML_PROG)
--    message(FATAL_ERROR "genhtml not found.")
--  endif()
--
--  set(COVERAGE_REPORT_DIR "coverage")
--  set(COVERAGE_FILE "all_tests.coverage")
--
--  add_custom_target(coverage
--    COMMAND ${LCOV_PROG} --directory . --zerocounters
--    COMMAND ${CMAKE_CTEST_COMMAND} -R Default .
--    COMMAND ${LCOV_PROG} --directory . --capture --output-file ${COVERAGE_FILE}
--    COMMAND ${LCOV_PROG} --remove ${COVERAGE_FILE} 'test/*' '/usr/*' --output-file ${COVERAGE_FILE}
--    COMMAND ${GENHTML_PROG} -o ${COVERAGE_REPORT_DIR} ${COVERAGE_FILE}
--    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
--    DEPENDS run_all_tests
--    COMMENT "Generating code coverage"
--  )
--  return()
--endif()
--
--## Sanitizers
--include(CheckCXXCompilerFlag)
--get_target_property(TESTS run_all_tests SOURCES)
--
--set(ASan_FLAGS -g -O1 -fsanitize=address)
--set(UBSan_FLAGS -g -O1 -fsanitize=undefined -fno-sanitize=alignment -fno-sanitize-recover=undefined)
--set(TSan_FLAGS -g -O1 -fsanitize=thread)
--set(SANITIZERS ASan UBSan TSan)
--
--foreach(sanitizer ${SANITIZERS})
--  set(sanitizer_flags "${${sanitizer}_FLAGS}")
--
--  set(CMAKE_REQUIRED_LIBRARIES "${sanitizer_flags}")
--  check_cxx_compiler_flag("${sanitizer_flags}" HAVE_${sanitizer})
--  unset(CMAKE_REQUIRED_LIBRARIES)
--
--  if(HAVE_${sanitizer})
--    string(TOLOWER "${sanitizer}" sanitizer_lc)
--    set(target_name "run_all_tests_${sanitizer_lc}")
--
--    add_executable(${target_name} ${TESTS})
--    target_compile_definitions(${target_name} PRIVATE ${TEST_COMPILE_DEFINITIONS})
--    target_include_directories(${target_name} PRIVATE ${TEST_INCLUDE_DIRECTORIES})
--    target_link_libraries(${target_name} PUBLIC ${TEST_DEPENDENCIES} ${sanitizer_flags})
--    target_compile_options(${target_name} PRIVATE ${sanitizer_flags})
--    add_test(NAME ${sanitizer}
--      COMMAND ${target_name} --gtest_output=xml:${TEST_OUTPUT_DIR}/${sanitizer_lc}.xml
--    )
--  endif()
--endforeach()
--
--## Valgrind
--find_program(VALGRIND_PROG valgrind)
--if(VALGRIND_PROG)
--  add_test(NAME Valgrind
--    COMMAND ${VALGRIND_PROG} --error-exitcode=1 --track-origins=yes --
--            ./run_all_tests --gtest_output=xml:${TEST_OUTPUT_DIR}/valgrind.xml
--  )
--endif()
-

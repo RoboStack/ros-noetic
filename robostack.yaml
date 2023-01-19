@@ -32,8 +32,12 @@ bullet:
   robostack: [bullet]
 bzip2:
   robostack: [bzip2]
+cartographer:
+  robostack: [cartographer]
 ca-certificates:
   robostack: [ca-certificates]
+clang-tidy:
+  robostack: [clang-tools]
 cmake:
   robostack: [cmake]
 coinor-libcbc-dev:
@@ -62,7 +66,7 @@ curl:
 cython:
   robostack: [cython]
 doxygen:
-  robostack: [doxygen]
+  robostack: [doxygen, graphviz]
 eigen:
   robostack: [eigen]
 emacs:
@@ -122,16 +126,22 @@ gtk3:
     xorg-libxinerama, xorg-xineramaproto, epoxy, REQUIRE_GL]
 ignition-common4:
   robostack: [libignition-common4]
+ignition-cmake2:
+  robostack: [libignition-cmake2]
 ignition-gazebo3:
   robostack: [libignition-gazebo5]
 ignition-gazebo5:
   robostack: [libignition-gazebo5]
+ignition-gazebo6:
+  robostack: [libignition-gazebo6]
 ignition-gui5:
   robostack: [libignition-gui5]
 ignition-math6:
   robostack: [libignition-math6]
 ignition-msgs5:
   robostack: [libignition-msgs5]
+ignition-msgs8:
+  robostack: [libignition-msgs8]
 ignition-msgs7:
   robostack: [libignition-msgs7]
 ignition-rendering5:
@@ -140,6 +150,8 @@ ignition-transport8:
   robostack: [libignition-transport8]
 ignition-transport10:
   robostack: [libignition-transport10]
+ignition-transport11:
+  robostack: [libignition-transport11]
 java:
   robostack: [openjdk]
 jupyter-notebook:
@@ -152,6 +164,8 @@ lcov:
   robostack: [lcov]
 leveldb:
   robostack: [leveldb]
+libabsl-dev:
+  robostack: [abseil-cpp]
 libblas-dev:
   robostack: [libblas, libcblas]
 libboost-chrono-dev:
@@ -207,6 +221,10 @@ libconsole-bridge-dev:
   robostack: [console_bridge]
 libcunit-dev:
   robostack: [cunit]
+libcurl:
+  robostack: [libcurl]
+libcurl-dev:
+  robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
 libfcl-dev:
@@ -265,6 +283,8 @@ libhdf5-dev:
   robostack: [hdf5]
 libi2c-dev:
   robostack: [libi2c]
+liblttng-ust-dev:
+  robostack: [lttng-ust]
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
@@ -305,6 +325,8 @@ libopenblas-dev:
   robostack: [libblas]
 libopencv-dev:
   robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
+libopencv-imgproc-dev:
+  robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
 libopenni-dev:
   robostack: []
 liborocos-kdl:
@@ -332,35 +354,21 @@ libqglviewer-dev-qt5:
 libqhull:
   robostack: [qhull]
 libqt5-core:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-gui:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
+libqt5-svg-dev:
+  robostack: [qt-main, REQUIRE_OPENGL]
+libqt5-websockets-dev:
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-widgets:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5x11extras5-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 libreadline:
   robostack: [readline]
 libreadline-dev:
@@ -379,6 +387,8 @@ libtool:
   robostack: [libtool]
 libturbojpeg:
   robostack: [libjpeg-turbo]
+libtins-dev:
+  robostack: [libtins]
 libudev-dev:
   robostack: [libusb]
 liburdfdom-dev:
@@ -458,6 +468,8 @@ netpbm:
     linux: [netpbm]
     osx: [netpbm]
     win64: []
+nlohmann-json-dev:
+  robostack: [nlohmann_json]
 nlopt:
   robostack: [nlopt]
 ocl-icd-opencl-dev:
@@ -485,6 +497,8 @@ protobuf-dev:
   robostack: [libprotobuf, protobuf]
 pugixml-dev:
   robostack: [pugixml]
+pybind11-dev:
+  robostack: [pybind11]
 pycodestyle:
   robostack: [pycodestyle]
 pydocstyle:
@@ -566,10 +580,7 @@ python-pygraphviz:
 python-pyusb-pip:
   robostack: [pyusb]
 python-qt5-bindings:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python-rosdep:
   robostack: [rosdep]
 python-rosdep-modules:
@@ -640,6 +651,12 @@ python3-empy:
   robostack: [empy]
 python3-flake8:
   robostack: [flake8]
+python3-flask:
+  robostack: [flask]
+python3-flask-cors:
+  robostack: [flask-cors]
+python3-fiona:
+  robostack: [fiona]
 python3-future:
   robostack: [future]
 python3-github:
@@ -662,6 +679,8 @@ python3-importlib-metadata:
   robostack: [importlib-metadata]
 python3-importlib-resources:
   robostack: [importlib_resources]
+python3-jinja2:
+  robostack: [jinja2]
 python3-kitchen:
   robostack: [kitchen]
 python3-lark-parser:
@@ -727,24 +746,17 @@ python3-pytest-cov:
 python3-pytest-mock:
   robostack: [pytest-mock]
 python3-qt5-bindings:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python3-qt5-bindings-gl:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt 5, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqt, pyqt-builder]
 python3-qt5-bindings-webkit:
-  robostack:
-    linux: [pyqt 5.12]
-    osx: [pyqt, pyqt-builder]
-    win64: [pyqt 5]
+  robostack: [pyqtwebengine]
 python3-requests:
   robostack: [requests]
 python3-requests-oauthlib:
   robostack: [requests-oauthlib]
+python3-rtree:
+  robostack: [rtree]
 python3-rosdep:
   robostack: [rosdep]
 python3-rosdep-modules:
@@ -785,6 +797,8 @@ python3-tornado:
   robostack: [tornado]
 python3-twisted:
   robostack: [twisted]
+python3-typeguard:
+  robostack: [typeguard]
 python3-usb:
   robostack: [pyusb]
 python3-venv:
@@ -796,20 +810,11 @@ python3-yaml:
 python3-zmq:
   robostack: [pyzmq]
 qt5-image-formats-plugins:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 qt5-qmake:
-  robostack:
-    linux: [qt 5.12]
-    osx: [qt-main]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
-  robostack:
-    linux: [qt 5.12, REQUIRE_OPENGL]
-    osx: [qt-main, REQUIRE_OPENGL]
-    win64: [qt 5]
+  robostack: [qt-main, REQUIRE_OPENGL]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]
 rsync:
@@ -825,6 +830,8 @@ screen:
   robostack: [screen]
 sdformat:
   robostack: [libsdformat]
+sdformat12:
+  robostack: [libsdformat12]
 sdl:
   robostack: [sdl]
 sdl-image:
@@ -843,6 +850,8 @@ subversion:
   robostack: [subversion]
 suitesparse:
   robostack: [suitesparse]
+sqlite3:
+  robostack: [sqlite 3.*]
 swig:
   robostack: [swig]
 sysstat:

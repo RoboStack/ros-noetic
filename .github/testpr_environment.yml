@@ -1,7 +1,7 @@
 name: testpr_env
 channels:
   - robostack
-  - robostack-experimental
+  - robostack-staging
   - conda-forge
 dependencies:
   - python 3.9.*

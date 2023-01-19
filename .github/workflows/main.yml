@@ -8,10 +8,10 @@ jobs:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     - uses: actions/setup-python@v2
       with:
-        python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     - name: Install vinca
       run: |
-        pip install git+https://github.com/RoboStack/vinca.git@master
+        pip install git+https://github.com/RoboStack/vinca.git
 
     - name: Generate recipes for Linux
       run: |
@@ -20,10 +20,11 @@ jobs:
         vinca --multiple --platform linux-64
     - name: Generate azure pipelines for Linux
       run: |
-        vinca-azure --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
+        vinca-gha --platform linux-64 --trigger-branch buildbranch_linux -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "linux.yml" ]]; then
+            mv linux.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add . -f
@@ -32,7 +33,7 @@ jobs:
             git push "${remote_repo}" HEAD:buildbranch_linux --follow-tags --force
         fi
       env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
     # Generate recipes for osx
     - name: Reset repo
@@ -45,20 +46,20 @@ jobs:
         vinca --multiple --platform osx-64
     - name: Generate azure pipelines for macOS
       run: |
-        vinca-azure --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
+        vinca-gha --platform osx-64 --trigger-branch buildbranch_osx -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "osx.yml" ]]; then
+            mv osx.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add . -f
-
             git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
             remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:buildbranch_osx --follow-tags --force
         fi
       env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
     # Generate recipes for osx-arm64
     - name: Reset repo
@@ -71,10 +72,11 @@ jobs:
         vinca --multiple --platform osx-arm64
     - name: Generate azure pipelines for macOS (arm64)
       run: |
-        vinca-azure --platform osx-arm64 --trigger-branch buildbranch_osx_arm64 -d ./recipes --additional-recipes
+        vinca-gha --platform osx-arm64 --trigger-branch buildbranch_osx_arm64 -d ./recipes --additional-recipes
     - name: Commit files
       run: |
         if [[ -f "osx_arm64.yml" ]]; then
+            mv osx_arm64.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add . -f
@@ -83,7 +85,7 @@ jobs:
             git push "${remote_repo}" HEAD:buildbranch_osx_arm64 --follow-tags --force
         fi
       env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
     # Generate recipes for Windows
     - name: Reset repo
@@ -96,10 +98,11 @@ jobs:
         vinca --multiple --platform win-64
     - name: Generate azure pipelines for Windows
       run: |
-        vinca-azure --platform win-64 --trigger-branch buildbranch_win -d ./recipes --additional-recipes
+        vinca-gha --platform win-64 --trigger-branch buildbranch_win -d ./recipes --additional-recipes
     - name: Commit files for Windows
       run: |
         if [[ -f "win.yml" ]]; then
+            mv win.yml .github/workflows/
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add . -f
@@ -108,7 +111,7 @@ jobs:
             git push "${remote_repo}" HEAD:buildbranch_win --follow-tags --force
         fi
       env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
     # Generate recipes for Linux ARM64
     - name: Reset repo
@@ -120,31 +123,6 @@ jobs:
         cp vinca_linux_aarch64.yaml vinca.yaml
         vinca --multiple --platform linux-aarch64
     - name: Generate azure pipelines for Linux ARM64
-      run: |
-        vinca-azure --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
-    - name: Commit files
-      run: |
-        if [[ -f "linux_aarch64.yml" ]]; then
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add . -f
-            git commit -m "Add build files `date '+%Y-%m-%d-%H%M'`" -a
-            remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            git push "${remote_repo}" HEAD:buildbranch_linux_aarch64 --follow-tags --force
-        fi
-      env:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # Generate recipes for Linux ARM64
-    - name: Reset repo
-      run: |
-        git reset --hard origin/master
-    - name: Generate recipes for Linux ARM64
-      run: |
-        git clean -fdx
-        cp vinca_linux_aarch64.yaml vinca.yaml
-        vinca --multiple --platform linux-aarch64
-    - name: Generate Github pipelines for Linux ARM64
       run: |
         vinca-gha --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
     - name: Commit files
@@ -161,8 +139,8 @@ jobs:
       env:
         INPUT_GITHUB_TOKEN: ${{ secrets.GHA_PAT }}
 
-
 on:
   push:
     branches:
       - master
+      - main

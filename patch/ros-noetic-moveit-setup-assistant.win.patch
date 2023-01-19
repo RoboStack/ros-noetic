@@ -11,15 +11,16 @@ index c39d7cfe2..9fc8981b0 100644
  catkin_package(
    INCLUDE_DIRS
 diff --git a/src/tools/collision_linear_model.h b/src/tools/collision_linear_model.h
-index dd3dd4006..87835d61d 100644
+index 9cd06f5911..283145c1d3 100644
 --- a/src/tools/collision_linear_model.h
 +++ b/src/tools/collision_linear_model.h
-@@ -42,11 +42,24 @@
+@@ -41,8 +41,21 @@
+ #include <QVector>
  
- #ifndef Q_MOC_RUN
- #include <moveit/setup_assistant/tools/compute_default_collisions.h>
+ #include "collision_matrix_model.h"
 +#include <ros/macros.h>
-+
+ 
+-class CollisionLinearModel : public QAbstractProxyModel
 +// Import/export for windows dll's and visibility for gcc shared libraries.
 +
 +#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
@@ -31,16 +32,12 @@ index dd3dd4006..87835d61d 100644
 +#else // ros is being built around static libraries
 +  #define MOVEIT_SETUP_ASSISTANT_TOOLS_DECL
 +#endif
- #endif
- 
- #include "collision_matrix_model.h"
- 
--class CollisionLinearModel : public QAbstractProxyModel
++
 +class MOVEIT_SETUP_ASSISTANT_TOOLS_DECL CollisionLinearModel : public QAbstractProxyModel
  {
    Q_OBJECT
  
-@@ -76,7 +89,7 @@ public:
+@@ -71,7 +84,7 @@ class CollisionLinearModel : public QAbstractProxyModel
  };
  
  /** proxy model to allow for sorting of CollisionLinearModel, considering sorting history */

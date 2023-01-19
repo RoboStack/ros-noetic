@@ -1,23 +1,23 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.3 noetic
+mutex_package: ros-distro-mutex 0.4 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 8
+build_number: 9
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
-  - rviz
   # - diagnostic_updater
+  - eigenpy
 
 packages_remove_from_deps:
   - stage-ros
@@ -25,6 +25,7 @@ packages_remove_from_deps:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
   - rqt-gui
@@ -55,20 +56,21 @@ packages_select_by_deps:
   - urdf-geometry-parser
   - gps-common
   - rosbridge_suite
-
+  - pcl-ros
+  - pcl-conversions
   # ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - moveit
-  # - robot_localization
-  # - perception
-  # - simulators
-  # - desktop_full
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - robot_localization
+  - perception
+  - simulators
+  - desktop_full
 
-  # # # For jackal
+  # # # # For jackal
   # - hector-gazebo-plugins
   # - gazebo-dev
   # - gazebo-ros
@@ -91,6 +93,9 @@ packages_select_by_deps:
   # - imu-filter-madgwick
   # - rosserial-python
   # - ros_numpy
+
+
+
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild

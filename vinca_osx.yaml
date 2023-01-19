@@ -1,23 +1,24 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.3 noetic
+mutex_package: ros-distro-mutex 0.4 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 16
+build_number: 17
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
+  - eigenpy
 
 packages_remove_from_deps:
   - stage-ros
@@ -25,38 +26,37 @@ packages_remove_from_deps:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
   - python-qt-binding
   - qt-gui
   - qt-gui-cpp
-  # - ros-control
-  # - ros-controllers
-  # - imu-sensor-controller
-  # - ackermann-steering-controller
+  - ros-control
+  - ros-controllers
+  - imu-sensor-controller
+  - ackermann-steering-controller
   - rqt-gui
-
-  # - velodyne-description
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - turtlebot3-teleop
-  # - force-torque-sensor-controller
-  # - gripper-action-controller
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
+  - velodyne-description
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - turtlebot3-teleop
+  - force-torque-sensor-controller
+  - gripper-action-controller
   - rqt-gui-cpp
   - rqt-gui-py
-  # - joint-trajectory-controller
-  # - velodyne-simulator
-  # - velodyne-gazebo-plugins
-  # - catkin
+  - joint-trajectory-controller
+  - velodyne-simulator
+  - velodyne-gazebo-plugins
   # -  mavros-msgs
   # -  mavros
   # - libmavconn
   # - mavros-extras
   # - mavlink
-  # - cmake-modules
-  # - bondcpp
-  # - nodelet
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
@@ -81,67 +81,67 @@ packages_select_by_deps:
 
 
   # ## Only limited number of packages to reduce maintainer burden
-  # - catkin
-  # - rviz
-  # - desktop
-  # - desktop_full
-  # - perception
-  # - simulators
-  # - moveit
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - turtlebot3
-  # - turtlebot3-simulations
+  - catkin
+  - rviz
+  - desktop
+  - desktop_full
+  - perception
+  - simulators
+  - moveit
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - turtlebot3
+  - turtlebot3-simulations
 
   # # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - tf2_web_republisher
-  # - libfranka
-  # - franka
-  # - franka-gripper
-  # - franka-hw
-  # - franka-msgs
-  # - franka-description
-  # - franka-control
-  # - franka_example_controllers
-  # - franka_ros
-  # - combined-robot-hw
-  # - panda-moveit-config
-  # - moveit-ros-visualization
-  # - moveit-ros-planning-interface
-  # - niryo_one_simulation
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
-  # - librealsense2
-  # - realsense2_camera
-  # - realsense2-description
-  # - ur-msgs
-  # - rosdoc-lite
-  # - ros_numpy
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - realsense2-description
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##

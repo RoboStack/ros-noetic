@@ -3,13 +3,13 @@ index 49abcfea8..af47fef99 100644
 --- a/src/rviz/default_plugin/camera_display.cpp
 +++ b/src/rviz/default_plugin/camera_display.cpp
 @@ -34,6 +34,7 @@
- #include <OGRE/OgreRectangle2D.h>
- #include <OGRE/OgreRenderSystem.h>
- #include <OGRE/OgreRenderWindow.h>
-+#include <OGRE/OgreRoot.h>
- #include <OGRE/OgreSceneManager.h>
- #include <OGRE/OgreSceneNode.h>
- #include <OGRE/OgreTextureManager.h>
+ #include <OgreRectangle2D.h>
+ #include <OgreRenderSystem.h>
+ #include <OgreRenderWindow.h>
++#include <OgreRoot.h>
+ #include <OgreSceneManager.h>
+ #include <OgreSceneNode.h>
+ #include <OgreTextureManager.h>
 @@ -102,6 +103,8 @@ CameraDisplay::CameraDisplay()
        SLOT(forceRender()));
    zoom_property_->setMin(0.00001);
@@ -206,9 +206,9 @@ index 5532741d4..10fc63314 100644
 +++ b/src/rviz/render_panel.cpp
 @@ -35,6 +35,7 @@
  
- #include <OGRE/OgreSceneManager.h>
- #include <OGRE/OgreCamera.h>
-+#include <OGRE/OgreRenderWindow.h>
+ #include <OgreSceneManager.h>
+ #include <OgreCamera.h>
++#include <OgreRenderWindow.h>
  
  #include <rviz/display.h>
  #include <rviz/view_controller.h>

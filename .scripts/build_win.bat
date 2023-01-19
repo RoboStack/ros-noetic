@@ -1,4 +1,6 @@
-call activate base
+setlocal EnableExtensions EnableDelayedExpansion
+call %CONDA%\condabin\conda_hook.bat
+call %CONDA%\condabin\conda.bat activate base
 
 set "PATH=%PATH:C:\ProgramData\Chocolatey\bin;=%"
 set "PATH=%PATH:C:\Program Files (x86)\sbt\bin;=%"
@@ -16,28 +18,30 @@ set "PATH=%PATH:c:\tools\php;=%"
 :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
 set "PATH=%PATH:ostedtoolcache=%"
 
-call C:\Miniforge\Scripts\activate.bat base
-
 echo "PATH is %PATH%"
 echo "CONDA_BLD_PATH is %CONDA_BLD_PATH%"
 
 rmdir /Q/S C:\Strawberry\
+rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
 
 set "FEEDSTOCK_ROOT=%cd%"
 
 mkdir %CONDA_BLD_PATH%
-call conda.exe index "%CONDA_BLD_PATH%"
+call conda index %CONDA_BLD_PATH%
 
 rem call conda config --remove channels defaults
-call conda.exe config --add channels conda-forge
-call conda.exe config --add channels robostack
-call conda.exe config --add channels %CONDA_BLD_PATH%
+call conda config --add channels conda-forge
+call conda config --add channels robostack
+call conda config --add channels robostack-staging
+call conda config --add channels %CONDA_BLD_PATH%
 :: call conda config --set channel_priority strict
+
+:: Enable long path names on Windows
+reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
 
 :: conda remove --force m2-git
 
-:: C:\Miniconda\python.exe -m pip install git+https://github.com/mamba-org/boa.git@master
-call mamba.exe install boa=0.9
+call mamba install boa
 if errorlevel 1 exit 1
 
 for %%X in (%CURRENT_RECIPES%) do (

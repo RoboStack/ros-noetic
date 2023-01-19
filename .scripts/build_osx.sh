@@ -18,7 +18,7 @@ conda activate base
 conda config --set remote_max_retries 5
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
-mamba install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa=0.9 quetz-client -c conda-forge
+mamba install -n base --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client -c conda-forge
 
 set -e
 
@@ -43,8 +43,9 @@ conda config --set auto_update_conda false
 conda config --set add_pip_as_python_dependency false
 
 conda config --add channels conda-forge
-conda config --add channels robostack-experimental
 conda config --add channels robostack
+conda config --add channels robostack-staging
+conda config --add channels $CONDA_BLD_PATH
 # conda config --set channel_priority strict
 
 # echo -e "\n\nMaking the build clobber file and running the build."

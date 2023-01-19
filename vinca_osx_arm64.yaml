@@ -1,22 +1,23 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.3 noetic
+mutex_package: ros-distro-mutex 0.4 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 4
+build_number: 5
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
-  - rviz
+  # - rviz
+  - eigenpy
 
 packages_remove_from_deps:
   - stage-ros
@@ -26,6 +27,7 @@ packages_remove_from_deps:
 
 skip_existing:
   - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
   # - /Users/fischert/mambaforge/conda-bld
 
 packages_select_by_deps:
@@ -38,24 +40,21 @@ packages_select_by_deps:
   - rqt-gui-py
   - rqt-gui-cpp
   - qt-gui-cpp
-  # - roslisp
-  # - catkin
-  # - cmake-modules
-  # - bondcpp
-  # - nodelet
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
+  - roslisp
   # - qt-gui-cpp  # needs manual build
-  # - catkin
-  # - robot
   # - rviz  # needs manual build
-  # - desktop
-  # - perception
-  # - moveit
+  - desktop
+  - perception
+  - moveit
   # - eigenpy  # needs manual build
-  # - turtlebot3
-  # - turtlebot3-simulations
-  # - desktop-full
-  # - realsense2_camera
-  # - realsense2_description
+  - turtlebot3
+  - turtlebot3-simulations
+  - desktop-full
+  - realsense2_camera
+  - realsense2_description
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
@@ -80,34 +79,35 @@ packages_select_by_deps:
 
 
   # # For jackal
-  # - gazebo-dev
-  # - hector-gazebo-plugins
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - gmapping
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - slam-toolbox
-  # - turtlebot3-teleop
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
+  - move-base
 
 patch_dir: patch
