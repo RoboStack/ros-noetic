@@ -63,8 +63,8 @@ index a055cf5..a27a6cd 100644
 +    COMMAND ${SIP_EXECUTABLE} -V
 +    OUTPUT_VARIABLE SIP_VERSION
 +    ERROR_QUIET)
-+  string(STRIP ${SIP_VERSION} SIP_VERSION)
-+  message(STATUS "SIP binding generator version: ${SIP_VERSION}")
++  # string(STRIP ${SIP_VERSION} SIP_VERSION)
++  # message(STATUS "SIP binding generator version: ${SIP_VERSION}")
 +endif()
 +
  #
