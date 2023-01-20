@@ -43,7 +43,7 @@ packages_select_by_deps:
   - amcl
   - map-server
   - move-base
-  - gmapping
+  # - gmapping
   - fcl
   - desktop_full
   - moveit
