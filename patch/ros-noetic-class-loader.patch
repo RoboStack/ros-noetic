@@ -1,22 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5131553..2cd6bae 100644
+index 5131553..bf5b701 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -62,7 +62,7 @@ else()
-   add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS} ${${PROJECT_NAME}_HDRS})
- endif()
- 
--target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${console_bridge_LIBRARIES} ${Poco_LIBRARIES})
-+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} console_bridge::console_bridge ${Poco_LIBRARIES})
- if(WIN32)
-   # Causes the visibility macros to use dllexport rather than dllimport
-   # which is appropriate when building the dll but not consuming it.
-@@ -87,7 +87,7 @@ if(NOT catkin_FOUND)
-   set(TARGET_NAME ${PROJECT_NAME})
-   set(PKGCONFIG_LIBS
-     ${Boost_LIBRARIES}
--    ${console_bridge_LIBRARIES}
-+    console_bridge::console_bridge
-     ${Poco_LIBRARIES}
+@@ -23,7 +23,7 @@ if(${catkin_FOUND})
+   find_package(Poco REQUIRED COMPONENTS Foundation)
+   catkin_package(
+     INCLUDE_DIRS include
+-    LIBRARIES ${PROJECT_NAME} ${Poco_LIBRARIES}
++    LIBRARIES ${PROJECT_NAME} ${Poco_LIBRARIES} ${console_bridge_LIBRARIES}
+     DEPENDS Boost Poco console_bridge
+     CFG_EXTRAS class_loader-extras.cmake
    )
- 
