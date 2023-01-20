@@ -16,7 +16,7 @@ index e2ead2c..d98960a 100644
  
  ## Find Boost (only headers)
 -find_package(Boost REQUIRED)
-+find_package(Boost COMPONENTS thread REQUIRED)
++find_package(Boost COMPONENTS thread system chrono REQUIRED)
  
  ## Find UUID libraries
  find_package(UUID REQUIRED)
