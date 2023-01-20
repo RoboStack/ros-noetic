@@ -1,0 +1,13 @@
+diff --git a/map_server/CMakeLists.txt b/map_server/CMakeLists.txt
+index 147c9ae50..91c43cb3c 100644
+--- a/map_server/CMakeLists.txt
++++ b/map_server/CMakeLists.txt
+@@ -11,7 +11,7 @@ find_package(catkin REQUIRED
+ find_package(Bullet REQUIRED)
+ find_package(SDL REQUIRED)
+ find_package(SDL_image REQUIRED)
+-find_package(Boost REQUIRED COMPONENTS filesystem)
++find_package(Boost REQUIRED COMPONENTS filesystem system)
+ 
+ find_package(PkgConfig REQUIRED)
+ pkg_check_modules(YAMLCPP yaml-cpp QUIET)
