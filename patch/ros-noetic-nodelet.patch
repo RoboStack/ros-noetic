@@ -1,0 +1,22 @@
+From 400eee570ee764ed5ed3dfc72d2fcad509540d44 Mon Sep 17 00:00:00 2001
+From: Tobias Fischer <info@tobiasfischer.info>
+Date: Fri, 20 Jan 2023 16:08:11 +1000
+Subject: [PATCH] Update CMakeLists.txt
+
+---
+ nodelet/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nodelet/CMakeLists.txt b/nodelet/CMakeLists.txt
+index e2ead2c..d98960a 100644
+--- a/nodelet/CMakeLists.txt
++++ b/nodelet/CMakeLists.txt
+@@ -26,7 +26,7 @@ list(GET nodelet_VERSION_LIST 2 nodelet_VERSION_PATCH)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/nodelet/version.h.in ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}/nodelet/version.h)
+ 
+ ## Find Boost (only headers)
+-find_package(Boost REQUIRED)
++find_package(Boost COMPONENTS thread REQUIRED)
+ 
+ ## Find UUID libraries
+ find_package(UUID REQUIRED)
