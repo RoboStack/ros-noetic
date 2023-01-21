@@ -1,14 +1,5 @@
-From 400eee570ee764ed5ed3dfc72d2fcad509540d44 Mon Sep 17 00:00:00 2001
-From: Tobias Fischer <info@tobiasfischer.info>
-Date: Fri, 20 Jan 2023 16:08:11 +1000
-Subject: [PATCH] Update CMakeLists.txt
-
----
- nodelet/CMakeLists.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 diff --git a/nodelet/CMakeLists.txt b/nodelet/CMakeLists.txt
-index e2ead2c..d98960a 100644
+index e2ead2c..9c48f90 100644
 --- a/nodelet/CMakeLists.txt
 +++ b/nodelet/CMakeLists.txt
 @@ -26,7 +26,7 @@ list(GET nodelet_VERSION_LIST 2 nodelet_VERSION_PATCH)
@@ -20,6 +11,20 @@ index e2ead2c..d98960a 100644
  
  ## Find UUID libraries
  find_package(UUID REQUIRED)
+@@ -54,11 +54,11 @@ include_directories(
+ #add_definitions(-DNODELET_QUEUE_DEBUG)
+ 
+ add_library(nodeletlib src/nodelet_class.cpp src/loader.cpp src/callback_queue.cpp src/callback_queue_manager.cpp)
+-target_link_libraries(nodeletlib ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
++target_link_libraries(nodeletlib ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+ add_dependencies(nodeletlib ${nodelet_EXPORTED_TARGETS})
+ 
+ add_executable(nodelet src/nodelet.cpp)
+-target_link_libraries(nodelet nodeletlib ${UUID_LIBRARIES} ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
++target_link_libraries(nodelet nodeletlib ${UUID_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+ 
+ # install
+ catkin_install_python(PROGRAMS scripts/declared_nodelets scripts/list_nodelets
 diff --git a/nodelet/src/callback_queue_manager.cpp b/nodelet/src/callback_queue_manager.cpp
 index bf5dcea4..c2976ab3 100644
 --- a/nodelet/src/callback_queue_manager.cpp
