@@ -1,21 +1,24 @@
 diff --git a/src/qt_gui_cpp_sip/CMakeLists.txt b/src/qt_gui_cpp_sip/CMakeLists.txt
-index 370457fe..4d6c1475 100644
+index 370457fe..081e631d 100644
 --- a/src/qt_gui_cpp_sip/CMakeLists.txt
 +++ b/src/qt_gui_cpp_sip/CMakeLists.txt
-@@ -26,12 +26,28 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
+@@ -26,12 +26,31 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
    ${qt_gui_cpp_HDRS_DIR}/settings.h
  )
  
 +find_package(Python REQUIRED COMPONENTS Interpreter Development)
-+find_package(OpenGL REQUIRED)
++
++
++
 +
  # maintain context for different named target
  set(qt_gui_cpp_sip_INCLUDE_DIRS ${qt_gui_cpp_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/../../include" ${catkin_INCLUDE_DIRS})
 -set(qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 -set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
-+set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} Python::Python OpenGL::GL)
-+# set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
-+set(qt_gui_cpp_sip_LIBRARY_DIRS ${CMAKE_BINARY_DIR})
++set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} Python::Python)
++
++
++set(qt_gui_cpp_sip_LIBRARY_DIRS ${CMAKE_BINARY_DIR} ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib /usr/lib/x86_64-linux-gnu/)
  set(qt_gui_cpp_sip_LDFLAGS_OTHER ${qt_gui_cpp_LDFLAGS_OTHER})
  
 +# sip needs libraries to have resolved paths and cannot link to cmake targets
@@ -33,7 +36,7 @@ index 370457fe..4d6c1475 100644
  find_package(python_qt_binding REQUIRED)
  include(${python_qt_binding_EXTRAS_DIR}/sip_helper.cmake)
  
-@@ -47,11 +63,11 @@ if(sip_helper_FOUND)
+@@ -47,11 +66,11 @@ if(sip_helper_FOUND)
    )
  
    if(APPLE)
@@ -57,3 +60,15 @@ index ef3c52d7..cd02078d 100644
  
  %Import QtCore/QtCoremod.sip
  %Import QtGui/QtGuimod.sip
+diff --git a/src/qt_gui_cpp/CMakeLists.txt b/src/qt_gui_cpp/CMakeLists.txt
+index 9e9a0b92..82a91a9d 100644
+--- a/src/qt_gui_cpp/CMakeLists.txt
++++ b/src/qt_gui_cpp/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ set(Python_ADDITIONAL_VERSIONS "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+ find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
+-find_package(Qt5Widgets REQUIRED)
++find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+ endif()
