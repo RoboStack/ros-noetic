@@ -1,20 +1,24 @@
 diff --git a/src/qt_gui_cpp_sip/CMakeLists.txt b/src/qt_gui_cpp_sip/CMakeLists.txt
-index 370457fe..8126bf2c 100644
+index 370457fe..4d6c1475 100644
 --- a/src/qt_gui_cpp_sip/CMakeLists.txt
 +++ b/src/qt_gui_cpp_sip/CMakeLists.txt
-@@ -26,12 +26,25 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
+@@ -26,12 +26,28 @@ set(qt_gui_cpp_sip_DEPENDENT_FILES
    ${qt_gui_cpp_HDRS_DIR}/settings.h
  )
  
++find_package(Python REQUIRED COMPONENTS Interpreter Development)
 +find_package(OpenGL REQUIRED)
 +
  # maintain context for different named target
  set(qt_gui_cpp_sip_INCLUDE_DIRS ${qt_gui_cpp_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/../../include" ${catkin_INCLUDE_DIRS})
 -set(qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-+set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OPENGL_LIBRARIES})
- set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
+-set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
++set(_qt_gui_cpp_sip_LIBRARIES ${qt_gui_cpp_LIBRARIES} ${PROJECT_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} Python::Python OpenGL::GL)
++# set(qt_gui_cpp_sip_LIBRARY_DIRS ${qt_gui_cpp_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/lib)
++set(qt_gui_cpp_sip_LIBRARY_DIRS ${CMAKE_BINARY_DIR})
  set(qt_gui_cpp_sip_LDFLAGS_OTHER ${qt_gui_cpp_LDFLAGS_OTHER})
  
++# sip needs libraries to have resolved paths and cannot link to cmake targets
 +foreach(_lib_name_raw ${_qt_gui_cpp_sip_LIBRARIES})
 +  string(REGEX REPLACE "\\.so\\.[0-9,\\.]*" ".so" _lib_name ${_lib_name_raw})
 +  if(TARGET ${_lib_name})
@@ -29,25 +33,17 @@ index 370457fe..8126bf2c 100644
  find_package(python_qt_binding REQUIRED)
  include(${python_qt_binding_EXTRAS_DIR}/sip_helper.cmake)
  
-@@ -47,11 +60,19 @@ if(sip_helper_FOUND)
+@@ -47,11 +63,11 @@ if(sip_helper_FOUND)
    )
  
    if(APPLE)
 -    set(LIBQT_GUI_CPP_SIP_SUFFIX .so)
-+    if(TRUE)
-+      set(LIBQT_GUI_CPP_SIP_SUFFIX ".cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-darwin.so")
-+    else()
-+      set(LIBQT_GUI_CPP_SIP_SUFFIX .so)
-+    endif()
++    set(LIBQT_GUI_CPP_SIP_SUFFIX ".cpython-${Python_VERSION_MAJOR}${Python_VERSION_MINOR}-darwin.so")
    elseif(WIN32)
      set(LIBQT_GUI_CPP_SIP_SUFFIX .pyd)
    else()
 -    set(LIBQT_GUI_CPP_SIP_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
-+    if(TRUE)
-+      set(LIBQT_GUI_CPP_SIP_SUFFIX ".cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
-+    else()
-+      set(LIBQT_GUI_CPP_SIP_SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX})
-+    endif()
++    set(LIBQT_GUI_CPP_SIP_SUFFIX ".cpython-${Python_VERSION_MAJOR}${Python_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
    endif()
  
    install(FILES ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/libqt_gui_cpp_sip${LIBQT_GUI_CPP_SIP_SUFFIX}
