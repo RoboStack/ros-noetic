@@ -89,7 +89,7 @@ index efbb497b..f68732cf 100644
    elseif(APPLE)
 -    set(rviz_sip_LIBRARY_FILE librviz_sip.so)
 +    # Okay-ish hack for now
-+    if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
++    if(TRUE)
 +      set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-darwin.so")
 +    else()
 +      set(rviz_sip_LIBRARY_FILE librviz_sip.so)
@@ -98,7 +98,7 @@ index efbb497b..f68732cf 100644
      set(rviz_sip_LIBRARY_FILE librviz_sip.pyd)
    else()
 -    set(rviz_sip_LIBRARY_FILE librviz_sip${CMAKE_SHARED_LIBRARY_SUFFIX})
-+    if(${SIP_VERSION} VERSION_GREATER_EQUAL "5.0.0")
++    if(TRUE)
 +      message(WARNING "Use hack")
 +      set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
 +    else()
