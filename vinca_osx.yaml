@@ -57,6 +57,7 @@ packages_select_by_deps:
   # - libmavconn
   # - mavros-extras
   # - mavlink
+  
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
