@@ -6,5 +6,5 @@ runners:
     machine_image: ami-00dace5a405a9887e
     #machine_image: ami-0229f8cfc24033d05
     preemptible: false
-    workflow: .github/workflows/build_linux_aarch64.yml
-    count: 1
+    labels:
+      - cirun-linux-aarch64
