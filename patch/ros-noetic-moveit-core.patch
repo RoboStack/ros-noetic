@@ -1,0 +1,12 @@
+diff --git a/moveit_core/trajectory_processing/include/moveit/trajectory_processing/ruckig_traj_smoothing.h b/moveit_core/trajectory_processing/include/moveit/trajectory_processing/ruckig_traj_smoothing.h
+index 4671db898e..79f34e6d16 100644
+--- a/moveit_core/trajectory_processing/include/moveit/trajectory_processing/ruckig_traj_smoothing.h
++++ b/moveit_core/trajectory_processing/include/moveit/trajectory_processing/ruckig_traj_smoothing.h
+@@ -37,6 +37,7 @@
+ 
+ #include <Eigen/Core>
+ #include <list>
++#include <unordered_map>
+ #include <moveit/robot_trajectory/robot_trajectory.h>
+ #include <ruckig/ruckig.hpp>
+ 
