@@ -67,3 +67,15 @@ index d5683c7..5067032 100644
  
      // find value of best response (in [0; 1])
      kt_double bestResponse = -1;
+diff --git a/lib/karto_sdk/include/karto_sdk/Karto.h b/lib/karto_sdk/include/karto_sdk/Karto.h
+index c4c4f270..5373b461 100644
+--- a/lib/karto_sdk/include/karto_sdk/Karto.h
++++ b/lib/karto_sdk/include/karto_sdk/Karto.h
+@@ -28,6 +28,7 @@
+ #include <iomanip>
+ #include <sstream>
+ #include <stdexcept>
++#include <mutex>
+ #include <shared_mutex>
+ 
+ #include <math.h>
