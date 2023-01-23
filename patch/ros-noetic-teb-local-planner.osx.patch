@@ -19,7 +19,7 @@ index 165527db..df148c9c 100644
  
  set(EXTERNAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} ${SUITESPARSE_INCLUDE_DIRS} ${G2O_INCLUDE_DIR})
 -set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
-+set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES} ${CSPARSE_LIBRARY} ${Boost_LIBRARIES})
++set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES} ${CSPARSE_LIBRARY} ${Boost_LIBRARIES} Boost::boost)
  
  ## Uncomment this if the package has a setup.py. This macro ensures
  ## modules and global scripts declared therein get installed
