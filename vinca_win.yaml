@@ -75,6 +75,8 @@ packages_select_by_deps:
   - gps-common
   - pcl-ros
   - pcl-conversions
+  # needed for jackal
+  - velodyne-simulator
   
   # # For jackal
   # - gazebo-dev
