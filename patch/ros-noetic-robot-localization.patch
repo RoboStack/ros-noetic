@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cc7f334..bb20912 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -49,9 +49,6 @@ if(NOT EIGEN3_FOUND)
+   set(EIGEN_PACKAGE Eigen)
+ endif()
+ 
+-if(NOT MSVC)
+-  set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Werror")
+-endif()
+ add_definitions(-DEIGEN_NO_DEBUG -DEIGEN_MPL2_ONLY)
+ 
+ set(ROSLINT_CPP_OPTS "--filter=-build/c++11,-runtime/references")
