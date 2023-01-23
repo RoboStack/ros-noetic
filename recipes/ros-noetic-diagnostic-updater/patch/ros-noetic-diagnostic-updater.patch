@@ -1,0 +1,15 @@
+diff --git a/include/diagnostic_updater/update_functions.h b/include/diagnostic_updater/update_functions.h
+index 41e35104..59c05b94 100644
+--- a/include/diagnostic_updater/update_functions.h
++++ b/include/diagnostic_updater/update_functions.h
+@@ -37,6 +37,10 @@
+ #ifndef __DIAGNOSTIC_STATUS__UPDATE_FUNCTIONS_H__
+ #define __DIAGNOSTIC_STATUS__UPDATE_FUNCTIONS_H__
+ 
++#ifdef ERROR
++#undef ERROR
++#endif
++
+ #include <diagnostic_updater/diagnostic_updater.h>
+ #include <math.h>
+ 

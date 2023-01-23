@@ -1,0 +1,63 @@
+package:
+  name: ros-noetic-kdl-parser
+  version: 1.14.2
+source:
+  git_url: https://github.com/ros-gbp/kdl_parser-release.git
+  git_rev: release/noetic/kdl_parser/1.14.2-1
+  folder: ros-noetic-kdl-parser/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+  host:
+    - numpy
+    - orocos-kdl
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp
+    - ros-noetic-rostest
+    - ros-noetic-urdf
+    - tinyxml
+    - tinyxml2
+    - urdfdom_headers
+  run:
+    - orocos-kdl
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-rosconsole
+    - ros-noetic-urdf
+    - tinyxml
+    - tinyxml2
+    - urdfdom_headers
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

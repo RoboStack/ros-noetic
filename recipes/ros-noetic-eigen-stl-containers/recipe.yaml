@@ -1,0 +1,51 @@
+package:
+  name: ros-noetic-eigen-stl-containers
+  version: 0.1.8
+source:
+  git_url: https://github.com/ros-gbp/eigen_stl_containers-release.git
+  git_rev: release/noetic/eigen_stl_containers/0.1.8-1
+  folder: ros-noetic-eigen-stl-containers/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+  host:
+    - eigen
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+  run:
+    - eigen
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

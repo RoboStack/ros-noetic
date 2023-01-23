@@ -1,0 +1,52 @@
+package:
+  name: ros-noetic-gazebo-dev
+  version: 2.9.2
+source:
+  git_url: https://github.com/ros-gbp/gazebo_ros_pkgs-release.git
+  git_rev: release/noetic/gazebo_dev/2.9.2-1
+  folder: ros-noetic-gazebo-dev/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+  host:
+    - gazebo
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+    - tbb
+    - tbb-devel
+  run:
+    - gazebo
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

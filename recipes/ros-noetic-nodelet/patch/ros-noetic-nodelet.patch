@@ -1,0 +1,53 @@
+diff --git a/nodelet/CMakeLists.txt b/nodelet/CMakeLists.txt
+index e2ead2c..9c48f90 100644
+--- a/nodelet/CMakeLists.txt
++++ b/nodelet/CMakeLists.txt
+@@ -26,7 +26,7 @@ list(GET nodelet_VERSION_LIST 2 nodelet_VERSION_PATCH)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/nodelet/version.h.in ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}/nodelet/version.h)
+ 
+ ## Find Boost (only headers)
+-find_package(Boost REQUIRED)
++find_package(Boost COMPONENTS thread system chrono REQUIRED)
+ 
+ ## Find UUID libraries
+ find_package(UUID REQUIRED)
+@@ -54,11 +54,11 @@ include_directories(
+ #add_definitions(-DNODELET_QUEUE_DEBUG)
+ 
+ add_library(nodeletlib src/nodelet_class.cpp src/loader.cpp src/callback_queue.cpp src/callback_queue_manager.cpp)
+-target_link_libraries(nodeletlib ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
++target_link_libraries(nodeletlib ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+ add_dependencies(nodeletlib ${nodelet_EXPORTED_TARGETS})
+ 
+ add_executable(nodelet src/nodelet.cpp)
+-target_link_libraries(nodelet nodeletlib ${UUID_LIBRARIES} ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
++target_link_libraries(nodelet nodeletlib ${UUID_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+ 
+ # install
+ catkin_install_python(PROGRAMS scripts/declared_nodelets scripts/list_nodelets
+diff --git a/nodelet/src/callback_queue_manager.cpp b/nodelet/src/callback_queue_manager.cpp
+index bf5dcea4..c2976ab3 100644
+--- a/nodelet/src/callback_queue_manager.cpp
++++ b/nodelet/src/callback_queue_manager.cpp
+@@ -34,7 +34,7 @@
+ #include <boost/thread/thread.hpp>
+ #include <boost/thread/condition_variable.hpp>
+ #include <boost/type_traits/alignment_of.hpp>
+-#include <boost/bind.hpp>
++#include <boost/bind/bind.hpp>
+ 
+ #include <ros/assert.h>
+ 
+diff --git a/nodelet/src/loader.cpp b/nodelet/src/loader.cpp
+index 8887d46b..6446cbf9 100644
+--- a/nodelet/src/loader.cpp
++++ b/nodelet/src/loader.cpp
+@@ -216,7 +216,7 @@ struct Loader::Impl
+     typedef pluginlib::ClassLoader<Nodelet> Loader;
+     boost::shared_ptr<Loader> loader(new Loader("nodelet", "nodelet::Nodelet"));
+     // create_instance_ is self-contained; it owns a copy of the loader shared_ptr
+-    create_instance_ = boost::bind(&Loader::createInstance, loader, _1);
++    create_instance_ = boost::bind(&Loader::createInstance, loader, boost::placeholders::_1);
+     refresh_classes_ = boost::bind(&Loader::refreshDeclaredClasses, loader);
+   }
+ 

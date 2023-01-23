@@ -1,0 +1,56 @@
+package:
+  name: ros-noetic-jackal-gazebo
+  version: 0.4.0
+about:
+  home: http://wiki.ros.org/jackal_gazebo
+  license:
+    - BSD
+  summary: Launchfiles to use Jackal in Gazebo.
+  maintainers:
+    - Mike Purvis (mpurvis@clearpathrobotics.com)
+extra:
+  recipe-maintainers:
+    - robostack
+build:
+  number: 3
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+
+source:
+  git_url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  git_rev: release/noetic/jackal_gazebo/0.4.0-1
+  folder: ros-noetic-jackal-gazebo/src/work
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - sel(unix): make
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+  host:
+    - python
+    - ros-noetic-catkin
+    - ros-noetic-roslaunch
+    - ros-noetic-gazebo-ros
+    - ros-noetic-gazebo-ros-control
+    - ros-noetic-gazebo-plugins
+    - ros-noetic-hector-gazebo-plugins
+  run:
+    - python
+    - ros-noetic-gazebo-ros
+    - ros-noetic-gazebo-ros-control
+    - ros-noetic-gazebo-plugins
+    - ros-noetic-hector-gazebo-plugins
+    - ros-noetic-jackal-description
+    - ros-noetic-jackal-control
+    - ros-noetic-velodyne-simulator
+    - ros-noetic-gazebo-ros-pkgs
+    - ros-noetic-effort-controllers
+    - ros-noetic-position-controllers
+    - ros-noetic-velocity-controllers
+    - ros-noetic-joy
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

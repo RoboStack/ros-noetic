@@ -1,0 +1,20 @@
+package:
+  name: ros-noetic-eigenpy
+  version: "2.8.1"
+
+build:
+  number: 20
+
+requirements:
+  run:
+    - eigenpy 2.8.1
+
+
+about:
+  home: https://github.com/conda-forge/eigenpy-feedstock
+  license: BSD-2-Clause
+  summary: |
+    Bindings between Numpy and Eigen using Boost.Python
+extra:
+  recipe-maintainers:
+    - ros-forge

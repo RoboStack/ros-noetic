@@ -1,0 +1,1092 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3e37b59..eaef201 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,13 +4,19 @@ project(openslam_gmapping)
+ ## Find catkin macros and libraries
+ find_package(catkin REQUIRED)
+ 
++include(GenerateExportHeader)
++set(EXPORT_HEADER_DIR "${CATKIN_DEVEL_PREFIX}/include")
++file(MAKE_DIRECTORY "${EXPORT_HEADER_DIR}")
++
+ ###################################
+ ## catkin specific configuration ##
+ ###################################
+ ## The catkin_package macro generates cmake config files for your package
+ ## Declare things to be passed to dependent projects
+ catkin_package(
+-  INCLUDE_DIRS include
++  INCLUDE_DIRS
++    include
++    ${EXPORT_HEADER_DIR}
+   LIBRARIES utils sensor_base sensor_odometry sensor_range log configfile scanmatcher gridfastslam
+ )
+ 
+@@ -20,7 +26,10 @@ catkin_package(
+ 
+ ## Specify additional locations of header files
+ ## Your package locations should be listed before other locations
+-include_directories(include)
++include_directories(
++  include
++  ${EXPORT_HEADER_DIR}
++)
+ 
+ #SUBDIRS=utils sensor log configfile scanmatcher gridfastslam gui
+ 
+@@ -152,9 +161,13 @@ target_link_libraries(gridfastslam
+ # )
+ 
+ ## Mark executables and/or libraries for installation
+-install(TARGETS utils autoptr_test sensor_base sensor_odometry sensor_range sensor_range log log_test log_plot scanstudio2carmen rdk2carmen configfile configfile_test scanmatcher scanmatch_test icptest gridfastslam gfs2log gfs2rec gfs2neff
++install(TARGETS utils sensor_base sensor_odometry sensor_range log configfile scanmatcher gridfastslam
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
++)
++
++install(TARGETS autoptr_test log_test log_plot scanstudio2carmen rdk2carmen configfile_test scanmatch_test icptest gfs2log gfs2rec gfs2neff
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+ 
+@@ -165,6 +178,27 @@ install(DIRECTORY include/gmapping
+   PATTERN ".svn" EXCLUDE
+ )
+ 
++generate_export_header(utils
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/utils/utils_export.h)
++generate_export_header(sensor_base
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/sensor/sensor_base/sensor_base_export.h)
++generate_export_header(sensor_odometry
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/sensor/sensor_odometry/sensor_odometry_export.h)
++generate_export_header(sensor_range
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/sensor/sensor_range/sensor_range_export.h)
++generate_export_header(log
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/log/log_export.h)
++generate_export_header(configfile
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/configfile/configfile_export.h)
++generate_export_header(scanmatcher
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/scanmatcher/scanmatcher_export.h)
++generate_export_header(gridfastslam
++  EXPORT_FILE_NAME ${EXPORT_HEADER_DIR}/gmapping/gridfastslam/gridfastslam_export.h)
++
++install(DIRECTORY
++  ${EXPORT_HEADER_DIR}/
++  DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION})
++
+ #############
+ ## Testing ##
+ #############
+diff --git a/carmenwrapper/carmenwrapper.cpp b/carmenwrapper/carmenwrapper.cpp
+index 77a8ae5..786436f 100644
+--- a/carmenwrapper/carmenwrapper.cpp
++++ b/carmenwrapper/carmenwrapper.cpp
+@@ -177,7 +177,7 @@ bool CarmenWrapper::getReading(RangeReading& reading){
+ 	sem_wait(&m_dequeSem);
+ 	pthread_mutex_lock(&m_mutex);
+ 	if (!m_rangeDeque.empty()){
+-//		cerr << __PRETTY_FUNCTION__ << ": queue size=" <<m_rangeDeque.size() << endl;
++//		cerr << __func__ << ": queue size=" <<m_rangeDeque.size() << endl;
+ 		reading=m_rangeDeque.front();
+ 		m_rangeDeque.pop_front();
+ 		present=true;
+@@ -213,7 +213,7 @@ void CarmenWrapper::robot_frontlaser_handler(carmen_robot_laser_message* frontla
+ 		m_rangeSensor=new RangeSensor("FLASER",frontlaser->num_readings, res, OrientedPoint(0,0,0), 0, 89.9);
+ 		m_sensorMap.insert(make_pair(string("FLASER"), m_rangeSensor));
+ 		
+-		cout << __PRETTY_FUNCTION__ 
++		cout << __func__ 
+ 		     << ": FrontLaser configured." 
+ 		     << " Readings " << m_rangeSensor->beams().size() 
+ 		     << " Resolution " << res << endl;
+@@ -241,7 +241,7 @@ void CarmenWrapper::robot_rearlaser_handler(carmen_robot_laser_message* rearlase
+ 		m_rangeSensor=new RangeSensor("FLASER",frontlaser->num_readings, res, OrientedPoint(0,0,0), 0, 89.9);
+ 		m_sensorMap.insert(make_pair(string("FLASER"), m_rangeSensor));
+ 		
+-		cout << __PRETTY_FUNCTION__ 
++		cout << __func__ 
+ 		     << ": FrontLaser configured." 
+ 		     << " Readings " << m_rangeSensor->beams().size() 
+ 		     << " Resolution " << res << endl;
+@@ -324,7 +324,7 @@ RangeReading CarmenWrapper::carmen2reading(const carmen_robot_laser_message& msg
+ 		m_frontLaser->updateBeamsLookup();
+ 		m_sensorMap.insert(make_pair(sensorName, m_frontLaser));
+ 		
+-		cout << __PRETTY_FUNCTION__ 
++		cout << __func__ 
+ 		     << ": " << sensorName <<" configured." 
+ 		     << " Readings " << m_frontLaser->beams().size() 
+ 		     << " Resolution " << res << endl;
+@@ -346,7 +346,7 @@ RangeReading CarmenWrapper::carmen2reading(const carmen_robot_laser_message& msg
+ 		m_rearLaser->updateBeamsLookup();
+ 		m_sensorMap.insert(make_pair(sensorName, m_rearLaser));
+ 		
+-		cout << __PRETTY_FUNCTION__ 
++		cout << __func__ 
+ 		     << ": " << sensorName <<" configured." 
+ 		     << " Readings " << m_rearLaser->beams().size() 
+ 		     << " Resolution " << res << endl;
+diff --git a/gfs-carmen/gfs-carmen.cpp b/gfs-carmen/gfs-carmen.cpp
+index df477e4..eb20de4 100644
+--- a/gfs-carmen/gfs-carmen.cpp
++++ b/gfs-carmen/gfs-carmen.cpp
+@@ -26,7 +26,7 @@
+ #include <gmapping/utils/orientedboundingbox.h>
+ #include <gmapping/configfile/configfile.h>
+ 
+-#define DEBUG cout << __PRETTY_FUNCTION__
++#define DEBUG cout << __func__
+ 
+ /*
+ Example file for interfacing carmen, and gfs.
+@@ -227,10 +227,10 @@ int main(int argc, const char * const * argv){
+ 				cerr << "Best Particle is " << best_idx << " with weight " << best_weight << endl;
+ 				
+ */				
+-				cerr << __PRETTY_FUNCTION__  << "CLONING... " << endl;
++				cerr << __func__  << "CLONING... " << endl;
+ 				GridSlamProcessor* newProcessor=processor->clone();
+ 				cerr << "DONE" << endl;
+-				cerr << __PRETTY_FUNCTION__  << "DELETING... " << endl;
++				cerr << __func__  << "DELETING... " << endl;
+ 				delete processor;
+ 				cerr << "DONE" << endl;
+ 				processor=newProcessor;
+diff --git a/gridfastslam/gridslamprocessor.cpp b/gridfastslam/gridslamprocessor.cpp
+index 3466746..51fcf52 100644
+--- a/gridfastslam/gridslamprocessor.cpp
++++ b/gridfastslam/gridslamprocessor.cpp
+@@ -71,7 +71,7 @@ using namespace std;
+     m_obsSigmaGain=gsp.m_obsSigmaGain;
+     
+ #ifdef MAP_CONSISTENCY_CHECK
+-    cerr << __PRETTY_FUNCTION__ <<  ": trajectories copy.... ";
++    cerr << __func__ <<  ": trajectories copy.... ";
+ #endif
+     TNodeVector v=gsp.getTrajectories();
+     for (unsigned int i=0; i<v.size(); i++){
+@@ -97,7 +97,7 @@ using namespace std;
+ 
+   GridSlamProcessor* GridSlamProcessor::clone() const {
+ # ifdef MAP_CONSISTENCY_CHECK
+-    cerr << __PRETTY_FUNCTION__ << ": performing preclone_fit_test" << endl;
++    cerr << __func__ << ": performing preclone_fit_test" << endl;
+     typedef std::map<autoptr< Array2D<PointAccumulator> >::reference* const, int> PointerMap;
+     PointerMap pmap;
+ 	for (ParticleVector::const_iterator it=m_particles.begin(); it!=m_particles.end(); it++){
+@@ -116,17 +116,17 @@ using namespace std;
+ 	    }
+ 	  }
+ 	}
+-	cerr << __PRETTY_FUNCTION__ <<  ": Number of allocated chunks" << pmap.size() << endl;
++	cerr << __func__ <<  ": Number of allocated chunks" << pmap.size() << endl;
+ 	for(PointerMap::const_iterator it=pmap.begin(); it!=pmap.end(); it++)
+ 	  assert(it->first->shares==(unsigned int)it->second);
+ 
+-	cerr << __PRETTY_FUNCTION__ <<  ": SUCCESS, the error is somewhere else" << endl;
++	cerr << __func__ <<  ": SUCCESS, the error is somewhere else" << endl;
+ # endif
+ 	GridSlamProcessor* cloned=new GridSlamProcessor(*this);
+ 	
+ # ifdef MAP_CONSISTENCY_CHECK
+-	cerr << __PRETTY_FUNCTION__ <<  ": trajectories end" << endl;
+-	cerr << __PRETTY_FUNCTION__ << ": performing afterclone_fit_test" << endl;
++	cerr << __func__ <<  ": trajectories end" << endl;
++	cerr << __func__ << ": performing afterclone_fit_test" << endl;
+ 	ParticleVector::const_iterator jt=cloned->m_particles.begin();
+ 	for (ParticleVector::const_iterator it=m_particles.begin(); it!=m_particles.end(); it++){
+ 	  const ScanMatcherMap& m1(it->map);
+@@ -143,14 +143,14 @@ using namespace std;
+ 	    }
+ 	  }
+ 	}
+-	cerr << __PRETTY_FUNCTION__ <<  ": SUCCESS, the error is somewhere else" << endl;
++	cerr << __func__ <<  ": SUCCESS, the error is somewhere else" << endl;
+ # endif
+ 	return cloned;
+ }
+   
+   GridSlamProcessor::~GridSlamProcessor(){
+-    cerr << __PRETTY_FUNCTION__ << ": Start" << endl;
+-    cerr << __PRETTY_FUNCTION__ << ": Deleting tree" << endl;
++    cerr << __func__ << ": Start" << endl;
++    cerr << __func__ << ": Deleting tree" << endl;
+     for (std::vector<Particle>::iterator it=m_particles.begin(); it!=m_particles.end(); it++){
+ #ifdef TREE_CONSISTENCY_CHECK		
+       TNode* node=it->node;
+@@ -164,7 +164,7 @@ using namespace std;
+     }
+     
+ # ifdef MAP_CONSISTENCY_CHECK
+-    cerr << __PRETTY_FUNCTION__ << ": performing predestruction_fit_test" << endl;
++    cerr << __func__ << ": performing predestruction_fit_test" << endl;
+     typedef std::map<autoptr< Array2D<PointAccumulator> >::reference* const, int> PointerMap;
+     PointerMap pmap;
+     for (ParticleVector::const_iterator it=m_particles.begin(); it!=m_particles.end(); it++){
+@@ -183,10 +183,10 @@ using namespace std;
+ 	}
+       }
+     }
+-    cerr << __PRETTY_FUNCTION__ << ": Number of allocated chunks" << pmap.size() << endl;
++    cerr << __func__ << ": Number of allocated chunks" << pmap.size() << endl;
+     for(PointerMap::const_iterator it=pmap.begin(); it!=pmap.end(); it++)
+       assert(it->first->shares>=(unsigned int)it->second);
+-    cerr << __PRETTY_FUNCTION__ << ": SUCCESS, the error is somewhere else" << endl;
++    cerr << __func__ << ": SUCCESS, the error is somewhere else" << endl;
+ # endif
+   }
+ 
+diff --git a/gridfastslam/gridslamprocessor_tree.cpp b/gridfastslam/gridslamprocessor_tree.cpp
+index 41685c6..390e2d1 100644
+--- a/gridfastslam/gridslamprocessor_tree.cpp
++++ b/gridfastslam/gridslamprocessor_tree.cpp
+@@ -57,22 +57,22 @@ GridSlamProcessor::TNodeVector GridSlamProcessor::getTrajectories() const{
+ 		assert(newnode->childs==0);
+ 		if (newnode->parent){
+ 			parentCache.insert(make_pair(newnode->parent, newnode));
+-			//cerr << __PRETTY_FUNCTION__ << ": node " << newnode->parent << " flag=" << newnode->parent->flag<< endl;
++			//cerr << __func__ << ": node " << newnode->parent << " flag=" << newnode->parent->flag<< endl;
+ 			if (! newnode->parent->flag){
+-				//cerr << __PRETTY_FUNCTION__ << ": node " << newnode->parent << " flag=" << newnode->parent->flag<< endl;
++				//cerr << __func__ << ": node " << newnode->parent << " flag=" << newnode->parent->flag<< endl;
+ 				newnode->parent->flag=true;
+ 				border.push_back(newnode->parent);
+ 			}
+ 		}
+ 	}
+ 	
+-	//cerr << __PRETTY_FUNCTION__ << ": border.size(INITIAL)=" << border.size() << endl;
+-	//cerr << __PRETTY_FUNCTION__ << ": parentCache.size()=" << parentCache.size() << endl;
++	//cerr << __func__ << ": border.size(INITIAL)=" << border.size() << endl;
++	//cerr << __func__ << ": parentCache.size()=" << parentCache.size() << endl;
+ 	while (! border.empty()){
+-		//cerr << __PRETTY_FUNCTION__ << ": border.size(PREPROCESS)=" << border.size() << endl;
+-		//cerr << __PRETTY_FUNCTION__ << ": parentCache.size(PREPROCESS)=" << parentCache.size() << endl;
++		//cerr << __func__ << ": border.size(PREPROCESS)=" << border.size() << endl;
++		//cerr << __func__ << ": parentCache.size(PREPROCESS)=" << parentCache.size() << endl;
+ 		const TNode* node=border.front();
+-		//cerr << __PRETTY_FUNCTION__ << ": node " << node << endl;
++		//cerr << __func__ << ": node " << node << endl;
+ 		border.pop_front();
+ 		if (! node)
+ 			continue;
+@@ -91,7 +91,7 @@ GridSlamProcessor::TNodeVector GridSlamProcessor::getTrajectories() const{
+ 		}
+ 		////cerr << endl;
+ 		parentCache.erase(p.first, p.second);
+-		//cerr << __PRETTY_FUNCTION__ << ": parentCache.size(POSTERASE)=" << parentCache.size() << endl;
++		//cerr << __func__ << ": parentCache.size(POSTERASE)=" << parentCache.size() << endl;
+ 		assert(childs==newnode->childs);
+ 		
+ 		//unmark the node
+@@ -104,7 +104,7 @@ GridSlamProcessor::TNodeVector GridSlamProcessor::getTrajectories() const{
+ 		}
+ 		//insert the parent in the cache
+ 	}
+-	//cerr << __PRETTY_FUNCTION__ << " : checking cloned trajectories" << endl;
++	//cerr << __func__ << " : checking cloned trajectories" << endl;
+ 	for (unsigned int i=0; i<v.size(); i++){
+ 		TNode* node= v[i];
+ 		while (node){
+diff --git a/gui/gfs_nogui.cpp b/gui/gfs_nogui.cpp
+index eee4354..a278aae 100644
+--- a/gui/gfs_nogui.cpp
++++ b/gui/gfs_nogui.cpp
+@@ -20,7 +20,9 @@
+  *****************************************************************/
+ 
+ 
+-#include <unistd.h>
++#ifndef _WIN32
++  #include <unistd.h>
++#endif
+ #include "gmapping/gui/gsp_thread.h"
+ 
+ using namespace GMapping;
+diff --git a/gui/gsp_thread.cpp b/gui/gsp_thread.cpp
+index f1dc278..1300334 100644
+--- a/gui/gsp_thread.cpp
++++ b/gui/gsp_thread.cpp
+@@ -29,7 +29,7 @@
+ 	#include <gmapping/carmenwrapper/carmenwrapper.h>
+ #endif
+ 
+-#define DEBUG cout << __PRETTY_FUNCTION__
++#define DEBUG cout << __func__
+ 
+ using namespace std;
+ 
+diff --git a/gui/qparticleviewer.cpp b/gui/qparticleviewer.cpp
+index 846e33b..ccf58e7 100644
+--- a/gui/qparticleviewer.cpp
++++ b/gui/qparticleviewer.cpp
+@@ -201,7 +201,7 @@ void QParticleViewer::drawMap(const ScanMatcherMap& map){
+   Point wmax=Point(pic2map(IntPoint(m_pixmap->width()/2,-m_pixmap->height()/2)));
+   IntPoint imin=map.world2map(wmin);
+   IntPoint imax=map.world2map(wmax);
+-  /*	cout << __PRETTY_FUNCTION__ << endl;
++  /*	cout << __func__ << endl;
+ 	cout << " viewCenter=" << viewCenter.x << "," << viewCenter.y <<   endl;	
+ 	cout << " wmin=" << wmin.x << "," << wmin.y <<  " wmax=" << wmax.x << "," << wmax.y << endl;	
+ 	cout << " imin=" << imin.x << "," << imin.y <<  " imax=" << imax.x << "," << imax.y << endl;
+diff --git a/include/gmapping/configfile/configfile.h b/include/gmapping/configfile/configfile.h
+index 4f4a601..140a731 100644
+--- a/include/gmapping/configfile/configfile.h
++++ b/include/gmapping/configfile/configfile.h
+@@ -26,10 +26,11 @@
+ #include <iostream>
+ #include <string>
+ #include <map>
++#include <gmapping/configfile/configfile_export.h>
+ 
+ namespace GMapping{
+ 
+-class AutoVal {
++class CONFIGFILE_EXPORT AutoVal {
+ public:
+   AutoVal() {};
+   explicit AutoVal(const std::string&);
+@@ -62,7 +63,7 @@ private:
+   std::string m_value;
+ };
+ 
+-class ConfigFile {
++class CONFIGFILE_EXPORT ConfigFile {
+   std::map<std::string,AutoVal> m_content;
+   
+ public:
+diff --git a/include/gmapping/grid/array2d.h b/include/gmapping/grid/array2d.h
+index 2494350..0d0c4eb 100644
+--- a/include/gmapping/grid/array2d.h
++++ b/include/gmapping/grid/array2d.h
+@@ -56,7 +56,7 @@ Array2D<Cell,debug>::Array2D(int xsize, int ysize){
+ 		m_cells=0;
+ 	}
+ 	if (debug){
+-		std::cerr << __PRETTY_FUNCTION__ << std::endl;
++		std::cerr << __func__ << std::endl;
+ 		std::cerr << "m_xsize= " << m_xsize<< std::endl;
+ 		std::cerr << "m_ysize= " << m_ysize<< std::endl;
+ 	}
+@@ -79,7 +79,7 @@ Array2D<Cell,debug> & Array2D<Cell,debug>::operator=(const Array2D<Cell,debug> &
+ 			m_cells[x][y]=g.m_cells[x][y];
+ 	
+ 	if (debug){
+-		std::cerr << __PRETTY_FUNCTION__ << std::endl;
++		std::cerr << __func__ << std::endl;
+ 		std::cerr << "m_xsize= " << m_xsize<< std::endl;
+ 		std::cerr << "m_ysize= " << m_ysize<< std::endl;
+ 	}
+@@ -97,7 +97,7 @@ Array2D<Cell,debug>::Array2D(const Array2D<Cell,debug> & g){
+ 			m_cells[x][y]=g.m_cells[x][y];
+ 	}
+ 	if (debug){
+-		std::cerr << __PRETTY_FUNCTION__ << std::endl;
++		std::cerr << __func__ << std::endl;
+ 		std::cerr << "m_xsize= " << m_xsize<< std::endl;
+ 		std::cerr << "m_ysize= " << m_ysize<< std::endl;
+ 	}
+@@ -106,7 +106,7 @@ Array2D<Cell,debug>::Array2D(const Array2D<Cell,debug> & g){
+ template <class Cell, const bool debug>
+ Array2D<Cell,debug>::~Array2D(){
+   if (debug){
+-  	std::cerr << __PRETTY_FUNCTION__ << std::endl;
++  	std::cerr << __func__ << std::endl;
+ 	std::cerr << "m_xsize= " << m_xsize<< std::endl;
+ 	std::cerr << "m_ysize= " << m_ysize<< std::endl;
+   }
+@@ -121,7 +121,7 @@ Array2D<Cell,debug>::~Array2D(){
+ template <class Cell, const bool debug>
+ void Array2D<Cell,debug>::clear(){
+   if (debug){
+-  	std::cerr << __PRETTY_FUNCTION__ << std::endl;
++  	std::cerr << __func__ << std::endl;
+ 	std::cerr << "m_xsize= " << m_xsize<< std::endl;
+ 	std::cerr << "m_ysize= " << m_ysize<< std::endl;
+   }
+diff --git a/include/gmapping/gridfastslam/gfsreader.h b/include/gmapping/gridfastslam/gfsreader.h
+index 16041f3..18ab997 100644
+--- a/include/gmapping/gridfastslam/gfsreader.h
++++ b/include/gmapping/gridfastslam/gfsreader.h
+@@ -7,6 +7,7 @@
+ #include <vector>
+ #include <list>
+ #include <gmapping/utils/point.h>
++#include <gmapping/gridfastslam/gridfastslam_export.h>
+ 
+ #define MAX_LINE_LENGHT (1000000)
+ 
+@@ -16,7 +17,7 @@ namespace GFSReader{
+ 	
+ using namespace std;
+ 
+-struct Record{
++struct GRIDFASTSLAM_EXPORT Record{
+ 	unsigned int dim;
+ 	double time;
+ 	virtual ~Record();
+@@ -24,13 +25,13 @@ struct Record{
+ 	virtual void write(ostream& os);
+ };
+ 
+-struct CommentRecord: public Record{
++struct GRIDFASTSLAM_EXPORT CommentRecord: public Record{
+ 	string text;
+ 	virtual void read(istream& is);
+ 	virtual void write(ostream& os);
+ };
+ 
+-struct PoseRecord: public Record{
++struct GRIDFASTSLAM_EXPORT PoseRecord: public Record{
+ 	PoseRecord(bool ideal=false);
+ 	void read(istream& is);
+ 	virtual void write(ostream& os);
+@@ -38,13 +39,13 @@ struct PoseRecord: public Record{
+ 	OrientedPoint pose;
+ };
+ 
+-struct NeffRecord: public Record{
++struct GRIDFASTSLAM_EXPORT NeffRecord: public Record{
+ 	void read(istream& is);
+ 	virtual void write(ostream& os);
+ 	double neff;
+ };
+ 
+-struct EntropyRecord: public Record{
++struct GRIDFASTSLAM_EXPORT EntropyRecord: public Record{
+ 	void read(istream& is);
+ 	virtual void write(ostream& os);
+ 	double poseEntropy;
+@@ -53,23 +54,23 @@ struct EntropyRecord: public Record{
+ };
+ 
+ 
+-struct OdometryRecord: public Record{
++struct GRIDFASTSLAM_EXPORT OdometryRecord: public Record{
+ 	virtual void read(istream& is);
+ 	vector<OrientedPoint> poses;
+ };
+ 
+-struct RawOdometryRecord: public Record{
++struct GRIDFASTSLAM_EXPORT RawOdometryRecord: public Record{
+ 	virtual void read(istream& is);
+ 	OrientedPoint pose;
+ };
+ 
+-struct ScanMatchRecord: public Record{
++struct GRIDFASTSLAM_EXPORT ScanMatchRecord: public Record{
+ 	virtual void read(istream& is);
+ 	vector<OrientedPoint> poses;
+ 	vector<double> weights;
+ };
+ 
+-struct LaserRecord: public Record{
++struct GRIDFASTSLAM_EXPORT LaserRecord: public Record{
+ 	virtual void read(istream& is);
+ 	virtual void write(ostream& os);
+ 	vector<double> readings;
+@@ -77,12 +78,12 @@ struct LaserRecord: public Record{
+ 	double weight;
+ };
+ 
+-struct ResampleRecord: public Record{
++struct GRIDFASTSLAM_EXPORT ResampleRecord: public Record{
+ 	virtual void read(istream& is);
+ 	vector<unsigned int> indexes;
+ };
+ 
+-struct RecordList: public list<Record*>{
++struct GRIDFASTSLAM_EXPORT RecordList: public list<Record*>{
+ 	mutable int sampleSize;
+ 	istream& read(istream& is);
+ 	double getLogWeight(unsigned int i) const;
+diff --git a/include/gmapping/gridfastslam/gridslamprocessor.h b/include/gmapping/gridfastslam/gridslamprocessor.h
+index 3b7f650..6595b51 100644
+--- a/include/gmapping/gridfastslam/gridslamprocessor.h
++++ b/include/gmapping/gridfastslam/gridslamprocessor.h
+@@ -14,6 +14,7 @@
+ #include <gmapping/sensor/sensor_range/rangereading.h>
+ #include <gmapping/scanmatcher/scanmatcher.h>
+ #include "gmapping/gridfastslam/motionmodel.h"
++#include <gmapping/gridfastslam/gridfastslam_export.h>
+ 
+ 
+ namespace GMapping {
+@@ -31,7 +32,7 @@ namespace GMapping {
+      In order to avoid unnecessary computation the filter state is updated 
+      only when the robot moves more than a given threshold.
+   */
+-  class GridSlamProcessor{
++  class GRIDFASTSLAM_EXPORT GridSlamProcessor{
+   public:
+ 
+     
+diff --git a/include/gmapping/gui/gsp_thread.h b/include/gmapping/gui/gsp_thread.h
+index 8be4529..5c64232 100644
+--- a/include/gmapping/gui/gsp_thread.h
++++ b/include/gmapping/gui/gsp_thread.h
+@@ -23,8 +23,10 @@
+ #ifndef GSP_THREAD_H
+ #define GSP_THREAD_H
+ 
+-#include <unistd.h>
+-#include <pthread.h>
++#ifndef _WIN32
++  #include <unistd.h>
++  #include <pthread.h>
++#endif
+ #include <deque>
+ #include <fstream>
+ #include <iostream>
+diff --git a/include/gmapping/log/carmenconfiguration.h b/include/gmapping/log/carmenconfiguration.h
+index ee5188f..4eace72 100644
+--- a/include/gmapping/log/carmenconfiguration.h
++++ b/include/gmapping/log/carmenconfiguration.h
+@@ -7,10 +7,11 @@
+ #include <istream>
+ #include <gmapping/sensor/sensor_base/sensor.h>
+ #include "gmapping/log/configuration.h"
++#include <gmapping/log/log_export.h>
+ 
+ namespace GMapping {
+ 
+-class CarmenConfiguration: public Configuration, public std::map<std::string, std::vector<std::string> >{
++class LOG_EXPORT CarmenConfiguration: public Configuration, public std::map<std::string, std::vector<std::string> >{
+ 	public:
+ 		virtual std::istream& load(std::istream& is);
+ 		virtual SensorMap computeSensorMap() const;
+diff --git a/include/gmapping/log/configuration.h b/include/gmapping/log/configuration.h
+index ce1c81c..0c74444 100644
+--- a/include/gmapping/log/configuration.h
++++ b/include/gmapping/log/configuration.h
+@@ -3,10 +3,11 @@
+ 
+ #include <istream>
+ #include <gmapping/sensor/sensor_base/sensor.h>
++#include <gmapping/log/log_export.h>
+ 
+ namespace GMapping {
+ 
+-class Configuration{
++class LOG_EXPORT Configuration{
+ 	public:
+ 		virtual ~Configuration();
+ 		virtual SensorMap computeSensorMap() const=0;
+diff --git a/include/gmapping/log/sensorlog.h b/include/gmapping/log/sensorlog.h
+index d380a3f..ec3bf16 100644
+--- a/include/gmapping/log/sensorlog.h
++++ b/include/gmapping/log/sensorlog.h
+@@ -9,10 +9,11 @@
+ #include <gmapping/sensor/sensor_odometry/odometryreading.h>
+ #include <gmapping/sensor/sensor_range/rangereading.h>
+ #include "gmapping/log/configuration.h"
++#include <gmapping/log/log_export.h>
+ 
+ namespace GMapping {
+ 
+-class SensorLog : public std::list<SensorReading*>{
++class LOG_EXPORT SensorLog : public std::list<SensorReading*>{
+ 	public:
+ 		SensorLog(const SensorMap&);
+ 		~SensorLog();
+diff --git a/include/gmapping/log/sensorstream.h b/include/gmapping/log/sensorstream.h
+index 2551ba8..227c28f 100644
+--- a/include/gmapping/log/sensorstream.h
++++ b/include/gmapping/log/sensorstream.h
+@@ -3,9 +3,10 @@
+ 
+ #include <istream>
+ #include "gmapping/log/sensorlog.h"
++#include <gmapping/log/log_export.h>
+ 
+ namespace GMapping {
+-class SensorStream{
++class LOG_EXPORT SensorStream{
+ 	public:
+ 		SensorStream(const SensorMap& sensorMap);
+ 		virtual ~SensorStream();
+@@ -20,7 +21,7 @@ class SensorStream{
+ 		static RangeReading* parseRange(std::istream& is, const RangeSensor* );
+ };
+ 
+-class InputSensorStream: public SensorStream{
++class LOG_EXPORT InputSensorStream: public SensorStream{
+ 	public:
+ 		InputSensorStream(const SensorMap& sensorMap, std::istream& is);
+ 		virtual operator bool() const;
+@@ -32,7 +33,7 @@ class InputSensorStream: public SensorStream{
+ 		std::istream& m_inputStream;
+ };
+ 
+-class LogSensorStream: public SensorStream{
++class LOG_EXPORT LogSensorStream: public SensorStream{
+ 	public:
+ 		LogSensorStream(const SensorMap& sensorMap, const SensorLog* log);
+ 		virtual operator bool() const;
+diff --git a/include/gmapping/scanmatcher/scanmatcher.h b/include/gmapping/scanmatcher/scanmatcher.h
+index c970ae1..d9d4871 100644
+--- a/include/gmapping/scanmatcher/scanmatcher.h
++++ b/include/gmapping/scanmatcher/scanmatcher.h
+@@ -7,11 +7,12 @@
+ #include <gmapping/utils/stat.h>
+ #include <iostream>
+ #include <gmapping/utils/gvalues.h>
++#include <gmapping/scanmatcher/scanmatcher_export.h>
+ #define LASER_MAXBEAMS 2048
+ 
+ namespace GMapping {
+ 
+-class ScanMatcher{
++class SCANMATCHER_EXPORT ScanMatcher{
+ 	public:
+ 		typedef Covariance3 CovarianceMatrix;
+ 		
+diff --git a/include/gmapping/scanmatcher/scanmatcherprocessor.h b/include/gmapping/scanmatcher/scanmatcherprocessor.h
+index b35ccb4..4cec5a9 100644
+--- a/include/gmapping/scanmatcher/scanmatcherprocessor.h
++++ b/include/gmapping/scanmatcher/scanmatcherprocessor.h
+@@ -6,10 +6,11 @@
+ #include <gmapping/sensor/sensor_range/rangereading.h>
+ //#include <gsl/gsl_eigen.h>
+ #include "gmapping/scanmatcher/scanmatcher.h"
++#include <gmapping/scanmatcher/scanmatcher_export.h>
+ 
+ namespace GMapping {
+ 
+-class ScanMatcherProcessor{
++class SCANMATCHER_EXPORT ScanMatcherProcessor{
+ 	public:
+   ScanMatcherProcessor(const ScanMatcherMap& m);
+   ScanMatcherProcessor (double xmin, double ymin, double xmax, double ymax, double delta, double patchdelta);
+diff --git a/include/gmapping/sensor/sensor_base/sensor.h b/include/gmapping/sensor/sensor_base/sensor.h
+index 4368809..492b892 100644
+--- a/include/gmapping/sensor/sensor_base/sensor.h
++++ b/include/gmapping/sensor/sensor_base/sensor.h
+@@ -3,10 +3,11 @@
+ 
+ #include <string>
+ #include <map>
++#include <gmapping/sensor/sensor_base/sensor_base_export.h>
+ 
+ namespace GMapping{
+ 
+-class Sensor{
++class SENSOR_BASE_EXPORT Sensor{
+ 	public:
+ 		Sensor(const std::string& name="");
+ 		virtual ~Sensor();
+diff --git a/include/gmapping/sensor/sensor_base/sensoreading.h b/include/gmapping/sensor/sensor_base/sensoreading.h
+index a51797b..22dda2f 100644
+--- a/include/gmapping/sensor/sensor_base/sensoreading.h
++++ b/include/gmapping/sensor/sensor_base/sensoreading.h
+@@ -2,9 +2,11 @@
+ #define SENSORREADING_H
+ 
+ #include "gmapping/sensor/sensor_base/sensor.h"
++#include <gmapping/sensor/sensor_base/sensor_base_export.h>
++
+ namespace GMapping{
+ 
+-class SensorReading{
++class SENSOR_BASE_EXPORT SensorReading{
+ 	public:
+ 		SensorReading(const Sensor* s=0, double time=0);
+ 		inline double getTime() const {return m_time;}
+diff --git a/include/gmapping/sensor/sensor_base/sensorreading.h b/include/gmapping/sensor/sensor_base/sensorreading.h
+index 964ee3d..7d2edfd 100644
+--- a/include/gmapping/sensor/sensor_base/sensorreading.h
++++ b/include/gmapping/sensor/sensor_base/sensorreading.h
+@@ -2,9 +2,11 @@
+ #define SENSORREADING_H
+ 
+ #include "gmapping/sensor/sensor_base/sensor.h"
++#include <gmapping/sensor/sensor_base/sensor_base_export.h>
++
+ namespace GMapping{
+ 
+-class SensorReading{
++class SENSOR_BASE_EXPORT SensorReading{
+ 	public:
+ 		SensorReading(const Sensor* s=0, double time=0);
+ 		virtual ~SensorReading();
+diff --git a/include/gmapping/sensor/sensor_odometry/odometryreading.h b/include/gmapping/sensor/sensor_odometry/odometryreading.h
+index d007d19..2cb09e6 100644
+--- a/include/gmapping/sensor/sensor_odometry/odometryreading.h
++++ b/include/gmapping/sensor/sensor_odometry/odometryreading.h
+@@ -5,10 +5,11 @@
+ #include <gmapping/sensor/sensor_base/sensorreading.h>
+ #include <gmapping/utils/point.h>
+ #include "gmapping/sensor/sensor_odometry/odometrysensor.h"
++#include <gmapping/sensor/sensor_odometry/sensor_odometry_export.h>
+ 
+ namespace GMapping{
+ 
+-class OdometryReading: public SensorReading{
++class SENSOR_ODOMETRY_EXPORT OdometryReading: public SensorReading{
+ 	public:
+ 		OdometryReading(const OdometrySensor* odo, double time=0);
+ 		inline const OrientedPoint& getPose() const {return m_pose;}
+diff --git a/include/gmapping/sensor/sensor_odometry/odometrysensor.h b/include/gmapping/sensor/sensor_odometry/odometrysensor.h
+index 1d18bd3..3caf1a7 100644
+--- a/include/gmapping/sensor/sensor_odometry/odometrysensor.h
++++ b/include/gmapping/sensor/sensor_odometry/odometrysensor.h
+@@ -3,10 +3,11 @@
+ 
+ #include <string>
+ #include <gmapping/sensor/sensor_base/sensor.h>
++#include <gmapping/sensor/sensor_odometry/sensor_odometry_export.h>
+ 
+ namespace GMapping{
+ 
+-class OdometrySensor: public Sensor{
++class SENSOR_ODOMETRY_EXPORT OdometrySensor: public Sensor{
+ 	public:
+ 		OdometrySensor(const std::string& name, bool ideal=false);
+ 		inline bool isIdeal() const { return m_ideal; }
+diff --git a/include/gmapping/sensor/sensor_range/rangereading.h b/include/gmapping/sensor/sensor_range/rangereading.h
+index b715a8e..692f571 100644
+--- a/include/gmapping/sensor/sensor_range/rangereading.h
++++ b/include/gmapping/sensor/sensor_range/rangereading.h
+@@ -4,10 +4,17 @@
+ #include <vector>
+ #include <gmapping/sensor/sensor_base/sensorreading.h>
+ #include "gmapping/sensor/sensor_range/rangesensor.h"
++#include <gmapping/sensor/sensor_range/sensor_range_export.h>
++
++#ifdef _MSC_VER
++namespace std {
++	extern template class __declspec(dllexport) vector<double>;
++};
++#endif
+ 
+ namespace GMapping{
+ 
+-class RangeReading: public SensorReading, public std::vector<double>{
++class SENSOR_RANGE_EXPORT RangeReading: public SensorReading, public std::vector<double>{
+ 	public:
+ 		RangeReading(const RangeSensor* rs, double time=0);
+ 		RangeReading(unsigned int n_beams, const double* d, const RangeSensor* rs, double time=0);
+diff --git a/include/gmapping/sensor/sensor_range/rangesensor.h b/include/gmapping/sensor/sensor_range/rangesensor.h
+index 65feffb..2e20653 100644
+--- a/include/gmapping/sensor/sensor_range/rangesensor.h
++++ b/include/gmapping/sensor/sensor_range/rangesensor.h
+@@ -4,10 +4,11 @@
+ #include <vector>
+ #include <gmapping/sensor/sensor_base/sensor.h>
+ #include <gmapping/utils/point.h>
++#include <gmapping/sensor/sensor_range/sensor_range_export.h>
+ 
+ namespace GMapping{
+ 
+-class RangeSensor: public Sensor{
++class SENSOR_RANGE_EXPORT RangeSensor: public Sensor{
+ 	friend class Configuration;
+ 	friend class CarmenConfiguration;
+ 	friend class CarmenWrapper;
+diff --git a/include/gmapping/utils/gvalues.h b/include/gmapping/utils/gvalues.h
+index a908f42..5223b9e 100644
+--- a/include/gmapping/utils/gvalues.h
++++ b/include/gmapping/utils/gvalues.h
+@@ -15,6 +15,7 @@
+   #ifndef __DRAND48_DEFINED__
+      #define __DRAND48_DEFINED__
+      inline double drand48() { return double(rand()) / RAND_MAX;}
++     inline void srand48(unsigned int seed) { srand(seed); }
+   #endif
+   #ifndef M_PI
+     #define M_PI 3.1415926535897932384626433832795
+diff --git a/include/gmapping/utils/movement.h b/include/gmapping/utils/movement.h
+index aabe36d..bd27d83 100644
+--- a/include/gmapping/utils/movement.h
++++ b/include/gmapping/utils/movement.h
+@@ -2,11 +2,12 @@
+ #define FSRMOVEMENT_H
+ 
+ #include "gmapping/utils/point.h"
++#include <gmapping/utils/utils_export.h>
+ 
+ namespace GMapping {
+ 
+   /** fsr-movement (forward, sideward, rotate) **/
+-class FSRMovement  {
++class UTILS_EXPORT FSRMovement  {
+  public:
+   FSRMovement(double f=0.0, double s=0.0, double r=0.0);
+   FSRMovement(const FSRMovement& src);
+diff --git a/include/gmapping/utils/point.h b/include/gmapping/utils/point.h
+index 3735aed..26db185 100644
+--- a/include/gmapping/utils/point.h
++++ b/include/gmapping/utils/point.h
+@@ -5,7 +5,7 @@
+ #include <iostream>
+ #include "gmapping/utils/gvalues.h"
+ 
+-#define DEBUG_STREAM cerr << __PRETTY_FUNCTION__ << ":" //FIXME
++#define DEBUG_STREAM cerr << __func__ << ":" //FIXME
+ 
+ namespace GMapping {
+ 
+diff --git a/include/gmapping/utils/printmemusage.h b/include/gmapping/utils/printmemusage.h
+index fc7fd91..ed61adf 100644
+--- a/include/gmapping/utils/printmemusage.h
++++ b/include/gmapping/utils/printmemusage.h
+@@ -1,13 +1,16 @@
+ #ifndef PRINTMEMUSAGE_H
+ #define PRINTMEMUSAGE_H
+ #include <sys/types.h>
+-#include <unistd.h>
++#ifndef _WIN32
++  #include <unistd.h>
++#endif
+ #include <iostream>
+ #include <fstream>
+ #include <string>
++#include <gmapping/utils/utils_export.h>
+ 
+ namespace GMapping{
+-	void printmemusage();
++	void UTILS_EXPORT printmemusage();
+ };
+ 
+ #endif
+diff --git a/include/gmapping/utils/printpgm.h b/include/gmapping/utils/printpgm.h
+index d9a3b8a..2774909 100644
+--- a/include/gmapping/utils/printpgm.h
++++ b/include/gmapping/utils/printpgm.h
+@@ -1,7 +1,9 @@
+ #include <fstream>
+ #include <iostream>
+ #include <sstream>
+-#include <unistd.h>
++#ifndef _WIN32
++  #include <unistd.h>
++#endif
+ 
+ 
+ using namespace std;
+diff --git a/include/gmapping/utils/stat.h b/include/gmapping/utils/stat.h
+index 62e14fa..74ac601 100644
+--- a/include/gmapping/utils/stat.h
++++ b/include/gmapping/utils/stat.h
+@@ -3,17 +3,18 @@
+ #include "gmapping/utils/point.h"
+ #include <vector>
+ #include "gmapping/utils/gvalues.h"
++#include <gmapping/utils/utils_export.h>
+ 
+ namespace GMapping {
+ 
+ /**stupid utility function for drawing particles form a zero mean, sigma variance normal distribution
+ probably it should not go there*/
+-double sampleGaussian(double sigma,unsigned long int S=0);
++double UTILS_EXPORT sampleGaussian(double sigma,unsigned int S=0);
+ 
+-double evalGaussian(double sigmaSquare, double delta);
+-double evalLogGaussian(double sigmaSquare, double delta);
+-int sampleUniformInt(int max);
+-double sampleUniformDouble(double min, double max);
++double UTILS_EXPORT evalGaussian(double sigmaSquare, double delta);
++double UTILS_EXPORT evalLogGaussian(double sigmaSquare, double delta);
++int UTILS_EXPORT sampleUniformInt(int max);
++double UTILS_EXPORT sampleUniformDouble(double min, double max);
+ 
+ struct Covariance3{
+ 	Covariance3 operator + (const Covariance3 & cov) const;
+@@ -34,7 +35,7 @@ struct Gaussian3{
+ 	OrientedPoint mean;
+ 	EigenCovariance3 covariance;
+ 	Covariance3 cov;
+-	double eval(const OrientedPoint& p) const;
++	double UTILS_EXPORT eval(const OrientedPoint& p) const;
+ 	void computeFromSamples(const std::vector<OrientedPoint> & poses);
+ 	void computeFromSamples(const std::vector<OrientedPoint> & poses, const std::vector<double>& weights );
+ };
+diff --git a/log/carmenconfiguration.cpp b/log/carmenconfiguration.cpp
+index 7cac05e..9061da8 100644
+--- a/log/carmenconfiguration.cpp
++++ b/log/carmenconfiguration.cpp
+@@ -131,12 +131,12 @@ SensorMap CarmenConfiguration::computeSensorMap() const{
+ 			const vector<string> & soff=key->second;
+ 
+ 			if( (soff.size()/3<sonar_num)){
+-				cerr << __PRETTY_FUNCTION__ << ": Error " << soff.size()
++				cerr << __func__ << ": Error " << soff.size()
+ 				<< " parameters for defining the sonar offsets"
+ 				<< " while the specified number of sonars requires "
+ 				<< sonar_num*3 << " parameters at least" << endl;
+ 			} else {
+-				cerr << __PRETTY_FUNCTION__ << ": Ok " << soff.size() << " parameters for defining the sonar offsets of " << sonar_num << " devices" << endl;
++				cerr << __func__ << ": Ok " << soff.size() << " parameters for defining the sonar offsets of " << sonar_num << " devices" << endl;
+ 			}
+ 
+ 
+diff --git a/log/sensorstream.cpp b/log/sensorstream.cpp
+index f527ced..53c218e 100644
+--- a/log/sensorstream.cpp
++++ b/log/sensorstream.cpp
+@@ -66,7 +66,7 @@ OdometryReading* SensorStream::parseOdometry(std::istream& is, const OdometrySen
+ }
+ 
+ RangeReading* SensorStream::parseRange(std::istream& is, const RangeSensor* rs){
+-	//cerr << __PRETTY_FUNCTION__ << endl;
++	//cerr << __func__ << endl;
+ 	if(rs->newFormat){
+ 		string laser_type, start_angle, field_of_view, angular_resolution, maximum_range, accuracy, remission_mode;
+ 		is >> laser_type>> start_angle>> field_of_view>> angular_resolution>> maximum_range>> accuracy>> remission_mode;
+diff --git a/scanmatcher/scanmatch_test.cpp b/scanmatcher/scanmatch_test.cpp
+index a9a3ccc..a2fc94a 100644
+--- a/scanmatcher/scanmatch_test.cpp
++++ b/scanmatcher/scanmatch_test.cpp
+@@ -3,7 +3,9 @@
+ #include <iostream>
+ #include <gmapping/log/carmenconfiguration.h>
+ #include <gmapping/log/sensorlog.h>
+-#include <unistd.h>
++#ifndef _WIN32
++  #include <unistd.h>
++#endif
+ #include <gmapping/utils/commandline.h>
+ #include <gmapping/log/sensorstream.h>
+ #include "gmapping/scanmatcher/scanmatcherprocessor.h"
+@@ -11,7 +13,7 @@
+ using namespace std;
+ using namespace GMapping;
+ 
+-#define DEBUG cout << __PRETTY_FUNCTION__
++#define DEBUG cout << __func__
+ #define MAX_STRING_LENGTH 1024
+ 
+ int main(int argc, const char * const * argv){
+diff --git a/scanmatcher/scanmatcher.cpp b/scanmatcher/scanmatcher.cpp
+index 5d7f291..f7fb885 100644
+--- a/scanmatcher/scanmatcher.cpp
++++ b/scanmatcher/scanmatcher.cpp
+@@ -341,7 +341,7 @@ double ScanMatcher::optimize(OrientedPoint& pnew, const ScanMatcherMap& map, con
+ 	double adelta=m_optAngularDelta, ldelta=m_optLinearDelta;
+ 	unsigned int refinement=0;
+ 	enum Move{Front, Back, Left, Right, TurnLeft, TurnRight, Done};
+-/*	cout << __PRETTY_FUNCTION__<<  " readings: ";
++/*	cout << __func__<<  " readings: ";
+ 	for (int i=0; i<m_laserBeams; i++){
+ 		cout << readings[i] << " ";
+ 	}
+@@ -413,8 +413,8 @@ double ScanMatcher::optimize(OrientedPoint& pnew, const ScanMatcherMap& map, con
+ //		cout << "currentScore=" << currentScore<< endl;
+ 		//here we look for the best move;
+ 	}while (currentScore>bestScore || refinement<m_optRecursiveIterations);
+-	//cout << __PRETTY_FUNCTION__ << "bestScore=" << bestScore<< endl;
+-	//cout << __PRETTY_FUNCTION__ << "iterations=" << c_iterations<< endl;
++	//cout << __func__ << "bestScore=" << bestScore<< endl;
++	//cout << __func__ << "iterations=" << c_iterations<< endl;
+ 	pnew=currentPose;
+ 	return bestScore;
+ }
+@@ -509,11 +509,11 @@ double ScanMatcher::optimize(OrientedPoint& _mean, ScanMatcher::CovarianceMatrix
+ 			//update the move list
+ 		} while(move!=Done);
+ 		currentPose=bestLocalPose;
+-		//cout << __PRETTY_FUNCTION__ << "currentScore=" << currentScore<< endl;
++		//cout << __func__ << "currentScore=" << currentScore<< endl;
+ 		//here we look for the best move;
+ 	}while (currentScore>bestScore || refinement<m_optRecursiveIterations);
+-	//cout << __PRETTY_FUNCTION__ << "bestScore=" << bestScore<< endl;
+-	//cout << __PRETTY_FUNCTION__ << "iterations=" << count<< endl;
++	//cout << __func__ << "bestScore=" << bestScore<< endl;
++	//cout << __func__ << "iterations=" << count<< endl;
+ 	
+ 	//normalize the likelihood
+ 	double lmin=1e9;
+diff --git a/scanmatcher/scanmatcher.new.cpp b/scanmatcher/scanmatcher.new.cpp
+index 5afdd0e..e607f19 100644
+--- a/scanmatcher/scanmatcher.new.cpp
++++ b/scanmatcher/scanmatcher.new.cpp
+@@ -208,11 +208,11 @@ double ScanMatcher::optimize(OrientedPoint& pnew, const ScanMatcherMap& map, con
+ 			c_iterations++;
+ 		} while(move!=Done);
+ 		currentPose=bestLocalPose;
+-		//cout << __PRETTY_FUNCTION__ << "currentScore=" << currentScore<< endl;
++		//cout << __func__ << "currentScore=" << currentScore<< endl;
+ 		//here we look for the best move;
+ 	}while (currentScore>bestScore || refinement<m_optRecursiveIterations);
+-	//cout << __PRETTY_FUNCTION__ << "bestScore=" << bestScore<< endl;
+-	//cout << __PRETTY_FUNCTION__ << "iterations=" << c_iterations<< endl;
++	//cout << __func__ << "bestScore=" << bestScore<< endl;
++	//cout << __func__ << "iterations=" << c_iterations<< endl;
+ 	pnew=currentPose;
+ 	return bestScore;
+ }
+@@ -292,10 +292,10 @@ double ScanMatcher::optimize(OrientedPoint& _mean, ScanMatcher::CovarianceMatrix
+ 			//update the move list
+ 		} while(move!=Done);
+ 		currentPose=bestLocalPose;
+-		//cout << __PRETTY_FUNCTION__ << "currentScore=" << currentScore<< endl;
++		//cout << __func__ << "currentScore=" << currentScore<< endl;
+ 		//here we look for the best move;
+ 	}while (currentScore>bestScore || refinement<m_optRecursiveIterations);
+-	//cout << __PRETTY_FUNCTION__ << "bestScore=" << bestScore<< endl;
++	//cout << __func__ << "bestScore=" << bestScore<< endl;
+ 	
+ 	//normalize the likelihood
+ 	double lmin=1e9;
+diff --git a/sensor/sensor_range/rangereading.cpp b/sensor/sensor_range/rangereading.cpp
+index df74d30..a95e3c7 100644
+--- a/sensor/sensor_range/rangereading.cpp
++++ b/sensor/sensor_range/rangereading.cpp
+@@ -21,7 +21,7 @@ RangeReading::RangeReading(unsigned int n_beams, const double* d, const RangeSen
+ }
+ 
+ RangeReading::~RangeReading(){
+-//	cerr << __PRETTY_FUNCTION__ << ": CAZZZZZZZZZZZZZZZZZZZZOOOOOOOOOOO" << endl;
++//	cerr << __func__ << ": CAZZZZZZZZZZZZZZZZZZZZOOOOOOOOOOO" << endl;
+ }
+ 
+ unsigned int RangeReading::rawView(double* v, double density) const{
+@@ -48,7 +48,7 @@ unsigned int RangeReading::rawView(double* v, double density) const{
+ 				lastPoint=lp;
+ 				v[i]=(*this)[i];
+ 			}
+-			//std::cerr<< __PRETTY_FUNCTION__ << std::endl;
++			//std::cerr<< __func__ << std::endl;
+ 			//std::cerr<< "suppressed " << suppressed <<"/"<<size() << std::endl;
+ 		}
+ 	}
+@@ -78,7 +78,7 @@ unsigned int RangeReading::activeBeams(double density) const{
+ 			lastPoint=lp;
+ 			ab++;
+ 		}
+-		//std::cerr<< __PRETTY_FUNCTION__ << std::endl;
++		//std::cerr<< __func__ << std::endl;
+ 		//std::cerr<< "suppressed " << suppressed <<"/"<<size() << std::endl;
+ 	}
+ 	return ab;
+diff --git a/utils/stat.cpp b/utils/stat.cpp
+index 30536c4..7b569e9 100644
+--- a/utils/stat.cpp
++++ b/utils/stat.cpp
+@@ -5,6 +5,7 @@
+ //#include <gsl/gsl_eigen.h>
+ //#include <gsl/gsl_blas.h>
+ #include <math.h>
++#include "gmapping/utils/gvalues.h"
+ #include "gmapping/utils/stat.h"
+ 
+ namespace GMapping {
+@@ -45,7 +46,7 @@ double pf_ran_gaussian(double sigma)
+   return(sigma * x2 * sqrt(-2.0*log(w)/w));
+ }
+ 
+-double sampleGaussian(double sigma, unsigned long int S) {
++double sampleGaussian(double sigma, unsigned int S) {
+   /*
+ 	static gsl_rng * r = NULL;
+ 	if(r==NULL) {
+@@ -56,7 +57,7 @@ double sampleGaussian(double sigma, unsigned long int S) {
+ 	if (S!=0)
+         {
+ 		//gsl_rng_set(r, S);
+-                srand48(S);
++                srand(S);
+         }
+ 	if (sigma==0)
+ 		return 0;

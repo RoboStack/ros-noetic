@@ -1,0 +1,30 @@
+From f3d6ff3c30285d5d78953b5d9bf1f93f756beedc Mon Sep 17 00:00:00 2001
+From: Matt Reynolds <mtreynolds@uwaterloo.ca>
+Date: Sun, 5 Apr 2020 14:20:47 -0400
+Subject: [PATCH] Add missing #include <atomic>
+
+---
+ include/realtime_tools/realtime_publisher.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/realtime_tools/realtime_publisher.h b/include/realtime_tools/realtime_publisher.h
+index ceb0194..7fd9ea6 100644
+--- a/include/realtime_tools/realtime_publisher.h
++++ b/include/realtime_tools/realtime_publisher.h
+@@ -38,12 +38,14 @@
+ #ifndef REALTIME_TOOLS__REALTIME_PUBLISHER_H_
+ #define REALTIME_TOOLS__REALTIME_PUBLISHER_H_
+ 
+-#include <string>
+ #include <ros/node_handle.h>
++
++#include <atomic>
+ #include <chrono>
+ #include <condition_variable>
+ #include <memory>
+ #include <mutex>
++#include <string>
+ #include <thread>
+ 
+ namespace realtime_tools {
+

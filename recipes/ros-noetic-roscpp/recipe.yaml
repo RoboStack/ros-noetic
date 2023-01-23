@@ -1,0 +1,73 @@
+package:
+  name: ros-noetic-roscpp
+  version: 1.15.15
+source:
+  git_url: https://github.com/ros-gbp/ros_comm-release.git
+  git_rev: release/noetic/roscpp/1.15.15-1
+  folder: ros-noetic-roscpp/src/work
+  patches:
+    - patch/ros-noetic-roscpp.patch
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+  host:
+    - boost-cpp
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - pkg-config
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+    - ros-noetic-cpp-common
+    - ros-noetic-message-generation
+    - ros-noetic-message-runtime
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp-serialization
+    - ros-noetic-roscpp-traits
+    - ros-noetic-rosgraph-msgs
+    - ros-noetic-roslang
+    - ros-noetic-rostime
+    - ros-noetic-std-msgs
+    - ros-noetic-xmlrpcpp
+  run:
+    - boost-cpp
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-cpp-common
+    - ros-noetic-message-runtime
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp-serialization
+    - ros-noetic-roscpp-traits
+    - ros-noetic-rosgraph-msgs
+    - ros-noetic-rostime
+    - ros-noetic-std-msgs
+    - ros-noetic-xmlrpcpp
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

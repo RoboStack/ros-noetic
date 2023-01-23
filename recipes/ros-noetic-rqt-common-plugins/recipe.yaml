@@ -1,0 +1,69 @@
+package:
+  name: ros-noetic-rqt-common-plugins
+  version: 0.4.9
+source:
+  git_url: https://github.com/ros-gbp/rqt_common_plugins-release.git
+  git_rev: release/noetic/rqt_common_plugins/0.4.9-1
+  folder: ros-noetic-rqt-common-plugins/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+  host:
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+  run:
+    - python
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-rqt-action
+    - ros-noetic-rqt-bag
+    - ros-noetic-rqt-bag-plugins
+    - ros-noetic-rqt-console
+    - ros-noetic-rqt-dep
+    - ros-noetic-rqt-graph
+    - ros-noetic-rqt-image-view
+    - ros-noetic-rqt-launch
+    - ros-noetic-rqt-logger-level
+    - ros-noetic-rqt-msg
+    - ros-noetic-rqt-plot
+    - ros-noetic-rqt-publisher
+    - ros-noetic-rqt-py-common
+    - ros-noetic-rqt-py-console
+    - ros-noetic-rqt-reconfigure
+    - ros-noetic-rqt-service-caller
+    - ros-noetic-rqt-shell
+    - ros-noetic-rqt-srv
+    - ros-noetic-rqt-top
+    - ros-noetic-rqt-topic
+    - ros-noetic-rqt-web
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

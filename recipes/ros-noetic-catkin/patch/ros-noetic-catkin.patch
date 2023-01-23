@@ -1,0 +1,268 @@
+diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
+index df36e23..475eb97 100644
+--- a/cmake/catkin_package.cmake
++++ b/cmake/catkin_package.cmake
+@@ -254,6 +254,17 @@ function(_catkin_package)
+     list(APPEND _PKG_CONFIG_LIBRARIES ${PROJECT_DEPENDENCIES_LIBRARIES})
+   endif()
+ 
++  set(_CONDA_ADJUSTED_PKG_CONFIG "")
++  foreach(library ${_PKG_CONFIG_LIBRARIES})
++    get_filename_component(library_fn "${library}" NAME_WE)
++    if ("${library_fn}" MATCHES "lib(pthread|rt|dl)$")
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${CMAKE_MATCH_1})
++    else()
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${library})
++    endif()
++  endforeach()
++  set(_PKG_CONFIG_LIBRARIES ${_CONDA_ADJUSTED_PKG_CONFIG})
++
+   # resolve imported library targets
+   catkin_replace_imported_library_targets(_PKG_CONFIG_LIBRARIES ${_PKG_CONFIG_LIBRARIES})
+ 
+diff --git a/cmake/empy.cmake b/cmake/empy.cmake
+index 3e07606..3a24c8c 100644
+--- a/cmake/empy.cmake
++++ b/cmake/empy.cmake
+@@ -22,19 +22,13 @@ function(find_python_module module)
+ endfunction(find_python_module)
+ 
+ if(NOT EMPY_SCRIPT)
+-  find_program(EMPY_EXECUTABLE empy)
+-  if(NOT EMPY_EXECUTABLE)
+-    # On OSX, there's an em.py, but not an executable empy script
+-    find_python_module(em)
+-    if(NOT PY_EM)
+-      message(FATAL_ERROR "Unable to find either executable 'empy' or Python module 'em'... try installing the package 'python3-empy'")
+-    endif()
+-    # ensure to use cmake-style path separators on Windows
+-    file(TO_CMAKE_PATH "${PY_EM}" EMPY_SCRIPT)
+-  else()
+-    # ensure to use cmake-style path separators on Windows
+-    file(TO_CMAKE_PATH "${EMPY_EXECUTABLE}" EMPY_SCRIPT)
++  # On OSX, there's an em.py, but not an executable empy script
++  find_python_module(em)
++  if(NOT PY_EM)
++    message(FATAL_ERROR "Unable to find either executable 'empy' or Python module 'em'... try installing the package 'python3-empy'")
+   endif()
++  # ensure to use cmake-style path separators on Windows
++  file(TO_CMAKE_PATH "${PY_EM}" EMPY_SCRIPT)
+   set(EMPY_SCRIPT "${EMPY_SCRIPT}" CACHE STRING "Empy script" FORCE)
+ endif()
+ message(STATUS "Using empy: ${EMPY_SCRIPT}")
+diff --git a/cmake/templates/_setup_util.py.in b/cmake/templates/_setup_util.py.in
+index e73934b..33ac6d4 100755
+--- a/cmake/templates/_setup_util.py.in
++++ b/cmake/templates/_setup_util.py.in
+@@ -1,4 +1,4 @@
+-#!@PYTHON_EXECUTABLE@
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+@@ -59,12 +59,14 @@ if IS_WINDOWS:
+ # subfolder of workspace prepended to CMAKE_PREFIX_PATH
+ ENV_VAR_SUBFOLDERS = {
+     'CMAKE_PREFIX_PATH': '',
+-    'LD_LIBRARY_PATH' if not IS_DARWIN else 'DYLD_LIBRARY_PATH': @CATKIN_LIB_ENVIRONMENT_PATHS@,
++    # 'LD_LIBRARY_PATH' if not IS_DARWIN else 'DYLD_LIBRARY_PATH': @CATKIN_LIB_ENVIRONMENT_PATHS@,
+     'PATH': PATH_TO_ADD_SUFFIX,
+     'PKG_CONFIG_PATH': @CATKIN_PKGCONFIG_ENVIRONMENT_PATHS@,
+-    'PYTHONPATH': '@PYTHON_INSTALL_DIR@',
++    # 'PYTHONPATH': '@PYTHON_INSTALL_DIR@',
+ }
+ 
++if IS_WINDOWS or os.path.dirname(os.path.realpath(__file__)) != sys.prefix:
++    ENV_VAR_SUBFOLDERS['PYTHONPATH'] = '@PYTHON_INSTALL_DIR@'
+ 
+ def rollback_env_variables(environ, env_var_subfolders):
+     """
+diff --git a/cmake/templates/pkgConfig.cmake.in b/cmake/templates/pkgConfig.cmake.in
+index 4e52046..1e90b8d 100644
+--- a/cmake/templates/pkgConfig.cmake.in
++++ b/cmake/templates/pkgConfig.cmake.in
+@@ -119,10 +119,12 @@ endif()
+ set(libraries "@PKG_CONFIG_LIBRARIES@")
+ foreach(library ${libraries})
+   # keep build configuration keywords, target names and absolute libraries as-is
+-  if("${library}" MATCHES "^(debug|optimized|general)$")
++  if("${library}" MATCHES "^(debug|optimized|general|rt|pthread|dl)$")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+   elseif(${library} MATCHES "^-l")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
++  elseif(${library} MATCHES "^-framework")
++    list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+   elseif(${library} MATCHES "^-")
+     # This is a linker flag/option (like -pthread)
+     # There's no standard variable for these, so create an interface library to hold it
+diff --git a/cmake/templates/setup.sh.in b/cmake/templates/setup.sh.in
+index 07e5276..97cb460 100644
+--- a/cmake/templates/setup.sh.in
++++ b/cmake/templates/setup.sh.in
+@@ -11,13 +11,29 @@
+ 
+ # since this file is sourced either use the provided _CATKIN_SETUP_DIR
+ # or fall back to the destination set at configure time
++# _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
++
++if [ ! -z "$ZSH_VERSION" ]; then
++  CATKIN_SHELL=zsh
++elif [ ! -z "$BASH_VERSION" ]; then
++  CATKIN_SHELL=bash
++else
++  CATKIN_SHELL=sh
++fi
++
+ : ${_CATKIN_SETUP_DIR:=@SETUP_DIR@}
++: ${_CONDA_SETUP_DIR:=$CONDA_PREFIX/etc/conda/activate.d/}
+ _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
++
+ unset _CATKIN_SETUP_DIR
+ 
+ if [ ! -f "$_SETUP_UTIL" ]; then
+-  echo "Missing Python script: $_SETUP_UTIL"
+-  return 22
++  _SETUP_UTIL="$_CONDA_SETUP_DIR/ros_setup_util.py"
++
++  if [ ! -f "$_SETUP_UTIL" ]; then
++    echo "Missing Python script: $_SETUP_UTIL"
++    return 22
++  fi
+ fi
+ 
+ # detect if running on Darwin platform
+diff --git a/cmake/tools/rt.cmake b/cmake/tools/rt.cmake
+index da5ed7d..5fb71d5 100644
+--- a/cmake/tools/rt.cmake
++++ b/cmake/tools/rt.cmake
+@@ -34,14 +34,5 @@
+ get_property(ENABLED_LANGUAGES_LIST GLOBAL PROPERTY ENABLED_LANGUAGES)
+ list(FIND ENABLED_LANGUAGES_LIST "CXX" _cxx_index)
+ if(NOT (APPLE OR WIN32 OR MINGW OR ANDROID) AND "${_cxx_index}" GREATER -1)
+-  if (${CMAKE_VERSION} VERSION_LESS 2.8.4)
+-    # cmake later than 2.8.0 appears to have a better find_library
+-    # that knows about the ABI of the compiler.  For lucid we just
+-    # depend on the linker to find it for us.
+-    set(RT_LIBRARY rt CACHE FILEPATH "Hacked find of rt for cmake < 2.8.4")
+-  else()
+-    find_library(RT_LIBRARY rt)
+-    assert_file_exists(${RT_LIBRARY} "RT Library")
+-  endif()
+-  #message(STATUS "RT_LIBRARY: ${RT_LIBRARY}")
++  set(RT_LIBRARY rt)
+ endif()
+diff --git a/cmake/python.cmake b/cmake/python.cmake
+index c72b8599..6b39d3a2 100644
+--- a/cmake/python.cmake
++++ b/cmake/python.cmake
+@@ -8,9 +8,6 @@ message(STATUS "Using PYTHON_EXECUTABLE: ${PYTHON_EXECUTABLE}")
+ set(_PYTHON_PATH_VERSION_SUFFIX "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+ 
+ set(enable_setuptools_deb_layout OFF)
+-if(EXISTS "/etc/debian_version")
+-  set(enable_setuptools_deb_layout ON)
+-endif()
+ option(SETUPTOOLS_DEB_LAYOUT "Enable debian style python package layout" ${enable_setuptools_deb_layout})
+ 
+ if(SETUPTOOLS_DEB_LAYOUT)
+diff --git a/cmake/interrogate_setup_dot_py.py b/cmake/interrogate_setup_dot_py.py
+index 5e25fbf8..e8d70451 100644
+--- a/cmake/interrogate_setup_dot_py.py
++++ b/cmake/interrogate_setup_dot_py.py
+@@ -40,14 +40,14 @@
+ setup_modules = []
+ 
+ try:
+-    import distutils.core
+-    setup_modules.append(distutils.core)
++    import setuptools
++    setup_modules.append(setuptools)
+ except ImportError:
+     pass
+ 
+ try:
+-    import setuptools
+-    setup_modules.append(setuptools)
++    import distutils.core
++    setup_modules.append(distutils.core)
+ except ImportError:
+     pass
+ 
+diff --git a/cmake/catkin_libraries.cmake b/cmake/catkin_libraries.cmake
+index b19f4c8aa..de8fd2d1f 100644
+--- a/cmake/catkin_libraries.cmake
++++ b/cmake/catkin_libraries.cmake
+@@ -114,6 +114,40 @@ function(catkin_unpack_libraries_with_build_configuration VAR)
+   set(${VAR} "${result}" PARENT_SCOPE)
+ endfunction()
+ 
++#
++# Find libraries by imported location or soname with location dir as hint
++#
++# :param VAR: the output variable name
++# :type VAR: string
++# :param LIB: the imported target to find the library for
++# :type LIB: string
++# :type ARGN: selected config to query in the target's properties
++# :type ARGN: string
++#
++# @public
++#
++function(catkin_find_library_imported_location_library VAR LIB)
++  set(lib ${LIB})
++  if(ARGN)
++    set(cfg _${ARGN})
++  endif()
++  set(imported_location_libnames)
++  get_target_property(imported_soname ${lib} IMPORTED_SONAME${cfg})
++  if(imported_soname)
++    list(APPEND imported_location_libnames ${imported_soname})
++  endif()
++  get_target_property(imported_location ${lib} IMPORTED_LOCATION${cfg})
++  if(imported_location)
++    get_filename_component(imported_location_name ${imported_location} NAME)
++    get_filename_component(imported_location_dir ${imported_location} DIRECTORY)
++    list(APPEND imported_location_libnames ${imported_location_name})
++  endif()
++  if(imported_location_libnames)
++    find_library(imported_location_library NAMES ${imported_location_libnames} HINTS ${imported_location_dir})
++  endif()
++  set(${VAR} "${imported_location_library}" PARENT_SCOPE)
++endfunction()
++
+ #
+ # Replace imported library target names with the library name.
+ #
+@@ -142,10 +176,9 @@ function(catkin_replace_imported_library_targets VAR)
+           list(APPEND result ${${lib}_resolved_libs})
+         endif()
+       elseif(${${lib}_imported})
+-        set(imported_libraries)  # empty list
+-        get_target_property(${lib}_imported_location ${lib} IMPORTED_LOCATION)
+-        if(${lib}_imported_location)
+-          list(APPEND imported_libraries ${${lib}_imported_location})
++        catkin_find_library_imported_location_library(${lib}_imported_location_library ${lib})
++        if(${lib}_imported_location_library)
++          list(APPEND imported_libraries ${${lib}_imported_location_library})
+         else()
+           get_target_property(${lib}_imported_configurations ${lib} IMPORTED_CONFIGURATIONS)
+           foreach(cfg ${${lib}_imported_configurations})
+@@ -156,11 +189,14 @@ function(catkin_replace_imported_library_targets VAR)
+               if(NOT ${lib}_imported_location_${cfg})
+                 get_target_property(${lib}_imported_location_${cfg} ${lib} IMPORTED_LOCATION_${cfg})
+               endif()
++              if(${lib}_imported_location_${cfg})
++                list(APPEND imported_libraries ${${lib}_imported_location_${cfg}})
++              endif()
+             else()
+-              get_target_property(${lib}_imported_location_${cfg} ${lib} IMPORTED_LOCATION_${cfg})
+-            endif()
+-            if(${lib}_imported_location_${cfg})
+-              list(APPEND imported_libraries ${${lib}_imported_location_${cfg}})
++              catkin_find_library_imported_location_library(${lib}_imported_location_library_${cfg} ${lib} ${cfg})
++              if(${lib}_imported_location_library_${cfg})
++                list(APPEND imported_libraries ${${lib}_imported_location_library_${cfg}})
++              endif()
+             endif()
+           endforeach()
+         endif()

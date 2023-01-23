@@ -1,0 +1,124 @@
+package:
+  name: ros-noetic-rviz
+  version: 1.14.19
+source:
+  git_url: https://github.com/ros-gbp/rviz-release.git
+  git_rev: release/noetic/rviz/1.14.19-1
+  folder: ros-noetic-rviz/src/work
+  patches:
+    - patch/ros-noetic-rviz.patch
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 9
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): cython
+    - sel(build_platform != target_platform): numpy
+    - sel(linux): "{{ cdt('mesa-libgl-devel') }}"
+    - sel(linux): "{{ cdt('mesa-dri-drivers') }}"
+    - sel(linux): "{{ cdt('libselinux') }}"
+    - sel(linux): "{{ cdt('libxdamage') }}"
+    - sel(linux): "{{ cdt('libxxf86vm') }}"
+    - sel(linux): "{{ cdt('libxfixes') }}"
+    - sel(linux): "{{ cdt('libxext') }}"
+    - sel(linux): "{{ cdt('libxau') }}"
+    - sel(linux): "{{ cdt('libxcb') }}"
+  host:
+    - assimp
+    - eigen
+    - numpy
+    - ogre
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - qt-main
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-geometry-msgs
+    - ros-noetic-image-transport
+    - ros-noetic-interactive-markers
+    - ros-noetic-laser-geometry
+    - ros-noetic-map-msgs
+    - ros-noetic-message-filters
+    - ros-noetic-message-generation
+    - ros-noetic-nav-msgs
+    - ros-noetic-pluginlib
+    - ros-noetic-python-qt-binding
+    - ros-noetic-resource-retriever
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - ros-noetic-rospy
+    - ros-noetic-rostest
+    - ros-noetic-rosunit
+    - ros-noetic-sensor-msgs
+    - ros-noetic-std-msgs
+    - ros-noetic-std-srvs
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-ros
+    - ros-noetic-urdf
+    - ros-noetic-visualization-msgs
+    - tinyxml2
+    - urdfdom
+    - urdfdom_headers
+    - yaml-cpp
+    - sel(unix): xorg-libx11
+    - sel(unix): xorg-libxext
+  run:
+    - assimp
+    - ogre
+    - python
+    - qt-main
+    - ros-distro-mutex 0.4 noetic
+    - ros-noetic-geometry-msgs
+    - ros-noetic-image-transport
+    - ros-noetic-interactive-markers
+    - ros-noetic-laser-geometry
+    - ros-noetic-map-msgs
+    - ros-noetic-media-export
+    - ros-noetic-message-filters
+    - ros-noetic-message-runtime
+    - ros-noetic-nav-msgs
+    - ros-noetic-pluginlib
+    - ros-noetic-python-qt-binding
+    - ros-noetic-resource-retriever
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - ros-noetic-rospy
+    - ros-noetic-sensor-msgs
+    - ros-noetic-std-msgs
+    - ros-noetic-std-srvs
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-ros
+    - ros-noetic-urdf
+    - ros-noetic-visualization-msgs
+    - tinyxml2
+    - yaml-cpp
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - sel(unix): xorg-libx11
+    - sel(unix): xorg-libxext

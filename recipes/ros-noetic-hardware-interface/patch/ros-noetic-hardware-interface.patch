@@ -1,0 +1,15 @@
+diff --git a/include/hardware_interface/robot_hw.h b/include/hardware_interface/robot_hw.h
+index d9f5b9ab..8e27c313 100644
+--- a/include/hardware_interface/robot_hw.h
++++ b/include/hardware_interface/robot_hw.h
+@@ -39,6 +39,10 @@
+ #include <ros/console.h>
+ #include <ros/node_handle.h>
+ 
++#ifdef ERROR
++#undef ERROR
++#endif
++
+ namespace hardware_interface
+ {
+ 
