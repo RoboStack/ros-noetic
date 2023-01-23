@@ -8,6 +8,18 @@ index 8db3c7b..892d81c 100644
    cmake/sip_helper.cmake
 +  cmake/pyproject.toml.in
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
+diff --git a/cmake/sip_configure.py b/cmake/sip_configure.py
+index 4886059..5ceeaa7 100644
+--- a/cmake/sip_configure.py
++++ b/cmake/sip_configure.py
+@@ -181,6 +181,7 @@ def split_paths(paths):
+ # Force c++14
+ if sys.platform == 'win32':
+     makefile.extra_cxxflags.append('/std:c++14')
++    makefile.extra_cxxflags.append('/DROS_BUILD_SHARED_LIBS=1')
+     # The __cplusplus flag is not properly set on Windows for backwards
+     # compatibilty. This flag sets it correctly
+     makefile.CXXFLAGS.append('/Zc:__cplusplus')
 diff --git a/cmake/pyproject.toml.in b/cmake/pyproject.toml.in
 new file mode 100644
 index 0000000..9353bab
