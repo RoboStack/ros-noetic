@@ -212,7 +212,7 @@ libcap-dev:
     osx: []
     win64: []
 libccd-dev:
-  robostack: [libccd]
+  robostack: [libccd-double]
 libceres-dev:
   robostack: [ceres-solver]
 libclang-dev:
