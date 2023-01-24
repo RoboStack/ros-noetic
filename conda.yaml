@@ -229,7 +229,7 @@ libcap-dev:
     osx: []
     win64: []
 libccd-dev:
-  conda: [libccd]
+  conda: [libccd-double]
 libceres-dev:
   conda: [ceres-solver]
 libclang-dev:
