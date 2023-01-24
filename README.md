@@ -5,11 +5,11 @@
 [![QUT Centre for Robotics](https://img.shields.io/badge/collection-QUT%20Robotics-%23043d71?style=flat-square)](https://qcr.ai)
 
 [![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20win%20%7C%20macos%20%7C%20macos_arm64%20%7C%20linux_aarch64-green.svg?style=flat-square)](https://github.com/RoboStack/ros-noetic)
-[![Azure DevOps builds (branch)](https://img.shields.io/github/workflow/status/RoboStack/ros-noetic/build_linux/buildbranch_linux?label=build%20linux&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/linux.yml)
-[![Azure DevOps builds (branch)](https://img.shields.io/github/workflow/status/RoboStack/ros-noetic/build_win/buildbranch_win?label=build%20win&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/win.yml)
-[![Azure DevOps builds (branch)](https://img.shields.io/github/workflow/status/RoboStack/ros-noetic/build_osx/buildbranch_osx?label=build%20osx&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/osx.yml)
-[![Azure DevOps builds (branch)](https://img.shields.io/github/workflow/status/RoboStack/ros-noetic/build_osx/buildbranch_osx_arm64?label=build%20osx-arm64&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/osx_arm64.yml)
-[![Azure DevOps builds (branch)](https://img.shields.io/github/workflow/status/RoboStack/ros-noetic/build_linux/buildbranch_linux_aarch64?label=build%20aarch64&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/linux_aarch64.yml)
+[![Azure DevOps builds (branch)](https://img.shields.io/github/actions/workflow/status/robostack/ros-noetic/linux.yml?branch=buildbranch_linux&label=build%20linux&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/linux.yml)
+[![Azure DevOps builds (branch)](https://img.shields.io/github/actions/workflow/status/robostack/ros-noetic/win.yml?branch=buildbranch_win&label=build%20win&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/win.yml)
+[![Azure DevOps builds (branch)](https://img.shields.io/github/actions/workflow/status/robostack/ros-noetic/osx.yml?branch=buildbranch_osx&label=build%20osx&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/osx.yml)
+[![Azure DevOps builds (branch)](https://img.shields.io/github/actions/workflow/status/robostack/ros-noetic/osx_arm64.yml?branch=buildbranch_osx_arm64&label=build%20osx-arm64&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/osx_arm64.yml)
+[![Azure DevOps builds (branch)](https://img.shields.io/github/actions/workflow/status/robostack/ros-noetic/build_linux_aarch64.yml?branch=buildbranch_linux_aarch64&label=build%20aarch64&style=flat-square)](https://github.com/RoboStack/ros-noetic/actions/workflows/build_linux_aarch64.yml)
 
 [![GitHub issues](https://img.shields.io/github/issues-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/robostack/ros-noetic?style=flat-square)](https://github.com/RoboStack/ros-noetic/issues?q=is%3Aissue+is%3Aclosed)
@@ -44,7 +44,7 @@ To get started with conda (or mamba) as package managers, you need to have a bas
 conda install mamba -c conda-forge
 
 # now create a new environment
-mamba create -n robostackenv ros-noetic-desktop python=3.9 -c robostack -c conda-forge --no-channel-priority --override-channels
+mamba create -n robostackenv ros-noetic-desktop python=3.9 -c robostack-staging -c conda-forge --no-channel-priority --override-channels
 conda activate robostackenv
 
 # optionally, install some compiler packages if you want to e.g. build packages in a catkin_ws:
