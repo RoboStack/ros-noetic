@@ -81,15 +81,18 @@ packages_select_by_deps:
   # # For jackal
   - gazebo-dev
   - gazebo-ros
-  # - hector-gazebo-plugins
+  - hector-gazebo-plugins
   - gazebo-ros-control
   - gazebo-plugins
+  - effort-controllers
+  - velocity-controllers
+  - joy
+
   # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
   # - diff-drive-controller
   # - joint-state-controller
-  # - joy
   # - robot-localization
   # - teleop-twist-joy
   # - twist-mux
