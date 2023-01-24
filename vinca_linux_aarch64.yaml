@@ -69,8 +69,7 @@ packages_select_by_deps:
   - perception
   - simulators
   - desktop_full
-
-
+  
   # # # # For jackal
   - hector-gazebo-plugins
   - gazebo-dev
@@ -83,6 +82,10 @@ packages_select_by_deps:
   - diff-drive-controller
   - joint-state-controller
   - joy
+  - velodyne-gazebo-plugins
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
   # - robot-localization
   # - teleop-twist-joy
   # - twist-mux
