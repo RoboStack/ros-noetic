@@ -79,11 +79,11 @@ packages_select_by_deps:
   - velodyne-simulator
   
   # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
+  - gazebo-dev
+  - gazebo-ros
   # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
   # - lms1xx
   # - controller-manager
   # - interactive_marker_twist_server
