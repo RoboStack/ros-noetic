@@ -86,89 +86,41 @@ packages_select_by_deps:
   - velodyne-simulator
   - effort-controllers
   - velocity-controllers
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - ros_numpy
-
-
-
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - ros_numpy
+  - franka_msgs
+  - teb_local_planner
+  - rospy-message-converter
+  - turtlebot3
+  - turtlebot3_fake
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild
 
   # # # DONE
-  # - fcl
-  # - eigenpy
-  # - catkin
-  # - franka_msgs
   # - pybind11_catkin  # needs to be unvendored
   # - libfranka
-  # - rostime
-  # - kdl_parser_py
   # - cnpy
-  # - imu_tools
   # - moveit_visual_tools
   # - rviz_visual_tools
   # - rviz_imu_plugin
   # - slam_toolbox
   # - webots-ros
-  # - velodyne_simulator
-  # - pointgrey_camera_description
-  # - lms1xx
-  # - moveit
   # - mavros
-  # - catkin
   # - grid_map
-  # - rviz
-  # - class_loader
   # - imu_complementary_filter
   # - imu_filter_madgwick
-  # - map_msgs
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - image_publisher
-  # - image_proc
-  # - stereo_image_proc
-  # - image_common
-  # - image_transport
-  # - image_transport_plugins
-  # - laser_pipeline
-  # - vision_opencv
-  # - diagnostics
-  # - geometry
-  # - joy
-  # - rospy-message-converter
-  # - ros_base
-  # - robot
-  # - pcl-ros
-  # - pcl-conversions
-  # - desktop
-  # - desktop_full
-  # - robot_localization
-  # - teb_local_planner
-  # - ros_control
-  # - ros_controllers
-  # - turtlebot3
-  # - turtlebot3_fake
-  # - perception
   # - slam_karto
-  # - teleop_twist_joy
-  # - twist_mux
-  # - interactive_marker_twist_server
-  # - gmapping
-  # - nmea_msgs
   # - rosserial
-  # - nmea_navsat_driver
-  # - hector_gazebo_plugins
-  # - rosserial_server
   # - robot_upstart
   # - nmea_comms
   # - urg_node
