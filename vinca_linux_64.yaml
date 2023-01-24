@@ -36,7 +36,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
 
-
 packages_select_by_deps:
   - desktop
   - desktop-full
