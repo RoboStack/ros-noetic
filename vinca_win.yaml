@@ -88,19 +88,24 @@ packages_select_by_deps:
   - velocity-controllers
   - joy
 
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - imu-filter-madgwick
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - imu-filter-madgwick
+  - ros_numpy
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
+  
   # - tf2_web_republisher
   # - libfranka
   # - franka
@@ -112,14 +117,12 @@ packages_select_by_deps:
   # - moveit-ros-visualization
   # - moveit-ros-planning-interface
   # - niryo_one_simulation
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
+
   # - librealsense2
   # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
-  # - ros_numpy
+  
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
 
@@ -452,37 +455,19 @@ packages_select_by_deps:
   # ##
 
   # - moveit-msgs
-  # - rviz
   # - rosserial-arduino
   # - rosbash
-  # - rviz
-  # - turtlebot3_fake
   # - tf2_web_republisher
-  # - catkin
-  # - kdl_parser_py
-  # - image_view
-  # - robot_localization
   # - grid_map
   # - sparse_bundle_adjustment
-  # - velodyne_simulator
-  # - nmea_msgs
   # - nmea_navsat_driver
   # - hardware_interface
-  # - moveit
-  # - navigation
   # - cnpy
   # - tf2_ros
-  # - desktop_full
-  # - perception
-  # - desktop
   # - octomap
   # - rqt_rviz
   # - turtlebot3
   # - rqt_gui_cpp
-  # - ros_control
-  # - class_loader
-  # - ros_controllers
-  # - joy
   # - velodyne_laserscan
   # - velodyne_msgs
   # - imu_tools
@@ -494,12 +479,6 @@ packages_select_by_deps:
   # - franka_description
   # - rqt_image_view
   # - gmapping
-  # - interactive_marker_twist_server
-  # - teleop_twist_joy
-  # - twist_mux
-  # - pointgrey_camera_description
-  # - hector_gazebo_plugins
-  # - lms1xx
 
   ##
   # Not bother Win
