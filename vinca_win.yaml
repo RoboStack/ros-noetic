@@ -31,13 +31,13 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
+  - desktop
   - rqt-gui
   - catkin
   - teleop_twist_keyboard
   - perception_pcl
   - rosbridge_suite
   ## Only limited number of packages to reduce maintainer burden
-  - desktop
   - rviz
   - robot_localization
   - amcl
@@ -50,7 +50,6 @@ packages_select_by_deps:
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
-  # - dynamixel-sdk -- this one not ready for Windows
   - rosserial
   - rosserial-server
   - rosserial-python
@@ -75,7 +74,6 @@ packages_select_by_deps:
   - gps-common
   - pcl-ros
   - pcl-conversions
-  # needed for jackal
   - velodyne-simulator
   
   # # For jackal
@@ -106,6 +104,7 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3-fake
   
+  # - dynamixel-sdk -- this one not ready for Windows
   # - tf2_web_republisher
   # - libfranka
   # - franka
