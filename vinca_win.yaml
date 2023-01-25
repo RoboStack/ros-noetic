@@ -113,7 +113,6 @@ packages_select_by_deps:
   # - franka-description
   # - combined-robot-hw
   # - panda-moveit-config
-  # - moveit-ros-visualization
   # - moveit-ros-planning-interface
   # - niryo_one_simulation
 
@@ -121,7 +120,7 @@ packages_select_by_deps:
   # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
-  
+
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
 
@@ -453,7 +452,6 @@ packages_select_by_deps:
   # # DONE Win
   # ##
 
-  # - moveit-msgs
   # - rosserial-arduino
   # - rosbash
   # - tf2_web_republisher
@@ -466,11 +464,9 @@ packages_select_by_deps:
   # - octomap
   # - rqt_rviz
   # - turtlebot3
-  # - rqt_gui_cpp
   # - velodyne_laserscan
   # - velodyne_msgs
   # - imu_tools
-  # - rviz_visual_tools
   # - libfranka  # that builds okay but there is a linker error in the tests so they are disabled for now
   # - franka_hw
   # - franka_visualization
