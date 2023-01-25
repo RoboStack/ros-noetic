@@ -167,6 +167,8 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - turtlebot3-simulations
   - slam-toolbox
+  - audio-common-msgs
+  - sound-play
 
 
 
@@ -661,7 +663,6 @@ packages_select_by_deps:
   # - async-comm
   # - async-web-server-cpp
   # - audibot-description
-  # - audio-common-msgs
   # - automotive-navigation-msgs
   # - automotive-platform-msgs
   # - autoware-can-msgs
@@ -947,7 +948,6 @@ packages_select_by_deps:
   # - smach-viewer
   # - socketcan-interface
   # - sophus
-  # - sound-play
   # - speech-recognition-msgs
   # - stag-ros
   # - tablet-socket-msgs
