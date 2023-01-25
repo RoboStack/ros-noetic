@@ -37,6 +37,7 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
+  - rosmon
   - desktop
   - desktop-full
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11

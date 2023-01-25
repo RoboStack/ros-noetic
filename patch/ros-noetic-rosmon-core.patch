@@ -22,3 +22,16 @@ index 7dec1cc..da51913 100644
  static const struct option OPTIONS[] = {
  	{"help", no_argument, nullptr, 'h'},
  	{"namespace", required_argument, nullptr, 'n'},
+diff --git a/src/launch/substitution_python.cpp b/src/launch/substitution_python.cpp
+index ffb1bcd..274651a 100644
+--- a/src/launch/substitution_python.cpp
++++ b/src/launch/substitution_python.cpp
+@@ -13,6 +13,8 @@
+ #include <boost/python/import.hpp>
+ 
+ #include <boost/lexical_cast.hpp>
++
++#include <boost/mpl/vector.hpp>
+ 
+ namespace py = boost::python;
+ 
