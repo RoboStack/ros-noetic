@@ -167,8 +167,9 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - turtlebot3-simulations
   - slam-toolbox
-
-
+  - urg_node
+  - urg_c
+  - laser_proc
 
 
 
@@ -1074,7 +1075,6 @@ packages_select_by_deps:
   # - velodyne
   # - velodyne_pcl
   # - perception_pcl
-  # - urg_node
   # - teb_local_planner
   # - joy
   # - libfranka
