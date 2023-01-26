@@ -167,7 +167,10 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - turtlebot3-simulations
   - slam-toolbox
-
+  - naoqi-bridge-msgs
+  - naoqi-driver
+  - naoqi-libqi
+  - naoqi-libqicore
 
 
 
