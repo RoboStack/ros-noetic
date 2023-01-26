@@ -470,33 +470,6 @@ diff --git a/src/messaging/servicedirectoryclient.cpp b/src/messaging/servicedir
 index af2427d3..66dc79a4 100644
 --- a/src/messaging/servicedirectoryclient.cpp
 +++ b/src/messaging/servicedirectoryclient.cpp
-@@ -120,11 +120,11 @@ namespace qi {
-       stateData.sdSocket->disconnected
-         .disconnectAsync(exchangeInvalidSignalLink(stateData.sdSocketDisconnectedSignalLink))
-         .then(std::bind(logSocketSignalDisc,
--                        "Failed to disconnect Socket::disconnected: ", _1));
-+                        "Failed to disconnect Socket::disconnected: ", boost::placeholders::_1));
-       stateData.sdSocket->socketEvent
-         .disconnectAsync(exchangeInvalidSignalLink(stateData.sdSocketSocketEventSignalLink))
-         .then(std::bind(logSocketSignalDisc,
--                        "Failed to disconnect Socket::socketEvent: ", _1));
-+                        "Failed to disconnect Socket::socketEvent: ", boost::placeholders::_1));
-       fut = stateData.sdSocket->disconnect().async();
- 
-       if (sendSignalDisconnected)
-@@ -138,10 +138,10 @@ namespace qi {
-       };
- 
-       _object.disconnect(exchangeInvalidSignalLink(stateData.addSignalLink)).async()
--        .then(std::bind(logObjectSignalDisc, "Failed to disconnect SDC::serviceAdded: ", _1));
-+        .then(std::bind(logObjectSignalDisc, "Failed to disconnect SDC::serviceAdded: ", boost::placeholders::_1));
- 
-       _object.disconnect(exchangeInvalidSignalLink(stateData.removeSignalLink)).async()
--        .then(std::bind(logObjectSignalDisc, "Failed to disconnect SDC::serviceRemoved: ", _1));
-+        .then(std::bind(logObjectSignalDisc, "Failed to disconnect SDC::serviceRemoved: ", boost::placeholders::_1));
-     }
- 
-     if (stateData.localSd)
 @@ -173,16 +173,16 @@ namespace qi {
      qi::Future<SignalLink> fut1 = _object.connect(
          "serviceAdded",
