@@ -14,7 +14,7 @@ index d6881c5..fd7f0a2 100644
  target_link_libraries(
    naoqi_driver_node
    naoqi_driver
-+  ${Boost_LIBRARIES}
++  ${Boost_LIBRARIES} Boost::program_options
  )
  
  # install the urdf for runtime loading
