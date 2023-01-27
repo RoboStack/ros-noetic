@@ -658,3 +658,24 @@ index 0069a52d..4fef529f 100644
      using ssl_context_type = boost::asio::ssl::context;
      using ssl_socket_type = boost::asio::ssl::stream<boost::asio::ip::tcp::socket>;
      using socket_option_no_delay_type = boost::asio::ip::tcp::no_delay;
+diff --git a/src/messaging/sock/socketwithcontext.hpp b/src/messaging/sock/socketwithcontext.hpp
+index 9d25ae6d..5d9511d5 100644
+--- a/src/messaging/sock/socketwithcontext.hpp
++++ b/src/messaging/sock/socketwithcontext.hpp
+@@ -1,6 +1,8 @@
+ #pragma once
+ #ifndef _QI_SOCK_SOCKETWITHCONTEXT_HPP
+ #define _QI_SOCK_SOCKETWITHCONTEXT_HPP
++#include <boost/asio.hpp>
++#include <boost/asio/ssl.hpp>
+ #include <ka/src.hpp>
+ #include <ka/mutablestore.hpp>
+ #include "traits.hpp"
+@@ -28,6 +30,7 @@ namespace qi { namespace sock {
+     using handshake_type = HandshakeSide<socket_t>;
+     using lowest_layer_type = Lowest<socket_t>;
+     using next_layer_type = typename socket_t::next_layer_type;
++    using executor_type = boost::asio::io_context::executor_type;
+ 
+     SocketWithContext(io_service_t& io, const SslContextPtr<N>& ctx)
+       : context(ctx)
