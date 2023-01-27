@@ -1,0 +1,681 @@
+diff --git a/qi/detail/executioncontext.hpp b/qi/detail/executioncontext.hpp
+index 79e80477..5e81a315 100644
+--- a/qi/detail/executioncontext.hpp
++++ b/qi/detail/executioncontext.hpp
+@@ -201,7 +201,7 @@ typename boost::disable_if<std::is_same<R, void>,
+   promise.setup(
+       boost::bind(&detail::futureCancelAdapter<void>,
+                   boost::weak_ptr<detail::FutureBaseTyped<void> >(f.impl())));
+-  f.connect(boost::bind(&detail::forwardError<R>, _1, promise), FutureCallbackType_Sync);
++  f.connect(boost::bind(&detail::forwardError<R>, boost::placeholders::_1, promise), FutureCallbackType_Sync);
+   return promise.future();
+ }
+ 
+@@ -218,7 +218,7 @@ typename boost::disable_if<std::is_same<R, void>,
+   promise.setup(
+       boost::bind(&detail::futureCancelAdapter<void>,
+                   boost::weak_ptr<detail::FutureBaseTyped<void> >(f.impl())));
+-  f.connect(boost::bind(&detail::forwardError<R>, _1, promise), FutureCallbackType_Sync);
++  f.connect(boost::bind(&detail::forwardError<R>, boost::placeholders::_1, promise), FutureCallbackType_Sync);
+   return promise.future();
+ }
+ 
+@@ -252,7 +252,7 @@ Future<R> ExecutionContext::asyncAt(F&& callback, qi::SteadyClockTimePoint tp, E
+   qi::Future<void> f = asyncAtImpl(std::move(topost), tp, options);
+   promise.setup(boost::bind(&detail::futureCancelAdapter<void>,
+                             boost::weak_ptr<detail::FutureBaseTyped<void> >(f.impl())));
+-  f.connect(boost::bind(&detail::forwardError<R>, _1, promise), FutureCallbackType_Sync);
++  f.connect(boost::bind(&detail::forwardError<R>, boost::placeholders::_1, promise), FutureCallbackType_Sync);
+   return promise.future();
+ }
+ 
+@@ -264,7 +264,7 @@ Future<R> ExecutionContext::asyncDelay(F&& callback, qi::Duration delay, Executi
+   qi::Future<void> f = asyncDelayImpl(std::move(topost), delay, options);
+   promise.setup(boost::bind(&detail::futureCancelAdapter<void>,
+                             boost::weak_ptr<detail::FutureBaseTyped<void> >(f.impl())));
+-  f.connect(boost::bind(&detail::forwardError<R>, _1, promise), FutureCallbackType_Sync);
++  f.connect(boost::bind(&detail::forwardError<R>, boost::placeholders::_1, promise), FutureCallbackType_Sync);
+   return promise.future();
+ }
+ }
+diff --git a/qi/detail/future.hxx b/qi/detail/future.hxx
+index cc5cc041..02949622 100644
+--- a/qi/detail/future.hxx
++++ b/qi/detail/future.hxx
+@@ -437,11 +437,11 @@ namespace detail {
+       {
+         Future<Future<T> >* self = static_cast<Future<Future<T> >*>(this);
+ 
+-        Promise<T> promise(boost::bind(&AddUnwrap<Future<T> >::_cancel, _1,
++        Promise<T> promise(boost::bind(&AddUnwrap<Future<T> >::_cancel, boost::placeholders::_1,
+               boost::weak_ptr<FutureBaseTyped<Future<T> > >(self->_p)));
+ 
+         self->connect(
+-            boost::bind(&AddUnwrap<Future<T> >::_forward, _1, promise),
++            boost::bind(&AddUnwrap<Future<T> >::_forward, boost::placeholders::_1, promise),
+             FutureCallbackType_Sync);
+ 
+         return promise.future();
+@@ -541,7 +541,7 @@ namespace detail {
+     p.setup(boost::bind(&detail::futureCancelAdapter<AnyReference>,
+           boost::weak_ptr<detail::FutureBaseTyped<AnyReference> >(f._p)));
+     f.connect(boost::function<void(const qi::Future<AnyReference>&)>(
+-          boost::bind(&detail::futureAdapter<R>, _1, p)));
++          boost::bind(&detail::futureAdapter<R>, boost::placeholders::_1, p)));
+   }
+ 
+   template<typename FT, typename PT>
+@@ -550,7 +550,7 @@ namespace detail {
+     if (option == AdaptFutureOption_ForwardCancel)
+       p.setup(boost::bind(&detail::futureCancelAdapter<FT>,
+             boost::weak_ptr<detail::FutureBaseTyped<FT> >(f._p)));
+-    const_cast<Future<FT>&>(f).connect(boost::bind(detail::futureAdapter<FT, PT, FutureValueConverter<FT, PT> >, _1, p,
++    const_cast<Future<FT>&>(f).connect(boost::bind(detail::futureAdapter<FT, PT, FutureValueConverter<FT, PT> >, boost::placeholders::_1, p,
+       FutureValueConverter<FT, PT>()));
+   }
+ 
+@@ -560,7 +560,7 @@ namespace detail {
+     if (option == AdaptFutureOption_ForwardCancel)
+       p.setup(boost::bind(&detail::futureCancelAdapter<FT>,
+             boost::weak_ptr<detail::FutureBaseTyped<FT> >(f._p)));
+-    const_cast<Future<FT>&>(f).connect(boost::bind(detail::futureAdapter<FT, PT, CONV>, _1, p, converter));
++    const_cast<Future<FT>&>(f).connect(boost::bind(detail::futureAdapter<FT, PT, CONV>, boost::placeholders::_1, p, converter));
+   }
+ 
+   template <typename T>
+diff --git a/qi/detail/futurebarrier.hpp b/qi/detail/futurebarrier.hpp
+index 73f33b23..b3556f4f 100644
+--- a/qi/detail/futurebarrier.hpp
++++ b/qi/detail/futurebarrier.hpp
+@@ -114,7 +114,7 @@ class FutureBarrierPrivate {
+  *             qi::Future<int> fut = returnAsynchronouslyNumber(i);
+  *
+  *             qi::Promise<int> prom;
+- *             fut.connect(boost::bind(&mult42, prom, _1));
++ *             fut.connect(boost::bind(&mult42, prom, boost::placeholders::_1));
+  *             barrier.addFuture(prom.future());
+  *
+  *             // [1.2]
+@@ -127,7 +127,7 @@ class FutureBarrierPrivate {
+  *
+  *         // [2]:
+  *         qi::Promise<int> res;
+- *         barrier.future().connect(boost::bind(&sumList, res, _1));
++ *         barrier.future().connect(boost::bind(&sumList, res, boost::placeholders::_1));
+  *         return res.future();
+  *     }
+  *
+diff --git a/qi/detail/trackable.hxx b/qi/detail/trackable.hxx
+index 9ddbb464..0fbaf3dc 100644
+--- a/qi/detail/trackable.hxx
++++ b/qi/detail/trackable.hxx
+@@ -23,14 +23,14 @@ namespace qi
+   : _wasDestroyed(false)
+   {
+     T* thisAsT = static_cast<T*>(this);
+-    _ptr = boost::shared_ptr<T>(thisAsT, boost::bind(&Trackable::_destroyed, _1));
++    _ptr = boost::shared_ptr<T>(thisAsT, boost::bind(&Trackable::_destroyed, boost::placeholders::_1));
+   }
+ 
+   template<typename T>
+   inline Trackable<T>::Trackable(T* ptr)
+     : _wasDestroyed(false)
+   {
+-    _ptr = boost::shared_ptr<T>(ptr, boost::bind(&Trackable::_destroyed, _1));
++    _ptr = boost::shared_ptr<T>(ptr, boost::bind(&Trackable::_destroyed, boost::placeholders::_1));
+   }
+ 
+   template<typename T>
+diff --git a/qi/type/detail/anyfunctionfactory.hxx b/qi/type/detail/anyfunctionfactory.hxx
+index 32ebb091..129351dd 100644
+--- a/qi/type/detail/anyfunctionfactory.hxx
++++ b/qi/type/detail/anyfunctionfactory.hxx
+@@ -568,7 +568,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+     template<typename C, typename R>
+     AnyFunction makeAnyFunctionBare(R (C::*fun)(const AnyArguments&))
+     {
+-      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncer<C, R>, _1, fun));
++      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncer<C, R>, boost::placeholders::_1, fun));
+       // The signature storage in GO will drop first argument, and bug if none is present
+       const_cast<std::vector<TypeInterface*> &>(res.functionType()->argumentsType()).push_back(typeOf<AnyValue>());
+       return res;
+@@ -578,7 +578,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+     AnyFunction makeAnyFunctionBare(R (*fun)(const AnyArguments&))
+     {
+       boost::function<R (const AnyArguments&)> fu = fun;
+-      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncerBF<R>, _1, fun));
++      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncerBF<R>, boost::placeholders::_1, fun));
+       // The signature storage in GO will drop first argument, and bug if none is present
+       const_cast<std::vector<TypeInterface*> &>(res.functionType()->argumentsType()).push_back(typeOf<AnyValue>());
+       return res;
+@@ -586,7 +586,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+ 
+     template<typename R> AnyFunction makeAnyFunctionBare(boost::function<R (const AnyArguments&)> fun)
+     {
+-      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncerBF<R>, _1, fun));
++      AnyFunction res = AnyFunction::fromDynamicFunction(boost::bind(&bouncerBF<R>, boost::placeholders::_1, fun));
+       // The signature storage in GO will drop first argument, and bug if none is present
+       const_cast<std::vector<TypeInterface*> &>(res.functionType()->argumentsType()).push_back(typeOf<AnyValue>());
+       return res;
+diff --git a/qi/type/detail/functionsignature.hxx b/qi/type/detail/functionsignature.hxx
+index 1d2489e1..b87b7d4d 100644
+--- a/qi/type/detail/functionsignature.hxx
++++ b/qi/type/detail/functionsignature.hxx
+@@ -89,7 +89,7 @@ namespace qi {
+       }
+       static qi::Signature makeSignature()
+       {
+-        // Reconstruct the boost::bind(instance, _1, _2...) signature
++        // Reconstruct the boost::bind(instance, boost::placeholders::_1, boost::placeholders::_2...) signature
+         using RetType = typename boost::function_types::result_type<T>::type;
+         using MemArgsType = typename boost::function_types::parameter_types<T>::type;
+         using ArgsType = typename boost::mpl::pop_front<MemArgsType>::type;
+diff --git a/qi/type/detail/object.hxx b/qi/type/detail/object.hxx
+index edc98cfa..61bd2581 100644
+--- a/qi/type/detail/object.hxx
++++ b/qi/type/detail/object.hxx
+@@ -551,7 +551,7 @@ template<typename T> inline Object<T>::Object(T* ptr, boost::function<void(T*)>
+   ObjectTypeInterface* otype = interface();
+   if (deleter)
+     _obj = detail::ManagedObjectPtr(new GenericObject(otype, ptr),
+-      boost::bind(&Object::deleteCustomDeleter, _1, deleter));
++      boost::bind(&Object::deleteCustomDeleter, boost::placeholders::_1, deleter));
+   else
+     _obj = detail::ManagedObjectPtr(new GenericObject(otype, ptr), &deleteObject);
+ }
+diff --git a/qi/type/detail/objecttypebuilder.hxx b/qi/type/detail/objecttypebuilder.hxx
+index 1fe7bfca..e554ed25 100644
+--- a/qi/type/detail/objecttypebuilder.hxx
++++ b/qi/type/detail/objecttypebuilder.hxx
+@@ -32,7 +32,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+         getStrandAccessor()
+     {
+       return AnyFunction::from(boost::function<qi::Strand*(void*)>(
+-          boost::bind(&callWithVoid<T>, &T::strand, _1)));
++          boost::bind(&callWithVoid<T>, &T::strand, boost::placeholders::_1)));
+     }
+     template <typename T>
+     typename boost::disable_if<boost::is_base_of<Actor, T>, AnyFunction>::type
+@@ -185,7 +185,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+   unsigned int
+   ObjectTypeBuilderBase::advertiseSignal(const std::string& eventName, A accessor, int id, bool isSignalProperty)
+   {
+-    SignalMemberGetter fun = boost::bind(&signalAccess<A>, accessor, _1);
++    SignalMemberGetter fun = boost::bind(&signalAccess<A>, accessor, boost::placeholders::_1);
+     using FunctionType = typename detail::Accessor<A>::value_type::FunctionType;
+     return xAdvertiseSignal(eventName,
+       detail::FunctionSignature<FunctionType>::signature(), fun, id, isSignalProperty);
+@@ -195,7 +195,7 @@ KA_WARNING_DISABLE(, noexcept-type)
+   unsigned int ObjectTypeBuilderBase::advertiseProperty(const std::string& name, A accessor)
+   {
+     unsigned int id = advertiseSignal(name, accessor, -1, true);
+-    PropertyMemberGetter pg = boost::bind(&propertyAccess<A>, accessor, _1);
++    PropertyMemberGetter pg = boost::bind(&propertyAccess<A>, accessor, boost::placeholders::_1);
+     using PropertyType = typename detail::Accessor<A>::value_type::PropertyType;
+     return xAdvertiseProperty(name, typeOf<PropertyType>()->signature(), pg, id);
+   }
+diff --git a/qi/type/detail/typedispatcher.hxx b/qi/type/detail/typedispatcher.hxx
+index 4140eb89..1168c589 100644
+--- a/qi/type/detail/typedispatcher.hxx
++++ b/qi/type/detail/typedispatcher.hxx
+@@ -72,7 +72,7 @@ namespace qi {
+           auto go = detail::ManagedObjectPtr(
+             new GenericObject(static_cast<ObjectTypeInterface*>(pointee.type()),
+                               pointee.rawValue()),
+-            boost::bind(&AnyObject::deleteCustomDeleter, _1,
++            boost::bind(&AnyObject::deleteCustomDeleter, boost::placeholders::_1,
+                         (boost::function<void(Empty*)>)boost::bind(&AnyReference::destroy,
+                                                                    shared_ptr)));
+           AnyObject ao(std::move(go));
+diff --git a/qi/type/proxyproperty.hpp b/qi/type/proxyproperty.hpp
+index ab0d07c2..04be2711 100644
+--- a/qi/type/proxyproperty.hpp
++++ b/qi/type/proxyproperty.hpp
+@@ -74,7 +74,7 @@ namespace qi
+ 
+       // property part
+       prop._asyncGetter = boost::bind(Getter<T>{}, object, propertyName);
+-      prop._asyncSetter = boost::bind(Setter<T>{}, _1, _2, object, propertyName);
++      prop._asyncSetter = boost::bind(Setter<T>{}, boost::placeholders::_1, boost::placeholders::_2, object, propertyName);
+     }
+ 
+     template<typename T>
+diff --git a/qi/type/proxysignal.hpp b/qi/type/proxysignal.hpp
+index 7b12bb6c..b64e6d57 100644
+--- a/qi/type/proxysignal.hpp
++++ b/qi/type/proxysignal.hpp
+@@ -128,7 +128,7 @@ namespace qi
+           .andThen(lifeSignal(
+             // Copy self instead of using `this` to avoid lifetime issues.
+             [self](SignalLink newLink) {
+-              self.signal->setOnSubscribers(self.lifeSignal(boost::bind(self, newLink, _1)));
++              self.signal->setOnSubscribers(self.lifeSignal(boost::bind(self, newLink, boost::placeholders::_1)));
+             }));
+       }
+     };
+@@ -174,13 +174,13 @@ namespace qi
+       signal.setOnSubscribers(lifeSignal(
+         boost::bind(resetBounceEventCallbackOnSubscribersContinuous(signal, lifeSignal, callSubs,
+                                                                     object, signalName),
+-                    SignalBase::invalidSignalLink, _1)));
++                    SignalBase::invalidSignalLink, boost::placeholders::_1)));
+ 
+       // On signal trigger, just forward the trigger to the back-end. When the back-end gets
+       // triggered, we get notified back, because we connect to the back-end by the 'bounce event'
+       // callback, in which we can notify back our local subscribers.
+       signal.setTriggerOverride(
+-        boost::bind(&details_proxysignal::metaPostSignal, object, signalName, _1));
++        boost::bind(&details_proxysignal::metaPostSignal, object, signalName, boost::placeholders::_1));
+     }
+ 
+     inline void tearDownProxy(SignalBase& sig)
+diff --git a/src/application.cpp b/src/application.cpp
+index b9cd0867..520709ca 100644
+--- a/src/application.cpp
++++ b/src/application.cpp
+@@ -103,7 +103,7 @@ namespace qi {
+       case 1:
+         qiLogVerbose() << "Sending the stop command...";
+         //register the signal again to call exit the next time if stop did not succeed
+-        Application::atSignal(boost::bind<void>(&stop_handler, _1), signal_number);
++        Application::atSignal(boost::bind<void>(&stop_handler, boost::placeholders::_1), signal_number);
+         // Stop might immediately trigger application destruction, so it has
+         // to go after atSignal.
+         Application::stop();
+@@ -312,12 +312,12 @@ namespace qi {
+     // run is called, so we catch sigint/sigterm, the default
+     // implementation call Application::stop that
+     // will make this loop exit.
+-    atSignal.emplace_back(boost::bind(stop_handler, _1), SIGTERM);
+-    atSignal.emplace_back(boost::bind(stop_handler, _1), SIGINT);
++    atSignal.emplace_back(boost::bind(stop_handler, boost::placeholders::_1), SIGTERM);
++    atSignal.emplace_back(boost::bind(stop_handler, boost::placeholders::_1), SIGINT);
+ 
+     for(const auto& func: atSignal)
+       signalSets.emplace(signalSets.end(), *globalIoService, func.second)->async_wait(
+-                  boost::bind(signal_handler, _1, _2, std::move(func.first)));
++                  boost::bind(signal_handler, boost::placeholders::_1, boost::placeholders::_2, std::move(func.first)));
+ 
+     // Call every function registered as "atRun"
+     for(auto& function: lazyGet(globalAtRun))
+diff --git a/src/eventloop.cpp b/src/eventloop.cpp
+index 2ece4b41..fc8dde3c 100644
+--- a/src/eventloop.cpp
++++ b/src/eventloop.cpp
+@@ -1015,7 +1015,7 @@ namespace qi {
+     ctx->target = this;
+     ctx->helper = helper;
+     ctx->maxDelay = maxDelay;
+-    ctx->promise = Promise<void>(boost::bind<void>(&monitor_cancel, _1, ctx));
++    ctx->promise = Promise<void>(boost::bind<void>(&monitor_cancel, boost::placeholders::_1, ctx));
+     ctx->isFired = false;
+     ctx->ending = false;
+     monitor_ping(ctx);
+diff --git a/src/log.cpp b/src/log.cpp
+index f7a2ea31..ba9ebcf1 100644
+--- a/src/log.cpp
++++ b/src/log.cpp
+@@ -444,7 +444,7 @@ namespace qi {
+           id = addHandler("consoleloghandler",
+                           boost::bind(&ConsoleLogHandler::log,
+                                       _glConsoleLogHandler,
+-                                      _1, _2, _3, _4, _5, _6, _7, _8),
++                                      boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4, boost::placeholders::_5, boost::placeholders::_6, boost::placeholders::_7, boost::placeholders::_8),
+                           verb);
+           QI_ASSERT(id == 0 || id == invalidId);
+         }
+@@ -909,7 +909,7 @@ namespace qi {
+     {
+       return addHandler(name,
+           boost::bind(adaptLogFuncHandler,
+-                      fct, _1, _2, _3, _4, _5, _6, _7, _8),
++                      fct, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4, boost::placeholders::_5, boost::placeholders::_6, boost::placeholders::_7, boost::placeholders::_8),
+                       defaultLevel);
+     }
+ 
+diff --git a/src/messaging/boundobject.cpp b/src/messaging/boundobject.cpp
+index d7296a82..612c0480 100644
+--- a/src/messaging/boundobject.cpp
++++ b/src/messaging/boundobject.cpp
+@@ -158,7 +158,7 @@ namespace qi
+     if (!ms)
+       throw std::runtime_error("No such signal");
+     QI_ASSERT(_currentSocket);
+-    AnyFunction mc = AnyFunction::fromDynamicFunction(boost::bind(&forwardEvent, _1, _serviceId, _objectId, eventId, ms->parametersSignature(), _currentSocket, asHostWeakPtr(), ""));
++    AnyFunction mc = AnyFunction::fromDynamicFunction(boost::bind(&forwardEvent, boost::placeholders::_1, _serviceId, _objectId, eventId, ms->parametersSignature(), _currentSocket, asHostWeakPtr(), ""));
+     qi::Future<SignalLink> linking = _object.connect(eventId, mc);
+     auto& linkEntry = _links[_currentSocket][remoteSignalLinkId];
+     linkEntry = RemoteSignalLink(linking, eventId);
+@@ -175,7 +175,7 @@ namespace qi
+     if (!ms)
+       throw std::runtime_error("No such signal");
+     QI_ASSERT(_currentSocket);
+-    AnyFunction mc = AnyFunction::fromDynamicFunction(boost::bind(&forwardEvent, _1, _serviceId, _objectId, eventId, ms->parametersSignature(), _currentSocket, asHostWeakPtr(), signature));
++    AnyFunction mc = AnyFunction::fromDynamicFunction(boost::bind(&forwardEvent, boost::placeholders::_1, _serviceId, _objectId, eventId, ms->parametersSignature(), _currentSocket, asHostWeakPtr(), signature));
+     qi::Future<SignalLink> linking = _object.connect(eventId, mc);
+     auto& linkEntry = _links[_currentSocket][remoteSignalLinkId];
+     linkEntry = RemoteSignalLink(linking, eventId);
+@@ -400,7 +400,7 @@ namespace qi
+         _currentSocket.reset();
+ 
+         fut.connect(boost::bind<void>
+-                    (&BoundObject::serverResultAdapter, _1, retSig, _gethost(), socket, msg.address(), sig,
++                    (&BoundObject::serverResultAdapter, boost::placeholders::_1, retSig, _gethost(), socket, msg.address(), sig,
+                      CancelableKitWeak(_cancelables), cancelRequested));
+       }
+         break;
+diff --git a/src/messaging/message.cpp b/src/messaging/message.cpp
+index 8e2ae7b3..5eba2f9f 100644
+--- a/src/messaging/message.cpp
++++ b/src/messaging/message.cpp
+@@ -292,7 +292,7 @@ namespace qi
+     qi::BufferReader br(_buffer);
+     AnyReference res(type);
+     return AnyValue(
+-      decodeBinary(&br, res, boost::bind(deserializeObject, _1, socket), socket),
++      decodeBinary(&br, res, boost::bind(deserializeObject, boost::placeholders::_1, socket), socket),
+       false, // i.e. don't copy
+       true   // i.e. become resource owner
+     );
+@@ -330,19 +330,19 @@ namespace qi
+         setError(ss.str());
+       }
+       else
+-        encodeBinary(*conv, boost::bind(serializeObject, _1, context, socket),
++        encodeBinary(*conv, boost::bind(serializeObject, boost::placeholders::_1, context, socket),
+                      socket);
+     }
+     else if (value.type()->kind() != qi::TypeKind_Void)
+     {
+-      encodeBinary(value, boost::bind(serializeObject, _1, context, socket), socket);
++      encodeBinary(value, boost::bind(serializeObject, boost::placeholders::_1, context, socket), socket);
+     }
+   }
+ 
+   void Message::setValues(const std::vector<qi::AnyReference>& values,
+                           boost::weak_ptr<ObjectHost> context, MessageSocketPtr socket)
+   {
+-    SerializeObjectCallback scb = boost::bind(serializeObject, _1, context, socket);
++    SerializeObjectCallback scb = boost::bind(serializeObject, boost::placeholders::_1, context, socket);
+     for (unsigned i = 0; i < values.size(); ++i)
+       encodeBinary(values[i], scb, socket);
+   }
+@@ -372,7 +372,7 @@ namespace qi
+       AnyReference tuple = makeGenericTuplePtr(types, values);
+       AnyValue val(tuple, false, false);
+       encodeBinary(AnyReference::from(val),
+-                   boost::bind(serializeObject, _1, context, socket), socket);
++                   boost::bind(serializeObject, boost::placeholders::_1, context, socket), socket);
+       return;
+     }
+     /* This check does not makes sense for this transport layer who does not care,
+diff --git a/src/messaging/objectregistrar.cpp b/src/messaging/objectregistrar.cpp
+index 7b56d746..12d91b95 100644
+--- a/src/messaging/objectregistrar.cpp
++++ b/src/messaging/objectregistrar.cpp
+@@ -131,7 +131,7 @@ namespace qi {
+ 
+     // ack the Service directory to tell that we are ready
+     qi::Future<void> fut2 = _sdClient->serviceReady(idx);
+-    fut2.connect(boost::bind(&serviceReady, _1, result, idx));
++    fut2.connect(boost::bind(&serviceReady, boost::placeholders::_1, result, idx));
+   }
+ 
+   qi::Future<unsigned int> ObjectRegistrar::registerService(const std::string &name, qi::AnyObject obj)
+@@ -159,7 +159,7 @@ namespace qi {
+ 
+       auto future = _sdClient->registerService(si);
+       future.connect(
+-        track(boost::bind<void>(&ObjectRegistrar::onFutureFinished, this, _1, id, prom), &_tracker));
++        track(boost::bind<void>(&ObjectRegistrar::onFutureFinished, this, boost::placeholders::_1, id, prom), &_tracker));
+     }, &_tracker));
+     return prom.future();
+   };
+diff --git a/src/messaging/remoteobject.cpp b/src/messaging/remoteobject.cpp
+index d09956f9..e83ab921 100644
+--- a/src/messaging/remoteobject.cpp
++++ b/src/messaging/remoteobject.cpp
+@@ -128,7 +128,7 @@ namespace qi {
+     qi::Future<qi::MetaObject> fut =
+       _self.async<qi::MetaObject>("metaObject", 0U);
+     fut.connect(trackWithFallback(&throwRemoteObjectDestroyedException,
+-                                  boost::bind<void>(&RemoteObject::onMetaObject, this, _1, prom),
++                                  boost::bind<void>(&RemoteObject::onMetaObject, this, boost::placeholders::_1, prom),
+                                   weak_from_this()));
+     return prom.future();
+   }
+@@ -500,7 +500,7 @@ namespace qi {
+     }
+ 
+     rsl.future.connect(trackWithFallback(&throwRemoteObjectDestroyedException,
+-                                         boost::bind<void>(&onEventConnected, this, _1, prom, uid),
++                                         boost::bind<void>(&onEventConnected, this, boost::placeholders::_1, prom, uid),
+                                          weak_from_this()));
+     return prom.future();
+   }
+diff --git a/src/messaging/servicedirectory.cpp b/src/messaging/servicedirectory.cpp
+index 13c0c243..4776b139 100644
+--- a/src/messaging/servicedirectory.cpp
++++ b/src/messaging/servicedirectory.cpp
+@@ -551,7 +551,7 @@ namespace qi
+   void ServiceDirectory::_setServiceBoundObject(boost::shared_ptr<BoundObject> bo)
+   {
+     serviceBoundObject = bo;
+-    bo->setOnSocketUnbound(boost::bind(&ServiceDirectory::removeClientSocket, this, _1));
++    bo->setOnSocketUnbound(boost::bind(&ServiceDirectory::removeClientSocket, this, boost::placeholders::_1));
+   }
+ 
+ } // !qi
+diff --git a/src/messaging/servicedirectoryclient.cpp b/src/messaging/servicedirectoryclient.cpp
+index af2427d3..66dc79a4 100644
+--- a/src/messaging/servicedirectoryclient.cpp
++++ b/src/messaging/servicedirectoryclient.cpp
+@@ -173,16 +173,16 @@ namespace qi {
+     qi::Future<SignalLink> fut1 = _object.connect(
+         "serviceAdded",
+         boost::function<void(unsigned int, const std::string&)>(
+-          qi::bind(&ServiceDirectoryClient::onServiceAdded, this, _1, _2)));
++          qi::bind(&ServiceDirectoryClient::onServiceAdded, this, boost::placeholders::_1, boost::placeholders::_2)));
+     qi::Future<SignalLink> fut2 = _object.connect(
+         "serviceRemoved",
+         boost::function<void(unsigned int, const std::string&)>(
+-          qi::bind(&ServiceDirectoryClient::onServiceRemoved, this, _1, _2)));
++          qi::bind(&ServiceDirectoryClient::onServiceRemoved, this, boost::placeholders::_1, boost::placeholders::_2)));
+ 
+     fut1.then(track(
+-      boost::bind(&ServiceDirectoryClient::onSDEventConnected, this, _1, promise, true), this));
++      boost::bind(&ServiceDirectoryClient::onSDEventConnected, this, boost::placeholders::_1, promise, true), this));
+     fut2.then(track(
+-      boost::bind(&ServiceDirectoryClient::onSDEventConnected, this, _1, promise, false), this));
++      boost::bind(&ServiceDirectoryClient::onSDEventConnected, this, boost::placeholders::_1, promise, false), this));
+   }
+ 
+   namespace service_directory_client_private
+@@ -247,7 +247,7 @@ namespace qi {
+         service_directory_client_private::sendCapabilities(socket);
+         qi::Future<void> future = _remoteObject->fetchMetaObject();
+         future.connect(track(
+-          boost::bind(&ServiceDirectoryClient::onMetaObjectFetched, this, socket, _1, prom), this));
++          boost::bind(&ServiceDirectoryClient::onMetaObjectFetched, this, socket, boost::placeholders::_1, prom), this));
+       }
+       return;
+     }
+@@ -274,7 +274,7 @@ namespace qi {
+           exchangeInvalidSignalLink(_stateData.sdSocketSocketEventSignalLink));
+       qi::Future<void> future = _remoteObject->fetchMetaObject();
+       future.connect(track(
+-        boost::bind(&ServiceDirectoryClient::onMetaObjectFetched, this, socket, _1, prom), this));
++        boost::bind(&ServiceDirectoryClient::onMetaObjectFetched, this, socket, boost::placeholders::_1, prom), this));
+       return;
+     }
+ 
+@@ -371,7 +371,7 @@ namespace qi {
+ 
+     connecting.connect(
+       track(boost::bind(&ServiceDirectoryClient::onSocketConnected, this, _stateData.sdSocket,
+-                              _1, promise), this));
++                              boost::placeholders::_1, promise), this));
+     return promise.future();
+   }
+ 
+@@ -385,11 +385,11 @@ namespace qi {
+       _stateData.addSignalLink = _object.connect(
+           "serviceAdded",
+           boost::function<void(unsigned int, const std::string&)>(
+-            qi::bind(&ServiceDirectoryClient::onServiceAdded, this, _1, _2))).value();
++            qi::bind(&ServiceDirectoryClient::onServiceAdded, this, boost::placeholders::_1, boost::placeholders::_2))).value();
+       _stateData.removeSignalLink = _object.connect(
+           "serviceRemoved",
+           boost::function<void(unsigned int, const std::string&)>(
+-            qi::bind(&ServiceDirectoryClient::onServiceRemoved, this, _1, _2))).value();
++            qi::bind(&ServiceDirectoryClient::onServiceRemoved, this, boost::placeholders::_1, boost::placeholders::_2))).value();
+     }
+ 
+     connected();
+diff --git a/src/messaging/session.cpp b/src/messaging/session.cpp
+index eee30172..2bf22251 100644
+--- a/src/messaging/session.cpp
++++ b/src/messaging/session.cpp
+@@ -45,7 +45,7 @@ namespace qi {
+     session->serviceUnregistered.setCallType(qi::MetaCallType_Queued);
+ 
+     _sdClient.connected.connect(session->connected);
+-    _sdClient.disconnected.connect(&SessionPrivate::onServiceDirectoryClientDisconnected, this, _1);
++    _sdClient.disconnected.connect(&SessionPrivate::onServiceDirectoryClientDisconnected, this, boost::placeholders::_1);
+     _sdClient.disconnected.connect(session->disconnected);
+     _sdClient.serviceAdded.connect(session->serviceRegistered);
+     _sdClient.serviceRemoved.connect(session->serviceUnregistered);
+@@ -480,7 +480,7 @@ namespace qi {
+ 
+     qi::Promise<AnyValue> promise;
+     promise.setOnCancel([ret](qi::Promise<AnyValue>&) mutable { ret.cancel(); });
+-    ret.then(qi::bind(qi::detail::futureAdapter<qi::AnyValue>, _1, promise));
++    ret.then(qi::bind(qi::detail::futureAdapter<qi::AnyValue>, boost::placeholders::_1, promise));
+     return promise.future();
+   }
+ 
+diff --git a/src/messaging/sessionservice.cpp b/src/messaging/sessionservice.cpp
+index 55029f49..7b4afdb2 100644
+--- a/src/messaging/sessionservice.cpp
++++ b/src/messaging/sessionservice.cpp
+@@ -224,7 +224,7 @@ namespace qi {
+         qiLogVerbose() << "Fetching metaobject (1) for requestId = " << requestId;
+         metaObjFut.connect(track(
+           boost::bind(
+-            &Session_Service::onRemoteObjectComplete, this, _1, requestId),
++            &Session_Service::onRemoteObjectComplete, this, boost::placeholders::_1, requestId),
+           this));
+         mustSetPromise = false;
+       }
+@@ -262,7 +262,7 @@ namespace qi {
+       qiLogVerbose() << "Fetching metaobject (2) for requestId = " << requestId;
+       metaObjFut.connect(track(
+         boost::bind(
+-          &Session_Service::onRemoteObjectComplete, this, _1, requestId),
++          &Session_Service::onRemoteObjectComplete, this, boost::placeholders::_1, requestId),
+         this));
+       mustSetPromise = false;
+       return;
+@@ -567,7 +567,7 @@ namespace qi {
+       qiLogVerbose() << "Requesting socket from cache. service = '" << service << "', "
+         "requestId = " << *requestId;
+       Future<qi::MessageSocketPtr> f = _socketCache->socket(fut.value());
+-      f.connect(track(boost::bind(&Session_Service::onTransportSocketResult, this, _1, *requestId), this));
++      f.connect(track(boost::bind(&Session_Service::onTransportSocketResult, this, boost::placeholders::_1, *requestId), this));
+       mustSetPromise = false;
+     }, this));
+     return result;
+diff --git a/src/messaging/transportserverasio_p.cpp b/src/messaging/transportserverasio_p.cpp
+index cc6e21e7..fa1ed2e8 100644
+--- a/src/messaging/transportserverasio_p.cpp
++++ b/src/messaging/transportserverasio_p.cpp
+@@ -93,7 +93,7 @@ namespace qi
+     }
+     _s = sock::makeSocketWithContextPtr<sock::NetworkAsio>(PTR_GET_IO_SERVICE(_acceptor), _sslContext);
+     _acceptor->async_accept(_s->lowest_layer(),
+-                           boost::bind(_onAccept, shared_from_this(), _1, _s));
++                           boost::bind(_onAccept, shared_from_this(), boost::placeholders::_1, _s));
+   }
+ 
+   void TransportServerAsioPrivate::close() {
+@@ -329,7 +329,7 @@ namespace qi
+ 
+     _s = sock::makeSocketWithContextPtr<sock::NetworkAsio>(PTR_GET_IO_SERVICE(_acceptor), _sslContext);
+     _acceptor->async_accept(_s->lowest_layer(),
+-      boost::bind(_onAccept, shared_from_this(), _1, _s));
++      boost::bind(_onAccept, shared_from_this(), boost::placeholders::_1, _s));
+     _connectionPromise.setValue(0);
+     return _connectionPromise.future();
+   }
+diff --git a/src/periodictask.cpp b/src/periodictask.cpp
+index 82997da8..417ccb71 100644
+--- a/src/periodictask.cpp
++++ b/src/periodictask.cpp
+@@ -275,7 +275,7 @@ namespace qi
+     // _onTaskFinished needs to be executed even if the default thread pool is destroyed
+     // to achieve this we want _onTaskFinished to be executed in the thread setting the result.
+     _task.connect(qi::track(boost::bind(
+-          &PeriodicTaskPrivate::_onTaskFinished, this, _1), this), qi::FutureCallbackType_Sync);
++          &PeriodicTaskPrivate::_onTaskFinished, this, boost::placeholders::_1), this), qi::FutureCallbackType_Sync);
+   }
+ 
+   void PeriodicTaskPrivate::_wrap()
+diff --git a/src/type/anyreference.cpp b/src/type/anyreference.cpp
+index 17565d92..bd83d545 100644
+--- a/src/type/anyreference.cpp
++++ b/src/type/anyreference.cpp
+@@ -105,7 +105,7 @@ namespace detail
+               new GenericObject(
+                 static_cast<ObjectTypeInterface*>(pointedSrc._type),
+                 pointedSrc._value, pointedSrc.to<AnyObject>().uid()),
+-              boost::bind(dropIt, _1, qi::AnyValue(*this)));
++              boost::bind(dropIt, boost::placeholders::_1, qi::AnyValue(*this)));
+         return AnyReference::from(o).convert((TypeInterface*)targetType);
+       }
+       if (pointedDstPair.ownsReference())
+diff --git a/src/type/dynamicobject.cpp b/src/type/dynamicobject.cpp
+index ea1eb72e..a72799fd 100644
+--- a/src/type/dynamicobject.cpp
++++ b/src/type/dynamicobject.cpp
+@@ -520,7 +520,7 @@ namespace qi
+ 
+     auto deleter = [&]() -> boost::function<void(GenericObject*)> {
+     if (destroyObject || onDelete)
+-      return boost::bind(&cleanupDynamicObject, _1, destroyObject, onDelete);
++      return boost::bind(&cleanupDynamicObject, boost::placeholders::_1, destroyObject, onDelete);
+     else
+       return &AnyObject::deleteGenericObjectOnly;
+     }();
+diff --git a/src/messaging/sock/networkasio.hpp b/src/messaging/sock/networkasio.hpp
+index 0069a52d..4fef529f 100644
+--- a/src/messaging/sock/networkasio.hpp
++++ b/src/messaging/sock/networkasio.hpp
+@@ -20,6 +20,7 @@ namespace qi { namespace sock {
+   {
+     using acceptor_type = boost::asio::ip::tcp::acceptor;
+     using resolver_type = boost::asio::ip::tcp::resolver;
++    using executor_type = boost::asio::io_context::executor_type;
+     using ssl_context_type = boost::asio::ssl::context;
+     using ssl_socket_type = boost::asio::ssl::stream<boost::asio::ip::tcp::socket>;
+     using socket_option_no_delay_type = boost::asio::ip::tcp::no_delay;
+diff --git a/src/messaging/sock/socketwithcontext.hpp b/src/messaging/sock/socketwithcontext.hpp
+index 9d25ae6d..5d9511d5 100644
+--- a/src/messaging/sock/socketwithcontext.hpp
++++ b/src/messaging/sock/socketwithcontext.hpp
+@@ -1,6 +1,8 @@
+ #pragma once
+ #ifndef _QI_SOCK_SOCKETWITHCONTEXT_HPP
+ #define _QI_SOCK_SOCKETWITHCONTEXT_HPP
++#include <boost/asio.hpp>
++#include <boost/asio/ssl.hpp>
+ #include <ka/src.hpp>
+ #include <ka/mutablestore.hpp>
+ #include "traits.hpp"
+@@ -28,6 +30,7 @@ namespace qi { namespace sock {
+     using handshake_type = HandshakeSide<socket_t>;
+     using lowest_layer_type = Lowest<socket_t>;
+     using next_layer_type = typename socket_t::next_layer_type;
++    using executor_type = boost::asio::io_context::executor_type;
+ 
+     SocketWithContext(io_service_t& io, const SslContextPtr<N>& ctx)
+       : context(ctx)

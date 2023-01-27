@@ -170,7 +170,10 @@ packages_select_by_deps:
   - urg_node
   - urg_c
   - laser_proc
-
+  - naoqi-bridge-msgs
+  - naoqi-driver
+  - naoqi-libqi
+  - naoqi-libqicore
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
