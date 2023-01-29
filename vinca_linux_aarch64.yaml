@@ -69,6 +69,8 @@ packages_select_by_deps:
   - perception
   - simulators
   - desktop_full
+  - audio-common-msgs
+  - sound-play
   
   # For jackal
   - hector-gazebo-plugins
