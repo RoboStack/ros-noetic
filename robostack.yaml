@@ -660,7 +660,7 @@ python3-fiona:
 python3-future:
   robostack: [future]
 python3-gi:
-   conda: [pygobject]
+  robostack: [pygobject]
 python3-github:
   robostack: [pygithub]
 python3-github3:
