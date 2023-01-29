@@ -677,7 +677,7 @@ python3-fiona:
 python3-future:
   conda: [future]
 python3-gi:
-   conda: [pygobject]
+  conda: [pygobject]
 python3-github:
   conda: [pygithub]
 python3-github3:
