@@ -167,11 +167,15 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - turtlebot3-simulations
   - slam-toolbox
+  - urg_node
+  - urg_c
+  - laser_proc
+  - naoqi-bridge-msgs
+  - naoqi-driver
+  - naoqi-libqi
+  - naoqi-libqicore
   - audio-common-msgs
   - sound-play
-
-
-
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
@@ -1074,7 +1078,6 @@ packages_select_by_deps:
   # - velodyne
   # - velodyne_pcl
   # - perception_pcl
-  # - urg_node
   # - teb_local_planner
   # - joy
   # - libfranka
