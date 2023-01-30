@@ -77,6 +77,8 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
+  - sound-play
+  - pid
 
 
   # # For jackal
