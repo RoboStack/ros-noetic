@@ -104,6 +104,7 @@ packages_select_by_deps:
   - rospy-message-converter
   - turtlebot3
   - turtlebot3_fake
+  - pid
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # # after rebuild

@@ -176,6 +176,7 @@ packages_select_by_deps:
   - naoqi-libqicore
   - audio-common-msgs
   - sound-play
+  - pid
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
