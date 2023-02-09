@@ -79,7 +79,12 @@ packages_select_by_deps:
   - rosbridge_suite
   - sound-play
   - pid
-
+  - teleop-twist-keyboard
+  - laser-proc
+  - rgbd-launch
+  - rosserial-arduino
+  - rosserial-client
+  - navigation
 
   # # For jackal
   - gazebo-dev
