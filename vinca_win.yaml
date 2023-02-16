@@ -452,7 +452,7 @@ packages_select_by_deps:
   # # DONE Win
   # ##
 
-  # - rosserial-arduino
+  - rosserial-arduino
   # - rosbash
   # - tf2_web_republisher
   # - grid_map
