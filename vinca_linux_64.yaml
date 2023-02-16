@@ -179,7 +179,6 @@ packages_select_by_deps:
   - pid
 
 
-
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
   # - rtabmap
