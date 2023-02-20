@@ -1,3 +1,20 @@
+diff --git a/src/python_qt_binding/__init__.py b/src/python_qt_binding/__init__.py
+index 1e209de..c40ad0b 100644
+--- a/src/python_qt_binding/__init__.py
++++ b/src/python_qt_binding/__init__.py
+@@ -66,3 +66,11 @@
+     del module
+ 
+ del sys
++
++import os
++from .QtGui import QIcon
++current_theme_path = QIcon.themeSearchPaths()
++conda_path = os.environ['CONDA_PREFIX']
++QIcon.setThemeSearchPaths(current_theme_path + [os.path.join(conda_path, 'share/icons/')])
++QIcon.setThemeName('Adwaita')
++del os
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 8db3c7b..892d81c 100644
 --- a/CMakeLists.txt
