@@ -2,6 +2,8 @@ qt_gui_cpp:
   add_build: ["pyqt-builder", "pyqt5-sip"]
 rviz:
   add_build: ["pyqt-builder", "pyqt5-sip"]
+python_qt_binding:
+  add_run: ["adwaita-icon-theme"]
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]
