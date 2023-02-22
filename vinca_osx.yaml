@@ -79,7 +79,7 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
-  - ros-foxglove-bridge
+  - foxglove_bridge
 
 
   # ## Only limited number of packages to reduce maintainer burden

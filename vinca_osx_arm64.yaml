@@ -85,7 +85,7 @@ packages_select_by_deps:
   - rosserial-arduino
   - rosserial-client
   - navigation
-  - ros-foxglove-bridge
+  - foxglove_bridge
 
   # # For jackal
   - gazebo-dev
