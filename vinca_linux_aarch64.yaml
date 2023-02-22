@@ -71,6 +71,7 @@ packages_select_by_deps:
   - desktop_full
   - audio-common-msgs
   - sound-play
+  - ros-foxglove-bridge
   
   # For jackal
   - hector-gazebo-plugins

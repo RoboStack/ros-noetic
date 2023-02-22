@@ -104,6 +104,7 @@ packages_select_by_deps:
   # - rosmon
   - catch-ros
   - rosfmt
+  - ros-foxglove-bridge
 
 
   - amcl
