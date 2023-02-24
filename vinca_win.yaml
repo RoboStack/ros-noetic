@@ -75,7 +75,6 @@ packages_select_by_deps:
   - pcl-ros
   - pcl-conversions
   - velodyne-simulator
-  - foxglove_bridge
   
   # # For jackal
   - gazebo-dev
