@@ -1,0 +1,264 @@
+diff --git a/actionlib/include/actionlib/client/action_client.h b/actionlib/include/actionlib/client/action_client.h
+index 85b32dc5..21d0102a 100644
+--- a/actionlib/include/actionlib/client/action_client.h
++++ b/actionlib/include/actionlib/client/action_client.h
+@@ -236,17 +236,17 @@ class ActionClient
+
+     // Start publishers and subscribers
+     goal_pub_ = queue_advertise<ActionGoal>("goal", static_cast<uint32_t>(pub_queue_size),
+-        boost::bind(&ConnectionMonitor::goalConnectCallback, connection_monitor_, _1),
+-        boost::bind(&ConnectionMonitor::goalDisconnectCallback, connection_monitor_, _1),
++        boost::bind(&ConnectionMonitor::goalConnectCallback, connection_monitor_, boost::placeholders::_1),
++        boost::bind(&ConnectionMonitor::goalDisconnectCallback, connection_monitor_, boost::placeholders::_1),
+         queue);
+     cancel_pub_ =
+       queue_advertise<actionlib_msgs::GoalID>("cancel", static_cast<uint32_t>(pub_queue_size),
+-        boost::bind(&ConnectionMonitor::cancelConnectCallback, connection_monitor_, _1),
+-        boost::bind(&ConnectionMonitor::cancelDisconnectCallback, connection_monitor_, _1),
++        boost::bind(&ConnectionMonitor::cancelConnectCallback, connection_monitor_, boost::placeholders::_1),
++        boost::bind(&ConnectionMonitor::cancelDisconnectCallback, connection_monitor_, boost::placeholders::_1),
+         queue);
+
+-    manager_.registerSendGoalFunc(boost::bind(&ActionClientT::sendGoalFunc, this, _1));
+-    manager_.registerCancelFunc(boost::bind(&ActionClientT::sendCancelFunc, this, _1));
++    manager_.registerSendGoalFunc(boost::bind(&ActionClientT::sendGoalFunc, this, boost::placeholders::_1));
++    manager_.registerCancelFunc(boost::bind(&ActionClientT::sendCancelFunc, this, boost::placeholders::_1));
+   }
+
+   template<class M>
+@@ -275,7 +275,7 @@ class ActionClient
+     ops.datatype = ros::message_traits::datatype<M>();
+     ops.helper = ros::SubscriptionCallbackHelperPtr(
+       new ros::SubscriptionCallbackHelperT<const ros::MessageEvent<M const> &>(
+-        boost::bind(fp, obj, _1)
++        boost::bind(fp, obj, boost::placeholders::_1)
+       )
+       );
+     return n_.subscribe(ops);
+diff --git a/actionlib/include/actionlib/client/goal_manager_imp.h b/actionlib/include/actionlib/client/goal_manager_imp.h
+index 28f49796..4e3281b5 100644
+--- a/actionlib/include/actionlib/client/goal_manager_imp.h
++++ b/actionlib/include/actionlib/client/goal_manager_imp.h
+@@ -74,7 +74,7 @@ ClientGoalHandle<ActionSpec> GoalManager<ActionSpec>::initGoal(const Goal & goal
+
+   boost::recursive_mutex::scoped_lock lock(list_mutex_);
+   typename ManagedListT::Handle list_handle =
+-    list_.add(comm_state_machine, boost::bind(&GoalManagerT::listElemDeleter, this, _1), guard_);
++    list_.add(comm_state_machine, boost::bind(&GoalManagerT::listElemDeleter, this, boost::placeholders::_1), guard_);
+
+   if (send_goal_func_) {
+     send_goal_func_(action_goal);
+diff --git a/actionlib/include/actionlib/client/simple_action_client.h b/actionlib/include/actionlib/client/simple_action_client.h
+index 436516f8..02df1ae4 100644
+--- a/actionlib/include/actionlib/client/simple_action_client.h
++++ b/actionlib/include/actionlib/client/simple_action_client.h
+@@ -330,8 +330,8 @@ void SimpleActionClient<ActionSpec>::sendGoal(const Goal & goal,
+   cur_simple_state_ = SimpleGoalState::PENDING;
+
+   // Send the goal to the ActionServer
+-  gh_ = ac_->sendGoal(goal, boost::bind(&SimpleActionClientT::handleTransition, this, _1),
+-      boost::bind(&SimpleActionClientT::handleFeedback, this, _1, _2));
++  gh_ = ac_->sendGoal(goal, boost::bind(&SimpleActionClientT::handleTransition, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionClientT::handleFeedback, this, boost::placeholders::_1, boost::placeholders::_2));
+ }
+
+ template<class ActionSpec>
+diff --git a/actionlib/include/actionlib/managed_list.h b/actionlib/include/actionlib/managed_list.h
+index 2c919603..b2c4f894 100644
+--- a/actionlib/include/actionlib/managed_list.h
++++ b/actionlib/include/actionlib/managed_list.h
+@@ -218,7 +218,7 @@ class ManagedList
+    */
+   Handle add(const T & elem)
+   {
+-    return add(elem, boost::bind(&ManagedList<T>::defaultDeleter, this, _1) );
++    return add(elem, boost::bind(&ManagedList<T>::defaultDeleter, this, boost::placeholders::_1) );
+   }
+
+   /**
+diff --git a/actionlib/include/actionlib/one_shot_timer.h b/actionlib/include/actionlib/one_shot_timer.h
+index e3c821d0..7839294f 100644
+--- a/actionlib/include/actionlib/one_shot_timer.h
++++ b/actionlib/include/actionlib/one_shot_timer.h
+@@ -60,7 +60,7 @@ class OneShotTimer
+
+   boost::function<void(const ros::TimerEvent & e)> getCb()
+   {
+-    return boost::bind(&OneShotTimer::cb, this, _1);
++    return boost::bind(&OneShotTimer::cb, this, boost::placeholders::_1);
+   }
+
+   void registerOneShotCb(boost::function<void(const ros::TimerEvent & e)> callback)
+diff --git a/actionlib/include/actionlib/server/action_server_imp.h b/actionlib/include/actionlib/server/action_server_imp.h
+index 2a088b14..837b9c42 100644
+--- a/actionlib/include/actionlib/server/action_server_imp.h
++++ b/actionlib/include/actionlib/server/action_server_imp.h
+@@ -172,15 +172,15 @@ void ActionServer<ActionSpec>::initialize()
+
+   if (status_frequency > 0) {
+     status_timer_ = node_.createTimer(ros::Duration(1.0 / status_frequency),
+-        boost::bind(&ActionServer::publishStatus, this, _1));
++        boost::bind(&ActionServer::publishStatus, this, boost::placeholders::_1));
+   }
+
+   goal_sub_ = node_.subscribe<ActionGoal>("goal", static_cast<uint32_t>(sub_queue_size),
+-      boost::bind(&ActionServerBase<ActionSpec>::goalCallback, this, _1));
++      boost::bind(&ActionServerBase<ActionSpec>::goalCallback, this, boost::placeholders::_1));
+
+   cancel_sub_ =
+     node_.subscribe<actionlib_msgs::GoalID>("cancel", static_cast<uint32_t>(sub_queue_size),
+-      boost::bind(&ActionServerBase<ActionSpec>::cancelCallback, this, _1));
++      boost::bind(&ActionServerBase<ActionSpec>::cancelCallback, this, boost::placeholders::_1));
+ }
+
+ template<class ActionSpec>
+diff --git a/actionlib/include/actionlib/server/service_server_imp.h b/actionlib/include/actionlib/server/service_server_imp.h
+index ac5444de..2f0265e3 100644
+--- a/actionlib/include/actionlib/server/service_server_imp.h
++++ b/actionlib/include/actionlib/server/service_server_imp.h
+@@ -58,7 +58,7 @@ ServiceServerImpT<ActionSpec>::ServiceServerImpT(ros::NodeHandle n, std::string
+ : service_cb_(service_cb)
+ {
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n, name,
+-      boost::bind(&ServiceServerImpT::goalCB, this, _1), false));
++      boost::bind(&ServiceServerImpT::goalCB, this, boost::placeholders::_1), false));
+   as_->start();
+ }
+
+diff --git a/actionlib/include/actionlib/server/simple_action_server_imp.h b/actionlib/include/actionlib/server/simple_action_server_imp.h
+index 0255515b..a361cd77 100644
+--- a/actionlib/include/actionlib/server/simple_action_server_imp.h
++++ b/actionlib/include/actionlib/server/simple_action_server_imp.h
+@@ -56,8 +56,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(std::string name,
+
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n_, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       auto_start));
+ }
+
+@@ -68,8 +68,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(std::string name, bool auto_s
+ {
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n_, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       auto_start));
+
+   if (execute_callback_) {
+@@ -85,8 +85,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(std::string name,
+ {
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n_, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       true));
+
+   if (execute_callback_) {
+@@ -104,8 +104,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(ros::NodeHandle n, std::strin
+ {
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       auto_start));
+
+   if (execute_callback_) {
+@@ -121,8 +121,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(ros::NodeHandle n, std::strin
+ {
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       auto_start));
+
+   if (execute_callback_) {
+@@ -138,8 +138,8 @@ SimpleActionServer<ActionSpec>::SimpleActionServer(ros::NodeHandle n, std::strin
+ {
+   // create the action server
+   as_ = boost::shared_ptr<ActionServer<ActionSpec> >(new ActionServer<ActionSpec>(n, name,
+-      boost::bind(&SimpleActionServer::goalCallback, this, _1),
+-      boost::bind(&SimpleActionServer::preemptCallback, this, _1),
++      boost::bind(&SimpleActionServer::goalCallback, this, boost::placeholders::_1),
++      boost::bind(&SimpleActionServer::preemptCallback, this, boost::placeholders::_1),
+       true));
+
+   if (execute_callback_) {
+diff --git a/actionlib/test/add_two_ints_server.cpp b/actionlib/test/add_two_ints_server.cpp
+index 098c3158..84ddaceb 100644
+--- a/actionlib/test/add_two_ints_server.cpp
++++ b/actionlib/test/add_two_ints_server.cpp
+@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
+
+   actionlib::ServiceServer service = actionlib::advertiseService<actionlib::TwoIntsAction>(n,
+       "add_two_ints",
+-      boost::bind(add, _1, _2));
++      boost::bind(add, boost::placeholders::_1, boost::placeholders::_2));
+
+   ros::spin();
+
+diff --git a/actionlib/test/ref_server.cpp b/actionlib/test/ref_server.cpp
+index 1da0ab50..7aede23d 100644
+--- a/actionlib/test/ref_server.cpp
++++ b/actionlib/test/ref_server.cpp
+@@ -61,8 +61,8 @@ using namespace actionlib;
+
+ RefServer::RefServer(ros::NodeHandle & n, const std::string & name)
+ : ActionServer<TestAction>(n, name,
+-    boost::bind(&RefServer::goalCallback, this, _1),
+-    boost::bind(&RefServer::cancelCallback, this, _1),
++    boost::bind(&RefServer::goalCallback, this, boost::placeholders::_1),
++    boost::bind(&RefServer::cancelCallback, this, boost::placeholders::_1),
+     false)
+ {
+   start();
+diff --git a/actionlib/test/server_goal_handle_destruction.cpp b/actionlib/test/server_goal_handle_destruction.cpp
+index 9e179c7c..ed12d2b6 100644
+--- a/actionlib/test/server_goal_handle_destruction.cpp
++++ b/actionlib/test/server_goal_handle_destruction.cpp
+@@ -67,7 +67,7 @@ ServerGoalHandleDestructionTester::ServerGoalHandleDestructionTester()
+   as_ = new ActionServer<TestAction>(nh_, "reference_action", false);
+   as_->start();
+   as_->registerGoalCallback(boost::bind(&ServerGoalHandleDestructionTester::goalCallback, this,
+-    _1));
++    boost::placeholders::_1));
+   gh_ = new GoalHandle();
+ }
+
+diff --git a/actionlib/test/simple_client_test.cpp b/actionlib/test/simple_client_test.cpp
+index 341bbc9f..ea400509 100644
+--- a/actionlib/test/simple_client_test.cpp
++++ b/actionlib/test/simple_client_test.cpp
+@@ -106,7 +106,7 @@ TEST(SimpleClient, easy_callback)
+
+   bool called = false;
+   goal.goal = 1;
+-  SimpleActionClient<TestAction>::SimpleDoneCallback func = boost::bind(&easyDoneCallback, &called, &client, _1, _2);
++  SimpleActionClient<TestAction>::SimpleDoneCallback func = boost::bind(&easyDoneCallback, &called, &client, boost::placeholders::_1, boost::placeholders::_2);
+   client.sendGoal(goal, func);
+   finished = client.waitForResult(ros::Duration(10.0));
+   ASSERT_TRUE(finished);
+diff --git a/actionlib/test/simple_execute_ref_server.cpp b/actionlib/test/simple_execute_ref_server.cpp
+index 57aa9cd0..b663ec41 100644
+--- a/actionlib/test/simple_execute_ref_server.cpp
++++ b/actionlib/test/simple_execute_ref_server.cpp
+@@ -61,7 +61,7 @@ using namespace actionlib;
+
+ SimpleExecuteRefServer::SimpleExecuteRefServer()
+ : as_(nh_, "reference_action", boost::bind(&SimpleExecuteRefServer::executeCallback, this,
+-    _1), false)
++    boost::placeholders::_1), false)
+ {
+   as_.start();
+ }
