@@ -6,14 +6,14 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 5
+build_number: 6
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: true
+full_rebuild: false
 
 packages_skip_by_deps:
   # - rviz
@@ -34,89 +34,93 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  - sick-tim
-  - python-qt-binding
-  - qt-gui
-  - rqt-gui
-  - rqt-gui-py
-  - rqt-gui-cpp
-  - qt-gui-cpp
-  - rqt-ez-publisher
-  - pcl-ros
-  - pcl-conversions
-  - roslisp
-  # - qt-gui-cpp  # needs manual build
-  # - rviz  # needs manual build
-  - desktop
-  - perception
-  - moveit
-  # - eigenpy  # needs manual build
-  - turtlebot3
-  - turtlebot3-simulations
-  - desktop-full
-  - realsense2_camera
-  - realsense2_description
-  - kdl-parser-py
-  - imu-tools
-  - rqt-controller-manager
-  - dynamixel-sdk
-  - hector-map-tools
-  - hector-nav-msgs
-  - hector-trajectory-server
-  - radar-msgs
-  - geometry2
-  - tf2
-  - tf2_bullet
-  - tf2_eigen
-  - tf2_geometry_msgs
-  - tf2_kdl
-  - tf2_msgs
-  - tf2_py
-  - tf2_ros
-  - tf2_sensor_msgs
-  - tf2_tools
-  - gps-common
-  - rosbridge_suite
-  - sound-play
-  - pid
-  - teleop-twist-keyboard
-  - laser-proc
-  - rgbd-launch
-  - rosserial-arduino
-  - rosserial-client
-  - navigation
+  - actionlib
   - foxglove_bridge
+  - ros-babel-fish
 
-  # # For jackal
-  - gazebo-dev
-  - hector-gazebo-plugins
-  - gazebo-ros
-  - gazebo-ros-control
-  - gazebo-plugins
-  - lms1xx
-  - controller-manager
-  - interactive_marker_twist_server
-  - diff-drive-controller
-  - joint-state-controller
-  - joy
-  - robot-localization
-  - teleop-twist-joy
-  - twist-mux
-  - pointgrey-camera-description
-  - nmea-msgs
-  - geometry-msgs
-  - nmea-navsat-driver
-  - rosserial-server
-  - imu-filter-madgwick
-  - rosserial-python
-  - gmapping
-  - velodyne-description
-  - velodyne-simulator
-  - effort-controllers
-  - velocity-controllers
-  - teb-local-planner
-  - slam-toolbox
-  - turtlebot3-teleop
-  - move-base
+  # - sick-tim
+  # - python-qt-binding
+  # - qt-gui
+  # - rqt-gui
+  # - rqt-gui-py
+  # - rqt-gui-cpp
+  # - qt-gui-cpp
+  # - rqt-ez-publisher
+  # - pcl-ros
+  # - pcl-conversions
+  # - roslisp
+  # # - qt-gui-cpp  # needs manual build
+  # # - rviz  # needs manual build
+  # - desktop
+  # - perception
+  # - moveit
+  # # - eigenpy  # needs manual build
+  # - turtlebot3
+  # - turtlebot3-simulations
+  # - desktop-full
+  # - realsense2_camera
+  # - realsense2_description
+  # - kdl-parser-py
+  # - imu-tools
+  # - rqt-controller-manager
+  # - dynamixel-sdk
+  # - hector-map-tools
+  # - hector-nav-msgs
+  # - hector-trajectory-server
+  # - radar-msgs
+  # - geometry2
+  # - tf2
+  # - tf2_bullet
+  # - tf2_eigen
+  # - tf2_geometry_msgs
+  # - tf2_kdl
+  # - tf2_msgs
+  # - tf2_py
+  # - tf2_ros
+  # - tf2_sensor_msgs
+  # - tf2_tools
+  # - gps-common
+  # - rosbridge_suite
+  # - sound-play
+  # - pid
+  # - teleop-twist-keyboard
+  # - laser-proc
+  # - rgbd-launch
+  # - rosserial-arduino
+  # - rosserial-client
+  # - navigation
+  # - foxglove_bridge
+
+  # # # For jackal
+  # - gazebo-dev
+  # - hector-gazebo-plugins
+  # - gazebo-ros
+  # - gazebo-ros-control
+  # - gazebo-plugins
+  # - lms1xx
+  # - controller-manager
+  # - interactive_marker_twist_server
+  # - diff-drive-controller
+  # - joint-state-controller
+  # - joy
+  # - robot-localization
+  # - teleop-twist-joy
+  # - twist-mux
+  # - pointgrey-camera-description
+  # - nmea-msgs
+  # - geometry-msgs
+  # - nmea-navsat-driver
+  # - rosserial-server
+  # - imu-filter-madgwick
+  # - rosserial-python
+  # - gmapping
+  # - velodyne-description
+  # - velodyne-simulator
+  # - effort-controllers
+  # - velocity-controllers
+  # - teb-local-planner
+  # - slam-toolbox
+  # - turtlebot3-teleop
+  # - move-base
 
 patch_dir: patch
