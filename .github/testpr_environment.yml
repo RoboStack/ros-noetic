@@ -1,6 +1,5 @@
 name: testpr_env
 channels:
-  - robostack
   - robostack-staging
   - conda-forge
 dependencies:
