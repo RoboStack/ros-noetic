@@ -32,6 +32,7 @@ packages_select_by_deps:
   - actionlib
   - foxglove_bridge
   - ros-babel-fish
+  - babel-fish-test-msgs
 
   # - python-qt-binding
   # - qt-gui
