@@ -881,6 +881,8 @@ uuid:
     win64: []
 virtualenv:
   robostack: [virtualenv]
+libwebsocketpp-dev:
+  robostack: [websocketpp]
 wget:
   robostack: [wget]
 wx-common:
