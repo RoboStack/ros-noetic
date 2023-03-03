@@ -5,10 +5,10 @@ index 278378c..fb7184e 100644
 @@ -8,7 +8,9 @@
  #include "ros_babel_fish/exceptions/babel_fish_exception.h"
  #include <ros/time.h>
-
+ 
 +#include <cstdint>
  #include <memory>
 +#include <stddef.h>
-
+ 
  namespace ros_babel_fish
  {
