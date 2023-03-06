@@ -1,8 +1,46 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f32acfc..afec8d9 100644
+index f32acfc..3b06d9f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -71,7 +71,7 @@ add_library(foxglove_bridge_base SHARED
+@@ -23,36 +23,7 @@ find_package(websocketpp REQUIRED)
+ find_package(ZLIB REQUIRED)
+ 
+ if(NOT CMAKE_BUILD_TYPE)
+-  set(CMAKE_BUILD_TYPE Debug)
+-endif()
+-
+-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+-  set(OPTIMIZATION_FLAGS "-DDEBUG")
+-  if(NOT MSVC)
+-    set(OPTIMIZATION_FLAGS "${OPTIMIZATION_FLAGS} -O0")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fno-omit-frame-pointer")
+-  endif()
+-  message("-- Configuring debug build")
+-else()
+-  set(OPTIMIZATION_FLAGS "-DNDEBUG -O2")
+-  message("-- Configuring release build")
+-endif()
+-
+-if(MSVC)
+-  set(DESIRED_WARNINGS "-WX")
+-else()
+-  set(DESIRED_WARNINGS "-Wall -Wextra -Wconversion -Wunreachable-code -Wuninitialized -pedantic-errors -Wold-style-cast -Wno-error=unused-variable -Wfloat-equal")
+-  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-    set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Wmost")
+-  endif()
+-  set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Werror")
+-endif()
+-
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTIMIZATION_FLAGS} ${DESIRED_WARNINGS}")
+-
+-IF(NOT WIN32 AND ENABLE_ASAN)
+-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
+-  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
++  set(CMAKE_BUILD_TYPE RelWithDebInfo)
+ endif()
+ 
+ # Detect big-endian architectures
+@@ -71,7 +42,7 @@ add_library(foxglove_bridge_base SHARED
    foxglove_bridge_base/src/test/test_client.cpp
  )
  target_include_directories(foxglove_bridge_base
