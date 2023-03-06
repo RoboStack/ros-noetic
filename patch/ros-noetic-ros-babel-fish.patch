@@ -1,5 +1,27 @@
+diff --git a/ros_babel_fish/CMakeLists.txt b/ros_babel_fish/CMakeLists.txt
+index 45e26fe..ce59662 100644
+--- a/ros_babel_fish/CMakeLists.txt
++++ b/ros_babel_fish/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.5.1)
++cmake_minimum_required(VERSION 3.10.2)
+ project(ros_babel_fish VERSION 0.9.1)
+ 
+ # If the value doesn't fit, an exception is thrown in any case because that could result in unexpected behavior and can not be ignored lightly
+@@ -8,8 +8,9 @@ if (WARN_ON_INCOMPATIBLE_TYPE)
+   add_definitions(-DRBF_WARN_ON_INCOMPATIBLE_TYPE)
+ endif ()
+ 
+-## Compile as C++11, supported in ROS Kinetic and newer
+-add_compile_options(-std=c++11)
++## Compile as C++17
++set(CMAKE_CXX_STANDARD 17)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+ add_definitions(-Wall -Wextra)
+ 
 diff --git a/ros_babel_fish/include/ros_babel_fish/message.h b/ros_babel_fish/include/ros_babel_fish/message.h
-index 278378c..fb7184e 100644
+index 278378c..cbff795 100644
 --- a/ros_babel_fish/include/ros_babel_fish/message.h
 +++ b/ros_babel_fish/include/ros_babel_fish/message.h
 @@ -8,7 +8,9 @@
@@ -9,6 +31,64 @@ index 278378c..fb7184e 100644
 +#include <cstdint>
  #include <memory>
 +#include <stddef.h>
+ 
+ namespace ros_babel_fish
+ {
+@@ -64,7 +66,7 @@ public:
+   /*!
+    * Alias for _stream(). Removed in future release.
+    */
+-  __attribute_deprecated__ const uint8_t *data() const { return _stream(); }
++  const uint8_t *data() const { return _stream(); }
+ 
+   /*!
+    * @return Size of the message in bytes if serialized in ROS message binary format
+@@ -74,7 +76,7 @@ public:
+   /*!
+    * Alias for _sizeInBytes(). Removed in future release.
+    */
+-  __attribute_deprecated__ size_t size() const { return _sizeInBytes(); }
++  size_t size() const { return _sizeInBytes(); }
+ 
+   /*!
+    * @return Whether or not the message is detached from the stream. If false, the message is not fully copied and still relies on the translated message.
+diff --git a/ros_babel_fish/include/ros_babel_fish/messages/array_message.h b/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
+index 0dfd852..0d48675 100644
+--- a/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
++++ b/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
+@@ -117,7 +117,7 @@ public:
+    * Alias for assign
+    * Deprecated, will be removed in a future release
+    */
+-  __attribute_deprecated__ void setItem( size_t index, ArgumentType value ) { assign( index, value ); }
++  void setItem( size_t index, ArgumentType value ) { assign( index, value ); }
+ 
+   void push_back( ArgumentType value )
+   {
+@@ -139,7 +139,7 @@ public:
+    * Alias for push_back
+    * Deprecated, will be removed in a future release
+    */
+-  __attribute_deprecated__ void addItem( ArgumentType value ) { push_back( value ); }
++  void addItem( ArgumentType value ) { push_back( value ); }
+ 
+   size_t _sizeInBytes() const override
+   {
+diff --git a/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp b/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
+index d724b43..c15d5b3 100644
+--- a/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
++++ b/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
+@@ -5,11 +5,11 @@
+ 
+ #include <ros/package.h>
+ 
+-#include <experimental/filesystem>
++#include <filesystem>
+ #include <fstream>
+ #include <regex>
+ 
+-namespace fs = std::experimental::filesystem;
++namespace fs = std::filesystem;
  
  namespace ros_babel_fish
  {
