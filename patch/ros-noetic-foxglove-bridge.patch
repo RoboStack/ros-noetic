@@ -1,51 +1,76 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f32acfc..3b06d9f 100644
+index f32acfc..b3a57b3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -23,36 +23,7 @@ find_package(websocketpp REQUIRED)
+@@ -23,7 +23,7 @@ find_package(websocketpp REQUIRED)
  find_package(ZLIB REQUIRED)
  
  if(NOT CMAKE_BUILD_TYPE)
 -  set(CMAKE_BUILD_TYPE Debug)
--endif()
--
--if(CMAKE_BUILD_TYPE STREQUAL "Debug")
--  set(OPTIMIZATION_FLAGS "-DDEBUG")
--  if(NOT MSVC)
--    set(OPTIMIZATION_FLAGS "${OPTIMIZATION_FLAGS} -O0")
--    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fno-omit-frame-pointer")
--  endif()
--  message("-- Configuring debug build")
--else()
--  set(OPTIMIZATION_FLAGS "-DNDEBUG -O2")
--  message("-- Configuring release build")
--endif()
--
--if(MSVC)
--  set(DESIRED_WARNINGS "-WX")
--else()
--  set(DESIRED_WARNINGS "-Wall -Wextra -Wconversion -Wunreachable-code -Wuninitialized -pedantic-errors -Wold-style-cast -Wno-error=unused-variable -Wfloat-equal")
--  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
--    set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Wmost")
--  endif()
--  set(DESIRED_WARNINGS "${DESIRED_WARNINGS} -Werror")
--endif()
--
--set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTIMIZATION_FLAGS} ${DESIRED_WARNINGS}")
--
--IF(NOT WIN32 AND ENABLE_ASAN)
--  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
--  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
 +  set(CMAKE_BUILD_TYPE RelWithDebInfo)
  endif()
  
- # Detect big-endian architectures
-@@ -71,7 +42,7 @@ add_library(foxglove_bridge_base SHARED
+ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+@@ -63,15 +63,16 @@ if (ENDIAN)
+ endif()
+ 
+ # Build the foxglove_bridge_base library
+-add_library(foxglove_bridge_base SHARED
++add_library(foxglove_bridge_base STATIC
+   foxglove_bridge_base/src/foxglove_bridge.cpp
+   foxglove_bridge_base/src/parameter.cpp
+   foxglove_bridge_base/src/serialization.cpp
+   foxglove_bridge_base/src/server_factory.cpp
    foxglove_bridge_base/src/test/test_client.cpp
  )
++set_property(TARGET foxglove_bridge_base PROPERTY POSITION_INDEPENDENT_CODE ON)
  target_include_directories(foxglove_bridge_base
 -  PUBLIC
 +  SYSTEM PUBLIC
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
      $<INSTALL_INTERFACE:include>
  )
+@@ -106,7 +107,7 @@ if("$ENV{ROS_VERSION}" STREQUAL "1")
+       DEPENDS Boost
+     )
+ 
+-    add_library(foxglove_bridge_nodelet
++    add_library(foxglove_bridge_nodelet SHARED
+       ros1_foxglove_bridge/src/ros1_foxglove_bridge_nodelet.cpp
+       ros1_foxglove_bridge/src/param_utils.cpp
+       ros1_foxglove_bridge/src/service_utils.cpp
+diff --git a/foxglove_bridge_base/include/foxglove_bridge/websocket_server.hpp b/foxglove_bridge_base/include/foxglove_bridge/websocket_server.hpp
+index f72f5c1..e38abd7 100644
+--- a/foxglove_bridge_base/include/foxglove_bridge/websocket_server.hpp
++++ b/foxglove_bridge_base/include/foxglove_bridge/websocket_server.hpp
+@@ -82,8 +82,6 @@ public:
+   using MessagePtr = typename ServerType::message_ptr;
+   using Tcp = websocketpp::lib::asio::ip::tcp;
+ 
+-  static bool USES_TLS;
+-
+   explicit Server(std::string name, LogCallback logger, const ServerOptions& options);
+   virtual ~Server();
+ 
+@@ -447,7 +445,7 @@ inline void Server<ServerConfiguration>::start(const std::string& host, uint16_t
+     throw std::runtime_error("Failed to resolve the local endpoint: " + ec.message());
+   }
+ 
+-  const std::string protocol = USES_TLS ? "wss" : "ws";
++  const std::string protocol = _options.useTls ? "wss" : "ws";
+   auto address = endpoint.address();
+   _server.get_alog().write(APP, "WebSocket server listening at " + protocol + "://" +
+                                   IPAddressToString(address) + ":" +
+@@ -1062,12 +1060,6 @@ inline bool Server<ServerConfiguration>::hasCapability(const std::string& capabi
+          _options.capabilities.end();
+ }
+ 
+-template <>
+-bool Server<WebSocketNoTls>::USES_TLS = false;
+-
+-template <>
+-bool Server<WebSocketTls>::USES_TLS = true;
+-
+ template <>
+ inline void Server<WebSocketNoTls>::setupTlsHandler() {
+   _server.get_alog().write(APP, "Server running without TLS");
