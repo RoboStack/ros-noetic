@@ -1,5 +1,5 @@
 diff --git a/ros_babel_fish/CMakeLists.txt b/ros_babel_fish/CMakeLists.txt
-index 45e26fe..488bd71 100644
+index 45e26fe..d625e0f 100644
 --- a/ros_babel_fish/CMakeLists.txt
 +++ b/ros_babel_fish/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -37,7 +37,7 @@ index 45e26fe..488bd71 100644
  )
  
  ###########
-@@ -46,6 +47,7 @@ catkin_package(
+@@ -46,13 +47,13 @@ catkin_package(
  include_directories(
    include
    ${catkin_INCLUDE_DIRS}
@@ -45,6 +45,13 @@ index 45e26fe..488bd71 100644
    ${OPENSSL_INCLUDE_DIR}
  )
  
+ set(LIBRARIES
+   ${catkin_LIBRARIES}
+   OpenSSL::SSL
+-  stdc++fs
+ )
+ 
+ set(SOURCES
 diff --git a/ros_babel_fish/include/ros_babel_fish/message.h b/ros_babel_fish/include/ros_babel_fish/message.h
 index 278378c..50d36ec 100644
 --- a/ros_babel_fish/include/ros_babel_fish/message.h
