@@ -1,5 +1,5 @@
 diff --git a/ros_babel_fish/CMakeLists.txt b/ros_babel_fish/CMakeLists.txt
-index 45e26fe..4d3fe71 100644
+index 45e26fe..627a395 100644
 --- a/ros_babel_fish/CMakeLists.txt
 +++ b/ros_babel_fish/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -8,7 +8,7 @@ index 45e26fe..4d3fe71 100644
  project(ros_babel_fish VERSION 0.9.1)
  
  # If the value doesn't fit, an exception is thrown in any case because that could result in unexpected behavior and can not be ignored lightly
-@@ -9,7 +9,8 @@ if (WARN_ON_INCOMPATIBLE_TYPE)
+@@ -9,9 +9,9 @@ if (WARN_ON_INCOMPATIBLE_TYPE)
  endif ()
  
  ## Compile as C++11, supported in ROS Kinetic and newer
@@ -16,9 +16,11 @@ index 45e26fe..4d3fe71 100644
 +set(CMAKE_CXX_STANDARD 17)
 +set(CMAKE_CXX_STANDARD_REQUIRED ON)
  
- add_definitions(-Wall -Wextra)
+-add_definitions(-Wall -Wextra)
  
-@@ -20,6 +21,7 @@ add_definitions(-Wall -Wextra)
+ #set(CMAKE_BUILD_TYPE "Debug")
+ 
+@@ -20,6 +20,7 @@ add_definitions(-Wall -Wextra)
  ## is used, also find other catkin packages
  find_package(catkin REQUIRED COMPONENTS actionlib roscpp roslib std_msgs)
  find_package(OpenSSL REQUIRED)
@@ -26,7 +28,7 @@ index 45e26fe..4d3fe71 100644
  
  ###################################
  ## catkin specific configuration ##
-@@ -34,7 +36,7 @@ catkin_package(
+@@ -34,7 +35,7 @@ catkin_package(
    INCLUDE_DIRS include
    LIBRARIES ${PROJECT_NAME}
    CATKIN_DEPENDS actionlib roscpp roslib
@@ -35,7 +37,7 @@ index 45e26fe..4d3fe71 100644
  )
  
  ###########
-@@ -46,6 +48,7 @@ catkin_package(
+@@ -46,6 +47,7 @@ catkin_package(
  include_directories(
    include
    ${catkin_INCLUDE_DIRS}
@@ -98,7 +100,7 @@ index 0dfd852..0d48675 100644
    size_t _sizeInBytes() const override
    {
 diff --git a/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp b/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
-index d724b43..ce32011 100644
+index d724b43..f338bf8 100644
 --- a/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
 +++ b/ros_babel_fish/src/generation/providers/integrated_description_provider.cpp
 @@ -5,11 +5,11 @@
@@ -115,3 +117,21 @@ index d724b43..ce32011 100644
  
  namespace ros_babel_fish
  {
+@@ -133,7 +133,7 @@ MessageDescription::ConstPtr IntegratedDescriptionProvider::getMessageDescriptio
+   }
+ 
+   // Load message specification from file
+-  std::ifstream file_input( message_path );
++  std::ifstream file_input( message_path.string() );
+   file_input.seekg( 0, std::ios::end );
+   std::string specification;
+   specification.resize( file_input.tellg());
+@@ -177,7 +177,7 @@ ServiceDescription::ConstPtr IntegratedDescriptionProvider::getServiceDescriptio
+   }
+ 
+   // Load service specification from file
+-  std::ifstream file_input( service_path );
++  std::ifstream file_input( service_path.string() );
+   file_input.seekg( 0, std::ios::end );
+   std::string spec;
+   spec.resize( file_input.tellg());
