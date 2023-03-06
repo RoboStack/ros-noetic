@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f32acfc..afec8d9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -71,7 +71,7 @@ add_library(foxglove_bridge_base SHARED
+   foxglove_bridge_base/src/test/test_client.cpp
+ )
+ target_include_directories(foxglove_bridge_base
+-  PUBLIC
++  SYSTEM PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
+     $<INSTALL_INTERFACE:include>
+ )
