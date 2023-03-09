@@ -52,6 +52,19 @@ index 45e26fe..d625e0f 100644
  )
  
  set(SOURCES
+diff --git a/ros_babel_fish/examples/rosbag_frame_ids.cpp b/ros_babel_fish/examples/rosbag_frame_ids.cpp
+index 1aae260..ab0f36e 100644
+--- a/ros_babel_fish/examples/rosbag_frame_ids.cpp
++++ b/ros_babel_fish/examples/rosbag_frame_ids.cpp
+@@ -47,7 +47,7 @@ public:
+ 
+   const uint8_t *buffer() const final
+   {
+-    if ( buffer_.empty() and size() > 0 )
++    if ( buffer_.empty() && size() > 0 )
+     {
+       buffer_.resize( size());
+       ros::serialization::OStream stream( buffer_.data(), buffer_.size());
 diff --git a/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h b/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h
 index 8714b5b..a7c1580 100644
 --- a/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h
