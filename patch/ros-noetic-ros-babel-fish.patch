@@ -52,6 +52,61 @@ index 45e26fe..d625e0f 100644
  )
  
  set(SOURCES
+diff --git a/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h b/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h
+index 8714b5b..a7c1580 100644
+--- a/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h
++++ b/ros_babel_fish/include/ros_babel_fish/actionlib/client/babel_fish_action_client.h
+@@ -179,20 +179,20 @@ private:
+     // Start publishers and subscribers
+     goal_pub_ = advertiseGoal( description, "goal", static_cast<uint32_t>(pub_queue_size),
+                                boost::bind( &ConnectionMonitor::goalConnectCallback, connection_monitor_,
+-                                            _1 ),
++                                            boost::placeholders::_1 ),
+                                boost::bind( &ConnectionMonitor::goalDisconnectCallback,
+-                                            connection_monitor_, _1 ),
++                                            connection_monitor_, boost::placeholders::_1 ),
+                                queue );
+     cancel_pub_ =
+       queue_advertise<actionlib_msgs::GoalID>( "cancel", static_cast<uint32_t>(pub_queue_size),
+                                                boost::bind( &ConnectionMonitor::cancelConnectCallback,
+-                                                            connection_monitor_, _1 ),
++                                                            connection_monitor_, boost::placeholders::_1 ),
+                                                boost::bind( &ConnectionMonitor::cancelDisconnectCallback,
+-                                                            connection_monitor_, _1 ),
++                                                            connection_monitor_, boost::placeholders::_1 ),
+                                                queue );
+ 
+-    manager_.registerSendGoalFunc( boost::bind( &ActionClientT::sendGoalFunc, this, _1 ));
+-    manager_.registerCancelFunc( boost::bind( &ActionClientT::sendCancelFunc, this, _1 ));
++    manager_.registerSendGoalFunc( boost::bind( &ActionClientT::sendGoalFunc, this, boost::placeholders::_1 ));
++    manager_.registerCancelFunc( boost::bind( &ActionClientT::sendCancelFunc, this, boost::placeholders::_1 ));
+   }
+ 
+   ros::Publisher advertiseGoal( const ::ros_babel_fish::MessageDescription::ConstPtr &description,
+@@ -235,7 +235,7 @@ private:
+     ops.datatype = ros::message_traits::datatype<M>();
+     ops.helper = ros::SubscriptionCallbackHelperPtr(
+       new ros::SubscriptionCallbackHelperT<const ros::MessageEvent<M const> &>(
+-        boost::bind( fp, obj, _1 )
++        boost::bind( fp, obj, boost::placeholders::_1 )
+       )
+     );
+     return n_.subscribe( ops );
+diff --git a/ros_babel_fish/include/ros_babel_fish/actionlib/client/simple_action_client.h b/ros_babel_fish/include/ros_babel_fish/actionlib/client/simple_action_client.h
+index 29e4db8..ed69bdf 100644
+--- a/ros_babel_fish/include/ros_babel_fish/actionlib/client/simple_action_client.h
++++ b/ros_babel_fish/include/ros_babel_fish/actionlib/client/simple_action_client.h
+@@ -319,8 +319,8 @@ void SimpleActionClient<::ros_babel_fish::BabelFishAction_<ContainerAllocator> >
+   cur_simple_state_ = SimpleGoalState::PENDING;
+ 
+   // Send the goal to the ActionServer
+-  gh_ = ac_->sendGoal( goal, boost::bind( &SimpleActionClientT::handleTransition, this, _1 ),
+-                       boost::bind( &SimpleActionClientT::handleFeedback, this, _1, _2 ));
++  gh_ = ac_->sendGoal( goal, boost::bind( &SimpleActionClientT::handleTransition, this, boost::placeholders::_1 ),
++                       boost::bind( &SimpleActionClientT::handleFeedback, this, boost::placeholders::_1, boost::placeholders::_2 ));
+ }
+ 
+ template<class ContainerAllocator>
 diff --git a/ros_babel_fish/include/ros_babel_fish/message.h b/ros_babel_fish/include/ros_babel_fish/message.h
 index 278378c..50d36ec 100644
 --- a/ros_babel_fish/include/ros_babel_fish/message.h
@@ -92,7 +147,7 @@ index 278378c..50d36ec 100644
    /*!
     * @return Whether or not the message is detached from the stream. If false, the message is not fully copied and still relies on the translated message.
 diff --git a/ros_babel_fish/include/ros_babel_fish/messages/array_message.h b/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
-index 0dfd852..0d48675 100644
+index 0dfd852..cc65e00 100644
 --- a/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
 +++ b/ros_babel_fish/include/ros_babel_fish/messages/array_message.h
 @@ -117,7 +117,7 @@ public:
@@ -113,6 +168,157 @@ index 0dfd852..0d48675 100644
  
    size_t _sizeInBytes() const override
    {
+@@ -219,41 +219,6 @@ protected:
+ };
+ 
+ 
+-//! Specialization for Message
+-template<>
+-ArrayMessage<Message>::ArrayMessage( MessageType element_type, size_t length, bool fixed_length,
+-                                     const uint8_t *stream, bool );
+-
+-template<>
+-ArrayMessage<Message>::~ArrayMessage();
+-
+-template<>
+-Message &ArrayMessage<Message>::operator[]( size_t index );
+-
+-template<>
+-const Message &ArrayMessage<Message>::operator[]( size_t index ) const;
+-
+-template<>
+-void ArrayMessage<Message>::assign( size_t index, Message *value );
+-
+-template<>
+-size_t ArrayMessage<Message>::_sizeInBytes() const;
+-
+-template<>
+-size_t ArrayMessage<Message>::writeToStream( uint8_t *stream ) const;
+-
+-template<>
+-inline void ArrayMessage<Message>::detachFromStream()
+-{
+-  /* So compiler won't complain. This specialization can not be from stream anyway. */
+-}
+-
+-template<>
+-ArrayMessage<Message> &ArrayMessage<Message>::operator=( const ArrayMessage<Message> &other );
+-
+-template<>
+-Message *ArrayMessage<Message>::clone() const;
+-
+ //! Specialization for CompoundMessage
+ class CompoundArrayMessage : public ArrayMessage<Message>
+ {
+@@ -287,6 +252,108 @@ private:
+   MessageTemplate::ConstPtr msg_template_;
+ };
+ 
++
++//! Specialization for Message
++template<>
++inline ArrayMessage<Message>::ArrayMessage( MessageType element_type, size_t length, bool fixed_length, const uint8_t *stream,
++                                     bool )
++  : ArrayMessageBase( element_type, length, fixed_length, stream ), values_( 0 ), from_stream_( false ) { }
++
++template<>
++inline ArrayMessage<Message>::~ArrayMessage()
++{
++  for ( auto &entry : values_ )
++  {
++    delete entry;
++  }
++  values_.clear();
++}
++
++template<>
++inline Message &ArrayMessage<Message>::operator[]( size_t index )
++{
++  return *values_[index];
++}
++
++template<>
++inline const Message &ArrayMessage<Message>::operator[]( size_t index ) const
++{
++  return *values_[index];
++}
++
++template<>
++inline void ArrayMessage<Message>::assign( size_t index, Message *value )
++{
++  if ( index >= length_ )
++    throw BabelFishException( "Index in setItem was out of bounds! Maybe you meant push_back?" );
++  delete values_[index];
++  values_[index] = value;
++}
++
++template<>
++inline size_t ArrayMessage<Message>::_sizeInBytes() const
++{
++  size_t result = (fixed_length_ ? 0 : 4);
++  for ( auto &value : values_ )
++  {
++    result += value->_sizeInBytes();
++  }
++  return result;
++}
++
++template<>
++inline size_t ArrayMessage<Message>::writeToStream( uint8_t *stream ) const
++{
++  size_t offset = 0;
++  if ( !fixed_length_ )
++  {
++    *reinterpret_cast<uint32_t *>(stream) = length_;
++    offset = 4;
++  }
++  for ( auto &value : values_ )
++  {
++    offset += value->writeToStream( stream + offset );
++  }
++  return offset;
++}
++
++template<>
++inline ArrayMessage<Message> &ArrayMessage<Message>::operator=( const ArrayMessage<Message> &other )
++{
++  if ( type() != other.type() ||
++       (elementType() == MessageTypes::Compound &&
++        as<CompoundArrayMessage>().elementDataType() != other.as<CompoundArrayMessage>().elementDataType()))
++    throw BabelFishException( "Can not assign incompatible ArrayMessage! They need to have exactly the same type!" );
++  for ( auto &entry : values_ )
++  {
++    delete entry;
++  }
++  values_.clear();
++  values_.reserve( other._sizeInBytes());
++  std::transform( other.values_.begin(), other.values_.end(), std::back_inserter( values_ ),
++                  []( Message *m ) { return m->clone(); } );
++  length_ = other.length_;
++  fixed_length_ = other.fixed_length_;
++  stream_ = other.stream_;
++  return *this;
++}
++
++template<>
++inline Message *ArrayMessage<Message>::clone() const
++{
++  auto result = new ArrayMessage<Message>( elementType(), length(), isFixedSize(), stream_ );
++  result->values_.clear();
++  std::transform( values_.begin(), values_.end(), std::back_inserter( result->values_ ),
++                  []( Message *m ) { return m->clone(); } );
++  return result;
++}
++
++template<>
++inline void ArrayMessage<Message>::detachFromStream()
++{
++  /* So compiler won't complain. This specialization can not be from stream anyway. */
++}
++
+ //! Specialization for Bool
+ template<>
+ bool ArrayMessage<bool>::operator[]( size_t index );
 diff --git a/ros_babel_fish/src/generation/description_provider.cpp b/ros_babel_fish/src/generation/description_provider.cpp
 index 1f493bd..c3fd3c5 100644
 --- a/ros_babel_fish/src/generation/description_provider.cpp
@@ -179,15 +385,115 @@ index d724b43..f338bf8 100644
    std::string spec;
    spec.resize( file_input.tellg());
 diff --git a/ros_babel_fish/src/messages/array_message.cpp b/ros_babel_fish/src/messages/array_message.cpp
-index c1c302b..d3cdb96 100644
+index c1c302b..f79e902 100644
 --- a/ros_babel_fish/src/messages/array_message.cpp
 +++ b/ros_babel_fish/src/messages/array_message.cpp
-@@ -521,6 +521,13 @@ size_t ArrayMessage<ros::Duration>::writeToStream( uint8_t *stream ) const
+@@ -11,100 +11,6 @@ namespace ros_babel_fish
+ //! ============== Message Specialization =============
+ //! ===================================================
+ 
+-template<>
+-ArrayMessage<Message>::ArrayMessage( MessageType element_type, size_t length, bool fixed_length, const uint8_t *stream,
+-                                     bool )
+-  : ArrayMessageBase( element_type, length, fixed_length, stream ), values_( 0 ), from_stream_( false ) { }
+-
+-template<>
+-ArrayMessage<Message>::~ArrayMessage()
+-{
+-  for ( auto &entry : values_ )
+-  {
+-    delete entry;
+-  }
+-  values_.clear();
+-}
+-
+-template<>
+-Message &ArrayMessage<Message>::operator[]( size_t index )
+-{
+-  return *values_[index];
+-}
+-
+-template<>
+-const Message &ArrayMessage<Message>::operator[]( size_t index ) const
+-{
+-  return *values_[index];
+-}
+-
+-template<>
+-void ArrayMessage<Message>::assign( size_t index, Message *value )
+-{
+-  if ( index >= length_ )
+-    throw BabelFishException( "Index in setItem was out of bounds! Maybe you meant push_back?" );
+-  delete values_[index];
+-  values_[index] = value;
+-}
+-
+-template<>
+-size_t ArrayMessage<Message>::_sizeInBytes() const
+-{
+-  size_t result = (fixed_length_ ? 0 : 4);
+-  for ( auto &value : values_ )
+-  {
+-    result += value->_sizeInBytes();
+-  }
+-  return result;
+-}
+-
+-template<>
+-size_t ArrayMessage<Message>::writeToStream( uint8_t *stream ) const
+-{
+-  size_t offset = 0;
+-  if ( !fixed_length_ )
+-  {
+-    *reinterpret_cast<uint32_t *>(stream) = length_;
+-    offset = 4;
+-  }
+-  for ( auto &value : values_ )
+-  {
+-    offset += value->writeToStream( stream + offset );
+-  }
+-  return offset;
+-}
+-
+-template<>
+-ArrayMessage<Message> &ArrayMessage<Message>::operator=( const ArrayMessage<Message> &other )
+-{
+-  if ( type() != other.type() ||
+-       (elementType() == MessageTypes::Compound &&
+-        as<CompoundArrayMessage>().elementDataType() != other.as<CompoundArrayMessage>().elementDataType()))
+-    throw BabelFishException( "Can not assign incompatible ArrayMessage! They need to have exactly the same type!" );
+-  for ( auto &entry : values_ )
+-  {
+-    delete entry;
+-  }
+-  values_.clear();
+-  values_.reserve( other._sizeInBytes());
+-  std::transform( other.values_.begin(), other.values_.end(), std::back_inserter( values_ ),
+-                  []( Message *m ) { return m->clone(); } );
+-  length_ = other.length_;
+-  fixed_length_ = other.fixed_length_;
+-  stream_ = other.stream_;
+-  return *this;
+-}
+-
+-template<>
+-Message *ArrayMessage<Message>::clone() const
+-{
+-  auto result = new ArrayMessage<Message>( elementType(), length(), isFixedSize(), stream_ );
+-  result->values_.clear();
+-  std::transform( values_.begin(), values_.end(), std::back_inserter( result->values_ ),
+-                  []( Message *m ) { return m->clone(); } );
+-  return result;
+-}
+-
+ //! ===================================================
+ //! =============== Bool Specialization ===============
+ //! ===================================================
+@@ -521,6 +427,12 @@ size_t ArrayMessage<ros::Duration>::writeToStream( uint8_t *stream ) const
    return length;
  }
  
 +// Explicit template instantiation;
-+// template class ArrayMessage<Message>;
 +template class ArrayMessage<bool>;
 +template class ArrayMessage<ros::Time>;
 +template class ArrayMessage<ros::Duration>;

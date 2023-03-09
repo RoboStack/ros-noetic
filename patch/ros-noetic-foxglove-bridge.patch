@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 65d6e82..51cbf8c 100644
+index 65d6e82..5d8f319 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -47,7 +47,7 @@ add_library(foxglove_bridge_base SHARED
@@ -11,3 +11,12 @@ index 65d6e82..51cbf8c 100644
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
      $<INSTALL_INTERFACE:include>
  )
+@@ -62,7 +62,7 @@ if(nlohmann_json_FOUND)
+ else()
+   message(STATUS "nlohmann_json not found, will search at compile time")
+ endif()
+-enable_strict_compiler_warnings(foxglove_bridge_base)
++# enable_strict_compiler_warnings(foxglove_bridge_base)
+ 
+ message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
+ message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
