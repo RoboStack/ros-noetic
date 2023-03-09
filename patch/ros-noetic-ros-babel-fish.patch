@@ -178,6 +178,24 @@ index d724b43..f338bf8 100644
    file_input.seekg( 0, std::ios::end );
    std::string spec;
    spec.resize( file_input.tellg());
+diff --git a/ros_babel_fish/src/messages/array_message.cpp b/ros_babel_fish/src/messages/array_message.cpp
+index c1c302b..d3cdb96 100644
+--- a/ros_babel_fish/src/messages/array_message.cpp
++++ b/ros_babel_fish/src/messages/array_message.cpp
+@@ -521,6 +521,13 @@ size_t ArrayMessage<ros::Duration>::writeToStream( uint8_t *stream ) const
+   return length;
+ }
+ 
++// Explicit template instantiation;
++// template class ArrayMessage<Message>;
++template class ArrayMessage<bool>;
++template class ArrayMessage<ros::Time>;
++template class ArrayMessage<ros::Duration>;
++template class ArrayMessage<std::string>;
++
+ //! ===================================================
+ //! ================== CompoundArray ==================
+ //! ===================================================
 diff --git a/ros_babel_fish/src/messages/value_message.cpp b/ros_babel_fish/src/messages/value_message.cpp
 index 2f640e3..512fe34 100644
 --- a/ros_babel_fish/src/messages/value_message.cpp
