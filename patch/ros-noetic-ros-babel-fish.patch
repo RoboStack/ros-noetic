@@ -178,3 +178,19 @@ index d724b43..f338bf8 100644
    file_input.seekg( 0, std::ios::end );
    std::string spec;
    spec.resize( file_input.tellg());
+diff --git a/ros_babel_fish/src/messages/value_message.cpp b/ros_babel_fish/src/messages/value_message.cpp
+index 2f640e3..512fe34 100644
+--- a/ros_babel_fish/src/messages/value_message.cpp
++++ b/ros_babel_fish/src/messages/value_message.cpp
+@@ -180,4 +180,11 @@ size_t ValueMessage<std::string>::writeToStream( uint8_t *stream ) const
+   memcpy( stream, value_.data(), value_.length());
+   return value_.length() + sizeof( uint32_t );
+ }
++
++// Explicit template instantiation;
++template class ValueMessage<bool>;
++template class ValueMessage<ros::Time>;
++template class ValueMessage<ros::Duration>;
++template class ValueMessage<std::string>;
++
+ }
