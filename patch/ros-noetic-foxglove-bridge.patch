@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index efc65dc..a353b11 100644
+index efc65dc..994d91b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -14,6 +14,11 @@ project(foxglove_bridge LANGUAGES CXX VERSION 0.5.1)
@@ -23,13 +23,16 @@ index efc65dc..a353b11 100644
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
      $<INSTALL_INTERFACE:include>
  )
-@@ -62,7 +67,8 @@ if(nlohmann_json_FOUND)
+@@ -62,7 +67,11 @@ if(nlohmann_json_FOUND)
  else()
    message(STATUS "nlohmann_json not found, will search at compile time")
  endif()
 -enable_strict_compiler_warnings(foxglove_bridge_base)
 +# enable_strict_compiler_warnings(foxglove_bridge_base)
 +target_compile_definitions(foxglove_bridge_base PUBLIC _WEBSOCKETPP_CPP11_STL_)
++
++set(ROS_VERSION 1)
++set(ROS_DISTRO noetic)
  
  message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
  message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
