@@ -31,8 +31,8 @@ index efc65dc..994d91b 100644
 +# enable_strict_compiler_warnings(foxglove_bridge_base)
 +target_compile_definitions(foxglove_bridge_base PUBLIC _WEBSOCKETPP_CPP11_STL_)
 +
-+set(ROS_VERSION 1)
-+set(ROS_DISTRO noetic)
++set(ENV{ROS_VERSION} 1)
++set(ENV{ROS_DISTRO} noetic)
  
  message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
  message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
