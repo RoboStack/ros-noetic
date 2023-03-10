@@ -1,8 +1,20 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index efc65dc..73a00b9 100644
+index efc65dc..a353b11 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -47,7 +47,7 @@ add_library(foxglove_bridge_base SHARED
+@@ -14,6 +14,11 @@ project(foxglove_bridge LANGUAGES CXX VERSION 0.5.1)
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
++if(MSVC)
++    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
++    set(BUILD_SHARED_LIBS TRUE)
++endif()
++
+ macro(enable_strict_compiler_warnings target)
+   target_compile_options(${target} PRIVATE
+     $<$<CXX_COMPILER_ID:MSVC>:/WX /W4>
+@@ -47,7 +52,7 @@ add_library(foxglove_bridge_base SHARED
    foxglove_bridge_base/src/test/test_client.cpp
  )
  target_include_directories(foxglove_bridge_base
@@ -11,7 +23,7 @@ index efc65dc..73a00b9 100644
      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
      $<INSTALL_INTERFACE:include>
  )
-@@ -62,7 +62,8 @@ if(nlohmann_json_FOUND)
+@@ -62,7 +67,8 @@ if(nlohmann_json_FOUND)
  else()
    message(STATUS "nlohmann_json not found, will search at compile time")
  endif()
