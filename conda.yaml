@@ -898,6 +898,8 @@ uuid:
     win64: []
 virtualenv:
   conda: [virtualenv]
+libwebsocketpp-dev:
+  conda: [websocketpp]
 wget:
   conda: [wget]
 wx-common:
