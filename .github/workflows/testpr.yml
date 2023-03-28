@@ -131,33 +131,41 @@ jobs:
         vinca --platform win-64
         ls
         cat recipe.yaml
+    - name: Check if there are packages to be built
+      id: newrecipecheck
+      shell: bash -l {0}
+      run: |
+        # continue on error
+        set +e
+        grep -q "outputs: \[\]" recipe.yaml > /dev/null
+        echo "::set-output name=RECIPE_CREATED::${?}"
     - name: Build recipes for Linux
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for Linux-ARM64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
     - name: Build recipes for macOS
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for macOS-ARM64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-arm64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
     - name: Build recipes for Windows
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml

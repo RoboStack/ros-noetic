@@ -33,7 +33,7 @@ build_in_own_azure_stage:
   - ros-noetic-jsk-perception
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
@@ -41,6 +41,8 @@ packages_select_by_deps:
   - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
+  - moveit_visual_tools
+  - rviz_visual_tools
 
   # - desktop
   # - desktop-full
