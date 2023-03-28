@@ -40,6 +40,8 @@ packages_select_by_deps:
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
   - rviz_visual_tools
+  - visp
+  - usb-cam
 
   # - sick-tim
   # - python-qt-binding
