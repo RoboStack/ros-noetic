@@ -42,6 +42,7 @@ packages_select_by_deps:
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
+  - moveit-servo
   - rviz_visual_tools
 
   # - desktop
@@ -520,7 +521,6 @@ packages_select_by_deps:
   # - monocam-settler
   # - move-base-flex
   # - moveit-resources-prbt-ikfast-manipulator-plugin
-  # - moveit-servo
   # - nav-2d-utils
   # - nav-core2
   # - nav-grid-iterators
