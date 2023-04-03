@@ -36,6 +36,9 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
 
+  - plotjuggler
+  - plotjuggler_ros
+
   # - python-qt-binding
   # - qt-gui
   # - qt-gui-cpp
@@ -167,7 +170,6 @@ packages_select_by_deps:
 
   # Fix after rebuild
   # - ur_client_library
-  # - plotjuggler_ros
   # - tsid
   # - mavros
   # - tesseract-collision
