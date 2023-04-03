@@ -22,7 +22,7 @@ benchmark:
 binutils:
   robostack:
     linux: [binutils]
-    osx: [binutils]
+    osx: []
     win64: []
 bison:
   robostack: [bison]
