@@ -22,7 +22,7 @@ benchmark:
 binutils:
   conda:
     linux: [binutils]
-    osx: [binutils]
+    osx: []
     win64: []
 bison:
   conda: [bison]
