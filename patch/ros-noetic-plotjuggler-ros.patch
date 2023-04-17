@@ -11,3 +11,16 @@ index 0ea008c..289b880 100644
  
      if (line.compare(0, 5, "MSG: ") == 0)
      {
+diff --git a/plugins/ros1_parsers/fiveai_stamped_diagnostic.h b/plugins/ros1_parsers/fiveai_stamped_diagnostic.h
+index cdf758a..1fc84dd 100644
+--- a/plugins/ros1_parsers/fiveai_stamped_diagnostic.h
++++ b/plugins/ros1_parsers/fiveai_stamped_diagnostic.h
+@@ -100,7 +100,7 @@ class FiveAiDiagnosticMsg : public RosMessageParser
+       {
+         auto key = fmt::format("{}/{}/status", _topic_name, replaced_key);
+         auto& series = getSeries(key);
+-        series.pushBack({ timestamp, diag.status });
++        series.pushBack({ timestamp, static_cast<double>(diag.status) });
+       }
+ 
+     }
