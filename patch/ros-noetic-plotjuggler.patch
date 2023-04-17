@@ -1,3 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1bb82856..1f332a0b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -185,6 +185,8 @@ add_library( plotjuggler_base
+      plotjuggler_base/src/special_messages.cpp
+      )
+ 
++target_link_libraries(plotjuggler_base ${QT_LINK_LIBRARIES} lua_static plotjuggler_qwt)
++
+ # target_link_libraries(plotjuggler_base plotjuggler_qwt)
+ target_include_directories(plotjuggler_base INTERFACE
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
 index 6b650f1b..bc46abe9 100644
 --- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt

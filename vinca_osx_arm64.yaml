@@ -41,6 +41,9 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
 
+  - plotjuggler
+  - plotjuggler_ros
+
   # - sick-tim
   # - python-qt-binding
   # - qt-gui
