@@ -37,6 +37,7 @@ packages_select_by_deps:
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
   - rviz_visual_tools
+  - rgbd-launch
 
   # - desktop
   # - rqt-gui
@@ -353,7 +354,6 @@ packages_select_by_deps:
   # - rc-common-msgs
   # - rc-visard-description
   # - remote-rosbag-record
-  # - rgbd-launch
   # - robot-calibration-msgs
   # - robot-controllers-msgs
   # - robot-upstart

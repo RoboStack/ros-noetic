@@ -44,6 +44,7 @@ packages_select_by_deps:
   - moveit_visual_tools
   - moveit-servo
   - rviz_visual_tools
+  - rgbd-launch
 
   # - desktop
   # - desktop-full
@@ -906,7 +907,6 @@ packages_select_by_deps:
   # - rc-genicam-api
   # - rc-visard-description
   # - remote-rosbag-record
-  # - rgbd-launch
   # - robot-calibration-msgs
   # - robot-controllers-msgs
   # - roboticsgroup-upatras-gazebo-plugins
