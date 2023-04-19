@@ -71,7 +71,7 @@ index 0000000..9353bab
 +define-macros = [@SIP_EXTRA_DEFINES@]
 +exceptions = true
 diff --git a/cmake/sip_helper.cmake b/cmake/sip_helper.cmake
-index a055cf5..5e058a7 100644
+index a055cf5..8f32039 100644
 --- a/cmake/sip_helper.cmake
 +++ b/cmake/sip_helper.cmake
 @@ -18,7 +18,7 @@ execute_process(
@@ -99,7 +99,7 @@ index a055cf5..5e058a7 100644
  #
  # Run the SIP generator and compile the generated code into a library.
  #
-@@ -89,32 +98,98 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
+@@ -89,32 +98,107 @@ function(build_sip_binding PROJECT_NAME SIP_FILE)
      # SIP configure doesn't handle CMake targets
      catkin_replace_imported_library_targets(LIBRARIES ${LIBRARIES})
  
@@ -135,7 +135,15 @@ index a055cf5..5e058a7 100644
 +        set(SIP_LIBARIES "")
 +        set(SIP_LIBRARY_DIRS "")
 +
-+        foreach(_x ${LIBRARIES} ${PYTHON_LIBRARIES})
++        if(APPLE)
++          set(LIBRARIES_TO_LOOP ${LIBRARIES})
++        else()
++          set(LIBRARIES_TO_LOOP ${LIBRARIES} ${PYTHON_LIBRARIES})
++        endif()
++
++        # message(WARNING "test LIBRARIES_TO_LOOP: ${LIBRARIES_TO_LOOP}")
++
++        foreach(_x ${LIBRARIES_TO_LOOP})
 +          get_filename_component(_x_NAME "${_x}" NAME_WLE)
 +          get_filename_component(_x_DIR "${_x}" DIRECTORY)
 +          get_filename_component(_x "${_x_DIR}/${_x_NAME}" ABSOLUTE)
@@ -157,12 +165,13 @@ index a055cf5..5e058a7 100644
 +          endif()
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBARIES ${SIP_LIBARIES})
++        # message(WARNING "test SIP_LIBARIES: ${SIP_LIBARIES}")
 +        foreach(_x ${LIBRARY_DIRS})
 +          set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBRARY_DIRS ${SIP_LIBRARY_DIRS})
 +
-+        message(WARNING "test lib dir: ${SIP_LIBRARY_DIRS}")
++        # message(WARNING "test lib dir: ${SIP_LIBRARY_DIRS}")
 +        # TODO:
 +        #   I don't know what to do about LDFLAGS_OTHER
 +        #   what's the equivalent construct in sip5?
@@ -173,7 +182,7 @@ index a055cf5..5e058a7 100644
 +        )
 +        add_custom_command(
 +            OUTPUT ${sip_LIBRARY_DIR}/lib${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}
-+            COMMAND ${PYTHON_EXECUTABLE} -m pip install . --target ${sip_LIBRARY_DIR} --no-deps --verbose
++            COMMAND ${PYTHON_EXECUTABLE} -m pip install . --target ${sip_LIBRARY_DIR} --no-deps --verbose --upgrade
 +            DEPENDS ${sip_SIP_CONFIGURE} ${SIP_FILE} ${sip_DEPENDS}
 +            WORKING_DIRECTORY ${sip_BINARY_DIR}/sip
 +            COMMENT "Running SIP-build generator for ${PROJECT_NAME} Python bindings..."

@@ -29,6 +29,10 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
+  - rviz
+  - rospack
+  - python-qt-binding
+  - qt-gui-cpp
   - actionlib
   - foxglove_bridge
   - ros-babel-fish

@@ -34,6 +34,10 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
+  - rviz
+  - rospack
+  - python-qt-binding
+  - qt-gui-cpp
   - actionlib
   - foxglove_bridge
   - ros-babel-fish
