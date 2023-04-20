@@ -1,10 +1,8 @@
 ---
 name: Missing Package Request
-about: Request a ROS package to be packaged in RoboStack
+description: Request a ROS package to be packaged in RoboStack
 title: 'Package request: PACKAGE_NAME'
 labels: additional-packages
-assignees: ''
-
 ---
 
 ## Missing Package Request
