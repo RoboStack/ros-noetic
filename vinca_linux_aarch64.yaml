@@ -34,6 +34,7 @@ packages_select_by_deps:
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
   - rviz_visual_tools
+  - rgbd-launch
 
   # - rqt-gui
   # - catkin
