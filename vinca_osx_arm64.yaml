@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 6
+build_number: 7
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -34,20 +34,20 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  - rviz
   - rospack
-  - python-qt-binding
-  - qt-gui-cpp
-  - actionlib
-  - foxglove_bridge
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - rviz_visual_tools
-  - rgbd-launch
+  # - rviz
+  # - python-qt-binding
+  # - qt-gui-cpp
+  # - actionlib
+  # - foxglove_bridge
+  # - ros-babel-fish
+  # - ros-babel-fish-test-msgs
+  # - moveit_visual_tools
+  # - rviz_visual_tools
+  # - rgbd-launch
 
-  - plotjuggler
-  - plotjuggler_ros
+  # - plotjuggler
+  # - plotjuggler_ros
 
   # - sick-tim
   # - python-qt-binding
