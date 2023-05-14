@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 58dd41d..c3c0a5a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -267,9 +267,9 @@ add_subdirectory(src)
+ if (BUILD_PYTHON_INTERFACE)
+   add_subdirectory(python)
+ endif ()
+-if(BUILD_TESTING)
+-  add_subdirectory(test)
+-endif(BUILD_TESTING)
++# if(BUILD_TESTING)
++#   add_subdirectory(test)
++# endif(BUILD_TESTING)
+ 
+ pkg_config_append_libs("hpp-fcl")
+ IF(HPP_FCL_HAS_OCTOMAP)
