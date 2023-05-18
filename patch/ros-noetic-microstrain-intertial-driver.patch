@@ -1,0 +1,19 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9192d7f..9be8dd3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -128,7 +128,6 @@ catkin_package(
+ include_directories(${catkin_INCLUDE_DIRS} include ${COMMON_DIR}/include)
+ 
+ # Set some general CMake flags
+-add_definitions(-std=c++11)
+ set(CMAKE_C_FLAGS "-Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-format -fno-builtin-memcpy")
+ 
+ set(LIB_SRC_FILES
+@@ -256,4 +255,4 @@ roslint_add_test()
+ add_test(
+   NAME wiki_publishers
+   COMMAND ${CMAKE_COMMAND} -E env ${COMMON_DIR}/tools/check-wiki-publishers.sh
+-)
+\ No newline at end of file
++)
