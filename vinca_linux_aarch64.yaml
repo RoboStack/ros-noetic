@@ -35,6 +35,8 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
   - rgbd-launch
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
 
   # - rqt-gui
   # - catkin
