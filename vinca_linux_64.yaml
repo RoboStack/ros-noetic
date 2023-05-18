@@ -46,6 +46,8 @@ packages_select_by_deps:
   - rviz_visual_tools
   - rgbd-launch
   - pinocchio
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
 
   # - desktop
   # - desktop-full
