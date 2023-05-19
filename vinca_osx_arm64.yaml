@@ -35,6 +35,8 @@ packages_select_by_deps:
   #  TODO OSX-ARM64
   ##
   - rospack
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
   # - rviz
   # - python-qt-binding
   # - qt-gui-cpp
