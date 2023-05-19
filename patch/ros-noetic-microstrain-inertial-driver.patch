@@ -33,7 +33,7 @@ index cc87fb6..9a79e3c 100644
  {
    return std::make_shared<::ros::Timer>(
 -      node->template createTimer(ros::Duration(1.0 / hz), [=](const ros::TimerEvent& event) { (obj->*fp)(); }));
-+      node->createTimer(::ros::Duration(1.0 / hz), [obj, fp](const ::ros::TimerEvent&) { (obj->*fp)(); });
++      node->createTimer(::ros::Duration(1.0 / hz), [obj, fp](const ::ros::TimerEvent&) { (obj->*fp)(); }));
  }
  
  /**
