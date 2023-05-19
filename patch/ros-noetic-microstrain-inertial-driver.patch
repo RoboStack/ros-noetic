@@ -24,3 +24,16 @@ index 9192d7f..9be8dd3 100644
  # Allow the MSCL include directory to be accessed
  include_directories(${MSCL_INC_PATH} ${BOOST_INC_PATH})
 
+diff --git a/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h b/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
+index cc87fb6..9a79e3c 100644
+--- a/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
++++ b/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
+@@ -565,7 +565,7 @@ template <class ClassType>
+ RosTimerType createTimer(RosNodeType* node, double hz, void (ClassType::*fp)(), ClassType* obj)
+ {
+   return std::make_shared<::ros::Timer>(
+-      node->template createTimer(ros::Duration(1.0 / hz), [=](const ros::TimerEvent& event) { (obj->*fp)(); }));
++      node->createTimer(::ros::Duration(1.0 / hz), [obj, fp](const ::ros::TimerEvent&) { (obj->*fp)(); });
+ }
+ 
+ /**
