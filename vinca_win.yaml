@@ -38,6 +38,7 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
   - rgbd-launch
+  - usb-cam
 
   # - desktop
   # - rqt-gui

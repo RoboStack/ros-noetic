@@ -48,6 +48,7 @@ packages_select_by_deps:
   - pinocchio
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
+  - usb-cam
 
   # - desktop
   # - desktop-full

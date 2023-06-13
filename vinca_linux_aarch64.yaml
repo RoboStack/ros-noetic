@@ -37,6 +37,7 @@ packages_select_by_deps:
   - rgbd-launch
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
+  - usb-cam
 
   # - rqt-gui
   # - catkin
