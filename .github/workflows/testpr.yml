@@ -38,10 +38,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: install mamba
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba@main
       with:
         environment-file: .github/testpr_environment.yml
-
+        condarc: |
+          channels:
+            - robostack-staging
+            - conda-forge
     - shell: bash -l {0}
       if: contains(matrix.os, 'linux-aarch64')
       run: |
