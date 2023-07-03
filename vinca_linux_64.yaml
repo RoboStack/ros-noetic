@@ -500,7 +500,7 @@ packages_select_by_deps:
   # - jsk-interactive
   # - jsk-interactive-test
   # - jsk-recognition
-  # - jsk-visualization
+  - jsk-visualization
   # - kdl-parser
   # - kobuki-msgs
   # - lanelet2-io
