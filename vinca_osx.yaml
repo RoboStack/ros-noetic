@@ -32,6 +32,7 @@ packages_select_by_deps:
   - rospack
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
+  - octomap-ros
 
   # - rviz
   # - python-qt-binding
@@ -648,7 +649,6 @@ packages_select_by_deps:
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
   # - ntpd-driver
-  # - octomap-ros
   # - odva-ethernetip
   # - openzen-sensor
   # - p2os-doc
