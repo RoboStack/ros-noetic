@@ -37,6 +37,7 @@ packages_select_by_deps:
   - rospack
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
+  - octomap-ros
 
   # - rviz
   # - python-qt-binding
