@@ -38,6 +38,7 @@ packages_select_by_deps:
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - usb-cam
+  - octomap-ros
 
   # - rqt-gui
   # - catkin
