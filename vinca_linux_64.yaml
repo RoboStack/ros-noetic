@@ -874,7 +874,7 @@ packages_select_by_deps:
   # - network-interface
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
-  # - octomap-ros
+  - octomap-ros
   # - octomap-rviz-plugins
   # - odva-ethernetip
   # - openzen-sensor
