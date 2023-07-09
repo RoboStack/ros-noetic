@@ -38,6 +38,7 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
   - rgbd-launch
+  - octomap-ros
 
   # - desktop
   # - rqt-gui
@@ -316,7 +317,6 @@ packages_select_by_deps:
   # - neonavigation-common
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
-  # - octomap-ros
   # - odva-ethernetip
   # - open-karto
   # - open-manipulator-msgs
