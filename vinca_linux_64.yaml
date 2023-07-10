@@ -45,7 +45,7 @@ packages_select_by_deps:
   - moveit-servo
   - rviz_visual_tools
   - rgbd-launch
-  - pinocchio
+  # - pinocchio
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - usb-cam
