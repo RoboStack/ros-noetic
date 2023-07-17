@@ -50,6 +50,7 @@ packages_select_by_deps:
   - microstrain-inertial-msgs
   - usb-cam
   - octomap-ros
+  - octomap-mapping
 
   # - desktop
   # - desktop-full
@@ -537,7 +538,6 @@ packages_select_by_deps:
   # - ntpd-driver
   # - obj-to-pointcloud
   # - ocean-battery-driver
-  # - octomap-mapping
   # - omron-os32c-driver
   # - open-manipulator-gazebo
   # - open-manipulator-msgs
