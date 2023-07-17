@@ -34,7 +34,8 @@ packages_select_by_deps:
   - microstrain-inertial-msgs
   - octomap-ros
   - octomap-mapping
-
+  - octomap-server
+  
   # - rviz
   # - python-qt-binding
   # - qt-gui-cpp
