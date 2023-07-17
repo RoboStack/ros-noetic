@@ -40,6 +40,7 @@ packages_select_by_deps:
   - rgbd-launch
   - octomap-ros
   - octomap-mapping
+  - octomap-server
 
   # - desktop
   # - rqt-gui
