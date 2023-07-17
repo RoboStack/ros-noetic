@@ -39,7 +39,7 @@ packages_select_by_deps:
   - microstrain-inertial-msgs
   - usb-cam
   - octomap-ros
-
+  - octomap-mapping
   # - rqt-gui
   # - catkin
   # - kdl-parser-py
