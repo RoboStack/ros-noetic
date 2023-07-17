@@ -40,6 +40,8 @@ packages_select_by_deps:
   - usb-cam
   - octomap-ros
   - octomap-mapping
+  - octomap-server
+
   # - rqt-gui
   # - catkin
   # - kdl-parser-py
