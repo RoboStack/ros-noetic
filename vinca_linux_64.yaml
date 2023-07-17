@@ -51,7 +51,7 @@ packages_select_by_deps:
   - usb-cam
   - octomap-ros
   - octomap-mapping
-
+  - octomap-server
   # - desktop
   # - desktop-full
   # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
