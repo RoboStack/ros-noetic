@@ -50,7 +50,8 @@ packages_select_by_deps:
   - microstrain-inertial-msgs
   - usb-cam
   - octomap-ros
-
+  - octomap-mapping
+  - octomap-server
   # - desktop
   # - desktop-full
   # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
@@ -537,7 +538,6 @@ packages_select_by_deps:
   # - ntpd-driver
   # - obj-to-pointcloud
   # - ocean-battery-driver
-  # - octomap-mapping
   # - omron-os32c-driver
   # - open-manipulator-gazebo
   # - open-manipulator-msgs

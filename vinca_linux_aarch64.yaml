@@ -39,6 +39,8 @@ packages_select_by_deps:
   - microstrain-inertial-msgs
   - usb-cam
   - octomap-ros
+  - octomap-mapping
+  - octomap-server
 
   # - rqt-gui
   # - catkin
