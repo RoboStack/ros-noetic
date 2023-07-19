@@ -39,8 +39,6 @@ packages_select_by_deps:
   - rviz_visual_tools
   - rgbd-launch
   - octomap-ros
-  - octomap-mapping
-  - octomap-server
 
   # - desktop
   # - rqt-gui
