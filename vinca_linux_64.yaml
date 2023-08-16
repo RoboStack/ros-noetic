@@ -52,6 +52,8 @@ packages_select_by_deps:
   - octomap-ros
   - octomap-mapping
   - octomap-server
+  - ackermann-msgs
+  - fake-localization
   # - desktop
   # - desktop-full
   # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
@@ -669,7 +671,6 @@ packages_select_by_deps:
   # - pinocchio
   # - rviz
   # - libuvc-ros
-  # - ackermann-msgs
   # - actionlib-tools
   # - agni-tf-tools
   # - app-manager

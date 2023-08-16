@@ -39,7 +39,9 @@ packages_select_by_deps:
   - rviz_visual_tools
   - rgbd-launch
   - octomap-ros
-
+  - ackermann-msgs
+  - fake-localization
+  
   # - desktop
   # - rqt-gui
   # - catkin
