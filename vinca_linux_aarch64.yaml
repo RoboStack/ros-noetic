@@ -41,6 +41,8 @@ packages_select_by_deps:
   - octomap-ros
   - octomap-mapping
   - octomap-server
+  - ackermann-msgs
+  - fake-localization
 
   # - rqt-gui
   # - catkin

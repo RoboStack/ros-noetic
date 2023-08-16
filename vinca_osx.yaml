@@ -33,7 +33,9 @@ packages_select_by_deps:
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - octomap-ros
-  
+  - ackermann-msgs
+  - fake-localization
+
   # - rviz
   # - python-qt-binding
   # - qt-gui-cpp
