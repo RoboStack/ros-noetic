@@ -21,6 +21,27 @@ An example can be found [here](https://github.com/RoboStack/ros-noetic/pull/44).
 
 Sometimes, it may be required to patch the packages. An example of how to do so can be found in [this PR](https://github.com/RoboStack/ros-noetic/pull/32).
 
+## Creating a new patch file
+
+1. Follow the [section for testing the changes locally ](#Testing-changes-locally) until before running `vinca` 
+2. Modify the yaml file, but just enabling the package you want to create the patch for
+3. Proceed until the end of the section, until running `boa`. You can verify that the package compiles in the current state to ensure that any eventually arising problem is only due to your changes, but it is not required.
+4. Start a shell and go inside the repository to be edited. It should be located in `<mambaforge root>/envs/robostackenv/conda-bld/<package name>/work/<package name>/src/work` 
+5. Apply the changes that you would like to store into the patch
+6. Create a patch file with `git diff > changes.patch`
+7. Check that the patch contains the intended changes
+8. Move the file into the `patches` directory of this repository, renaming it according to the naming convention. If the changes are portable across all supported operating system, the file should be called `<package name>.patch`; otherwise, `<package name>.<win/lin/mac>.patch`
+9. Rerun `boa` to ensure that the patching succeeds and the package builds without errors
+10. Commit the new file, push to your fork and create a PR
+
+## Extending an existing patch file
+
+The procedure to create a new patch file still applies, with a caveat.
+
+The git repository of the package cloned by `boa` will be in a dirty state. The changes of the working tree should amount to the patches already existing for the package.
+Running `git diff` will result in a patch which intermingles the new changes to the old ones. This would allow to just swap the new resulting patch file for the old one, but this may make code review difficult if the order of the hunks changes.
+
+To make code review easier, please consider manually porting the new hunks into the existing patch file. This can be made easier by running `git reset --hard` before applying the new changes to the source code.
 
 # Testing changes locally
 
