@@ -37,17 +37,6 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
-  - actionlib
-  - foxglove_bridge
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - moveit-servo
-  - rviz_visual_tools
-  - rgbd-launch
-  # - pinocchio
-  - microstrain-inertial-driver
-  - microstrain-inertial-msgs
   - universal-robots
   - ur10-moveit-config
   - ur10e-moveit-config
@@ -60,12 +49,23 @@ packages_select_by_deps:
   - ur-gazebo
   - ur-kinematics
   - ur-msgs
-  - usb-cam
-  - octomap-ros
-  - octomap-mapping
-  - octomap-server
-  - ackermann-msgs
-  - fake-localization
+  # - actionlib
+  # - foxglove_bridge
+  # - ros-babel-fish
+  # - ros-babel-fish-test-msgs
+  # - moveit_visual_tools
+  # - moveit-servo
+  # - rviz_visual_tools
+  # - rgbd-launch
+  # - pinocchio
+  # - microstrain-inertial-driver
+  # - microstrain-inertial-msgs
+  # - usb-cam
+  # - octomap-ros
+  # - octomap-mapping
+  # - octomap-server
+  # - ackermann-msgs
+  # - fake-localization
   # - desktop
   # - desktop-full
   # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
