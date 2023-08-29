@@ -43,6 +43,7 @@ packages_select_by_deps:
   - octomap-server
   - ackermann-msgs
   - fake-localization
+  - realsense2-description
 
   # - rqt-gui
   # - catkin
