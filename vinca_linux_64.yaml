@@ -37,24 +37,32 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
-  - actionlib
-  - foxglove_bridge
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - moveit-servo
-  - rviz_visual_tools
-  - rgbd-launch
+  - teleop-twist-keyboard
+  - rosserial-client
+  - rosserial-arduino
+  - rosserial
+  - global-planner
+  - navigation
+  - ecl-core
+  - ecl-threads
+  # - actionlib
+  # - foxglove_bridge
+  # - ros-babel-fish
+  # - ros-babel-fish-test-msgs
+  # - moveit_visual_tools
+  # - moveit-servo
+  # - rviz_visual_tools
+  # - rgbd-launch
   # - pinocchio
-  - microstrain-inertial-driver
-  - microstrain-inertial-msgs
-  - usb-cam
-  - octomap-ros
-  - octomap-mapping
-  - octomap-server
-  - ackermann-msgs
-  - fake-localization
-  - realsense2-description
+  # - microstrain-inertial-driver
+  # - microstrain-inertial-msgs
+  # - usb-cam
+  # - octomap-ros
+  # - octomap-mapping
+  # - octomap-server
+  # - ackermann-msgs
+  # - fake-localization
+  # - realsense2-description
 
   # - desktop
   # - desktop-full
