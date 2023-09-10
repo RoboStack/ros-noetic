@@ -38,6 +38,12 @@ packages_select_by_deps:
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - usb-cam
+  - octomap-ros
+  - octomap-mapping
+  - octomap-server
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
 
   # - rqt-gui
   # - catkin

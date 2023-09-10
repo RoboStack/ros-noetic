@@ -37,18 +37,32 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
-  - actionlib
-  - foxglove_bridge
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - moveit-servo
-  - rviz_visual_tools
-  - rgbd-launch
-  - pinocchio
-  - microstrain-inertial-driver
-  - microstrain-inertial-msgs
-  - usb-cam
+  - teleop-twist-keyboard
+  - rosserial-client
+  - rosserial-arduino
+  - rosserial
+  - global-planner
+  - navigation
+  - ecl-core
+  - ecl-threads
+  # - actionlib
+  # - foxglove_bridge
+  # - ros-babel-fish
+  # - ros-babel-fish-test-msgs
+  # - moveit_visual_tools
+  # - moveit-servo
+  # - rviz_visual_tools
+  # - rgbd-launch
+  # - pinocchio
+  # - microstrain-inertial-driver
+  # - microstrain-inertial-msgs
+  # - usb-cam
+  # - octomap-ros
+  # - octomap-mapping
+  # - octomap-server
+  # - ackermann-msgs
+  # - fake-localization
+  # - realsense2-description
 
   # - desktop
   # - desktop-full
@@ -168,7 +182,6 @@ packages_select_by_deps:
   # - turtlebot3-fake
   # - librealsense2
   # - realsense2_camera
-  # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
   # - ros_numpy
@@ -536,7 +549,6 @@ packages_select_by_deps:
   # - ntpd-driver
   # - obj-to-pointcloud
   # - ocean-battery-driver
-  # - octomap-mapping
   # - omron-os32c-driver
   # - open-manipulator-gazebo
   # - open-manipulator-msgs
@@ -668,7 +680,6 @@ packages_select_by_deps:
   # - pinocchio
   # - rviz
   # - libuvc-ros
-  # - ackermann-msgs
   # - actionlib-tools
   # - agni-tf-tools
   # - app-manager
@@ -874,7 +885,6 @@ packages_select_by_deps:
   # - network-interface
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
-  # - octomap-ros
   # - octomap-rviz-plugins
   # - odva-ethernetip
   # - openzen-sensor

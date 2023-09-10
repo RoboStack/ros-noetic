@@ -38,7 +38,11 @@ packages_select_by_deps:
   - moveit_visual_tools
   - rviz_visual_tools
   - rgbd-launch
-
+  - octomap-ros
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
+  
   # - desktop
   # - rqt-gui
   # - catkin
@@ -127,7 +131,6 @@ packages_select_by_deps:
   # - niryo_one_simulation
 
   # - librealsense2
-  # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
 
@@ -316,7 +319,6 @@ packages_select_by_deps:
   # - neonavigation-common
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
-  # - octomap-ros
   # - odva-ethernetip
   # - open-karto
   # - open-manipulator-msgs

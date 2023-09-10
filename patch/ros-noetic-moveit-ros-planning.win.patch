@@ -1,3 +1,16 @@
+diff --git a/moveit_cpp/CMakeLists.txt b/moveit_cpp/CMakeLists.txt
+index 897af9fc8..6675d1bc6 100644
+--- a/moveit_cpp/CMakeLists.txt
++++ b/moveit_cpp/CMakeLists.txt
+@@ -22,6 +22,8 @@ endif()
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
++  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
++  )
+ 
 diff --git a/plan_execution/CMakeLists.txt b/plan_execution/CMakeLists.txt
 index 6b579cfb1..b95b4c657 100644
 --- a/plan_execution/CMakeLists.txt
