@@ -47,6 +47,7 @@ packages_select_by_deps:
   - ecl-threads
   - rosbag
   - diagnostic-aggregator
+  - nodelet
   - jsk-visualization
   # - actionlib
   # - foxglove_bridge
