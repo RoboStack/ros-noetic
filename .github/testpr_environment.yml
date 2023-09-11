@@ -10,3 +10,4 @@ dependencies:
   - ruamel.yaml >=0.16.6
   - rosdistro >=0.8.0
   - empy >=3.3.4
+  - mamba
