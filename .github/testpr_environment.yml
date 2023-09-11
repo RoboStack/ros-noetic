@@ -5,7 +5,6 @@ channels:
 dependencies:
   - python 3.9.*
   - pip
-  - boa
   - rospkg
   - catkin_pkg >=0.4.16
   - ruamel.yaml >=0.16.6
