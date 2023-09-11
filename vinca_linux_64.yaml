@@ -46,6 +46,7 @@ packages_select_by_deps:
   - ecl-core
   - ecl-threads
   - rosbag
+  - diagnostic-aggregator
   - jsk-visualization
   # - actionlib
   # - foxglove_bridge
