@@ -28,3 +28,18 @@ index e865b87..94b2d79 100644
    ${catkin_LIBRARIES}
    ${Boost_LIBRARIES}
    ${OpenCV_LIBRARIES})
+diff --git a/src/face_detection.cpp b/src/face_detection.cpp
+index 7cf7f3c0..a2132a72 100644
+--- a/src/face_detection.cpp
++++ b/src/face_detection.cpp
+@@ -716,7 +716,9 @@ class FaceDetector
+           else
+           {
+             max_id_++;
+-            pos.object_id = static_cast<std::ostringstream*>(&(std::ostringstream() << max_id_))->str();
++            std::ostringstream oss;
++            oss << max_id_;
++            pos.object_id = oss.str();
+             ROS_INFO_STREAM_NAMED("face_detector", "Didn't find face to match, starting new ID " << pos.object_id);
+           }
+           result_.face_positions.push_back(pos);
