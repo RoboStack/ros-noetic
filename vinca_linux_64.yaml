@@ -50,6 +50,7 @@ packages_select_by_deps:
   - nodelet
   - jsk-visualization
   - reconfigure
+  - rqt-reconfigure
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
