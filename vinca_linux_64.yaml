@@ -49,6 +49,7 @@ packages_select_by_deps:
   - diagnostic-aggregator
   - nodelet
   - jsk-visualization
+  - reconfigure
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
