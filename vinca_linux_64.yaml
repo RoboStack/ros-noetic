@@ -53,6 +53,7 @@ packages_select_by_deps:
   - rqt-reconfigure
   - roswtf
   - rosconsole
+  - pluginlib
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
