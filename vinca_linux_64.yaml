@@ -51,6 +51,7 @@ packages_select_by_deps:
   - jsk-visualization
   - reconfigure
   - rqt-reconfigure
+  - roswtf
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
