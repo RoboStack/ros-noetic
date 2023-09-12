@@ -52,6 +52,7 @@ packages_select_by_deps:
   - reconfigure
   - rqt-reconfigure
   - roswtf
+  - rosconsole
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
