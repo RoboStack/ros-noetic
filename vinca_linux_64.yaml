@@ -55,6 +55,7 @@ packages_select_by_deps:
   - rosconsole
   - pluginlib
   - sound-play
+  - roslaunch
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
