@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 83b0d4661..44b673005 100644
+index 83b0d4661..f9d0c6b99 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -51,6 +51,8 @@ find_package(OpenCV REQUIRED core imgproc)
@@ -11,23 +11,28 @@ index 83b0d4661..44b673005 100644
  IF(${yaml_cpp_VERSION} VERSION_LESS "0.5.0")
  ## indigo yaml-cpp : 0.5.0 /  hydro yaml-cpp : 0.3.0
    add_definitions("-DUSE_OLD_YAML")
-@@ -61,9 +63,13 @@ endif()
- include_directories(
-   include ${catkin_INCLUDE_DIRS}
- )
--link_libraries(${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${PCL_LIBRARIES} yaml-cpp)
- 
--add_library(jsk_recognition_utils SHARED
+@@ -58,12 +60,17 @@ ENDIF()
+ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -z defs")
+ endif()
++
 +message(WARNING "catkin_LIBRARIES ${catkin_LIBRARIES}")
 +message(WARNING "OpenCV_LIBRARIES ${OpenCV_LIBRARIES}")
 +message(WARNING "PCL_LIBRARIES ${PCL_LIBRARIES}")
 +message(WARNING "yaml-cpp_LIBRARIES ${yaml_cpp_LIBRARIES}")
 +
+ include_directories(
+-  include ${catkin_INCLUDE_DIRS}
++  include ${catkin_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS}
+ )
+-link_libraries(${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${PCL_LIBRARIES} yaml-cpp)
+ 
+-add_library(jsk_recognition_utils SHARED
 +add_library(jsk_recognition_utils
    src/grid_index.cpp
    src/grid_map.cpp
    src/grid_line.cpp
-@@ -89,6 +95,8 @@ add_library(jsk_recognition_utils SHARED
+@@ -89,6 +96,8 @@ add_library(jsk_recognition_utils SHARED
    src/time_util.cpp
    )
  
@@ -36,8 +41,20 @@ index 83b0d4661..44b673005 100644
  if (CATKIN_ENABLE_TESTING)
    find_package(rostest REQUIRED)
    if("$ENV{ROS_DISTRO}" STRGREATER "indigo") # kinetic and later uses qt5
+diff --git a/include/jsk_recognition_utils/geo_util.h b/include/jsk_recognition_utils/geo_util.h
+index 6aa73a43d..0c81944d1 100644
+--- a/include/jsk_recognition_utils/geo_util.h
++++ b/include/jsk_recognition_utils/geo_util.h
+@@ -53,6 +53,7 @@
+ ////////////////////////////////////////////////////////
+ // PCL headers
+ ////////////////////////////////////////////////////////
++#include <pcl/common/common.h>
+ #include <pcl/point_types.h>
+ #include <pcl/point_cloud.h>
+ #include <pcl/PointIndices.h>
 diff --git a/include/jsk_recognition_utils/pcl/ear_clipping_patched.h b/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
-index 951102f7b..5ee51bacc 100644
+index 951102f7b..7f7a4816e 100644
 --- a/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
 +++ b/include/jsk_recognition_utils/pcl/ear_clipping_patched.h
 @@ -38,6 +38,7 @@
@@ -48,3 +65,65 @@ index 951102f7b..5ee51bacc 100644
  
  namespace pcl
  {
+@@ -87,7 +88,7 @@ namespace pcl
+         * \param[out] output the resultant polygonal mesh
+         */
+       size_t
+-      triangulateClockwiseVertices (std::vector<uint32_t>& vertices, PolygonMesh& output);
++      triangulateClockwiseVertices (std::vector<int>& vertices, PolygonMesh& output);
+ 
+       /** \brief Check if the triangle (u,v,w) is an ear. 
+         * \param[in] u the first triangle vertex 
+@@ -96,7 +97,7 @@ namespace pcl
+         * \param[in] vertices a set of input vertices
+         */
+       bool
+-      isEar (int u, int v, int w, const std::vector<uint32_t>& vertices);
++      isEar (int u, int v, int w, const std::vector<int>& vertices);
+ 
+       /** \brief Check if p is inside the triangle (u,v,w). 
+         * \param[in] u the first triangle vertex 
+diff --git a/src/pcl/ear_clipping_patched.cpp b/src/pcl/ear_clipping_patched.cpp
+index 0e26401ba..844abf33f 100644
+--- a/src/pcl/ear_clipping_patched.cpp
++++ b/src/pcl/ear_clipping_patched.cpp
+@@ -75,7 +75,7 @@ pcl::EarClippingPatched::triangulate (const Vertices& vertices, PolygonMesh& out
+     return;
+   }
+ 
+-  std::vector<uint32_t> remaining_vertices = vertices.vertices;
++  std::vector<int> remaining_vertices = vertices.vertices;
+   size_t count = triangulateClockwiseVertices(remaining_vertices, output);
+ 
+   // if the input vertices order is anti-clockwise, it always left a
+@@ -92,7 +92,7 @@ pcl::EarClippingPatched::triangulate (const Vertices& vertices, PolygonMesh& out
+ 
+ /////////////////////////////////////////////////////////////////////////////////////////////
+ size_t
+-pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<uint32_t>& vertices, PolygonMesh& output)
++pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<int>& vertices, PolygonMesh& output)
+ {
+   // triangles count
+   size_t count = 0;
+@@ -127,7 +127,7 @@ pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<uint32_t>& ve
+ 
+ /////////////////////////////////////////////////////////////////////////////////////////////
+ bool
+-pcl::EarClippingPatched::isEar (int u, int v, int w, const std::vector<uint32_t>& vertices)
++pcl::EarClippingPatched::isEar (int u, int v, int w, const std::vector<int>& vertices)
+ {
+   Eigen::Vector3f p_u, p_v, p_w;
+   p_u = points_->points[vertices[u]].getVector3fMap();
+diff --git a/src/pcl_conversion_util.cpp b/src/pcl_conversion_util.cpp
+index 58cb8e44a..949ca55f1 100644
+--- a/src/pcl_conversion_util.cpp
++++ b/src/pcl_conversion_util.cpp
+@@ -51,7 +51,7 @@ namespace jsk_recognition_utils
+     for (int y=0; y < range_image.height; y++) {
+       for (int x=0; x<range_image.width; x++) {
+         pcl::PointWithRange rangePt = range_image.getPoint(x,y);
+-        if (!pcl_isfinite(rangePt.range)) {
++        if (!std::isfinite(rangePt.range)) {
+           pcl::visualization::FloatImageUtils::getColorForFloat(
+             rangePt.range, r, g, b);
+         }
