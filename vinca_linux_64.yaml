@@ -45,6 +45,18 @@ packages_select_by_deps:
   - navigation
   - ecl-core
   - ecl-threads
+  - rosbag
+  - diagnostic-aggregator
+  - nodelet
+  - jsk-visualization
+  - reconfigure
+  - rqt-reconfigure
+  - roswtf
+  - rosconsole
+  - pluginlib
+  - sound-play
+  - roslaunch
+  - roslib
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
@@ -513,7 +525,6 @@ packages_select_by_deps:
   # - jsk-interactive
   # - jsk-interactive-test
   # - jsk-recognition
-  # - jsk-visualization
   # - kdl-parser
   # - kobuki-msgs
   # - lanelet2-io
