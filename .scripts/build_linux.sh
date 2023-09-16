@@ -37,6 +37,7 @@ conda config --remove channels defaults
 
 mamba update conda --yes --quiet -c conda-forge
 mamba install --yes --quiet pip conda-build anaconda-client mamba
+mamba remove --yes --quiet boa
 # mamba install --yes boa --only-deps
 pip install git+https://github.com/mamba-org/boa@main
 
