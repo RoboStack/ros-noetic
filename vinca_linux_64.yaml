@@ -48,7 +48,9 @@ packages_select_by_deps:
   - rosbag
   - diagnostic-aggregator
   - nodelet
-  - jsk-visualization
+  # - jsk-visualization
+  - jsk-tools
+  - jsk-data
   - reconfigure
   - rqt-reconfigure
   - roswtf
