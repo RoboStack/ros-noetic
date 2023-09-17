@@ -45,20 +45,7 @@ packages_select_by_deps:
   - navigation
   - ecl-core
   - ecl-threads
-  - rosbag
-  - diagnostic-aggregator
-  - nodelet
-  # - jsk-visualization
-  - jsk-tools
-  - jsk-data
-  - reconfigure
-  - rqt-reconfigure
-  - roswtf
-  - rosconsole
-  - pluginlib
-  - sound-play
-  - roslaunch
-  - roslib
+  - jsk-visualization
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
