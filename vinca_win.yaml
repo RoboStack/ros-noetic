@@ -147,8 +147,8 @@ packages_select_by_deps:
   # Need to build in own stage
   # - fcl
   # - teb_local_planner
-  # - plotjuggler_ros
-
+  - plotjuggler_ros
+  - plotjuggler
   # - openslam-gmapping
 
   # - laser-proc
