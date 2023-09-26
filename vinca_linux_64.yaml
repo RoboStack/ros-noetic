@@ -122,8 +122,8 @@ packages_select_by_deps:
   # - tf2_sensor_msgs
   # - tf2_tools
   # - gps-common
-  # - plotjuggler
-  # - plotjuggler_ros
+  - plotjuggler
+  - plotjuggler_ros
   # - rosbridge_suite
   # - swri-console
   # - panda_moveit_config
