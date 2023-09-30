@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5b63626..03d9fe8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,9 +11,6 @@ ExternalProject_Add(pybind11_src
+              -DPYBIND11_TEST=OFF
+              -DPYBIND11_INSTALL=ON
+              -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/install
+-  # Workaround if DESTDIR is set
+-  # See https://gitlab.kitware.com/cmake/cmake/-/issues/18165.
+-  INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} DESTDIR= install
+ )
+ 
+ # Copy cmake/pybind11 and include/pybind11 to corresponding devel space folders
