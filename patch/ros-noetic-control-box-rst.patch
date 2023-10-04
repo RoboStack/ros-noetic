@@ -1,0 +1,13 @@
+diff --git a/src/optimization/include/corbo-optimization/hyper_graph/edge_cache.h b/src/optimization/include/corbo-optimization/hyper_graph/edge_cache.h
+index d380ac5..58c3298 100644
+--- a/src/optimization/include/corbo-optimization/hyper_graph/edge_cache.h
++++ b/src/optimization/include/corbo-optimization/hyper_graph/edge_cache.h
+@@ -75,7 +75,7 @@ class EdgeCache
+         PRINT_DEBUG_COND_ONCE(_jacobians.size() >= _values.capacity(),
+                               "EdgeCache::pushJacobian(): cache capacity reached; you might better reserve more space in advance.");
+ #if __cplusplus > 201402L
+-        return _values.emplace_back();
++        return _jacobians.emplace_back();
+ #else
+         _jacobians.emplace_back(value_dim, param_dim);
+         return _jacobians.back();
