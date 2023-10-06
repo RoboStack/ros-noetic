@@ -594,7 +594,7 @@ packages_select_by_deps:
   # - pr2-power-drivers
   # - pr2-run-stop-auto-restart
   # - pr2-self-test-msgs
-  # - pr2-teleop
+  - pr2-teleop
   # - pr2-tilt-laser-interface
   # - pr2-tuckarm
   # - pr2-tuck-arms-action
@@ -967,7 +967,7 @@ packages_select_by_deps:
   # - service-tools
   # - sick-safetyscanners
   # - sick-scan
-  # - slam-gmapping
+  - slam-gmapping
   # - slam-toolbox-rviz
   # - slic
   # - slime-wrapper
