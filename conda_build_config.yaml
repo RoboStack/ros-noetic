@@ -1,5 +1,3 @@
-assimp:
-  - 5.3.1
 hdf5:
   - 1.14.2
 gazebo:
@@ -14,10 +12,6 @@ pcl:
   - 1.13.1
 ogre:
   - 1.10.12
-qt:
-  - 5.15
-qt-main:
-  - 5.15
   
 cdt_name:  # [linux]
   - cos7   # [linux]
