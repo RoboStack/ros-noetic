@@ -267,9 +267,9 @@ aws_crt_cpp:
 aws_sdk_cpp:
   - 1.11.156
 boost:
-  - 1.78.0
+  - 1.82.0
 boost_cpp:
-  - 1.78.0
+  - 1.82.0
 bzip2:
   - 1
 c_ares:
