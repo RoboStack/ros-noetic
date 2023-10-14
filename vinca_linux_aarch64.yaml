@@ -1,19 +1,19 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.4 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 10
+build_number: 11
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - diagnostic_updater
@@ -45,83 +45,83 @@ packages_select_by_deps:
   - fake-localization
   - realsense2-description
 
-  # - rqt-gui
-  # - catkin
-  # - kdl-parser-py
-  # - imu-tools
-  # - rqt-controller-manager
-  # - dynamixel-sdk
-  # - hector-map-tools
-  # - hector-nav-msgs
-  # - hector-trajectory-server
-  # - radar-msgs
-  # - geometry2
-  # - tf2
-  # - tf2_bullet
-  # - tf2_eigen
-  # - tf2_geometry_msgs
-  # - tf2_kdl
-  # - tf2_msgs
-  # - tf2_py
-  # - tf2_ros
-  # - tf2_sensor_msgs
-  # - tf2_tools
-  # - ros_control
-  # - ros_controllers
-  # - cv-camera
-  # - four-wheel-steering-msgs
-  # - urdf-geometry-parser
-  # - gps-common
-  # - rosbridge_suite
-  # - pcl-ros
-  # - pcl-conversions
-  # # ## Only limited number of packages to reduce maintainer burden
-  # - desktop
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - moveit
-  # - robot_localization
-  # - perception
-  # - simulators
-  # - desktop_full
-  # - audio-common-msgs
-  # - sound-play
-  
-  # # For jackal
-  # - hector-gazebo-plugins
-  # - gazebo-dev
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - velodyne-gazebo-plugins
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - ros_numpy
-  # - franka_msgs
-  # - teb_local_planner
-  # - rospy-message-converter
-  # - turtlebot3
-  # - turtlebot3_fake
-  # - pid
+  - rqt-gui
+  - catkin
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - ros_control
+  - ros_controllers
+  - cv-camera
+  - four-wheel-steering-msgs
+  - urdf-geometry-parser
+  - gps-common
+  - rosbridge_suite
+  - pcl-ros
+  - pcl-conversions
+  # ## Only limited number of packages to reduce maintainer burden
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - robot_localization
+  - perception
+  - simulators
+  - desktop_full
+  - audio-common-msgs
+  - sound-play
+
+  # For jackal
+  - hector-gazebo-plugins
+  - gazebo-dev
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - velodyne-gazebo-plugins
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - ros_numpy
+  - franka_msgs
+  - teb_local_planner
+  - rospy-message-converter
+  - turtlebot3
+  - turtlebot3_fake
+  - pid
 
 
 

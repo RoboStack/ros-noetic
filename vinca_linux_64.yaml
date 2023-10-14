@@ -1,19 +1,19 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.4 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 16
+build_number: 17
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   - eigenpy
@@ -46,104 +46,104 @@ packages_select_by_deps:
   - ecl-core
   - ecl-threads
   - jsk-visualization
-  # - actionlib
-  # - foxglove_bridge
-  # - ros-babel-fish
-  # - ros-babel-fish-test-msgs
-  # - moveit_visual_tools
-  # - moveit-servo
-  # - rviz_visual_tools
-  # - rgbd-launch
-  # - pinocchio
-  # - microstrain-inertial-driver
-  # - microstrain-inertial-msgs
-  # - usb-cam
-  # - octomap-ros
-  # - octomap-mapping
-  # - octomap-server
-  # - ackermann-msgs
-  # - fake-localization
-  # - realsense2-description
+  - actionlib
+  - foxglove_bridge
+  - ros-babel-fish
+  - ros-babel-fish-test-msgs
+  - moveit_visual_tools
+  - moveit-servo
+  - rviz_visual_tools
+  - rgbd-launch
+  - pinocchio
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
+  - usb-cam
+  - octomap-ros
+  - octomap-mapping
+  - octomap-server
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
 
 
-  # - desktop
-  # - desktop-full
-  # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
+  - desktop
+  - desktop-full
+  # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
-  # - rosmon
-  # - apriltag
-  # - apriltag-ros
-  # - find-object-2d
-  # # - rtabmap
-  # # - rtabmap-ros
-  # - convex-decomposition
-  # - pcl-ros
-  # - pcl-conversions
-  # ## Only limited number of packages to reduce maintainer burden
-  # - catkin
-  # - ros-control
-  # - ros-controllers
-  # - imu-sensor-controller
-  # - ackermann-steering-controller
-  # - rqt-gui
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - slam-toolbox
-  # - turtlebot3-teleop
-  # - force-torque-sensor-controller
-  # - gripper-action-controller
-  # - rqt-gui-cpp
-  # - rqt-gui-py
-  # - mavros-msgs
-  # - mavros
-  # - libmavconn
-  # - mavros-extras
-  # - mavlink
-  # - kdl-parser-py
-  # - imu-tools
-  # - rqt-controller-manager
-  # - dynamixel-sdk
-  # - hector-map-tools
-  # - hector-nav-msgs
-  # - hector-trajectory-server
-  # - radar-msgs
-  # - geometry2
-  # - tf2
-  # - tf2_bullet
-  # - tf2_eigen
-  # - tf2_geometry_msgs
-  # - tf2_kdl
-  # - tf2_msgs
-  # - tf2_py
-  # - tf2_ros
-  # - tf2_sensor_msgs
-  # - tf2_tools
-  # - gps-common
-  # - plotjuggler
-  # - plotjuggler_ros
-  # - rosbridge_suite
-  # - swri-console
-  # - panda_moveit_config
-  # - handeye
-  # - criutils
-  # - baldor
-  # - catch-ros
-  # - rosfmt
+  - rosmon
+  - apriltag
+  - apriltag-ros
+  - find-object-2d
+  # - rtabmap
+  # - rtabmap-ros
+  - convex-decomposition
+  - pcl-ros
+  - pcl-conversions
+  ## Only limited number of packages to reduce maintainer burden
+  - catkin
+  - ros-control
+  - ros-controllers
+  - imu-sensor-controller
+  - ackermann-steering-controller
+  - rqt-gui
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
+  - force-torque-sensor-controller
+  - gripper-action-controller
+  - rqt-gui-cpp
+  - rqt-gui-py
+  - mavros-msgs
+  - mavros
+  - libmavconn
+  - mavros-extras
+  - mavlink
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - gps-common
+  - plotjuggler
+  - plotjuggler_ros
+  - rosbridge_suite
+  - swri-console
+  - panda_moveit_config
+  - handeye
+  - criutils
+  - baldor
+  - catch-ros
+  - rosfmt
 
-  # - amcl
-  # - map-server
-  # - move-base
-  # - gmapping
-  # - simulators
-  # - desktop_full
-  # - moveit-ros-move-group
-  # - moveit-ros-manipulation
-  # - moveit
-  # - robot_localization
-  # - gazebo-dev
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - simulators
+  - desktop_full
+  - moveit-ros-move-group
+  - moveit-ros-manipulation
+  - moveit
+  - robot_localization
+  - gazebo-dev
   - gazebo-ros
   - hector-gazebo-plugins
   # - gazebo-ros-control
