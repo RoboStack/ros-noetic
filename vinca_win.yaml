@@ -32,7 +32,6 @@ skip_existing:
 
 packages_select_by_deps:
   - actionlib
-  - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools

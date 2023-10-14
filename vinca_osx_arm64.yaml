@@ -46,7 +46,6 @@ packages_select_by_deps:
   - python-qt-binding
   - qt-gui-cpp
   - actionlib
-  - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
@@ -106,7 +105,6 @@ packages_select_by_deps:
   - rosserial-arduino
   - rosserial-client
   - navigation
-  - foxglove_bridge
 
   # # # For jackal
   # - gazebo-dev

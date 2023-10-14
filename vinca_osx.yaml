@@ -41,7 +41,6 @@ packages_select_by_deps:
   - python-qt-binding
   - qt-gui-cpp
   - actionlib
-  - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
@@ -96,7 +95,6 @@ packages_select_by_deps:
   - tf2_tools
   - gps-common
   - rosbridge_suite
-  - foxglove_bridge
 
 
   # ## Only limited number of packages to reduce maintainer burden

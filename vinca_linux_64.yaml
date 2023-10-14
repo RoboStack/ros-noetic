@@ -47,7 +47,6 @@ packages_select_by_deps:
   - ecl-threads
   - jsk-visualization
   - actionlib
-  - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
@@ -208,6 +207,7 @@ packages_select_by_deps:
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
+  # - foxglove_bridge
   # - rtabmap
   # - mrpt2
   # - ifopt
