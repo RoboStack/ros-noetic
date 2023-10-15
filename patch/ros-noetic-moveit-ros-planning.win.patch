@@ -1,16 +1,3 @@
-diff --git a/moveit_cpp/CMakeLists.txt b/moveit_cpp/CMakeLists.txt
-index 897af9fc8..6675d1bc6 100644
---- a/moveit_cpp/CMakeLists.txt
-+++ b/moveit_cpp/CMakeLists.txt
-@@ -22,6 +22,8 @@ endif()
- 
- install(TARGETS ${MOVEIT_LIB_NAME}
-   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
--  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
-+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
-+  )
- 
 diff --git a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h b/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
 index e7514f670..530b3929a 100644
 --- a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
@@ -143,3 +130,17 @@ index 22a7ee9ee..c2945f930 100644
  
    /// Definition of the function signature that is called when the execution of all the pushed trajectories completes.
    /// The status of the overall execution is passed as argument
+
+diff --git a/moveit_cpp/CMakeLists.txt b/moveit_cpp/CMakeLists.txt
+index 897af9fc8..6675d1bc6 100644
+--- a/moveit_cpp/CMakeLists.txt
++++ b/moveit_cpp/CMakeLists.txt
+@@ -22,6 +22,8 @@ endif()
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
++  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
++  )
+ 
