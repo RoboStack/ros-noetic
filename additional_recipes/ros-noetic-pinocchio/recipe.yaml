@@ -1,0 +1,22 @@
+package:
+  name: ros-noetic-pinocchio
+  version: "2.6.20"
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - pinocchio 2.6.20
+  #run_exports:
+  #  - "{{ pin_subpackage('hpp-fcl', max_pin='x.x.x') }}"
+
+
+about:
+  home: https://github.com/conda-forge/pinocchio-feedstock/
+  license: BSD-3-Clause
+  summary: |
+    An extension of the Flexible Collision Library 
+extra:
+  recipe-maintainers:
+    - ros-forge

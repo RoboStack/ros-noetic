@@ -8,7 +8,8 @@ build:
 requirements:
   run:
     - eigenpy 3.1.0
-
+  run_exports:
+    - "{{ pin_subpackage('eigenpy', max_pin='x.x.x') }}"
 
 about:
   home: https://github.com/conda-forge/eigenpy-feedstock
