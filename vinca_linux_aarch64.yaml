@@ -18,6 +18,8 @@ full_rebuild: true
 packages_skip_by_deps:
   # - diagnostic_updater
   - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros

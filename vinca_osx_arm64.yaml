@@ -18,10 +18,13 @@ full_rebuild: true
 packages_skip_by_deps:
   # - rviz
   - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros
   - stage
+
   # sbcl is not available for osx-arm64
   # - roslisp
 

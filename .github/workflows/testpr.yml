@@ -151,12 +151,17 @@ jobs:
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build additional_recipes/ros-noetic-eigenpy/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        boa build additional_recipes/ros-noetic-hpp-fcl/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        boa build additional_recipes/ros-noetic-pinocchio/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
     - name: Build recipes for Linux-ARM64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
+        boa build additional_recipes/ros-noetic-eigenpy/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
+        boa build additional_recipes/ros-noetic-hpp-fcl/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
+        boa build additional_recipes/ros-noetic-pinocchio/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
     - name: Build recipes for macOS
       shell: bash -l {0}

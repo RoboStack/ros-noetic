@@ -19,6 +19,8 @@ packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
   - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros
