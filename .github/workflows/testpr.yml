@@ -61,12 +61,21 @@ jobs:
         conda config --show
         mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
         mamba install -y boa --only-deps
-    - name: install vinca and boa main
+    - name: install vinca and boa (win/macos)
+      if: contains(matrix.os, 'windows') || contains(matrix.os, 'macos')
       shell: bash -l {0}
       run: |
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/RoboStack/vinca.git --no-deps
         # for now we need boa main
+        mamba install -y boa
+    - name: install vinca and boa main (linux)
+      if: contains(matrix.os, 'ubuntu')
+      shell: bash -l {0}
+      run: |
+        # use no-deps for now, otherwise problems with ruamel.
+        pip install git+https://github.com/RoboStack/vinca.git --no-deps
+        # for now we need boa main because of cos6/cos7 issue
         pip install git+https://github.com/mamba-org/boa@main
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
