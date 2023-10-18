@@ -55,7 +55,6 @@ packages_select_by_deps:
   - moveit-servo
   - rviz_visual_tools
   - rgbd-launch
-  - pinocchio
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - usb-cam
@@ -680,7 +679,6 @@ packages_select_by_deps:
   # - wireless-watcher
   # - wu-ros-tools
   # - moveit-msgs
-  # - pinocchio
   # - rviz
   # - libuvc-ros
   # - actionlib-tools
@@ -902,7 +900,6 @@ packages_select_by_deps:
   # - pilz-industrial-motion-testutils
   # - pilz-msgs
   # - pilz-utils
-  # - pinocchio
   # - planner-cspace-msgs
   # - pointcloud-to-laserscan
   # - polar-scan-matcher
