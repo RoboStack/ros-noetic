@@ -71,6 +71,8 @@ eigen:
   robostack: [eigen]
 emacs:
   robostack: [emacs]
+festival:
+  robostack: [festival, festvox-kallpc16k]
 ffmpeg:
   robostack: [ffmpeg]
 flac:

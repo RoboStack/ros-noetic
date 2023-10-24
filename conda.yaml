@@ -71,6 +71,8 @@ eigen:
   conda: [eigen]
 emacs:
   conda: [emacs]
+festival:
+  conda: [festival, festvox-kallpc16k]
 ffmpeg:
   conda: [ffmpeg]
 flac:
