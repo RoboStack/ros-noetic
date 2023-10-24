@@ -40,7 +40,7 @@ packages_select_by_deps:
   - cras_relative_positional_controller  # maintainer peci1
   - cras_msgs  # maintainer peci1
   - compass_msgs  # maintainer peci1
-  - magnetometer_compass  # maintainer peci1
+  # does not work on aarch64 (yet) # - magnetometer_compass  # maintainer peci1
   - electronic_io_msgs  # maintainer peci1
   - electronic_io  # maintainer peci1
   - point_cloud_color  # maintainer peci1
