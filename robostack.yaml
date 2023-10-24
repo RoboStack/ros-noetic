@@ -67,6 +67,8 @@ cython:
   robostack: [cython]
 doxygen:
   robostack: [doxygen, graphviz]
+draco:
+  robostack: [draco]
 eigen:
   robostack: [eigen]
 emacs:
@@ -741,6 +743,8 @@ python3-pymongo:
   robostack: [pymongo]
 python3-pyproj:
   robostack: [pyproj]
+python3-pysnmp:
+  robostack: [pysnmp]
 python3-pytest:
   robostack: [pytest]
 python3-pytest-cov:
