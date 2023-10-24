@@ -65,6 +65,7 @@ packages_select_by_deps:
   - tf2_client  # maintainer peci1
   - tf_static_publisher  # maintainer peci1
   - movie_publisher  # maintainer peci1
+  - geometric_shapes
   - teleop-twist-keyboard
   - rosserial-client
   - rosserial-arduino
