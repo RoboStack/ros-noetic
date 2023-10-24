@@ -325,7 +325,7 @@ packages_select_by_deps:
   # - jsk-pcl-ros-utils
   # - jsk-perception
   # - jsk-rqt-plugins
-  # - jsk-rviz-plugins
+  - jsk-rviz-plugins
   # - jsk-recognition-utils
   # - jsk-tools
   # - laser-cb-detector

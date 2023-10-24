@@ -44,6 +44,7 @@ packages_select_by_deps:
   - ackermann-msgs
   - fake-localization
   - realsense2-description
+  - jsk-rviz-plugins
 
   # - rqt-gui
   # - catkin
