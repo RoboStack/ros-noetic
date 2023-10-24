@@ -37,6 +37,35 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
+  - cras_cpp_common  # maintainer peci1
+  - cras_py_common  # maintainer peci1
+  - cras_docs_common  # maintainer peci1
+  - cras_topic_tools  # maintainer peci1
+  - image_transport_codecs  # maintainer peci1
+  - point_cloud_transport  # maintainer peci1
+  - point_cloud_transport_plugins  # maintainer peci1
+  - draco_point_cloud_transport  # maintainer peci1
+  - sensor_filters  # maintainer peci1
+  - cras_relative_positional_controller  # maintainer peci1
+  - cras_msgs  # maintainer peci1
+  - compass_msgs  # maintainer peci1
+  - magnetometer_compass  # maintainer peci1
+  - electronic_io_msgs  # maintainer peci1
+  - electronic_io  # maintainer peci1
+  - point_cloud_color  # maintainer peci1
+  - rosmsg_cpp  # maintainer peci1
+  - snmp_ros  # maintainer peci1
+  - robot_body_filter  # maintainer peci1
+  - static_transform_mux  # maintainer peci1
+  - tf_remapper_cpp  # maintainer peci1
+  - roslint  # maintainer peci1
+  - tf2_server  # maintainer peci1
+  - rosbash_params  # maintainer peci1
+  - dynamic_robot_state_publisher  # maintainer peci1
+  - tf2_client  # maintainer peci1
+  - tf_static_publisher  # maintainer peci1
+  - movie_publisher  # maintainer peci1
+  - geometric_shapes
   - teleop-twist-keyboard
   - rosserial-client
   - rosserial-arduino
