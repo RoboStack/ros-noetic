@@ -31,16 +31,17 @@ skip_existing:
   # - /Users/fischert/mambaforge/conda-bld
 
 packages_select_by_deps:
+  - cv_bridge
   ##
   #  TODO OSX-ARM64
   ##
-  - rospack
-  - microstrain-inertial-driver
-  - microstrain-inertial-msgs
-  - octomap-ros
-  - ackermann-msgs
-  - fake-localization
-  - realsense2-description
+  # - rospack
+  # - microstrain-inertial-driver
+  # - microstrain-inertial-msgs
+  # - octomap-ros
+  # - ackermann-msgs
+  # - fake-localization
+  # - realsense2-description
 
   # - rviz
   # - python-qt-binding

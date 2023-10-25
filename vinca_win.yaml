@@ -31,17 +31,18 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
-  - actionlib
-  - foxglove_bridge
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - rviz_visual_tools
-  - rgbd-launch
-  - octomap-ros
-  - ackermann-msgs
-  - fake-localization
-  - realsense2-description
+  - cv_bridge
+  # - actionlib
+  # - foxglove_bridge
+  # - ros-babel-fish
+  # - ros-babel-fish-test-msgs
+  # - moveit_visual_tools
+  # - rviz_visual_tools
+  # - rgbd-launch
+  # - octomap-ros
+  # - ackermann-msgs
+  # - fake-localization
+  # - realsense2-description
   
   # - desktop
   # - rqt-gui
@@ -462,7 +463,7 @@ packages_select_by_deps:
   # # DONE Win
   # ##
 
-  - rosserial-arduino
+  # - rosserial-arduino
   # - rosbash
   # - tf2_web_republisher
   # - grid_map

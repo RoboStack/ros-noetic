@@ -2,7 +2,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index ef804b9..6dac00e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -3,33 +3,13 @@ project(cv_bridge)
+@@ -3,27 +3,8 @@ project(cv_bridge)
  
  find_package(catkin REQUIRED COMPONENTS rosconsole sensor_msgs)
  
@@ -32,9 +32,3 @@ index ef804b9..6dac00e 100644
 +find_package(OpenCV 4 REQUIRED
    COMPONENTS
      opencv_core
-     opencv_imgproc
-     opencv_imgcodecs
--  CONFIG
- )
- 
- catkin_package(

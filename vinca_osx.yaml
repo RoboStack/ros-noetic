@@ -29,13 +29,14 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
 
 packages_select_by_deps:
-  - rospack
-  - microstrain-inertial-driver
-  - microstrain-inertial-msgs
-  - octomap-ros
-  - ackermann-msgs
-  - fake-localization
-  - realsense2-description
+  - cv_bridge
+  # - rospack
+  # - microstrain-inertial-driver
+  # - microstrain-inertial-msgs
+  # - octomap-ros
+  # - ackermann-msgs
+  # - fake-localization
+  # - realsense2-description
 
   # - rviz
   # - python-qt-binding
