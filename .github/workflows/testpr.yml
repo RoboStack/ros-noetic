@@ -59,7 +59,7 @@ jobs:
         conda config --show channels | grep defaults && conda config --remove channels defaults
         conda info
         conda config --show
-        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
+        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6,<0.18" "rosdistro>=0.8.0" "empy>=3.3.4"
         mamba install -y boa --only-deps
     - name: install vinca and boa main
       shell: bash -l {0}
