@@ -30,6 +30,11 @@ skip_existing:
   - https://conda.anaconda.org/robostack-staging/
   # - /Users/fischert/mambaforge/conda-bld
 
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
