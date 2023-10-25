@@ -101,7 +101,7 @@ packages_select_by_deps:
 
 
   # # ## Only limited number of packages to reduce maintainer burden
-  # - catkin
+  - catkin
   # - rviz
   # - desktop
   # - desktop_full

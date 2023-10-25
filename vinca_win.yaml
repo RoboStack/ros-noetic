@@ -46,7 +46,7 @@ packages_select_by_deps:
   
   # - desktop
   # - rqt-gui
-  # - catkin
+  - catkin
   # - teleop_twist_keyboard
   # - perception_pcl
   # - rosbridge_suite

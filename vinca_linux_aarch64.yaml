@@ -76,7 +76,7 @@ packages_select_by_deps:
   # - realsense2-description
 
   # - rqt-gui
-  # - catkin
+  - catkin
   # - kdl-parser-py
   # - imu-tools
   # - rqt-controller-manager
