@@ -1,3 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 310db0bd..a23f2288 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -64,12 +64,8 @@ include_directories(src ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+ ## CATKIN_DEPENDS: catkin_packages dependent projects also need
+ ## DEPENDS: system dependencies of this project that dependent projects also need
+ 
+-if(rviz_QT_VERSION VERSION_LESS "5")
+-  find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+-  include(${QT_USE_FILE})
+-else()
+-  find_package(Qt5Widgets REQUIRED)
+-endif()
++find_package(Qt5 COMPONENTS Widgets REQUIRED)
++find_package(OpenCV REQUIRED)
+ add_definitions(-DQT_NO_KEYWORDS -g)
+ 
+ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -194,7 +190,7 @@ add_library(jsk_rviz_plugins ${SOURCE_FILES} ${UIC_FILES})
+ if(rviz_QT_VERSION VERSION_LESS "5")
+   target_link_libraries(jsk_rviz_plugins ${QT_LIBRARIES} ${catkin_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
+ else()
+-  target_link_libraries(jsk_rviz_plugins Qt5::Widgets ${catkin_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
++  target_link_libraries(jsk_rviz_plugins Qt5::Widgets ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
+ endif()
+ add_dependencies(jsk_rviz_plugins
+   jsk_footstep_msgs_generate_messages_cpp
 diff --git a/src/camera_info_display.cpp b/src/camera_info_display.cpp
 index eb9de008..09d269aa 100644
 --- a/src/camera_info_display.cpp
@@ -22,6 +50,18 @@ index 60f21549..9962aa0d 100644
  #include "facing_visualizer.h"
  #include <rviz/uniform_string_stream.h>
  #include <rviz/render_panel.h>
+diff --git a/src/overlay_diagnostic_display.h b/src/overlay_diagnostic_display.h
+index 01cc7fc0..61fe680d 100644
+--- a/src/overlay_diagnostic_display.h
++++ b/src/overlay_diagnostic_display.h
+@@ -42,6 +42,7 @@
+ #include <OGRE/OgreMaterial.h>
+ 
+ #include <QPainter>
++#include <QPainterPath>
+ 
+ #include <rviz/properties/ros_topic_property.h>
+ #include <rviz/properties/editable_enum_property.h>
 diff --git a/src/overlay_utils.cpp b/src/overlay_utils.cpp
 index 73525c43..494e2bdf 100644
 --- a/src/overlay_utils.cpp
@@ -47,7 +87,7 @@ index 26ebc921..f5d9ce12 100644
  #include <OGRE/OgreTextureManager.h>
  #include <OGRE/OgreTexture.h>
 diff --git a/src/polygon_array_display.cpp b/src/polygon_array_display.cpp
-index 118a5405..9d366d6d 100644
+index b1b1ef35..61fc966c 100644
 --- a/src/polygon_array_display.cpp
 +++ b/src/polygon_array_display.cpp
 @@ -35,6 +35,8 @@

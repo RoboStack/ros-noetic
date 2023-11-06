@@ -1,6 +1,5 @@
 name: robostackenv
 channels:
-- robostack
 - robostack-staging
 - conda-forge
 dependencies:

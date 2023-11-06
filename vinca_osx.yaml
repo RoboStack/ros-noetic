@@ -35,6 +35,7 @@ packages_select_by_deps:
   - octomap-ros
   - ackermann-msgs
   - fake-localization
+  - realsense2-description
 
   # - rviz
   # - python-qt-binding
@@ -156,7 +157,6 @@ packages_select_by_deps:
   # - turtlebot3-fake
   # - librealsense2
   # - realsense2_camera
-  # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
   # - ros_numpy

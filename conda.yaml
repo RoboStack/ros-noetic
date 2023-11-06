@@ -67,10 +67,14 @@ cython:
   conda: [cython]
 doxygen:
   conda: [doxygen, graphviz]
+draco:
+  conda: [draco]
 eigen:
   conda: [eigen]
 emacs:
   conda: [emacs]
+festival:
+  conda: [festival, festvox-kallpc16k]
 ffmpeg:
   conda: [ffmpeg]
 flac:
@@ -758,6 +762,8 @@ python3-pymongo:
   conda: [pymongo]
 python3-pyproj:
   conda: [pyproj]
+python3-pysnmp:
+  conda: [pysnmp]
 python3-pytest:
   conda: [pytest]
 python3-pytest-cov:

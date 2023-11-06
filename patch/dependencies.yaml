@@ -62,7 +62,7 @@ jsk_pcl_ros_utils:
 jsk_pcl_ros:
   add_host: ["REQUIRE_OPENGL"]
 jsk_recognition_utils:
-  add_host: ["glew"]
+  add_host: ["glew", "cython"]
   add_run: ["glew"]
 robot_self_filter:
   add_host: ["REQUIRE_OPENGL"]

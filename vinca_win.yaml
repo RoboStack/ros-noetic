@@ -41,6 +41,7 @@ packages_select_by_deps:
   - octomap-ros
   - ackermann-msgs
   - fake-localization
+  - realsense2-description
   
   # - desktop
   # - rqt-gui
@@ -130,7 +131,6 @@ packages_select_by_deps:
   # - niryo_one_simulation
 
   # - librealsense2
-  # - realsense2-description
   # - ur-msgs
   # - rosdoc-lite
 

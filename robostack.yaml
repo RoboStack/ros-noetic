@@ -67,10 +67,14 @@ cython:
   robostack: [cython]
 doxygen:
   robostack: [doxygen, graphviz]
+draco:
+  robostack: [draco]
 eigen:
   robostack: [eigen]
 emacs:
   robostack: [emacs]
+festival:
+  robostack: [festival, festvox-kallpc16k]
 ffmpeg:
   robostack: [ffmpeg]
 flac:
@@ -741,6 +745,8 @@ python3-pymongo:
   robostack: [pymongo]
 python3-pyproj:
   robostack: [pyproj]
+python3-pysnmp:
+  robostack: [pysnmp]
 python3-pytest:
   robostack: [pytest]
 python3-pytest-cov:

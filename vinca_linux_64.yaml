@@ -49,6 +49,44 @@ packages_select_by_deps:
   - ur-gazebo
   - ur-kinematics
   - ur-msgs
+  - cras_cpp_common  # maintainer peci1
+  - cras_py_common  # maintainer peci1
+  - cras_docs_common  # maintainer peci1
+  - cras_topic_tools  # maintainer peci1
+  - image_transport_codecs  # maintainer peci1
+  - point_cloud_transport  # maintainer peci1
+  - point_cloud_transport_plugins  # maintainer peci1
+  - draco_point_cloud_transport  # maintainer peci1
+  - sensor_filters  # maintainer peci1
+  - cras_relative_positional_controller  # maintainer peci1
+  - cras_msgs  # maintainer peci1
+  - compass_msgs  # maintainer peci1
+  - magnetometer_compass  # maintainer peci1
+  - electronic_io_msgs  # maintainer peci1
+  - electronic_io  # maintainer peci1
+  - point_cloud_color  # maintainer peci1
+  - rosmsg_cpp  # maintainer peci1
+  - snmp_ros  # maintainer peci1
+  - robot_body_filter  # maintainer peci1
+  - static_transform_mux  # maintainer peci1
+  - tf_remapper_cpp  # maintainer peci1
+  - roslint  # maintainer peci1
+  - tf2_server  # maintainer peci1
+  - rosbash_params  # maintainer peci1
+  - dynamic_robot_state_publisher  # maintainer peci1
+  - tf2_client  # maintainer peci1
+  - tf_static_publisher  # maintainer peci1
+  - movie_publisher  # maintainer peci1
+  - geometric_shapes
+  - teleop-twist-keyboard
+  - rosserial-client
+  - rosserial-arduino
+  - rosserial
+  - global-planner
+  - navigation
+  - ecl-core
+  - ecl-threads
+  - jsk-visualization
   # - actionlib
   # - foxglove_bridge
   # - ros-babel-fish
@@ -66,6 +104,8 @@ packages_select_by_deps:
   # - octomap-server
   # - ackermann-msgs
   # - fake-localization
+  # - realsense2-description
+
   # - desktop
   # - desktop-full
   # # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
@@ -144,8 +184,8 @@ packages_select_by_deps:
   # - moveit
   # - robot_localization
   # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
+  - gazebo-ros
+  - hector-gazebo-plugins
   # - gazebo-ros-control
   # - gazebo-plugins
   # - lms1xx
@@ -153,7 +193,7 @@ packages_select_by_deps:
   # - interactive_marker_twist_server
   # - diff-drive-controller
   # - joint-state-controller
-  # - joy
+  - joy
   # - robot-localization
   # - teleop-twist-joy
   # - twist-mux
@@ -184,7 +224,6 @@ packages_select_by_deps:
   # - turtlebot3-fake
   # - librealsense2
   # - realsense2_camera
-  # - realsense2-description
   # - rosdoc-lite
   # - ros_numpy
   # - velodyne-description
@@ -516,7 +555,6 @@ packages_select_by_deps:
   # - jsk-interactive
   # - jsk-interactive-test
   # - jsk-recognition
-  # - jsk-visualization
   # - kdl-parser
   # - kobuki-msgs
   # - lanelet2-io
@@ -596,7 +634,7 @@ packages_select_by_deps:
   # - pr2-power-drivers
   # - pr2-run-stop-auto-restart
   # - pr2-self-test-msgs
-  # - pr2-teleop
+  - pr2-teleop
   # - pr2-tilt-laser-interface
   # - pr2-tuckarm
   # - pr2-tuck-arms-action
@@ -968,7 +1006,7 @@ packages_select_by_deps:
   # - service-tools
   # - sick-safetyscanners
   # - sick-scan
-  # - slam-gmapping
+  - slam-gmapping
   # - slam-toolbox-rviz
   # - slic
   # - slime-wrapper
