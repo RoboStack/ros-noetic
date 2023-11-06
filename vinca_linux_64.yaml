@@ -243,7 +243,7 @@ packages_select_by_deps:
   # - audio-common-msgs
   # - sound-play
   # - pid
-  # - rqt-ez-publisher
+  - rqt-ez-publisher
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
