@@ -7,7 +7,7 @@ dependencies:
   - pip
   - rospkg
   - catkin_pkg >=0.4.16
-  - ruamel.yaml >=0.16.6
+  - ruamel.yaml >=0.16.6,<0.18.0
   - rosdistro >=0.8.0
   - empy >=3.3.4
   - mamba
