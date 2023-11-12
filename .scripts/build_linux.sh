@@ -36,9 +36,9 @@ conda config --remove channels defaults
 
 mamba update conda --yes --quiet -c conda-forge
 mamba install --yes --quiet pip conda-build anaconda-client mamba
+mamba install --yes --quiet boa --only-deps
 mamba remove --yes --quiet boa || true
-# mamba install --yes boa --only-deps
-pip install git+https://github.com/mamba-org/boa@main
+pip install git+https://github.com/mamba-org/boa@main --no-deps
 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 # export PATH="$HOME/miniconda/bin:$PATH"
