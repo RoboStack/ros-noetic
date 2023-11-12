@@ -120,4 +120,4 @@ resource_retriever:
   add_host: ["libcurl"]
   add_run: ["libcurl"]
 plotjuggler:
-  add_host: [{"sel(linux)": "elfutils"}]
+  add_host: [{"sel(linux)": "elfutils"}, "protobuf"]
