@@ -827,7 +827,7 @@ python3-twisted:
 python3-typeguard:
   conda: [typeguard]
 python3-unidiff:
-  conda: [python3-unidiff]
+  conda: [unidiff]
 python3-usb:
   conda: [pyusb]
 python3-venv:
