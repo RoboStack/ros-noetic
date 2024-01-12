@@ -327,7 +327,7 @@ packages_select_by_deps:
   # - criutils
   # - cv-camera
   # - depth-image-proc
-  # - depthimage-to-laserscan
+  - depthimage-to-laserscan
   # - dnn-detect
   # - drone-wrapper
   # - fetch-depth-layer
