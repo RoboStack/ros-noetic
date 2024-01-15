@@ -796,6 +796,8 @@ python3-rospkg-modules:
   conda: [rospkg]
 python3-ruamel.yaml:
   conda: [ruamel.yaml]
+python3-ruff:
+  conda: [ruff]
 python3-scipy:
   conda: [scipy]
 python3-serial:
