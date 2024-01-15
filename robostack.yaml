@@ -779,6 +779,8 @@ python3-rospkg-modules:
   robostack: [rospkg]
 python3-ruamel.yaml:
   robostack: [ruamel.yaml]
+python3-ruff:
+  robostack: [ruff]
 python3-scipy:
   robostack: [scipy]
 python3-serial:
