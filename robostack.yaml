@@ -76,10 +76,14 @@ cython:
   robostack: [cython]
 doxygen:
   robostack: [doxygen, graphviz]
+draco:
+  robostack: [draco]
 eigen:
   robostack: [eigen]
 emacs:
   robostack: [emacs]
+festival:
+  robostack: [festival, festvox-kallpc16k]
 ffmpeg:
   robostack: [ffmpeg]
 flac:
@@ -691,6 +695,8 @@ python3-future:
   robostack: [future]
 python3-gi:
   robostack: [pygobject]
+python3-git:
+  robostack: [gitpython]
 python3-github:
   robostack: [pygithub]
 python3-github3:
@@ -771,6 +777,8 @@ python3-pymongo:
   robostack: [pymongo]
 python3-pyproj:
   robostack: [pyproj]
+python3-pysnmp:
+  robostack: [pysnmp]
 python3-pytest:
   robostack: [pytest]
 python3-pytest-cov:
@@ -803,6 +811,8 @@ python3-rospkg-modules:
   robostack: [rospkg]
 python3-ruamel.yaml:
   robostack: [ruamel.yaml]
+python3-ruff:
+  robostack: [ruff]
 python3-scipy:
   robostack: [scipy]
 python3-serial:
@@ -833,6 +843,8 @@ python3-twisted:
   robostack: [twisted]
 python3-typeguard:
   robostack: [typeguard]
+python3-unidiff:
+  robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
 python3-venv:

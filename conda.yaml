@@ -67,10 +67,14 @@ cython:
   conda: [cython]
 doxygen:
   conda: [doxygen, graphviz]
+draco:
+  conda: [draco]
 eigen:
   conda: [eigen]
 emacs:
   conda: [emacs]
+festival:
+  conda: [festival, festvox-kallpc16k]
 ffmpeg:
   conda: [ffmpeg]
 flac:
@@ -678,6 +682,8 @@ python3-future:
   conda: [future]
 python3-gi:
   conda: [pygobject]
+python3-git:
+  conda: [gitpython]
 python3-github:
   conda: [pygithub]
 python3-github3:
@@ -758,6 +764,8 @@ python3-pymongo:
   conda: [pymongo]
 python3-pyproj:
   conda: [pyproj]
+python3-pysnmp:
+  conda: [pysnmp]
 python3-pytest:
   conda: [pytest]
 python3-pytest-cov:
@@ -788,6 +796,8 @@ python3-rospkg-modules:
   conda: [rospkg]
 python3-ruamel.yaml:
   conda: [ruamel.yaml]
+python3-ruff:
+  conda: [ruff]
 python3-scipy:
   conda: [scipy]
 python3-serial:
@@ -818,6 +828,8 @@ python3-twisted:
   conda: [twisted]
 python3-typeguard:
   conda: [typeguard]
+python3-unidiff:
+  conda: [unidiff]
 python3-usb:
   conda: [pyusb]
 python3-venv:

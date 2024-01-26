@@ -1,0 +1,51 @@
+diff --git a/cras_cpp_common/CMakeLists.txt b/cras_cpp_common/CMakeLists.txt
+index b8e1640..876da61 100644
+--- a/cras_cpp_common/CMakeLists.txt
++++ b/cras_cpp_common/CMakeLists.txt
+@@ -225,12 +225,45 @@ add_library(cras_log_utils src/log_utils.cpp src/log_utils/memory.cpp src/log_ut
+ target_link_libraries(cras_log_utils
+   PUBLIC cras_string_utils ${catkin_LIBRARIES} PRIVATE cras_time_utils)
+ 
++# Detect compiler SIMD support. We'll need it for cras_tf2_sensor_msgs target.
++include(CheckCXXCompilerFlag)
++unset(COMPILER_SUPPORTS_MARCH_X86_V3 CACHE)
++unset(COMPILER_SUPPORTS_MARCH_X86_V2 CACHE)
++unset(COMPILER_SUPPORTS_MARCH_ARMV8 CACHE)
++unset(COMPILER_SUPPORTS_MARCH_ARMV7 CACHE)
++unset(COMPILER_SUPPORTS_MARCH_NATIVE CACHE)
++set(X86_V2_FLAGS -msse4 -msse3)
++set(X86_V3_FLAGS -mavx2 -mavx -mfma)
++list(APPEND X86_V3_FLAGS ${X86_V2_FLAGS})
++CHECK_CXX_COMPILER_FLAG("-march=x86-64 ${X86_V3_FLAGS}" COMPILER_SUPPORTS_MARCH_X86_V3)
++CHECK_CXX_COMPILER_FLAG("-march=x86-64 ${X86_V2_FLAGS}" COMPILER_SUPPORTS_MARCH_X86_V2)
++CHECK_CXX_COMPILER_FLAG("-march=armv8-a" COMPILER_SUPPORTS_MARCH_ARMV8)
++CHECK_CXX_COMPILER_FLAG("-march=armv7-a+neon" COMPILER_SUPPORTS_MARCH_ARMV7)
++CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
++
+ add_library(cras_tf2_sensor_msgs src/tf2_sensor_msgs.cpp)
+ add_dependencies(cras_tf2_sensor_msgs ${catkin_EXPORTED_TARGETS})
+-target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=native)
+ target_link_libraries(cras_tf2_sensor_msgs
+   PUBLIC ${catkin_LIBRARIES}
+   PRIVATE cras_cloud cras_string_utils Eigen3::Eigen)
++# The pointcloud processing loop really needs SIMD. We enable it conservatively.
++# ROS buildfarm should pick up x86-64-v3 for x86 builds, armv7 for armhf builds and armv8 for arm64 builds.
++if (COMPILER_SUPPORTS_MARCH_X86_V3)
++  target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=x86-64 ${X86_V3_FLAGS})
++  message("cras_tf2_sensor_msgs uses x86-64-v3 SIMD")
++elseif (COMPILER_SUPPORTS_MARCH_X86_V2)
++  target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=x86-64 ${X86_V2_FLAGS})
++  message("cras_tf2_sensor_msgs uses x86-64-v2 SIMD")
++elseif (COMPILER_SUPPORTS_MARCH_ARMV7)
++  target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=armv7-a+neon)
++  message("cras_tf2_sensor_msgs uses armv7-a+simd SIMD")
++elseif (COMPILER_SUPPORTS_MARCH_ARMV8)
++  target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=armv8-a)
++  message("cras_tf2_sensor_msgs uses armv8-a SIMD")
++elseif (COMPILER_SUPPORTS_MARCH_NATIVE)
++  target_compile_options(cras_tf2_sensor_msgs PRIVATE -march=native)
++  message("cras_tf2_sensor_msgs uses native SIMD")
++endif()
+ 
+ add_library(cras_type_utils src/type_utils.cpp)
+ target_link_libraries(cras_type_utils
