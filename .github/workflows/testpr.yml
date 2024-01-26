@@ -2,7 +2,7 @@ on:
   pull_request:
     paths:
       - '*.yaml'
-      
+
 env:
   ROS_VERSION: 1
 
@@ -37,7 +37,7 @@ jobs:
             platform: osx-arm64
     steps:
     - uses: actions/checkout@master
-    - name: install mamba
+    - name: install micromamba
       uses: mamba-org/setup-micromamba@main
       with:
         environment-file: .github/testpr_environment.yml
@@ -45,8 +45,9 @@ jobs:
           channels:
             - robostack-staging
             - conda-forge
+
     - shell: bash -l {0}
-      if: contains(matrix.os, 'linux-aarch64')
+      if: matrix.platform == 'linux-aarch64'
       run: |
         echo "::group::Configure binfmt_misc"
         docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
@@ -54,29 +55,23 @@ jobs:
         export GIT_BRANCH="$(basename $GITHUB_REF)"
         echo "::endgroup::"
 
+    - name: Install libgl1-mesa-dev (only for linux-aarch64)
+      if: matrix.platform == 'linux-aarch64'
+      shell: bash -l {0}
+      run: |
+        sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxmu-dev
+
     - shell: bash -l {0}
       run: |
         conda config --show channels | grep defaults && conda config --remove channels defaults
         conda info
         conda config --show
-        mamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4"
-        mamba install -y boa --only-deps
-    - name: install vinca and boa (win/macos)
-      if: contains(matrix.os, 'windows') || contains(matrix.os, 'macos')
+        micromamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4" boa
+    - name: install vinca and boa master
       shell: bash -l {0}
       run: |
         # use no-deps for now, otherwise problems with ruamel.
         pip install git+https://github.com/RoboStack/vinca.git --no-deps
-        # for now we need boa main
-        mamba install -y boa
-    - name: install vinca and boa main (linux)
-      if: contains(matrix.os, 'ubuntu')
-      shell: bash -l {0}
-      run: |
-        # use no-deps for now, otherwise problems with ruamel.
-        pip install git+https://github.com/RoboStack/vinca.git --no-deps
-        # for now we need boa main because of cos6/cos7 issue
-        pip install git+https://github.com/mamba-org/boa@main
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
     - name: Debug pkg-config problem
@@ -84,22 +79,23 @@ jobs:
       shell: bash -l {0}
       run: |
         rm -rf /c/Strawberry
+
     - name: Check what files have changed
       id: filecheck
       shell: bash -l {0}
       run: |
-        git fetch origin master
+        git fetch origin main
         # continue on error
         set +e
-        git diff --exit-code --name-only origin/master -- vinca_linux_64.yaml > /dev/null
+        git diff --exit-code --name-only origin/main -- vinca_linux_64.yaml > /dev/null
         echo "::set-output name=LINUX_YAML_CHANGED::${?}"
-        git diff --exit-code --name-only origin/master -- vinca_linux_aarch64.yaml > /dev/null
+        git diff --exit-code --name-only origin/main -- vinca_linux_aarch64.yaml > /dev/null
         echo "::set-output name=LINUX_AARCH_YAML_CHANGED::${?}"
-        git diff --exit-code --name-only origin/master -- vinca_osx.yaml > /dev/null
+        git diff --exit-code --name-only origin/main -- vinca_osx.yaml > /dev/null
         echo "::set-output name=OSX_YAML_CHANGED::${?}"
-        git diff --exit-code --name-only origin/master -- vinca_osx_arm64.yaml > /dev/null
+        git diff --exit-code --name-only origin/main -- vinca_osx_arm64.yaml > /dev/null
         echo "::set-output name=OSX_ARM_YAML_CHANGED::${?}"
-        git diff --exit-code --name-only origin/master -- vinca_win.yaml > /dev/null
+        git diff --exit-code --name-only origin/main -- vinca_win.yaml > /dev/null
         echo "::set-output name=WIN_YAML_CHANGED::${?}"
     - name: Generate recipes for Linux
       shell: bash -l {0}
@@ -156,21 +152,15 @@ jobs:
         echo "::set-output name=RECIPE_CREATED::${?}"
     - name: Build recipes for Linux
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build additional_recipes/ros-noetic-eigenpy/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build additional_recipes/ros-noetic-hpp-fcl/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build additional_recipes/ros-noetic-pinocchio/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
     - name: Build recipes for Linux-ARM64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
         boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
-        boa build additional_recipes/ros-noetic-eigenpy/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
-        boa build additional_recipes/ros-noetic-hpp-fcl/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
-        boa build additional_recipes/ros-noetic-pinocchio/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
         boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
     - name: Build recipes for macOS
       shell: bash -l {0}

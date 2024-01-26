@@ -7,6 +7,7 @@ c_compiler_version:            # [unix]
   - 12                         # [linux]
   - 16                         # [osx]
   - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
 cxx_compiler:
   - gxx                        # [linux]
   - clangxx                    # [osx]
@@ -16,6 +17,7 @@ cxx_compiler_version:          # [unix]
   - 12                         # [linux]
   - 16                         # [osx]
   - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
 llvm_openmp:                   # [osx]
   - 16                         # [osx]
 fortran_compiler:              # [unix or win64]
@@ -27,6 +29,7 @@ fortran_compiler_version:      # [unix or win64]
   - 12                         # [osx]
   - 5                          # [win64]
   - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
 m2w64_c_compiler:              # [win]
   - m2w64-toolchain            # [win]
 m2w64_cxx_compiler:            # [win]
@@ -37,12 +40,15 @@ m2w64_fortran_compiler:        # [win]
 cuda_compiler:
   - None
   - nvcc                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - nvcc                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 cuda_compiler_version:
   - None
   - 11.2                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - 11.8                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 cuda_compiler_version_min:
   - None                       # [osx]
   - 11.2                       # [linux or win64]
+  - 11.8                       # [linux or win64]
 
 arm_variant_type:              # [aarch64]
   - sbsa                       # [aarch64]
@@ -115,6 +121,7 @@ cdt_name:  # [linux]
   - cos7   # [linux and s390x]
 
   - cos7   # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - cos7   # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 
 docker_image:                                   # [os.environ.get("BUILD_PLATFORM", "").startswith("linux-")]
   # Native builds
@@ -131,6 +138,15 @@ docker_image:                                   # [os.environ.get("BUILD_PLATFOR
   # CUDA 11.2 arch: cross-compilation (build != target)
   - quay.io/condaforge/linux-anvil-cuda:11.2              # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
   - quay.io/condaforge/linux-anvil-cuda:11.2              # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+
+  # CUDA 11.8
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  # CUDA 11.8 arch: native compilation (build == target)
+  - quay.io/condaforge/linux-anvil-ppc64le-cuda:11.8      # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-ppc64le"]
+  - quay.io/condaforge/linux-anvil-aarch64-cuda:11.8      # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-aarch64"]
+  # CUDA 11.8 arch: cross-compilation (build != target)
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
 
 zip_keys:
   -                             # [unix]
@@ -152,6 +168,7 @@ zip_keys:
   -
     - arrow_cpp
     - libarrow
+    - libarrow_all
   # as of 4.23.x, libprotobuf requires patch-level run-exports;
   # we couple it with grpc (which very roughly releases in sync)
   # to reduce the migration pain for these two libs a bit.
@@ -173,11 +190,6 @@ cdt_arch: armv7l                          # [armv7l]
 BUILD: armv7-conda_cos7-linux-gnueabihf   # [armv7l]
 
 pin_run_as_build:
-  # boost is special, see https://github.com/conda-forge/boost-cpp-feedstock/pull/82
-  boost:
-    max_pin: x.x.x
-  boost-cpp:
-    max_pin: x.x.x
   # TODO: add run_exports to the following feedstocks
   flann:
     max_pin: x.x.x
@@ -217,59 +229,57 @@ blas_impl:
 abseil_cpp:
   - '20220623.0'
 alsa_lib:
-  - 1.2.9
+  - 1.2.10
 antic:
   - 0.2
 aom:
-  - '3.6'
+  - '3.7'
 arb:
   - '2.23'
 arpack:
-  - 3.7
+  - '3.8'
 # keep in sync with libarrow
 arrow_cpp:
+  - 14  # does not exist; switch to libarrow
   - 13
   - 12
   - 11.0.0
-  - 10.0.1
 assimp:
   - 5.3.1
 attr:
   - 2.5
 aws_c_auth:
-  - 0.7.4
+  - 0.7.11
 aws_c_cal:
-  - 0.6.2
+  - 0.6.9
 aws_c_common:
-  - 0.9.3
+  - 0.9.12
 aws_c_compression:
   - 0.2.17
 # coupled to aws_c_common version bump, see
 # https://github.com/conda-forge/aws-c-http-feedstock/pull/109
 aws_c_event_stream:
-  - 0.3.2
+  - 0.4.1
 aws_c_http:
-  - 0.7.13
+  - 0.8.0
 # the builds got coupled because 0.2.4 landed before the this migrator finished
 aws_c_io:
-  - 0.13.33
+  - 0.14.1
 # the builds got coupled because 0.2.4 landed before the io migrator
 aws_c_mqtt:
-  - 0.9.6
+  - 0.10.1
 aws_c_s3:
-  - 0.3.17
+  - 0.4.9
 aws_c_sdkutils:
-  - 0.1.12
+  - 0.1.13
 aws_checksums:
   - 0.1.17
 aws_crt_cpp:
-  - 0.24.2
+  - 0.26.0
 aws_sdk_cpp:
-  - 1.11.156
-boost:
-  - 1.82.0
-boost_cpp:
-  - 1.82.0
+  - 1.11.210
+bullet_cpp:
+  - 3.25
 bzip2:
   - 1
 c_ares:
@@ -281,7 +291,7 @@ capnproto:
 ccr:
   - 1.3
 cfitsio:
-  - 4.2.0
+  - 4.3.0
 coin_or_cbc:
   - 2.10
 coincbc:
@@ -311,7 +321,7 @@ dbus:
 dcap:
   - 2.47
 eclib:
-  - '20230424'
+  - '20231211'
 elfutils:
   - 0.189
 exiv2:
@@ -323,11 +333,11 @@ ffmpeg:
 fftw:
   - 3
 flann:
-  - 1.9.1
+  - 1.9.2
 flatbuffers:
   - 23.5.26
 fmt:
-  - '9'
+  - '10'
 fontconfig:
   - 2
 freetype:
@@ -339,7 +349,7 @@ gf2x:
 gdk_pixbuf:
   - 2
 gnuradio_core:
-  - 3.10.7
+  - 3.10.9
 gnutls:
   - 3.7
 gsl:
@@ -351,9 +361,9 @@ gstreamer:
 gst_plugins_base:
   - '1.22'
 gdal:
-  - '3.7'
+  - '3.8'
 geos:
-  - 3.12.0
+  - 3.12.1
 geotiff:
   - 1.7.1
 gfal2:
@@ -380,7 +390,7 @@ google_cloud_cpp_common:
 googleapis_cpp:
   - '0.10'
 graphviz:
-  - '8'
+  - '9'
 # this has been renamed to libgrpc as of 1.49; dropped as of 1.52.
 # IOW, this version is unavailable; makes the renaming more obvious
 grpc_cpp:
@@ -390,15 +400,15 @@ harfbuzz:
 hdf4:
   - 4.2.15
 hdf5:
-  - 1.14.2
+  - 1.14.3
 icu:
-  - '72'
+  - '73'
 imath:
   - 3.1.9
 ipopt:
-  - 3.14.12
+  - 3.14.13
 isl:
-  - '0.25'
+  - '0.26'
 jasper:
   - 4
 jpeg:
@@ -408,7 +418,7 @@ lcms:
 lerc:
   - '4'
 libjpeg_turbo:
-  - 2.1.5
+  - '3'
 libev:
   - 4.33
 json_c:
@@ -419,6 +429,8 @@ kealib:
   - '1.5'
 krb5:
   - '1.20'
+ldas_tools_framecpp:
+  - '2.9'
 libabseil:
   - '20230802'
 libabseil_static:
@@ -430,14 +442,24 @@ libarchive:
 # keep in sync with arrow_cpp (libarrow exists only from 10.x,
 # but make sure we have same length for zip as arrow_cpp)
 libarrow:
+  - 14
   - 13
   - 12
   - 11.0.0
-  - 10.0.1
+# only exists as of arrow v14, but needs to have same length as libarrow
+libarrow_all:
+  - 14
+  - 13
+  - 12
+  - 11.0.0
 libavif:
   - '1.0.1'
 libblitz:
   - 1.0.2
+libboost_devel:
+  - '1.82'
+libboost_python_devel:
+  - '1.82'
 libcint:
   - '5.5'
 libcurl:
@@ -448,27 +470,31 @@ libdap4:
   - 3.20.6
 libdeflate:
   - '1.19'
+libduckdb_devel:
+  - '0.9.2'
 libeantic:
   - 1
 libevent:
   - 2.1.12
 libexactreal:
-  - '3'
+  - '4'
 libffi:
   - '3.4'
 libflatsurf:
   - 3
 libflint:
   - '2.9'
+libframel:
+  - '8.41'
 libgdal:
-  - '3.7'
+  - '3.8'
 libgit2:
   - '1.7'
 # Keep in sync with google_cloud_cpp
 libgoogle_cloud:
   - '2.12'
 libgrpc:
-  - '1.57'
+  - '1.59'
 libhugetlbfs:
   - 2
 libhwy:
@@ -483,24 +509,32 @@ libkml:
   - 1.3
 libiio:
   - 0
+libmed:
+  - '4.1'
 libmatio:
-  - 1.5.23
+  - 1.5.26
+libmatio_cpp:
+  - 0.2.3
 libmicrohttpd:
   - 0.9
 libnetcdf:
   - 4.9.2
 libopencv:
-  - 4.8.0
+  - 4.9.0
+libopentelemetry_cpp:
+  - '1.13'
 libosqp:
   - 0.6.3
+libopenvino_dev:
+  - 2023.2.0
 libpcap:
   - '1.10'
 libpng:
   - 1.6
 libprotobuf:
-  - 4.23.4
+  - 4.24.4
 libpq:
-  - 15
+  - '16'
 libraw:
   - '0.21'
 librdkafka:
@@ -513,6 +547,8 @@ libsentencepiece:
   - '0.1.99'
 libsndfile:
   - '1.2'
+libsoup:
+  - 3
 libspatialindex:
   - 1.9.3
 libssh:
@@ -524,10 +560,14 @@ libsvm:
 # keep libsqlite in sync with sqlite
 libsqlite:
   - 3
+libtensorflow:
+  - 2.14
+libtensorflow_cc:
+  - 2.14
 libthrift:
   - 0.18.1
 libtiff:
-  - '4.5'
+  - '4.6'
 libunwind:
   - '1.6'
 libv8:
@@ -539,7 +579,7 @@ libwebp:
 libwebp_base:
   - 1
 libxml2:
-  - '2.11'
+  - 2
 libxsmm:
   - 1
 libuuid:
@@ -549,7 +589,7 @@ libzip:
 lmdb:
   - 0.9.29
 log4cxx:
-  - 0.11.0
+  - 1.1.0
 lz4_c:
   - '1.9.3'
 lzo:
@@ -559,9 +599,9 @@ metis:
 mimalloc:
   - 2.1.2
 mkl:
-  - 2022
+  - '2023'
 mkl_devel:
-  - 2022
+  - 2023
 mpg123:
   - '1.32'
 mpich:
@@ -585,7 +625,7 @@ netcdf_cxx4:
 netcdf_fortran:
   - '4.6'
 nettle:
-  - '3.8'
+  - '3.9'
 nodejs:
   - '20'
   - '18'
@@ -612,17 +652,15 @@ openblas:
 openexr:
   - '3.2'
 openh264:
-  - '2.3.1'
+  - 2.4.0
 openjpeg:
   - '2'
 openmpi:
   - 4
 openssl:
   - '3'
-openturns:
-  - '1.20'
 orc:
-  - 1.9.0
+  - 1.9.2
 pango:
   - 1.50
 pari:
@@ -632,21 +670,23 @@ pcl:
 perl:
   - 5.32.1
 petsc:
-  - '3.18'
+  - '3.20'
 petsc4py:
-  - '3.18'
+  - '3.20'
+pugixml:
+  - '1.14'
 slepc:
-  - '3.18'
+  - '3.20'
 slepc4py:
-  - '3.18'
+  - '3.20'
 svt_av1:
-  - 1.7.0
+  - 1.8.0
 p11_kit:
   - '0.24'
 pcre:
   - '8'
 pcre2:
-  - '10.40'
+  - '10.42'
 pixman:
   - 0
 poco:
@@ -654,11 +694,11 @@ poco:
 poppler:
   - '23.07'
 postgresql:
-  - 15
+  - '16'
 postgresql_plpython:
-  - 15
+  - '16'
 proj:
-  - 9.2.1
+  - 9.3.1
 pulseaudio:
   - '16.1'
 pulseaudio_client:
@@ -692,19 +732,19 @@ qt:
 qt_main:
   - 5.15
 qt6_main:
-  - '6.5'
+  - '6.6'
 qtkeychain:
   - '0.14'
 rdma_core:
-  - '48.0'
+  - '49'
 re2:
-  - 2023.03.02
+  - 2023.06.02
 readline:
   - "8"
 rocksdb:
-  - '7.9'
+  - '8.0'
 root_base:
-  - 6.28.4
+  - 6.28.10
 ruby:
   - 2.5
   - 2.6
@@ -712,12 +752,16 @@ r_base:
   - 4.1   # [win]
   - 4.2   # [not win]
   - 4.3   # [not win]
+libscotch:
+  - 7.0.4
+libptscotch:
+  - 7.0.4
 scotch:
-  - 6.0.9
+  - 7.0.4
 ptscotch:
-  - 6.0.9
+  - 7.0.4
 s2n:
-  - 1.3.54
+  - 1.4.1
 sdl2:
   - '2'
 sdl2_image:
@@ -729,7 +773,7 @@ sdl2_net:
 sdl2_ttf:
   - '2'
 singular:
-  - 4.2.1.p3
+  - 4.3.2.p8
 snappy:
   - 1
 soapysdr:
@@ -737,7 +781,7 @@ soapysdr:
 sox:
   - 14.4.2
 spdlog:
-  - '1.11'
+  - '1.12'
 # keep sqlite in sync with libsqlite
 sqlite:
   - 3
@@ -748,33 +792,35 @@ starlink_ast:
 suitesparse:
   - 5
 superlu_dist:
-  - 7.1.1
+  - '8'
 tbb:
   - '2021'
 tbb_devel:
   - '2021'
+tensorflow:
+  - '2.14'
 thrift_cpp:
   - 0.18.1
 tinyxml2:
-  - 9
+  - 10
 tk:
   - 8.6                # [not ppc64le]
 tiledb:
-  - '2.16'
+  - '2.19'
 ucx:
   - '1.15.0'
 uhd:
-  - 4.5.0
+  - 4.6.0
 urdfdom:
-  - 3.1
+  - 4
 vc:                    # [win]
   - 14                 # [win]
 vlfeat:
   - 0.9.21
 volk:
-  - '3.0'
+  - '3.1'
 vtk:
-  - 9.2.5
+  - 9.2.6
 wcslib:
   - '8'
 wxwidgets:
@@ -790,7 +836,7 @@ xrootd:
 xz:
   - 5
 zeromq:
-  - 4.3.4
+  - '4.3.5'
 zfp:
   - 1.0
 zlib:
