@@ -5,7 +5,7 @@ libpqxx:
 numpy:
   - 1.23
 ogre:
-  - 1.12.*
+  - 1.10.12
 setuptools:
   - 69
   

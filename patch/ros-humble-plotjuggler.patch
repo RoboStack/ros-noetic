@@ -1,0 +1,227 @@
+diff --git a/3rdparty/QCodeEditor/CMakeLists.txt b/3rdparty/QCodeEditor/CMakeLists.txt
+index 84282fe1f..c37ae8f49 100644
+--- a/3rdparty/QCodeEditor/CMakeLists.txt
++++ b/3rdparty/QCodeEditor/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.6)
++cmake_minimum_required(VERSION 3.20)
+ project(QCodeEditor)
+ 
+ set(CMAKE_CXX_STANDARD 11)
+@@ -69,10 +69,7 @@ set(CMAKE_AUTOMOC On)
+ # Create code from resource files
+ set(CMAKE_AUTORCC ON)
+ 
+-# Find includes in corresponding build directories
+-find_package(Qt5Core    CONFIG REQUIRED)
+-find_package(Qt5Widgets CONFIG REQUIRED)
+-find_package(Qt5Gui     CONFIG REQUIRED)
++find_package(Qt5 COMPONENTS Core Widgets Gui REQUIRED)
+ 
+ add_library(QCodeEditor STATIC
+     ${RESOURCES_FILE}
+@@ -84,21 +81,6 @@ target_include_directories(QCodeEditor PUBLIC
+     include
+ )
+ 
+-if(CMAKE_COMPILER_IS_GNUCXX)
+-    target_compile_options(QCodeEditor
+-		PRIVATE
+-		-ansi
+-		-pedantic
+-		-Wall
+-		-Wextra
+-		-Weffc++
+-		-Woverloaded-virtual
+-		-Winit-self
+-		-std=c++11
+-		-Wunreachable-code
+-	)
+-endif(CMAKE_COMPILER_IS_GNUCXX)
+-
+ target_link_libraries(QCodeEditor
+     Qt5::Core
+     Qt5::Widgets
+diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+index 6b650f1b6..82c58edb4 100644
+--- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
++++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+@@ -67,7 +67,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
+ 
+ if(UNIX AND NOT APPLE)
+     target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
+-        target_link_libraries(qt_advanced_docking PRIVATE xcb)
++    target_link_libraries(qt_advanced_docking PRIVATE ${XCB_LIBRARIES})
++    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
+ endif()
+ 
+ set_target_properties(qt_advanced_docking PROPERTIES
+diff --git a/3rdparty/lua-5.4.3/CMakeLists.txt b/3rdparty/lua-5.4.3/CMakeLists.txt
+index 6f682a3e6..676feecb1 100644
+--- a/3rdparty/lua-5.4.3/CMakeLists.txt
++++ b/3rdparty/lua-5.4.3/CMakeLists.txt
+@@ -1,3 +1,5 @@
++include_directories( ./src  )
++
+ set(LUA_LIB_SRCS 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lapi.c 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lcode.c 
+@@ -32,7 +34,7 @@ set(LUA_LIB_SRCS
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/loadlib.c 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/linit.c
+     )
+-set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
++# set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+ 
+ add_compile_options(-fPIC)
+ 
+@@ -40,7 +42,7 @@ add_library(lua_static STATIC
+     ${LUA_LIB_SRCS}
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lua.c
+ )
+-target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
++# target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
+ 
+ add_library(lua_objects OBJECT ${LUA_LIB_SRCS})
+ 
+@@ -53,3 +55,11 @@ if(EMSCRIPTEN)
+ endif()
+ target_compile_definitions(lua_static PUBLIC ${LUA_DEFINITIONS})
+ 
++install(
++     TARGETS
++        lua_static
++     EXPORT export_lua_static
++     LIBRARY DESTINATION lib
++     ARCHIVE DESTINATION lib
++     RUNTIME DESTINATION bin
++     INCLUDES DESTINATION include )
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0c12d11a..37e5db3c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -123,11 +123,9 @@ find_package(Qt5 REQUIRED COMPONENTS
+ set( QT_LINK_LIBRARIES
+     Qt5::Core
+     Qt5::Widgets
+-    Qt5::PrintSupport
+     Qt5::Xml
+     Qt5::Concurrent
+     Qt5::Svg
+-    Qt5::OpenGL
+     Qt5::WebSockets
+     )
+ 
+@@ -193,7 +191,7 @@ if (BASE_AS_SHARED)
+         ${PLOTJUGGLER_BASE_SRC}
+         ${PLOTJUGGLER_BASE_MOCS}
+         )
+-    target_link_libraries(plotjuggler_base PRIVATE lua_objects plotjuggler_qwt_objects)
++    target_link_libraries(plotjuggler_base PRIVATE ${QT_LINK_LIBRARIES} lua_objects plotjuggler_qwt_objects)
+ else()
+     add_library(plotjuggler_base STATIC
+         ${PLOTJUGGLER_BASE_SRC}
+@@ -201,13 +199,6 @@ else()
+         )
+ endif()
+ 
+-# target_link_libraries(plotjuggler_base plotjuggler_qwt)
+-
+-target_include_directories(plotjuggler_base INTERFACE
+-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-  $<INSTALL_INTERFACE:include>
+-)
+-
+ #########################  INSTALL  ####################################
+ 
+ if(COMPILING_WITH_CATKIN)
+@@ -224,8 +215,9 @@ elseif(COMPILING_WITH_AMENT)
+     set(PJ_PLUGIN_INSTALL_DIRECTORY lib/${PROJECT_NAME} )
+ 
+     ament_export_targets(
+-        ${PROJECT_NAME}Targets
+         export_plotjuggler_qwt
++        export_lua_static
++        ${PROJECT_NAME}Targets
+         HAS_LIBRARY_TARGET)
+     ament_package()
+ 
+diff --git a/cmake/FindXCB.cmake b/cmake/FindXCB.cmake
+new file mode 100644
+index 00000000..a2e2757a
+--- /dev/null
++++ b/cmake/FindXCB.cmake
+@@ -0,0 +1,51 @@
++# - FindXCB
++#
++# Copyright 2015 Valve Coporation
++
++find_package(PkgConfig)
++
++if(NOT XCB_FIND_COMPONENTS)
++    set(XCB_FIND_COMPONENTS xcb)
++endif()
++
++include(FindPackageHandleStandardArgs)
++set(XCB_FOUND true)
++set(XCB_INCLUDE_DIRS "")
++set(XCB_LIBRARIES "")
++foreach(comp ${XCB_FIND_COMPONENTS})
++    # component name
++    string(TOUPPER ${comp} compname)
++    string(REPLACE "-" "_" compname ${compname})
++    # header name
++    string(REPLACE "xcb-" "" headername xcb/${comp}.h)
++    # library name
++    set(libname ${comp})
++
++    pkg_check_modules(PC_${comp} QUIET ${comp})
++
++    find_path(${compname}_INCLUDE_DIR NAMES ${headername}
++        HINTS
++        ${PC_${comp}_INCLUDEDIR}
++        ${PC_${comp}_INCLUDE_DIRS}
++        )
++
++    find_library(${compname}_LIBRARY NAMES ${libname}
++        HINTS
++        ${PC_${comp}_LIBDIR}
++        ${PC_${comp}_LIBRARY_DIRS}
++        )
++
++    find_package_handle_standard_args(${comp}
++        FOUND_VAR ${comp}_FOUND
++        REQUIRED_VARS ${compname}_INCLUDE_DIR ${compname}_LIBRARY)
++    mark_as_advanced(${compname}_INCLUDE_DIR ${compname}_LIBRARY)
++
++    list(APPEND XCB_INCLUDE_DIRS ${${compname}_INCLUDE_DIR})
++    list(APPEND XCB_LIBRARIES ${${compname}_LIBRARY})
++
++    if(NOT ${comp}_FOUND)
++        set(XCB_FOUND false)
++    endif()
++endforeach()
++
++list(REMOVE_DUPLICATES XCB_INCLUDE_DIRS)
+diff --git a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
+index 084c93cb..d484adf6 100644
+--- a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
++++ b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
+@@ -4,7 +4,7 @@ include_directories( ../ )
+ add_definitions(${QT_DEFINITIONS})
+ add_definitions(-DQT_PLUGIN)
+ 
+-find_package(Protobuf QUIET)
++find_package(Protobuf QUIET CONFIG)
+ 
+ if( Protobuf_FOUND)
+     message(STATUS "[Protobuf] found")
+@@ -24,7 +24,7 @@ if( Protobuf_FOUND)
+     target_link_libraries(ProtobufParser
+         ${Qt5Widgets_LIBRARIES}
+         ${Qt5Xml_LIBRARIES}
+-        ${Protobuf_LIBRARIES}
++        protobuf::libprotobuf
+         plotjuggler_base
+         plotjuggler_qwt)
+ 

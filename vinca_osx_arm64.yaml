@@ -31,7 +31,7 @@ packages_remove_from_deps:
 skip_existing:
   # - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
-  # - /Users/fischert/mambaforge/conda-bld
+  - /Users/fischert/mambaforge/envs/devenv/conda-bld
 
 packages_select_by_deps:
   ##
