@@ -108,6 +108,7 @@ packages_select_by_deps:
   - rosserial-arduino
   - rosserial-client
   - navigation
+  - ros-controllers
 
   # # # For jackal
   # - gazebo-dev

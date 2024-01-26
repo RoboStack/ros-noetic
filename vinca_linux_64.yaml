@@ -146,6 +146,10 @@ packages_select_by_deps:
   - gazebo-dev
   - gazebo-ros
   - hector-gazebo-plugins
+  - depthimage-to-laserscan
+  - joy
+  - nmea-msgs
+
   # - gazebo-ros-control
   # - gazebo-plugins
   # - lms1xx
@@ -153,12 +157,10 @@ packages_select_by_deps:
   # - interactive_marker_twist_server
   # - diff-drive-controller
   # - joint-state-controller
-  - joy
   # - robot-localization
   # - teleop-twist-joy
   # - twist-mux
   # - pointgrey-camera-description
-  # - nmea-msgs
   # - geometry-msgs
   # - nmea-navsat-driver
   # - rosserial-server
@@ -299,7 +301,6 @@ packages_select_by_deps:
   # - criutils
   # - cv-camera
   # - depth-image-proc
-  # - depthimage-to-laserscan
   # - dnn-detect
   # - drone-wrapper
   # - fetch-depth-layer
