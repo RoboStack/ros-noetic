@@ -99,7 +99,6 @@ packages_select_by_deps:
   - desktop-full
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
 
-  - rosmon
   - apriltag
   - apriltag-ros
   - find-object-2d
@@ -160,7 +159,6 @@ packages_select_by_deps:
   - criutils
   - baldor
   - catch-ros
-  - rosfmt
 
   - amcl
   - map-server
@@ -178,6 +176,10 @@ packages_select_by_deps:
   - depthimage-to-laserscan
   - joy
   - nmea-msgs
+
+  # Used to work on robostack-staging, now broken
+  # - rosfmt  # see https://github.com/xqms/rosfmt/issues/12
+  # - rosmon  # because of https://github.com/xqms/rosfmt/issues/12
 
   # - gazebo-ros-control
   # - gazebo-plugins
@@ -962,7 +964,6 @@ packages_select_by_deps:
   # - rosbag-snapshot-msgs
   # - rosdiagnostic
   # - rosemacs
-  # - rosfmt
   # - ros-industrial-cmake-boilerplate
   # - ros-introspection
   # - rosmon-msgs

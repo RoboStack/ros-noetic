@@ -43,19 +43,29 @@ index 84282fe1f..c37ae8f49 100644
      Qt5::Core
      Qt5::Widgets
 diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-index 6b650f1b6..82c58edb4 100644
+index 6b650f1b..f384e3f1 100644
 --- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
 +++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-@@ -67,7 +67,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
+@@ -4,6 +4,8 @@ project(QtADS LANGUAGES CXX)
+ 
+ include_directories(include/Qads)
+ 
++find_package(XCB REQUIRED)
++
+ find_package(Qt5 5.5 COMPONENTS Core Gui Widgets REQUIRED)
+ if (UNIX AND NOT APPLE)
+         find_package(Qt5 5.5 COMPONENTS X11Extras REQUIRED)
+@@ -67,7 +69,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
  
  if(UNIX AND NOT APPLE)
      target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
 -        target_link_libraries(qt_advanced_docking PRIVATE xcb)
-+    target_link_libraries(qt_advanced_docking PRIVATE ${XCB_LIBRARIES})
++    target_link_libraries(qt_advanced_docking PUBLIC ${XCB_LIBRARIES})
 +    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
  endif()
  
  set_target_properties(qt_advanced_docking PROPERTIES
+
 diff --git a/3rdparty/lua-5.4.3/CMakeLists.txt b/3rdparty/lua-5.4.3/CMakeLists.txt
 index 6f682a3e6..676feecb1 100644
 --- a/3rdparty/lua-5.4.3/CMakeLists.txt
