@@ -117,7 +117,7 @@ packages_select_by_deps:
   - simulators
   - desktop_full
   - audio-common-msgs
-  - sound-play
+  # - sound-play
 
   # For jackal
   - hector-gazebo-plugins
