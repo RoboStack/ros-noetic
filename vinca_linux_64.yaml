@@ -93,7 +93,9 @@ packages_select_by_deps:
   - ackermann-msgs
   - fake-localization
   - realsense2-description
-
+  - openni2-camera
+  - openni2-launch
+  - p2os_driver
 
   - desktop
   - desktop-full
@@ -102,8 +104,8 @@ packages_select_by_deps:
   - apriltag
   - apriltag-ros
   - find-object-2d
-  # - rtabmap
-  # - rtabmap-ros
+  - rtabmap
+  - rtabmap-ros
   - convex-decomposition
   - pcl-ros
   - pcl-conversions

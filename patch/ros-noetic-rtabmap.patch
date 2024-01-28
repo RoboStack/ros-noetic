@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6f9c28f4b..7390fc010 100644
+index 8658bcc5..2de825c9 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -79,14 +79,6 @@ IF(MINGW)
+@@ -83,14 +83,6 @@ IF(MINGW)
      SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import")
  ENDIF(MINGW)
  
@@ -17,7 +17,7 @@ index 6f9c28f4b..7390fc010 100644
  #The CDT Error Parser cannot handle error messages that span 
  #more than one line, which is the default gcc behavior. 
  #In order to force gcc to generate single line error messages with no line wrapping
-@@ -162,14 +154,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
+@@ -167,14 +159,14 @@ OPTION(BUILD_TOOLS "Build tools" ON)
  OPTION(BUILD_EXAMPLES "Build examples" ON)
  
  ####### DEPENDENCIES #######
@@ -34,21 +34,21 @@ index 6f9c28f4b..7390fc010 100644
  option(WITH_PYTHON_THREADING  "Use more than one Python interpreter."  OFF)
  option(WITH_PDAL          "Include PDAL support"                 ON)
  option(WITH_FREENECT      "Include Freenect support"             ON)
-@@ -348,6 +340,8 @@ IF(WITH_QT)
+@@ -375,6 +367,8 @@ IF(WITH_QT)
          ENDIF()
          ADD_DEFINITIONS(-DQT_NO_KEYWORDS) # To avoid conflicts with boost signals/foreach and Qt macros
-     ENDIF(QT4_FOUND OR Qt5_FOUND)
+     ENDIF(QT4_FOUND OR Qt5_FOUND OR Qt6_FOUND)
 +ELSE()
-+    add_compile_definitions(DISABLE_VTK)
++   add_compile_definitions(DISABLE_VTK)
  ENDIF(WITH_QT)
  
  IF(NOT VTK_FOUND)
 diff --git a/corelib/src/CMakeLists.txt b/corelib/src/CMakeLists.txt
-index 9df6b45fd..78c02b658 100644
+index df7cbaa0..4c47fd02 100644
 --- a/corelib/src/CMakeLists.txt
 +++ b/corelib/src/CMakeLists.txt
-@@ -159,6 +159,13 @@ SET(LIBRARIES
- 	${ZLIB_LIBRARIES} 
+@@ -164,6 +164,13 @@ SET(LIBRARIES
+ 	${ZLIB_LIBRARIES}
  )
  
 +IF(VTK_FOUND)
@@ -58,28 +58,15 @@ index 9df6b45fd..78c02b658 100644
 +	)
 +ENDIF()
 +
- IF(Sqlite3_FOUND)
-     SET(INCLUDE_DIRS
- 		${INCLUDE_DIRS}
-@@ -210,6 +217,8 @@ IF(WITH_PYTHON AND Python3_FOUND)
+ # Issue that qhull dependency uses optimized and debug keywords,
+ # which are converted to \$<\$<NOT:\$<CONFIG:DEBUG>> and \$<\$<CONFIG:DEBUG>
+ # in RTABMap_coreTargets.cmake (not sure why?!).
+@@ -228,6 +235,8 @@ IF(WITH_PYTHON AND Python3_FOUND)
  	 SET(INCLUDE_DIRS
  	    ${TORCH_INCLUDE_DIRS}
  	    ${CMAKE_CURRENT_SOURCE_DIR}/python
-+	    ${Python3_INCLUDE_DIRS}
-+	    ${Python3_NumPy_INCLUDE_DIRS}
++		${Python3_INCLUDE_DIRS}
++		${Python3_NumPy_INCLUDE_DIRS}
  		${INCLUDE_DIRS}
  	)
  ENDIF(WITH_PYTHON AND Python3_FOUND)
-diff --git a/tools/EurocDataset/CMakeLists.txt b/tools/EurocDataset/CMakeLists.txt
-index 3b1e5e4..2f23770 100644
---- a/tools/EurocDataset/CMakeLists.txt
-+++ b/tools/EurocDataset/CMakeLists.txt
-@@ -12,6 +12,8 @@ IF(NOT yaml-cpp_FOUND)
-          SET(yaml-cpp_FOUND ${yaml_cpp_FOUND})
- 	  ENDIF(yaml_cpp_FOUND)
-    ENDIF(PKG_CONFIG_FOUND)
-+ELSE()
-+    SET(YAML_CPP_INCLUDE_DIRS ${YAML_CPP_INCLUDE_DIR})
- ENDIF(NOT yaml-cpp_FOUND)
- 
- IF(yaml-cpp_FOUND)
