@@ -1,0 +1,12 @@
+diff --git a/tf2/src/buffer_core.cpp b/tf2/src/buffer_core.cpp
+index b2eb4877..90b35515 100644
+--- a/tf2/src/buffer_core.cpp
++++ b/tf2/src/buffer_core.cpp
+@@ -38,6 +38,7 @@
+ #include <console_bridge/console.h>
+ #include "tf2/LinearMath/Transform.h"
+ #include <boost/foreach.hpp>
++#include <boost/tuple/tuple.hpp>
+ 
+ namespace tf2
+ {
