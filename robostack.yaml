@@ -1,3 +1,10 @@
+# TODO
+# python3-babeltrace:
+#   robostack: [babeltrace]
+# python3-lttng:
+#   robostack: [lttng-python]
+# libv4l-dev:
+#   robostack: [xxx]
 acl:
   robostack:
     linux: [libacl]
@@ -36,6 +43,8 @@ cartographer:
   robostack: [cartographer]
 ca-certificates:
   robostack: [ca-certificates]
+clang-format:
+  robostack: [clang-format]
 clang-tidy:
   robostack: [clang-tools]
 cmake:
@@ -169,7 +178,7 @@ lcov:
 leveldb:
   robostack: [leveldb]
 libabsl-dev:
-  robostack: [abseil-cpp]
+  robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
 libboost-chrono-dev:
@@ -194,6 +203,10 @@ libboost-python:
   robostack: [boost]
 libboost-python-dev:
   robostack: [boost]
+libboost-random:
+  robostack: [boost-cpp]
+libboost-random-dev:
+  robostack: [boost-cpp]
 libboost-regex-dev:
   robostack: [boost-cpp]
 libboost-serialization:
@@ -365,6 +378,8 @@ libqt5-opengl:
   robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-opengl-dev:
   robostack: [qt-main, REQUIRE_OPENGL]
+libqt5-svg:
+  robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-svg-dev:
   robostack: [qt-main, REQUIRE_OPENGL]
 libqt5-websockets-dev:
@@ -394,7 +409,10 @@ libturbojpeg:
 libtins-dev:
   robostack: [libtins]
 libudev-dev:
-  robostack: [libusb]
+  robostack:
+    linux: [libusb, libudev]
+    osx: [libusb]
+    win64: [libusb]
 liburdfdom-dev:
   robostack: [urdfdom]
 liburdfdom-headers-dev:
@@ -402,13 +420,25 @@ liburdfdom-headers-dev:
 liburdfdom-tools:
   robostack: [urdfdom]
 libusb-1.0:
-  robostack: [libusb]
+  robostack:
+    linux: [libusb, libudev]
+    osx: [libusb]
+    win64: [libusb]
 libusb-1.0-dev:
-  robostack: [libusb]
+  robostack:
+    linux: [libusb, libudev]
+    osx: [libusb]
+    win64: [libusb]
 libusb-dev:
-  robostack: [libusb]
+  robostack:
+    linux: [libusb, libudev]
+    osx: [libusb]
+    win64: [libusb]
 libuvc-dev:
-  robostack: [libuvc, libusb]
+  robostack:
+    linux: [libusb, libudev, libuvc]
+    osx: [libusb, libuvc]
+    win64: [libusb, libuvc]
 libvtk:
   robostack: [vtk]
 libvtk-qt:
@@ -755,6 +785,8 @@ python3-pytest-cov:
   robostack: [pytest-cov]
 python3-pytest-mock:
   robostack: [pytest-mock]
+python3-pytest-timeout:
+  robostack: [pytest-timeout]
 python3-qt5-bindings:
   robostack: [pyqt, pyqt-builder]
 python3-qt5-bindings-gl:
@@ -881,7 +913,10 @@ tinyxml:
 tinyxml2:
   robostack: [tinyxml2]
 udev:
-  robostack: [libusb]
+  robostack:
+    linux: [libusb, libudev]
+    osx: [libusb]
+    win64: [libusb]
 uncrustify:
   robostack: [uncrustify]
 unzip:
@@ -897,6 +932,10 @@ libwebsocketpp-dev:
   robostack: [websocketpp]
 wget:
   robostack: [wget]
+xsimd:
+  robostack: [xsimd]
+xtensor:
+  robostack: [xtensor 0.24]
 wx-common:
   robostack: [wxpython]
 wxpython:
@@ -913,3 +952,4 @@ zbar:
   robostack: [zbar]
 zlib:
   robostack: [zlib]
+

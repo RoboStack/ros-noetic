@@ -1,24 +1,26 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.4 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 14
+build_number: 15
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
   - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   # see https://github.com/RoboStack/ros-noetic/issues/25
@@ -30,9 +32,13 @@ skip_existing:
   # - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
 
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
   - actionlib
-  - foxglove_bridge
   - ros-babel-fish
   - ros-babel-fish-test-msgs
   - moveit_visual_tools
@@ -43,78 +49,78 @@ packages_select_by_deps:
   - fake-localization
   - realsense2-description
   
-  # - desktop
-  # - rqt-gui
-  # - catkin
-  # - teleop_twist_keyboard
-  # - perception_pcl
-  # - rosbridge_suite
-  # ## Only limited number of packages to reduce maintainer burden
-  # - rviz
-  # - robot_localization
-  # - amcl
-  # - map-server
-  # - move-base
-  # # - gmapping
-  # - fcl
-  # - desktop_full
-  # - moveit
-  # - kdl-parser-py
-  # - imu-tools
-  # - rqt-controller-manager
-  # - rosserial
-  # - rosserial-server
-  # - rosserial-python
-  # - rosserial-msgs
-  # - rosserial-windows
-  # - rosserial-client
-  # - hector-map-tools
-  # - hector-nav-msgs
-  # - hector-trajectory-server
-  # - radar-msgs
-  # - geometry2
-  # - tf2
-  # - tf2_bullet
-  # - tf2_eigen
-  # - tf2_geometry_msgs
-  # - tf2_kdl
-  # - tf2_msgs
-  # - tf2_py
-  # - tf2_ros
-  # - tf2_sensor_msgs
-  # - tf2_tools
-  # - gps-common
-  # - pcl-ros
-  # - pcl-conversions
-  # - velodyne-simulator
-  
-  # # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - effort-controllers
-  # - velocity-controllers
-  # - joy
+  - desktop
+  - rqt-gui
+  - catkin
+  - teleop_twist_keyboard
+  - perception_pcl
+  - rosbridge_suite
+  ## Only limited number of packages to reduce maintainer burden
+  - rviz
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  # - gmapping
+  - fcl
+  - desktop_full
+  - moveit
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - rosserial
+  - rosserial-server
+  - rosserial-python
+  - rosserial-msgs
+  - rosserial-windows
+  - rosserial-client
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - gps-common
+  - pcl-ros
+  - pcl-conversions
+  - velodyne-simulator
 
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - imu-filter-madgwick
-  # - ros_numpy
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
+  # # For jackal
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - effort-controllers
+  - velocity-controllers
+  - joy
+
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - imu-filter-madgwick
+  - ros_numpy
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED

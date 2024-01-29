@@ -1,9 +1,9 @@
 package:
   name: ros-distro-mutex
-  version: 0.4.0
+  version: 0.5.0
 
 build:
-  number: 3
+  number: 4
   string: noetic
   run_exports:
     - "{{ pin_subpackage('ros-distro-mutex', max_pin='x.x') }}"
@@ -29,11 +29,9 @@ requirements:
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
   run_constrained:
-    - boost-cpp 1.78
-    - pcl 1.12
     - gazebo 11
     - ogre 1.10.12
-    - libpqxx 6
+    - libpqxx 7.8
 
 about:
   home: https://github.com/robostack/ros-noetic

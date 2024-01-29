@@ -1,35 +1,43 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.4 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 7
+build_number: 8
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
   - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros
   - stage
+
   # sbcl is not available for osx-arm64
   # - roslisp
 
 skip_existing:
   # - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
-  # - /Users/fischert/mambaforge/conda-bld
+  # - /Users/fischert/mambaforge/envs/devenv/conda-bld
 
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
@@ -42,71 +50,70 @@ packages_select_by_deps:
   - fake-localization
   - realsense2-description
 
-  # - rviz
-  # - python-qt-binding
-  # - qt-gui-cpp
-  # - actionlib
-  # - foxglove_bridge
-  # - ros-babel-fish
-  # - ros-babel-fish-test-msgs
-  # - moveit_visual_tools
-  # - rviz_visual_tools
-  # - rgbd-launch
+  - rviz
+  - python-qt-binding
+  - qt-gui-cpp
+  - actionlib
+  - ros-babel-fish
+  - ros-babel-fish-test-msgs
+  - moveit_visual_tools
+  - rviz_visual_tools
+  - rgbd-launch
 
-  # - plotjuggler
-  # - plotjuggler_ros
+  - plotjuggler
+  - plotjuggler_ros
 
-  # - sick-tim
-  # - python-qt-binding
-  # - qt-gui
-  # - rqt-gui
-  # - rqt-gui-py
-  # - rqt-gui-cpp
-  # - qt-gui-cpp
-  # - rqt-ez-publisher
-  # - pcl-ros
-  # - pcl-conversions
-  # - roslisp
-  # # - qt-gui-cpp  # needs manual build
-  # # - rviz  # needs manual build
-  # - desktop
-  # - perception
-  # - moveit
-  # # - eigenpy  # needs manual build
-  # - turtlebot3
-  # - turtlebot3-simulations
-  # - desktop-full
-  # - realsense2_camera
-  # - realsense2_description
-  # - kdl-parser-py
-  # - imu-tools
-  # - rqt-controller-manager
-  # - dynamixel-sdk
-  # - hector-map-tools
-  # - hector-nav-msgs
-  # - hector-trajectory-server
-  # - radar-msgs
-  # - geometry2
-  # - tf2
-  # - tf2_bullet
-  # - tf2_eigen
-  # - tf2_geometry_msgs
-  # - tf2_kdl
-  # - tf2_msgs
-  # - tf2_py
-  # - tf2_ros
-  # - tf2_sensor_msgs
-  # - tf2_tools
-  # - gps-common
-  # - rosbridge_suite
-  # - sound-play
-  # - pid
-  # - teleop-twist-keyboard
-  # - laser-proc
-  # - rosserial-arduino
-  # - rosserial-client
-  # - navigation
-  # - foxglove_bridge
+  - sick-tim
+  - python-qt-binding
+  - qt-gui
+  - rqt-gui
+  - rqt-gui-py
+  - rqt-gui-cpp
+  - qt-gui-cpp
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
+  - roslisp
+  # - qt-gui-cpp  # needs manual build
+  # - rviz  # needs manual build
+  - desktop
+  - perception
+  - moveit
+  # - eigenpy  # needs manual build
+  - turtlebot3
+  - turtlebot3-simulations
+  - desktop-full
+  - realsense2_camera
+  - realsense2_description
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - gps-common
+  - rosbridge_suite
+  - sound-play
+  - pid
+  - teleop-twist-keyboard
+  - laser-proc
+  - rosserial-arduino
+  - rosserial-client
+  - navigation
+  - ros-controllers
 
   # # # For jackal
   # - gazebo-dev

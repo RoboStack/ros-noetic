@@ -1,0 +1,17 @@
+package:
+  name: ros-noetic-pinocchio-recipe
+  version: "2.6.20"
+
+build:
+  number: 21
+
+outputs:
+  - package:
+      name: ros-noetic-pinocchio
+      version: "2.6.20"
+    build:
+      run_exports:
+        - "{{ pin_subpackage('ros-noetic-pinocchio', max_pin='x.x.x') }}"
+    requirements:
+      run:
+        - pinocchio 2.6.20

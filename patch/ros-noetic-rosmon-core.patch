@@ -1,3 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7441df6..7333c65 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
+ catkin_package()
+ include_directories(${catkin_INCLUDE_DIRS})
+ 
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
++# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
+ 
+ find_package(TinyXML REQUIRED)
+ 
 diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
 index 7dec1cc..da51913 100644
 --- a/src/monitor/shim.cpp
@@ -22,16 +35,3 @@ index 7dec1cc..da51913 100644
  static const struct option OPTIONS[] = {
  	{"help", no_argument, nullptr, 'h'},
  	{"namespace", required_argument, nullptr, 'n'},
-diff --git a/src/launch/substitution_python.cpp b/src/launch/substitution_python.cpp
-index ffb1bcd..274651a 100644
---- a/src/launch/substitution_python.cpp
-+++ b/src/launch/substitution_python.cpp
-@@ -13,6 +13,8 @@
- #include <boost/python/import.hpp>
- 
- #include <boost/lexical_cast.hpp>
-+
-+#include <boost/mpl/vector.hpp>
- 
- namespace py = boost::python;
- 

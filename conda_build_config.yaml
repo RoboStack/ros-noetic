@@ -1,31 +1,19 @@
-assimp:
-  - 5.2.5
-hdf5:
-  - 1.12.2
 gazebo:
   - '11'
 libpqxx:
   - 6
 numpy:
-  - 1.20
-pcl:
-  - 1.12.1
+  - 1.23
 ogre:
   - 1.10.12
-qt:
-  - 5.15
-qt-main:
-  - 5.15
+setuptools:
+  - 69
   
 cdt_name:  # [linux]
   - cos7   # [linux]
 
-# Workaround for https://github.com/RoboStack/ros-galactic/pull/86#issuecomment-1079811424
-setuptools:  # [win]
-  - 61.0.0  # [win]
-
 python:
-  - 3.9.* *_cpython
+  - 3.11.* *_cpython
 python_impl:
   - cpython
 
