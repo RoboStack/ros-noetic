@@ -1,5 +1,5 @@
 package:
-  name: ros-noetic-pinocchio-recipe
+  name: ros-noetic-pinocchio
   version: "2.6.20"
 
 build:

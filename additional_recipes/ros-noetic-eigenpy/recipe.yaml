@@ -1,5 +1,5 @@
 package:
-  name: ros-noetic-eigenpy-recipe
+  name: ros-noetic-eigenpy
   version: "3.1.0"
 
 build:
