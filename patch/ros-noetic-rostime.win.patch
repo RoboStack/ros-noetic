@@ -1,0 +1,13 @@
+diff --git a/rostime/CMakeLists.txt b/rostime/CMakeLists.txt
+index 32a76bb..c47adcd 100644
+--- a/rostime/CMakeLists.txt
++++ b/rostime/CMakeLists.txt
+@@ -10,6 +10,8 @@ catkin_package(
+   DEPENDS Boost
+ )
+ 
++add_definitions(-DNOMINMAX)
++
+ include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+ 
+ add_library(rostime
