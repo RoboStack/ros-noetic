@@ -71,7 +71,6 @@ packages_select_by_deps:
   - velodyne-description
   - effort-controllers
   - velocity-controllers
-  - teb-local-planner
   - turtlebot3-teleop
   - force-torque-sensor-controller
   - gripper-action-controller
@@ -119,6 +118,9 @@ packages_select_by_deps:
   - gmapping
   - turtlebot3
   - turtlebot3-simulations
+  # To be fixed
+  - teb-local-planner
+
 
   # # # # For jackal
   # - gazebo-dev
@@ -157,7 +159,6 @@ packages_select_by_deps:
   # - moveit-ros-visualization
   # - moveit-ros-planning-interface
   # - niryo_one_simulation
-  # - teb-local-planner
   # - turtlebot3
   # - turtlebot3-fake
   # - librealsense2
@@ -860,7 +861,6 @@ packages_select_by_deps:
   # - velodyne
   # - robot_localization
   # - urg_node
-  # - teb_local_planner
   # - moveit
   # - slam_toolbox
   # - turtlebot3
