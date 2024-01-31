@@ -6,7 +6,7 @@ export FEEDSTOCK_ROOT=`pwd`
 
 echo -e "\n\nInstalling a fresh version of Miniforge."
 MINIFORGE_URL="https://github.com/conda-forge/miniforge/releases/latest/download"
-MINIFORGE_FILE="Mambaforge-MacOSX-x86_64.sh"
+MINIFORGE_FILE="Mambaforge-MacOSX-arm64.sh"
 curl -L -O --silent "${MINIFORGE_URL}/${MINIFORGE_FILE}"
 /bin/bash $MINIFORGE_FILE -b
 
