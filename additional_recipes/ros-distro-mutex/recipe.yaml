@@ -29,7 +29,7 @@ requirements:
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
   run_constrained:
-    - libboost-devel 1.84
+    - boost-cpp 1.84
     - gazebo 11
     - ogre 1.10.12
     - libpqxx 7.8
