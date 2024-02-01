@@ -118,7 +118,6 @@ packages_select_by_deps:
   - gmapping
   - turtlebot3
   - turtlebot3-simulations
-  # To be fixed
   - teb-local-planner
 
 
