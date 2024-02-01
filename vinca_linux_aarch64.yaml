@@ -35,6 +35,7 @@ skip_existing:
 # For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
 # The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
+  - rviz  # needs to be built locally, CI times out
   - cras_cpp_common  # maintainer peci1
   - cras_py_common  # maintainer peci1
   - cras_docs_common  # maintainer peci1
@@ -110,7 +111,6 @@ packages_select_by_deps:
   - rosbridge_suite
   - pcl-ros
   - pcl-conversions
-  # ## Only limited number of packages to reduce maintainer burden
   - desktop
   - amcl
   - map-server
@@ -122,7 +122,7 @@ packages_select_by_deps:
   - simulators
   - desktop_full
   - audio-common-msgs
-  # - sound-play
+  - sound-play
 
   # For jackal
   - hector-gazebo-plugins
@@ -164,12 +164,9 @@ packages_select_by_deps:
   # # after rebuild
   # - foxglove_bridge
 
-  # # # DONE
   # - pybind11_catkin  # needs to be unvendored
   # - libfranka
   # - cnpy
-  # - moveit_visual_tools
-  # - rviz_visual_tools
   # - rviz_imu_plugin
   # - slam_toolbox
   # - webots-ros
