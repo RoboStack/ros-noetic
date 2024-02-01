@@ -109,8 +109,6 @@ packages_select_by_deps:
   - apriltag
   - apriltag-ros
   - find-object-2d
-  - rtabmap
-  - rtabmap-ros
   - convex-decomposition
   - pcl-ros
   - pcl-conversions
@@ -183,6 +181,10 @@ packages_select_by_deps:
   - depthimage-to-laserscan
   - joy
   - nmea-msgs
+
+  # Needs fixing in CI:
+  # - rtabmap
+  # - rtabmap-ros
 
   # Used to work on robostack-staging, now broken
   # - rosfmt  # see https://github.com/xqms/rosfmt/issues/12
