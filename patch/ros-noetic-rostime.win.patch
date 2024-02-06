@@ -1,8 +1,8 @@
-diff --git a/rostime/include/ros/duration.h b/rostime/include/ros/duration.h
-index edd82dd..6a0e883 100644
---- a/rostime/include/ros/duration.h
-+++ b/rostime/include/ros/duration.h
-@@ -95,6 +95,7 @@ class DurationBase
+diff --git a/include/ros/duration.h b/include/ros/duration.h
+index edd82ddf..6a0e883b 100644
+--- a/include/ros/duration.h
++++ b/include/ros/duration.h
+@@ -95,6 +95,7 @@ public:
    T& fromNSec(int64_t t);
    bool isZero() const;
    boost::posix_time::time_duration toBoost() const;
@@ -10,16 +10,16 @@ index edd82dd..6a0e883 100644
    static const T MIN; //!< Minimum representable duration (negative)
    static const T MAX; //!< Maximum representable duration
    static const T ZERO; //!< Zero duration
-@@ -105,6 +106,7 @@ class DurationBase
+@@ -105,6 +106,7 @@ public:
    static const T MILLISECOND; //!< One millisecond duration
    static const T MICROSECOND; //!< One microsecond duration
    static const T NANOSECOND; //!< One nanosecond duration
 +#endif
  };
-
+ 
  class Rate;
-@@ -136,6 +138,7 @@ class ROSTIME_DECL Duration : public DurationBase<Duration>
-
+@@ -136,6 +138,7 @@ public:
+ 
  extern ROSTIME_DECL const Duration DURATION_MAX;
  extern ROSTIME_DECL const Duration DURATION_MIN;
 +#ifndef _MSC_VER
@@ -31,13 +31,13 @@ index edd82dd..6a0e883 100644
  template<> const Duration DurationBase<Duration>::MICROSECOND;
  template<> const Duration DurationBase<Duration>::NANOSECOND;
 +#endif
-
+ 
  /**
   * \brief Duration representation for use with the WallTime class.
-@@ -172,6 +176,7 @@ class ROSTIME_DECL WallDuration : public DurationBase<WallDuration>
+@@ -172,6 +176,7 @@ public:
    bool sleep() const;
  };
-
+ 
 +#ifndef _MSC_VER
  template<> const WallDuration DurationBase<WallDuration>::MAX;
  template<> const WallDuration DurationBase<WallDuration>::MIN;
@@ -47,17 +47,17 @@ index edd82dd..6a0e883 100644
  template<> const WallDuration DurationBase<WallDuration>::MICROSECOND;
  template<> const WallDuration DurationBase<WallDuration>::NANOSECOND;
 +#endif
-
+ 
  ROSTIME_DECL std::ostream &operator <<(std::ostream &os, const Duration &rhs);
  ROSTIME_DECL std::ostream &operator <<(std::ostream &os, const WallDuration &rhs);
-diff --git a/rostime/include/ros/time.h b/rostime/include/ros/time.h
-index c4ff2fe..79f2eae 100644
---- a/rostime/include/ros/time.h
-+++ b/rostime/include/ros/time.h
+diff --git a/include/ros/time.h b/include/ros/time.h
+index c4ff2fea..79f2eaee 100644
+--- a/include/ros/time.h
++++ b/include/ros/time.h
 @@ -160,10 +160,12 @@ namespace ros
      inline bool is_zero() const { return isZero(); }
      boost::posix_time::ptime toBoost() const;
-
+ 
 +#ifndef _MSC_VER
      static const T MIN; //!< Minimum representable time
      static const T MAX; //!< Maximum representable time
@@ -65,10 +65,10 @@ index c4ff2fe..79f2eae 100644
      static const T UNINITIALIZED; //!< Uninitialized time
 +#endif
    };
-
+ 
    /**
 @@ -221,10 +223,12 @@ namespace ros
-
+ 
    extern ROSTIME_DECL const Time TIME_MAX;
    extern ROSTIME_DECL const Time TIME_MIN;
 +#ifndef _MSC_VER
@@ -77,13 +77,13 @@ index c4ff2fe..79f2eae 100644
    template<> const Time TimeBase<Time, Duration>::ZERO;
    template<> const Time TimeBase<Time, Duration>::UNINITIALIZED;
 +#endif
-
+ 
    /**
     * \brief Time representation.  Always wall-clock time.
 @@ -258,11 +262,13 @@ namespace ros
      static bool isSystemTime() { return true; }
    };
-
+   
 +#ifndef _MSC_VER
    template<> const WallTime TimeBase<WallTime, WallDuration>::MAX;
    template<> const WallTime TimeBase<WallTime, WallDuration>::MIN;
@@ -98,24 +98,24 @@ index c4ff2fe..79f2eae 100644
 @@ -297,10 +303,12 @@ namespace ros
        static bool isSystemTime() { return true; }
    };
-
+ 
 +#ifndef _MSC_VER
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::MAX;
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::MIN;
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::ZERO;
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::UNINITIALIZED;
 +#endif
-
+ 
    ROSTIME_DECL std::ostream &operator <<(std::ostream &os, const Time &rhs);
    ROSTIME_DECL std::ostream &operator <<(std::ostream &os, const WallTime &rhs);
-diff --git a/rostime/src/time.cpp b/rostime/src/time.cpp
-index 7edb3cc..0bca1c4 100644
---- a/rostime/src/time.cpp
-+++ b/rostime/src/time.cpp
+diff --git a/src/time.cpp b/src/time.cpp
+index 7edb3cc2..0bca1c4c 100644
+--- a/src/time.cpp
++++ b/src/time.cpp
 @@ -83,6 +83,7 @@ namespace ros
    const Duration DURATION_MAX(std::numeric_limits<int32_t>::max(), 999999999);
    const Duration DURATION_MIN(std::numeric_limits<int32_t>::min(), 0);
-
+ 
 +#ifndef _MSC_VER
    template<> const Duration DurationBase<Duration>::MAX = DURATION_MAX;
    template<> const Duration DurationBase<Duration>::MIN = DURATION_MIN;
@@ -125,10 +125,10 @@ index 7edb3cc..0bca1c4 100644
    template<> const WallDuration DurationBase<WallDuration>::MICROSECOND = WallDuration(Duration::MICROSECOND.sec, Duration::MICROSECOND.nsec);
    template<> const WallDuration DurationBase<WallDuration>::NANOSECOND = WallDuration(Duration::NANOSECOND.sec, Duration::NANOSECOND.nsec);
 +#endif
-
+ 
    const Time TIME_MAX(std::numeric_limits<uint32_t>::max(), 999999999);
    const Time TIME_MIN(0, 1);
-
+ 
 +#ifndef _MSC_VER
    template<> const Time TimeBase<Time, Duration>::MAX = TIME_MAX;
    template<> const Time TimeBase<Time, Duration>::MIN = TIME_MIN;
@@ -138,17 +138,17 @@ index 7edb3cc..0bca1c4 100644
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::ZERO = SteadyTime(Time::ZERO.sec, Time::ZERO.nsec);
    template<> const SteadyTime TimeBase<SteadyTime, WallDuration>::UNINITIALIZED = SteadyTime(Time::UNINITIALIZED.sec, Time::UNINITIALIZED.nsec);
 +#endif
-
+ 
    // This is declared here because it's set from the Time class but read from
    // the Duration class, and need not be exported to users of either.
-diff --git a/rostime/test/time.cpp b/rostime/test/time.cpp
-index 96ef161..e52a960 100644
---- a/rostime/test/time.cpp
-+++ b/rostime/test/time.cpp
+diff --git a/test/time.cpp b/test/time.cpp
+index 96ef1615..e52a9601 100644
+--- a/test/time.cpp
++++ b/test/time.cpp
 @@ -370,6 +370,7 @@ TEST(Time, OperatorPlusExceptions)
    EXPECT_THROW(t5 + d3, std::runtime_error);
  }
-
+ 
 +#ifndef _MSC_VER
  TEST(Time, Constants)
  {
@@ -158,13 +158,13 @@ index 96ef161..e52a960 100644
    EXPECT_EQ(SteadyTime::UNINITIALIZED.nsec, 0);
  }
 +#endif
-
+ 
  /************************************* Duration Tests *****************/
-
+ 
 @@ -588,6 +590,7 @@ TEST(Duration, sleepWithSignal)
    ASSERT_TRUE(rc);
  }
-
+ 
 +#ifndef _MSC_VER
  TEST(Duration, Constants)
  {
@@ -174,6 +174,6 @@ index 96ef161..e52a960 100644
    EXPECT_EQ(WallDuration::DAY.nsec, 0);
  }
 +#endif
-
+ 
  TEST(Rate, constructFromDuration){
    Duration d(4, 0);
