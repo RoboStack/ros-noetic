@@ -1,0 +1,65 @@
+jobs:
+  stage_0_job_0:
+    name: pilz-industrial-motion-planner
+    runs-on: cirun-linux-aarch64--${{ github.run_id }}
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-pilz-industrial-motion-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-pilz-industrial-motion-planner
+        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+  stage_1_job_1:
+    name: moveit-planners
+    runs-on: cirun-linux-aarch64--${{ github.run_id }}
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-planners
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-planners
+        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+  stage_2_job_2:
+    name: moveit
+    runs-on: cirun-linux-aarch64--${{ github.run_id }}
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit
+        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+name: build_linux
+on:
+  push:
+    branches:
+    - buildbranch_linux_aarch64
