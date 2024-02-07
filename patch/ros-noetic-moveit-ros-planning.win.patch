@@ -1,3 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2f73370cbd..5f2620eb0a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
+   tf2_ros
+ )
+ moveit_build_options()
+-
++set(CMAKE_CXX_STANDARD 17)
+ find_package(Eigen3 REQUIRED)
+ 
+ generate_dynamic_reconfigure_options(
 diff --git a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h b/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
 index e7514f670..530b3929a 100644
 --- a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
