@@ -199,15 +199,6 @@ packages_select_by_deps:
   - imu-filter-madgwick
   - rosserial-python
   - tf2_web_republisher
-  - libfranka
-  - franka
-  - franka-gripper
-  - franka-hw
-  - franka-msgs
-  - franka-description
-  - franka-control
-  - franka_example_controllers
-  - franka_ros
   - combined-robot-hw
   - panda-moveit-config
   - moveit-ros-visualization
@@ -242,6 +233,17 @@ packages_select_by_deps:
   # Used to work on robostack-staging, now broken
   # - rosfmt  # see https://github.com/xqms/rosfmt/issues/12
   # - rosmon  # because of https://github.com/xqms/rosfmt/issues/12
+
+  # Not compatible with recent libabsl
+  # - libfranka
+  # - franka
+  # - franka-gripper
+  # - franka-hw
+  # - franka-msgs
+  # - franka-description
+  # - franka-control
+  # - franka_example_controllers
+  # - franka_ros
 
   # Not compatible with recent boost
   # - naoqi-bridge-msgs
