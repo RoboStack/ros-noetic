@@ -1,0 +1,12 @@
+diff --git a/moveit_ros/visualization/CMakeLists.txt b/moveit_ros/visualization/CMakeLists.txt
+index bba6034ea8..f934c68f7a 100644
+--- a/moveit_ros/visualization/CMakeLists.txt
++++ b/moveit_ros/visualization/CMakeLists.txt
+@@ -25,6 +25,7 @@ find_package(catkin REQUIRED COMPONENTS
+   object_recognition_msgs
+ )
+ moveit_build_options()
++set(CMAKE_CXX_STANDARD 17)
+ 
+ # TODO: Remove when Kinetic support is dropped
+ if(rviz_VERSION VERSION_LESS 1.13.1) # Does rviz support TF2?
