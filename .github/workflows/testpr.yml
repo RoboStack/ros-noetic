@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2019]
+        os: [ubuntu-latest, macos-latest, macos-14, windows-2019]
         platform: [linux-64, linux-aarch64, osx-64, win-64, osx-arm64]
         exclude:
           - os: ubuntu-latest
@@ -21,10 +21,20 @@ jobs:
             platform: osx-64
           - os: ubuntu-latest
             platform: osx-arm64
+          - os: macos-14
+            platform: linux-64
+          - os: macos-14
+            platform: linux-aarch64
+          - os: macos-14
+            platform: osx-64
+          - os: macos-14
+            platform: win-64
           - os: macos-latest
             platform: linux-64
           - os: macos-latest
             platform: linux-aarch64
+          - os: macos-latest
+            platform: osx-arm64
           - os: macos-latest
             platform: win-64
           - os: windows-2019
