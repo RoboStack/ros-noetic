@@ -93,33 +93,32 @@ packages_select_by_deps:
   - pcl-conversions
   - velodyne-simulator
 
-  # # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - effort-controllers
-  # - velocity-controllers
-  # - joy
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - effort-controllers
+  - velocity-controllers
+  - joy
 
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - imu-filter-madgwick
-  # - ros_numpy
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - imu-filter-madgwick
+  - ros_numpy
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
