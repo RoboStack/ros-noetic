@@ -115,36 +115,35 @@ packages_select_by_deps:
   - navigation
   - ros-controllers
 
-  # # # For jackal
-  # - gazebo-dev
-  # - hector-gazebo-plugins
-  # - gazebo-ros
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - gmapping
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - teb-local-planner
-  # - slam-toolbox
-  # - turtlebot3-teleop
-  # - move-base
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
+  - move-base
 
 patch_dir: patch
