@@ -71,10 +71,10 @@ index 17de157197..fdae58ab37 100644
  {
  public:
    /** \brief Default ROS parameter name from where to read the robot's URDF. Set to 'robot_description' */
-diff --git a/moveit_ros/planning_interface/py_bindings_tools/CMakeLists.txt b/moveit_ros/planning_interface/py_bindings_tools/CMakeLists.txt
+diff --git a/py_bindings_tools/CMakeLists.txt b/py_bindings_tools/CMakeLists.txt
 index 1f82d7e4dc..2f9112fb85 100644
---- a/moveit_ros/planning_interface/py_bindings_tools/CMakeLists.txt
-+++ b/moveit_ros/planning_interface/py_bindings_tools/CMakeLists.txt
+--- a/py_bindings_tools/CMakeLists.txt
++++ b/py_bindings_tools/CMakeLists.txt
 @@ -1,8 +1,14 @@
  set(MOVEIT_LIB_NAME moveit_py_bindings_tools)
  
