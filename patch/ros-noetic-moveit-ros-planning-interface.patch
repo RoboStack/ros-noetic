@@ -164,7 +164,7 @@ index 3944155fbf..2fcc7521dd 100644
 +target_link_libraries(${MOVEIT_LIB_NAME}_python ${catkin_LIBRARIES} ${Boost_LIBRARIES}
    moveit_common_planning_interface_objects moveit_py_bindings_tools)
 +if(NOT APPLE)
-+  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES}
++  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES})
 +else()
 +  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 +endif(NOT APPLE)
