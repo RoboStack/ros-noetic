@@ -120,54 +120,52 @@ packages_select_by_deps:
   - turtlebot3-simulations
   - teb-local-planner
 
-
-  # # # # For jackal
-  # - gazebo-dev
-  # - gazebo-ros
-  # - hector-gazebo-plugins
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - joy
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - nmea-msgs
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - tf2_web_republisher
-  # - libfranka
-  # - franka
-  # - franka-gripper
-  # - franka-hw
-  # - franka-msgs
-  # - franka-description
-  # - franka-control
-  # - franka_example_controllers
-  # - franka_ros
-  # - combined-robot-hw
-  # - panda-moveit-config
-  # - moveit-ros-visualization
-  # - moveit-ros-planning-interface
-  # - niryo_one_simulation
-  # - turtlebot3
-  # - turtlebot3-fake
-  # - librealsense2
-  # - realsense2_camera
-  # - ur-msgs
-  # - rosdoc-lite
-  # - ros_numpy
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
   
-  # - sound-play
-  # - pid
+  - sound-play
+  - pid
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##

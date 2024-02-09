@@ -182,6 +182,50 @@ packages_select_by_deps:
   - joy
   - nmea-msgs
 
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - teb-local-planner
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - turtlebot3-teleop
+  - turtlebot3-simulations
+  - slam-toolbox
+  - urg_node
+  - urg_c
+  - laser_proc
+  - audio-common-msgs
+  - sound-play
+  - pid
+
   # Needs fixing in CI, uploaded manually
   - rtabmap
   - rtabmap-ros
@@ -190,23 +234,7 @@ packages_select_by_deps:
   # - rosfmt  # see https://github.com/xqms/rosfmt/issues/12
   # - rosmon  # because of https://github.com/xqms/rosfmt/issues/12
 
-  # - gazebo-ros-control
-  # - gazebo-plugins
-  # - lms1xx
-  # - controller-manager
-  # - interactive_marker_twist_server
-  # - diff-drive-controller
-  # - joint-state-controller
-  # - robot-localization
-  # - teleop-twist-joy
-  # - twist-mux
-  # - pointgrey-camera-description
-  # - geometry-msgs
-  # - nmea-navsat-driver
-  # - rosserial-server
-  # - imu-filter-madgwick
-  # - rosserial-python
-  # - tf2_web_republisher
+  # Not compatible with recent libabsl
   # - libfranka
   # - franka
   # - franka-gripper
@@ -216,37 +244,12 @@ packages_select_by_deps:
   # - franka-control
   # - franka_example_controllers
   # - franka_ros
-  # - combined-robot-hw
-  # - panda-moveit-config
-  # - moveit-ros-visualization
-  # - moveit-ros-planning-interface
-  # - niryo_one_simulation
-  # - teb-local-planner
-  # - turtlebot3
-  # - turtlebot3-fake
-  # - librealsense2
-  # - realsense2_camera
-  # - ur-msgs
-  # - rosdoc-lite
-  # - ros_numpy
-  # - velodyne-description
-  # - velodyne-simulator
-  # - effort-controllers
-  # - velocity-controllers
-  # - turtlebot3-teleop
-  # - turtlebot3-simulations
-  # - slam-toolbox
-  # - urg_node
-  # - urg_c
-  # - laser_proc
+
+  # Not compatible with recent boost
   # - naoqi-bridge-msgs
   # - naoqi-driver
   # - naoqi-libqi
   # - naoqi-libqicore
-  # - audio-common-msgs
-  # - sound-play
-  # - pid
-
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
