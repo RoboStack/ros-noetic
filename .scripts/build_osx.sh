@@ -5,7 +5,7 @@ set -x
 export FEEDSTOCK_ROOT=`pwd`
 
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-source ~/.bashrc
+source ~/.bash_profile
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
 micromamba create -n devenv --quiet --yes conda-forge-ci-setup=3 conda-build=3.27 pip boa quetz-client -c conda-forge
@@ -27,7 +27,7 @@ set -e
 export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
 
 mkdir -p $CONDA_BLD_PATH
-micromamba index $CONDA_BLD_PATH
+# micromamba index $CONDA_BLD_PATH
 micromamba config append channels conda-forge --env
 micromamba config append channels robostack-staging --env
 micromamba config append channels $CONDA_BLD_PATH --env
