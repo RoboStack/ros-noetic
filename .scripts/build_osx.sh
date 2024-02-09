@@ -5,7 +5,7 @@ set -x
 export FEEDSTOCK_ROOT=`pwd`
 
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-source ~/.zshrc
+source ~/.bashrc
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
 micromamba create -n devenv --quiet --yes conda-forge-ci-setup=3 conda-build=3.27 pip boa quetz-client -c conda-forge
