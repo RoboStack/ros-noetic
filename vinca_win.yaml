@@ -95,7 +95,6 @@ packages_select_by_deps:
 
   - gazebo-dev
   - gazebo-ros
-  - hector-gazebo-plugins
   - gazebo-ros-control
   - gazebo-plugins
   - effort-controllers
@@ -120,6 +119,8 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3-fake
 
+  # Fails due to Too long input line.
+  # - hector-gazebo-plugins
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   # - dynamixel-sdk -- this one not ready for Windows
