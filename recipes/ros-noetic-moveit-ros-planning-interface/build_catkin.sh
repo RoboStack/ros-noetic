@@ -32,6 +32,7 @@ echo "USING PKG_CONFIG_EXECUTABLE=${PKG_CONFIG_EXECUTABLE}"
 
 export ROS_PYTHON_VERSION=`$PYTHON_EXECUTABLE -c "import sys; print('%i.%i' % (sys.version_info[0:2]))"`
 echo "Using Python $ROS_PYTHON_VERSION"
+echo "Installing into $SP_DIR"
 
 # see https://github.com/conda-forge/cross-python-feedstock/issues/24
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
