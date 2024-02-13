@@ -32,7 +32,9 @@ echo "USING PKG_CONFIG_EXECUTABLE=${PKG_CONFIG_EXECUTABLE}"
 
 export ROS_PYTHON_VERSION=`$PYTHON_EXECUTABLE -c "import sys; print('%i.%i' % (sys.version_info[0:2]))"`
 echo "Using Python $ROS_PYTHON_VERSION"
-echo "Installing into $SP_DIR"
+FIXED_SP_DIR=$(echo $SP_DIR | sed -E "s/python[0-9]+\.[0-9]+/python$ROS_PYTHON_VERSION/")
+
+echo "Installing into $FIXED_SP_DIR"
 
 # see https://github.com/conda-forge/cross-python-feedstock/issues/24
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
@@ -74,7 +76,7 @@ cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX=$PREFIX \
          -DPython_EXECUTABLE=$PYTHON_EXECUTABLE \
          -DPython3_EXECUTABLE=$PYTHON_EXECUTABLE \
          -DPython3_FIND_STRATEGY=LOCATION \
-         -DPYTHON_INSTALL_DIR=$SP_DIR \
+         -DPYTHON_INSTALL_DIR=$FIXED_SP_DIR \
          -DPKG_CONFIG_EXECUTABLE=$PKG_CONFIG_EXECUTABLE \
          -DSETUPTOOLS_DEB_LAYOUT=OFF \
          -DCATKIN_SKIP_TESTING=$SKIP_TESTING \
