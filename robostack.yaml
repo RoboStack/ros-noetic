@@ -605,7 +605,7 @@ python-paramiko:
 python-psutil:
   robostack: [psutil]
 python-pyassimp:
-  robostack: [assimp]
+  robostack: [pyassimp]
 python-pycryptodome:
   robostack: [pycryptodome, pycryptodomex]
 python-pydot:
@@ -765,7 +765,7 @@ python3-pkg-resources:
 python3-psutil:
   robostack: [psutil]
 python3-pyassimp:
-  robostack: [assimp]
+  robostack: [pyassimp]
 python3-pycodestyle:
   robostack: [pycodestyle]
 python3-pycryptodome:
