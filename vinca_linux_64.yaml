@@ -164,7 +164,6 @@ packages_select_by_deps:
   - criutils
   - baldor
   - catch-ros
-
   - amcl
   - map-server
   - move-base
