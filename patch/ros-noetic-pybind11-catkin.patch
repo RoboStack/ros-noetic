@@ -1,26 +1,14 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d78b51a..50e96e4 100644
+index 5b63626..03d9fe8 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -5,7 +5,7 @@ find_package(catkin REQUIRED)
- include(ExternalProject)
- 
- ExternalProject_Add(pybind11_src
--  URL "https://github.com/pybind/pybind11/archive/v2.6.1.zip"
-+  URL "https://github.com/pybind/pybind11/archive/v2.10.3.zip"
-   UPDATE_COMMAND ""
-   CMAKE_ARGS -DPYBIND11_NOPYTHON=TRUE
+@@ -11,9 +11,6 @@ ExternalProject_Add(pybind11_src
               -DPYBIND11_TEST=OFF
-diff --git a/package.xml b/package.xml
-index 2ca9a59..138bafe 100644
---- a/package.xml
-+++ b/package.xml
-@@ -1,7 +1,7 @@
- <?xml version="1.0"?>
- <package format="3">
-   <name>pybind11_catkin</name>
--  <version>2.6.1</version>
-+  <version>2.10.3</version>
-   <description>The pybind11 package</description>
-   <maintainer email="wolfgang@robots.ox.ac.uk">Wolfgang Merkt</maintainer>
-   <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
+              -DPYBIND11_INSTALL=ON
+              -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/install
+-  # Workaround if DESTDIR is set
+-  # See https://gitlab.kitware.com/cmake/cmake/-/issues/18165.
+-  INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} DESTDIR= install
+ )
+ 
+ # Copy cmake/pybind11 and include/pybind11 to corresponding devel space folders

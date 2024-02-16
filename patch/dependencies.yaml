@@ -36,8 +36,14 @@ apriltag:
 lvr2:
   add_host: ["libgdal", "cgal-cpp"]
 rtabmap:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL", "pybind11"]
 rtabmap_ros:
+  add_host: ["REQUIRE_OPENGL"]
+rtabmap_conversions:
+  add_host: ["REQUIRE_OPENGL"]
+rtabmap_rviz_plugins:
+  add_host: ["REQUIRE_OPENGL"]
+rtabmap_viz:
   add_host: ["REQUIRE_OPENGL"]
 image_view2:
   add_host: ["REQUIRE_OPENGL"]

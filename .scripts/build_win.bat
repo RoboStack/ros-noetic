@@ -40,9 +40,6 @@ reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t 
 
 :: conda remove --force m2-git
 
-call mamba install boa
-if errorlevel 1 exit 1
-
 for %%X in (%CURRENT_RECIPES%) do (
     echo "BUILDING RECIPE %%X"
     cd %FEEDSTOCK_ROOT%\recipes\%%X\

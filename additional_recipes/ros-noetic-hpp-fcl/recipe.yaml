@@ -1,0 +1,17 @@
+package:
+  name: ros-noetic-hpp-fcl
+  version: "2.3.6"
+
+build:
+  number: 21
+
+outputs:
+  - package:
+      name: ros-noetic-hpp-fcl
+      version: "2.3.6"
+    build:
+      run_exports:
+        - "{{ pin_subpackage('ros-noetic-hpp-fcl', max_pin='x.x.x') }}"
+    requirements:
+      run:
+        - hpp-fcl 2.3.6

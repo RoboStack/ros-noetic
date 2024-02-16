@@ -225,7 +225,7 @@ index b19f4c8aa..de8fd2d1f 100644
 +    list(APPEND imported_location_libnames ${imported_location_name})
 +  endif()
 +  if(imported_location_libnames)
-+    find_library(imported_location_library NAMES ${imported_location_libnames} HINTS ${imported_location_dir})
++    find_library(imported_location_library NAMES ${imported_location_libnames} HINTS ${imported_location_dir} NO_CACHE)
 +  endif()
 +  set(${VAR} "${imported_location_library}" PARENT_SCOPE)
 +endfunction()

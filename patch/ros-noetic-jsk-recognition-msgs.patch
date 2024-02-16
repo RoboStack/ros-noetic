@@ -1,0 +1,16 @@
+diff --git a/setup.py b/setup.py
+index 90f8d8be6..372e2fed9 100644
+--- a/setup.py
++++ b/setup.py
+@@ -9,9 +9,10 @@ d = generate_distutils_setup(
+     # Uncomment until src/jsk_recognition_msgs
+     # error: package directory 'jsk_recognition_msgs' does not exist
+     # [jsk_recognition_msgs:install]
+-    # packages=['jsk_recognition_msgs'],
++    packages=[],
+     # [jsk_recognition_msgs:install] error: package directory 'src/jsk_recognition_msgs' does not exist
+     # package_dir={'': 'src'},
++    exclude = ['*']
+ )
+ 
+ setup(**d)
