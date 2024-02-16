@@ -592,7 +592,7 @@ python-paramiko:
 python-psutil:
   conda: [psutil]
 python-pyassimp:
-  conda: [assimp]
+  conda: [pyassimp]
 python-pycryptodome:
   conda: [pycryptodome, pycryptodomex]
 python-pydot:
@@ -752,7 +752,7 @@ python3-pkg-resources:
 python3-psutil:
   conda: [psutil]
 python3-pyassimp:
-  conda: [assimp]
+  conda: [pyassimp]
 python3-pycodestyle:
   conda: [pycodestyle]
 python3-pycryptodome:
