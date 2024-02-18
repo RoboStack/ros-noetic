@@ -26,7 +26,6 @@ packages_remove_from_deps:
   - stage-ros
   - stage
   - kobuki-ftdi # needs too many patches for ftdi & usb
-  - openni2-camera
   - libpointmatcher
 
 build_in_own_azure_stage:
@@ -226,6 +225,7 @@ packages_select_by_deps:
   - pid
   - rosfmt
   - rosmon
+  - openni2-camera
 
   # Needs fixing in CI, uploaded manually
   - rtabmap
