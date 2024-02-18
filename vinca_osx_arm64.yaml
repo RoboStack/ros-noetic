@@ -146,5 +146,6 @@ packages_select_by_deps:
   - turtlebot3-teleop
   - move-base
   - rosfmt
+  - mavros-extras
 
 patch_dir: patch
