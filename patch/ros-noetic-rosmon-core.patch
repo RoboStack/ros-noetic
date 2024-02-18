@@ -16,6 +16,14 @@ index 7441df6..9bff2c0 100644
  find_package(TinyXML REQUIRED)
  
  find_package(Curses REQUIRED)
+@@ -107,6 +107,7 @@ target_link_libraries(rosmon
+ 	yaml-cpp
+ 	util
+ 	rosmon_launch_config
++	fmt::fmt
+ )
+ 
+ add_dependencies(rosmon ${catkin_EXPORTED_TARGETS})
 @@ -126,6 +125,7 @@ add_executable(dump_param
  )
  target_link_libraries(dump_param
