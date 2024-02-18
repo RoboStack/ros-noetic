@@ -1,16 +1,29 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7441df6..7333c65 100644
+index 7441df6..9bff2c0 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
+@@ -11,12 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
+ 	rospack
+ 	diagnostic_msgs
+ )
++find_package(fmt REQUIRED)
+ 
  catkin_package()
  include_directories(${catkin_INCLUDE_DIRS})
  
 -set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
-+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
- 
+-
  find_package(TinyXML REQUIRED)
  
+ find_package(Curses REQUIRED)
+@@ -126,6 +125,7 @@ add_executable(dump_param
+ )
+ target_link_libraries(dump_param
+ 	${catkin_LIBRARIES}
++	fmt::fmt
+ )
+ 
+ add_executable(abort_really_long_executable
 diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
 index 7dec1cc..da51913 100644
 --- a/src/monitor/shim.cpp
