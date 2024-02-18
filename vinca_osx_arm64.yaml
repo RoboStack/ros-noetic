@@ -145,5 +145,6 @@ packages_select_by_deps:
   - slam-toolbox
   - turtlebot3-teleop
   - move-base
+  - rosfmt
 
 patch_dir: patch

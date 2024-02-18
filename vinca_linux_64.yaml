@@ -224,14 +224,12 @@ packages_select_by_deps:
   - audio-common-msgs
   - sound-play
   - pid
+  - rosfmt
+  - rosmon
 
   # Needs fixing in CI, uploaded manually
   - rtabmap
   - rtabmap-ros
-
-  # Used to work on robostack-staging, now broken
-  # - rosfmt  # see https://github.com/xqms/rosfmt/issues/12
-  # - rosmon  # because of https://github.com/xqms/rosfmt/issues/12
 
   # Not compatible with recent libabsl
   # - libfranka
