@@ -35,3 +35,15 @@ index 7dec1cc..da51913 100644
  static const struct option OPTIONS[] = {
  	{"help", no_argument, nullptr, 'h'},
  	{"namespace", required_argument, nullptr, 'n'},
+diff --git a/rosmon_core/src/logger.cpp b/rosmon_core/src/logger.cpp
+index 881339c..9d9fb5f 100644
+--- a/rosmon_core/src/logger.cpp
++++ b/rosmon_core/src/logger.cpp
+@@ -4,6 +4,7 @@
+ #include "logger.h"
+ #include "fmt/format.h"
+ 
++#include <array>
+ #include <cerrno>
+ #include <cstdio>
+ #include <cstring>
