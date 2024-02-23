@@ -27,7 +27,7 @@ binutils:
 bison:
   conda: [bison]
 boost:
-  conda: [boost]
+  conda: [libboost-devel, libboost-python-devel]
 bullet:
   conda: [bullet]
 bzip2:
@@ -193,41 +193,41 @@ libabsl-dev:
 libblas-dev:
   conda: [libblas, libcblas]
 libboost-chrono-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-date-time:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-date-time-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-filesystem:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-filesystem-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-iostreams-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-program-options:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-program-options-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-python:
-  conda: [boost]
+  conda: [libboost-python]
 libboost-python-dev:
-  conda: [boost]
+  conda: [libboost-python-devel]
 libboost-regex-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-serialization:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-serialization-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-system:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-system-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-thread:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-thread-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libcairo2-dev:
   conda: [cairo]
 libcap-dev:
