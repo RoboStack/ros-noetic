@@ -34,7 +34,7 @@ binutils:
 bison:
   robostack: [bison]
 boost:
-  robostack: [boost]
+  robostack: [libboost-devel, libboost-python-devel]
 bullet:
   robostack: [bullet]
 bzip2:
@@ -185,45 +185,45 @@ libabsl-dev:
 libblas-dev:
   robostack: [libblas, libcblas]
 libboost-chrono-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-date-time:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-date-time-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-filesystem:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-filesystem-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-iostreams-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-program-options:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-program-options-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-python:
-  robostack: [boost]
+  robostack: [libboost-python]
 libboost-python-dev:
-  robostack: [boost]
+  robostack: [libboost-python-devel]
 libboost-random:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-random-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-regex-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-serialization:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-serialization-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-system:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-system-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libboost-thread:
-  robostack: [boost-cpp]
+  robostack: [libboost]
 libboost-thread-dev:
-  robostack: [boost-cpp]
+  robostack: [libboost-devel]
 libcairo2-dev:
   robostack: [cairo]
 libcap-dev:

@@ -16,7 +16,6 @@ requirements:
   # This has to be synchronized with our current conda_build_config all the time :(
   # host:
   #   # values here should 
-  #   - boost-cpp
   #   - log4cxx
   #   - poco
   #   - pcl
