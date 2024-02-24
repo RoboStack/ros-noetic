@@ -2,22 +2,6 @@ setlocal EnableExtensions EnableDelayedExpansion
 call %CONDA%\condabin\conda_hook.bat
 call %CONDA%\condabin\conda.bat activate base
 
-set "PATH=%PATH:C:\ProgramData\Chocolatey\bin;=%"
-set "PATH=%PATH:C:\Program Files (x86)\sbt\bin;=%"
-set "PATH=%PATH:C:\Rust\.cargo\bin;=%"
-set "PATH=%PATH:C:\Program Files\Git\usr\bin;=%"
-set "PATH=%PATH:C:\Program Files\Git\cmd;=%"
-set "PATH=%PATH:C:\Program Files\Git\mingw64\bin;=%"
-set "PATH=%PATH:C:\Program Files (x86)\Subversion\bin;=%"
-set "PATH=%PATH:C:\Program Files\CMake\bin;=%"
-set "PATH=%PATH:C:\Program Files\OpenSSL\bin;=%"
-set "PATH=%PATH:C:\Strawberry\c\bin;=%"
-set "PATH=%PATH:C:\Strawberry\perl\bin;=%"
-set "PATH=%PATH:C:\Strawberry\perl\site\bin;=%"
-set "PATH=%PATH:c:\tools\php;=%"
-:: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
-set "PATH=%PATH:ostedtoolcache=%"
-
 echo "PATH is %PATH%"
 echo "CONDA_BLD_PATH is %CONDA_BLD_PATH%"
 

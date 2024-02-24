@@ -46,6 +46,15 @@ jobs:
           - os: windows-2019
             platform: osx-arm64
     steps:
+    # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
+    - name: Clean up PATH
+      if: contains(matrix.os, 'windows')
+      uses: egor-tensin/cleanup-path@v4
+      with:
+        # cygpath in C:\Program Files\Git\usr\bin is used by install micromamba
+        # git in C:\Program Files\Git\bin is used by pip install git+ 
+        dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
+
     - uses: actions/checkout@master
     - name: install micromamba
       uses: mamba-org/setup-micromamba@main
@@ -69,6 +78,7 @@ jobs:
       if: matrix.platform == 'linux-aarch64'
       shell: bash -l {0}
       run: |
+        sudo apt-get update
         sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxmu-dev
 
     - shell: bash -l {0}
