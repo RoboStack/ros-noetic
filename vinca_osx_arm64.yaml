@@ -147,5 +147,6 @@ packages_select_by_deps:
   - move-base
   - rosfmt
   - mavros-extras
+  - webots-ros
 
 patch_dir: patch
