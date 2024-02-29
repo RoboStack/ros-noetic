@@ -214,24 +214,17 @@ index 00000000..a2e2757a
 +
 +list(REMOVE_DUPLICATES XCB_INCLUDE_DIRS)
 diff --git a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
-index 084c93cb..d484adf6 100644
+index f399fdad9..94d1330da 100644
 --- a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
 +++ b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
-@@ -4,7 +4,7 @@ include_directories( ../ )
- add_definitions(${QT_DEFINITIONS})
- add_definitions(-DQT_PLUGIN)
+@@ -3,8 +3,8 @@ if(BUILDING_WITH_CONAN)
+     set(Protobuf_LIBS protobuf::libprotobuf)
+ else()
+     message(STATUS "Finding Protobuf without package managers")
+-    find_package(Protobuf QUIET)
+-    set(Protobuf_LIBS ${Protobuf_LIBRARIES})
++    find_package(Protobuf QUIET CONFIG)
++    set(Protobuf_LIBS protobuf::libprotobuf)
+ endif()
  
--find_package(Protobuf QUIET)
-+find_package(Protobuf QUIET CONFIG)
- 
- if( Protobuf_FOUND)
-     message(STATUS "[Protobuf] found")
-@@ -24,7 +24,7 @@ if( Protobuf_FOUND)
-     target_link_libraries(ProtobufParser
-         ${Qt5Widgets_LIBRARIES}
-         ${Qt5Xml_LIBRARIES}
--        ${Protobuf_LIBRARIES}
-+        protobuf::libprotobuf
-         plotjuggler_base
-         plotjuggler_qwt)
- 
+ find_package(Protobuf QUIET)
