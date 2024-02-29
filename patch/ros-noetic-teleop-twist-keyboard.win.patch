@@ -1,0 +1,78 @@
+diff --git a/teleop_twist_keyboard.py b/teleop_twist_keyboard.py
+index 3717408..a5be99b 100755
+--- a/teleop_twist_keyboard.py
++++ b/teleop_twist_keyboard.py
+@@ -9,7 +9,15 @@
+ 
+ from geometry_msgs.msg import Twist
+ 
+-import sys, select, termios, tty
++import sys, select
++
++if sys.platform == 'win32':
++    import msvcrt
++else:
++    import termios
++    import tty
++
++
+ 
+ msg = """
+ Reading from the keyboard  and Publishing to Twist!
+@@ -147,22 +155,32 @@ def run(self):
+         self.publisher.publish(twist)
+ 
+ 
+-def getKey(key_timeout):
+-    tty.setraw(sys.stdin.fileno())
+-    rlist, _, _ = select.select([sys.stdin], [], [], key_timeout)
+-    if rlist:
+-        key = sys.stdin.read(1)
++def getKey(settings):
++    if sys.platform == 'win32':
++        # getwch() returns a string on Windows
++        key = msvcrt.getwch()
+     else:
+-        key = ''
+-    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
++        tty.setraw(sys.stdin.fileno())
++        # sys.stdin.read() returns a string on Linux
++        key = sys.stdin.read(1)
++        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+     return key
+ 
++def saveTerminalSettings():
++    if sys.platform == 'win32':
++        return None
++    return termios.tcgetattr(sys.stdin)
++
++def restoreTerminalSettings(old_settings):
++    if sys.platform == 'win32':
++        return
++    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+ 
+ def vels(speed, turn):
+     return "currently:\tspeed %s\tturn %s " % (speed,turn)
+ 
+ if __name__=="__main__":
+-    settings = termios.tcgetattr(sys.stdin)
++    settings = saveTerminalSettings()
+ 
+     rospy.init_node('teleop_twist_keyboard')
+ 
+@@ -188,7 +206,7 @@ def vels(speed, turn):
+         print(msg)
+         print(vels(speed,turn))
+         while(1):
+-            key = getKey(key_timeout)
++            key = getKey(settings)
+             if key in moveBindings.keys():
+                 x = moveBindings[key][0]
+                 y = moveBindings[key][1]
+@@ -221,5 +239,5 @@ def vels(speed, turn):
+ 
+     finally:
+         pub_thread.stop()
++        restoreTerminalSettings(settings)
+ 
+-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)

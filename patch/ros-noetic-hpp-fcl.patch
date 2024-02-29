@@ -1,0 +1,30 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 58dd41d..c3c0a5a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -267,9 +267,9 @@ add_subdirectory(src)
+ if (BUILD_PYTHON_INTERFACE)
+   add_subdirectory(python)
+ endif ()
+-if(BUILD_TESTING)
+-  add_subdirectory(test)
+-endif(BUILD_TESTING)
++# if(BUILD_TESTING)
++#   add_subdirectory(test)
++# endif(BUILD_TESTING)
+ 
+ pkg_config_append_libs("hpp-fcl")
+ IF(HPP_FCL_HAS_OCTOMAP)
+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
+index 995a8c6c..c960e27d 100644
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -51,7 +51,7 @@ SET(${LIBRARY_NAME}_HEADERS
+   pickle.hh
+   )
+ 
+-SET(ENABLE_PYTHON_DOXYGEN_AUTODOC TRUE CACHE BOOL "Enable automatic documentation of Python bindings from Doxygen documentation")
++SET(ENABLE_PYTHON_DOXYGEN_AUTODOC FALSE CACHE BOOL "Enable automatic documentation of Python bindings from Doxygen documentation")
+ 
+ IF(    NOT ENABLE_PYTHON_DOXYGEN_AUTODOC
+     OR NOT DOXYGEN_FOUND)

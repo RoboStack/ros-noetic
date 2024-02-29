@@ -1,6 +1,6 @@
 package:
   name: ros-noetic-jackal-control
-  version: 0.7.3
+  version: 0.8.5
 about:
   home: http://wiki.ros.org/jackal_control
   license:
@@ -12,13 +12,16 @@ extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 0
+  number: 3
   script:
     sel(win): bld_catkin.bat
     sel(unix): build_catkin.sh
+
+
+
 source:
   git_url: https://github.com/clearpath-gbp/jackal-release.git
-  git_rev: release/melodic/jackal_control/0.7.3-1
+  git_rev: release/noetic/jackal_control/0.8.5-1
   folder: ros-noetic-jackal-control/src/work
 requirements:
   build:
@@ -30,8 +33,6 @@ requirements:
     - sel(build_platform != target_platform): python
     - sel(build_platform != target_platform): cross-python_{{ target_platform }}
     - sel(build_platform != target_platform): cython
-    - sel(build_platform != target_platform): numpy
-    - sel(build_platform != target_platform): pybind11
   host:
     - python
     - ros-noetic-catkin
@@ -47,15 +48,6 @@ requirements:
     - ros-noetic-twist-mux
   run:
     - python
-    - ros-noetic-controller-manager
-    - ros-noetic-interactive-marker-twist-server
-    - ros-noetic-diff-drive-controller
-    - ros-noetic-joint-state-controller
-    - ros-noetic-joy
-    - ros-noetic-robot-localization
-    - ros-noetic-teleop-twist-joy
-    - ros-noetic-topic-tools
-    - ros-noetic-twist-mux
     - ros-noetic-controller-manager
     - ros-noetic-interactive-marker-twist-server
     - ros-noetic-diff-drive-controller

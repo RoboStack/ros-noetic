@@ -1,13 +1,12 @@
 package:
   name: ros-distro-mutex
-  version: 0.1.1
+  version: 0.5.0
 
 build:
-  number: 0
+  number: 4
   string: noetic
   run_exports:
-    # NOTE MANUALLY EDIT THIS!!!!
-    - ros-distro-mutex 0.1 noetic
+    - "{{ pin_subpackage('ros-distro-mutex', max_pin='x.x') }}"
 
 requirements:
   # NOTE:
@@ -17,7 +16,6 @@ requirements:
   # This has to be synchronized with our current conda_build_config all the time :(
   # host:
   #   # values here should 
-  #   - boost-cpp
   #   - log4cxx
   #   - poco
   #   - pcl
@@ -30,13 +28,10 @@ requirements:
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
   run_constrained:
-    - boost-cpp 1.74
-    - log4cxx 0.11
-    - pcl 1.11
-    - libopencv 4.5.2
-    - poco 1.10
+    - libboost-devel 1.82
     - gazebo 11
     - ogre 1.10.12
+    - libpqxx 7.8
 
 about:
   home: https://github.com/robostack/ros-noetic

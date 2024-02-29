@@ -1,49 +1,57 @@
-# This differs from target_platform in that it determines what subdir the compiler
-#    will target, not what subdir the compiler package will be itself.
-#    For example, we need a win-64 vs2008_win-32 package, so that we compile win-32
-#    code on win-64 miniconda.
-cross_compiler_target_platform:  # [win]
-  - win-64                     # [win]
 c_compiler:
   - gcc                        # [linux]
   - clang                      # [osx]
-  - vs2017                     # [win]
+  - vs2019                     # [win and x86_64]
+  - vs2022                     # [win and arm64]
 c_compiler_version:            # [unix]
-  - 11                         # [osx]
-  - 9                          # [linux]
+  - 12                         # [linux]
+  - 16                         # [osx]
+  - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
 cxx_compiler:
   - gxx                        # [linux]
   - clangxx                    # [osx]
-  - vs2017                     # [win]
+  - vs2019                     # [win and x86_64]
+  - vs2022                     # [win and arm64]
 cxx_compiler_version:          # [unix]
-  - 11                         # [osx]
-  - 9                          # [linux]
+  - 12                         # [linux]
+  - 16                         # [osx]
+  - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+llvm_openmp:                   # [osx]
+  - 16                         # [osx]
 fortran_compiler:              # [unix or win64]
   - gfortran                   # [linux64 or (osx and x86_64)]
-  - gfortran                   # [aarch64 or ppc64le or armv7l]
+  - gfortran                   # [aarch64 or ppc64le or armv7l or s390x]
   - flang                      # [win64]
 fortran_compiler_version:      # [unix or win64]
-  - 11                         # [osx and arm64]
-  - 9                          # [osx and x86_64]
-  - 9                          # [linux]
+  - 12                         # [linux]
+  - 12                         # [osx]
   - 5                          # [win64]
+  - 10                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
+  - 11                         # [os.environ.get("CF_CUDA_ENABLED", "False") == "True" and linux]
 m2w64_c_compiler:              # [win]
   - m2w64-toolchain            # [win]
 m2w64_cxx_compiler:            # [win]
   - m2w64-toolchain            # [win]
 m2w64_fortran_compiler:        # [win]
   - m2w64-toolchain            # [win]
-CMAKE_GENERATOR:               # [win]
-  - NMake Makefiles            # [win]
 
-cuda_compiler:                 # [linux64]
-  - nvcc                       # [linux64]
+cuda_compiler:
+  - None
+  - nvcc                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - nvcc                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 cuda_compiler_version:
   - None
-  - 10.2                       # [linux64]
-cudnn:
-  - undefined
-  - 7                          # [linux64]
+  - 11.2                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - 11.8                       # [(linux or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+cuda_compiler_version_min:
+  - None                       # [osx]
+  - 11.2                       # [linux or win64]
+  - 11.8                       # [linux or win64]
+
+arm_variant_type:              # [aarch64]
+  - sbsa                       # [aarch64]
 
 _libgcc_mutex:
   - 0.1 conda_forge
@@ -72,6 +80,8 @@ target_goos:
   - windows                    # [win]
 target_goarch:
   - amd64                      # [x86_64]
+  - arm64                      # [arm64 or aarch64]
+  - ppc64le                    # [ppc64le]
 target_goexe:
   -                            # [unix]
   - .exe                       # [win]
@@ -82,9 +92,6 @@ target_gobin:
 # Rust Compiler Options
 rust_compiler:
   - rust
-# Pin rust to <1.49 on osx-64 due to min deployment target req, cf. https://github.com/conda-forge/rust-feedstock/issues/73
-rust_compiler_version:  # [osx and x86_64]
-  - 1.46                # [osx and x86_64]
 
 macos_machine:                 # [osx]
   - x86_64-apple-darwin13.4.0  # [osx and x86_64]
@@ -92,8 +99,6 @@ macos_machine:                 # [osx]
 MACOSX_DEPLOYMENT_TARGET:      # [osx]
   - 11.0                       # [osx and arm64]
   - 10.9                       # [osx and x86_64]
-target_platform:               # [win]
-  - win-64                     # [win]
 VERBOSE_AT:
   - V=1
 VERBOSE_CM:
@@ -101,10 +106,8 @@ VERBOSE_CM:
 
 # dual build configuration
 channel_sources:
-  - conda-forge,defaults                        # [not (aarch64 or armv7l or (osx and arm64))]
-  - conda-forge/label/rust_dev,conda-forge      # [osx and arm64]
-  - conda-forge                                 # [aarch64]
-  - conda-forge,c4armv7l,defaults               # [armv7l]
+  - conda-forge                                 # [not s390x]
+  - https://conda-web.anaconda.org/conda-forge  # [s390x]
 
 channel_targets:
   - conda-forge main
@@ -115,34 +118,64 @@ cdt_name:  # [linux]
   - cos7   # [linux and aarch64]
   - cos7   # [linux and ppc64le]
   - cos7   # [linux and armv7l]
+  - cos7   # [linux and s390x]
 
-  - cos6   # [linux64 and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos6"]
-  - cos7   # [linux64 and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos7"]
+  - cos7   # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - cos7   # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 
 docker_image:                                   # [os.environ.get("BUILD_PLATFORM", "").startswith("linux-")]
-  - quay.io/condaforge/linux-anvil-comp7        # [os.environ.get("BUILD_PLATFORM") == "linux-64" and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos6"]
-  - quay.io/condaforge/linux-anvil-cos7-x86_64  # [os.environ.get("BUILD_PLATFORM") == "linux-64" and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos7"]
+  # Native builds
+  - quay.io/condaforge/linux-anvil-cos7-x86_64  # [os.environ.get("BUILD_PLATFORM") == "linux-64"]
   - quay.io/condaforge/linux-anvil-aarch64      # [os.environ.get("BUILD_PLATFORM") == "linux-aarch64"]
   - quay.io/condaforge/linux-anvil-ppc64le      # [os.environ.get("BUILD_PLATFORM") == "linux-ppc64le"]
   - quay.io/condaforge/linux-anvil-armv7l       # [os.environ.get("BUILD_PLATFORM") == "linux-armv7l"]
 
-  - quay.io/condaforge/linux-anvil-cuda:10.2       # [linux64 and os.environ.get("BUILD_PLATFORM") == "linux-64" and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos6"]
-  - quay.io/condaforge/linux-anvil-cos7-cuda:10.2  # [linux64 and os.environ.get("BUILD_PLATFORM") == "linux-64" and os.environ.get("DEFAULT_LINUX_VERSION", "cos6") == "cos7"]
+  # CUDA 11.2
+  - quay.io/condaforge/linux-anvil-cuda:11.2              # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  # CUDA 11.2 arch: native compilation (build == target)
+  - quay.io/condaforge/linux-anvil-ppc64le-cuda:11.2      # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-ppc64le"]
+  - quay.io/condaforge/linux-anvil-aarch64-cuda:11.2      # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-aarch64"]
+  # CUDA 11.2 arch: cross-compilation (build != target)
+  - quay.io/condaforge/linux-anvil-cuda:11.2              # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  - quay.io/condaforge/linux-anvil-cuda:11.2              # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+
+  # CUDA 11.8
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [linux64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  # CUDA 11.8 arch: native compilation (build == target)
+  - quay.io/condaforge/linux-anvil-ppc64le-cuda:11.8      # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-ppc64le"]
+  - quay.io/condaforge/linux-anvil-aarch64-cuda:11.8      # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-aarch64"]
+  # CUDA 11.8 arch: cross-compilation (build != target)
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  - quay.io/condaforge/linux-anvil-cuda:11.8              # [aarch64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM") == "linux-64"]
 
 zip_keys:
   -                             # [unix]
     - c_compiler_version        # [unix]
     - cxx_compiler_version      # [unix]
     - fortran_compiler_version  # [unix]
+    - cuda_compiler             # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+    - cuda_compiler_version     # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+    - cdt_name                  # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+    - docker_image              # [linux and os.environ.get("CF_CUDA_ENABLED", "False") == "True" and os.environ.get("BUILD_PLATFORM", "").startswith("linux-")]
+  -                             # [win64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+    - cuda_compiler             # [win64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+    - cuda_compiler_version     # [win64 and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
   -
     - python
     - numpy
     - python_impl
-  -                             # [linux64]
-    - cudnn                     # [linux64]
-    - cuda_compiler_version     # [linux64]
-    - cdt_name                  # [linux64]
-    - docker_image              # [linux64 and os.environ.get("BUILD_PLATFORM") == "linux-64"]
+  # transition until arrow_cpp can be dropped for arrow 13.x
+  -
+    - arrow_cpp
+    - libarrow
+    - libarrow_all
+  # as of 4.23.x, libprotobuf requires patch-level run-exports;
+  # we couple it with grpc (which very roughly releases in sync)
+  # to reduce the migration pain for these two libs a bit.
+  -
+    - libgrpc
+    - libprotobuf
+
 
 # aarch64 specifics because conda-build sets many things to centos 6
 # this can probably be removed when conda-build gets updated defaults
@@ -156,249 +189,185 @@ BUILD: aarch64-conda_cos7-linux-gnu     # [aarch64]
 cdt_arch: armv7l                          # [armv7l]
 BUILD: armv7-conda_cos7-linux-gnueabihf   # [armv7l]
 
-# TODO: remove these when run_exports are added to the packages.
 pin_run_as_build:
-  arpack:
-    max_pin: x.x.x
-  boost:
-    max_pin: x.x.x
-  boost-cpp:
-    max_pin: x.x.x
-  bzip2:
-    max_pin: x
-  cairo:
-    max_pin: x.x
-  curl:
-    max_pin: x
-  dbus:
-    max_pin: x
-  expat:
-    max_pin: x.x
-  fftw:
-    max_pin: x
+  # TODO: add run_exports to the following feedstocks
   flann:
     max_pin: x.x.x
-  fontconfig:
-    max_pin: x
-  freetype:
-    max_pin: x
-  gdal:
-    max_pin: x.x
-  geotiff:
-    max_pin: x.x.x
-  glew:
-    max_pin: x.x
-  glpk:
-    max_pin: x.x
-  gmp:
-    max_pin: x
   graphviz:
     max_pin: x
-  harfbuzz:
-    max_pin: x
-  hdf4:
-    max_pin: x.x
-  isl:
-    max_pin: x.x
-  jasper:
-    max_pin: x
-  jpeg:
-    max_pin: x
-  libjpeg_turbo:
-    max_pin: x
-  json-c:
-    max_pin: x.x
-  jsoncpp:
-    max_pin: x.x.x
-  kealib:
-    max_pin: x.x
-  krb5:
-    max_pin: x.x
-  libblitz:
-    max_pin: x.x
-  libcurl:
-    max_pin: x
-  libevent:
-    max_pin: x.x.x
-  libffi:
-    max_pin: x.x
-  libgdal:
-    max_pin: x.x
-  libiconv:
-    max_pin: x.x
-  libkml:
-    max_pin: x.x
-  libmatio:
-    max_pin: x.x
-  libpng:
-    max_pin: x.x
-  librdkafka:
-    max_pin: x.x.x
-  librsvg:
-    max_pin: x
   libsvm:
-    max_pin: x.x
-  libtiff:
     max_pin: x
-  libxml2:
-    max_pin: x.x
-  libuuid:
-    max_pin: x
-  lz4-c:
-    max_pin: x.x.x
-  lzo:
-    max_pin: x
-  metis:
-    max_pin: x.x
-  mkl:
-    max_pin: x
-  mpfr:
-    max_pin: x
-  ncurses:
-    max_pin: x.x
   netcdf-cxx4:
     max_pin: x.x
-  netcdf-fortran:
-    max_pin: x.x
-  nettle:
-    max_pin: x.x
-  nlopt:
-    max_pin: x.x.x
-  nss:
-    max_pin: x
-  nspr:
-    max_pin: x
   occt:
     max_pin: x.x
-  openturns:
-    max_pin: x.x
-  openjpeg:
-    max_pin: x.x
-  openssl:
-    max_pin: x.x.x
-  pango:
-    max_pin: x.x
-  perl:
-    max_pin: x.x.x
   poppler:
     max_pin: x.x
-  qt:
-    max_pin: x.x
-  qtkeychain:
-    max_pin: x.x
-  readline:
-    max_pin: x
   r-base:
     max_pin: x.x
     min_pin: x.x
-  sox:
-    max_pin: x.x.x
-  sqlite:
-    max_pin: x
-  tk:
-    max_pin: x.x
-  tiledb:
-    max_pin: x.x
   vlfeat:
     max_pin: x.x.x
-  vtk:
-    max_pin: x.x.x
-  xz:
-    max_pin: x.x
-  zeromq:
-    max_pin: x.x  # [not win]
-    max_pin: x.x.x  # [win]
-  zlib:
-    max_pin: x.x
 
 # Pinning packages
 
 # blas
 libblas:
-  - 3.8 *netlib  # [not (osx and arm64)]
-  - 3.9 *netlib  # [osx and arm64]
+  - 3.9 *netlib
 libcblas:
-  - 3.8 *netlib  # [not (osx and arm64)]
-  - 3.9 *netlib  # [osx and arm64]
+  - 3.9 *netlib
 liblapack:
-  - 3.8 *netlib  # [not (osx and arm64)]
-  - 3.9 *netlib  # [osx and arm64]
+  - 3.9 *netlib
 liblapacke:
-  - 3.8 *netlib  # [not (osx and arm64)]
-  - 3.9 *netlib  # [osx and arm64]
+  - 3.9 *netlib
 blas_impl:
   - openblas
   - mkl          # [x86 or x86_64]
   - blis         # [x86 or x86_64]
 
+# this output was dropped as of libabseil 20230125
 abseil_cpp:
-  - '20200923.3'
+  - '20220623.0'
 alsa_lib:
-  - 1.2.3
+  - 1.2.10
+antic:
+  - 0.2
+aom:
+  - '3.7'
 arb:
-  - '2.19'
+  - '2.23'
 arpack:
-  - 3.7
+  - '3.8'
+# keep in sync with libarrow
 arrow_cpp:
-  - 3.0.0
+  - 14  # does not exist; switch to libarrow
+  - 13
+  - 12
+  - 11.0.0
+assimp:
+  - 5.3.1
+attr:
+  - 2.5
+aws_c_auth:
+  - 0.7.11
+aws_c_cal:
+  - 0.6.9
 aws_c_common:
-  - 0.5.1
+  - 0.9.12
+aws_c_compression:
+  - 0.2.17
+# coupled to aws_c_common version bump, see
+# https://github.com/conda-forge/aws-c-http-feedstock/pull/109
 aws_c_event_stream:
-  - 0.2.7
+  - 0.4.1
+aws_c_http:
+  - 0.8.0
+# the builds got coupled because 0.2.4 landed before the this migrator finished
+aws_c_io:
+  - 0.14.1
+# the builds got coupled because 0.2.4 landed before the io migrator
+aws_c_mqtt:
+  - 0.10.1
+aws_c_s3:
+  - 0.4.9
+aws_c_sdkutils:
+  - 0.1.13
 aws_checksums:
-  - 0.1.11
+  - 0.1.17
+aws_crt_cpp:
+  - 0.26.0
 aws_sdk_cpp:
-  - 1.8.138
-boost:
-  - 1.74.0
-boost_cpp:
-  - 1.74.0
+  - 1.11.210
+bullet_cpp:
+  - 3.25
 bzip2:
   - 1
+c_ares:
+  - 1
 cairo:
-  - 1.16
+  - 1
+capnproto:
+  - 0.10.2
+ccr:
+  - 1.3
 cfitsio:
-  - 3.470
+  - 4.3.0
+coin_or_cbc:
+  - 2.10
+coincbc:
+  - 2.10
+coin_or_cgl:
+  - 0.60
+coin_or_clp:
+  - 1.17
+coin_or_osi:
+  - 0.108
+coin_or_utils:
+  - 2.11
+console_bridge:
+  - 1.0
+cudnn:
+  - 8
 cutensor:
   - 1
 curl:
-  - 7
+  - 8
+dav1d:
+  - 1.2.1
+davix:
+  - '0.8'
 dbus:
   - 1
+dcap:
+  - 2.47
+eclib:
+  - '20231211'
+elfutils:
+  - 0.189
 exiv2:
   - 0.27
 expat:
-  - 2.2
+  - 2
 ffmpeg:
-  - '4.3'
+  - '6'
 fftw:
   - 3
 flann:
-  - 1.9.1
+  - 1.9.2
+flatbuffers:
+  - 23.5.26
 fmt:
-  - '7'
+  - '10'
 fontconfig:
-  - 2.13
+  - 2
 freetype:
   - 2
+gct:
+  - 6.2.1629922860
 gf2x:
   - '1.3'
 gdk_pixbuf:
   - 2
 gnuradio_core:
-  - 3.8.2
+  - 3.10.9
+gnutls:
+  - 3.7
 gsl:
-  - 2.6
+  - 2.7
+gsoap:
+  - 2.8.123
 gstreamer:
-  - 1.18
+  - '1.22'
 gst_plugins_base:
-  - 1.18
+  - '1.22'
 gdal:
-  - '3.1'
+  - '3.8'
 geos:
-  - 3.9.1
+  - 3.12.1
 geotiff:
-  - '1.6'
+  - 1.7.1
+gfal2:
+  - '2.21'
 gflags:
   - 2.2
 giflib:
@@ -408,138 +377,258 @@ glew:
 glib:
   - '2'
 glog:
-  - 0.4.0
+  - '0.6'
 glpk:
-  - 4.65
+  - '5.0'
 gmp:
   - 6
+# keep google_cloud_cpp in sync with libgoogle_cloud
 google_cloud_cpp:
-  - '1.25'
+  - '2.12'
 google_cloud_cpp_common:
   - 0.25.0
 googleapis_cpp:
   - '0.10'
 graphviz:
-  - 2.40  # [linux or (osx and x86_64)]
-  - 2.46  # [win or (osx and arm64)]
+  - '9'
+# this has been renamed to libgrpc as of 1.49; dropped as of 1.52.
+# IOW, this version is unavailable; makes the renaming more obvious
 grpc_cpp:
-  - '1.36'
+  - '1.52'
 harfbuzz:
-  - 2
+  - '8'
 hdf4:
-  - 4.2
+  - 4.2.15
 hdf5:
-  - 1.10.6
+  - 1.14.3
 icu:
-  - 68
+  - '73'
+imath:
+  - 3.1.9
+ipopt:
+  - 3.14.13
 isl:
-  - '0.22'
+  - '0.26'
 jasper:
-  # the first windows build of jasper was 2.0.14
-  - 1  # [not (win or arm64)]
-  - 2  # [win or arm64]
+  - 4
 jpeg:
   - 9
-libjpeg_turbo:
+lcms:
   - 2
+lerc:
+  - '4'
+libjpeg_turbo:
+  - '3'
+libev:
+  - 4.33
 json_c:
-  - 0.15
+  - '0.17'
 jsoncpp:
-  - 1.9.4
+  - 1.9.5
 kealib:
-  - 1.4
+  - '1.5'
 krb5:
-  - 1.17.1
+  - '1.20'
+ldas_tools_framecpp:
+  - '2.9'
+libabseil:
+  - '20230802'
+libabseil_static:
+  - '20220623.0'
+libaec:
+  - '1'
 libarchive:
-  - 3.5
+  - '3.7'
+# keep in sync with arrow_cpp (libarrow exists only from 10.x,
+# but make sure we have same length for zip as arrow_cpp)
+libarrow:
+  - 14
+  - 13
+  - 12
+  - 11.0.0
+# only exists as of arrow v14, but needs to have same length as libarrow
+libarrow_all:
+  - 14
+  - 13
+  - 12
+  - 11.0.0
+libavif:
+  - '1.0.1'
 libblitz:
-  - 0.10
+  - 1.0.2
+libboost_devel:
+  - '1.82'
+libboost_python_devel:
+  - '1.82'
+libcint:
+  - '5.5'
 libcurl:
-  - 7
+  - 8
 libcrc32c:
   - 1.1
 libdap4:
-  - 3.20.2
+  - 3.20.6
+libdeflate:
+  - '1.19'
+libduckdb_devel:
+  - '0.9.2'
+libeantic:
+  - 1
 libevent:
-  - 2.1.10
+  - 2.1.12
+libexactreal:
+  - '4'
 libffi:
-  - '3.3'
+  - '3.4'
+libflatsurf:
+  - 3
+libflint:
+  - '2.9'
+libframel:
+  - '8.41'
 libgdal:
-  - '3.1'
+  - '3.8'
 libgit2:
-  - '1.1'
+  - '1.7'
+# Keep in sync with google_cloud_cpp
+libgoogle_cloud:
+  - '2.12'
+libgrpc:
+  - '1.59'
+libhugetlbfs:
+  - 2
+libhwy:
+  - '1.0'
 libiconv:
-  - 1.16
+  - 1
+libidn2:
+  - 2
+libintervalxt:
+  - 3
 libkml:
   - 1.3
+libiio:
+  - 0
+libmed:
+  - '4.1'
 libmatio:
-  - 1.5
+  - 1.5.26
+libmatio_cpp:
+  - 0.2.3
 libmicrohttpd:
   - 0.9
 libnetcdf:
-  - 4.7.4
+  - 4.9.2
+libopencv:
+  - 4.9.0
+libopentelemetry_cpp:
+  - '1.13'
+libosqp:
+  - 0.6.3
+libopenvino_dev:
+  - 2023.2.0
 libpcap:
   - '1.10'
 libpng:
   - 1.6
 libprotobuf:
-  - '3.15'
+  - 4.24.4
+libpq:
+  - '16'
+libraw:
+  - '0.21'
 librdkafka:
-  - '1.4'
+  - '2.2'
 librsvg:
   - 2
 libsecret:
   - 0.18
+libsentencepiece:
+  - '0.1.99'
+libsndfile:
+  - '1.2'
+libsoup:
+  - 3
 libspatialindex:
   - 1.9.3
+libssh:
+  - 0.10
 libssh2:
   - 1
 libsvm:
-  - 3.21
+  - '332'
+# keep libsqlite in sync with sqlite
+libsqlite:
+  - 3
+libtensorflow:
+  - 2.14
+libtensorflow_cc:
+  - 2.14
+libthrift:
+  - 0.18.1
 libtiff:
-  - 4
+  - '4.6'
 libunwind:
-  - 1
+  - '1.6'
 libv8:
   - 8.9.83
+libvips:
+  - 8
 libwebp:
-  - 1.1
+  - 1
 libwebp_base:
-  - 1.1
+  - 1
 libxml2:
-  - 2.9
+  - 2
+libxsmm:
+  - 1
 libuuid:
-  - 2.32.1
+  - 2
+libzip:
+  - 1
+lmdb:
+  - 0.9.29
 log4cxx:
-  - 0.11.0
+  - 1.1.0
 lz4_c:
-  - 1.9.3
+  - '1.9.3'
 lzo:
   - 2
 metis:
   - 5.1
 mimalloc:
-  - 1.6.3
+  - 2.1.2
 mkl:
-  - 2019
+  - '2023'
+mkl_devel:
+  - 2023
+mpg123:
+  - '1.32'
 mpich:
-  - 3
+  - 4
 mpfr:
   - 4
+msgpack_c:
+  - 6
+msgpack_cxx:
+  - 6
 mumps_mpi:
-  - 5.2
+  - 5.2.1
 mumps_seq:
-  - 5.2
+  - 5.2.1
 nccl:
-  - 2.7.8.1
+  - 2
 ncurses:
-  - 6.2
+  - 6
 netcdf_cxx4:
   - 4.3
 netcdf_fortran:
-  - 4.5
+  - '4.6'
 nettle:
-  - '3.7'
+  - '3.9'
+nodejs:
+  - '20'
+  - '18'
 nss:
   - 3
 nspr:
@@ -549,135 +638,210 @@ nlopt:
 ntl:
   - '11.4.3'
 # we build for the oldest version possible of numpy for forward compatibility
+# we roughly follow NEP29 in choosing the oldest version
 numpy:
   # part of a zip_keys: python, python_impl, numpy
-  - 1.16   # [not (osx and arm64)]
-  - 1.16   # [not (osx and arm64)]
-  - 1.16   # [not (osx and arm64)]
-  - 1.19   # [osx and arm64]
+  - 1.22
+  - 1.22
+  - 1.22
+  - 1.23
 occt:
-  - 7.4
+  - 7.7.2
 openblas:
   - 0.3.*
 openexr:
-  - 2.5
+  - '3.2'
+openh264:
+  - 2.4.0
 openjpeg:
-  - '2.4'
+  - '2'
 openmpi:
   - 4
 openssl:
-  - 1.1.1
-openturns:
-  - '1.16'
+  - '3'
 orc:
-  - 1.6.7
+  - 1.9.2
 pango:
-  - 1.42
+  - 1.50
 pari:
-  - 2.11
+  - 2.15.* *_pthread
+pcl:
+  - 1.13.1
 perl:
-  - 5.26.2
+  - 5.32.1
 petsc:
-  - '3.13'
+  - '3.20'
 petsc4py:
-  - '3.13'
+  - '3.20'
+pugixml:
+  - '1.14'
 slepc:
-  - '3.13'
+  - '3.20'
 slepc4py:
-  - '3.13'
+  - '3.20'
+svt_av1:
+  - 1.8.0
+p11_kit:
+  - '0.24'
 pcre:
   - '8'
 pcre2:
-  - '10.36'
+  - '10.42'
 pixman:
   - 0
 poco:
-  - 1.10.1
+  - 1.12.4
 poppler:
-  - '0.89'
+  - '23.07'
+postgresql:
+  - '16'
+postgresql_plpython:
+  - '16'
 proj:
-  - 7.1.1
+  - 9.3.1
+pulseaudio:
+  - '16.1'
+pulseaudio_client:
+  - '16.1'
+pulseaudio_daemon:
+  - '16.1'
 pybind11_abi:
   - 4
 python:
   # part of a zip_keys: python, python_impl, numpy
-  - 3.6.* *_cpython    # [not (osx and arm64)]
-  - 3.7.* *_cpython    # [not (osx and arm64)]
   - 3.8.* *_cpython
+  - 3.9.* *_cpython
+  - 3.10.* *_cpython
+  - 3.11.* *_cpython
 python_impl:
   # part of a zip_keys: python, python_impl, numpy
-  - cpython   # [not (osx and arm64)]
-  - cpython   # [not (osx and arm64)]
   - cpython
+  - cpython
+  - cpython
+  - cpython
+pytorch:
+  - '2.0'
+pyqt:
+  - 5.15
+pyqtwebengine:
+  - 5.15
+pyqtchart:
+  - 5.15
 qt:
-  - 5.12
+  - 5.15
+qt_main:
+  - 5.15
+qt6_main:
+  - '6.6'
 qtkeychain:
-  - '0.12'
+  - '0.14'
+rdma_core:
+  - '49'
 re2:
-  - 2020.11.01
+  - 2023.06.02
 readline:
-  - 8.0
+  - "8"
 rocksdb:
-  - "6.10"
+  - '8.0'
 root_base:
-  - '6.22'
+  - 6.28.10
 ruby:
   - 2.5
   - 2.6
-# Pin rust to <1.49 on osx-64 due to min deployment target req, cf. https://github.com/conda-forge/rust-feedstock/issues/73
-rust:     # [osx and x86_64]
-  - 1.46  # [osx and x86_64]
 r_base:
-  - 3.6  # [not (osx and arm64)]
-  - 4.0
+  - 4.1   # [win]
+  - 4.2   # [not win]
+  - 4.3   # [not win]
+libscotch:
+  - 7.0.4
+libptscotch:
+  - 7.0.4
 scotch:
-  - 6.0.9
+  - 7.0.4
 ptscotch:
-  - 6.0.9
+  - 7.0.4
 s2n:
-  - 1.0.0
+  - 1.4.1
+sdl2:
+  - '2'
+sdl2_image:
+  - '2'
+sdl2_mixer:
+  - '2'
+sdl2_net:
+  - '2'
+sdl2_ttf:
+  - '2'
 singular:
-  - 4.1.2
+  - 4.3.2.p8
 snappy:
   - 1
 soapysdr:
-  - 0.7
+  - '0.8'
 sox:
   - 14.4.2
+spdlog:
+  - '1.12'
+# keep sqlite in sync with libsqlite
 sqlite:
   - 3
+srm_ifce:
+  - 1.24.6
+starlink_ast:
+  - '9.2.7'
 suitesparse:
-  - 5.6                # [not win]
-  - 5.4                # [win]
+  - 5
+superlu_dist:
+  - '8'
 tbb:
-  - 2020
+  - '2021'
 tbb_devel:
-  - 2020
+  - '2021'
+tensorflow:
+  - '2.14'
+thrift_cpp:
+  - 0.18.1
+tinyxml2:
+  - 10
 tk:
   - 8.6                # [not ppc64le]
 tiledb:
-  - '2.2'
+  - '2.19'
+ucx:
+  - '1.15.0'
 uhd:
-  - 3.15.0
+  - 4.6.0
+urdfdom:
+  - 4
 vc:                    # [win]
   - 14                 # [win]
 vlfeat:
-  - 0.9.20
+  - 0.9.21
 volk:
-  - '2.4'
+  - '3.1'
 vtk:
-  - 9.0.1
+  - 9.2.6
+wcslib:
+  - '8'
+wxwidgets:
+  - '3.2'
 x264:
-  - '1!161.*'
+  - '1!164.*'
+x265:
+  - '3.5'
 xerces_c:
   - 3.2
 xrootd:
   - '5'
 xz:
-  - 5.2
+  - 5
 zeromq:
-  - 4.3.3
+  - '4.3.5'
+zfp:
+  - 1.0
 zlib:
   - 1.2
+zlib_ng:
+  - 2.0
 zstd:
-  - 1.4
+  - '1.5'

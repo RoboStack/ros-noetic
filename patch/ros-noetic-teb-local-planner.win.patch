@@ -1,3 +1,15 @@
+diff --git a/include/teb_local_planner/h_signature.h b/include/teb_local_planner/h_signature.h
+index 8837950..4cffcda 100644
+--- a/include/teb_local_planner/h_signature.h
++++ b/include/teb_local_planner/h_signature.h
+@@ -46,6 +46,7 @@
+ #include <teb_local_planner/timed_elastic_band.h>
+ 
+ #include <ros/ros.h>
++#include <boost/math/special_functions/sign.hpp>
+ #include <math.h>
+ #include <algorithm>
+ #include <functional>
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 97fe249..389975c 100644
 --- a/CMakeLists.txt

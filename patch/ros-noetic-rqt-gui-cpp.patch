@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c352f670..40f28c35 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,7 +10,8 @@ catkin_package(
+ 
+ include_directories(include ${catkin_INCLUDE_DIRS})
+ 
+-find_package(Qt5Widgets REQUIRED)
++find_package(Qt5 COMPONENTS Widgets REQUIRED)
++find_package(Boost COMPONENTS filesystem REQUIRED)
+ 
+ SET(rqt_gui_cpp_SRCS
+   src/rqt_gui_cpp/nodelet_plugin_provider.cpp
+@@ -24,7 +25,7 @@ set(rqt_gui_cpp_HDRS
+ qt5_wrap_cpp(rqt_gui_cpp_MOCS ${rqt_gui_cpp_HDRS})
+ 
+ add_library(${PROJECT_NAME} ${rqt_gui_cpp_SRCS} ${rqt_gui_cpp_MOCS})
+-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} Qt5::Widgets)
++target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} Qt5::Widgets ${Boost_LIBRARIES})
+ 
+ if(APPLE)
+   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")

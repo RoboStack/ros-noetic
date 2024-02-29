@@ -10,7 +10,7 @@ index 4f081879..9264d1d6 100644
 -if (ANDROID)
 -    find_package(yaml-cpp)
 -    add_definitions(-DHAVE_NEW_YAMLCPP)
-+pkg_check_modules(YAMLCPP yaml-cpp QUIET)
++# pkg_check_modules(YAMLCPP yaml-cpp QUIET)
 +if(NOT YAMLCPP_FOUND)
 +  find_package(yaml-cpp 0.6 REQUIRED)
 +  set(YAMLCPP_INCLUDE_DIRS ${YAML_CPP_INCLUDE_DIR})

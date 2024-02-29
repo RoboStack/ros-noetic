@@ -1,0 +1,70 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7441df6..9bff2c0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,12 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
+ 	rospack
+ 	diagnostic_msgs
+ )
++find_package(fmt REQUIRED)
+ 
+ catkin_package()
+ include_directories(${catkin_INCLUDE_DIRS})
+ 
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
+-
+ find_package(TinyXML REQUIRED)
+ 
+ find_package(Curses REQUIRED)
+@@ -107,6 +107,7 @@ target_link_libraries(rosmon
+ 	yaml-cpp
+ 	util
+ 	rosmon_launch_config
++	fmt::fmt
+ )
+ 
+ add_dependencies(rosmon ${catkin_EXPORTED_TARGETS})
+@@ -126,6 +125,7 @@ add_executable(dump_param
+ )
+ target_link_libraries(dump_param
+ 	${catkin_LIBRARIES}
++	fmt::fmt
+ )
+ 
+ add_executable(abort_really_long_executable
+diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
+index 7dec1cc..da51913 100644
+--- a/src/monitor/shim.cpp
++++ b/src/monitor/shim.cpp
+@@ -15,6 +15,19 @@
+ #include <sys/resource.h>
+ #include <sys/prctl.h>
+ 
++// **NOTE: Adapted from https://reviews.llvm.org/D39717 **
++// Sufficiently old kernel headers don't provide this value, but we can still
++// call prctl with it. If the runtime kernel is new enough, the prctl call will
++// have the desired effect; if the kernel is too old, the call will error and we
++// can ignore said error.
++#ifndef PR_SET_PTRACER
++#define PR_SET_PTRACER 0x59616d61
++#endif
++
++#ifndef PR_SET_PTRACER_ANY
++#define PR_SET_PTRACER_ANY ((unsigned long)-1)
++#endif
++
+ static const struct option OPTIONS[] = {
+ 	{"help", no_argument, nullptr, 'h'},
+ 	{"namespace", required_argument, nullptr, 'n'},
+diff --git a/src/logger.cpp b/src/logger.cpp
+index 881339c..9d9fb5f 100644
+--- a/src/logger.cpp
++++ b/src/logger.cpp
+@@ -4,6 +4,7 @@
+ #include "logger.h"
+ #include "fmt/format.h"
+ 
++#include <array>
+ #include <cerrno>
+ #include <cstdio>
+ #include <cstring>

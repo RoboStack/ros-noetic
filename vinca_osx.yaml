@@ -1,39 +1,205 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.1 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 12
+build_number: 20
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
   # - rviz
   # - diagnostic_updater
+  - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
+  - rospack
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
+  - octomap-ros
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
+
+  - rviz
+  - python-qt-binding
+  - qt-gui-cpp
+  - actionlib
+  - ros-babel-fish
+  - ros-babel-fish-test-msgs
+  - moveit_visual_tools
+  - rviz_visual_tools
+  - rgbd-launch
+
+  - plotjuggler
+  - plotjuggler_ros
+
+  - python-qt-binding
+  - qt-gui
+  - qt-gui-cpp
+  - ros-control
+  - ros-controllers
+  - imu-sensor-controller
+  - ackermann-steering-controller
+  - rqt-gui
+  - rqt-ez-publisher
+  - pcl-ros
+  - pcl-conversions
+  - velodyne-description
+  - effort-controllers
+  - velocity-controllers
+  - turtlebot3-teleop
+  - force-torque-sensor-controller
+  - gripper-action-controller
+  - rqt-gui-cpp
+  - rqt-gui-py
+  - joint-trajectory-controller
+  - velodyne-simulator
+  - velodyne-gazebo-plugins
+
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - gps-common
+  - rosbridge_suite
+
+
+  # ## Only limited number of packages to reduce maintainer burden
+  - catkin
+  - rviz
+  - desktop
+  - desktop_full
+  - perception
+  - simulators
+  - moveit
+  - robot_localization
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - turtlebot3
+  - turtlebot3-simulations
+  - teb-local-planner
+
+  - gazebo-dev
+  - gazebo-ros
+  - hector-gazebo-plugins
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - tf2_web_republisher
+  - libfranka
+  - franka
+  - franka-gripper
+  - franka-hw
+  - franka-msgs
+  - franka-description
+  - franka-control
+  - franka_example_controllers
+  - franka_ros
+  - combined-robot-hw
+  - panda-moveit-config
+  - moveit-ros-visualization
+  - moveit-ros-planning-interface
+  - niryo_one_simulation
+  - turtlebot3
+  - turtlebot3-fake
+  - librealsense2
+  - realsense2_camera
+  - ur-msgs
+  - rosdoc-lite
+  - ros_numpy
+  
+  - sound-play
+  - pid
+
+  ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
   #  TODO OSX
   ##
+
+  # -  mavros-msgs
+  # -  mavros
+  # - libmavconn
+  # - mavros-extras
+  # - mavlink
+  
+
   # - grid_map  # fails with tbb-error, probably need to use cmake instead of pkg-config. See grid-map-osx branch
   # - pybind11_catkin  # need to be unvendored
 
-  - rviz
+  # Fix after rebuild
+  # - ur_client_library
+  # - tsid
+  # - mavros
+  # - tesseract-collision
+  # - tesseract-common
+  # - tesseract-geometry
+  # - tesseract-scene-graph
+  # - tesseract-srdf
+  # - tesseract-support
+  # - robot-calibration
+  # - mbf-costmap-nav
+  # - mbf-simple-nav
+  # - mbf-abstract-nav
+
+  # - openslam-gmapping
+  # - turtlesim
+  # - rviz
   # - arbotix-controllers
   # - arbotix-sensors
   # - audibot
@@ -132,7 +298,6 @@ packages_select_by_deps:
   # - pr2-mechanism-model
   # - pr2-tuckarm
   # - rc-reason-clients
-  # - robot-calibration
   # - robot-controllers
   # - robot-mechanism-controllers
   # - ros-control-boilerplate
@@ -150,12 +315,6 @@ packages_select_by_deps:
   # - swri-profiler-tools
   # - swri-roscpp
   # - teleop-tools
-  # - tesseract-collision
-  # - tesseract-common
-  # - tesseract-geometry
-  # - tesseract-scene-graph
-  # - tesseract-srdf
-  # - tesseract-support
   # - test-osm
   # - toposens-description
   # - trac-ik
@@ -165,7 +324,6 @@ packages_select_by_deps:
   # - trac-ik-python
   # - track-odometry
   # - trajectory-tracker
-  # - tsid
   # - turtlebot3-autorace-driving
   # - turtlebot3-simulations
   # - ublox
@@ -259,8 +417,6 @@ packages_select_by_deps:
   # - locomotor-msgs
   # - map-organizer
   # - marti-nav-msgs
-  # - mbf-costmap-nav
-  # - mbf-simple-nav
   # - mesh-msgs-transform
   # - mir-driver
   # - nav-core2
@@ -415,7 +571,6 @@ packages_select_by_deps:
   # - genmypy
   # - goal-passer
   # - gpp-interface
-  # - gps-common
   # - graceful-controller
   # - grasping-msgs
   # - grid-map-core
@@ -454,7 +609,7 @@ packages_select_by_deps:
   # - led-msgs
   # - leo-description
   # - lgsvl-msgs
-  # - libdlib
+  # # - libdlib
   # - log-view
   # - lpg-planner
   # - map-laser
@@ -468,7 +623,6 @@ packages_select_by_deps:
   # - marti-sensor-msgs
   # - marti-status-msgs
   # - marti-visualization-msgs
-  # - mbf-abstract-nav
   # - mcl-3dl-msgs
   # - mesh-msgs
   # - message-to-tf
@@ -500,7 +654,6 @@ packages_select_by_deps:
   # - nonpersistent-voxel-layer
   # - novatel-oem7-msgs
   # - ntpd-driver
-  # - octomap-ros
   # - odva-ethernetip
   # - openzen-sensor
   # - p2os-doc
@@ -537,14 +690,11 @@ packages_select_by_deps:
   # - py-trees-msgs
   # - pyquaternion
   # - qt-gui-app
-  # - radar-msgs
   # - raw-description
   # - razor-imu-9dof
   # - rc-common-msgs
   # - rc-visard-description
-  # - realsense2-description
   # - remote-rosbag-record
-  # - rgbd-launch
   # - robot-calibration-msgs
   # - robot-controllers-msgs
   # - roboticsgroup-upatras-gazebo-plugins
@@ -560,7 +710,6 @@ packages_select_by_deps:
   # - rosbag-snapshot-msgs
   # - rosbaglive
   # - rosdiagnostic
-  # - rosdoc-lite
   # - rosemacs
   # - rosfmt
   # - rosmon-msgs
@@ -580,7 +729,7 @@ packages_select_by_deps:
   # - rqt
   # - rqt-controller-manager
   # - rqt-drone-teleop
-  # - rqt-ez-publisher
+  - rqt-ez-publisher
   # - rqt-ground-robot-teleop
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
@@ -632,7 +781,6 @@ packages_select_by_deps:
   # - twist-recovery
   # - ublox-serialization
   # - unique-id
-  # - ur-msgs
   # - urg-stamped
   # - usb-cam-hardware-interface
   # - variant-msgs
@@ -649,9 +797,9 @@ packages_select_by_deps:
   # - xpp-states
   # - xv-11-laser-driver
 
-  ##
-  # DONE OSX
-  ##
+  # ##
+  # # DONE OSX
+  # ##
   # - moveit-msgs
   # - rviz
   # - moveit_core
@@ -664,8 +812,6 @@ packages_select_by_deps:
   # - rosserial-python
   # - rosserial-msgs
   # - rviz
-  # - ur_client_library
-  # - realsense2_camera
   # - tf2_web_republisher
   # - franka_ros
   # - franka_example_controllers
@@ -678,20 +824,16 @@ packages_select_by_deps:
   # - franka_description
   # - franka_control
   # - fcl
-  # - ros_numpy
   # - eigenpy
   # - kdl_parser_py
   # - catkin
   # - rospack
   # - pluginlib
   # - qt_gui_cpp
-  # - ros_numpy
   # - velodyne_simulator
   # - rviz
-  # - mavros
   # - hector_gazebo_plugins
   # - navigation
-  # - plotjuggler_ros
   # - catkin
   # - desktop
   # - desktop_full
@@ -714,10 +856,8 @@ packages_select_by_deps:
   # - joy
   # - imu_tools
   # - velodyne
-  # - rosbridge_suite
   # - robot_localization
   # - urg_node
-  # - teb_local_planner
   # - moveit
   # - slam_toolbox
   # - turtlebot3
@@ -745,7 +885,7 @@ packages_select_by_deps:
   # PROBLEMS:
   ##
   # - rtabmap_ros  # openni is missing, and need to find names for
-    # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
+  # {'libfreenect-dev', 'libopenni-dev', 'tango-icon-theme', 'libvtk-qt'}
   # - behavior_tree  # isn't released?
 
 patch_dir: patch

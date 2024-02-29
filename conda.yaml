@@ -1,0 +1,935 @@
+acl:
+  conda:
+    linux: [libacl]
+    osx: []
+    win64: []
+alsa-oss:
+  conda: [alsa-lib]
+apr:
+  conda: [apr]
+armadillo:
+  conda: [armadillo]
+asio:
+  conda: [asio]
+assimp:
+  conda: [assimp]
+assimp-dev:
+  conda: [assimp]
+avahi-daemon:
+  conda: [python-avahi]
+benchmark:
+  conda: [benchmark]
+binutils:
+  conda:
+    linux: [binutils]
+    osx: []
+    win64: []
+bison:
+  conda: [bison]
+boost:
+  conda: [libboost-devel, libboost-python-devel]
+bullet:
+  conda: [bullet]
+bzip2:
+  conda: [bzip2]
+cartographer:
+  conda: [cartographer]
+ca-certificates:
+  conda: [ca-certificates]
+clang-tidy:
+  conda: [clang-tools]
+cmake:
+  conda: [cmake]
+coinor-libcbc-dev:
+  conda: [coin-or-cbc]
+coinor-libcgl-dev:
+  conda: [coin-or-cgl]
+coinor-libclp-dev:
+  conda: [coin-or-clp]
+coinor-libcoinutils-dev:
+  conda: [coin-or-utils]
+coinor-libipopt-dev:
+  conda: [ipopt]
+collada-dom:
+  conda: [collada-dom]
+cppcheck:
+  conda: [cppcheck]
+cppunit:
+  conda:
+    linux: [cppunit]
+    osx: [cppunit]
+    win64: []
+cppzmq:
+  conda: [cppzmq]
+curl:
+  conda: [libcurl]
+cython:
+  conda: [cython]
+doxygen:
+  conda: [doxygen, graphviz]
+draco:
+  conda: [draco]
+eigen:
+  conda: [eigen]
+emacs:
+  conda: [emacs]
+festival:
+  conda:
+    linux: [festival, festvox-kallpc16k]
+    osx: []
+    win64: []
+ffmpeg:
+  conda: [ffmpeg]
+flac:
+  conda: [libflac]
+flex:
+  conda: [flex]
+fmt:
+  conda: [fmt]
+g++-static:
+  conda: []
+gawk:
+  conda: [gawk]
+gazebo:
+  conda: [gazebo]
+gazebo11:
+  conda: [gazebo]
+gazebo9:
+  conda: [gazebo]
+geographiclib:
+  conda: [geographiclib-cpp]
+geographiclib-tools:
+  conda: [geographiclib-cpp]
+git:
+  conda: [git]
+glut:
+  conda:
+    linux: [freeglut]
+    osx: []
+    win64: [freeglut]
+google-mock:
+  conda: [gmock]
+graphicsmagick:
+  conda: [graphicsmagick]
+graphviz:
+  conda: [graphviz]
+gstreamer1.0:
+  conda: [gstreamer]
+gstreamer1.0-alsa:
+  conda: [gstreamer]
+gstreamer1.0-plugins-base:
+  conda: [gst-plugins-base]
+gstreamer1.0-plugins-good:
+  conda: [gst-plugins-good]
+gstreamer1.0-plugins-ugly:
+  conda: [gst-plugins-ugly]
+gtest:
+  conda: [gtest]
+gtk2:
+  conda: [gtk2]
+gtk3:
+  conda:
+    [
+      libglib,
+      glib,
+      gtk3,
+      harfbuzz,
+      libxcb,
+      pthread-stubs,
+      xorg-libxau,
+      xorg-libxi,
+      xorg-libxrandr,
+      xorg-libxcursor,
+      xorg-libxtst,
+      xorg-libxcomposite,
+      xorg-libxdamage,
+      xorg-libxinerama,
+      xorg-xineramaproto,
+      epoxy,
+      REQUIRE_GL,
+    ]
+ignition-common4:
+  conda: [libignition-common4]
+ignition-cmake2:
+  conda: [libignition-cmake2]
+ignition-gazebo3:
+  conda: [libignition-gazebo5]
+ignition-gazebo5:
+  conda: [libignition-gazebo5]
+ignition-gazebo6:
+  conda: [libignition-gazebo6]
+ignition-gui5:
+  conda: [libignition-gui5]
+ignition-math6:
+  conda: [libignition-math6]
+ignition-msgs5:
+  conda: [libignition-msgs5]
+ignition-msgs8:
+  conda: [libignition-msgs8]
+ignition-msgs7:
+  conda: [libignition-msgs7]
+ignition-rendering5:
+  conda: [libignition-rendering5]
+ignition-transport8:
+  conda: [libignition-transport8]
+ignition-transport10:
+  conda: [libignition-transport10]
+ignition-transport11:
+  conda: [libignition-transport11]
+java:
+  conda: [openjdk]
+jupyter-notebook:
+  conda: [notebook]
+ipython3:
+  conda: [ipython]
+kitchen:
+  conda: [kitchen]
+lcov:
+  conda: [lcov]
+leveldb:
+  conda: [leveldb]
+libabsl-dev:
+  conda: [abseil-cpp]
+libblas-dev:
+  conda: [libblas, libcblas]
+libboost-chrono-dev:
+  conda: [libboost-devel]
+libboost-date-time:
+  conda: [libboost]
+libboost-date-time-dev:
+  conda: [libboost-devel]
+libboost-dev:
+  conda: [libboost-devel]
+libboost-filesystem:
+  conda: [libboost]
+libboost-filesystem-dev:
+  conda: [libboost-devel]
+libboost-iostreams-dev:
+  conda: [libboost-devel]
+libboost-program-options:
+  conda: [libboost]
+libboost-program-options-dev:
+  conda: [libboost-devel]
+libboost-python:
+  conda: [libboost-python]
+libboost-python-dev:
+  conda: [libboost-python-devel]
+libboost-regex-dev:
+  conda: [libboost-devel]
+libboost-serialization:
+  conda: [libboost]
+libboost-serialization-dev:
+  conda: [libboost-devel]
+libboost-system:
+  conda: [libboost]
+libboost-system-dev:
+  conda: [libboost-devel]
+libboost-thread:
+  conda: [libboost]
+libboost-thread-dev:
+  conda: [libboost-devel]
+libcairo2-dev:
+  conda: [cairo]
+libcap-dev:
+  conda:
+    linux: [libcap]
+    osx: []
+    win64: []
+libccd-dev:
+  conda: [libccd-double]
+libceres-dev:
+  conda: [ceres-solver]
+libclang-dev:
+  conda: [libclang]
+libconsole-bridge-dev:
+  conda: [console_bridge]
+libcunit-dev:
+  conda: [cunit]
+libcurl:
+  conda: [libcurl]
+libcurl-dev:
+  conda: [libcurl]
+libdc1394-dev:
+  conda: [libdc1394]
+libfcl-dev:
+  conda: [fcl]
+libffi-dev:
+  conda: [libffi]
+libflann-dev:
+  conda: [flann]
+libfltk-dev:
+  conda: [fltk]
+libfreenect-dev:
+  conda: []
+libfreetype6:
+  conda: [freetype]
+libfreetype6-dev:
+  conda: [freetype]
+libftdi-dev:
+  conda: [libftdi, libusb]
+libgazebo11-dev:
+  conda: [gazebo]
+libgazebo9-dev:
+  conda: [gazebo]
+libgdal-dev:
+  conda: [libgdal]
+libgeos++-dev:
+  conda: [geos]
+libgflags-dev:
+  conda: [gflags]
+libglew-dev:
+  conda: [glew]
+libglfw3-dev:
+  conda: [glfw 3.*]
+libglu-dev:
+  conda:
+    linux: [libglu]
+    osx: []
+    win64: []
+libgoogle-glog-dev:
+  conda: [glog]
+libgpgme-dev:
+  conda:
+    linux: [gpgme]
+    osx: [gpgme]
+    win64: []
+libgps:
+  conda: [gpsd]
+libgsl:
+  conda: [gsl]
+libgstreamer-plugins-base1.0-dev:
+  conda: [gst-plugins-base]
+libgstreamer1.0-dev:
+  conda: [gstreamer]
+libgts:
+  conda: [gts]
+libhdf5-dev:
+  conda: [hdf5]
+libi2c-dev:
+  conda: [libi2c]
+liblttng-ust-dev:
+  conda: [lttng-ust]
+libjpeg:
+  conda: [libjpeg-turbo]
+libjsoncpp:
+  conda: [jsoncpp]
+libjsoncpp-dev:
+  conda: [jsoncpp]
+liblapack-dev:
+  conda: [liblapack]
+libmicrohttpd:
+  conda: [libmicrohttpd]
+libncurses-dev:
+  conda:
+    linux: [ncurses]
+    osx: [ncurses]
+    win64: []
+libnl-3:
+  conda: [libnl 3.*]
+libnl-3-dev:
+  conda: [libnl 3.*]
+libnlopt-cxx-dev:
+  conda: [nlopt]
+libnlopt-dev:
+  conda: [nlopt]
+libnlopt0:
+  conda: [nlopt]
+libogg:
+  conda: [libogg]
+libogre:
+  conda: [ogre]
+libogre-dev:
+  conda: [ogre]
+libomp-dev:
+  conda:
+    linux: [libgomp]
+    osx: [llvm-openmp]
+    win64: []
+libopenblas-dev:
+  conda: [libblas]
+libopencv-dev:
+  conda: [py-opencv, libopencv, REQUIRE_OPENGL]
+libopencv-imgproc-dev:
+  conda: [py-opencv, libopencv, REQUIRE_OPENGL]
+libopenni-dev:
+  conda: []
+liborocos-kdl:
+  conda: [orocos-kdl]
+liborocos-kdl-dev:
+  conda: [orocos-kdl]
+libpcap:
+  conda: [libpcap]
+libpcl-all:
+  conda: [pcl]
+libpcl-all-dev:
+  conda: [pcl]
+libpng-dev:
+  conda: [libpng]
+libpoco-dev:
+  conda: [poco]
+libpqxx:
+  conda: [libpqxx]
+libpqxx-dev:
+  conda: [libpqxx]
+libqglviewer2-qt5:
+  conda: [libqglviewer]
+libqglviewer-dev-qt5:
+  conda: [libqglviewer]
+libqhull:
+  conda: [qhull]
+libqt5-core:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-gui:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-opengl:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-opengl-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-svg-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-websockets-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5-widgets:
+  conda: [qt-main, REQUIRE_OPENGL]
+libqt5x11extras5-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+libreadline:
+  conda: [readline]
+libreadline-dev:
+  conda: [readline]
+libsndfile1-dev:
+  conda: [libsndfile]
+libspnav-dev:
+  conda: [libspnav]
+libsqlite3-dev:
+  conda: [sqlite 3.*]
+libssl-dev:
+  conda: [openssl]
+libtheora:
+  conda: [libtheora]
+libtool:
+  conda: [libtool]
+libturbojpeg:
+  conda: [libjpeg-turbo]
+libtins-dev:
+  conda: [libtins]
+libudev-dev:
+  conda: [libusb]
+liburdfdom-dev:
+  conda: [urdfdom]
+liburdfdom-headers-dev:
+  conda: [urdfdom_headers]
+liburdfdom-tools:
+  conda: [urdfdom]
+libusb-1.0:
+  conda: [libusb]
+libusb-1.0-dev:
+  conda: [libusb]
+libusb-dev:
+  conda: [libusb]
+libuvc-dev:
+  conda: [libuvc, libusb]
+libvtk:
+  conda: [vtk]
+libvtk-qt:
+  conda: [vtk]
+libx11:
+  conda: [xorg-libx11, REQUIRE_OPENGL]
+libx11-dev:
+  conda: [xorg-libx11, REQUIRE_OPENGL]
+libxaw:
+  conda:
+    linux: [xorg-libxaw]
+    osx: [xorg-libxaw]
+    win64: []
+libxext:
+  conda: [xorg-libxext]
+libxi-dev:
+  conda: [xorg-libxi]
+libxml2:
+  conda: [libxml2]
+libxml2-utils:
+  conda: [libxml2]
+libxmlrpc-c++:
+  conda: [xmlrpc-c]
+libxmu-dev:
+  conda: [xorg-libxmu]
+libxrandr:
+  conda:
+    linux: [xorg-libxrandr]
+    osx: [xorg-libxrandr]
+    win64: []
+libxt-dev:
+  conda: [xorg-libxt]
+libxxf86vm:
+  conda: [REQUIRE_OPENGL]
+libzmq3-dev:
+  conda: [zeromq, cppzmq]
+libzstd-dev:
+  conda: [zstd]
+linux-kernel-headers:
+  conda: []
+log4cxx:
+  conda: [log4cxx]
+lua5.2-dev:
+  conda: [lua]
+lz4:
+  conda: [lz4]
+maven:
+  conda: [maven]
+mongodb:
+  conda: [mongodb]
+mosquitto:
+  conda: [paho-mqtt]
+msgpack:
+  conda: [msgpack-python]
+muparser:
+  conda: [muparser]
+netpbm:
+  conda:
+    linux-aarch64: []
+    osx-arm64: []
+    linux: [netpbm]
+    osx: [netpbm]
+    win64: []
+nlohmann-json-dev:
+  conda: [nlohmann_json]
+nlopt:
+  conda: [nlopt]
+ocl-icd-opencl-dev:
+  conda: [ocl-icd]
+opengl:
+  conda:
+    linux: [REQUIRE_OPENGL]
+    osx: [REQUIRE_OPENGL]
+    win64: []
+openssl:
+  conda: [openssl]
+pcre:
+  conda: [pcre]
+pkg-config:
+  conda: [pkg-config]
+portaudio19-dev:
+  conda: [portaudio]
+postgresql:
+  conda: [postgresql]
+proj:
+  conda: [proj]
+protobuf:
+  conda: [libprotobuf, protobuf]
+protobuf-dev:
+  conda: [libprotobuf, protobuf]
+pugixml-dev:
+  conda: [pugixml]
+pybind11-dev:
+  conda: [pybind11]
+pycodestyle:
+  conda: [pycodestyle]
+pydocstyle:
+  conda: [pydocstyle]
+pydrive-pip:
+  conda: [pydrive]
+pyflakes3:
+  conda: [pyflakes]
+python:
+  conda: [python]
+python-argparse:
+  conda: []
+python-autobahn:
+  conda: [autobahn]
+python-bson:
+  conda: [pymongo]
+python-cairo:
+  conda: [pycairo]
+python-catkin-pkg:
+  conda: [catkin_pkg]
+python-catkin-pkg-modules:
+  conda: [catkin_pkg]
+python-chainer-pip:
+  conda: [chainer]
+python-coverage:
+  conda: [coverage]
+python-crypto:
+  conda: [pycrypto]
+python-defusedxml:
+  conda: [defusedxml]
+python-dev:
+  conda: [python]
+python-dlib:
+  conda: [dlib]
+python-empy:
+  conda: [empy]
+python-enum34:
+  conda: [enum34]
+python-freezegun-pip:
+  conda: [freezegun]
+python-gdown-pip:
+  conda: [gdown]
+python-gnupg:
+  conda: [python-gnupg]
+python-imaging:
+  conda: [pillow]
+python-inject-pip:
+  conda: [inject]
+python-lxml:
+  conda: [lxml]
+python-matplotlib:
+  conda: [matplotlib-base]
+python-mock:
+  conda: [mock]
+python-netifaces:
+  conda: [netifaces]
+python-nose:
+  conda: [nose]
+python-numpy:
+  conda: [numpy]
+python-opencv:
+  conda: [py-opencv, libopencv]
+python-opengl:
+  conda: [pyopengl, REQUIRE_OPENGL]
+python-paramiko:
+  conda: [paramiko]
+python-psutil:
+  conda: [psutil]
+python-pyassimp:
+  conda: [pyassimp]
+python-pycryptodome:
+  conda: [pycryptodome, pycryptodomex]
+python-pydot:
+  conda: [pydot]
+python-pygithub3:
+  conda: [pygithub]
+python-pygraphviz:
+  conda: [pygraphviz]
+python-pyusb-pip:
+  conda: [pyusb]
+python-qt5-bindings:
+  conda: [pyqt, pyqt-builder]
+python-rosdep:
+  conda: [rosdep]
+python-rosdep-modules:
+  conda: [rosdep]
+python-rospkg:
+  conda: [rospkg]
+python-rospkg-modules:
+  conda: [rospkg]
+python-setuptools:
+  conda: [setuptools]
+python-sip:
+  conda: [sip]
+python-six:
+  conda: [six]
+python-slacker-cli:
+  conda: [slacker]
+python-speechrecognition-pip:
+  conda: [speechrecognition]
+python-tabulate-pip:
+  conda: [tabulate]
+python-tk:
+  conda: [tk]
+python-tornado:
+  conda: [tornado]
+python-twisted-core:
+  conda: [twisted]
+python-wxtools:
+  conda: [wxpython]
+python-yaml:
+  conda: [pyyaml]
+python3:
+  conda: [python]
+python3-argcomplete:
+  conda: [argcomplete]
+python3-autobahn:
+  conda: [autobahn]
+python3-bson:
+  conda: [pymongo]
+python3-cairo:
+  conda: [pycairo]
+python3-catkin-pkg:
+  conda: [catkin_pkg]
+python3-catkin-pkg-modules:
+  conda: [catkin_pkg]
+python3-catkin-tools:
+  conda: [catkin_tools]
+python3-cherrypy3:
+  conda: [cherrypy]
+python3-click:
+  conda: [click]
+python3-collada:
+  conda: [pycollada]
+python3-colorama:
+  conda: [colorama]
+python3-coverage:
+  conda: [coverage]
+python3-cryptography:
+  conda: [cryptography]
+python3-defusedxml:
+  conda: [defusedxml]
+python3-dev:
+  conda: [python]
+python3-docopt:
+  conda: [docopt]
+python3-docutils:
+  conda: [docutils]
+python3-empy:
+  conda: [empy]
+python3-flake8:
+  conda: [flake8]
+python3-flask:
+  conda: [flask]
+python3-flask-cors:
+  conda: [flask-cors]
+python3-fiona:
+  conda: [fiona]
+python3-future:
+  conda: [future]
+python3-gi:
+  conda: [pygobject]
+python3-git:
+  conda: [gitpython]
+python3-github:
+  conda: [pygithub]
+python3-github3:
+  conda: [pygithub]
+python3-gnupg:
+  conda: [python-gnupg]
+python3-grpc-tools:
+  conda: [grpcio-tools]
+python3-grpcio:
+  conda: [grpcio]
+python3-h5py:
+  conda: [h5py]
+python3-ifcfg:
+  conda: [ifcfg]
+python3-imageio:
+  conda: [imageio]
+python3-importlib-metadata:
+  conda: [importlib-metadata]
+python3-importlib-resources:
+  conda: [importlib_resources]
+python3-jinja2:
+  conda: [jinja2]
+python3-kitchen:
+  conda: [kitchen]
+python3-lark-parser:
+  conda: [lark-parser]
+python3-lxml:
+  conda: [lxml]
+python3-matplotlib:
+  conda: [matplotlib-base]
+python3-mechanize:
+  conda: [mechanize]
+python3-mock:
+  conda: [mock]
+python3-msgpack:
+  conda: [msgpack-python]
+python3-mypy:
+  conda: [mypy]
+python3-netifaces:
+  conda: [netifaces]
+python3-nose:
+  conda: [nose]
+python3-numpy:
+  conda: [numpy]
+python3-opencv:
+  conda: [py-opencv, libopencv]
+python3-opengl:
+  conda: [pyopengl, REQUIRE_OPENGL]
+python3-packaging:
+  conda: [packaging]
+python3-pandas:
+  conda: [pandas]
+python3-paramiko:
+  conda: [paramiko]
+python3-pep8:
+  conda: [pep8]
+python3-pil:
+  conda: [pillow]
+python3-pip:
+  conda: [pip]
+python3-pkg-resources:
+  conda: []
+python3-psutil:
+  conda: [psutil]
+python3-pyassimp:
+  conda: [pyassimp]
+python3-pycodestyle:
+  conda: [pycodestyle]
+python3-pycryptodome:
+  conda: [pycryptodome, pycryptodomex]
+python3-pydot:
+  conda: [pydot]
+python3-pygraphviz:
+  conda: [pygraphviz]
+python3-pykdl:
+  conda: [python-orocos-kdl]
+python3-pymongo:
+  conda: [pymongo]
+python3-pyproj:
+  conda: [pyproj]
+python3-pysnmp:
+  conda: [pysnmp]
+python3-pytest:
+  conda: [pytest]
+python3-pytest-cov:
+  conda: [pytest-cov]
+python3-pytest-mock:
+  conda: [pytest-mock]
+python3-qt5-bindings:
+  conda: [pyqt, pyqt-builder]
+python3-qt5-bindings-gl:
+  conda: [pyqt, pyqt-builder]
+python3-qt5-bindings-webkit:
+  conda: [pyqtwebengine]
+python3-requests:
+  conda: [requests]
+python3-requests-oauthlib:
+  conda: [requests-oauthlib]
+python3-rtree:
+  conda: [rtree]
+python3-rosdep:
+  conda: [rosdep]
+python3-rosdep-modules:
+  conda: [rosdep]
+python3-rosdistro-modules:
+  conda: [rosdistro]
+python3-rospkg:
+  conda: [rospkg]
+python3-rospkg-modules:
+  conda: [rospkg]
+python3-ruamel.yaml:
+  conda: [ruamel.yaml]
+python3-ruff:
+  conda: [ruff]
+python3-scipy:
+  conda: [scipy]
+python3-serial:
+  conda: [pyserial]
+python3-setuptools:
+  conda: [setuptools]
+python3-simplejson:
+  conda: [simplejson]
+python3-six:
+  conda: [six]
+python3-shapely:
+  conda: [shapely]
+python3-skimage:
+  conda: [scikit-image]
+python3-sklearn:
+  conda: [scikit-learn]
+python3-sphinx:
+  conda: [sphinx]
+python3-termcolor:
+  conda: [termcolor]
+python3-texttable:
+  conda: [texttable]
+python3-tk:
+  conda: [tk]
+python3-tornado:
+  conda: [tornado]
+python3-twisted:
+  conda: [twisted]
+python3-typeguard:
+  conda: [typeguard]
+python3-unidiff:
+  conda: [unidiff]
+python3-usb:
+  conda: [pyusb]
+python3-venv:
+  conda: [virtualenv, pip, pip-tools, setuptools]
+python3-websocket:
+  conda: [websocket-client]
+python3-yaml:
+  conda: [pyyaml]
+python3-zmq:
+  conda: [pyzmq]
+qt5-image-formats-plugins:
+  conda: [qt-main, REQUIRE_OPENGL]
+qt5-qmake:
+  conda: [qt-main, REQUIRE_OPENGL]
+qtbase5-dev:
+  conda: [qt-main, REQUIRE_OPENGL]
+roboticstoolbox-python:
+  conda: [roboticstoolbox-python]
+rsync:
+  conda: [rsync]
+rti-connext-dds-5.3.1:
+  conda: []
+sbcl:
+  conda:
+    linux: [sbcl]
+    osx: [sbcl]
+    win64: []
+screen:
+  conda: [screen]
+sdformat:
+  conda: [libsdformat]
+sdformat12:
+  conda: [libsdformat12]
+sdl:
+  conda: [sdl]
+sdl-image:
+  conda: [sdl_image]
+sdl2:
+  conda: [sdl2]
+socat:
+  conda: [socat]
+spacenavd:
+  conda: [libspnav]
+spdlog:
+  conda: [spdlog]
+sshpass:
+  conda: [sshpass]
+subversion:
+  conda: [subversion]
+suitesparse:
+  conda: [suitesparse]
+sqlite3:
+  conda: [sqlite 3.*]
+swig:
+  conda: [swig]
+sysstat:
+  conda: [sysstat]
+tango-icon-theme:
+  conda: []
+tbb:
+  conda: [tbb, tbb-devel]
+time:
+  conda: [time]
+tinyxml:
+  conda: [tinyxml]
+tinyxml2:
+  conda: [tinyxml2]
+udev:
+  conda: [libusb]
+uncrustify:
+  conda: [uncrustify]
+unzip:
+  conda: [unzip]
+uuid:
+  conda:
+    linux: [libuuid]
+    osx: []
+    win64: []
+virtualenv:
+  conda: [virtualenv]
+libwebsocketpp-dev:
+  conda: [websocketpp]
+wget:
+  conda: [wget]
+wx-common:
+  conda: [wxpython]
+wxpython:
+  conda: [wxpython]
+wxwidgets:
+  conda: [wxpython]
+x11-dev:
+  conda: [xorg-libx11, REQUIRE_OPENGL]
+yaml:
+  conda: [yaml, yaml-cpp]
+yaml-cpp:
+  conda: [yaml-cpp]
+zbar:
+  conda: [zbar]
+zlib:
+  conda: [zlib]

@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a bug.
+labels: bug
+body:
+  - type: checkboxes
+    id: documentation
+    attributes:
+      label: Solution to issue cannot be found in the documentation.
+      description: |
+        I read [the RoboStack documentation](https://robostack.github.io/) and could not find the solution for my problem there.
+      options:
+        - label: I checked the documentation.
+          required: true
+
+  - type: textarea
+    id: Issue
+    attributes:
+      label: Issue
+      description: |
+        Please describe the issue you are experiencing:
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Installed packages
+      description: |
+        Please share your installed packages by running `mamba list` and entering the output below:
+        _Note:_ This will be automatically formatted as code.
+      placeholder: "mamba list"
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: info
+    attributes:
+      label: Environment info
+      description: |
+        Please share your environment by running `mamba info` and entering the output below:
+        _Note:_ This will be automatically formatted as code.
+      placeholder: "mamba info"
+      render: shell
+    validations:
+      required: true

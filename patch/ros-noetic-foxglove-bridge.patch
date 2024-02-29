@@ -1,0 +1,53 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index efc65dc..994d91b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,6 +14,11 @@ project(foxglove_bridge LANGUAGES CXX VERSION 0.5.1)
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
++if(MSVC)
++    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
++    set(BUILD_SHARED_LIBS TRUE)
++endif()
++
+ macro(enable_strict_compiler_warnings target)
+   target_compile_options(${target} PRIVATE
+     $<$<CXX_COMPILER_ID:MSVC>:/WX /W4>
+@@ -47,7 +52,7 @@ add_library(foxglove_bridge_base SHARED
+   foxglove_bridge_base/src/test/test_client.cpp
+ )
+ target_include_directories(foxglove_bridge_base
+-  PUBLIC
++  SYSTEM PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foxglove_bridge_base/include>
+     $<INSTALL_INTERFACE:include>
+ )
+@@ -62,7 +67,11 @@ if(nlohmann_json_FOUND)
+ else()
+   message(STATUS "nlohmann_json not found, will search at compile time")
+ endif()
+-enable_strict_compiler_warnings(foxglove_bridge_base)
++# enable_strict_compiler_warnings(foxglove_bridge_base)
++target_compile_definitions(foxglove_bridge_base PUBLIC _WEBSOCKETPP_CPP11_STL_)
++
++set(ENV{ROS_VERSION} 1)
++set(ENV{ROS_DISTRO} noetic)
+ 
+ message(STATUS "ROS_VERSION: " $ENV{ROS_VERSION})
+ message(STATUS "ROS_DISTRO: " $ENV{ROS_DISTRO})
+diff --git a/ros1_foxglove_bridge/src/ros1_foxglove_bridge_nodelet.cpp b/ros1_foxglove_bridge/src/ros1_foxglove_bridge_nodelet.cpp
+index 83a8ab5..4022a8f 100644
+--- a/ros1_foxglove_bridge/src/ros1_foxglove_bridge_nodelet.cpp
++++ b/ros1_foxglove_bridge/src/ros1_foxglove_bridge_nodelet.cpp
+@@ -453,8 +453,8 @@ private:
+     try {
+       channelPublicationIt->second.publish(msg);
+     } catch (const std::exception& ex) {
+-      ROS_ERROR("Failed to publish message on topic '%s'",
+-                channelPublicationIt->second.getTopic().c_str());
++      ROS_ERROR("Failed to publish message on topic '%s': %s",
++                channelPublicationIt->second.getTopic().c_str(), ex.what());
+     }
+   }
+ 

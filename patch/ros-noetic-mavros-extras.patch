@@ -1,0 +1,12 @@
+diff --git a/src/plugins/mag_calibration_status.cpp b/src/plugins/mag_calibration_status.cpp
+index 70c9d15de..0c974192f 100644
+--- a/src/plugins/mag_calibration_status.cpp
++++ b/src/plugins/mag_calibration_status.cpp
+@@ -8,6 +8,7 @@
+  * @{
+  */
+ 
++#include <bitset>
+ #include <mavros/mavros_plugin.h>
+ #include <std_msgs/UInt8.h>
+ #include <mavros_msgs/MagnetometerReporter.h>

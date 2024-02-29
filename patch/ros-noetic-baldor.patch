@@ -1,0 +1,16 @@
+diff --git a/src/baldor/__init__.py b/src/baldor/__init__.py
+index f42da9d..1245834 100644
+--- a/src/baldor/__init__.py
++++ b/src/baldor/__init__.py
+@@ -9,9 +9,9 @@ import numpy as np
+ X_AXIS = np.array([1., 0., 0.], dtype=np.float64)
+ Y_AXIS = np.array([0., 1., 0.], dtype=np.float64)
+ Z_AXIS = np.array([0., 0., 1.], dtype=np.float64)
+-_MAX_FLOAT = np.maximum_sctype(np.float)
++_MAX_FLOAT = np.maximum_sctype(np.float64)
+ # epsilon for testing whether a number is close to zero
+-_FLOAT_EPS = np.finfo(np.float).eps
++_FLOAT_EPS = np.finfo(np.float64).eps
+ _EPS = np.finfo(float).eps * 4.0
+ # axis sequences for Euler angles
+ _NEXT_AXIS = [1, 2, 0, 1]

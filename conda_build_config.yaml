@@ -1,47 +1,20 @@
-# TODO: remove these when run_exports are added to the packages.
-pin_run_as_build:
-  pcl:
-    max_pin: x.x.x
-  tbb-devel:
-    max_pin: x.x
-
-console_bridge:
-  - 1.0
 gazebo:
   - '11'
+libpqxx:
+  - 6
 numpy:
-  # part of a zip_keys: python, python_impl, numpy
-  - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
-  # - 1.17   # [not (osx and arm64)]
-  - 1.19   # [osx and arm64]
+  - 1.23
 ogre:
   - 1.10.12
-libopencv:
-  - 4.5.2
-pcl:
-  - 1.11.1
-# tbb pinned on Windows due to https://stackoverflow.com/questions/64510477/error-c2061-syntax-error-identifier-concurrent-vectortemplate-type-paramet
-# tbb pinned on Unix due to https://github.com/conda-forge/gazebo-feedstock/issues/57
-tbb:
-  - 2019.9  # [win]
-  - 2020.2  # [not win]
-tbb-devel:
-  - 2019.9  # [win]
-  - 2020.2  # [not win]
-tbb_devel:
-  - 2019.9  # [win]
-  - 2020.2  # [not win]
+setuptools:
+  - 69
+  
+cdt_name:  # [linux]
+  - cos7   # [linux]
 
 python:
-  # part of a zip_keys: python, python_impl, numpy
-  # - 3.6.* *_cpython    # [not (osx and arm64)]
-  # - 3.7.* *_cpython    # [not (osx and arm64)]
-  - 3.8.* *_cpython
+  - 3.11.* *_cpython
 python_impl:
-  # part of a zip_keys: python, python_impl, numpy
-  # - cpython   # [not (osx and arm64)]
-  # - cpython   # [not (osx and arm64)]
   - cpython
 
 # Project overrides
@@ -54,9 +27,10 @@ MACOSX_DEPLOYMENT_TARGET:      # [osx]
   - 11.0                       # [osx and arm64]
   - 10.14                      # [osx and x86_64]
 CONDA_BUILD_SYSROOT:
-  - /Applications/Xcode_12.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk  # [osx and arm64]
+  - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  # [osx and arm64]
 
-# fix build metadata, needed for mapviz
+
+# fix build metadata, needed for mapviz and moveit-core
 replacements:
   all_replacements:
     - tag: 'pkg-config build metadata'
@@ -75,4 +49,3 @@ replacements:
         - '*.cmake'
       regex_re: '([^;\s"]+/MacOSX\d*\.?\d*\.sdk)'
       replacement_re: '$ENV{CONDA_BUILD_SYSROOT}'
-

@@ -1,0 +1,38 @@
+diff --git a/setup.py b/setup.py
+index bd6536a..6d64e63 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,6 +1,6 @@
+ ## ! DO NOT MANUALLY INVOKE THIS setup.py, USE CATKIN INSTEAD
+ 
+-from distutils.core import setup
++from setuptools import setup
+ from catkin_pkg.python_setup import generate_distutils_setup
+ 
+ # fetch values from package.xml
+diff --git a/src/ros_numpy/point_cloud2.py b/src/ros_numpy/point_cloud2.py
+index a4e20ec..b9206a5 100755
+--- a/src/ros_numpy/point_cloud2.py
++++ b/src/ros_numpy/point_cloud2.py
+@@ -221,7 +221,7 @@ def split_rgb_field(cloud_arr):
+             new_cloud_arr[field_name] = cloud_arr[field_name]
+     return new_cloud_arr
+ 
+-def get_xyz_points(cloud_array, remove_nans=True, dtype=np.float):
++def get_xyz_points(cloud_array, remove_nans=True, dtype=np.float64):
+     '''Pulls out x, y, and z columns from the cloud recordarray, and returns
+ 	a 3xN matrix.
+     '''
+diff --git a/src/ros_numpy/registry.py b/src/ros_numpy/registry.py
+index 5442b93..2483293 100644
+--- a/src/ros_numpy/registry.py
++++ b/src/ros_numpy/registry.py
+@@ -27,7 +27,7 @@ def numpify(msg, *args, **kwargs):
+ 		return
+ 
+ 	conv = _to_numpy.get((msg.__class__, False))
+-	if not conv and isinstance(msg, collections.Sequence):
++	if not conv and isinstance(msg, collections.abc.Sequence):
+ 		if not msg:
+ 			raise ValueError("Cannot determine the type of an empty Collection")
+ 		conv = _to_numpy.get((msg[0].__class__, True))

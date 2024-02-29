@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index adbc48dd..455a72b1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,13 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(rtabmap_conversions)
+ 
++set(CMAKE_MODULE_PATH "$ENV{PREFIX}/lib/cmake/vtk-9.2")
++find_package(jsoncpp REQUIRED)
++find_package(libxml2 REQUIRED)
++find_package(NetCDF REQUIRED)
++find_package(HDF5 COMPONENTS HL REQUIRED)
++find_package(LibPROJ REQUIRED)
++
+ find_package(catkin REQUIRED COMPONENTS
+              cv_bridge roscpp sensor_msgs std_msgs geometry_msgs
+              tf tf_conversions eigen_conversions laser_geometry pcl_conversions 

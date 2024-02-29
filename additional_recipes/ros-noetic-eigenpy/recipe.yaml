@@ -1,0 +1,17 @@
+package:
+  name: ros-noetic-eigenpy
+  version: "3.1.0"
+
+build:
+  number: 21
+
+outputs:
+  - package:
+      name: ros-noetic-eigenpy
+      version: "3.1.0"
+    build:
+      run_exports:
+        - "{{ pin_subpackage('ros-noetic-eigenpy', max_pin='x.x.x') }}"
+    requirements:
+      run:
+        - eigenpy 3.1.0

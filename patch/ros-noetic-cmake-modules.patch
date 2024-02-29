@@ -2,7 +2,7 @@ diff --git a/cmake/Modules/FindUUID.cmake b/cmake/Modules/FindUUID.cmake
 index 84142f4..e9d1668 100644
 --- a/cmake/Modules/FindUUID.cmake
 +++ b/cmake/Modules/FindUUID.cmake
-@@ -7,12 +7,8 @@
+@@ -7,12 +7,12 @@
  # portability
  # UUID_LIBRARIES - full path to the libraries
  if(WIN32)
@@ -14,6 +14,10 @@ index 84142f4..e9d1668 100644
 -
 +  set(UUID_LIBRARIES Rpcrt4.lib)
 +  set(UUID_FOUND true)
++elseif(APPLE)
++  set(UUID_FOUND true)
++  set(UUID_INCLUDE_DIRS "")
++  set(UUID_LIBRARIES "")
  else()
    find_path(UUID_INCLUDE_DIRS uuid/uuid.h)
    find_library(UUID_LIBRARIES NAMES uuid PATH)

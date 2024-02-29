@@ -1,0 +1,10 @@
+diff --git a/env-hooks/99.roslisp.sh.in b/env-hooks/99.roslisp.sh.in
+index 05aba70..a2733d8 100644
+--- a/env-hooks/99.roslisp.sh.in
++++ b/env-hooks/99.roslisp.sh.in
+@@ -18,4 +18,4 @@ for workspace in workspaces:
+ print(os.pathsep.join(paths))
+ EOF
+ )
+-export ROSLISP_PACKAGE_DIRECTORIES="`@PYTHON_EXECUTABLE@ -c \"$PYTHON_CODE_BUILD_ROSLISP_PACKAGE_DIRECTORIES\"`"
++export ROSLISP_PACKAGE_DIRECTORIES="`python -c \"$PYTHON_CODE_BUILD_ROSLISP_PACKAGE_DIRECTORIES\"`"

@@ -1,0 +1,44 @@
+name: Missing Package Request
+description: Request a ROS package to be packaged in RoboStack
+title: 'Package request: PACKAGE_NAME'
+labels: additional-packages
+body:
+  - type: input
+    id: package_name
+    attributes:
+      label: Package name
+      description: |
+        Replace `PACKAGE_NAME` with the name of the missing package.
+      placeholder: PACKAGE_NAME
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: operating_systems
+    attributes:
+      label: Operating System(s)
+      options:
+        - label: linux-64
+        - label: linux-aarch64
+        - label: osx-64
+        - label: osx-arm64
+        - label: win-64
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context (optional)
+      description: |
+        Add any additional information or context about the missing package request, such as its importance or use cases.
+    validations:
+      required: false
+
+  - type: textarea
+    id: links_and_references
+    attributes:
+      label: Links and references (optional)
+      description: |
+        - Package repository: (Provide the URL of the package's source repository, if available)
+        - Other relevant links: (Provide any other relevant links, if available)
+    validations:
+      required: false

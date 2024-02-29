@@ -1,0 +1,28 @@
+diff --git a/CMakeLists_catkin.txt b/CMakeLists_catkin.txt
+index 0978b90..fa5f6ec 100644
+--- a/CMakeLists_catkin.txt
++++ b/CMakeLists_catkin.txt
+@@ -24,6 +24,7 @@ find_package(catkin COMPONENTS
+ )
+ find_package(OpenCV)
+ find_package(orocos_kdl)
++find_package(Boost REQUIRED COMPONENTS program_options thread)
+ 
+ add_definitions(-DLIBQI_VERSION=${naoqi_libqi_VERSION_MAJOR}${naoqi_libqi_VERSION_MINOR})
+ 
+@@ -56,6 +57,7 @@ target_link_libraries(
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${orocos_kdl_LIBRARIES}
++  ${Boost_LIBRARIES}
+   )
+ add_dependencies(naoqi_driver ${catkin_EXPORTED_TARGETS})
+ install(TARGETS naoqi_driver DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+@@ -71,6 +73,7 @@ target_link_libraries(
+   naoqi_driver_node
+   naoqi_driver
+   ${catkin_LIBRARIES}
++  ${Boost_LIBRARIES}
+ )
+ install(TARGETS naoqi_driver_node DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+ 

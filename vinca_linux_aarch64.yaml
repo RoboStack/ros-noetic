@@ -1,103 +1,181 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.1 noetic
+mutex_package: ros-distro-mutex 0.5 noetic
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 4
+build_number: 11
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
 # If full rebuild, the build number of the existing package has
 # to match the selected build number for skipping
-full_rebuild: false
+full_rebuild: true
 
 packages_skip_by_deps:
-  # - rviz
   # - diagnostic_updater
+  - eigenpy
+  - hpp-fcl
+  - pinocchio
 
 packages_remove_from_deps:
   - stage-ros
   - stage
 
 skip_existing:
-  - https://conda.anaconda.org/robostack/
+  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
 
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
-  # # TODO
-  - fcl
-  - ros_numpy
-  - eigenpy
+  - rviz  # needs to be built locally, CI times out
+  - cras_cpp_common  # maintainer peci1
+  - cras_py_common  # maintainer peci1
+  - cras_docs_common  # maintainer peci1
+  - cras_topic_tools  # maintainer peci1
+  - image_transport_codecs  # maintainer peci1
+  - point_cloud_transport  # maintainer peci1
+  - point_cloud_transport_plugins  # maintainer peci1
+  - draco_point_cloud_transport  # maintainer peci1
+  - sensor_filters  # maintainer peci1
+  - cras_relative_positional_controller  # maintainer peci1
+  - cras_msgs  # maintainer peci1
+  - compass_msgs  # maintainer peci1
+  - magnetometer_compass  # maintainer peci1; does not work on aarch64 in pull requests due to cross-compiling (but okay on master branch)
+  - electronic_io_msgs  # maintainer peci1
+  - electronic_io  # maintainer peci1
+  - point_cloud_color  # maintainer peci1
+  - rosmsg_cpp  # maintainer peci1
+  - snmp_ros  # maintainer peci1
+  - robot_body_filter  # maintainer peci1
+  - static_transform_mux  # maintainer peci1
+  - tf_remapper_cpp  # maintainer peci1
+  - roslint  # maintainer peci1
+  - tf2_server  # maintainer peci1
+  - rosbash_params  # maintainer peci1
+  - dynamic_robot_state_publisher  # maintainer peci1
+  - tf2_client  # maintainer peci1
+  - tf_static_publisher  # maintainer peci1
+  - movie_publisher  # maintainer peci1
+  - geometric_shapes
+  - actionlib
+  - ros-babel-fish
+  - ros-babel-fish-test-msgs
+  - moveit_visual_tools
+  - rviz_visual_tools
+  - rgbd-launch
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
+  - usb-cam
+  - octomap-ros
+  - octomap-mapping
+  - octomap-server
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
+
+  - rqt-gui
   - catkin
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - geometry2
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - ros_control
+  - ros_controllers
+  - cv-camera
+  - four-wheel-steering-msgs
+  - urdf-geometry-parser
+  - gps-common
+  - rosbridge_suite
+  - pcl-ros
+  - pcl-conversions
+  - desktop
+  - amcl
+  - map-server
+  - move-base
+  - gmapping
+  - moveit
+  - robot_localization
+  - perception
+  - simulators
+  - desktop_full
+  - audio-common-msgs
+  - sound-play
+
+  # For jackal
+  - hector-gazebo-plugins
+  - gazebo-dev
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - velodyne-gazebo-plugins
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - ros_numpy
   - franka_msgs
-  # # DONE
+  - teb_local_planner
+  - rospy-message-converter
+  - turtlebot3
+  - turtlebot3_fake
+  - pid
+
+
+
+  ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
+  # # after rebuild
+  # - foxglove_bridge
+
   # - pybind11_catkin  # needs to be unvendored
   # - libfranka
-  # - rostime
-  # - kdl_parser_py
-  # - plotjuggler_ros
   # - cnpy
-  # - imu_tools
-  # - moveit_visual_tools
-  # - rviz_visual_tools
   # - rviz_imu_plugin
-  # - plotjuggler
   # - slam_toolbox
   # - webots-ros
-  # - ros_numpy
-  # - velodyne_simulator
-  # - pointgrey_camera_description
-  # - lms1xx
-  # - moveit
   # - mavros
-  # - catkin
   # - grid_map
-  # - rviz
-  # - class_loader
   # - imu_complementary_filter
   # - imu_filter_madgwick
-  # - map_msgs
-  # - diagnostic_analysis
-  # - diagnostic_common_diagnostics
-  # - image_publisher
-  # - image_proc
-  # - stereo_image_proc
-  # - image_common
-  # - image_transport
-  # - image_transport_plugins
-  # - laser_pipeline
-  # - vision_opencv
-  # - diagnostics
-  # - geometry
-  # - joy
-  # - rospy-message-converter
-  # - ros_base
-  # - robot
-  # - pcl-ros
-  # - pcl-conversions
-  # - desktop
-  # - desktop_full
-  # - robot_localization
-  # - rosbridge_suite
-  # - teb_local_planner
-  # - ros_control
-  # - ros_controllers
-  # - turtlebot3
-  # - turtlebot3_fake
-  # - perception
   # - slam_karto
-  # - teleop_twist_joy
-  # - twist_mux
-  # - interactive_marker_twist_server
-  # - gmapping
-  # - nmea_msgs
   # - rosserial
-  # - nmea_navsat_driver
-  # - hector_gazebo_plugins
-  # - rosserial_server
   # - robot_upstart
   # - nmea_comms
   # - urg_node
