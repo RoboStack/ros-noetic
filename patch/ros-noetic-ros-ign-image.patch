@@ -1,52 +1,27 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6722158..7481cba 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -26,7 +26,7 @@ if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
+diff --git a/ros_ign_image/CMakeLists.txt b/ros_ign_image/CMakeLists.txt
+index 5bbf70f4..87fb109d 100644
+--- a/ros_ign_image/CMakeLists.txt
++++ b/ros_ign_image/CMakeLists.txt
+@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
+   sensor_msgs)
  
-   message(STATUS "Compiling against Ignition Fortress")
- # Edifice
--elseif ("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
-+elseif ("$ENV{IGNITION_VERSION}" STREQUAL "edifice" OR TRUE)
-   find_package(ignition-transport10 REQUIRED)
-   set(IGN_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
+ # Fortress
+-if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
++if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress" OR TRUE)
+   find_package(ignition-transport11 REQUIRED)
+   set(IGN_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
  
-@@ -76,38 +76,3 @@ install(TARGETS ${executable}
-         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+@@ -68,6 +68,7 @@ install(TARGETS ${executable}
  )
  
--# Tests
--find_package(rostest REQUIRED)
+ # Tests
++if(FALSE)
+ find_package(rostest REQUIRED)
+ 
+ set(test_publishers
+@@ -101,4 +102,4 @@ foreach(test_subscriber ${test_subscribers})
+     ignition-transport${IGN_TRANSPORT_VER}::core
+   )
+ endforeach(test_subscriber)
 -
--set(test_publishers
--  ign_publisher
--)
--
--set(test_subscribers
--  ros_subscriber
--)
--
--foreach(test_publisher ${test_publishers})
--  add_executable(${test_publisher}_image
--    test/publishers/${test_publisher}.cpp
--  )
--  target_link_libraries(${test_publisher}_image
--    ${catkin_LIBRARIES}
--    ignition-msgs${IGN_MSGS_VER}::core
--    ignition-transport${IGN_TRANSPORT_VER}::core
--    gtest
--    gtest_main
--  )
--endforeach(test_publisher)
--
--foreach(test_subscriber ${test_subscribers})
--  add_rostest_gtest(test_${test_subscriber}_image
--    test/${test_subscriber}.test
--    test/subscribers/${test_subscriber}.cpp)
--  target_link_libraries(test_${test_subscriber}_image
--    ${catkin_LIBRARIES}
--    ignition-msgs${IGN_MSGS_VER}::core
--    ignition-transport${IGN_TRANSPORT_VER}::core
--  )
--endforeach(test_subscriber)
--
++endif()
