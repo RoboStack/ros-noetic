@@ -1,43 +1,16 @@
-diff --git a/moveit_cpp/CMakeLists.txt b/moveit_cpp/CMakeLists.txt
-index 897af9fc8..6675d1bc6 100644
---- a/moveit_cpp/CMakeLists.txt
-+++ b/moveit_cpp/CMakeLists.txt
-@@ -22,6 +22,8 @@ endif()
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2f73370cbd..5f2620eb0a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
+   tf2_ros
+ )
+ moveit_build_options()
+-
++set(CMAKE_CXX_STANDARD 17)
+ find_package(Eigen3 REQUIRED)
  
- install(TARGETS ${MOVEIT_LIB_NAME}
-   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
--  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
-+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
-+  )
- 
-diff --git a/plan_execution/CMakeLists.txt b/plan_execution/CMakeLists.txt
-index 6b579cfb1..b95b4c657 100644
---- a/plan_execution/CMakeLists.txt
-+++ b/plan_execution/CMakeLists.txt
-@@ -3,6 +3,8 @@ set(MOVEIT_LIB_NAME moveit_plan_execution)
- add_library(${MOVEIT_LIB_NAME}
-   src/plan_with_sensing.cpp
-   src/plan_execution.cpp)
-+add_dependencies(${MOVEIT_LIB_NAME} ${moveit_ros_planning_EXPORTED_TARGETS})
-+
- set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
- target_link_libraries(${MOVEIT_LIB_NAME}
-   moveit_planning_pipeline
-diff --git a/planning_scene_monitor/CMakeLists.txt b/planning_scene_monitor/CMakeLists.txt
-index 6329feef3..b049e2b36 100644
---- a/planning_scene_monitor/CMakeLists.txt
-+++ b/planning_scene_monitor/CMakeLists.txt
-@@ -4,6 +4,8 @@ add_library(${MOVEIT_LIB_NAME}
-   src/planning_scene_monitor.cpp
-   src/current_state_monitor.cpp
-   src/trajectory_monitor.cpp)
-+add_dependencies(${MOVEIT_LIB_NAME} ${moveit_ros_planning_EXPORTED_TARGETS})
-+
- set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
- target_link_libraries(${MOVEIT_LIB_NAME}
-   moveit_robot_model_loader
-
+ generate_dynamic_reconfigure_options(
 diff --git a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h b/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
 index e7514f670..530b3929a 100644
 --- a/planning_pipeline/include/moveit/planning_pipeline/planning_pipeline.h
@@ -170,3 +143,17 @@ index 22a7ee9ee..c2945f930 100644
  
    /// Definition of the function signature that is called when the execution of all the pushed trajectories completes.
    /// The status of the overall execution is passed as argument
+
+diff --git a/moveit_cpp/CMakeLists.txt b/moveit_cpp/CMakeLists.txt
+index 897af9fc8..6675d1bc6 100644
+--- a/moveit_cpp/CMakeLists.txt
++++ b/moveit_cpp/CMakeLists.txt
+@@ -22,6 +22,8 @@ endif()
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
++  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
++  )
+ 

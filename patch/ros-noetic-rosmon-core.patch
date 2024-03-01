@@ -1,3 +1,37 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7441df6..9bff2c0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,12 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
+ 	rospack
+ 	diagnostic_msgs
+ )
++find_package(fmt REQUIRED)
+ 
+ catkin_package()
+ include_directories(${catkin_INCLUDE_DIRS})
+ 
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Werror")
+-
+ find_package(TinyXML REQUIRED)
+ 
+ find_package(Curses REQUIRED)
+@@ -107,6 +107,7 @@ target_link_libraries(rosmon
+ 	yaml-cpp
+ 	util
+ 	rosmon_launch_config
++	fmt::fmt
+ )
+ 
+ add_dependencies(rosmon ${catkin_EXPORTED_TARGETS})
+@@ -126,6 +125,7 @@ add_executable(dump_param
+ )
+ target_link_libraries(dump_param
+ 	${catkin_LIBRARIES}
++	fmt::fmt
+ )
+ 
+ add_executable(abort_really_long_executable
 diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
 index 7dec1cc..da51913 100644
 --- a/src/monitor/shim.cpp
@@ -22,16 +56,15 @@ index 7dec1cc..da51913 100644
  static const struct option OPTIONS[] = {
  	{"help", no_argument, nullptr, 'h'},
  	{"namespace", required_argument, nullptr, 'n'},
-diff --git a/src/launch/substitution_python.cpp b/src/launch/substitution_python.cpp
-index ffb1bcd..274651a 100644
---- a/src/launch/substitution_python.cpp
-+++ b/src/launch/substitution_python.cpp
-@@ -13,6 +13,8 @@
- #include <boost/python/import.hpp>
+diff --git a/src/logger.cpp b/src/logger.cpp
+index 881339c..9d9fb5f 100644
+--- a/src/logger.cpp
++++ b/src/logger.cpp
+@@ -4,6 +4,7 @@
+ #include "logger.h"
+ #include "fmt/format.h"
  
- #include <boost/lexical_cast.hpp>
-+
-+#include <boost/mpl/vector.hpp>
- 
- namespace py = boost::python;
- 
++#include <array>
+ #include <cerrno>
+ #include <cstdio>
+ #include <cstring>

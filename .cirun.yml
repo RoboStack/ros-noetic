@@ -2,9 +2,9 @@ runners:
   - name: aws-cpu-arm-runner
     cloud: aws
     instance_type: a1.4xlarge
-    # AMI for ubuntu/images/hvm-ssd/ubuntu-focal-20.04-arm64-server
+    # AMI for ubuntu/images/hvm-ssd/ubuntu-focal-20.04-arm64-server + docker
     machine_image: ami-00dace5a405a9887e
-    #machine_image: ami-0229f8cfc24033d05
     preemptible: false
     labels:
-      - cirun-linux-aarch64
+       - cirun-linux-aarch64
+

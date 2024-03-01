@@ -24,19 +24,6 @@ index 73f1aa3ea4..67528cf75c 100644
  add_subdirectory(py_bindings_tools)
  add_subdirectory(common_planning_interface_objects)
  add_subdirectory(planning_scene_interface)
-diff --git a/move_group_interface/CMakeLists.txt b/move_group_interface/CMakeLists.txt
-index d822174bf0..c3eb1686c0 100644
---- a/move_group_interface/CMakeLists.txt
-+++ b/move_group_interface/CMakeLists.txt
-@@ -2,7 +2,7 @@ set(MOVEIT_LIB_NAME moveit_move_group_interface)
- 
- add_library(${MOVEIT_LIB_NAME} src/move_group_interface.cpp)
- set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
--target_link_libraries(${MOVEIT_LIB_NAME} moveit_common_planning_interface_objects moveit_planning_scene_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-+target_link_libraries(${MOVEIT_LIB_NAME} moveit_common_planning_interface_objects moveit_planning_scene_interface ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${EIGENPY_LIBRARIES})
- add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
- 
- add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_move_group.cpp)
 diff --git a/move_group_interface/include/moveit/move_group_interface/move_group_interface.h b/move_group_interface/include/moveit/move_group_interface/move_group_interface.h
 index 17de157197..fdae58ab37 100644
 --- a/move_group_interface/include/moveit/move_group_interface/move_group_interface.h
@@ -71,17 +58,124 @@ index 17de157197..fdae58ab37 100644
  {
  public:
    /** \brief Default ROS parameter name from where to read the robot's URDF. Set to 'robot_description' */
+diff --git a/move_group_interface/CMakeLists.txt b/move_group_interface/CMakeLists.txt
+index d822174bf0..c95290d11c 100644
+--- a/move_group_interface/CMakeLists.txt
++++ b/move_group_interface/CMakeLists.txt
+@@ -6,13 +6,20 @@ target_link_libraries(${MOVEIT_LIB_NAME} moveit_common_planning_interface_object
+ add_dependencies(${MOVEIT_LIB_NAME} ${catkin_EXPORTED_TARGETS})
+ 
+ add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_move_group.cpp)
+-target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} eigenpy::eigenpy ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES} moveit_py_bindings_tools)
++target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} eigenpy::eigenpy ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${EIGENPY_LIBRARIES} moveit_py_bindings_tools)
++if(NOT APPLE)
++  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES})
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif()
+ add_dependencies(${MOVEIT_LIB_NAME}_python ${catkin_EXPORTED_TARGETS})
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES OUTPUT_NAME _moveit_move_group_interface PREFIX "")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}")
+ if(WIN32)
+   set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .pyd)
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .so)
+ endif(WIN32)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
 diff --git a/py_bindings_tools/CMakeLists.txt b/py_bindings_tools/CMakeLists.txt
-index 1f82d7e4dc..9ef98d8136 100644
+index 1f82d7e4dc..2f9112fb85 100644
 --- a/py_bindings_tools/CMakeLists.txt
 +++ b/py_bindings_tools/CMakeLists.txt
-@@ -1,5 +1,9 @@
+@@ -1,8 +1,16 @@
  set(MOVEIT_LIB_NAME moveit_py_bindings_tools)
  
 +find_package(PythonInterp REQUIRED)
 +find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
 +
-+
  add_library(${MOVEIT_LIB_NAME} src/roscpp_initializer.cpp)
  set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
- target_link_libraries(${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+-target_link_libraries(${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
++target_link_libraries(${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
++if(NOT APPLE)
++  target_link_libraries(${MOVEIT_LIB_NAME} ${PYTHON_LIBRARIES})
++else()
++  set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif(NOT APPLE)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+@@ -10,13 +16,20 @@ install(TARGETS ${MOVEIT_LIB_NAME}
+   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+ 
+ add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_roscpp_initializer.cpp)
+-target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
++target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES})
++if(NOT APPLE)
++  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES})
++endif(NOT APPLE)
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES OUTPUT_NAME _moveit_roscpp_initializer PREFIX "")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}")
+ if(WIN32)
+   set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .pyd)
+ endif(WIN32)
++if(APPLE)
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .so)
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif(APPLE)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}_python
+   DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION})
+diff --git a/planning_scene_interface/CMakeLists.txt b/planning_scene_interface/CMakeLists.txt
+index 6a3b1a3f9b..d8c3055352 100644
+--- a/planning_scene_interface/CMakeLists.txt
++++ b/planning_scene_interface/CMakeLists.txt
+@@ -6,11 +6,18 @@ target_link_libraries(${MOVEIT_LIB_NAME} moveit_common_planning_interface_object
+ 
+ add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_planning_scene_interface.cpp)
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+-target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES} moveit_py_bindings_tools)
++target_link_libraries(${MOVEIT_LIB_NAME}_python ${MOVEIT_LIB_NAME} ${catkin_LIBRARIES} ${Boost_LIBRARIES} moveit_py_bindings_tools)
++if(NOT APPLE)
++  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES})
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif()
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES OUTPUT_NAME _moveit_planning_scene_interface PREFIX "")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}")
+ if(WIN32)
+   set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .pyd)
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .so)
+ endif(WIN32)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}
+diff --git a/robot_interface/CMakeLists.txt b/robot_interface/CMakeLists.txt
+index 3944155fbf..2fcc7521dd 100644
+--- a/robot_interface/CMakeLists.txt
++++ b/robot_interface/CMakeLists.txt
+@@ -1,13 +1,21 @@
+ set(MOVEIT_LIB_NAME moveit_robot_interface)
+ 
+ add_library(${MOVEIT_LIB_NAME}_python src/wrap_python_robot_interface.cpp)
+-target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${Boost_LIBRARIES}
++target_link_libraries(${MOVEIT_LIB_NAME}_python ${catkin_LIBRARIES} ${Boost_LIBRARIES}
+   moveit_common_planning_interface_objects moveit_py_bindings_tools)
++if(NOT APPLE)
++  target_link_libraries(${MOVEIT_LIB_NAME}_python ${PYTHON_LIBRARIES})
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
++endif(NOT APPLE)
++
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES VERSION "${${PROJECT_NAME}_VERSION}")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES OUTPUT_NAME _moveit_robot_interface PREFIX "")
+ set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}")
+ if(WIN32)
+   set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .pyd)
++else()
++  set_target_properties(${MOVEIT_LIB_NAME}_python PROPERTIES SUFFIX .so)
+ endif(WIN32)
+ 
+ install(TARGETS ${MOVEIT_LIB_NAME}_python

@@ -1,0 +1,13 @@
+diff --git a/octomap_server/src/OctomapServer.cpp b/octomap_server/src/OctomapServer.cpp
+index d18eb7dd..e034b170 100644
+--- a/octomap_server/src/OctomapServer.cpp
++++ b/octomap_server/src/OctomapServer.cpp
+@@ -924,7 +924,7 @@ void OctomapServer::filterGroundPlane(const PCLPointCloud& pc, PCLPointCloud& gr
+       second_pass.setInputCloud(pc.makeShared());
+       second_pass.filter(ground);
+ 
+-      second_pass.setFilterLimitsNegative (true);
++      second_pass.setNegative (true);
+       second_pass.filter(nonground);
+     }
+ 

@@ -27,7 +27,7 @@ binutils:
 bison:
   conda: [bison]
 boost:
-  conda: [boost]
+  conda: [libboost-devel, libboost-python-devel]
 bullet:
   conda: [bullet]
 bzip2:
@@ -74,7 +74,10 @@ eigen:
 emacs:
   conda: [emacs]
 festival:
-  conda: [festival, festvox-kallpc16k]
+  conda:
+    linux: [festival, festvox-kallpc16k]
+    osx: []
+    win64: []
 ffmpeg:
   conda: [ffmpeg]
 flac:
@@ -190,41 +193,41 @@ libabsl-dev:
 libblas-dev:
   conda: [libblas, libcblas]
 libboost-chrono-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-date-time:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-date-time-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-filesystem:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-filesystem-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-iostreams-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-program-options:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-program-options-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-python:
-  conda: [boost]
+  conda: [libboost-python]
 libboost-python-dev:
-  conda: [boost]
+  conda: [libboost-python-devel]
 libboost-regex-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-serialization:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-serialization-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-system:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-system-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libboost-thread:
-  conda: [boost-cpp]
+  conda: [libboost]
 libboost-thread-dev:
-  conda: [boost-cpp]
+  conda: [libboost-devel]
 libcairo2-dev:
   conda: [cairo]
 libcap-dev:
@@ -589,7 +592,7 @@ python-paramiko:
 python-psutil:
   conda: [psutil]
 python-pyassimp:
-  conda: [assimp]
+  conda: [pyassimp]
 python-pycryptodome:
   conda: [pycryptodome, pycryptodomex]
 python-pydot:
@@ -682,6 +685,8 @@ python3-future:
   conda: [future]
 python3-gi:
   conda: [pygobject]
+python3-git:
+  conda: [gitpython]
 python3-github:
   conda: [pygithub]
 python3-github3:
@@ -747,7 +752,7 @@ python3-pkg-resources:
 python3-psutil:
   conda: [psutil]
 python3-pyassimp:
-  conda: [assimp]
+  conda: [pyassimp]
 python3-pycodestyle:
   conda: [pycodestyle]
 python3-pycryptodome:
@@ -794,6 +799,8 @@ python3-rospkg-modules:
   conda: [rospkg]
 python3-ruamel.yaml:
   conda: [ruamel.yaml]
+python3-ruff:
+  conda: [ruff]
 python3-scipy:
   conda: [scipy]
 python3-serial:
@@ -824,6 +831,8 @@ python3-twisted:
   conda: [twisted]
 python3-typeguard:
   conda: [typeguard]
+python3-unidiff:
+  conda: [unidiff]
 python3-usb:
   conda: [pyusb]
 python3-venv:
