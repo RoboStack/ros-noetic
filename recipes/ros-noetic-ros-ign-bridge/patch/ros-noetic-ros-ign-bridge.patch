@@ -1,0 +1,13 @@
+diff --git a/ros_ign_bridge/CMakeLists.txt b/ros_ign_bridge/CMakeLists.txt
+index 5e04c45d..a60f0be0 100644
+--- a/ros_ign_bridge/CMakeLists.txt
++++ b/ros_ign_bridge/CMakeLists.txt
+@@ -21,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
+                visualization_msgs)
+ 
+ # Fortress
+-if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
++if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress" OR TRUE)
+   find_package(ignition-transport11 REQUIRED)
+   set(IGN_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
+ 
