@@ -1,0 +1,58 @@
+package:
+  name: ros-noetic-rosserial-client
+  version: 0.9.2
+source:
+  git_url: https://github.com/ros-gbp/rosserial-release.git
+  git_rev: release/noetic/rosserial_client/0.9.2-1
+  folder: ros-noetic-rosserial-client/src/work
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 16
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - sel(linux64): sysroot_linux-64 2.17
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(unix): coreutils
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - cython
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): numpy
+  host:
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - python
+    - ros-distro-mutex 0.5 noetic
+    - ros-noetic-catkin
+    - ros-noetic-rosbash
+    - ros-noetic-rosserial-msgs
+    - ros-noetic-rosunit
+  run:
+    - python
+    - ros-distro-mutex 0.5 noetic
+    - ros-noetic-rosbash
+    - ros-noetic-rospy
+    - ros-noetic-rosserial-msgs
+    - ros-noetic-std-msgs
+    - ros-noetic-tf
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

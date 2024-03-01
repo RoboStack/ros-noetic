@@ -1,0 +1,88 @@
+package:
+  name: ros-noetic-plotjuggler
+  version: 3.9.1
+source:
+  git_url: https://github.com/facontidavide/plotjuggler-release.git
+  git_rev: release/noetic/plotjuggler/3.9.1-1
+  folder: ros-noetic-plotjuggler/src/work
+  patches:
+    - patch/ros-noetic-plotjuggler.patch
+
+build:
+  script:
+    sel(win): bld_catkin.bat
+    sel(unix): build_catkin.sh
+  number: 16
+about:
+  home: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - "{{ compiler('cxx') }}"
+    - "{{ compiler('c') }}"
+    - sel(linux64): sysroot_linux-64 2.17
+    - ninja
+    - setuptools
+    - sel(unix): make
+    - sel(unix): coreutils
+    - sel(osx): tapi
+    - sel(build_platform != target_platform): pkg-config
+    - cmake
+    - cython
+    - sel(build_platform != target_platform): python
+    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
+    - sel(build_platform != target_platform): numpy
+    - sel(linux): "{{ cdt('mesa-libgl-devel') }}"
+    - sel(linux): "{{ cdt('mesa-dri-drivers') }}"
+    - sel(linux): "{{ cdt('libselinux') }}"
+    - sel(linux): "{{ cdt('libxdamage') }}"
+    - sel(linux): "{{ cdt('libxxf86vm') }}"
+    - sel(linux): "{{ cdt('libxfixes') }}"
+    - sel(linux): "{{ cdt('libxext') }}"
+    - sel(linux): "{{ cdt('libxau') }}"
+    - sel(linux): "{{ cdt('libxcb') }}"
+  host:
+    - cppzmq
+    - sel(linux): elfutils
+    - libboost-devel
+    - libboost-python-devel
+    - libprotobuf
+    - lz4
+    - numpy
+    - pip
+    - sel(build_platform == target_platform): pkg-config
+    - protobuf
+    - python
+    - qt-main
+    - ros-distro-mutex 0.5 noetic
+    - ros-noetic-catkin
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - zeromq
+    - zstd
+    - sel(unix): xorg-libx11
+    - sel(unix): xorg-libxext
+  run:
+    - cppzmq
+    - libboost-devel
+    - libboost-python-devel
+    - libprotobuf
+    - lz4
+    - protobuf
+    - python
+    - qt-main
+    - ros-distro-mutex 0.5 noetic
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - zeromq
+    - zstd
+    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - sel(unix): xorg-libx11
+    - sel(unix): xorg-libxext
