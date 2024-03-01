@@ -227,6 +227,12 @@ packages_select_by_deps:
   - rosfmt
   - rosmon
 
+  - ros-ign
+  - ros-ign-bridge 
+  - ros-ign-gazebo 
+  - ros-ign-gazebo-demos 
+  - ros-ign-image
+
   # Needs fixing in CI, uploaded manually
   - rtabmap
   - rtabmap-ros

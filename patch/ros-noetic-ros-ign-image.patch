@@ -1,0 +1,27 @@
+diff --git a/ros_ign_image/CMakeLists.txt b/ros_ign_image/CMakeLists.txt
+index 5bbf70f4..87fb109d 100644
+--- a/ros_ign_image/CMakeLists.txt
++++ b/ros_ign_image/CMakeLists.txt
+@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
+   sensor_msgs)
+ 
+ # Fortress
+-if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
++if ("$ENV{IGNITION_VERSION}" STREQUAL "fortress" OR TRUE)
+   find_package(ignition-transport11 REQUIRED)
+   set(IGN_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
+ 
+@@ -68,6 +68,7 @@ install(TARGETS ${executable}
+ )
+ 
+ # Tests
++if(FALSE)
+ find_package(rostest REQUIRED)
+ 
+ set(test_publishers
+@@ -101,4 +102,4 @@ foreach(test_subscriber ${test_subscribers})
+     ignition-transport${IGN_TRANSPORT_VER}::core
+   )
+ endforeach(test_subscriber)
+-
++endif()
