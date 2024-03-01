@@ -121,15 +121,18 @@ packages_select_by_deps:
   - plotjuggler
   - rosserial-arduino
 
-  - ros-ign
-  - ros-ign-bridge 
-  - ros-ign-gazebo 
-  - ros-ign-gazebo-demos 
-  - ros-ign-image
-
   ##
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
+
+  # The Ignition Fortress packages do not work properly on Windows
+  # Feel free to reach out to the RoboStack maintainers if you would like to
+  # work on this.
+  # - ros-ign
+  # - ros-ign-bridge 
+  # - ros-ign-gazebo 
+  # - ros-ign-gazebo-demos 
+  # - ros-ign-image
 
   # Fails due to Too long input line.
   # - hector-gazebo-plugins
