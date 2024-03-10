@@ -1,0 +1,12 @@
+diff --git a/eigen_conversions/CMakeLists.txt b/eigen_conversions/CMakeLists.txt
+index d72b817f..938c8d52 100644
+--- a/eigen_conversions/CMakeLists.txt
++++ b/eigen_conversions/CMakeLists.txt
+@@ -28,4 +28,6 @@ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+ 
+ install(TARGETS ${PROJECT_NAME}
+-  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
++  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})

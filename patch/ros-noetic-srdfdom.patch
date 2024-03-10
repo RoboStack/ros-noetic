@@ -1,0 +1,25 @@
+From 6e11bdad2b26d421bbde6623579d7bf35772cd78 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Sun, 10 Mar 2024 21:48:12 +0100
+Subject: [PATCH] On Windows install libraries in <prefix>/bin
+
+Signed-off-by: Silvio Traversaro <silvio.traversaro@iit.it>
+---
+ CMakeLists.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1059f3d..88c037c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -36,7 +36,9 @@ target_link_libraries(${PROJECT_NAME} ${TinyXML2_LIBRARIES} ${catkin_LIBRARIES}
+ 
+ 
+ install(TARGETS ${PROJECT_NAME}
+-  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
++  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+ )
+ install(DIRECTORY include/${PROJECT_NAME}/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
