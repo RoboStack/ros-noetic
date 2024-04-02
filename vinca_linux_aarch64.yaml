@@ -157,6 +157,7 @@ packages_select_by_deps:
   - turtlebot3
   - turtlebot3_fake
   - pid
+  - husky-simulator
 
 
 

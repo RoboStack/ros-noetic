@@ -226,6 +226,7 @@ packages_select_by_deps:
   - pid
   - rosfmt
   - rosmon
+  - husky-simulator
 
   - ros-ign
   - ros-ign-bridge 
