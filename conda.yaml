@@ -91,11 +91,11 @@ g++-static:
 gawk:
   conda: [gawk]
 gazebo:
-  conda: [gazebo]
+  conda: [gazebo, libprotobuf, libabseil]
 gazebo11:
-  conda: [gazebo]
+  conda: [gazebo, libprotobuf, libabseil]
 gazebo9:
-  conda: [gazebo]
+  conda: [gazebo, libprotobuf, libabseil]
 geographiclib:
   conda: [geographiclib-cpp]
 geographiclib-tools:
@@ -268,9 +268,9 @@ libfreetype6-dev:
 libftdi-dev:
   conda: [libftdi, libusb]
 libgazebo11-dev:
-  conda: [gazebo]
+  conda: [gazebo, libprotobuf, libabseil]
 libgazebo9-dev:
-  conda: [gazebo]
+  conda: [gazebo, libprotobuf, libabseil]
 libgdal-dev:
   conda: [libgdal]
 libgeos++-dev:

@@ -100,11 +100,11 @@ g++-static:
 gawk:
   robostack: [gawk]
 gazebo:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo11:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 gazebo9:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 geographiclib:
   robostack: [geographiclib-cpp]
 geographiclib-tools:
@@ -264,9 +264,9 @@ libfreetype6-dev:
 libftdi-dev:
   robostack: [libftdi, libusb]
 libgazebo11-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgazebo9-dev:
-  robostack: [gazebo]
+  robostack: [gazebo, libprotobuf, libabseil]
 libgdal-dev:
   robostack: [libgdal]
 libgeos++-dev:
