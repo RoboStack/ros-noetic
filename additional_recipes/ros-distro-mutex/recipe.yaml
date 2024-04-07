@@ -3,7 +3,7 @@ package:
   version: 0.5.0
 
 build:
-  number: 4
+  number: 5
   string: noetic
   run_exports:
     - "{{ pin_subpackage('ros-distro-mutex', max_pin='x.x') }}"
@@ -27,11 +27,15 @@ requirements:
   # values here should be applied from run_exports!
   # if the upstream package does not have run_exports
   # please change it in the conda_build_config.yaml!
+  # libabseil and libprotobuf added here as a workaround for
+  # https://github.com/RoboStack/ros-noetic/issues/459
   run_constrained:
     - libboost-devel 1.82
     - gazebo 11
     - ogre 1.10.12
     - libpqxx 7.8
+    - libabseil 20230802
+    - libprotobuf 4.24.3
 
 about:
   home: https://github.com/robostack/ros-noetic
