@@ -227,6 +227,7 @@ packages_select_by_deps:
   - rosfmt
   - rosmon
   - husky-simulator
+  - lanelet2
 
   - ros-ign
   - ros-ign-bridge 
