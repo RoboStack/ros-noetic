@@ -1,0 +1,23 @@
+diff --git a/cmake/Modules/FindGeographicLib.cmake b/cmake/Modules/FindGeographicLib.cmake
+index 63dfe30..c03f8d3 100644
+--- a/cmake/Modules/FindGeographicLib.cmake
++++ b/cmake/Modules/FindGeographicLib.cmake
+@@ -1,17 +1 @@
+-# Look for GeographicLib
+-#
+-# Set
+-#  GEOGRAPHICLIB_FOUND = TRUE
+-#  GeographicLib_INCLUDE_DIRS = /usr/local/include
+-#  GeographicLib_LIBRARIES = /usr/local/lib/libGeographic.so
+-#  GeographicLib_LIBRARY_DIRS = /usr/local/lib
+-
+-find_package(PkgConfig)
+-find_path(GeographicLib_INCLUDE_DIR GeographicLib/Config.h PATH_SUFFIXES GeographicLib)
+-set(GeographicLib_INCLUDE_DIRS ${GeographicLib_INCLUDE_DIR})
+-
+-find_library(GeographicLib_LIBRARIES NAMES Geographic)
+-
+-include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(GeographicLib DEFAULT_MSG GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
+-mark_as_advanced(GeographicLib_LIBRARIES GeographicLib_INCLUDE_DIRS)
++find_package(GeographicLib CONFIG)
