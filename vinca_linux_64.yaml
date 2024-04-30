@@ -228,6 +228,7 @@ packages_select_by_deps:
   - rosmon
   - husky-simulator
   - lanelet2
+  - depthai-ros
 
   - ros-ign
   - ros-ign-bridge 
