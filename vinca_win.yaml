@@ -92,6 +92,8 @@ packages_select_by_deps:
   - pcl-conversions
   - velodyne-simulator
 
+  - depthai-ros
+
   - gazebo-dev
   - gazebo-ros
   - gazebo-ros-control
