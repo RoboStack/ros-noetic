@@ -1,0 +1,92 @@
+jobs:
+  stage_0_job_0:
+    name: socketcan-interface can-msgs dataspeed-ulc-msgs lusb dbw-polaris-description
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-socketcan-interface ros-noetic-can-msgs ros-noetic-dataspeed-ulc-msgs
+        ros-noetic-lusb ros-noetic-dbw-polaris-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-socketcan-interface ros-noetic-can-msgs ros-noetic-dataspeed-ulc-msgs
+          ros-noetic-lusb ros-noetic-dbw-polaris-description
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+  stage_0_job_1:
+    name: dbw-polaris-msgs dbw-mkz-description dbw-mkz-msgs dbw-fca-description dbw-fca-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-dbw-polaris-msgs ros-noetic-dbw-mkz-description ros-noetic-dbw-mkz-msgs
+        ros-noetic-dbw-fca-description ros-noetic-dbw-fca-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-dbw-polaris-msgs ros-noetic-dbw-mkz-description
+          ros-noetic-dbw-mkz-msgs ros-noetic-dbw-fca-description ros-noetic-dbw-fca-msgs
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+  stage_1_job_2:
+    name: socketcan-bridge dataspeed-ulc-can dataspeed-can-usb dataspeed-can-msg-filters
+      dataspeed-can-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-socketcan-bridge ros-noetic-dataspeed-ulc-can ros-noetic-dataspeed-can-usb
+        ros-noetic-dataspeed-can-msg-filters ros-noetic-dataspeed-can-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-socketcan-bridge ros-noetic-dataspeed-ulc-can
+          ros-noetic-dataspeed-can-usb ros-noetic-dataspeed-can-msg-filters ros-noetic-dataspeed-can-tools
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+  stage_2_job_3:
+    name: dbw-mkz-can
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-dbw-mkz-can
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-dbw-mkz-can
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+name: build_linux
+on:
+  push:
+    branches:
+    - buildbranch_linux
