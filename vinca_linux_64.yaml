@@ -755,7 +755,7 @@ packages_select_by_deps:
   # - boost-sml
   # - bota-signal-handler
   # - bota-worker
-- can-msgs
+  - can-msgs
   # - capabilities
   # - carla-msgs
   # - cartesian-msgs
@@ -788,12 +788,12 @@ packages_select_by_deps:
   # - dataspeed-can-tools
   # - dataspeed-pds-msgs
   # - dataspeed-ulc-msgs
-- dbw-fca-description
-- dbw-fca-msgs
-- dbw-mkz-description
-- dbw-mkz-msgs
-- dbw-polaris-description
-- dbw-polaris-msgs
+  - dbw-fca-description
+  - dbw-fca-msgs
+  - dbw-mkz-description
+  - dbw-mkz-msgs
+  - dbw-polaris-description
+  - dbw-polaris-msgs
   # - ddynamic-reconfigure
   # - ddynamic-reconfigure-python
   # - delphi-esr-msgs
@@ -1106,7 +1106,7 @@ packages_select_by_deps:
   # - robot_self_filter
   # - trac_ik
   # - opencv_apps
-- lusb
+  - lusb
   # - image_view2
   # - explore_lite
   # - marvelmind_nav
