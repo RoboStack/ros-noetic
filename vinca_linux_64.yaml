@@ -235,6 +235,24 @@ packages_select_by_deps:
   - ros-ign-gazebo-demos 
   - ros-ign-image
 
+  - lusb
+  - socketcan-interface
+  - socketcan-bridge
+  - can-msgs
+  - dataspeed-can-msg-filters
+  - dataspeed-can-tools
+  - dataspeed-can-usb
+  # - dataspeed-pds-msgs
+  - dataspeed-ulc-msgs
+  - dataspeed-ulc-can
+  - dbw-fca-description
+  - dbw-fca-msgs
+  - dbw-mkz-description
+  - dbw-mkz-msgs
+  - dbw-mkz-can
+  - dbw-polaris-description
+  - dbw-polaris-msgs
+
   # Needs fixing in CI, uploaded manually
   - rtabmap
   - rtabmap-ros
@@ -687,7 +705,6 @@ packages_select_by_deps:
   # - single-joint-position-action
   # - slider-publisher
   # - slime-ros
-  - socketcan-bridge
   # - sot-core
   # - sot-tools
   # - speed-scaling-interface
@@ -755,7 +772,6 @@ packages_select_by_deps:
   # - boost-sml
   # - bota-signal-handler
   # - bota-worker
-  - can-msgs
   # - capabilities
   # - carla-msgs
   # - cartesian-msgs
@@ -784,19 +800,6 @@ packages_select_by_deps:
   # - criutils
   # - csm
   # - cv-camera
-  - dataspeed-can-msg-filters
-  - dataspeed-can-tools
-  - dataspeed-can-usb
-  # - dataspeed-pds-msgs
-  - dataspeed-ulc-msgs
-  - dataspeed-ulc-can
-  - dbw-fca-description
-  - dbw-fca-msgs
-  - dbw-mkz-description
-  - dbw-mkz-msgs
-  - dbw-mkz-can
-  - dbw-polaris-description
-  - dbw-polaris-msgs
   # - ddynamic-reconfigure
   # - ddynamic-reconfigure-python
   # - delphi-esr-msgs
@@ -1022,7 +1025,6 @@ packages_select_by_deps:
   # - slic
   # - slime-wrapper
   # - smach-viewer
-  - socketcan-interface
   # - sophus
   # - speech-recognition-msgs
   # - stag-ros
@@ -1109,7 +1111,6 @@ packages_select_by_deps:
   # - robot_self_filter
   # - trac_ik
   # - opencv_apps
-  - lusb
   # - image_view2
   # - explore_lite
   # - marvelmind_nav
