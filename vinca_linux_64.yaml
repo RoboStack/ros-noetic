@@ -788,12 +788,12 @@ packages_select_by_deps:
   # - dataspeed-can-tools
   # - dataspeed-pds-msgs
   # - dataspeed-ulc-msgs
-  # - dbw-fca-description
-  # - dbw-fca-msgs
-  # - dbw-mkz-description
-  # - dbw-mkz-msgs
-  # - dbw-polaris-description
-  # - dbw-polaris-msgs
+- dbw-fca-description
+- dbw-fca-msgs
+- dbw-mkz-description
+- dbw-mkz-msgs
+- dbw-polaris-description
+- dbw-polaris-msgs
   # - ddynamic-reconfigure
   # - ddynamic-reconfigure-python
   # - delphi-esr-msgs
