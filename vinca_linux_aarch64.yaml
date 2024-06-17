@@ -119,6 +119,7 @@ packages_select_by_deps:
   - moveit
   - robot_localization
   - perception
+  - depthai-ros
   - simulators
   - desktop_full
   - audio-common-msgs

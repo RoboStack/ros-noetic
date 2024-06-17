@@ -102,6 +102,8 @@ packages_select_by_deps:
   - openni2-launch
   - p2os_driver
 
+  - depthai-ros
+
   - desktop
   - desktop-full
   # - pybind11_catkin  # Needs to be patched to use conda-forge's pybind11
