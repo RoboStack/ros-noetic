@@ -79,6 +79,7 @@ packages_select_by_deps:
   - desktop
   - perception
   - moveit
+  - moveit-servo
   # - eigenpy  # needs manual build
   - turtlebot3
   - turtlebot3-simulations
