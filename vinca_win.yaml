@@ -63,7 +63,6 @@ packages_select_by_deps:
   - fcl
   - desktop_full
   - moveit
-  - moveit-servo
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
