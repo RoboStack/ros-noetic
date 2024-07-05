@@ -252,6 +252,7 @@ packages_select_by_deps:
   - dbw-mkz-can
   - dbw-polaris-description
   - dbw-polaris-msgs
+  - geodesy
 
   # Needs fixing in CI, uploaded manually
   - rtabmap
@@ -549,7 +550,6 @@ packages_select_by_deps:
   # - gazebo-video-monitor-plugins
   # - gazebo-video-monitors
   # - genmypy
-  # - geodesy
   # - geographic-info
   # - gpp-prune-path
   # - gpp-update-map
