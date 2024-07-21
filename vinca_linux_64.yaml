@@ -253,6 +253,7 @@ packages_select_by_deps:
   - dbw-polaris-description
   - dbw-polaris-msgs
   - geodesy
+  - aruco-ros
 
   # Needs fixing in CI, uploaded manually
   - rtabmap
