@@ -149,5 +149,7 @@ packages_select_by_deps:
   - rosfmt
   - mavros-extras
   - webots-ros
+  - slam-gmapping
+  - openslam-gmapping
 
 patch_dir: patch

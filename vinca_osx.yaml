@@ -166,6 +166,9 @@ packages_select_by_deps:
   
   - sound-play
   - pid
+  - slam-gmapping
+  - openslam-gmapping
+  - rqt-ez-publisher
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
@@ -197,7 +200,6 @@ packages_select_by_deps:
   # - mbf-simple-nav
   # - mbf-abstract-nav
 
-  # - openslam-gmapping
   # - turtlesim
   # - rviz
   # - arbotix-controllers
@@ -729,7 +731,6 @@ packages_select_by_deps:
   # - rqt
   # - rqt-controller-manager
   # - rqt-drone-teleop
-  - rqt-ez-publisher
   # - rqt-ground-robot-teleop
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
@@ -742,7 +743,6 @@ packages_select_by_deps:
   # - settlerlib
   # - sick-safetyscanners
   # - sick-tim
-  # - slam-gmapping
   # - slam-toolbox-rviz
   # - slic
   # - slider-publisher
