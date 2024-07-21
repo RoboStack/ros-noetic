@@ -398,7 +398,10 @@ libreadline-dev:
 libsndfile1-dev:
   robostack: [libsndfile]
 libspnav-dev:
-  robostack: [libspnav]
+  robostack:
+    linux: [libspnav]
+    osx: [libspnav]
+    win64: []
 libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
@@ -890,7 +893,10 @@ sdl2:
 socat:
   robostack: [socat]
 spacenavd:
-  robostack: [libspnav]
+  robostack:
+    linux: [libspnav]
+    osx: [libspnav]
+    win64: []
 spdlog:
   robostack: [spdlog]
 sshpass:
