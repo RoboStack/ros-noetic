@@ -10,7 +10,7 @@ source ~/.bash_profile
 micromamba config set remote_max_retries 5
 
 echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
-micromamba create -n devenv --quiet --yes conda-forge-ci-setup=3 conda-build=3.27 pip boa quetz-client -c conda-forge
+micromamba create -n devenv --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client -c conda-forge
 micromamba activate devenv
 
 set -e
