@@ -79,7 +79,6 @@ packages_select_by_deps:
   - joint-trajectory-controller
   - velodyne-simulator
   - velodyne-gazebo-plugins
-
   - kdl-parser-py
   - imu-tools
   - rqt-controller-manager
