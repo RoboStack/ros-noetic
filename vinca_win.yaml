@@ -120,6 +120,7 @@ packages_select_by_deps:
   - plotjuggler_ros
   - plotjuggler
   - rosserial-arduino
+  - tf2_web_republisher
 
   ##
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
@@ -137,7 +138,6 @@ packages_select_by_deps:
   # Fails due to Too long input line.
   # - hector-gazebo-plugins
   # - dynamixel-sdk -- this one not ready for Windows
-  # - tf2_web_republisher
   # - libfranka
   # - franka
   # - franka-hw
