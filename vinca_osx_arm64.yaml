@@ -151,5 +151,6 @@ packages_select_by_deps:
   - webots-ros
   - slam-gmapping
   - openslam-gmapping
+  - tf2_web_republisher
 
 patch_dir: patch
