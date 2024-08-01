@@ -44,6 +44,18 @@ skip_existing:
 # For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
 # The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
+  - universal-robots
+  - ur10-moveit-config
+  - ur10e-moveit-config
+  - ur16e-moveit-config
+  - ur3-moveit-config
+  - ur3e-moveit-config
+  - ur5-moveit-config
+  - ur5e-moveit-config
+  - ur-description
+  - ur-gazebo
+  - ur-kinematics
+  - ur-msgs
   - cras_cpp_common  # maintainer peci1
   - cras_py_common  # maintainer peci1
   - cras_docs_common  # maintainer peci1
@@ -270,7 +282,6 @@ packages_select_by_deps:
   # - franka_example_controllers
   # - franka_ros
 
-  # Not compatible with recent boost
   # - naoqi-bridge-msgs
   # - naoqi-driver
   # - naoqi-libqi
@@ -1009,7 +1020,6 @@ packages_select_by_deps:
   # - ros-type-introspection
   # - rqt
   # - rqt-controller-manager
-  - rqt-ez-publisher
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
   # - safety-limiter-msgs
