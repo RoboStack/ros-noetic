@@ -247,6 +247,11 @@ libcurl-dev:
   robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
+libdw-dev:
+  conda:
+    linux: [elfutils]
+    osx: []
+    win64: []
 libfcl-dev:
   robostack: [fcl]
 libffi-dev:

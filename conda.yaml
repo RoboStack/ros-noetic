@@ -251,6 +251,11 @@ libcurl-dev:
   conda: [libcurl]
 libdc1394-dev:
   conda: [libdc1394]
+libdw-dev:
+  conda:
+    linux: [elfutils]
+    osx: []
+    win64: []
 libfcl-dev:
   conda: [fcl]
 libffi-dev:
