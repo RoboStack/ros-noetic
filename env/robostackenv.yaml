@@ -17,4 +17,5 @@ dependencies:
 - boa
 - pip
 - pip:
-  - git+https://github.com/RoboStack/vinca.git@master
+  # Switch back to use main (i.e. default) branch once we switch to rattler-build
+  - git+https://github.com/RoboStack/vinca.git@boa

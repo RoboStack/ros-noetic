@@ -91,7 +91,8 @@ jobs:
       shell: bash -l {0}
       run: |
         # use no-deps for now, otherwise problems with ruamel.
-        pip install git+https://github.com/RoboStack/vinca.git --no-deps
+        # Switch back to use main (i.e. default) branch once we switch to rattler-build
+        pip install git+https://github.com/RoboStack/vinca.git#boa --no-deps
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
     - name: Debug pkg-config problem

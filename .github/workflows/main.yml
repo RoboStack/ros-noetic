@@ -15,7 +15,8 @@ jobs:
         python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     - name: Install vinca
       run: |
-        pip install git+https://github.com/RoboStack/vinca.git
+        # Switch back to use main (i.e. default) branch once we switch to rattler-build
+        pip install git+https://github.com/RoboStack/vinca.git#boa
 
     - name: Generate recipes for linux-64
       run: |
