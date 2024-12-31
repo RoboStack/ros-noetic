@@ -1,12 +1,12 @@
 package:
   name: ros-distro-mutex
-  version: 0.5.0
+  version: 0.6.0
 
 build:
-  number: 7
-  string: noetic
-  run_exports:
-    - "{{ pin_subpackage('ros-distro-mutex', max_pin='x.x') }}"
+  number: 0
+  # Note: keep in sync with build number
+  # Cannot be done automatically, see https://github.com/mamba-org/boa/issues/278
+  string: noetic_0
 
 requirements:
   # NOTE:
@@ -29,17 +29,21 @@ requirements:
   # please change it in the conda_build_config.yaml!
   # libabseil and libprotobuf added here as a workaround for
   # https://github.com/RoboStack/ros-noetic/issues/459
-  run_constrained:
-    - libboost-devel 1.82.*
+  run_constraints:
+    - libboost 1.86.*
+    - libboost-devel 1.86.*
+    - pcl 1.14.1.*
     - gazebo 11.*
+    - libprotobuf 5.28.2.*
     - ogre 1.10.12.*
     - libpqxx 7.8.*
-    # Add those for next rebuild, needed for Gazebo
-    # - libabseil 20230802.*
-    # - libprotobuf 4.24.3.*
+
+  run_exports:
+    weak:
+      - ${{ pin_subpackage('ros-distro-mutex', upper_bound='x.x') }}
 
 about:
-  home: https://github.com/robostack/ros-noetic
+  homepage: https://github.com/robostack/ros-noetic
   license: BSD-3-Clause
   summary: |
     The ROS distro mutex. To switch between ROS versions, you need to change the mutex.

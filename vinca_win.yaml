@@ -1,12 +1,12 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.5 noetic
+mutex_package: ros-distro-mutex 0.6.* noetic_*
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 16
+build_number: 17
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
