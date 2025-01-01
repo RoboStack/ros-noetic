@@ -1,16 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 9192d7f..9be8dd3 100644
+index d8338e7..f2c8b6f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -128,7 +128,6 @@ catkin_package(
- include_directories(${catkin_INCLUDE_DIRS} include ${COMMON_DIR}/include)
- 
- # Set some general CMake flags
--add_definitions(-std=c++11)
- set(CMAKE_C_FLAGS "-Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-format -fno-builtin-memcpy")
- 
- set(LIB_SRC_FILES
-@@ -198,11 +198,7 @@ set_source_files_properties(${COMMON_SRC_DIR}/services.cpp PROPERTIES COMPILE_OP
+@@ -207,11 +207,7 @@ set_source_files_properties(${COMMON_SRC_DIR}/services.cpp PROPERTIES COMPILE_OP
  add_definitions(-DMICROSTRAIN_DRIVER_VERSION="${DRIVER_GIT_VERSION}")
  
  # Let the code know if it is being compiled with ROS1 or ROS2
@@ -23,12 +15,11 @@ index 9192d7f..9be8dd3 100644
  
  # Allow the MSCL include directory to be accessed
  include_directories(${MSCL_INC_PATH} ${BOOST_INC_PATH})
-
 diff --git a/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h b/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
-index cc87fb6..9a79e3c 100644
+index b6fe468..dca949e 100644
 --- a/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
 +++ b/microstrain_inertial_driver_common/include/microstrain_inertial_driver_common/utils/ros_compat.h
-@@ -565,7 +565,7 @@ template <class ClassType>
+@@ -501,7 +501,7 @@ template <class ClassType>
  RosTimerType createTimer(RosNodeType* node, double hz, void (ClassType::*fp)(), ClassType* obj)
  {
    return std::make_shared<::ros::Timer>(

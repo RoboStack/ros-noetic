@@ -91,3 +91,16 @@ index 87b8d9b..df90eb9 100644
  install(
  	DIRECTORY include/rosfmt/
  	DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+diff --git a/include/rosfmt/rosfmt.h b/include/rosfmt/rosfmt.h
+index 155df18..36f82ea 100644
+--- a/include/rosfmt/rosfmt.h
++++ b/include/rosfmt/rosfmt.h
+@@ -31,7 +31,7 @@ std::string vformat(fmt::string_view format_str, fmt::format_args args);
+ template<typename ... Args>
+ std::string format(const std::string& formatString, const Args& ... args)
+ {
+-	fmt::format_arg_store<fmt::format_context, Args...> as{args...};
++	auto as = fmt::make_format_args(args...);
+ 	return rosfmt::vformat(formatString, as);
+ }
+ 
