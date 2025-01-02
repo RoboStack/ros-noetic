@@ -152,7 +152,7 @@ packages_select_by_deps:
   - rosserial-python
   - ros_numpy
   - franka_msgs
-  # - teb_local_planner
+  - teb_local_planner
   - rospy-message-converter
   - turtlebot3
   - turtlebot3_fake
