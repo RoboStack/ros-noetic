@@ -1,161 +1,3 @@
-diff --git a/3rdparty/QCodeEditor/CMakeLists.txt b/3rdparty/QCodeEditor/CMakeLists.txt
-index 84282fe1f..c37ae8f49 100644
---- a/3rdparty/QCodeEditor/CMakeLists.txt
-+++ b/3rdparty/QCodeEditor/CMakeLists.txt
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 3.6)
-+cmake_minimum_required(VERSION 3.20)
- project(QCodeEditor)
- 
- set(CMAKE_CXX_STANDARD 11)
-@@ -69,10 +69,7 @@ set(CMAKE_AUTOMOC On)
- # Create code from resource files
- set(CMAKE_AUTORCC ON)
- 
--# Find includes in corresponding build directories
--find_package(Qt5Core    CONFIG REQUIRED)
--find_package(Qt5Widgets CONFIG REQUIRED)
--find_package(Qt5Gui     CONFIG REQUIRED)
-+find_package(Qt5 COMPONENTS Core Widgets Gui REQUIRED)
- 
- add_library(QCodeEditor STATIC
-     ${RESOURCES_FILE}
-@@ -84,21 +81,6 @@ target_include_directories(QCodeEditor PUBLIC
-     include
- )
- 
--if(CMAKE_COMPILER_IS_GNUCXX)
--    target_compile_options(QCodeEditor
--		PRIVATE
--		-ansi
--		-pedantic
--		-Wall
--		-Wextra
--		-Weffc++
--		-Woverloaded-virtual
--		-Winit-self
--		-std=c++11
--		-Wunreachable-code
--	)
--endif(CMAKE_COMPILER_IS_GNUCXX)
--
- target_link_libraries(QCodeEditor
-     Qt5::Core
-     Qt5::Widgets
-diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-index 6b650f1b..f384e3f1 100644
---- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-+++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
-@@ -4,6 +4,8 @@ project(QtADS LANGUAGES CXX)
- 
- include_directories(include/Qads)
- 
-+find_package(XCB REQUIRED)
-+
- find_package(Qt5 5.5 COMPONENTS Core Gui Widgets REQUIRED)
- if (UNIX AND NOT APPLE)
-         find_package(Qt5 5.5 COMPONENTS X11Extras REQUIRED)
-@@ -67,7 +69,8 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
- 
- if(UNIX AND NOT APPLE)
-     target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
--        target_link_libraries(qt_advanced_docking PRIVATE xcb)
-+    target_link_libraries(qt_advanced_docking PUBLIC ${XCB_LIBRARIES})
-+    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
- endif()
- 
- set_target_properties(qt_advanced_docking PROPERTIES
-
-diff --git a/3rdparty/lua-5.4.3/CMakeLists.txt b/3rdparty/lua-5.4.3/CMakeLists.txt
-index 6f682a3e6..676feecb1 100644
---- a/3rdparty/lua-5.4.3/CMakeLists.txt
-+++ b/3rdparty/lua-5.4.3/CMakeLists.txt
-@@ -1,3 +1,5 @@
-+include_directories( ./src  )
-+
- set(LUA_LIB_SRCS 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/lapi.c 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/lcode.c 
-@@ -32,7 +34,7 @@ set(LUA_LIB_SRCS
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/loadlib.c 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/linit.c
-     )
--set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-+# set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
- 
- add_compile_options(-fPIC)
- 
-@@ -40,7 +42,7 @@ add_library(lua_static STATIC
-     ${LUA_LIB_SRCS}
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/lua.c
- )
--target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
-+# target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
- 
- add_library(lua_objects OBJECT ${LUA_LIB_SRCS})
- 
-@@ -53,3 +55,11 @@ if(EMSCRIPTEN)
- endif()
- target_compile_definitions(lua_static PUBLIC ${LUA_DEFINITIONS})
- 
-+install(
-+     TARGETS
-+        lua_static
-+     EXPORT export_lua_static
-+     LIBRARY DESTINATION lib
-+     ARCHIVE DESTINATION lib
-+     RUNTIME DESTINATION bin
-+     INCLUDES DESTINATION include )
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0c12d11a..37e5db3c 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -123,11 +123,9 @@ find_package(Qt5 REQUIRED COMPONENTS
- set( QT_LINK_LIBRARIES
-     Qt5::Core
-     Qt5::Widgets
--    Qt5::PrintSupport
-     Qt5::Xml
-     Qt5::Concurrent
-     Qt5::Svg
--    Qt5::OpenGL
-     Qt5::WebSockets
-     )
- 
-@@ -193,7 +191,7 @@ if (BASE_AS_SHARED)
-         ${PLOTJUGGLER_BASE_SRC}
-         ${PLOTJUGGLER_BASE_MOCS}
-         )
--    target_link_libraries(plotjuggler_base PRIVATE lua_objects plotjuggler_qwt_objects)
-+    target_link_libraries(plotjuggler_base PRIVATE ${QT_LINK_LIBRARIES} lua_objects plotjuggler_qwt_objects)
- else()
-     add_library(plotjuggler_base STATIC
-         ${PLOTJUGGLER_BASE_SRC}
-@@ -201,13 +199,6 @@ else()
-         )
- endif()
- 
--# target_link_libraries(plotjuggler_base plotjuggler_qwt)
--
--target_include_directories(plotjuggler_base INTERFACE
--  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
--  $<INSTALL_INTERFACE:include>
--)
--
- #########################  INSTALL  ####################################
- 
- if(COMPILING_WITH_CATKIN)
-@@ -224,8 +215,9 @@ elseif(COMPILING_WITH_AMENT)
-     set(PJ_PLUGIN_INSTALL_DIRECTORY lib/${PROJECT_NAME} )
- 
-     ament_export_targets(
--        ${PROJECT_NAME}Targets
-         export_plotjuggler_qwt
-+        export_lua_static
-+        ${PROJECT_NAME}Targets
-         HAS_LIBRARY_TARGET)
-     ament_package()
- 
 diff --git a/cmake/FindXCB.cmake b/cmake/FindXCB.cmake
 new file mode 100644
 index 00000000..a2e2757a
@@ -213,18 +55,572 @@ index 00000000..a2e2757a
 +endforeach()
 +
 +list(REMOVE_DUPLICATES XCB_INCLUDE_DIRS)
-diff --git a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
-index f399fdad9..94d1330da 100644
---- a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
-+++ b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
-@@ -3,8 +3,8 @@ if(BUILDING_WITH_CONAN)
-     set(Protobuf_LIBS protobuf::libprotobuf)
- else()
-     message(STATUS "Finding Protobuf without package managers")
--    find_package(Protobuf QUIET)
--    set(Protobuf_LIBS ${Protobuf_LIBRARIES})
-+    find_package(Protobuf QUIET CONFIG)
-+    set(Protobuf_LIBS protobuf::libprotobuf)
+diff --git a/3rdparty/nlohmann/json.hpp b/3rdparty/nlohmann/json.hpp
+index cb27e058..cecdb1fd 100644
+--- a/3rdparty/nlohmann/json.hpp
++++ b/3rdparty/nlohmann/json.hpp
+@@ -3198,6 +3198,7 @@ template <class T> struct identity_tag {};
+ #include <type_traits> // false_type, is_constructible, is_integral, is_same, true_type
+ #include <utility> // declval
+ #include <tuple> // tuple
++#include <string> // char_traits
+ 
+ // #include <nlohmann/detail/macro_scope.hpp>
+ 
+@@ -3261,6 +3262,7 @@ struct iterator_traits<T*, enable_if_t<std::is_object<T>::value>>
+ 
+ 
+ // #include <nlohmann/detail/macro_scope.hpp>
++// #include <nlohmann/detail/meta/type_traits.hpp>
+ 
+ 
+ namespace nlohmann
+@@ -3272,6 +3274,7 @@ NLOHMANN_CAN_CALL_STD_FUNC_IMPL(begin);
+ 
+ 
+ // #include <nlohmann/detail/macro_scope.hpp>
++// #include <nlohmann/detail/meta/type_traits.hpp>
+ 
+ 
+ namespace nlohmann
+@@ -3482,6 +3485,63 @@ struct has_to_json < BasicJsonType, T, enable_if_t < !is_basic_json<T>::value >>
+ };
+ 
+ 
++/////////////////
++// char_traits //
++/////////////////
++
++// Primary template of char_traits calls std char_traits
++template<typename T>
++struct char_traits : std::char_traits<T>
++{};
++
++// Explicitly define char traits for unsigned char since it is not standard
++template<>
++struct char_traits<unsigned char> : std::char_traits<char>
++{
++    using char_type = unsigned char;
++    using int_type = uint64_t;
++
++    // Redefine to_int_type function
++    static int_type to_int_type(char_type c) noexcept
++    {
++        return static_cast<int_type>(c);
++    }
++
++    static char_type to_char_type(int_type i) noexcept
++    {
++        return static_cast<char_type>(i);
++    }
++
++    static constexpr int_type eof() noexcept
++    {
++        return static_cast<int_type>(EOF);
++    }
++};
++
++// Explicitly define char traits for signed char since it is not standard
++template<>
++struct char_traits<signed char> : std::char_traits<char>
++{
++    using char_type = signed char;
++    using int_type = uint64_t;
++
++    // Redefine to_int_type function
++    static int_type to_int_type(char_type c) noexcept
++    {
++        return static_cast<int_type>(c);
++    }
++
++    static char_type to_char_type(int_type i) noexcept
++    {
++        return static_cast<char_type>(i);
++    }
++
++    static constexpr int_type eof() noexcept
++    {
++        return static_cast<int_type>(EOF);
++    }
++};
++
+ ///////////////////
+ // is_ functions //
+ ///////////////////
+@@ -5342,16 +5402,16 @@ class iterator_input_adapter
+         : current(std::move(first)), end(std::move(last))
+     {}
+ 
+-    typename std::char_traits<char_type>::int_type get_character()
++    typename char_traits<char_type>::int_type get_character()
+     {
+         if (JSON_HEDLEY_LIKELY(current != end))
+         {
+-            auto result = std::char_traits<char_type>::to_int_type(*current);
++            auto result = char_traits<char_type>::to_int_type(*current);
+             std::advance(current, 1);
+             return result;
+         }
+ 
+-        return std::char_traits<char_type>::eof();
++        return char_traits<char_type>::eof();
+     }
+ 
+   private:
+@@ -6517,7 +6577,7 @@ class lexer : public lexer_base<BasicJsonType>
+     using number_float_t = typename BasicJsonType::number_float_t;
+     using string_t = typename BasicJsonType::string_t;
+     using char_type = typename InputAdapterType::char_type;
+-    using char_int_type = typename std::char_traits<char_type>::int_type;
++    using char_int_type = typename char_traits<char_type>::int_type;
+ 
+   public:
+     using token_type = typename lexer_base<BasicJsonType>::token_type;
+@@ -6667,7 +6727,7 @@ class lexer : public lexer_base<BasicJsonType>
+             switch (get())
+             {
+                 // end of file while parsing string
+-                case std::char_traits<char_type>::eof():
++                case char_traits<char_type>::eof():
+                 {
+                     error_message = "invalid string: missing closing quote";
+                     return token_type::parse_error;
+@@ -7256,7 +7316,7 @@ class lexer : public lexer_base<BasicJsonType>
+                     {
+                         case '\n':
+                         case '\r':
+-                        case std::char_traits<char_type>::eof():
++                        case char_traits<char_type>::eof():
+                         case '\0':
+                             return true;
+ 
+@@ -7273,7 +7333,7 @@ class lexer : public lexer_base<BasicJsonType>
+                 {
+                     switch (get())
+                     {
+-                        case std::char_traits<char_type>::eof():
++                        case char_traits<char_type>::eof():
+                         case '\0':
+                         {
+                             error_message = "invalid comment; missing closing '*/'";
+@@ -7702,10 +7762,10 @@ scan_number_done:
+     token_type scan_literal(const char_type* literal_text, const std::size_t length,
+                             token_type return_type)
+     {
+-        JSON_ASSERT(std::char_traits<char_type>::to_char_type(current) == literal_text[0]);
++        JSON_ASSERT(char_traits<char_type>::to_char_type(current) == literal_text[0]);
+         for (std::size_t i = 1; i < length; ++i)
+         {
+-            if (JSON_HEDLEY_UNLIKELY(std::char_traits<char_type>::to_char_type(get()) != literal_text[i]))
++            if (JSON_HEDLEY_UNLIKELY(char_traits<char_type>::to_char_type(get()) != literal_text[i]))
+             {
+                 error_message = "invalid literal";
+                 return token_type::parse_error;
+@@ -7723,7 +7783,7 @@ scan_number_done:
+     {
+         token_buffer.clear();
+         token_string.clear();
+-        token_string.push_back(std::char_traits<char_type>::to_char_type(current));
++        token_string.push_back(char_traits<char_type>::to_char_type(current));
+     }
+ 
+     /*
+@@ -7731,7 +7791,7 @@ scan_number_done:
+ 
+     This function provides the interface to the used input adapter. It does
+     not throw in case the input reached EOF, but returns a
+-    `std::char_traits<char>::eof()` in that case.  Stores the scanned characters
++    `char_traits<char>::eof()` in that case.  Stores the scanned characters
+     for use in error messages.
+ 
+     @return character read from the input
+@@ -7751,9 +7811,9 @@ scan_number_done:
+             current = ia.get_character();
+         }
+ 
+-        if (JSON_HEDLEY_LIKELY(current != std::char_traits<char_type>::eof()))
++        if (JSON_HEDLEY_LIKELY(current != char_traits<char_type>::eof()))
+         {
+-            token_string.push_back(std::char_traits<char_type>::to_char_type(current));
++            token_string.push_back(char_traits<char_type>::to_char_type(current));
+         }
+ 
+         if (current == '\n')
+@@ -7792,7 +7852,7 @@ scan_number_done:
+             --position.chars_read_current_line;
+         }
+ 
+-        if (JSON_HEDLEY_LIKELY(current != std::char_traits<char_type>::eof()))
++        if (JSON_HEDLEY_LIKELY(current != char_traits<char_type>::eof()))
+         {
+             JSON_ASSERT(!token_string.empty());
+             token_string.pop_back();
+@@ -7986,7 +8046,7 @@ scan_number_done:
+             // end of input (the null byte is needed when parsing from
+             // string literals)
+             case '\0':
+-            case std::char_traits<char_type>::eof():
++            case char_traits<char_type>::eof():
+                 return token_type::end_of_input;
+ 
+             // error
+@@ -8004,7 +8064,7 @@ scan_number_done:
+     const bool ignore_comments = false;
+ 
+     /// the current character
+-    char_int_type current = std::char_traits<char_type>::eof();
++    char_int_type current = char_traits<char_type>::eof();
+ 
+     /// whether the next get() call should just return current
+     bool next_unget = false;
+@@ -8235,7 +8295,7 @@ class binary_reader
+     using binary_t = typename BasicJsonType::binary_t;
+     using json_sax_t = SAX;
+     using char_type = typename InputAdapterType::char_type;
+-    using char_int_type = typename std::char_traits<char_type>::int_type;
++    using char_int_type = typename char_traits<char_type>::int_type;
+ 
+   public:
+     /*!
+@@ -8307,7 +8367,7 @@ class binary_reader
+                 get();
+             }
+ 
+-            if (JSON_HEDLEY_UNLIKELY(current != std::char_traits<char_type>::eof()))
++            if (JSON_HEDLEY_UNLIKELY(current != char_traits<char_type>::eof()))
+             {
+                 return sax->parse_error(chars_read, get_token_string(),
+                                         parse_error::create(110, chars_read, exception_message(format, "expected end of input; last byte: 0x" + get_token_string(), "value"), BasicJsonType()));
+@@ -8389,7 +8449,7 @@ class binary_reader
+             return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::bson, "string length must be at least 1, is " + std::to_string(len), "string"), BasicJsonType()));
+         }
+ 
+-        return get_string(input_format_t::bson, len - static_cast<NumberType>(1), result) && get() != std::char_traits<char_type>::eof();
++        return get_string(input_format_t::bson, len - static_cast<NumberType>(1), result) && get() != char_traits<char_type>::eof();
+     }
+ 
+     /*!
+@@ -8580,7 +8640,7 @@ class binary_reader
+         switch (get_char ? get() : current)
+         {
+             // EOF
+-            case std::char_traits<char_type>::eof():
++            case char_traits<char_type>::eof():
+                 return unexpect_eof(input_format_t::cbor, "value");
+ 
+             // Integer 0x00..0x17 (0..23)
+@@ -9350,7 +9410,7 @@ class binary_reader
+         switch (get())
+         {
+             // EOF
+-            case std::char_traits<char_type>::eof():
++            case char_traits<char_type>::eof():
+                 return unexpect_eof(input_format_t::msgpack, "value");
+ 
+             // positive fixint
+@@ -10172,7 +10232,7 @@ class binary_reader
+     {
+         switch (prefix)
+         {
+-            case std::char_traits<char_type>::eof():  // EOF
++            case char_traits<char_type>::eof():  // EOF
+                 return unexpect_eof(input_format_t::ubjson, "value");
+ 
+             case 'T':  // true
+@@ -10478,7 +10538,7 @@ class binary_reader
+ 
+     This function provides the interface to the used input adapter. It does
+     not throw in case the input reached EOF, but returns a -'ve valued
+-    `std::char_traits<char_type>::eof()` in that case.
++    `char_traits<char_type>::eof()` in that case.
+ 
+     @return character read from the input
+     */
+@@ -10618,7 +10678,7 @@ class binary_reader
+     JSON_HEDLEY_NON_NULL(3)
+     bool unexpect_eof(const input_format_t format, const char* context) const
+     {
+-        if (JSON_HEDLEY_UNLIKELY(current == std::char_traits<char_type>::eof()))
++        if (JSON_HEDLEY_UNLIKELY(current == char_traits<char_type>::eof()))
+         {
+             return sax->parse_error(chars_read, "<end of file>",
+                                     parse_error::create(110, chars_read, exception_message(format, "unexpected end of input", context), BasicJsonType()));
+@@ -10679,7 +10739,7 @@ class binary_reader
+     InputAdapterType ia;
+ 
+     /// the current character
+-    char_int_type current = std::char_traits<char_type>::eof();
++    char_int_type current = char_traits<char_type>::eof();
+ 
+     /// the number of characters read
+     std::size_t chars_read = 0;
+@@ -16102,8 +16162,8 @@ class serializer
+                error_handler_t error_handler_ = error_handler_t::strict)
+         : o(std::move(s))
+         , loc(std::localeconv())
+-        , thousands_sep(loc->thousands_sep == nullptr ? '\0' : std::char_traits<char>::to_char_type(* (loc->thousands_sep)))
+-        , decimal_point(loc->decimal_point == nullptr ? '\0' : std::char_traits<char>::to_char_type(* (loc->decimal_point)))
++        , thousands_sep(loc->thousands_sep == nullptr ? '\0' : char_traits<char>::to_char_type(* (loc->thousands_sep)))
++        , decimal_point(loc->decimal_point == nullptr ? '\0' : char_traits<char>::to_char_type(* (loc->decimal_point)))
+         , indent_char(ichar)
+         , indent_string(512, indent_char)
+         , error_handler(error_handler_)
+diff --git a/plotjuggler_plugins/ParserProtobuf/error_collectors.cpp b/plotjuggler_plugins/ParserProtobuf/error_collectors.cpp
+index 761e0b73..b7ce4129 100644
+--- a/plotjuggler_plugins/ParserProtobuf/error_collectors.cpp
++++ b/plotjuggler_plugins/ParserProtobuf/error_collectors.cpp
+@@ -2,38 +2,38 @@
+ #include <QMessageBox>
+ #include <QDebug>
+ 
+-void FileErrorCollector::AddError(const std::string& filename, int line, int,
+-                                  const std::string& message)
++void FileErrorCollector::RecordError(const absl::string_view filename, int line, int,
++                                  const absl::string_view message)
+ {
+   auto msg = QString("File: [%1] Line: [%2] Message: %3\n\n")
+-                 .arg(QString::fromStdString(filename))
++                 .arg(QString::fromStdString(std::string(filename)))
+                  .arg(line)
+-                 .arg(QString::fromStdString(message));
++                 .arg(QString::fromStdString(std::string(message)));
+ 
+   _errors.push_back(msg);
+ }
+ 
+-void FileErrorCollector::AddWarning(const std::string& filename, int line, int,
+-                                    const std::string& message)
++void FileErrorCollector::RecordWarning(const absl::string_view filename, int line, int,
++                                    const absl::string_view message)
+ {
+   auto msg = QString("Warning [%1] line %2: %3")
+-                 .arg(QString::fromStdString(filename))
++                 .arg(QString::fromStdString(std::string(filename)))
+                  .arg(line)
+-                 .arg(QString::fromStdString(message));
++                 .arg(QString::fromStdString(std::string(message)));
+   qDebug() << msg;
+ }
+ 
+-void IoErrorCollector::AddError(int line, google::protobuf::io::ColumnNumber,
+-                                const std::string& message)
++void IoErrorCollector::RecordError(int line, google::protobuf::io::ColumnNumber,
++                                const absl::string_view message)
+ {
+   _errors.push_back(
+-      QString("Line: [%1] Message: %2\n").arg(line).arg(QString::fromStdString(message)));
++      QString("Line: [%1] Message: %2\n").arg(line).arg(QString::fromStdString(std::string(message))));
+ }
+ 
+-void IoErrorCollector::AddWarning(int line, google::protobuf::io::ColumnNumber column,
+-                                  const std::string& message)
++void IoErrorCollector::RecordWarning(int line, google::protobuf::io::ColumnNumber column,
++                                  const absl::string_view message)
+ {
+   qDebug() << QString("Line: [%1] Message: %2\n")
+                   .arg(line)
+-                  .arg(QString::fromStdString(message));
++                  .arg(QString::fromStdString(std::string(message)));
+ }
+diff --git a/plotjuggler_plugins/ParserProtobuf/error_collectors.h b/plotjuggler_plugins/ParserProtobuf/error_collectors.h
+index f70a881f..7afe1fea 100644
+--- a/plotjuggler_plugins/ParserProtobuf/error_collectors.h
++++ b/plotjuggler_plugins/ParserProtobuf/error_collectors.h
+@@ -3,17 +3,18 @@
+ 
+ #include <google/protobuf/io/tokenizer.h>
+ #include <google/protobuf/compiler/importer.h>
++#include <absl/strings/string_view.h>
+ 
+ #include <QStringList>
+ 
+ class IoErrorCollector : public google::protobuf::io::ErrorCollector
+ {
+ public:
+-  void AddError(int line, google::protobuf::io::ColumnNumber column,
+-                const std::string& message) override;
++  void RecordError(int line, google::protobuf::io::ColumnNumber column,
++                const absl::string_view message) override;
+ 
+-  void AddWarning(int line, google::protobuf::io::ColumnNumber column,
+-                  const std::string& message) override;
++  void RecordWarning(int line, google::protobuf::io::ColumnNumber column,
++                  const absl::string_view message) override;
+ 
+   const QStringList& errors()
+   {
+@@ -27,11 +28,11 @@ private:
+ class FileErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector
+ {
+ public:
+-  void AddError(const std::string& filename, int line, int,
+-                const std::string& message) override;
++  void RecordError(const absl::string_view filename, int line, int,
++                const absl::string_view message) override;
+ 
+-  void AddWarning(const std::string& filename, int line, int,
+-                  const std::string& message) override;
++  void RecordWarning(const absl::string_view filename, int line, int,
++                  const absl::string_view message) override;
+ 
+   const QStringList& errors()
+   {
+diff --git a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+index 6b650f1b..82c58edb 100644
+--- a/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
++++ b/3rdparty/Qt-Advanced-Docking/CMakeLists.txt
+@@ -67,7 +67,9 @@ target_link_libraries(qt_advanced_docking PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets
+ 
+ if(UNIX AND NOT APPLE)
+     target_link_libraries(qt_advanced_docking PUBLIC Qt5::X11Extras)
+-        target_link_libraries(qt_advanced_docking PRIVATE xcb)
++    find_package(XCB REQUIRED)
++    target_link_libraries(qt_advanced_docking PRIVATE ${XCB_LIBRARIES})
++    target_include_directories(qt_advanced_docking SYSTEM PUBLIC ${XCB_INCLUDE_DIRS})
  endif()
  
- find_package(Protobuf QUIET)
+ set_target_properties(qt_advanced_docking PROPERTIES
+diff --git a/3rdparty/lua-5.4.3/CMakeLists.txt b/3rdparty/lua-5.4.3/CMakeLists.txt
+index ad3dc012..a3da197b 100644
+--- a/3rdparty/lua-5.4.3/CMakeLists.txt
++++ b/3rdparty/lua-5.4.3/CMakeLists.txt
+@@ -1,3 +1,5 @@
++include_directories( ./src  )
++
+ set(LUA_LIB_SRCS 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lapi.c 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lcode.c 
+@@ -32,7 +34,7 @@ set(LUA_LIB_SRCS
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/loadlib.c 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/linit.c
+     )
+-set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
++# set(LUA_LIB_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+ 
+ if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+     add_compile_options(-fPIC)
+@@ -42,7 +44,7 @@ add_library(lua_static STATIC
+     ${LUA_LIB_SRCS}
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/lua.c
+ )
+-target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
++# target_include_directories(lua_static PUBLIC ${LUA_LIB_INCLUDE})
+ 
+ add_library(lua_objects OBJECT ${LUA_LIB_SRCS})
+ 
+@@ -55,3 +57,11 @@ if(EMSCRIPTEN)
+ endif()
+ target_compile_definitions(lua_static PUBLIC ${LUA_DEFINITIONS})
+ 
++install(
++     TARGETS
++        lua_static
++     EXPORT export_lua_static
++     LIBRARY DESTINATION lib
++     ARCHIVE DESTINATION lib
++     RUNTIME DESTINATION bin
++     INCLUDES DESTINATION include )
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 16477dd3..859f7320 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.10.2)
++cmake_minimum_required(VERSION 3.20)
+ 
+ PROJECT(plotjuggler LANGUAGES C CXX VERSION 3.9.1)
+ 
+@@ -94,18 +94,6 @@ if (NOT WIN32)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
+ endif()
+ 
+-if(APPLE AND EXISTS /usr/local/opt/qt5)
+-    # Homebrew installs Qt5 (up to at least 5.9.1) in
+-    # /usr/local/qt5, ensure it can be found by CMake since
+-    # it is not in the default /usr/local prefix.
+-    # source: https://github.com/Homebrew/homebrew-core/issues/8392#issuecomment-325226494
+-    list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+-    set(CMAKE_MACOSX_RPATH 1)
+-elseif(APPLE AND EXISTS /opt/homebrew/opt/qt@5)
+-    list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
+-    set(CMAKE_MACOSX_RPATH 1)
+-endif()
+-
+ find_package(Qt5 REQUIRED COMPONENTS
+     Core
+     Widgets
+@@ -120,11 +108,9 @@ find_package(Qt5 REQUIRED COMPONENTS
+ set( QT_LINK_LIBRARIES
+     Qt5::Core
+     Qt5::Widgets
+-    Qt5::PrintSupport
+     Qt5::Xml
+     Qt5::Concurrent
+     Qt5::Svg
+-    Qt5::OpenGL
+     Qt5::WebSockets
+     )
+ 
+@@ -191,7 +177,7 @@ if (BASE_AS_SHARED)
+         ${PLOTJUGGLER_BASE_SRC}
+         ${PLOTJUGGLER_BASE_MOCS}
+         )
+-    target_link_libraries(plotjuggler_base PRIVATE lua_objects plotjuggler_qwt_objects)
++    target_link_libraries(plotjuggler_base PRIVATE ${QT_LINK_LIBRARIES} lua_objects plotjuggler_qwt_objects)
+ else()
+     add_library(plotjuggler_base STATIC
+         ${PLOTJUGGLER_BASE_SRC}
+@@ -199,13 +185,6 @@ else()
+         )
+ endif()
+ 
+-# target_link_libraries(plotjuggler_base plotjuggler_qwt)
+-
+-target_include_directories(plotjuggler_base INTERFACE
+-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-  $<INSTALL_INTERFACE:include>
+-)
+-
+ #########################  INSTALL  ####################################
+ 
+ if(COMPILING_WITH_CATKIN)
+diff --git a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
+index f399fdad..4c89c787 100644
+--- a/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
++++ b/plotjuggler_plugins/ParserProtobuf/CMakeLists.txt
+@@ -1,13 +1,6 @@
+-if(BUILDING_WITH_CONAN)
+-    message(STATUS "Finding Protobuf with conan")
+-    set(Protobuf_LIBS protobuf::libprotobuf)
+-else()
+-    message(STATUS "Finding Protobuf without package managers")
+-    find_package(Protobuf QUIET)
+-    set(Protobuf_LIBS ${Protobuf_LIBRARIES})
+-endif()
++set(Protobuf_LIBS protobuf::libprotobuf)
+ 
+-find_package(Protobuf QUIET)
++find_package(Protobuf QUIET CONFIG)
+ 
+ if( Protobuf_FOUND)
+ 
+diff --git a/3rdparty/sol/sol.hpp b/3rdparty/sol/sol.hpp
+index 0bb68ebe..20855338 100644
+--- a/3rdparty/sol/sol.hpp
++++ b/3rdparty/sol/sol.hpp
+@@ -6747,12 +6747,9 @@ namespace sol {
+ 		/// one.
+ 		///
+ 		/// \group emplace
+-		template <class... Args>
+-		T& emplace(Args&&... args) noexcept {
+-			static_assert(std::is_constructible<T, Args&&...>::value, "T must be constructible with Args");
+-
+-			*this = nullopt;
+-			this->construct(std::forward<Args>(args)...);
++		T& emplace(T& arg) noexcept {
++				m_value = &arg;
++				return **this;
+ 		}
+ 
+ 		/// Swaps this optional with the other.

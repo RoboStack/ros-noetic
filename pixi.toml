@@ -35,8 +35,8 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "45af742aa5fa5119
 [feature.beta.tasks]
 generate-recipes = { cmd = "vinca -m", depends_on = ["rename-file"] }
 remove-file = { cmd = "rm vinca.yaml; rm -rf recipes" }
-build_additional_recipes = { cmd = "rattler-build build --recipe-dir ./additional_recipes/ros-distro-mutex -m ./conda_build_config.yaml --skip-existing" }
-build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml --skip-existing", depends_on = ["build_additional_recipes", "generate-recipes"] }
+copy_additional_recipes = { cmd = "sh -c 'find additional_recipes/* -maxdepth 0 -type d -exec ln -s ../{} recipes/ \\;'" }
+build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml --skip-existing", depends_on = ["generate-recipes", "copy_additional_recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml", env = { PACKAGE = "ros-noetic-ros-base" } }
 
 [environments]

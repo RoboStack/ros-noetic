@@ -1,8 +1,18 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d8338e7..f2c8b6f 100644
+index d8338e7..21160f7 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -207,11 +207,7 @@ set_source_files_properties(${COMMON_SRC_DIR}/services.cpp PROPERTIES COMPILE_OP
+@@ -71,7 +71,8 @@ else()
+ endif()
+ 
+ # Set some general CMake flags
+-set(CMAKE_C_FLAGS "-Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-unused-variable -Wno-format -fno-builtin-memcpy")
++set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-unused-variable -Wno-format -Wno-missing-template-arg-list-after-template-kw -fno-builtin-memcpy")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-unused-variable -Wno-format -Wno-missing-template-arg-list-after-template-kw -fno-builtin-memcpy")
+ 
+ # Include the MIP SDK source
+ add_subdirectory("${MIP_SDK_DIR}" EXCLUDE_FROM_ALL)
+@@ -207,11 +208,7 @@ set_source_files_properties(${COMMON_SRC_DIR}/services.cpp PROPERTIES COMPILE_OP
  add_definitions(-DMICROSTRAIN_DRIVER_VERSION="${DRIVER_GIT_VERSION}")
  
  # Let the code know if it is being compiled with ROS1 or ROS2

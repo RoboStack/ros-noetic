@@ -25,9 +25,6 @@ packages_remove_from_deps:
   - stage-ros
   - stage
 
-  # sbcl is not available for osx-arm64
-  # - roslisp
-
 skip_existing:
   # - https://conda.anaconda.org/robostack/
   - https://conda.anaconda.org/robostack-staging/
@@ -50,13 +47,13 @@ packages_select_by_deps:
   - navigation
   - ros-controllers
 
-  # - moveit
-  # - moveit-servo
-  # - moveit_visual_tools
-  # - webots-ros
+  - moveit
+  - moveit-servo
+  - moveit_visual_tools
+  - webots-ros
 
-  # - microstrain-inertial-driver
-  # - microstrain-inertial-msgs
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
 
   - rospack
   - octomap-ros
@@ -76,8 +73,8 @@ packages_select_by_deps:
   - pcl-ros
   - pcl-conversions
 
-  # - plotjuggler
-  # - plotjuggler_ros
+  - plotjuggler
+  - plotjuggler_ros
 
   - sick-tim
   - python-qt-binding
@@ -88,7 +85,6 @@ packages_select_by_deps:
   - rqt-ez-publisher
   - qt-gui-cpp  # needs manual build
 
-  - eigenpy  # needs manual build
   - turtlebot3
   - turtlebot3-simulations
   - realsense2_camera

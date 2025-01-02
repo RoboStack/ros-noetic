@@ -1,17 +1,19 @@
 package:
   name: ros-noetic-pinocchio
-  version: "2.6.20"
+  version: "3.3.1"
 
 build:
-  number: 21
+  number: 0
 
-outputs:
-  - package:
-      name: ros-noetic-pinocchio
-      version: "2.6.20"
-    build:
-      run_exports:
-        - "{{ pin_subpackage('ros-noetic-pinocchio', max_pin='x.x.x') }}"
-    requirements:
-      run:
-        - pinocchio 2.6.20
+requirements:
+  run:
+    - pinocchio ==3.3.1
+
+about:
+  homepage: https://github.com/conda-forge/pinocchio-feedstock
+  license: BSD-2-Clause
+  summary: |
+    A fast and flexible implementation of Rigid Body Dynamics algorithms and their analytical derivatives
+extra:
+  recipe-maintainers:
+    - ros-forge
