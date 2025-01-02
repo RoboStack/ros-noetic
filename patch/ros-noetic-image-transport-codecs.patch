@@ -1,0 +1,22 @@
+diff --git a/src/codecs/compressed_depth_codec.cpp b/src/codecs/compressed_depth_codec.cpp
+index 4e79ee0..57da643 100644
+--- a/src/codecs/compressed_depth_codec.cpp
++++ b/src/codecs/compressed_depth_codec.cpp
+@@ -378,7 +378,7 @@ cv::Mat CompressedDepthCodec::decodeRVL(const std::vector<uint8_t>& compressed)
+   if (rows == 0 || cols == 0)
+   {
+     CRAS_ERROR_THROTTLE(1.0, "Received malformed RVL-encoded image. Size %ix%i contains zero.", cols, rows);
+-    return {0, 0, CV_16UC1};
++    return cv::Mat(0, 0, CV_16UC1);
+   }
+ 
+   // Sanity check - the best compression ratio is 4x; we leave some buffer, so we check whether the output image would
+@@ -389,7 +389,7 @@ cv::Mat CompressedDepthCodec::decodeRVL(const std::vector<uint8_t>& compressed)
+   if (numPixels > std::numeric_limits<int>::max() || numPixels > static_cast<uint64_t>(compressed.size()) * 5)
+   {
+     CRAS_ERROR_THROTTLE(1.0, "Received malformed RVL-encoded image. It reports size %ux%u.", cols, rows);
+-    return {0, 0, CV_16UC1};
++    return cv::Mat(0, 0, CV_16UC1);
+   }
+ 
+   cv::Mat decompressed(rows, cols, CV_16UC1);
