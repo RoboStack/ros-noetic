@@ -153,3 +153,16 @@ index eae2876d..5dc1d952 100644
 +
 +  SET_TESTS_PROPERTIES (ReadGraph PROPERTIES DEPENDS InsertScan)
  endif()
+diff --git a/include/octomap/OcTreeBase.h b/include/octomap/OcTreeBase.h
+index d53b4056..ce56da52 100644
+--- a/include/octomap/OcTreeBase.h
++++ b/include/octomap/OcTreeBase.h
+@@ -43,7 +43,7 @@ namespace octomap {
+   template <class NODE>
+   class OcTreeBase : public OcTreeBaseImpl<NODE,AbstractOcTree> {
+   public:
+-    OcTreeBase<NODE>(double res) : OcTreeBaseImpl<NODE,AbstractOcTree>(res) {};
++    OcTreeBase(double res) : OcTreeBaseImpl<NODE,AbstractOcTree>(res) {};
+ 
+     /// virtual constructor: creates a new object of same type
+     /// (Covariant return type requires an up-to-date compiler)
