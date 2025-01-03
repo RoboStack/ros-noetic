@@ -8,3 +8,19 @@ index 2401aab848..7244f5b35b 100644
  #include "xmlrpcpp/XmlRpcClient.h"
  
  #include "xmlrpcpp/XmlRpcSocket.h"
+diff --git a/utilities/xmlrpcpp/include/xmlrpcpp/XmlRpc.h b/utilities/xmlrpcpp/include/xmlrpcpp/XmlRpc.h
+index 0018b7ecc1..7b1ec18c47 100644
+--- a/utilities/xmlrpcpp/include/xmlrpcpp/XmlRpc.h
++++ b/utilities/xmlrpcpp/include/xmlrpcpp/XmlRpc.h
+@@ -23,9 +23,8 @@
+ # pragma warning(disable:4786)    // identifier was truncated in debug info
+ #endif
+ 
+-#ifndef MAKEDEPEND
+-# include <string>
+-#endif
++#include <string>
++#include <iostream>
+ 
+ #include "xmlrpcpp/XmlRpcClient.h"
+ #include "xmlrpcpp/XmlRpcException.h"
