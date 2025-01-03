@@ -41,10 +41,10 @@ index ef804b91..4ef849c4 100644
  
  if(NOT ANDROID)
  add_subdirectory(python)
-diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index d1046922..f0ebf246 100644
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
+diff --git a/cv_bridge/src/CMakeLists.txt b/cv_bridge/src/CMakeLists.txt
+index d1046922c..57ec2a26c 100644
+--- a/cv_bridge/src/CMakeLists.txt
++++ b/cv_bridge/src/CMakeLists.txt
 @@ -1,8 +1,7 @@
  # add library
 -include_directories(./)
@@ -55,14 +55,13 @@ index d1046922..f0ebf246 100644
  
  install(TARGETS ${PROJECT_NAME}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-@@ -12,31 +11,12 @@ install(TARGETS ${PROJECT_NAME}
+@@ -12,38 +11,18 @@ install(TARGETS ${PROJECT_NAME}
  
  if(NOT ANDROID)
  # add a Boost Python library
 -find_package(PythonInterp REQUIRED)
 -find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
-+find_package (Python COMPONENTS Interpreter Development NumPy)
- 
+-
 -#Get the numpy include directory from its python module
 -if(NOT PYTHON_NUMPY_INCLUDE_DIR)
 -    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.get_include())"
@@ -83,6 +82,7 @@ index d1046922..f0ebf246 100644
 -if (PYTHON_VERSION_MAJOR VERSION_EQUAL 3)
 -  add_definitions(-DPYTHON3)
 -endif()
++find_package(Python COMPONENTS Interpreter Development NumPy)
 +add_definitions(-DPYTHON3)
  
  add_library(${PROJECT_NAME}_boost module.cpp module_opencv4.cpp)
@@ -90,6 +90,14 @@ index d1046922..f0ebf246 100644
  target_link_libraries(${PROJECT_NAME}_boost ${Boost_LIBRARIES}
                                              ${catkin_LIBRARIES}
                                              ${PROJECT_NAME}
+ )
+ 
+ if(NOT APPLE)
+-  target_link_libraries(${PROJECT_NAME}_boost ${PYTHON_LIBRARIES})
++  target_link_libraries(${PROJECT_NAME}_boost ${Python_LIBRARIES})
+ endif()
+ 
+ set_target_properties(${PROJECT_NAME}_boost PROPERTIES
 diff --git a/src/cv_bridge.cpp b/src/cv_bridge.cpp
 index 44f23a32..8de258f7 100644
 --- a/src/cv_bridge.cpp
