@@ -1,0 +1,10 @@
+diff --git a/src/XmlRpcClient.cpp b/src/XmlRpcClient.cpp
+index 2401aab848..7244f5b35b 100644
+--- a/src/XmlRpcClient.cpp
++++ b/src/XmlRpcClient.cpp
+@@ -1,4 +1,4 @@
+-
++#include <iostream>
+ #include "xmlrpcpp/XmlRpcClient.h"
+ 
+ #include "xmlrpcpp/XmlRpcSocket.h"
