@@ -41,10 +41,10 @@ index ef804b91..4ef849c4 100644
  
  if(NOT ANDROID)
  add_subdirectory(python)
-diff --git a/cv_bridge/src/CMakeLists.txt b/cv_bridge/src/CMakeLists.txt
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index d1046922c..57ec2a26c 100644
---- a/cv_bridge/src/CMakeLists.txt
-+++ b/cv_bridge/src/CMakeLists.txt
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
 @@ -1,8 +1,7 @@
  # add library
 -include_directories(./)
