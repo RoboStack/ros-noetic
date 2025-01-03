@@ -1,0 +1,13 @@
+diff --git a/src/mux.cpp b/src/mux.cpp
+index c7ff5f2816..bd27fdfe8a 100644
+--- a/src/mux.cpp
++++ b/src/mux.cpp
+@@ -157,7 +157,7 @@ void in_cb(const boost::shared_ptr<ShapeShifter const>& msg,
+     // we need sleep for publisher initialization
+     // otherwise the first topic will drop.
+     if (g_wait_pub_init) {
+-      usleep(g_wait_second * 1000000);
++      std::this_thread::sleep_for(std::chrono::microseconds(g_wait_second * 1000000));
+     }
+     g_advertised = true;
+     
