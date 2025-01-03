@@ -55,4 +55,7 @@ rename-file = { cmd = "ln -s vinca_osx_arm64.yaml vinca.yaml", depends_on = ["re
 rename-file = { cmd = "ln -s vinca_linux_aarch64.yaml vinca.yaml", depends_on = ["remove-file"] }
 
 [target.win-64.tasks]
-rename-file = { cmd = "ln -s vinca_win.yaml vinca.yaml", depends_on = ["remove-file"] }
+# Workaround for https://github.com/prefix-dev/rattler-build/issues/1295,
+# remove once a new version of rattler-build is released and replace it with a constraint on rattler-build version
+install-working-rattler-build = { cmd = "curl -L -o $CONDA_PREFIX/rattler-build.exe https://github.com/traversaro/rattler-build-1295-mre/releases/download/fixed-rattler-build/rattler-build.exe" }
+rename-file = { cmd = "cp vinca_win.yaml vinca.yaml", depends_on = ["remove-file", "install-working-rattler-build"] }
