@@ -43,16 +43,16 @@ build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch
 beta = ["beta"]
 
 [target.linux-64.tasks]
-rename-file = { cmd = "cp vinca_linux_64.yaml vinca.yaml", depends_on = ["remove-file"] }
+rename-file = { cmd = "ln -s vinca_linux_64.yaml vinca.yaml", depends_on = ["remove-file"] }
 
 [target.osx-64.tasks]
-rename-file = { cmd = "cp vinca_osx.yaml vinca.yaml", depends_on = ["remove-file"] }
+rename-file = { cmd = "ln -s vinca_osx.yaml vinca.yaml", depends_on = ["remove-file"] }
 
 [target.osx-arm64.tasks]
 rename-file = { cmd = "ln -s vinca_osx_arm64.yaml vinca.yaml", depends_on = ["remove-file"] }
 
 [target.linux-aarch64.tasks]
-rename-file = { cmd = "cp vinca_linux_aarch64.yaml vinca.yaml", depends_on = ["remove-file"] }
+rename-file = { cmd = "ln -s vinca_linux_aarch64.yaml vinca.yaml", depends_on = ["remove-file"] }
 
 [target.win-64.tasks]
-rename-file = { cmd = "cp vinca_win.yaml vinca.yaml", depends_on = ["remove-file"] }
+rename-file = { cmd = "ln -s vinca_win.yaml vinca.yaml", depends_on = ["remove-file"] }
