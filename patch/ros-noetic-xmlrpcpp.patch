@@ -40,3 +40,16 @@ index 12175360b7..9ce539c2be 100644
  
  #include "xmlrpcpp/XmlRpcDispatch.h"
  #include "xmlrpcpp/XmlRpcSource.h"
+diff --git a/include/xmlrpcpp/XmlRpcValue.h b/include/xmlrpcpp/XmlRpcValue.h
+index ac92440cdd..dadbf8c67b 100644
+--- a/include/xmlrpcpp/XmlRpcValue.h
++++ b/include/xmlrpcpp/XmlRpcValue.h
+@@ -8,6 +8,8 @@
+ # pragma warning(disable:4786)    // identifier was truncated in debug info
+ #endif
+ 
++#include <sstream>
++
+ #include "xmlrpcpp/XmlRpcDecl.h"
+ 
+ #ifndef MAKEDEPEND
