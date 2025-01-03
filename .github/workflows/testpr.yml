@@ -164,30 +164,45 @@ jobs:
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for linux-aarch64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-arm64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
       run: |
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
       if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
       run: |
         $HOME/.pixi/bin/pixi run -e beta install-working-rattler-build
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
-        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-jazzy -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
