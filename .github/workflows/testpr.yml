@@ -166,6 +166,7 @@ jobs:
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -175,6 +176,7 @@ jobs:
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -184,6 +186,7 @@ jobs:
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -193,6 +196,7 @@ jobs:
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -203,6 +207,7 @@ jobs:
         $HOME/.pixi/bin/pixi run -e beta install-working-rattler-build
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
