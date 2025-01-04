@@ -21,6 +21,7 @@ packages_skip_by_deps:
   - eigenpy
   - hpp-fcl
   - pinocchio
+  - gtsam
 
 packages_remove_from_deps:
   # see https://github.com/RoboStack/ros-noetic/issues/25

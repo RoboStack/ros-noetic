@@ -19,6 +19,7 @@ packages_skip_by_deps:
   - eigenpy
   - hpp-fcl
   - pinocchio
+  - gtsam
   # - ros_core
   # - diagnostic_updater
 
