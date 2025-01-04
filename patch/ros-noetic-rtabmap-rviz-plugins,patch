@@ -27,15 +27,18 @@ index a32c45fd6..41fe32c1e 100644
  catkin_package(
    INCLUDE_DIRS include
    LIBRARIES rtabmap_rviz_plugins
-@@ -24,14 +23,13 @@ catkin_package(
+@@ -24,14 +23,16 @@ catkin_package(
  
  include_directories(
    ${CMAKE_CURRENT_SOURCE_DIR}/include
++
++
++
+   ${catkin_INCLUDE_DIRS}
++  ${OGRE_INCLUDE_DIRS}
 +  ${Qt5_INCLUDE_DIRS}
 +  ${Qt5Core_INCLUDE_DIRS}
 +  ${Qt5Widgets_INCLUDE_DIRS}
-   ${catkin_INCLUDE_DIRS}
-+  ${OGRE_INCLUDE_DIRS}
  )
  
 -## We also use Ogre for rviz plugins
