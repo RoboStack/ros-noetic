@@ -1,0 +1,93 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a32c45fd6..41fe32c1e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,17 +1,16 @@
+-cmake_minimum_required(VERSION 3.5)
++cmake_minimum_required(VERSION 3.20)
+ project(rtabmap_rviz_plugins)
+ 
+-# For rviz plugins, look for Qt5 before Qt4
+-FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Gui QUIET)
+-IF(NOT Qt5_FOUND)
+-    FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+-    INCLUDE(${QT_USE_FILE})
+-ENDIF(NOT Qt5_FOUND)
+-
++FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Gui REQUIRED)
+ 
+ find_package(catkin REQUIRED COMPONENTS
+              roscpp sensor_msgs std_msgs pcl_conversions pluginlib rviz tf rtabmap_conversions rtabmap_msgs)
+ 
++## We also use Ogre for rviz plugins
++# this file doesn't exist post-noetic, but pkg_check_modules still works
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(OGRE OGRE)
++
+ catkin_package(
+   INCLUDE_DIRS include
+   LIBRARIES rtabmap_rviz_plugins
+@@ -24,14 +23,13 @@ catkin_package(
+ 
+ include_directories(
+   ${CMAKE_CURRENT_SOURCE_DIR}/include
++  ${Qt5_INCLUDE_DIRS}
++  ${Qt5Core_INCLUDE_DIRS}
++  ${Qt5Widgets_INCLUDE_DIRS}
+   ${catkin_INCLUDE_DIRS}
++  ${OGRE_INCLUDE_DIRS}
+ )
+ 
+-## We also use Ogre for rviz plugins
+-# this file doesn't exist post-noetic, but pkg_check_modules still works
+-find_package(PkgConfig REQUIRED)
+-pkg_check_modules(OGRE OGRE)
+-include_directories( ${OGRE_INCLUDE_DIRS} )
+ link_directories( ${OGRE_LIBRARY_DIRS} )
+ 
+ SET(Libraries
+@@ -40,22 +38,6 @@ SET(Libraries
+ )
+ 
+ ## RVIZ plugin
+-IF(QT4_FOUND)
+-  IF(WIN32)
+-    qt4_wrap_cpp(MOC_FILES
+-      include/${PROJECT_NAME}/MapCloudDisplay.h
+-      include/${PROJECT_NAME}/MapGraphDisplay.h
+-      include/${PROJECT_NAME}/InfoDisplay.h
+-    )
+-  ELSE()
+-    qt4_wrap_cpp(MOC_FILES
+-      include/${PROJECT_NAME}/MapCloudDisplay.h
+-      include/${PROJECT_NAME}/MapGraphDisplay.h
+-      include/${PROJECT_NAME}/InfoDisplay.h
+-      include/${PROJECT_NAME}/OrbitOrientedViewController.h
+-    )
+-  ENDIF()
+-ELSE()
+   IF(WIN32)
+     qt5_wrap_cpp(MOC_FILES
+       include/${PROJECT_NAME}/MapCloudDisplay.h
+@@ -70,7 +52,6 @@ ELSE()
+       include/${PROJECT_NAME}/OrbitOrientedViewController.h
+     )
+   ENDIF()
+-ENDIF()
+ 
+ # tf:message_filters, mixing boost and Qt signals
+ IF(WIN32)
+@@ -101,10 +82,10 @@ add_library(rtabmap_rviz_plugins
+ )
+ target_link_libraries(rtabmap_rviz_plugins
+   ${Libraries}
++  Qt5::Core
++  Qt5::Widgets
++  Qt5::Gui
+ )
+-IF(Qt5_FOUND)
+-    QT5_USE_MODULES(rtabmap_rviz_plugins Widgets Core Gui)
+-ENDIF(Qt5_FOUND)
+ 
+ #############
+ ## Install ##
