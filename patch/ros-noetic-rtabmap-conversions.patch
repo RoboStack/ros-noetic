@@ -6,7 +6,7 @@ index adbc48dd..455a72b1 100644
  cmake_minimum_required(VERSION 3.5)
  project(rtabmap_conversions)
  
-+set(CMAKE_MODULE_PATH "$ENV{PREFIX}/lib/cmake/vtk-9.2")
++set(CMAKE_MODULE_PATH "$ENV{PREFIX}/lib/cmake/vtk-9.3")
 +find_package(jsoncpp REQUIRED)
 +find_package(libxml2 REQUIRED)
 +find_package(NetCDF REQUIRED)
