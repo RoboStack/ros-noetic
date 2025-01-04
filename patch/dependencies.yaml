@@ -43,7 +43,7 @@ rtabmap:
 rtabmap_ros:
   add_host: ["REQUIRE_OPENGL"]
 rtabmap_conversions:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL", "libnetcdf"]
 rtabmap_rviz_plugins:
   add_host: ["REQUIRE_OPENGL"]
 rtabmap_viz:
