@@ -12,40 +12,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-13, macos-14, windows-2019]
-        platform: [linux-64, linux-aarch64, osx-64, win-64, osx-arm64]
+        os: [ubuntu-latest, "cirun-linux-aarch64--${{ github.run_id }}", macos-13, macos-14, windows-2019]
+        platform: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
         environment: [beta]
-        exclude:
+        include:
           - os: ubuntu-latest
-            platform: win-64
-          - os: ubuntu-latest
-            platform: osx-64
-          - os: ubuntu-latest
-            platform: osx-arm64
-          - os: macos-14
             platform: linux-64
-          - os: macos-14
-            platform: linux-aarch64
-          - os: macos-14
-            platform: osx-64
-          - os: macos-14
-            platform: win-64
-          - os: macos-13
-            platform: linux-64
-          - os: macos-13
+          - os: cirun-linux-aarch64--${{ github.run_id }}
             platform: linux-aarch64
           - os: macos-13
-            platform: osx-arm64
-          - os: macos-13
-            platform: win-64
-          - os: windows-2019
-            platform: linux-64
-          - os: windows-2019
-            platform: linux-aarch64
-          - os: windows-2019
             platform: osx-64
-          - os: windows-2019
+          - os: macos-14
             platform: osx-arm64
+          - os: windows-2019
+            platform: win-64
     steps:
     - uses: actions/checkout@v4
       with:
@@ -111,7 +91,7 @@ jobs:
         echo "::set-output name=WIN_YAML_CHANGED::${?}"
     - name: Generate recipes for linux-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.platform == 'linux-64'
       run: |
         cp vinca_linux_64.yaml vinca.yaml
         mkdir -p recipes
@@ -119,7 +99,7 @@ jobs:
         ls -la recipes
     - name: Generate recipes for linux-aarch64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.platform == 'linux-aarch64'
       run: |
         cp vinca_linux_aarch64.yaml vinca.yaml
         mkdir -p recipes
@@ -127,7 +107,7 @@ jobs:
         ls -la recipes
     - name: Generate recipes for osx-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-13' && matrix.platform == 'osx-64'
+      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.platform == 'osx-64'
       run: |
         cp vinca_osx.yaml vinca.yaml
         mkdir -p recipes
@@ -135,7 +115,7 @@ jobs:
         ls -la recipes
     - name: Generate recipes for osx-arm64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
+      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.platform == 'osx-arm64'
       run: |
         cp vinca_osx_arm64.yaml vinca.yaml
         mkdir -p recipes
@@ -143,7 +123,7 @@ jobs:
         ls -la recipes
     - name: Generate recipes for win-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.platform == 'win-64'
       run: |
         # Workaround for problem related to long paths
         echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
@@ -162,7 +142,7 @@ jobs:
         echo "::set-output name=RECIPE_CREATED::${?}"
     - name: Build recipes for linux-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.platform == 'linux-64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -172,7 +152,7 @@ jobs:
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for linux-aarch64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.platform == 'linux-aarch64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -182,7 +162,7 @@ jobs:
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-13' && matrix.platform == 'osx-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.platform == 'osx-64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -192,7 +172,7 @@ jobs:
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-arm64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.platform == 'osx-arm64'
       run: |
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
@@ -202,7 +182,7 @@ jobs:
         env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.platform == 'win-64'
       run: |
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
         $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing

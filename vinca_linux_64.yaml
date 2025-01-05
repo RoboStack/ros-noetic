@@ -257,8 +257,10 @@ packages_select_by_deps:
 
   # Needs fixing in CI, uploaded manually
   - rtabmap
-  - rtabmap-ros
+  # - rtabmap-ros
 
+  ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
+  ## TODO AFTER REBUILD
   # Not compatible with recent libabsl
   # - libfranka
   # - franka
@@ -276,8 +278,6 @@ packages_select_by_deps:
   # - naoqi-libqi
   # - naoqi-libqicore
 
-  ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
-  ## TODO AFTER REBUILD
   # - foxglove_bridge
   # - rtabmap
   # - mrpt2
