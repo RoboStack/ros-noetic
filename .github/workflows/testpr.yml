@@ -8,12 +8,9 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, "cirun-linux-aarch64--${{ github.run_id }}", macos-13, macos-14, windows-2019]
-        platform: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
         environment: [beta]
         include:
           - os: ubuntu-latest
@@ -26,6 +23,9 @@ jobs:
             platform: osx-arm64
           - os: windows-2019
             platform: win-64
+
+    runs-on: ${{ matrix.os }}
+
     steps:
     - uses: actions/checkout@v4
       with:
