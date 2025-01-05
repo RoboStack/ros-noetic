@@ -11,7 +11,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [beta]
         include:
           - os: ubuntu-latest
             platform: linux-64
@@ -34,7 +33,7 @@ jobs:
 
     - uses: prefix-dev/setup-pixi@v0.8.1
       with:
-        environments: ${{ matrix.environment }}
+        environments: beta
         frozen: true
 
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
