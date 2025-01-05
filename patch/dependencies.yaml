@@ -5,6 +5,7 @@ rviz:
   add_host: ["${{ 'setuptools 69.*' if win }}", "sip ==6.8.6"]
 python_qt_binding:
   add_run: ["adwaita-icon-theme"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip ==6.8.6"]
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]
