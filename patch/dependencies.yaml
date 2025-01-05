@@ -2,10 +2,10 @@ qt_gui_cpp:
   add_build: ["pyqt-builder", "pyqt5-sip"]
 rviz:
   add_build: ["pyqt-builder", "pyqt5-sip"]
-  add_host: ["${{ 'setuptools 69.*' if win }}", "sip ==6.8.6"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
 python_qt_binding:
   add_run: ["adwaita-icon-theme"]
-  add_host: ["${{ 'setuptools 69.*' if win }}", "sip ==6.8.6"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]

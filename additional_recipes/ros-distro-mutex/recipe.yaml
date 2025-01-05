@@ -37,7 +37,7 @@ requirements:
     - libprotobuf 5.28.2.*
     - ogre 1.10.12.*
     - libpqxx 7.8.*
-    - sip ==6.8.6
+    - sip ==6.7.*
 
   run_exports:
     weak:
