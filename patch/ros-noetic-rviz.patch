@@ -140,3 +140,16 @@ index 7ffe26e1..c122ba98 100644
  
          if (extension[0] == '.')
          {
+diff --git a/src/rviz/properties/enum_property.h b/src/rviz/properties/enum_property.h
+index c3e5e873..5e29c425 100644
+--- a/src/rviz/properties/enum_property.h
++++ b/src/rviz/properties/enum_property.h
+@@ -43,7 +43,7 @@ namespace rviz
+  * option.  The integer returned will be that passed to addOption()
+  * for with the string that is currently selected.
+  */
+-class EnumProperty : public StringProperty
++class RVIZ_EXPORT EnumProperty : public StringProperty
+ {
+   Q_OBJECT
+ public:
