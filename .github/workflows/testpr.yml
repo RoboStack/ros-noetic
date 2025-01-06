@@ -45,14 +45,14 @@ jobs:
         # git in C:\Program Files\Git\bin is used by pip install git+
         dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
 
-    - shell: bash -l {0}
-      if: matrix.platform == 'linux-aarch64'
-      run: |
-        echo "::group::Configure binfmt_misc"
-        docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
-        export FEEDSTOCK_NAME="$(basename $GITHUB_REPOSITORY)"
-        export GIT_BRANCH="$(basename $GITHUB_REF)"
-        echo "::endgroup::"
+    # - shell: bash -l {0}
+    #   if: matrix.platform == 'linux-aarch64'
+    #   run: |
+    #     echo "::group::Configure binfmt_misc"
+    #     docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+    #     export FEEDSTOCK_NAME="$(basename $GITHUB_REPOSITORY)"
+    #     export GIT_BRANCH="$(basename $GITHUB_REF)"
+    #     echo "::endgroup::"
 
     - name: Install libgl1-mesa-dev (only for linux-aarch64)
       if: matrix.platform == 'linux-aarch64'

@@ -38,6 +38,7 @@ requirements:
     - ogre 1.10.12.*
     - libpqxx 7.8.*
     - sip 6.7.*
+    - harfbuzz 9.*
 
   run_exports:
     weak:

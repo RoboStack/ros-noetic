@@ -1,3 +1,5 @@
+harfbuzz:
+  - '9'
 gazebo:
   - '11'
 libpqxx:
