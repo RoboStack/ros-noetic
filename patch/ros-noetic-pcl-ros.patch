@@ -18,6 +18,16 @@ index 2466227d..6230e32e 100644
  ## Find catkin packages
  find_package(catkin REQUIRED COMPONENTS
    dynamic_reconfigure
+@@ -45,7 +45,8 @@ if(NOT "${PCL_LIBRARIES}" STREQUAL "")
+     "vtkGUISupportQtSQL"
+     "vtkGUISupportQtWebkit"
+     "vtkViewsQt"
+-    "vtkRenderingQt")
++    "vtkRenderingQt"
++    "lz4")
+ endif()
+ 
+ # There is a bug in the Ubuntu Artful (17.10) version of the VTK package,
 diff --git a/include/pcl_ros/point_cloud.h b/include/pcl_ros/point_cloud.h
 index 1e038276..26e36c1b 100644
 --- a/include/pcl_ros/point_cloud.h
