@@ -1,5 +1,5 @@
 harfbuzz:
-  - '9'
+  - '10'
 gazebo:
   - '11'
 libpqxx:
@@ -11,9 +11,9 @@ setuptools:
 numpy:
   - 1.26
 libprotobuf:
-  - 5.28.2
+  - 5.28.3
 protobuf:
-  - 5.28.2
+  - 5.28.3
 spdlog:
   - 1.14
 pyqt:

@@ -8,6 +8,8 @@ python_qt_binding:
   add_build: ["pyqt-builder", "pyqt5-sip", "sip 6.7.*"]
   add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
   add_run: ["adwaita-icon-theme"]
+find_object_2d:
+  add_host: ["zlib"]
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]

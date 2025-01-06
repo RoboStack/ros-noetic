@@ -34,11 +34,11 @@ requirements:
     - libboost-devel 1.86.*
     - pcl 1.14.1.*
     - gazebo 11.*
-    - libprotobuf 5.28.2.*
+    - libprotobuf 5.28.3.*
     - ogre 1.10.12.*
     - libpqxx 7.8.*
     - sip 6.7.*
-    - harfbuzz 9.*
+    - harfbuzz 10.*
 
   run_exports:
     weak:

@@ -68,3 +68,31 @@ index 881339c..9d9fb5f 100644
  #include <cerrno>
  #include <cstdio>
  #include <cstring>
+diff --git a/src/main.cpp b/src/main.cpp
+index ae0e733..3422d76 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -45,7 +45,7 @@ static fs::path findFile(const fs::path& base, const std::string& name)
+ 			if(!p.empty())
+ 				return p;
+ 		}
+-		else if(it->path().leaf() == name)
++		else if(it->path().filename() == name)
+ 			return *it;
+ 	}
+ 
+@@ -373,12 +373,12 @@ int main(int argc, char** argv)
+ 			// Try systemd journal first
+ 			try
+ 			{
+-				logger.reset(new rosmon::SystemdLogger(fs::basename(launchFilePath)));
++				logger.reset(new rosmon::SystemdLogger(fs::path(launchFilePath).stem().string()));
+ 			}
+ 			catch(rosmon::SystemdLogger::NotAvailable& e)
+ 			{
+ 				fmt::print(stderr, "Systemd Journal not available: {}\n", e.what());
+-				logger.reset(new rosmon::SyslogLogger(fs::basename(launchFilePath)));
++				logger.reset(new rosmon::SyslogLogger(fs::path(launchFilePath).stem().string()));
+ 			}
+ 		}
+ 		else

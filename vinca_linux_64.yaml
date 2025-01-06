@@ -45,6 +45,16 @@ skip_existing:
 # For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
 # The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
+
+  # needs qt-main6 migration
+  # - robot_body_filter  # maintainer peci1
+  # - jsk-visualization
+  # - octomap-ros
+  # - octomap-mapping
+  # - octomap-server
+  # - rtabmap
+  # - rtabmap-ros
+
   - cras_cpp_common  # maintainer peci1
   - cras_py_common  # maintainer peci1
   - cras_docs_common  # maintainer peci1
@@ -63,7 +73,6 @@ packages_select_by_deps:
   - point_cloud_color  # maintainer peci1
   - rosmsg_cpp  # maintainer peci1
   - snmp_ros  # maintainer peci1
-  - robot_body_filter  # maintainer peci1
   - static_transform_mux  # maintainer peci1
   - tf_remapper_cpp  # maintainer peci1
   - roslint  # maintainer peci1
@@ -82,7 +91,6 @@ packages_select_by_deps:
   - navigation
   - ecl-core
   - ecl-threads
-  - jsk-visualization
   - actionlib
   - ros-babel-fish
   - ros-babel-fish-test-msgs
@@ -93,9 +101,6 @@ packages_select_by_deps:
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - usb-cam
-  - octomap-ros
-  - octomap-mapping
-  - octomap-server
   - ackermann-msgs
   - fake-localization
   - realsense2-description
@@ -181,6 +186,7 @@ packages_select_by_deps:
   - depthimage-to-laserscan
   - joy
   - nmea-msgs
+  - rosmon
 
   - gazebo-ros-control
   - gazebo-plugins
@@ -225,7 +231,6 @@ packages_select_by_deps:
   - sound-play
   - pid
   - rosfmt
-  - rosmon
   - husky-simulator
   - lanelet2
 
@@ -254,10 +259,9 @@ packages_select_by_deps:
   - dbw-polaris-msgs
   - geodesy
   - aruco-ros
-
-  # Needs fixing in CI, uploaded manually
-  - rtabmap
-  # - rtabmap-ros
+  - pr2-teleop
+  - rqt-ez-publisher
+  - slam-gmapping
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
@@ -663,7 +667,6 @@ packages_select_by_deps:
   # - pr2-power-drivers
   # - pr2-run-stop-auto-restart
   # - pr2-self-test-msgs
-  - pr2-teleop
   # - pr2-tilt-laser-interface
   # - pr2-tuckarm
   # - pr2-tuck-arms-action
@@ -1009,7 +1012,6 @@ packages_select_by_deps:
   # - ros-type-introspection
   # - rqt
   # - rqt-controller-manager
-  - rqt-ez-publisher
   # - rqt-joint-trajectory-controller
   # - rx-service-tools
   # - safety-limiter-msgs
@@ -1021,7 +1023,6 @@ packages_select_by_deps:
   # - service-tools
   # - sick-safetyscanners
   # - sick-scan
-  - slam-gmapping
   # - slam-toolbox-rviz
   # - slic
   # - slime-wrapper
