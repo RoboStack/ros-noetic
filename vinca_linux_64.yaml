@@ -45,16 +45,16 @@ skip_existing:
 # For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
 # The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
-
-  # needs qt-main6 migration
-  # - robot_body_filter  # maintainer peci1
+  # needs harfbuzz10 migration of gtk3 and emacs
   # - jsk-visualization
-  # - octomap-ros
-  # - octomap-mapping
-  # - octomap-server
-  # - rtabmap
-  # - rtabmap-ros
 
+  - octomap-ros
+  - octomap-mapping
+  - octomap-server
+  - rtabmap
+  - rtabmap-ros
+
+  - robot_body_filter  # maintainer peci1
   - cras_cpp_common  # maintainer peci1
   - cras_py_common  # maintainer peci1
   - cras_docs_common  # maintainer peci1

@@ -136,8 +136,10 @@ gstreamer1.0-plugins-base:
   robostack: [gst-plugins-base]
 gstreamer1.0-plugins-good:
   robostack: [gst-plugins-good]
+# only sound-play requests it, but doesn't actually need it
+# do not pull it in as migrations lack behind
 gstreamer1.0-plugins-ugly:
-  robostack: [gst-plugins-ugly]
+  robostack: []
 gtest:
   robostack: [gtest]
 gtk2:
