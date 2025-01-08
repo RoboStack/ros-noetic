@@ -1,3 +1,5 @@
+euslisp:
+  add_host: ["${{ 'xorg-libx11' if linux }}"]
 qt_gui_cpp:
   add_build: ["pyqt-builder", "pyqt5-sip", "sip 6.7.*"]
   add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]

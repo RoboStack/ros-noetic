@@ -28,6 +28,8 @@ packages_remove_from_deps:
   # - image_view
   - stage-ros
   - stage
+  - roseus
+  - jskeus
 
 skip_existing:
   - https://conda.anaconda.org/robostack-staging/

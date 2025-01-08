@@ -29,6 +29,8 @@ packages_remove_from_deps:
   - kobuki-ftdi # needs too many patches for ftdi & usb
   - openni2-camera
   - libpointmatcher
+  - roseus
+  - jskeus
 
 build_in_own_azure_stage:
   - ros-noetic-jsk-pcl-ros-utils

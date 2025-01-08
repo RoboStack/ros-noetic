@@ -2,14 +2,14 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 310db0bd..a23f2288 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -64,12 +64,8 @@ include_directories(src ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+@@ -80,12 +80,8 @@ include_directories(src ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
  ## CATKIN_DEPENDS: catkin_packages dependent projects also need
  ## DEPENDS: system dependencies of this project that dependent projects also need
  
--if(rviz_QT_VERSION VERSION_LESS "5")
+-if(USE_VISUALIZATION AND rviz_QT_VERSION VERSION_LESS "5")
 -  find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 -  include(${QT_USE_FILE})
--else()
+-elseif(USE_VISUALIZATION)
 -  find_package(Qt5Widgets REQUIRED)
 -endif()
 +find_package(Qt5 COMPONENTS Widgets REQUIRED)
@@ -50,18 +50,6 @@ index 60f21549..9962aa0d 100644
  #include "facing_visualizer.h"
  #include <rviz/uniform_string_stream.h>
  #include <rviz/render_panel.h>
-diff --git a/src/overlay_diagnostic_display.h b/src/overlay_diagnostic_display.h
-index 01cc7fc0..61fe680d 100644
---- a/src/overlay_diagnostic_display.h
-+++ b/src/overlay_diagnostic_display.h
-@@ -42,6 +42,7 @@
- #include <OGRE/OgreMaterial.h>
- 
- #include <QPainter>
-+#include <QPainterPath>
- 
- #include <rviz/properties/ros_topic_property.h>
- #include <rviz/properties/editable_enum_property.h>
 diff --git a/src/overlay_utils.cpp b/src/overlay_utils.cpp
 index 73525c43..494e2bdf 100644
 --- a/src/overlay_utils.cpp
