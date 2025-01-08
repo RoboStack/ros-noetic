@@ -1,0 +1,15 @@
+diff --git a/joint_state_controller/src/joint_state_controller.cpp b/joint_state_controller/src/joint_state_controller.cpp
+index b204f9f3..4cca4e6b 100644
+--- a/joint_state_controller/src/joint_state_controller.cpp
++++ b/joint_state_controller/src/joint_state_controller.cpp
+@@ -93,7 +93,8 @@ namespace joint_state_controller
+       try {
+         last_publish_time_ = time - ros::Duration(1.001/publish_rate_); //ensure publish on first cycle
+       } catch(std::runtime_error& ex) { // negative ros::Time is not allowed
+-        last_publish_time_ = ros::Time::MIN;
++        
++        last_publish_time_ = ros::Time(0, 1);
+       }
+       pub_time_initialized_ = true;
+     }
+
