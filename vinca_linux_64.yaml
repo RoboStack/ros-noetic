@@ -45,8 +45,7 @@ skip_existing:
 # For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
 # The list of all maintained packages is at https://robostack.github.io/noetic.html .
 packages_select_by_deps:
-  # needs harfbuzz10 migration of gtk3 and emacs
-  # - jsk-visualization
+  - jsk-visualization
 
   - octomap-ros
   - octomap-mapping

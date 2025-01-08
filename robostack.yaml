@@ -81,7 +81,10 @@ draco:
 eigen:
   robostack: [eigen]
 emacs:
-  robostack: [emacs]
+# Wait until https://github.com/conda-forge/gtk3-feedstock/pull/74 is resolved
+# and emacs is rebuilt for harfbuzz=10
+#   robostack: [emacs]
+  robostack: []
 festival:
   robostack:
     linux: [festival, festvox-kallpc16k]
