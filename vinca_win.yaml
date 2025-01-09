@@ -124,6 +124,10 @@ packages_select_by_deps:
   - plotjuggler
   - rosserial-arduino
   - tf2_web_republisher
+  # Required by jackal-gazebo
+  - hector-gazebo-plugins
+  # Required by jackal-navigation
+  - gmapping
 
   ##
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED

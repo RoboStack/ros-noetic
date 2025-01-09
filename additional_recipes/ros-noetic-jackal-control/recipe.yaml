@@ -11,7 +11,7 @@ extra:
     - robostack
 build:
   number: 21
-  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\..\\..\\bld_catkin.bat' }}
 
 
 
