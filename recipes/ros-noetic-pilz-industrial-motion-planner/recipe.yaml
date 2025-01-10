@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-pilz-industrial-motion-planner
+  version: 1.1.16
+source:
+  git: https://github.com/ros-gbp/moveit-release.git
+  tag: release/noetic/pilz_industrial_motion_planner/1.1.16-1
+  target_directory: ros-noetic-pilz-industrial-motion-planner/src/work
+  patches:
+    - patch/ros-noetic-pilz-industrial-motion-planner.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 17
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - orocos-kdl
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-code-coverage
+    - ros-noetic-joint-limits-interface
+    - ros-noetic-moveit-core
+    - ros-noetic-moveit-msgs
+    - ros-noetic-moveit-resources-panda-moveit-config
+    - ros-noetic-moveit-resources-prbt-moveit-config
+    - ros-noetic-moveit-resources-prbt-pg70-support
+    - ros-noetic-moveit-resources-prbt-support
+    - ros-noetic-moveit-ros-move-group
+    - ros-noetic-moveit-ros-planning
+    - ros-noetic-moveit-ros-planning-interface
+    - ros-noetic-pilz-industrial-motion-planner-testutils
+    - ros-noetic-pluginlib
+    - ros-noetic-roscpp
+    - ros-noetic-rostest
+    - ros-noetic-rosunit
+    - ros-noetic-tf2
+    - ros-noetic-tf2-eigen
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-kdl
+    - ros-noetic-tf2-ros
+  run:
+    - orocos-kdl
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-joint-limits-interface
+    - ros-noetic-moveit-core
+    - ros-noetic-moveit-msgs
+    - ros-noetic-moveit-ros-move-group
+    - ros-noetic-moveit-ros-planning
+    - ros-noetic-moveit-ros-planning-interface
+    - ros-noetic-pluginlib
+    - ros-noetic-roscpp
+    - ros-noetic-tf2
+    - ros-noetic-tf2-eigen
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-kdl
+    - ros-noetic-tf2-ros
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

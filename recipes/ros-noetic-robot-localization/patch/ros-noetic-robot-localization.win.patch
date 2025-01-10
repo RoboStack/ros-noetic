@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cc7f3341..eac0a60f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -115,7 +115,6 @@ catkin_package(
+   DEPENDS
+     ${EIGEN_PACKAGE}
+     GeographicLib
+-    YAML_CPP
+ )
+ 
+ ###########
+@@ -131,4 +130,2 @@ include_directories(
+-link_directories(${YAML_CPP_LIBRARY_DIRS})
+-
+ # Library definitions
+ add_library(filter_utilities src/filter_utilities.cpp)

@@ -1,0 +1,2501 @@
+jobs:
+  stage_0_job_0:
+    name: rviz moveit-resources-fanuc-moveit-config costmap-2d gazebo-ros pcl-ros
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz ros-noetic-moveit-resources-fanuc-moveit-config
+          ros-noetic-costmap-2d ros-noetic-gazebo-ros ros-noetic-pcl-ros
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-rviz ros-noetic-moveit-resources-fanuc-moveit-config
+        ros-noetic-costmap-2d ros-noetic-gazebo-ros ros-noetic-pcl-ros
+  stage_0_job_1:
+    name: tf-conversions rqt-nav-view rgbd-launch stereo-image-proc amcl
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-tf-conversions ros-noetic-rqt-nav-view ros-noetic-rgbd-launch
+          ros-noetic-stereo-image-proc ros-noetic-amcl
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-tf-conversions ros-noetic-rqt-nav-view ros-noetic-rgbd-launch
+        ros-noetic-stereo-image-proc ros-noetic-amcl
+  stage_0_job_2:
+    name: velocity-controllers position-controllers laser-filters diff-drive-controller
+      effort-controllers
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-velocity-controllers ros-noetic-position-controllers
+          ros-noetic-laser-filters ros-noetic-diff-drive-controller ros-noetic-effort-controllers
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-velocity-controllers ros-noetic-position-controllers
+        ros-noetic-laser-filters ros-noetic-diff-drive-controller ros-noetic-effort-controllers
+  stage_0_job_3:
+    name: laser-assembler rqt-srv rqt-launch rqt-bag-plugins rqt-action
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-laser-assembler ros-noetic-rqt-srv ros-noetic-rqt-launch
+          ros-noetic-rqt-bag-plugins ros-noetic-rqt-action
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-laser-assembler ros-noetic-rqt-srv ros-noetic-rqt-launch
+        ros-noetic-rqt-bag-plugins ros-noetic-rqt-action
+  stage_0_job_4:
+    name: turtlebot3-bringup mbf-utility robot-localization interactive-marker-twist-server
+      ros-base
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-turtlebot3-bringup ros-noetic-mbf-utility ros-noetic-robot-localization
+          ros-noetic-interactive-marker-twist-server ros-noetic-ros-base
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-turtlebot3-bringup ros-noetic-mbf-utility ros-noetic-robot-localization
+        ros-noetic-interactive-marker-twist-server ros-noetic-ros-base
+  stage_0_job_5:
+    name: diagnostics interactive-marker-tutorials imu-complementary-filter pointgrey-camera-description
+      geometry-tutorials
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-diagnostics ros-noetic-interactive-marker-tutorials
+          ros-noetic-imu-complementary-filter ros-noetic-pointgrey-camera-description
+          ros-noetic-geometry-tutorials
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-diagnostics ros-noetic-interactive-marker-tutorials ros-noetic-imu-complementary-filter
+        ros-noetic-pointgrey-camera-description ros-noetic-geometry-tutorials
+  stage_0_job_6:
+    name: turtlebot3-fake rosserial-windows rosserial-arduino rosserial
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs: []
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-turtlebot3-fake ros-noetic-rosserial-windows ros-noetic-rosserial-arduino
+          ros-noetic-rosserial
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-turtlebot3-fake ros-noetic-rosserial-windows ros-noetic-rosserial-arduino
+        ros-noetic-rosserial
+  stage_1_job_7:
+    name: moveit-resources-panda-moveit-config nav-core rqt-robot-dashboard gazebo-ros-control
+      hector-gazebo-plugins
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-resources-panda-moveit-config ros-noetic-nav-core
+          ros-noetic-rqt-robot-dashboard ros-noetic-gazebo-ros-control ros-noetic-hector-gazebo-plugins
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-resources-panda-moveit-config ros-noetic-nav-core
+        ros-noetic-rqt-robot-dashboard ros-noetic-gazebo-ros-control ros-noetic-hector-gazebo-plugins
+  stage_1_job_8:
+    name: gazebo-plugins rqt-rviz geometry rqt-common-plugins rviz-python-tutorial
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-gazebo-plugins ros-noetic-rqt-rviz ros-noetic-geometry
+          ros-noetic-rqt-common-plugins ros-noetic-rviz-python-tutorial
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-gazebo-plugins ros-noetic-rqt-rviz ros-noetic-geometry
+        ros-noetic-rqt-common-plugins ros-noetic-rviz-python-tutorial
+  stage_1_job_9:
+    name: rviz-plugin-tutorials librviz-tutorial costmap-converter velodyne-gazebo-plugins
+      urdf-tutorial
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz-plugin-tutorials ros-noetic-librviz-tutorial
+          ros-noetic-costmap-converter ros-noetic-velodyne-gazebo-plugins ros-noetic-urdf-tutorial
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-rviz-plugin-tutorials ros-noetic-librviz-tutorial ros-noetic-costmap-converter
+        ros-noetic-velodyne-gazebo-plugins ros-noetic-urdf-tutorial
+  stage_1_job_10:
+    name: perception-pcl laser-pipeline image-pipeline jackal-control jackal-description
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-perception-pcl ros-noetic-laser-pipeline ros-noetic-image-pipeline
+          ros-noetic-jackal-control ros-noetic-jackal-description
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-perception-pcl ros-noetic-laser-pipeline ros-noetic-image-pipeline
+        ros-noetic-jackal-control ros-noetic-jackal-description
+  stage_1_job_11:
+    name: rviz-imu-plugin turtlebot3-slam turtlebot3-example rviz-visual-tools jackal-viz
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz-imu-plugin ros-noetic-turtlebot3-slam ros-noetic-turtlebot3-example
+          ros-noetic-rviz-visual-tools ros-noetic-jackal-viz
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-rviz-imu-plugin ros-noetic-turtlebot3-slam ros-noetic-turtlebot3-example
+        ros-noetic-rviz-visual-tools ros-noetic-jackal-viz
+  stage_1_job_12:
+    name: jackal-base
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    - stage_0_job_6
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-jackal-base
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-jackal-base
+  stage_2_job_13:
+    name: moveit-core base-local-planner navfn clear-costmap-recovery rqt-robot-plugins
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    - stage_1_job_10
+    - stage_1_job_11
+    - stage_1_job_12
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-core ros-noetic-base-local-planner ros-noetic-navfn
+          ros-noetic-clear-costmap-recovery ros-noetic-rqt-robot-plugins
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-core ros-noetic-base-local-planner ros-noetic-navfn
+        ros-noetic-clear-costmap-recovery ros-noetic-rqt-robot-plugins
+  stage_2_job_14:
+    name: mbf-costmap-core robot gazebo-ros-pkgs visualization-tutorials velodyne-simulator
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    - stage_1_job_10
+    - stage_1_job_11
+    - stage_1_job_12
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-mbf-costmap-core ros-noetic-robot ros-noetic-gazebo-ros-pkgs
+          ros-noetic-visualization-tutorials ros-noetic-velodyne-simulator
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-mbf-costmap-core ros-noetic-robot ros-noetic-gazebo-ros-pkgs
+        ros-noetic-visualization-tutorials ros-noetic-velodyne-simulator
+  stage_2_job_15:
+    name: urdf-sim-tutorial perception jackal-desktop imu-tools
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    - stage_1_job_10
+    - stage_1_job_11
+    - stage_1_job_12
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-urdf-sim-tutorial ros-noetic-perception ros-noetic-jackal-desktop
+          ros-noetic-imu-tools
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-urdf-sim-tutorial ros-noetic-perception ros-noetic-jackal-desktop
+        ros-noetic-imu-tools
+  stage_3_job_16:
+    name: moveit-ros-occupancy-map-monitor rotate-recovery moveit-resources-prbt-ikfast-manipulator-plugin
+      moveit-simple-controller-manager chomp-motion-planner
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_13
+    - stage_2_job_14
+    - stage_2_job_15
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-occupancy-map-monitor ros-noetic-rotate-recovery
+          ros-noetic-moveit-resources-prbt-ikfast-manipulator-plugin ros-noetic-moveit-simple-controller-manager
+          ros-noetic-chomp-motion-planner
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-ros-occupancy-map-monitor ros-noetic-rotate-recovery
+        ros-noetic-moveit-resources-prbt-ikfast-manipulator-plugin ros-noetic-moveit-simple-controller-manager
+        ros-noetic-chomp-motion-planner
+  stage_3_job_17:
+    name: viz teb-local-planner simulators jackal-gazebo
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_13
+    - stage_2_job_14
+    - stage_2_job_15
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-viz ros-noetic-teb-local-planner ros-noetic-simulators
+          ros-noetic-jackal-gazebo
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-viz ros-noetic-teb-local-planner ros-noetic-simulators
+        ros-noetic-jackal-gazebo
+  stage_4_job_18:
+    name: moveit-ros-planning move-base moveit-resources-prbt-moveit-config moveit-ros-control-interface
+      desktop
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_16
+    - stage_3_job_17
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-planning ros-noetic-move-base ros-noetic-moveit-resources-prbt-moveit-config
+          ros-noetic-moveit-ros-control-interface ros-noetic-desktop
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-ros-planning ros-noetic-move-base ros-noetic-moveit-resources-prbt-moveit-config
+        ros-noetic-moveit-ros-control-interface ros-noetic-desktop
+  stage_4_job_19:
+    name: jackal-simulator
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_16
+    - stage_3_job_17
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-jackal-simulator
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-jackal-simulator
+  stage_5_job_20:
+    name: moveit-kinematics moveit-ros-warehouse moveit-ros-robot-interaction moveit-ros-perception
+      moveit-fake-controller-manager
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_18
+    - stage_4_job_19
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-kinematics ros-noetic-moveit-ros-warehouse
+          ros-noetic-moveit-ros-robot-interaction ros-noetic-moveit-ros-perception
+          ros-noetic-moveit-fake-controller-manager
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-kinematics ros-noetic-moveit-ros-warehouse ros-noetic-moveit-ros-robot-interaction
+        ros-noetic-moveit-ros-perception ros-noetic-moveit-fake-controller-manager
+  stage_5_job_21:
+    name: moveit-resources-prbt-pg70-support moveit-planners-ompl turtlebot3-navigation
+      desktop-full moveit-visual-tools
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_18
+    - stage_4_job_19
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-resources-prbt-pg70-support ros-noetic-moveit-planners-ompl
+          ros-noetic-turtlebot3-navigation ros-noetic-desktop-full ros-noetic-moveit-visual-tools
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-resources-prbt-pg70-support ros-noetic-moveit-planners-ompl
+        ros-noetic-turtlebot3-navigation ros-noetic-desktop-full ros-noetic-moveit-visual-tools
+  stage_5_job_22:
+    name: jackal-navigation
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_18
+    - stage_4_job_19
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-jackal-navigation
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-jackal-navigation
+  stage_6_job_23:
+    name: moveit-ros-move-group moveit-plugins moveit-ros-benchmarks turtlebot3
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_20
+    - stage_5_job_21
+    - stage_5_job_22
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-move-group ros-noetic-moveit-plugins
+          ros-noetic-moveit-ros-benchmarks ros-noetic-turtlebot3
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-ros-move-group ros-noetic-moveit-plugins ros-noetic-moveit-ros-benchmarks
+        ros-noetic-turtlebot3
+  stage_7_job_24:
+    name: moveit-ros-manipulation moveit-ros-planning-interface
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_23
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-manipulation ros-noetic-moveit-ros-planning-interface
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-ros-manipulation ros-noetic-moveit-ros-planning-interface
+  stage_8_job_25:
+    name: moveit-commander moveit-ros-visualization moveit-planners-chomp
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_24
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-commander ros-noetic-moveit-ros-visualization
+          ros-noetic-moveit-planners-chomp
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-commander ros-noetic-moveit-ros-visualization
+        ros-noetic-moveit-planners-chomp
+  stage_9_job_26:
+    name: pilz-industrial-motion-planner-testutils moveit-setup-assistant moveit-ros
+      pilz-industrial-motion-planner
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_25
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-pilz-industrial-motion-planner-testutils ros-noetic-moveit-setup-assistant
+          ros-noetic-moveit-ros ros-noetic-pilz-industrial-motion-planner
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-pilz-industrial-motion-planner-testutils ros-noetic-moveit-setup-assistant
+        ros-noetic-moveit-ros ros-noetic-pilz-industrial-motion-planner
+  stage_10_job_27:
+    name: moveit-planners moveit
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_26
+    env:
+      CONDA_BLD_PATH: C:\\bld\\
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        pixi-version: v0.39.4
+        cache: 'true'
+    - uses: egor-tensin/cleanup-path@v4
+      with:
+        dirs: C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program
+          Files\Git\mingw64\bin
+    - shell: cmd
+      run: |
+        set "CI=true"
+
+        :: 4 cores available on GHA: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+        :: CPU_COUNT is passed through conda build: https://github.com/conda/conda-build/pull/1149
+        set CPU_COUNT=4
+
+        set PYTHONUNBUFFERED=1
+
+        call setup_x64
+
+        :: Set the conda-build working directory to a smaller path
+        if "%CONDA_BLD_PATH%" == "" (
+            set "CONDA_BLD_PATH=C:\\bld\\"
+        )
+
+        :: On azure, there are libcrypto*.dll & libssl*.dll under
+        :: C:\\Windows\\System32, which should not be there (no vendor dlls in windows folder).
+        :: They would be found before the openssl libs of the conda environment, so we delete them.
+        if defined CI (
+            DEL C:\\Windows\\System32\\libcrypto-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libcrypto-1_1-x64.dll)
+            DEL C:\\Windows\\System32\\libssl-1_1-x64.dll || (Echo Ignoring failure to delete C:\\Windows\\System32\\libssl-1_1-x64.dll)
+        )
+
+        :: Make paths like C:\\hostedtoolcache\\windows\\Ruby\\2.5.7\\x64\\bin garbage
+        set "PATH=%PATH:ostedtoolcache=%"
+      name: conda-forge build setup
+    - shell: cmd
+      run: |
+        setlocal EnableExtensions EnableDelayedExpansion
+
+        set CONDA_BLD_PATH=C:\bld
+        echo "PATH is %PATH%"
+
+        rmdir /Q/S C:\Strawberry\
+        rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
+
+        set "FEEDSTOCK_ROOT=%cd%"
+
+        mkdir %CONDA_BLD_PATH%
+
+        :: Enable long path names on Windows
+        reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
+        for %%X in (%CURRENT_RECIPES%) do (
+            echo "BUILDING RECIPE %%X"
+            cd %FEEDSTOCK_ROOT%\recipes\%%X\
+            pixi run -v rattler-build build --recipe %FEEDSTOCK_ROOT%\recipes\%%X\ ^
+                -m %FEEDSTOCK_ROOT%\conda_build_config.yaml ^
+                -c robostack-staging -c conda-forge ^
+                --output-dir %CONDA_BLD_PATH%
+
+            if errorlevel 1 exit 1
+            rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+        )
+
+        pixi run upload "%CONDA_BLD_PATH%\win-64\*.conda" --force
+        if errorlevel 1 exit 1
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-planners ros-noetic-moveit
+        PYTHONUNBUFFERED: 1
+      name: Build ros-noetic-moveit-planners ros-noetic-moveit
+name: build_win
+on:
+  push:
+    branches:
+    - buildbranch_win

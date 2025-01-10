@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-rqt-common-plugins
+  version: 0.4.9
+source:
+  git: https://github.com/ros-gbp/rqt_common_plugins-release.git
+  tag: release/noetic/rqt_common_plugins/0.4.9-1
+  target_directory: ros-noetic-rqt-common-plugins/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 17
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+  run:
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-rqt-action
+    - ros-noetic-rqt-bag
+    - ros-noetic-rqt-bag-plugins
+    - ros-noetic-rqt-console
+    - ros-noetic-rqt-dep
+    - ros-noetic-rqt-graph
+    - ros-noetic-rqt-image-view
+    - ros-noetic-rqt-launch
+    - ros-noetic-rqt-logger-level
+    - ros-noetic-rqt-msg
+    - ros-noetic-rqt-plot
+    - ros-noetic-rqt-publisher
+    - ros-noetic-rqt-py-common
+    - ros-noetic-rqt-py-console
+    - ros-noetic-rqt-reconfigure
+    - ros-noetic-rqt-service-caller
+    - ros-noetic-rqt-shell
+    - ros-noetic-rqt-srv
+    - ros-noetic-rqt-top
+    - ros-noetic-rqt-topic
+    - ros-noetic-rqt-web
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

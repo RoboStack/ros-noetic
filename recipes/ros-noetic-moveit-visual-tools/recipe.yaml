@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-moveit-visual-tools
+  version: 3.6.1
+source:
+  git: https://github.com/ros-gbp/moveit_visual_tools-release.git
+  tag: release/noetic/moveit_visual_tools/3.6.1-1
+  target_directory: ros-noetic-moveit-visual-tools/src/work
+  patches:
+    - patch/ros-noetic-moveit-visual-tools.patch
+    - patch/ros-noetic-moveit-visual-tools.win.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 17
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-geometry-msgs
+    - ros-noetic-graph-msgs
+    - ros-noetic-moveit-core
+    - ros-noetic-moveit-ros-planning
+    - ros-noetic-roscpp
+    - ros-noetic-roslint
+    - ros-noetic-rviz-visual-tools
+    - ros-noetic-std-msgs
+    - ros-noetic-tf2-eigen
+    - ros-noetic-tf2-ros
+    - ros-noetic-trajectory-msgs
+    - ros-noetic-visualization-msgs
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-cmake-modules
+    - ros-noetic-geometry-msgs
+    - ros-noetic-graph-msgs
+    - ros-noetic-moveit-core
+    - ros-noetic-moveit-ros-planning
+    - ros-noetic-roscpp
+    - ros-noetic-roslint
+    - ros-noetic-rviz-visual-tools
+    - ros-noetic-std-msgs
+    - ros-noetic-tf2-eigen
+    - ros-noetic-tf2-ros
+    - ros-noetic-trajectory-msgs
+    - ros-noetic-visualization-msgs
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
