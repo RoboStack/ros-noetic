@@ -133,7 +133,7 @@ jobs:
         vinca --multiple --platform linux-aarch64
     - name: Generate azure pipelines for linux-aarch64
       run: |
-        vinca-gha --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes --batch_size 1
+        vinca-gha --platform linux-aarch64 --trigger-branch buildbranch_linux_aarch64 -d ./recipes --additional-recipes
     - name: Commit files for linux-aarch64
       run: |
         if [[ -f "linux_aarch64.yml" ]]; then

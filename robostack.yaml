@@ -90,8 +90,15 @@ festival:
     linux: [festival, festvox-kallpc16k]
     osx: []
     win64: []
+# This is not available on Windows, and it is only
+# required by libcurl_vendor (see https://index.ros.org/d/file/)
+# but it is not actually used if libcurl is not compiled,
+# so we can just ignore it on Windows.
 file:
-  robostack: [file]
+  robostack:
+    linux: [file]
+    osx: [file]
+    win64: []
 ffmpeg:
   robostack: [ffmpeg]
 ffmpeg-dev:
@@ -261,7 +268,7 @@ libcurl-dev:
 libdc1394-dev:
   robostack: [libdc1394]
 libdw-dev:
-  conda:
+  robostack:
     linux: [elfutils]
     osx: []
     win64: []
@@ -542,7 +549,7 @@ netpbm:
     linux-aarch64: []
     osx-arm64: []
     linux: [netpbm]
-    osx: []
+    osx: [netpbm]
     win64: []
 nlohmann-json-dev:
   robostack: [nlohmann_json]

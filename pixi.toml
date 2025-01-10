@@ -16,7 +16,7 @@ upload = "anaconda -t $ANACONDA_API_TOKEN upload"
 
 [dependencies]
 python = ">=3.11.0,<3.12"
-rattler-build = ">=0.33"
+rattler-build = ">=0.33.2"
 anaconda-client = ">=1.12"
 
 [target.win-64.dependencies]
@@ -36,8 +36,8 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "c47948cdec7d20d4
 generate-recipes = { cmd = "vinca -m", depends_on = ["rename-file"] }
 remove-file = { cmd = "rm vinca.yaml; rm -rf recipes" }
 copy_additional_recipes = { cmd = "sh -c 'find additional_recipes/* -maxdepth 0 -type d -exec ln -s ../{} recipes/ \\;'" }
-build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml --skip-existing", depends_on = ["generate-recipes", "copy_additional_recipes"] }
-build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml", env = { PACKAGE = "ros-noetic-ros-base" } }
+build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge --skip-existing", depends_on = ["generate-recipes", "copy_additional_recipes"] }
+build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-noetic-ros-base" } }
 
 [environments]
 beta = ["beta"]

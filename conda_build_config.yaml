@@ -31,11 +31,6 @@ python:
 python_impl:
   - cpython
 
-c_compiler:
-  - ${{ "vs2019" if win }}
-cxx_compiler:
-  - ${{ "vs2019" if win }}
-
 c_stdlib:
   - ${{ "sysroot" if linux }}
   - ${{ "macosx_deployment_target" if osx }}
@@ -44,3 +39,11 @@ c_stdlib_version:
   - ${{ "2.17" if linux }}
   - ${{ "10.14" if osx and x86_64 }}
   - ${{ "11.0" if osx and arm64 }}
+c_compiler:
+  - ${{ "gcc" if linux }}
+  - ${{ "clang" if osx }}
+  - ${{ "vs2019" if win }}
+cxx_compiler:
+  - ${{ "gxx" if linux }}
+  - ${{ "clangxx" if osx }}
+  - ${{ "vs2019" if win }}
