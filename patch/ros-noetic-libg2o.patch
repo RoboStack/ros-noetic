@@ -42,3 +42,16 @@ index 88d0adf..3ce0d9c 100644
  
  # For building the GUI
  find_package(QGLViewer)
+diff --git a/g2o/examples/sphere/create_sphere.cpp b/g2o/examples/sphere/create_sphere.cpp
+index 82296da..44cc358 100644
+--- a/g2o/examples/sphere/create_sphere.cpp
++++ b/g2o/examples/sphere/create_sphere.cpp
+@@ -155,7 +155,7 @@ int main (int argc, char** argv)
+   if (randomSeed) {
+     std::random_device r;
+     std::seed_seq seedSeq{r(), r(), r(), r(), r()};
+-    vector<int> seeds(2);
++    vector<unsigned int> seeds(2);
+     seedSeq.generate(seeds.begin(), seeds.end());
+     cerr << "using seeds:";
+     for (size_t i = 0; i < seeds.size(); ++i)

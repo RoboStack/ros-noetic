@@ -4,17 +4,14 @@ channels:
 - conda-forge
 dependencies:
 - python=3.11
-- conda-build
 - anaconda-client
-- mamba
-- conda
 - catkin_pkg
 - ruamel.yaml
 - rosdistro
 - empy
 - networkx
 - requests
-- boa
+- rattler-build
 - pip
 - pip:
-  - git+https://github.com/RoboStack/vinca.git@master
+  - git+https://github.com/RoboStack/vinca.git@rattler-build-humble

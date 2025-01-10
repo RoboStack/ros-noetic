@@ -1,0 +1,24 @@
+diff --git a/src/interactive_marker_utils.cpp b/src/interactive_marker_utils.cpp
+index cb709057..eb4a35d5 100644
+--- a/src/interactive_marker_utils.cpp
++++ b/src/interactive_marker_utils.cpp
+@@ -2,6 +2,8 @@
+ #include <boost/filesystem/operations.hpp>
+ #include <iostream>
+ #include <stdlib.h>
++#include <filesystem>
++
+ #include <ros/package.h>
+ #include "urdf_parser/urdf_parser.h"
+ 
+@@ -570,8 +572,8 @@ namespace im_utils {
+ 	try{
+ 	  std::string search_path = std::string(gazebo_model_path, current, found - current);
+ 	  current = found + 1;
+-	  recursive_directory_iterator iter = recursive_directory_iterator(search_path);
+-	  recursive_directory_iterator end = recursive_directory_iterator();
++	  std::filesystem::recursive_directory_iterator iter = std::filesystem::recursive_directory_iterator(search_path);
++	  std::filesystem::recursive_directory_iterator end = std::filesystem::recursive_directory_iterator();
+ 	  for (; iter != end; ++iter) {
+ 	    if (is_regular_file(*iter)) {
+ 	      int locate = iter->path().string().find( path, 0 );

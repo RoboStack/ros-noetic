@@ -1,12 +1,12 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.5 noetic
+mutex_package: ros-distro-mutex 0.6.* noetic_*
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 8
+build_number: 9
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -20,13 +20,13 @@ packages_skip_by_deps:
   - eigenpy
   - hpp-fcl
   - pinocchio
+  - gtsam
 
 packages_remove_from_deps:
   - stage-ros
   - stage
-
-  # sbcl is not available for osx-arm64
-  # - roslisp
+  - roseus
+  - jskeus
 
 skip_existing:
   # - https://conda.anaconda.org/robostack/
@@ -42,23 +42,39 @@ packages_select_by_deps:
   ##
   #  TODO OSX-ARM64
   ##
-  - rospack
+  - desktop
+  - perception
+  - desktop-full
+  - roslisp
+  - geometry2
+  - navigation
+  - ros-controllers
+
+  - moveit
+  - moveit-servo
+  - moveit_visual_tools
+  - webots-ros
+
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
+
+  - rospack
   - octomap-ros
   - ackermann-msgs
   - fake-localization
   - realsense2-description
 
   - rviz
+  - rviz_visual_tools
   - python-qt-binding
   - qt-gui-cpp
   - actionlib
   - ros-babel-fish
   - ros-babel-fish-test-msgs
-  - moveit_visual_tools
-  - rviz_visual_tools
   - rgbd-launch
+
+  - pcl-ros
+  - pcl-conversions
 
   - plotjuggler
   - plotjuggler_ros
@@ -69,21 +85,11 @@ packages_select_by_deps:
   - rqt-gui
   - rqt-gui-py
   - rqt-gui-cpp
-  - qt-gui-cpp
   - rqt-ez-publisher
-  - pcl-ros
-  - pcl-conversions
-  - roslisp
-  # - qt-gui-cpp  # needs manual build
-  # - rviz  # needs manual build
-  - desktop
-  - perception
-  - moveit
-  - moveit-servo
-  # - eigenpy  # needs manual build
+  - qt-gui-cpp  # needs manual build
+
   - turtlebot3
   - turtlebot3-simulations
-  - desktop-full
   - realsense2_camera
   - realsense2_description
   - kdl-parser-py
@@ -94,7 +100,6 @@ packages_select_by_deps:
   - hector-nav-msgs
   - hector-trajectory-server
   - radar-msgs
-  - geometry2
   - tf2
   - tf2_bullet
   - tf2_eigen
@@ -113,14 +118,13 @@ packages_select_by_deps:
   - laser-proc
   - rosserial-arduino
   - rosserial-client
-  - navigation
-  - ros-controllers
 
   - gazebo-dev
   - hector-gazebo-plugins
   - gazebo-ros
   - gazebo-ros-control
   - gazebo-plugins
+
   - lms1xx
   - controller-manager
   - interactive_marker_twist_server
@@ -148,7 +152,6 @@ packages_select_by_deps:
   - move-base
   - rosfmt
   - mavros-extras
-  - webots-ros
   - slam-gmapping
   - openslam-gmapping
   - tf2_web_republisher

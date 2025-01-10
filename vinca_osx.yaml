@@ -1,12 +1,12 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.5 noetic
+mutex_package: ros-distro-mutex 0.6.* noetic_*
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 20
+build_number: 21
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -21,10 +21,13 @@ packages_skip_by_deps:
   - eigenpy
   - hpp-fcl
   - pinocchio
+  - gtsam
 
 packages_remove_from_deps:
   - stage-ros
   - stage
+  - roseus
+  - jskeus
 
 skip_existing:
   # - https://conda.anaconda.org/robostack/
@@ -141,20 +144,10 @@ packages_select_by_deps:
   - imu-filter-madgwick
   - rosserial-python
   - tf2_web_republisher
-  - libfranka
-  - franka
-  - franka-gripper
-  - franka-hw
-  - franka-msgs
-  - franka-description
-  - franka-control
-  - franka_example_controllers
-  - franka_ros
   - combined-robot-hw
   - panda-moveit-config
   - moveit-ros-visualization
   - moveit-ros-planning-interface
-  - niryo_one_simulation
   - turtlebot3
   - turtlebot3-fake
   - librealsense2

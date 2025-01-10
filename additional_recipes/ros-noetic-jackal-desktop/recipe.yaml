@@ -1,37 +1,53 @@
 package:
   name: ros-noetic-jackal-desktop
-  version: 0.4.0
+  version: 0.4.1
 about:
-  home: http://wiki.ros.org/jackal_desktop
-  license:
-    - BSD
+  homepage: http://wiki.ros.org/jackal_desktop
+  license: BSD-3-Clause
   summary: Packages for working with Jackal from a ROS desktop.
-  maintainers:
-    - Mike Purvis (mpurvis@clearpathrobotics.com)
+
 extra:
   recipe-maintainers:
     - robostack
 build:
-  number: 3
-  script:
-    sel(win): bld_catkin.bat
-    sel(unix): build_catkin.sh
+  number: 21
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\..\\..\\bld_catkin.bat' }}
 
 
 source:
-  git_url: https://github.com/clearpath-gbp/jackal_desktop-release.git
-  git_rev: release/noetic/jackal_desktop/0.4.0-1
-  folder: ros-noetic-jackal-desktop/src/work
+  git: https://github.com/clearpath-gbp/jackal_desktop-release.git
+  tag: release/noetic/jackal_desktop/0.4.1-2
+  target_directory: ros-noetic-jackal-desktop/src/work
 requirements:
   build:
-    - "{{ compiler('cxx') }}"
-    - "{{ compiler('c') }}"
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
     - ninja
-    - sel(unix): make
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
     - cmake
-    - sel(build_platform != target_platform): python
-    - sel(build_platform != target_platform): cross-python_{{ target_platform }}
-    - sel(build_platform != target_platform): cython
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
   host:
     - python
     - ros-noetic-catkin
@@ -39,4 +55,6 @@ requirements:
   run:
     - python
     - ros-noetic-jackal-viz
-    - sel(osx and x86_64): __osx >={{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

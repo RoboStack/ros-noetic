@@ -1,17 +1,19 @@
 package:
   name: ros-noetic-hpp-fcl
-  version: "2.3.6"
+  version: "3.0.0"
 
 build:
   number: 21
 
-outputs:
-  - package:
-      name: ros-noetic-hpp-fcl
-      version: "2.3.6"
-    build:
-      run_exports:
-        - "{{ pin_subpackage('ros-noetic-hpp-fcl', max_pin='x.x.x') }}"
-    requirements:
-      run:
-        - hpp-fcl 2.3.6
+requirements:
+  run:
+    - hpp-fcl ==3.0.0
+
+about:
+  homepage: https://github.com/conda-forge/hpp-fcl-feedstock
+  license: BSD-3-Clause
+  summary: |
+    An extension of the Flexible Collision Library
+extra:
+  recipe-maintainers:
+    - ros-forge

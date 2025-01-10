@@ -1,31 +1,25 @@
 #!/bin/bash
 
 set -x
-
-export FEEDSTOCK_ROOT=`pwd`
-
-"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-source ~/.bash_profile
-
-micromamba config set remote_max_retries 5
-
-echo -e "\n\nInstalling conda-forge-ci-setup=3 and conda-build."
-micromamba create -n devenv --quiet --yes conda-forge-ci-setup=3 conda-build pip boa quetz-client -c conda-forge
-micromamba activate devenv
-
 set -e
 
-export "CONDA_BLD_PATH=$CONDA_PREFIX/conda-bld/"
+export FEEDSTOCK_ROOT=`pwd`
+export "CONDA_BLD_PATH=$HOME/conda-bld/"
 
-mkdir -p $CONDA_BLD_PATH
+curl -fsSL https://pixi.sh/install.sh | bash
+export PATH="$HOME/.pixi/bin:$PATH"
 
-micromamba config append channels conda-forge --env
-micromamba config append channels robostack-staging --env
-micromamba config append channels $CONDA_BLD_PATH --env
+# Remove homebrew from $PATH
+export PATH=$(echo $PATH | tr ":" "\n" | grep -v 'homebrew' | xargs | tr ' ' ':')
 
 for recipe in ${CURRENT_RECIPES[@]}; do
-	cd ${FEEDSTOCK_ROOT}/recipes/${recipe}
-	boa build . -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml -m ${FEEDSTOCK_ROOT}/conda_build_config.yaml
+	pixi run -v rattler-build build \
+		--recipe ${FEEDSTOCK_ROOT}/recipes/${recipe} \
+		-m ${FEEDSTOCK_ROOT}/conda_build_config.yaml \
+		-c robostack-jazzy -c conda-forge \
+		--output-dir $CONDA_BLD_PATH
+
+	# -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
 done
 
-anaconda -t ${ANACONDA_API_TOKEN} upload ${CONDA_BLD_PATH}/osx-arm64/*.tar.bz2 --force
+pixi run upload ${CONDA_BLD_PATH}/osx-*/*.conda --force

@@ -10,12 +10,8 @@ index cc7f3341..eac0a60f 100644
  )
  
  ###########
-@@ -128,8 +127,6 @@ include_directories(
-   ${EIGEN3_INCLUDE_DIRS}
-   ${YAML_CPP_INCLUDE_DIRS})
- 
+@@ -131,4 +130,2 @@ include_directories(
 -link_directories(${YAML_CPP_LIBRARY_DIRS})
 -
  # Library definitions
  add_library(filter_utilities src/filter_utilities.cpp)
- add_library(filter_base src/filter_base.cpp)

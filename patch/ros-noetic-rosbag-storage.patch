@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 82532b91f4..61a0448e41 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -27,7 +27,7 @@ add_definitions(${BZIP2_DEFINITIONS})
+ 
+ set(AES_ENCRYPT_SOURCE "")
+ set(AES_ENCRYPT_LIBRARIES "")
+-if(NOT WIN32)
++if(NOT WIN32 AND NOT APPLE)
+   set(AES_ENCRYPT_SOURCE "src/aes_encryptor.cpp" "src/gpgme_utils.cpp")
+   find_library(GPGME_LIBRARY
+     NAMES "gpgme"

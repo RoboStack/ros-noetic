@@ -57,7 +57,7 @@ index 0000000..9353bab
 +[tool.sip.project]
 +sip-files-dir = "@SIP_FILES_DIR@"
 +build-dir = "@SIP_BUILD_DIR@"
-+
++verbose = true
 +# Specify the PEP 566 metadata for the project.
 +[tool.sip.metadata]
 +name = "lib@PROJECT_NAME@"
@@ -165,13 +165,13 @@ index a055cf5..8f32039 100644
 +          endif()
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBARIES ${SIP_LIBARIES})
-+        # message(WARNING "test SIP_LIBARIES: ${SIP_LIBARIES}")
++        message(WARNING "test SIP_LIBARIES: ${SIP_LIBARIES}")
 +        foreach(_x ${LIBRARY_DIRS})
 +          set(SIP_LIBRARY_DIRS "${SIP_LIBRARY_DIRS},\"${_x}\"")
 +        endforeach()
 +        string(REGEX REPLACE "^," "" SIP_LIBRARY_DIRS ${SIP_LIBRARY_DIRS})
 +
-+        # message(WARNING "test lib dir: ${SIP_LIBRARY_DIRS}")
++        message(WARNING "test lib dir: ${SIP_LIBRARY_DIRS}")
 +        # TODO:
 +        #   I don't know what to do about LDFLAGS_OTHER
 +        #   what's the equivalent construct in sip5?
@@ -182,7 +182,7 @@ index a055cf5..8f32039 100644
 +        )
 +        add_custom_command(
 +            OUTPUT ${sip_LIBRARY_DIR}/lib${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}
-+            COMMAND ${PYTHON_EXECUTABLE} -m pip install . --target ${sip_LIBRARY_DIR} --no-deps --verbose --upgrade
++            COMMAND ${PYTHON_EXECUTABLE} -m pip install . --target ${sip_LIBRARY_DIR} --no-deps -vvv --upgrade
 +            DEPENDS ${sip_SIP_CONFIGURE} ${SIP_FILE} ${sip_DEPENDS}
 +            WORKING_DIRECTORY ${sip_BINARY_DIR}/sip
 +            COMMENT "Running SIP-build generator for ${PROJECT_NAME} Python bindings..."

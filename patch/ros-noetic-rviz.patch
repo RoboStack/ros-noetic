@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d623dd4e..e4490137 100644
+index f212ca6d..501ff318 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,11 @@
@@ -17,7 +17,7 @@ index d623dd4e..e4490137 100644
 @@ -98,10 +103,10 @@ if(APPLE)
  endif()
  
- # Prefer newer vender-specific OpenGL library
+ # Prefer newer vendor-specific OpenGL library
 -if (POLICY CMP0072)
 -  cmake_policy(SET CMP0072 NEW)
 -endif()
@@ -29,7 +29,7 @@ index d623dd4e..e4490137 100644
  
  set(CMAKE_AUTOMOC ON)
  
-@@ -214,7 +219,7 @@ catkin_package(
+@@ -226,7 +231,7 @@ catkin_package(
  
  #catkin_lint: ignore_once external_directory
  include_directories(src ${EXPORT_HEADER_DIR})
@@ -56,7 +56,7 @@ index 4b3c5b82..e714db0f 100644
  {
    type truetype
 diff --git a/src/python_bindings/sip/CMakeLists.txt b/src/python_bindings/sip/CMakeLists.txt
-index efbb497b..d2f4eb9b 100644
+index efbb497b..0def9a65 100644
 --- a/src/python_bindings/sip/CMakeLists.txt
 +++ b/src/python_bindings/sip/CMakeLists.txt
 @@ -48,14 +48,21 @@ set(rviz_sip_INCLUDE_DIRS
@@ -66,6 +66,7 @@ index efbb497b..d2f4eb9b 100644
 +
 +find_package(OpenGL REQUIRED)
 +find_package(Threads REQUIRED)
++
  set(rviz_sip_LIBRARIES ${rviz_LIBRARIES} ${PROJECT_NAME})
 -set(rviz_sip_LIBRARY_DIRS ${rviz_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_LIB_DESTINATION})
 +set(rviz_sip_LIBRARY_DIRS ${rviz_LIBRARY_DIRS} ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_LIB_DESTINATION} /usr/lib/x86_64-linux-gnu/)
@@ -78,31 +79,20 @@ index efbb497b..d2f4eb9b 100644
 +message(WARNING "rviz_sip_LIBRARIES: ${rviz_sip_LIBRARIES}")
 +message(WARNING "rviz_sip_LIBRARY_DIRS: ${rviz_sip_LIBRARY_DIRS}")
 +
-+
  if(sip_helper_FOUND)
    list(APPEND rviz_BINDINGS "sip")
    set(rviz_BINDINGS "${rviz_BINDINGS}" PARENT_SCOPE)
-@@ -69,11 +76,21 @@ if(sip_helper_FOUND)
+@@ -69,11 +76,11 @@ if(sip_helper_FOUND)
    if(DEFINED PYTHON_EXTENSION_MODULE_SUFFIX)
      set(rviz_sip_LIBRARY_FILE librviz_sip${PYTHON_EXTENSION_MODULE_SUFFIX})
    elseif(APPLE)
 -    set(rviz_sip_LIBRARY_FILE librviz_sip.so)
-+    # Okay-ish hack for now
-+    if(TRUE)
-+      set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-darwin.so")
-+    else()
-+      set(rviz_sip_LIBRARY_FILE librviz_sip.so)
-+    endif()
++    set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-darwin.so")
    elseif(WIN32)
      set(rviz_sip_LIBRARY_FILE librviz_sip.pyd)
    else()
 -    set(rviz_sip_LIBRARY_FILE librviz_sip${CMAKE_SHARED_LIBRARY_SUFFIX})
-+    if(TRUE)
-+      message(WARNING "Use hack")
-+      set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
-+    else()
-+      set(rviz_sip_LIBRARY_FILE librviz_sip${CMAKE_SHARED_LIBRARY_SUFFIX})
-+    endif()
++    set(rviz_sip_LIBRARY_FILE "librviz_sip.cpython-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}-${CMAKE_HOST_SYSTEM_PROCESSOR}-linux-gnu${CMAKE_SHARED_LIBRARY_SUFFIX}")
    endif()
    #catkin_lint: ignore_once external_file
    install(FILES ${CATKIN_DEVEL_PREFIX}/${PYTHON_INSTALL_DIR}/rviz/${rviz_sip_LIBRARY_FILE}
@@ -124,3 +114,42 @@ index 4005f982..c0441de8 100644
  #endif
    ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
    ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+diff --git a/src/rviz/mesh_loader.cpp b/src/rviz/mesh_loader.cpp
+index 80f1120a..950ffaf2 100644
+--- a/src/rviz/mesh_loader.cpp
++++ b/src/rviz/mesh_loader.cpp
+@@ -408,7 +408,7 @@ void loadTexture(const std::string& resource_path)
+     {
+       Ogre::DataStreamPtr stream(new Ogre::MemoryDataStream(res.data.get(), res.size));
+       Ogre::Image image;
+-      std::string extension = fs::extension(fs::path(resource_path));
++      std::string extension = fs::path(resource_path).extension().string();
+ 
+       if (extension[0] == '.')
+       {
+diff --git a/src/rviz/robot/robot_link.cpp b/src/rviz/robot/robot_link.cpp
+index 7ffe26e1..c122ba98 100644
+--- a/src/rviz/robot/robot_link.cpp
++++ b/src/rviz/robot/robot_link.cpp
+@@ -518,7 +518,7 @@ Ogre::MaterialPtr RobotLink::getMaterialForLink(const urdf::LinkConstSharedPtr&
+       {
+         Ogre::DataStreamPtr stream(new Ogre::MemoryDataStream(res.data.get(), res.size));
+         Ogre::Image image;
+-        std::string extension = fs::extension(fs::path(filename));
++        std::string extension = fs::path(filename).extension().string();
+ 
+         if (extension[0] == '.')
+         {
+diff --git a/src/rviz/properties/enum_property.h b/src/rviz/properties/enum_property.h
+index c3e5e873..5e29c425 100644
+--- a/src/rviz/properties/enum_property.h
++++ b/src/rviz/properties/enum_property.h
+@@ -43,7 +43,7 @@ namespace rviz
+  * option.  The integer returned will be that passed to addOption()
+  * for with the string that is currently selected.
+  */
+-class EnumProperty : public StringProperty
++class RVIZ_EXPORT EnumProperty : public StringProperty
+ {
+   Q_OBJECT
+ public:

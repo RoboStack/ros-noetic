@@ -1,19 +1,18 @@
 diff --git a/CMake/unix_config.cmake b/CMake/unix_config.cmake
-index 4ec81bb..c4102dc 100644
+index 4ec81bbf..7822b692 100644
 --- a/CMake/unix_config.cmake
 +++ b/CMake/unix_config.cmake
-@@ -8,8 +8,12 @@ macro(os_set_flags)
+@@ -7,9 +7,12 @@ macro(os_set_flags)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-switch -Wno-multichar -Wsequence-point -Wformat -Wformat-security")
  
      execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE MACHINE)
-     if(${MACHINE} MATCHES "arm-*")
--        set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
--        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
-+        set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mfpu=neon -mfloat-abi=hard -ftree-vectorize")
-+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon -mfloat-abi=hard -ftree-vectorize")
-+        if(NOT APPLE)
-+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -latomic")
-+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -latomic")
-+        endif()
+-    if(${MACHINE} MATCHES "arm-*")
++    if(${MACHINE} MATCHES "arm-*" AND NOT APPLE)
+         set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
++    elseif(${MACHINE} MATCHES "arm-*" AND APPLE)
++        set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -ftree-vectorize")
++        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftree-vectorize")
      elseif(${MACHINE} MATCHES "aarch64-*")
          set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mstrict-align -ftree-vectorize")
          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mstrict-align -ftree-vectorize")

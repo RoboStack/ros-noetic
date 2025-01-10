@@ -1,6 +1,11 @@
+name: Generate CI pipelines for ROS packages
+
 permissions:
   actions: write
   contents: write
+
+env:
+  ROS_VERSION: 1
 
 jobs:
   build:
@@ -15,7 +20,7 @@ jobs:
         python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     - name: Install vinca
       run: |
-        pip install git+https://github.com/RoboStack/vinca.git
+        pip install git+https://github.com/RoboStack/vinca.git@rattler-build-humble
 
     - name: Generate recipes for linux-64
       run: |

@@ -1,0 +1,7 @@
+diff --git a/utils/stat.cpp b/utils/stat.cpp
+index 30536c4..d99056b 100644
+--- a/utils/stat.cpp
++++ b/utils/stat.cpp
+@@ -7,1 +7,1 @@
+-#include <math.h>
++#include <cmath>

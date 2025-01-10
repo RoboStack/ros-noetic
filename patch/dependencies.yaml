@@ -1,14 +1,24 @@
+euslisp:
+  add_host: ["${{ 'xorg-libx11' if linux }}"]
 qt_gui_cpp:
-  add_build: ["pyqt-builder", "pyqt5-sip"]
+  add_build: ["pyqt-builder", "pyqt5-sip", "sip 6.7.*"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
 rviz:
-  add_build: ["pyqt-builder", "pyqt5-sip"]
+  add_build: ["pyqt-builder", "pyqt5-sip", "sip 6.7.*"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
 python_qt_binding:
+  add_build: ["pyqt-builder", "pyqt5-sip", "sip 6.7.*"]
+  add_host: ["${{ 'setuptools 69.*' if win }}", "sip 6.7.*"]
   add_run: ["adwaita-icon-theme"]
+find_object_2d:
+  add_host: ["zlib"]
 ompl:
   add_host: ["ompl"]
   add_run: ["ompl"]
 sick_tim:
   add_host: ["pkg-config"]
+class_loader:
+  add_host: ["${{ 'libcxx-devel 19.*' if osx }}"]
 moveit_visual_tools:
   add_host: ["REQUIRE_OPENGL"]
 pcl_conversions:
@@ -30,17 +40,17 @@ gazebo_ros_control:
 gazebo_pkgs:
   add_host: [tbb, tbb-devel]
 ros_ign_gazebo:
-  add_host: ["REQUIRE_OPENGL", {"sel(linux)": "libuuid"}]
+  add_host: ["REQUIRE_OPENGL", "${{ 'libuuid' if linux }}"]
 apriltag:
   add_host: ["REQUIRE_OPENGL"]
 lvr2:
   add_host: ["libgdal", "cgal-cpp"]
 rtabmap:
-  add_host: ["REQUIRE_OPENGL", "pybind11"]
+  add_host: ["REQUIRE_OPENGL", "pybind11", "tbb-devel", "liblzma-devel"]
 rtabmap_ros:
   add_host: ["REQUIRE_OPENGL"]
 rtabmap_conversions:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL", "libnetcdf", "liblzma-devel"]
 rtabmap_rviz_plugins:
   add_host: ["REQUIRE_OPENGL"]
 rtabmap_viz:
@@ -79,7 +89,7 @@ mqtt_bridge:
 mrpt2:
   add_host:  ["tinyxml2", "libboost-devel", "jsoncpp", "gtest", "libboost-python-devel", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_run:   ["tinyxml2", "libboost-devel", "jsoncpp", "gtest", "libboost-python-devel", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
-  add_build: [{"sel(linux)": "{{ cdt('libxcomposite-devel') }}"}]
+  add_build: ["${{ cdt('libxcomposite-devel') if linux }}"]
 image_view:
   add_host: ["REQUIRE_OPENGL"]
 rosserial_python:
@@ -119,11 +129,11 @@ safety_limiter:
 ifopt:
   add_host: ["ipopt"]
 tesseract_collision:
-  add_build: [{"sel(osx)": "llvm-openmp"}]
+  add_build: ["${{ 'llvm-openmp' if osx }}"]
 rosbridge_library:
   add_run: ["pymongo"]
 resource_retriever:
   add_host: ["libcurl"]
   add_run: ["libcurl"]
 plotjuggler:
-  add_host: [{"sel(linux)": "elfutils"}, "protobuf"]
+  add_host: ["${{ 'elfutils' if linux }}", "protobuf"]

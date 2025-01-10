@@ -81,13 +81,20 @@ draco:
 eigen:
   robostack: [eigen]
 emacs:
-  robostack: [emacs]
+# Wait until https://github.com/conda-forge/gtk3-feedstock/pull/74 is resolved
+# and emacs is rebuilt for harfbuzz=10
+#   robostack: [emacs]
+  robostack: []
 festival:
   robostack:
     linux: [festival, festvox-kallpc16k]
     osx: []
     win64: []
+file:
+  robostack: [file]
 ffmpeg:
+  robostack: [ffmpeg]
+ffmpeg-dev:
   robostack: [ffmpeg]
 flac:
   robostack: [libflac]
@@ -111,6 +118,8 @@ geographiclib-tools:
   robostack: [geographiclib-cpp]
 git:
   robostack: [git]
+glslang-dev:
+  robostack: [glslang]
 glut:
   robostack:
     linux: [freeglut]
@@ -130,8 +139,10 @@ gstreamer1.0-plugins-base:
   robostack: [gst-plugins-base]
 gstreamer1.0-plugins-good:
   robostack: [gst-plugins-good]
+# only sound-play requests it, but doesn't actually need it
+# do not pull it in as migrations lack behind
 gstreamer1.0-plugins-ugly:
-  robostack: [gst-plugins-ugly]
+  robostack: []
 gtest:
   robostack: [gtest]
 gtk2:
@@ -184,6 +195,8 @@ libabsl-dev:
   robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
+libboost:
+  robostack: [libboost]
 libboost-chrono-dev:
   robostack: [libboost-devel]
 libboost-date-time:
@@ -260,8 +273,12 @@ libflann-dev:
   robostack: [flann]
 libfltk-dev:
   robostack: [fltk]
+libfreeimage-dev:
+  robostack: [freeimage]
 libfreenect-dev:
   robostack: []
+libfreetype-dev:
+  robostack: [freetype]
 libfreetype6:
   robostack: [freetype]
 libfreetype6-dev:
@@ -309,7 +326,7 @@ libhdf5-dev:
 libi2c-dev:
   robostack: [libi2c]
 liblttng-ust-dev:
-  robostack: [lttng-ust]
+  robostack: ["${{ \"lttng-ust\" if linux }}"]
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
@@ -318,6 +335,10 @@ libjsoncpp-dev:
   robostack: [jsoncpp]
 liblapack-dev:
   robostack: [liblapack]
+liblz4:
+  robostack: [lz4]
+liblz4-dev:
+  robostack: [lz4]
 libmicrohttpd:
   robostack: [libmicrohttpd]
 libncurses-dev:
@@ -363,7 +384,7 @@ libpcap:
 libpcl-all:
   robostack: [pcl]
 libpcl-all-dev:
-  robostack: [pcl]
+  robostack: [pcl, libboost-devel, vtk-base, REQUIRE_OPENGL]
 libpng-dev:
   robostack: [libpng]
 libpoco-dev:
@@ -400,13 +421,12 @@ libreadline:
   robostack: [readline]
 libreadline-dev:
   robostack: [readline]
+libshaderc-dev:
+  robostack: [shaderc]
 libsndfile1-dev:
   robostack: [libsndfile]
 libspnav-dev:
-  robostack:
-    linux: [libspnav]
-    osx: [libspnav]
-    win64: []
+  robostack: [libspnav, xorg-xorgproto]
 libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
@@ -454,10 +474,15 @@ libvtk:
   robostack: [vtk]
 libvtk-qt:
   robostack: [vtk]
+libvulkan-dev:
+  robostack: 
+    linux: [libvulkan-headers, libvulkan-loader]
+    osx: []
+    win64: [libvulkan-headers, libvulkan-loader]
 libx11:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libx11-dev:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
 libxaw:
   robostack:
     linux: [xorg-libxaw]
@@ -484,6 +509,12 @@ libxt-dev:
   robostack: [xorg-libxt]
 libxxf86vm:
   robostack: [REQUIRE_OPENGL]
+libyaml:
+  robostack: [yaml]
+libyaml-dev:
+  robostack: [yaml]
+libzip-dev:
+  robostack: [libzip]
 libzmq3-dev:
   robostack: [zeromq, cppzmq]
 libzstd-dev:
@@ -511,7 +542,7 @@ netpbm:
     linux-aarch64: []
     osx-arm64: []
     linux: [netpbm]
-    osx: [netpbm]
+    osx: []
     win64: []
 nlohmann-json-dev:
   robostack: [nlohmann_json]
@@ -637,7 +668,7 @@ python-rospkg-modules:
 python-setuptools:
   robostack: [setuptools]
 python-sip:
-  robostack: [sip]
+  robostack: [sip 6.7.*]
 python-six:
   robostack: [six]
 python-slacker-cli:
@@ -686,6 +717,8 @@ python3-cryptography:
   robostack: [cryptography]
 python3-defusedxml:
   robostack: [defusedxml]
+python3-deprecated:
+  robostack: [deprecated]
 python3-dev:
   robostack: [python]
 python3-docopt:
@@ -696,6 +729,8 @@ python3-empy:
   robostack: [empy]
 python3-flake8:
   robostack: [flake8]
+python3-flake8-comprehensions:
+  robostack: [flake8-comprehensions]
 python3-flask:
   robostack: [flask]
 python3-flask-cors:
@@ -770,6 +805,8 @@ python3-pip:
   robostack: [pip]
 python3-pkg-resources:
   robostack: []
+python3-protobuf:
+  robostack: [protobuf]
 python3-psutil:
   robostack: [psutil]
 python3-pyassimp:
@@ -858,6 +895,16 @@ python3-unidiff:
   robostack: [unidiff]
 python3-usb:
   robostack: [pyusb]
+python3-vcstool:
+  robostack: [vcstool]
+python3-flake8-docstrings:
+  robostack: [flake8-docstrings]
+python3-flake8-import-order:
+  robostack: [flake8-import-order]
+python3-flake8-builtins:
+  robostack: [flake8-builtins]
+python3-flake8-quotes:
+  robostack: [flake8-quotes]
 python3-venv:
   robostack: [virtualenv, pip, pip-tools, setuptools]
 python3-websocket:
@@ -872,12 +919,16 @@ qt5-qmake:
   robostack: [qt-main, REQUIRE_OPENGL]
 qtbase5-dev:
   robostack: [qt-main, REQUIRE_OPENGL]
+rapidjson-dev:
+  robostack: [rapidjson]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]
 rsync:
   robostack: [rsync]
 rti-connext-dds-5.3.1:
   robostack: []
+ruby:
+  robostack: [ruby]
 sbcl:
   robostack:
     linux: [sbcl]
@@ -898,10 +949,7 @@ sdl2:
 socat:
   robostack: [socat]
 spacenavd:
-  robostack:
-    linux: [libspnav]
-    osx: [libspnav]
-    win64: []
+  robostack: [libspnav]
 spdlog:
   robostack: [spdlog]
 sshpass:
@@ -949,7 +997,7 @@ wget:
 xsimd:
   robostack: [xsimd]
 xtensor:
-  robostack: [xtensor 0.24]
+  robostack: [xtensor ==0.24.7]
 wx-common:
   robostack: [wxpython]
 wxpython:
@@ -966,4 +1014,5 @@ zbar:
   robostack: [zbar]
 zlib:
   robostack: [zlib]
-
+zziplib:
+  robostack: [zziplib]

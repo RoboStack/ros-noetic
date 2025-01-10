@@ -1,12 +1,12 @@
 ros_distro: noetic
-mutex_package: ros-distro-mutex 0.5 noetic
+mutex_package: ros-distro-mutex 0.6.* noetic_*
 
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-build_number: 11
+build_number: 12
 
 # Ignore all dependencies of selected packages
 skip_all_deps: false
@@ -20,10 +20,13 @@ packages_skip_by_deps:
   - eigenpy
   - hpp-fcl
   - pinocchio
+  - gtsam
 
 packages_remove_from_deps:
   - stage-ros
   - stage
+  - roseus
+  - jskeus
 
 skip_existing:
   # - https://conda.anaconda.org/robostack/

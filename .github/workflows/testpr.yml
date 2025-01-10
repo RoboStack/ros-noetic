@@ -8,71 +8,51 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, macos-14, windows-2019]
-        platform: [linux-64, linux-aarch64, osx-64, win-64, osx-arm64]
-        exclude:
+        include:
           - os: ubuntu-latest
-            platform: win-64
-          - os: ubuntu-latest
-            platform: osx-64
-          - os: ubuntu-latest
-            platform: osx-arm64
-          - os: macos-14
             platform: linux-64
-          - os: macos-14
+          - os: cirun-linux-aarch64--${{ github.run_id }}
             platform: linux-aarch64
-          - os: macos-14
+          - os: macos-13
             platform: osx-64
           - os: macos-14
-            platform: win-64
-          - os: macos-latest
-            platform: linux-64
-          - os: macos-latest
-            platform: linux-aarch64
-          - os: macos-latest
             platform: osx-arm64
-          - os: macos-latest
+          - os: windows-2019
             platform: win-64
-          - os: windows-2019
-            platform: linux-64
-          - os: windows-2019
-            platform: linux-aarch64
-          - os: windows-2019
-            platform: osx-64
-          - os: windows-2019
-            platform: osx-arm64
+
+    runs-on: ${{ matrix.os }}
+
     steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+    - uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        environments: beta
+        frozen: true
+
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
     - name: Clean up PATH
       if: contains(matrix.os, 'windows')
       uses: egor-tensin/cleanup-path@v4
       with:
         # cygpath in C:\Program Files\Git\usr\bin is used by install micromamba
-        # git in C:\Program Files\Git\bin is used by pip install git+ 
+        # git in C:\Program Files\Git\bin is used by pip install git+
         dirs: 'C:\Program Files\Git\usr\bin;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin'
 
-    - uses: actions/checkout@master
-    - name: install micromamba
-      uses: mamba-org/setup-micromamba@main
-      with:
-        environment-file: .github/testpr_environment.yml
-        condarc: |
-          channels:
-            - robostack-staging
-            - conda-forge
-
-    - shell: bash -l {0}
-      if: matrix.platform == 'linux-aarch64'
-      run: |
-        echo "::group::Configure binfmt_misc"
-        docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
-        export FEEDSTOCK_NAME="$(basename $GITHUB_REPOSITORY)"
-        export GIT_BRANCH="$(basename $GITHUB_REF)"
-        echo "::endgroup::"
+    # - shell: bash -l {0}
+    #   if: matrix.platform == 'linux-aarch64'
+    #   run: |
+    #     echo "::group::Configure binfmt_misc"
+    #     docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+    #     export FEEDSTOCK_NAME="$(basename $GITHUB_REPOSITORY)"
+    #     export GIT_BRANCH="$(basename $GITHUB_REF)"
+    #     echo "::endgroup::"
 
     - name: Install libgl1-mesa-dev (only for linux-aarch64)
       if: matrix.platform == 'linux-aarch64'
@@ -81,24 +61,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxmu-dev
 
-    - shell: bash -l {0}
-      run: |
-        conda config --show channels | grep defaults && conda config --remove channels defaults
-        conda info
-        conda config --show
-        micromamba install -y pip rospkg networkx "catkin_pkg>=0.4.16" "ruamel.yaml>=0.16.6" "rosdistro>=0.8.0" "empy>=3.3.4" boa
-    - name: install vinca
-      shell: bash -l {0}
-      run: |
-        # use no-deps for now, otherwise problems with ruamel.
-        pip install git+https://github.com/RoboStack/vinca.git --no-deps
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
+    # Furthermore, we also need to remove an older SDK that is used and can result in compilation problems
     - name: Debug pkg-config problem
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
         rm -rf /c/Strawberry
+        rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
     - name: Check what files have changed
       id: filecheck
@@ -119,84 +90,102 @@ jobs:
         echo "::set-output name=WIN_YAML_CHANGED::${?}"
     - name: Generate recipes for linux-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+      if: steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.platform == 'linux-64'
       run: |
-        git clean -fdx
         cp vinca_linux_64.yaml vinca.yaml
-        vinca --platform linux-64
-        ls
-        cat recipe.yaml
+        mkdir -p recipes
+        $HOME/.pixi/bin/pixi run -e beta -v vinca --platform linux-64 -m -n
+        ls -la recipes
     - name: Generate recipes for linux-aarch64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+      if: steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.platform == 'linux-aarch64'
       run: |
-        git clean -fdx
         cp vinca_linux_aarch64.yaml vinca.yaml
-        vinca --platform linux-aarch64
-        ls
-        cat recipe.yaml
+        mkdir -p recipes
+        $HOME/.pixi/bin/pixi run -e beta -v vinca --platform linux-aarch64 -m -n
+        ls -la recipes
     - name: Generate recipes for osx-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
+      if: steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.platform == 'osx-64'
       run: |
-        git clean -fdx
         cp vinca_osx.yaml vinca.yaml
-        vinca --platform osx-64
-        ls
-        cat recipe.yaml
+        mkdir -p recipes
+        $HOME/.pixi/bin/pixi run -e beta -v vinca --platform osx-64 -m -n
+        ls -la recipes
     - name: Generate recipes for osx-arm64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
+      if: steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.platform == 'osx-arm64'
       run: |
-        git clean -fdx
         cp vinca_osx_arm64.yaml vinca.yaml
-        vinca --platform osx-arm64
-        ls
-        cat recipe.yaml
+        mkdir -p recipes
+        $HOME/.pixi/bin/pixi run -e beta -v vinca --platform osx-arm64 -m -n
+        ls -la recipes
     - name: Generate recipes for win-64
       shell: bash -l {0}
-      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.platform == 'win-64'
       run: |
-        git clean -fdx
+        # Workaround for problem related to long paths
+        echo "CONDA_BLD_PATH=C:\\bld\\" >> $GITHUB_ENV
+        mkdir /c/bld
         cp vinca_win.yaml vinca.yaml
-        vinca --platform win-64
-        ls
-        cat recipe.yaml
+        mkdir -p recipes
+        $HOME/.pixi/bin/pixi run -e beta -v vinca --platform win-64 -m -n
+        ls -la recipes
     - name: Check if there are packages to be built
       id: newrecipecheck
       shell: bash -l {0}
       run: |
         # continue on error
         set +e
-        grep -q "outputs: \[\]" recipe.yaml > /dev/null
+        test ! -d recipes
         echo "::set-output name=RECIPE_CREATED::${?}"
     - name: Build recipes for linux-64
       shell: bash -l {0}
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.platform == 'linux-64'
       run: |
-        boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-64'
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for linux-aarch64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.os == 'ubuntu-latest' && matrix.platform == 'linux-aarch64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.LINUX_AARCH_YAML_CHANGED == 1 && matrix.platform == 'linux-aarch64'
       run: |
-        boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=linux-aarch64
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform linux-aarch64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.os == 'macos-latest' && matrix.platform == 'osx-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_YAML_CHANGED == 1 && matrix.platform == 'osx-64'
       run: |
-        boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for osx-arm64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.os == 'macos-14' && matrix.platform == 'osx-arm64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.OSX_ARM_YAML_CHANGED == 1 && matrix.platform == 'osx-arm64'
       run: |
-        boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml --target-platform=osx-arm64
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        env -i $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform osx-arm64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
     - name: Build recipes for win-64
       shell: bash -l {0}
-      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.os == 'windows-2019' && matrix.platform == 'win-64'
+      if: steps.newrecipecheck.outputs.RECIPE_CREATED == 1 && steps.filecheck.outputs.WIN_YAML_CHANGED == 1 && matrix.platform == 'win-64'
       run: |
-        boa build additional_recipes/ros-distro-mutex/ -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
-        boa build . -m ./.ci_support/conda_forge_pinnings.yaml -m ./conda_build_config.yaml
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-distro-mutex/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-eigenpy/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-gtsam/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-hpp-fcl/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe additional_recipes/ros-noetic-pinocchio/ --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
+        $HOME/.pixi/bin/pixi run -e beta rattler-build build --recipe-dir recipes --target-platform win-64 -m ./conda_build_config.yaml -c robostack-staging -c conda-forge --skip-existing
