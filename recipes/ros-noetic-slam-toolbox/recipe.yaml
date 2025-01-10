@@ -1,0 +1,152 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-slam-toolbox
+  version: 1.5.7
+source:
+  git: https://github.com/SteveMacenski/slam_toolbox-release.git
+  tag: release/noetic/slam_toolbox/1.5.7-1
+  target_directory: ros-noetic-slam-toolbox/src/work
+  patches:
+    - patch/ros-noetic-slam-toolbox.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 9
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: build_platform != target_platform
+      then:
+        - qt-main
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - ceres-solver
+    - eigen
+    - gtest
+    - liblapack
+    - numpy
+    - pip
+    - python
+    - qt-main
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-interactive-markers
+    - ros-noetic-libg2o
+    - ros-noetic-map-server
+    - ros-noetic-message-filters
+    - ros-noetic-message-runtime
+    - ros-noetic-nav-msgs
+    - ros-noetic-pluginlib
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp
+    - ros-noetic-sensor-msgs
+    - ros-noetic-slam-toolbox-msgs
+    - ros-noetic-sparse-bundle-adjustment
+    - ros-noetic-std-msgs
+    - ros-noetic-std-srvs
+    - ros-noetic-tf
+    - ros-noetic-tf2
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-ros
+    - ros-noetic-visualization-msgs
+    - suitesparse
+    - tbb
+    - tbb-devel
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - ceres-solver
+    - eigen
+    - liblapack
+    - python
+    - qt-main
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-interactive-markers
+    - ros-noetic-libg2o
+    - ros-noetic-map-server
+    - ros-noetic-message-filters
+    - ros-noetic-message-runtime
+    - ros-noetic-nav-msgs
+    - ros-noetic-pluginlib
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp
+    - ros-noetic-sensor-msgs
+    - ros-noetic-slam-toolbox-msgs
+    - ros-noetic-sparse-bundle-adjustment
+    - ros-noetic-std-msgs
+    - ros-noetic-std-srvs
+    - ros-noetic-tf
+    - ros-noetic-tf2
+    - ros-noetic-tf2-geometry-msgs
+    - ros-noetic-tf2-ros
+    - ros-noetic-visualization-msgs
+    - suitesparse
+    - tbb
+    - tbb-devel
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext

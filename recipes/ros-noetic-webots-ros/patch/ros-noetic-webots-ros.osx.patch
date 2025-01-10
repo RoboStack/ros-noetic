@@ -1,0 +1,13 @@
+diff --git a/scripts/webots_launcher.py b/scripts/webots_launcher.py
+index f20a0ac..c2983a2 100755
+--- a/scripts/webots_launcher.py
++++ b/scripts/webots_launcher.py
+@@ -64,7 +64,7 @@ options, args = optParser.parse_args()
+ if 'WEBOTS_HOME' not in os.environ:
+     sys.exit('WEBOTS_HOME environment variable not defined.')
+ 
+-command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
++command = [os.path.join(os.environ['WEBOTS_HOME'], 'Contents/MacOS/webots'), '--mode=' + options.mode, options.world]
+ 
+ if options.stream.lower() != 'false':
+     if options.stream.lower() == 'true':

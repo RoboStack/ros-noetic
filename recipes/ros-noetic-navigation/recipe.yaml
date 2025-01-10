@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-navigation
+  version: 1.17.3
+source:
+  git: https://github.com/ros-gbp/navigation-release.git
+  tag: release/noetic/navigation/1.17.3-1
+  target_directory: ros-noetic-navigation/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 9
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+  run:
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-amcl
+    - ros-noetic-base-local-planner
+    - ros-noetic-carrot-planner
+    - ros-noetic-clear-costmap-recovery
+    - ros-noetic-costmap-2d
+    - ros-noetic-dwa-local-planner
+    - ros-noetic-fake-localization
+    - ros-noetic-global-planner
+    - ros-noetic-map-server
+    - ros-noetic-move-base
+    - ros-noetic-move-base-msgs
+    - ros-noetic-move-slow-and-clear
+    - ros-noetic-nav-core
+    - ros-noetic-navfn
+    - ros-noetic-rotate-recovery
+    - ros-noetic-voxel-grid
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

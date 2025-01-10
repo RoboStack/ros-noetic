@@ -1,0 +1,77 @@
+From cb6af72f331a881fb399e651d6c9aaaf536a63e3 Mon Sep 17 00:00:00 2001
+From: Ben Wolsieffer <benwolsieffer@gmail.com>
+Date: Thu, 10 Aug 2023 13:29:02 -0400
+Subject: [PATCH] Make BlobDetector inherit from cv::Feature2D
+
+BlobDetector currently inherits from cv::SimpleBlobDetector, which is an
+interface class that doesn't provide any functionality itself. On the
+other hand, every time OpenCV adds a new pure virtual method to this
+interface, it breaks BlobDetector.
+
+This patch makes BlobDetector inherit from cv::Feature2D instead, which
+should hopefully have fewer breaking changes. This requires adding a
+typedef for Params, which was originally provided by
+cv::SimpleBlobDetector. I also took the opportunity to make all the
+parameters reference this typedef rather than directly use
+cv::SimpleBlobDetector::Params.
+
+It is likely possible to remove inheritance from BlobDetector altogether,
+since it doesn't appear to use any functionality from cv::Feature2D
+either, but I decided not to do this because BlobDetector is part of the
+public interface, and this could increase the likelihood of breaking
+downstream packages that use this class (if any do).
+---
+ .../costmap_to_dynamic_obstacles/blob_detector.h       | 10 ++++++----
+ src/costmap_to_dynamic_obstacles/blob_detector.cpp     |  4 ++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/include/costmap_converter/costmap_to_dynamic_obstacles/blob_detector.h b/include/costmap_converter/costmap_to_dynamic_obstacles/blob_detector.h
+index ac9b80a..9bfe5bf 100644
+--- a/include/costmap_converter/costmap_to_dynamic_obstacles/blob_detector.h
++++ b/include/costmap_converter/costmap_to_dynamic_obstacles/blob_detector.h
+@@ -57,14 +57,16 @@
+  *
+  * See http://docs.opencv.org/trunk/d0/d7a/classcv_1_1SimpleBlobDetector.html for the original class.
+  */
+-class BlobDetector : public cv::SimpleBlobDetector
++class BlobDetector : public cv::Feature2D
+ {
+ public:
++  typedef cv::SimpleBlobDetector::Params Params;
++
+   //! Default constructor which optionally accepts custom parameters
+-  BlobDetector(const cv::SimpleBlobDetector::Params& parameters = cv::SimpleBlobDetector::Params());
++  BlobDetector(const Params& parameters = Params());
+ 
+   //! Create shared instance of the blob detector with given parameters
+-  static cv::Ptr<BlobDetector> create(const BlobDetector::Params& params);
++  static cv::Ptr<BlobDetector> create(const Params& params);
+ 
+   /**
+    * @brief Detects keypoints in an image and extracts contours
+@@ -90,7 +92,7 @@ class BlobDetector : public cv::SimpleBlobDetector
+   const std::vector<std::vector<cv::Point>>& getContours() { return contours_; }
+ 
+   //! Update internal parameters
+-  void updateParameters(const cv::SimpleBlobDetector::Params& parameters);
++  void updateParameters(const Params& parameters);
+ 
+ protected:
+   struct Center
+diff --git a/src/costmap_to_dynamic_obstacles/blob_detector.cpp b/src/costmap_to_dynamic_obstacles/blob_detector.cpp
+index c7352f4..564cb0c 100755
+--- a/src/costmap_to_dynamic_obstacles/blob_detector.cpp
++++ b/src/costmap_to_dynamic_obstacles/blob_detector.cpp
+@@ -2,9 +2,9 @@
+ #include <opencv2/opencv.hpp>
+ #include <iostream>
+ 
+-BlobDetector::BlobDetector(const SimpleBlobDetector::Params& parameters) : params_(parameters) {}
++BlobDetector::BlobDetector(const Params& parameters) : params_(parameters) {}
+ 
+-cv::Ptr<BlobDetector> BlobDetector::create(const cv::SimpleBlobDetector::Params& params)
++cv::Ptr<BlobDetector> BlobDetector::create(const Params& params)
+ {
+   return cv::Ptr<BlobDetector> (new BlobDetector(params)); // compatibility with older versions
+   //return cv::makePtr<BlobDetector>(params);
+
