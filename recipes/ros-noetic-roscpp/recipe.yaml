@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-roscpp
+  version: 1.17.0
+source:
+  git: https://github.com/ros-gbp/ros_comm-release.git
+  tag: release/noetic/roscpp/1.17.0-1
+  target_directory: ros-noetic-roscpp/src/work
+  patches:
+    - patch/ros-noetic-roscpp.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 18
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - libboost-devel
+    - numpy
+    - pip
+    - pkg-config
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+    - ros-noetic-cpp-common
+    - ros-noetic-message-generation
+    - ros-noetic-message-runtime
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp-serialization
+    - ros-noetic-roscpp-traits
+    - ros-noetic-rosgraph-msgs
+    - ros-noetic-roslang
+    - ros-noetic-rostime
+    - ros-noetic-std-msgs
+    - ros-noetic-xmlrpcpp
+  run:
+    - libboost-devel
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-cpp-common
+    - ros-noetic-message-runtime
+    - ros-noetic-rosconsole
+    - ros-noetic-roscpp-serialization
+    - ros-noetic-roscpp-traits
+    - ros-noetic-rosgraph-msgs
+    - ros-noetic-rostime
+    - ros-noetic-std-msgs
+    - ros-noetic-xmlrpcpp
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

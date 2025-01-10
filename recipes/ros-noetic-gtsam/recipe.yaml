@@ -1,0 +1,19 @@
+package:
+  name: ros-noetic-gtsam
+  version: "4.2.0"
+
+build:
+  number: 21
+
+requirements:
+  run:
+    - gtsam ==4.2.0
+
+about:
+  homepage: https://github.com/conda-forge/gtsam-feedstock
+  license: BSD-3-Clause
+  summary: |
+    GTSAM is a library of C++ classes that implement smoothing and mapping (SAM) in robotics and vision
+extra:
+  recipe-maintainers:
+    - ros-forge

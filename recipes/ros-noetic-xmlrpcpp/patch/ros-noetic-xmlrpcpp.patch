@@ -1,0 +1,55 @@
+diff --git a/src/XmlRpcClient.cpp b/src/XmlRpcClient.cpp
+index 2401aab848..7244f5b35b 100644
+--- a/src/XmlRpcClient.cpp
++++ b/src/XmlRpcClient.cpp
+@@ -1,4 +1,4 @@
+-
++#include <iostream>
+ #include "xmlrpcpp/XmlRpcClient.h"
+ 
+ #include "xmlrpcpp/XmlRpcSocket.h"
+diff --git a/include/xmlrpcpp/XmlRpc.h b/include/xmlrpcpp/XmlRpc.h
+index 0018b7ecc1..7b1ec18c47 100644
+--- a/include/xmlrpcpp/XmlRpc.h
++++ b/include/xmlrpcpp/XmlRpc.h
+@@ -23,9 +23,8 @@
+ # pragma warning(disable:4786)    // identifier was truncated in debug info
+ #endif
+ 
+-#ifndef MAKEDEPEND
+-# include <string>
+-#endif
++#include <string>
++#include <iostream>
+ 
+ #include "xmlrpcpp/XmlRpcClient.h"
+ #include "xmlrpcpp/XmlRpcException.h"
+diff --git a/xmlrpcpp/XmlRpcClient.h b/include/xmlrpcpp/XmlRpcClient.h
+index 12175360b7..9ce539c2be 100644
+--- a/include/xmlrpcpp/XmlRpcClient.h
++++ b/include/xmlrpcpp/XmlRpcClient.h
+@@ -9,9 +9,8 @@
+ #endif
+ 
+ 
+-#ifndef MAKEDEPEND
+-# include <string>
+-#endif
++#include <string>
++#include <iostream>
+ 
+ #include "xmlrpcpp/XmlRpcDispatch.h"
+ #include "xmlrpcpp/XmlRpcSource.h"
+diff --git a/include/xmlrpcpp/XmlRpcValue.h b/include/xmlrpcpp/XmlRpcValue.h
+index ac92440cdd..dadbf8c67b 100644
+--- a/include/xmlrpcpp/XmlRpcValue.h
++++ b/include/xmlrpcpp/XmlRpcValue.h
+@@ -8,6 +8,8 @@
+ # pragma warning(disable:4786)    // identifier was truncated in debug info
+ #endif
+ 
++#include <sstream>
++
+ #include "xmlrpcpp/XmlRpcDecl.h"
+ 
+ #ifndef MAKEDEPEND

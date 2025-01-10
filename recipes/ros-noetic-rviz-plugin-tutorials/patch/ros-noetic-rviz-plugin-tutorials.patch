@@ -1,0 +1,23 @@
+diff --git a/rviz_plugin_tutorials/CMakeLists.txt b/rviz_plugin_tutorials/CMakeLists.txt
+index 01ff2738..1b4b4079 100644
+--- a/rviz_plugin_tutorials/CMakeLists.txt
++++ b/rviz_plugin_tutorials/CMakeLists.txt
+@@ -10,6 +10,18 @@ catkin_package()
+ include_directories(${catkin_INCLUDE_DIRS})
+ link_directories(${catkin_LIBRARY_DIRS})
+ 
++if(${CMAKE_C_COMPILER_ID} STREQUAL "Clang" AND ${CMAKE_C_COMPILER_VERSION} VERSION_GREATER_EQUAL "11")
++  # newer Clang chokes on the idiomatic way to use CF_ENUM; e.g. like this:
++  #     typedef CF_ENUM(int, MyEnum) {
++  #       MY_ENUM_THING,
++  #       MY_ENUM_OTHER_THING,
++  #       # etc...
++  #     }
++  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-elaborated-enum-base -Wno-undef-prefix")
++  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-elaborated-enum-base -Wno-undef-prefix")
++  SET(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -Wno-undef-prefix")
++endif()
++
+ ## This setting causes Qt's "MOC" generation to happen automatically.
+ set(CMAKE_AUTOMOC ON)
+ 

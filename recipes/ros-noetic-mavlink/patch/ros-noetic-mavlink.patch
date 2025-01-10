@@ -1,0 +1,190 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bd600b66..a4d62000 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,23 +17,7 @@ include(GNUInstallDirs)
+ # hack from urdfdom: by default this would be 'lib/x86_64-linux-gnu'
+ set(CMAKE_INSTALL_LIBDIR lib)
+ 
+-if (DEFINED ENV{ROS_PYTHON_VERSION})
+-    set(Py_VERSION $ENV{ROS_PYTHON_VERSION})
+-else()
+-    message(WARNING "ENV ROS_PYTHON_VERSION is not set. Use default: 2")
+-    set(Py_VERSION "2")
+-endif()
+-
+-if (NOT CMAKE_VERSION VERSION_LESS "3.12")
+-    find_package(Python${Py_VERSION} COMPONENTS Interpreter)
+-    set(Python_EXECUTABLE "${Python${Py_VERSION}_EXECUTABLE}")
+-else()
+-    # find libraries with cmake modules
+-    find_package(PythonInterp ${Py_VERSION} REQUIRED)
+-    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE}")
+-endif()
+-
+-message(STATUS "Python ${Py_VERSION} iterpretator: ${Python_EXECUTABLE}")
++message(STATUS "Python iterpretator: ${PYTHON_EXECUTABLE}")
+ 
+ # Try to read package version from package.xml
+ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
+@@ -50,7 +34,7 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/package.xml)
+         )
+ 
+     execute_process(
+-        COMMAND ${Python_EXECUTABLE} ${CMAKE_BINARY_DIR}/package_version.py
++        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/package_version.py
+         OUTPUT_VARIABLE XML_VERSION
+         RESULT_VARIABLE XML_RESULT
+         )
+@@ -77,8 +61,7 @@ macro(generateMavlink_v10 definitions)
+         message(STATUS "processing v1.0: ${definitionAbsPath}")
+         add_custom_command(
+             OUTPUT include/v1.0/${definition}/${definition}.h
+-            COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
+-                ${Python_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
++            COMMAND ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C --wire-protocol=1.0
+                 --output=include/v1.0 ${definitionAbsPath}
+             DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
+             )
+@@ -96,8 +79,7 @@ macro(generateMavlink_v20 definitions)
+         add_custom_command(
+             OUTPUT ${definition}-v2.0-cxx-stamp
+             #OUTPUT include/v2.0/${definition}/${definition}.hpp
+-            COMMAND /usr/bin/env PYTHONPATH="${CMAKE_SOURCE_DIR}:$ENV{PYTHONPATH}"
+-                ${Python_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
++            COMMAND ${PYTHON_EXECUTABLE} ${mavgen_path} --lang=C++11 --wire-protocol=2.0
+                 --output=include/v2.0 ${definitionAbsPath}
+             COMMAND touch ${definition}-v2.0-cxx-stamp
+             DEPENDS ${definitionAbsPath} ${common_xml_path} ${mavgen_path}
+diff --git a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
+index a3956aa2..34d7d287 100644
+--- a/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
++++ b/pymavlink/generator/CPP11/include_v2.0/msgmap.hpp
+@@ -2,10 +2,93 @@
+ #pragma once
+ 
+ #include <algorithm>
++
++#if defined(_MSC_VER)
++#include <BaseTsd.h>
++typedef SSIZE_T ssize_t;
++#endif
++
++#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
++
++#      define __WINDOWS__
++
++#endif
++
+ #ifdef FREEBSD
+ #include <sys/endian.h>
+ #elif __APPLE__
+-#include <machine/endian.h>
++  #include <machine/endian.h>
++
++  #include <libkern/OSByteOrder.h>
++
++  #define htobe16(x) OSSwapHostToBigInt16(x)
++  #define htole16(x) OSSwapHostToLittleInt16(x)
++  #define be16toh(x) OSSwapBigToHostInt16(x)
++  #define le16toh(x) OSSwapLittleToHostInt16(x)
++
++  #define htobe32(x) OSSwapHostToBigInt32(x)
++  #define htole32(x) OSSwapHostToLittleInt32(x)
++  #define be32toh(x) OSSwapBigToHostInt32(x)
++  #define le32toh(x) OSSwapLittleToHostInt32(x)
++
++  #define htobe64(x) OSSwapHostToBigInt64(x)
++  #define htole64(x) OSSwapHostToLittleInt64(x)
++  #define be64toh(x) OSSwapBigToHostInt64(x)
++  #define le64toh(x) OSSwapLittleToHostInt64(x)
++  #undef TRUE
++  #undef FALSE
++#elif defined(__WINDOWS__)
++
++#      include <windows.h>
++#      if BYTE_ORDER == LITTLE_ENDIAN
++
++#               if defined(_MSC_VER)
++#                       include <stdlib.h>
++#                      define htobe16(x) _byteswap_ushort(x)
++#                      define htole16(x) (x)
++#                      define be16toh(x) _byteswap_ushort(x)
++#                      define le16toh(x) (x)
++
++#                      define htobe32(x) _byteswap_ulong(x)
++#                      define htole32(x) (x)
++#                      define be32toh(x) _byteswap_ulong(x)
++#                      define le32toh(x) (x)
++
++#                      define htobe64(x) _byteswap_uint64(x)
++#                      define htole64(x) (x)
++#                      define be64toh(x) _byteswap_uint64(x)
++#                      define le64toh(x) (x)
++
++#               elif defined(__GNUC__) || defined(__clang__)
++
++#                      define htobe16(x) __builtin_bswap16(x)
++#                      define htole16(x) (x)
++#                      define be16toh(x) __builtin_bswap16(x)
++#                      define le16toh(x) (x)
++
++#                      define htobe32(x) __builtin_bswap32(x)
++#                      define htole32(x) (x)
++#                      define be32toh(x) __builtin_bswap32(x)
++#                      define le32toh(x) (x)
++
++#                      define htobe64(x) __builtin_bswap64(x)
++#                      define htole64(x) (x)
++#                      define be64toh(x) __builtin_bswap64(x)
++#                      define le64toh(x) (x)
++#               else
++#                       error platform not supported
++#               endif
++
++#      else
++
++#              error byte order not supported
++
++#      endif
++
++#      define __BYTE_ORDER    BYTE_ORDER
++#      define __BIG_ENDIAN    BIG_ENDIAN
++#      define __LITTLE_ENDIAN LITTLE_ENDIAN
++#      define __PDP_ENDIAN    PDP_ENDIAN
+ #else
+ #include <endian.h>
+ #endif
+diff --git a/pymavlink/generator/mavgen_cpp11.py b/pymavlink/generator/mavgen_cpp11.py
+index aaeb5f5a..c2e94e2b 100644
+--- a/pymavlink/generator/mavgen_cpp11.py
++++ b/pymavlink/generator/mavgen_cpp11.py
+@@ -67,6 +67,16 @@ def generate_main_hpp(directory, xml):
+ 
+ #include "../message.hpp"
+ 
++#ifdef ERROR
++#undef ERROR
++#endif
++#ifdef TRUE
++#undef TRUE
++#endif
++#ifdef FALSE
++#undef FALSE
++#endif
++
+ namespace mavlink {
+ namespace ${basename} {
+ 
+@@ -97,6 +107,11 @@ constexpr auto ${enum_end_name} = ${enum_end_value};
+ } // namespace ${basename}
+ } // namespace mavlink
+ 
++#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
++#define FALSE 0
++#define TRUE 1
++#endif
++
+ // MESSAGE DEFINITIONS
+ ${{message:#include "./mavlink_msg_${name_lower}.hpp"
+ }}

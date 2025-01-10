@@ -1,0 +1,20 @@
+diff --git a/map_server/CMakeLists.txt b/map_server/CMakeLists.txt
+index 147c9ae50..f360d469c 100644
+--- a/map_server/CMakeLists.txt
++++ b/map_server/CMakeLists.txt
+@@ -63,6 +63,7 @@ target_link_libraries(map_server
+     map_server_image_loader
+     ${YAMLCPP_LIBRARIES}
+     ${catkin_LIBRARIES}
++    ${Boost_LIBRARIES}
+ )
+ 
+ add_executable(map_server-map_saver src/map_saver.cpp)
+@@ -70,6 +71,7 @@ add_dependencies(map_server-map_saver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
+ set_target_properties(map_server-map_saver PROPERTIES OUTPUT_NAME map_saver)
+ target_link_libraries(map_server-map_saver
+     ${catkin_LIBRARIES}
++    ${Boost_LIBRARIES}
+ )
+ 
+ # copy test data to same place as tests are run

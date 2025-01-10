@@ -1,0 +1,10 @@
+diff --git a/env-hooks/1.ros_package_path.sh.em b/env-hooks/1.ros_package_path.sh.em
+index 2031fde..3bd03c3 100644
+--- a/env-hooks/1.ros_package_path.sh.em
++++ b/env-hooks/1.ros_package_path.sh.em
+@@ -23,4 +23,4 @@ for workspace in workspaces:
+ print(os.pathsep.join(paths))
+ EOF
+ )
+-export ROS_PACKAGE_PATH="`@(PYTHON_EXECUTABLE) -c \"$PYTHON_CODE_BUILD_ROS_PACKAGE_PATH\"`"
++export ROS_PACKAGE_PATH="`python -c \"$PYTHON_CODE_BUILD_ROS_PACKAGE_PATH\"`"

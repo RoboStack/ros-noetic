@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4a94d9d..11d4fd9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,10 +7,10 @@ project(ruckig VERSION 0.9.2 LANGUAGES CXX)
+ include(GNUInstallDirs)
+ 
+ 
+-option(BUILD_EXAMPLES "Build example programs" ON)
++option(BUILD_EXAMPLES "Build example programs" OFF)
+ option(BUILD_PYTHON_MODULE "Build python module with pybind11" OFF)
+ option(BUILD_ONLINE_CLIENT "Build online client to calculate Ruckig Pro trajectories" OFF)
+-option(BUILD_TESTS "Build tests" ON)
++option(BUILD_TESTS "Build tests" OFF)
+ option(BUILD_BENCHMARK "Build benchmark" OFF)
+ option(BUILD_SHARED_LIBS "Build as shared library" ON)
+ option(EXPOSE_INTERNAL "Expose some internal classes and methods" OFF)

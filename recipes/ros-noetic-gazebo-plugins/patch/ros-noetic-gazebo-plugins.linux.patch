@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 389e8719..7026671b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,6 +3,8 @@ project(gazebo_plugins)
+ 
+ option(ENABLE_DISPLAY_TESTS "Enable the building of tests that requires a display" OFF)
+ 
++add_compile_options(-Wall)
++
+ find_package(catkin REQUIRED COMPONENTS
+   gazebo_dev
+   message_generation

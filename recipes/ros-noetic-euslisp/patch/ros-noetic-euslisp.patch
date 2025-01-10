@@ -1,0 +1,44 @@
+diff --git a/lisp/Makefile.Linux64 b/lisp/Makefile.Linux64
+index e12ed082..ce35ee40 100644
+--- a/lisp/Makefile.Linux64
++++ b/lisp/Makefile.Linux64
+@@ -50,7 +50,7 @@ CFLAGS= $(WFLAGS) -fPIC -D$(MACHINE) -DLinux -D_REENTRANT -DVERSION=\"$(VERSION)
+ 	-DLIB6 $(ALIGN_FUNCTIONS) \
+         $(DEBUG) $(CPU_OPTIMIZE) $(THREAD) -D$(XVERSION) \
+ 	-DGCC $(GCC3) \
+-	        -I/usr/include -I/usr/X11R6/include -I$(EUSDIR)/include
++	    -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
+ 
+ CC=gcc
+ 
+@@ -68,7 +68,7 @@ CC=gcc
+ 
+ # Linux
+ RAWLIB=-ldl -lm -lpthread -lc
+-XLIB= -L/usr/X11R6/lib -lX11
++XLIB= -L$(PREFIX)/lib -lX11
+ 
+ # specify directories where euslisp's libraries are located.
+ EUSRPATH=-R$(ADLIBDIR)
+diff --git a/lisp/Makefile.LinuxARM b/lisp/Makefile.LinuxARM
+index e49262b3..b9290d8c 100644
+--- a/lisp/Makefile.LinuxARM
++++ b/lisp/Makefile.LinuxARM
+@@ -72,7 +72,7 @@ CFLAGS=$(WFLAGS) -D$(MACHINE) -DLinux -DARM -D_REENTRANT -DVERSION=\"$(VERSION)\
+ 	-DLIB6 $(ALIGN_FUNCTIONS) $(ADD_CFLAGS) \
+         $(DEBUG) $(CPU_OPTIMIZE) $(THREAD) -D$(XVERSION) \
+ 	-DGCC $(GCC3) \
+-	        -I/usr/include -I/usr/X11R6/include -I$(EUSDIR)/include
++	      -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
+ 
+ # Use gcc for C-compiling on SunOS4. Sun's cc is ok on Solaris.
+ # /usr/ucb/cc cannot compile because of its incapability of recognizing
+@@ -94,7 +94,7 @@ LD=gcc
+ 
+ # Linux
+ RAWLIB=-ldl -lm -lpthread -lc
+-XLIB= -L/usr/X11R6/lib -lX11
++XLIB= -L$(PREFIX)/lib -lX11
+ 
+ # specify directories where euslisp's libraries are located.
+ EUSLIB= -Xlinker -R$(ADLIBDIR):$(EUSDIR)/lib/LinuxARM -L$(ADLIBDIR)

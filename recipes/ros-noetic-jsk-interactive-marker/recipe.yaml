@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-jsk-interactive-marker
+  version: 2.1.10
+source:
+  git: https://github.com/tork-a/jsk_visualization-release.git
+  tag: release/noetic/jsk_interactive_marker/2.1.10-1
+  target_directory: ros-noetic-jsk-interactive-marker/src/work
+  patches:
+    - patch/ros-noetic-jsk-interactive-marker.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 18
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-actionlib
+    - ros-noetic-catkin
+    - ros-noetic-cmake-modules
+    - ros-noetic-dynamic-reconfigure
+    - ros-noetic-dynamic-tf-publisher
+    - ros-noetic-eigen-conversions
+    - ros-noetic-geometry-msgs
+    - ros-noetic-interactive-markers
+    - ros-noetic-jsk-footstep-msgs
+    - ros-noetic-jsk-recognition-msgs
+    - ros-noetic-jsk-recognition-utils
+    - ros-noetic-jsk-rviz-plugins
+    - ros-noetic-jsk-topic-tools
+    - ros-noetic-message-filters
+    - ros-noetic-message-generation
+    - ros-noetic-message-runtime
+    - ros-noetic-mk
+    - ros-noetic-moveit-msgs
+    - ros-noetic-rosbuild
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - ros-noetic-rviz
+    - ros-noetic-sensor-msgs
+    - ros-noetic-tf
+    - ros-noetic-tf-conversions
+    - ros-noetic-urdf
+    - ros-noetic-visualization-msgs
+    - tinyxml
+    - yaml-cpp
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-actionlib
+    - ros-noetic-dynamic-reconfigure
+    - ros-noetic-dynamic-tf-publisher
+    - ros-noetic-eigen-conversions
+    - ros-noetic-geometry-msgs
+    - ros-noetic-interactive-markers
+    - ros-noetic-jsk-footstep-msgs
+    - ros-noetic-jsk-recognition-msgs
+    - ros-noetic-jsk-recognition-utils
+    - ros-noetic-jsk-rviz-plugins
+    - ros-noetic-jsk-topic-tools
+    - ros-noetic-message-filters
+    - ros-noetic-message-runtime
+    - ros-noetic-moveit-msgs
+    - ros-noetic-roscpp
+    - ros-noetic-roslib
+    - ros-noetic-rviz
+    - ros-noetic-sensor-msgs
+    - ros-noetic-tf
+    - ros-noetic-tf-conversions
+    - ros-noetic-urdf
+    - ros-noetic-visualization-msgs
+    - tinyxml
+    - yaml-cpp
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext

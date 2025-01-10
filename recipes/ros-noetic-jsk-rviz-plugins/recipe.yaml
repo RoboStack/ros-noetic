@@ -1,0 +1,144 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-noetic-jsk-rviz-plugins
+  version: 2.1.10
+source:
+  git: https://github.com/tork-a/jsk_visualization-release.git
+  tag: release/noetic/jsk_rviz_plugins/2.1.10-1
+  target_directory: ros-noetic-jsk-rviz-plugins/src/work
+  patches:
+    - patch/ros-noetic-jsk-rviz-plugins.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 18
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - gdown
+    - numpy
+    - pip
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-catkin
+    - ros-noetic-cv-bridge
+    - ros-noetic-diagnostic-msgs
+    - ros-noetic-dynamic-reconfigure
+    - ros-noetic-face-detector
+    - ros-noetic-geometry-msgs
+    - ros-noetic-image-geometry
+    - ros-noetic-image-transport
+    - ros-noetic-joint-state-publisher
+    - ros-noetic-jsk-data
+    - ros-noetic-jsk-footstep-msgs
+    - ros-noetic-jsk-gui-msgs
+    - ros-noetic-jsk-hark-msgs
+    - ros-noetic-jsk-recognition-msgs
+    - ros-noetic-jsk-recognition-utils
+    - ros-noetic-jsk-tools
+    - ros-noetic-jsk-topic-tools
+    - ros-noetic-message-generation
+    - ros-noetic-mk
+    - ros-noetic-openni2-launch
+    - ros-noetic-people-msgs
+    - ros-noetic-pr2-description
+    - ros-noetic-robot-state-publisher
+    - ros-noetic-rosbuild
+    - ros-noetic-rostest
+    - ros-noetic-rviz
+    - ros-noetic-std-msgs
+    - ros-noetic-urdfdom-py
+    - ros-noetic-view-controller-msgs
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - python
+    - ros-distro-mutex 0.6.* noetic_*
+    - ros-noetic-cv-bridge
+    - ros-noetic-diagnostic-msgs
+    - ros-noetic-dynamic-reconfigure
+    - ros-noetic-geometry-msgs
+    - ros-noetic-image-geometry
+    - ros-noetic-image-publisher
+    - ros-noetic-jsk-footstep-msgs
+    - ros-noetic-jsk-gui-msgs
+    - ros-noetic-jsk-hark-msgs
+    - ros-noetic-jsk-recognition-msgs
+    - ros-noetic-jsk-recognition-utils
+    - ros-noetic-jsk-topic-tools
+    - ros-noetic-message-generation
+    - ros-noetic-people-msgs
+    - ros-noetic-posedetection-msgs
+    - ros-noetic-rviz
+    - ros-noetic-std-msgs
+    - ros-noetic-urdfdom-py
+    - ros-noetic-view-controller-msgs
+    - scipy
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext

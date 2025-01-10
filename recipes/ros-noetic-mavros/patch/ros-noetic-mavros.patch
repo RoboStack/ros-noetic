@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3cc117abe..54854d79e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -111,7 +111,7 @@ target_link_libraries(mavros
+   ${Boost_LIBRARIES}
+   ${GeographicLib_LIBRARIES}
+ )
+-if(NOT APPLE)
++if(UNIX AND NOT APPLE)
+   target_link_libraries(mavros
+     atomic
+   )

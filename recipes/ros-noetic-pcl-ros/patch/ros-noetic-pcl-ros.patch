@@ -1,0 +1,985 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2466227d..6230e32e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,15 +1,6 @@
+ cmake_minimum_required(VERSION 3.0.2)
+ project(pcl_ros)
+ 
+-# CMake 3.1 added support for CMAKE_CXX_STANDARD to manage the C++ standard version
+-# Use CMake C++ standard management where possible for better interoperability
+-# with dependencies that export target standards and/or features
+-if (${CMAKE_VERSION} VERSION_LESS "3.1")
+-  add_compile_options(-std=c++14)
+-else()
+-  set(CMAKE_CXX_STANDARD 14)
+-endif()
+-
+ ## Find catkin packages
+ find_package(catkin REQUIRED COMPONENTS
+   dynamic_reconfigure
+diff --git a/include/pcl_ros/point_cloud.h b/include/pcl_ros/point_cloud.h
+index 1e038276..26e36c1b 100644
+--- a/include/pcl_ros/point_cloud.h
++++ b/include/pcl_ros/point_cloud.h
+@@ -3,11 +3,12 @@
+ 
+ #include <ros/ros.h>
+ #include <pcl/point_cloud.h>
+-#include <pcl/point_traits.h>
++#include <pcl/type_traits.h>
+ #include <pcl/for_each_type.h>
+ #include <pcl/conversions.h>
+ #include <pcl_conversions/pcl_conversions.h>
+ #include <sensor_msgs/PointCloud2.h>
++#include <boost/foreach.hpp> // for BOOST_FOREACH
+ #include <boost/mpl/size.hpp>
+ #include <boost/ref.hpp>
+ #include <boost/thread/mutex.hpp>
+diff --git a/src/pcl_ros/features/boundary.cpp b/src/pcl_ros/features/boundary.cpp
+index 26ee07c1..61ae786a 100644
+--- a/src/pcl_ros/features/boundary.cpp
++++ b/src/pcl_ros/features/boundary.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/boundary.h"
+ 
+ void
+diff --git a/src/pcl_ros/features/feature.cpp b/src/pcl_ros/features/feature.cpp
+index 8647e4eb..c36bd499 100644
+--- a/src/pcl_ros/features/feature.cpp
++++ b/src/pcl_ros/features/feature.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-//#include <pluginlib/class_list_macros.h>
++//#include <pluginlib/class_list_macros.hpp>
+ // Include the implementations here instead of compiling them separately to speed up compile time
+ //#include "normal_3d.cpp"
+ //#include "boundary.cpp"
+@@ -80,7 +80,7 @@ pcl_ros::Feature::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared<dynamic_reconfigure::Server<FeatureConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<FeatureConfig>::CallbackType f = boost::bind (&Feature::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<FeatureConfig>::CallbackType f = boost::bind (&Feature::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   NODELET_DEBUG ("[%s::onInit] Nodelet successfully created with the following parameters:\n"
+@@ -124,7 +124,7 @@ pcl_ros::Feature::subscribe ()
+       }
+       else                  // Use only indices
+       {
+-        sub_input_filter_.registerCallback (bind (&Feature::input_callback, this, _1));
++        sub_input_filter_.registerCallback (bind (&Feature::input_callback, this, boost::placeholders::_1));
+         // surface not enabled, connect the input-indices duo and register
+         if (approximate_sync_)
+           sync_input_surface_indices_a_->connectInput (sub_input_filter_, nf_pc_, sub_indices_filter_);
+@@ -134,7 +134,7 @@ pcl_ros::Feature::subscribe ()
+     }
+     else                    // Use only surface
+     {
+-      sub_input_filter_.registerCallback (bind (&Feature::input_callback, this, _1));
++      sub_input_filter_.registerCallback (bind (&Feature::input_callback, this, boost::placeholders::_1));
+       // indices not enabled, connect the input-surface duo and register
+       sub_surface_filter_.subscribe (*pnh_, "surface", max_queue_size_);
+       if (approximate_sync_)
+@@ -144,13 +144,13 @@ pcl_ros::Feature::subscribe ()
+     }
+     // Register callbacks
+     if (approximate_sync_)
+-      sync_input_surface_indices_a_->registerCallback (bind (&Feature::input_surface_indices_callback, this, _1, _2, _3));
++      sync_input_surface_indices_a_->registerCallback (bind (&Feature::input_surface_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+     else
+-      sync_input_surface_indices_e_->registerCallback (bind (&Feature::input_surface_indices_callback, this, _1, _2, _3));
++      sync_input_surface_indices_e_->registerCallback (bind (&Feature::input_surface_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<PointCloudIn> ("input", max_queue_size_,  bind (&Feature::input_surface_indices_callback, this, _1, PointCloudInConstPtr (), PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<PointCloudIn> ("input", max_queue_size_,  bind (&Feature::input_surface_indices_callback, this, boost::placeholders::_1, PointCloudInConstPtr (), PointIndicesConstPtr ()));
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////
+@@ -300,7 +300,7 @@ pcl_ros::FeatureFromNormals::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared<dynamic_reconfigure::Server<FeatureConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<FeatureConfig>::CallbackType f = boost::bind (&FeatureFromNormals::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<FeatureConfig>::CallbackType f = boost::bind (&FeatureFromNormals::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   NODELET_DEBUG ("[%s::onInit] Nodelet successfully created with the following parameters:\n"
+@@ -345,7 +345,7 @@ pcl_ros::FeatureFromNormals::subscribe ()
+       }
+       else                  // Use only indices
+       {
+-        sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, _1));
++        sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, boost::placeholders::_1));
+         if (approximate_sync_)
+           // surface not enabled, connect the input-indices duo and register
+           sync_input_normals_surface_indices_a_->connectInput (sub_input_filter_, sub_normals_filter_, nf_pc_, sub_indices_filter_);
+@@ -359,7 +359,7 @@ pcl_ros::FeatureFromNormals::subscribe ()
+       // indices not enabled, connect the input-surface duo and register
+       sub_surface_filter_.subscribe (*pnh_, "surface", max_queue_size_);
+ 
+-      sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, _1));
++      sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, boost::placeholders::_1));
+       if (approximate_sync_)
+         sync_input_normals_surface_indices_a_->connectInput (sub_input_filter_, sub_normals_filter_, sub_surface_filter_, nf_pi_);
+       else
+@@ -368,7 +368,7 @@ pcl_ros::FeatureFromNormals::subscribe ()
+   }
+   else
+   {
+-    sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, _1));
++    sub_input_filter_.registerCallback (bind (&FeatureFromNormals::input_callback, this, boost::placeholders::_1));
+ 
+     if (approximate_sync_)
+       sync_input_normals_surface_indices_a_->connectInput (sub_input_filter_, sub_normals_filter_, nf_pc_, nf_pi_);
+@@ -378,9 +378,9 @@ pcl_ros::FeatureFromNormals::subscribe ()
+ 
+   // Register callbacks
+   if (approximate_sync_)
+-    sync_input_normals_surface_indices_a_->registerCallback (bind (&FeatureFromNormals::input_normals_surface_indices_callback, this, _1, _2, _3, _4));
++    sync_input_normals_surface_indices_a_->registerCallback (bind (&FeatureFromNormals::input_normals_surface_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4));
+   else
+-    sync_input_normals_surface_indices_e_->registerCallback (bind (&FeatureFromNormals::input_normals_surface_indices_callback, this, _1, _2, _3, _4));
++    sync_input_normals_surface_indices_e_->registerCallback (bind (&FeatureFromNormals::input_normals_surface_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/features/fpfh.cpp b/src/pcl_ros/features/fpfh.cpp
+index 53be549c..f49b05ef 100644
+--- a/src/pcl_ros/features/fpfh.cpp
++++ b/src/pcl_ros/features/fpfh.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/fpfh.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/fpfh_omp.cpp b/src/pcl_ros/features/fpfh_omp.cpp
+index e4adcabb..c811a401 100644
+--- a/src/pcl_ros/features/fpfh_omp.cpp
++++ b/src/pcl_ros/features/fpfh_omp.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/fpfh_omp.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/moment_invariants.cpp b/src/pcl_ros/features/moment_invariants.cpp
+index a6e2249a..52801fff 100644
+--- a/src/pcl_ros/features/moment_invariants.cpp
++++ b/src/pcl_ros/features/moment_invariants.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/moment_invariants.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/normal_3d.cpp b/src/pcl_ros/features/normal_3d.cpp
+index 042186a9..3ca08fb9 100644
+--- a/src/pcl_ros/features/normal_3d.cpp
++++ b/src/pcl_ros/features/normal_3d.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/normal_3d.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/normal_3d_omp.cpp b/src/pcl_ros/features/normal_3d_omp.cpp
+index 3e92d2f2..96535079 100644
+--- a/src/pcl_ros/features/normal_3d_omp.cpp
++++ b/src/pcl_ros/features/normal_3d_omp.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/normal_3d_omp.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/normal_3d_tbb.cpp b/src/pcl_ros/features/normal_3d_tbb.cpp
+index 680a4a02..85261766 100644
+--- a/src/pcl_ros/features/normal_3d_tbb.cpp
++++ b/src/pcl_ros/features/normal_3d_tbb.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/normal_3d_tbb.h"
+ 
+ #if defined HAVE_TBB
+diff --git a/src/pcl_ros/features/pfh.cpp b/src/pcl_ros/features/pfh.cpp
+index dd8409e2..b00cadc4 100644
+--- a/src/pcl_ros/features/pfh.cpp
++++ b/src/pcl_ros/features/pfh.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/pfh.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/principal_curvatures.cpp b/src/pcl_ros/features/principal_curvatures.cpp
+index 501d686e..f8fe44ce 100644
+--- a/src/pcl_ros/features/principal_curvatures.cpp
++++ b/src/pcl_ros/features/principal_curvatures.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/principal_curvatures.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/shot.cpp b/src/pcl_ros/features/shot.cpp
+index ed6ba44b..085855f6 100644
+--- a/src/pcl_ros/features/shot.cpp
++++ b/src/pcl_ros/features/shot.cpp
+@@ -34,7 +34,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/shot.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/shot_omp.cpp b/src/pcl_ros/features/shot_omp.cpp
+index 4563f123..eea70059 100644
+--- a/src/pcl_ros/features/shot_omp.cpp
++++ b/src/pcl_ros/features/shot_omp.cpp
+@@ -34,7 +34,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/shot_omp.h"
+ 
+ void 
+diff --git a/src/pcl_ros/features/vfh.cpp b/src/pcl_ros/features/vfh.cpp
+index ece448fd..e1f6a40a 100644
+--- a/src/pcl_ros/features/vfh.cpp
++++ b/src/pcl_ros/features/vfh.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/features/vfh.h"
+ 
+ void 
+diff --git a/src/pcl_ros/filters/crop_box.cpp b/src/pcl_ros/filters/crop_box.cpp
+index 2392e2bc..70ab986b 100644
+--- a/src/pcl_ros/filters/crop_box.cpp
++++ b/src/pcl_ros/filters/crop_box.cpp
+@@ -36,7 +36,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/crop_box.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -46,7 +46,7 @@ pcl_ros::CropBox::child_init (ros::NodeHandle &nh, bool &has_service)
+   // Enable the dynamic reconfigure service
+   has_service = true;
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::CropBoxConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::CropBoxConfig>::CallbackType f = boost::bind (&CropBox::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::CropBoxConfig>::CallbackType f = boost::bind (&CropBox::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   return (true);
+diff --git a/src/pcl_ros/filters/extract_indices.cpp b/src/pcl_ros/filters/extract_indices.cpp
+index e92407a9..73ab4074 100644
+--- a/src/pcl_ros/filters/extract_indices.cpp
++++ b/src/pcl_ros/filters/extract_indices.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/extract_indices.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -45,7 +45,7 @@ pcl_ros::ExtractIndices::child_init (ros::NodeHandle &nh, bool &has_service)
+   has_service = true;
+ 
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::ExtractIndicesConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::ExtractIndicesConfig>::CallbackType f =  boost::bind (&ExtractIndices::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::ExtractIndicesConfig>::CallbackType f =  boost::bind (&ExtractIndices::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   use_indices_ = true;
+diff --git a/src/pcl_ros/filters/filter.cpp b/src/pcl_ros/filters/filter.cpp
+index 0bfe6d3d..e704912b 100644
+--- a/src/pcl_ros/filters/filter.cpp
++++ b/src/pcl_ros/filters/filter.cpp
+@@ -116,18 +116,18 @@ pcl_ros::Filter::subscribe()
+     {
+       sync_input_indices_a_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ApproximateTime<PointCloud2, pcl_msgs::PointIndices> > >(max_queue_size_);
+       sync_input_indices_a_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_a_->registerCallback (bind (&Filter::input_indices_callback, this, _1, _2));
++      sync_input_indices_a_->registerCallback (bind (&Filter::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+     else
+     {
+       sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ExactTime<PointCloud2, pcl_msgs::PointIndices> > >(max_queue_size_);
+       sync_input_indices_e_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_e_->registerCallback (bind (&Filter::input_indices_callback, this, _1, _2));
++      sync_input_indices_e_->registerCallback (bind (&Filter::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<sensor_msgs::PointCloud2> ("input", max_queue_size_,  bind (&Filter::input_indices_callback, this, _1, pcl_msgs::PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<sensor_msgs::PointCloud2> ("input", max_queue_size_,  bind (&Filter::input_indices_callback, this, boost::placeholders::_1, pcl_msgs::PointIndicesConstPtr ()));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -164,7 +164,7 @@ pcl_ros::Filter::onInit ()
+   if (!has_service)
+   {
+     srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::FilterConfig> > (*pnh_);
+-    dynamic_reconfigure::Server<pcl_ros::FilterConfig>::CallbackType f =  boost::bind (&Filter::config_callback, this, _1, _2);
++    dynamic_reconfigure::Server<pcl_ros::FilterConfig>::CallbackType f =  boost::bind (&Filter::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+     srv_->setCallback (f);
+   }
+ 
+diff --git a/src/pcl_ros/filters/passthrough.cpp b/src/pcl_ros/filters/passthrough.cpp
+index 110fbac5..73fd2c96 100644
+--- a/src/pcl_ros/filters/passthrough.cpp
++++ b/src/pcl_ros/filters/passthrough.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/passthrough.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -45,7 +45,7 @@ pcl_ros::PassThrough::child_init (ros::NodeHandle &nh, bool &has_service)
+   // Enable the dynamic reconfigure service
+   has_service = true;
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::FilterConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::FilterConfig>::CallbackType f = boost::bind (&PassThrough::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::FilterConfig>::CallbackType f = boost::bind (&PassThrough::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   return (true);
+diff --git a/src/pcl_ros/filters/project_inliers.cpp b/src/pcl_ros/filters/project_inliers.cpp
+index 704dc484..cdc39980 100644
+--- a/src/pcl_ros/filters/project_inliers.cpp
++++ b/src/pcl_ros/filters/project_inliers.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/project_inliers.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -99,13 +99,13 @@ pcl_ros::ProjectInliers::subscribe ()
+   {
+     sync_input_indices_model_a_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<PointCloud2, PointIndices, ModelCoefficients> > > (max_queue_size_);
+     sync_input_indices_model_a_->connectInput (sub_input_filter_, sub_indices_filter_, sub_model_);
+-    sync_input_indices_model_a_->registerCallback (bind (&ProjectInliers::input_indices_model_callback, this, _1, _2, _3));
++    sync_input_indices_model_a_->registerCallback (bind (&ProjectInliers::input_indices_model_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+   }
+   else
+   {
+     sync_input_indices_model_e_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ExactTime<PointCloud2, PointIndices, ModelCoefficients> > > (max_queue_size_);
+     sync_input_indices_model_e_->connectInput (sub_input_filter_, sub_indices_filter_, sub_model_);
+-    sync_input_indices_model_e_->registerCallback (bind (&ProjectInliers::input_indices_model_callback, this, _1, _2, _3));
++    sync_input_indices_model_e_->registerCallback (bind (&ProjectInliers::input_indices_model_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+   }
+ }
+ 
+diff --git a/src/pcl_ros/filters/radius_outlier_removal.cpp b/src/pcl_ros/filters/radius_outlier_removal.cpp
+index 331c6487..aa5c91fa 100644
+--- a/src/pcl_ros/filters/radius_outlier_removal.cpp
++++ b/src/pcl_ros/filters/radius_outlier_removal.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/radius_outlier_removal.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -45,7 +45,7 @@ pcl_ros::RadiusOutlierRemoval::child_init (ros::NodeHandle &nh, bool &has_servic
+   // Enable the dynamic reconfigure service
+   has_service = true;
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::RadiusOutlierRemovalConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::RadiusOutlierRemovalConfig>::CallbackType f = boost::bind (&RadiusOutlierRemoval::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::RadiusOutlierRemovalConfig>::CallbackType f = boost::bind (&RadiusOutlierRemoval::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   return (true);
+diff --git a/src/pcl_ros/filters/statistical_outlier_removal.cpp b/src/pcl_ros/filters/statistical_outlier_removal.cpp
+index 2085dee6..e6e74cd1 100644
+--- a/src/pcl_ros/filters/statistical_outlier_removal.cpp
++++ b/src/pcl_ros/filters/statistical_outlier_removal.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/statistical_outlier_removal.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -45,7 +45,7 @@ pcl_ros::StatisticalOutlierRemoval::child_init (ros::NodeHandle &nh, bool &has_s
+   // Enable the dynamic reconfigure service
+   has_service = true;
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::StatisticalOutlierRemovalConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::StatisticalOutlierRemovalConfig>::CallbackType f = boost::bind (&StatisticalOutlierRemoval::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::StatisticalOutlierRemovalConfig>::CallbackType f = boost::bind (&StatisticalOutlierRemoval::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   return (true);
+diff --git a/src/pcl_ros/filters/voxel_grid.cpp b/src/pcl_ros/filters/voxel_grid.cpp
+index a3bf77f2..07687f7f 100644
+--- a/src/pcl_ros/filters/voxel_grid.cpp
++++ b/src/pcl_ros/filters/voxel_grid.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/filters/voxel_grid.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -45,7 +45,7 @@ pcl_ros::VoxelGrid::child_init (ros::NodeHandle &nh, bool &has_service)
+   // Enable the dynamic reconfigure service
+   has_service = true;
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<pcl_ros::VoxelGridConfig> > (nh);
+-  dynamic_reconfigure::Server<pcl_ros::VoxelGridConfig>::CallbackType f = boost::bind (&VoxelGrid::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<pcl_ros::VoxelGridConfig>::CallbackType f = boost::bind (&VoxelGrid::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   return (true);
+diff --git a/src/pcl_ros/io/bag_io.cpp b/src/pcl_ros/io/bag_io.cpp
+index 4209d9af..902ce2f5 100644
+--- a/src/pcl_ros/io/bag_io.cpp
++++ b/src/pcl_ros/io/bag_io.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include <ros/node_handle.h>
+ #include "pcl_ros/io/bag_io.h"
+ 
+diff --git a/src/pcl_ros/io/concatenate_data.cpp b/src/pcl_ros/io/concatenate_data.cpp
+index 458c6bfe..47d0bb4a 100644
+--- a/src/pcl_ros/io/concatenate_data.cpp
++++ b/src/pcl_ros/io/concatenate_data.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/transforms.h"
+ #include "pcl_ros/io/concatenate_data.h"
+ 
+@@ -118,7 +118,7 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::subscribe ()
+   }
+ 
+   // Bogus null filter
+-  filters_[0]->registerCallback (bind (&PointCloudConcatenateDataSynchronizer::input_callback, this, _1));
++  filters_[0]->registerCallback (bind (&PointCloudConcatenateDataSynchronizer::input_callback, this, boost::placeholders::_1));
+ 
+   switch (input_topics_.size ())
+   {
+@@ -186,9 +186,9 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::subscribe ()
+   }
+ 
+   if (approximate_sync_)
+-    ts_a_->registerCallback (boost::bind (&PointCloudConcatenateDataSynchronizer::input, this, _1, _2, _3, _4, _5, _6, _7, _8));
++    ts_a_->registerCallback (boost::bind (&PointCloudConcatenateDataSynchronizer::input, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4, boost::placeholders::_5, boost::placeholders::_6, boost::placeholders::_7, boost::placeholders::_8));
+   else
+-    ts_e_->registerCallback (boost::bind (&PointCloudConcatenateDataSynchronizer::input, this, _1, _2, _3, _4, _5, _6, _7, _8));
++    ts_e_->registerCallback (boost::bind (&PointCloudConcatenateDataSynchronizer::input, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4, boost::placeholders::_5, boost::placeholders::_6, boost::placeholders::_7, boost::placeholders::_8));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/io/concatenate_fields.cpp b/src/pcl_ros/io/concatenate_fields.cpp
+index b9567c3a..8b6b3c89 100644
+--- a/src/pcl_ros/io/concatenate_fields.cpp
++++ b/src/pcl_ros/io/concatenate_fields.cpp
+@@ -37,7 +37,7 @@
+ 
+ /** \author Radu Bogdan Rusu */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/io/concatenate_fields.h"
+ 
+ #include <pcl_conversions/pcl_conversions.h>
+diff --git a/src/pcl_ros/io/io.cpp b/src/pcl_ros/io/io.cpp
+index a2dcd458..58ff1152 100644
+--- a/src/pcl_ros/io/io.cpp
++++ b/src/pcl_ros/io/io.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include <sensor_msgs/PointCloud2.h>
+ #include <message_filters/subscriber.h>
+ //#include <pcl_ros/subscriber.h>
+diff --git a/src/pcl_ros/io/pcd_io.cpp b/src/pcl_ros/io/pcd_io.cpp
+index 9adf6882..31fca766 100644
+--- a/src/pcl_ros/io/pcd_io.cpp
++++ b/src/pcl_ros/io/pcd_io.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include <pcl_ros/io/pcd_io.h>
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/segmentation/extract_clusters.cpp b/src/pcl_ros/segmentation/extract_clusters.cpp
+index 5599b408..e9a03621 100644
+--- a/src/pcl_ros/segmentation/extract_clusters.cpp
++++ b/src/pcl_ros/segmentation/extract_clusters.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include <pcl/PointIndices.h>
+ #include "pcl_ros/segmentation/extract_clusters.h"
+ 
+@@ -76,7 +76,7 @@ pcl_ros::EuclideanClusterExtraction::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<EuclideanClusterExtractionConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<EuclideanClusterExtractionConfig>::CallbackType f =  boost::bind (&EuclideanClusterExtraction::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<EuclideanClusterExtractionConfig>::CallbackType f =  boost::bind (&EuclideanClusterExtraction::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   NODELET_DEBUG ("[%s::onInit] Nodelet successfully created with the following parameters:\n"
+@@ -108,18 +108,18 @@ pcl_ros::EuclideanClusterExtraction::subscribe ()
+     {
+       sync_input_indices_a_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<PointCloud, PointIndices> > > (max_queue_size_);
+       sync_input_indices_a_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_a_->registerCallback (bind (&EuclideanClusterExtraction::input_indices_callback, this, _1, _2));
++      sync_input_indices_a_->registerCallback (bind (&EuclideanClusterExtraction::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+     else
+     {
+       sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ExactTime<PointCloud, PointIndices> > > (max_queue_size_);
+       sync_input_indices_e_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_e_->registerCallback (bind (&EuclideanClusterExtraction::input_indices_callback, this, _1, _2));
++      sync_input_indices_e_->registerCallback (bind (&EuclideanClusterExtraction::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<PointCloud> ("input", max_queue_size_, bind (&EuclideanClusterExtraction::input_indices_callback, this, _1, PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<PointCloud> ("input", max_queue_size_, bind (&EuclideanClusterExtraction::input_indices_callback, this, boost::placeholders::_1, PointIndicesConstPtr ()));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/segmentation/extract_polygonal_prism_data.cpp b/src/pcl_ros/segmentation/extract_polygonal_prism_data.cpp
+index ff823b19..4d31ea80 100644
+--- a/src/pcl_ros/segmentation/extract_polygonal_prism_data.cpp
++++ b/src/pcl_ros/segmentation/extract_polygonal_prism_data.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/transforms.h"
+ #include "pcl_ros/segmentation/extract_polygonal_prism_data.h"
+ 
+@@ -53,7 +53,7 @@ pcl_ros::ExtractPolygonalPrismData::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<ExtractPolygonalPrismDataConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<ExtractPolygonalPrismDataConfig>::CallbackType f = boost::bind (&ExtractPolygonalPrismData::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<ExtractPolygonalPrismDataConfig>::CallbackType f = boost::bind (&ExtractPolygonalPrismData::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   // Advertise the output topics
+@@ -85,7 +85,7 @@ pcl_ros::ExtractPolygonalPrismData::subscribe ()
+   }
+   else
+   {
+-    sub_input_filter_.registerCallback (bind (&ExtractPolygonalPrismData::input_callback, this, _1));
++    sub_input_filter_.registerCallback (bind (&ExtractPolygonalPrismData::input_callback, this, boost::placeholders::_1));
+ 
+     if (approximate_sync_)
+       sync_input_hull_indices_a_->connectInput (sub_input_filter_, sub_hull_filter_, nf_);
+@@ -94,9 +94,9 @@ pcl_ros::ExtractPolygonalPrismData::subscribe ()
+   }
+   // Register callbacks
+   if (approximate_sync_)
+-    sync_input_hull_indices_a_->registerCallback (bind (&ExtractPolygonalPrismData::input_hull_indices_callback, this, _1, _2, _3));
++    sync_input_hull_indices_a_->registerCallback (bind (&ExtractPolygonalPrismData::input_hull_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+   else
+-    sync_input_hull_indices_e_->registerCallback (bind (&ExtractPolygonalPrismData::input_hull_indices_callback, this, _1, _2, _3));
++    sync_input_hull_indices_e_->registerCallback (bind (&ExtractPolygonalPrismData::input_hull_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/segmentation/sac_segmentation.cpp b/src/pcl_ros/segmentation/sac_segmentation.cpp
+index bc7b97e7..4ca23d65 100644
+--- a/src/pcl_ros/segmentation/sac_segmentation.cpp
++++ b/src/pcl_ros/segmentation/sac_segmentation.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/segmentation/sac_segmentation.h"
+ 
+ #include <pcl_conversions/pcl_conversions.h>
+@@ -107,7 +107,7 @@ pcl_ros::SACSegmentation::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared<dynamic_reconfigure::Server<SACSegmentationConfig> >(*pnh_);
+-  dynamic_reconfigure::Server<SACSegmentationConfig>::CallbackType f =  boost::bind (&SACSegmentation::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<SACSegmentationConfig>::CallbackType f =  boost::bind (&SACSegmentation::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   NODELET_DEBUG ("[%s::onInit] Nodelet successfully created with the following parameters:\n"
+@@ -144,15 +144,15 @@ pcl_ros::SACSegmentation::subscribe ()
+     if (latched_indices_)
+     {
+       // Subscribe to a callback that saves the indices
+-      sub_indices_filter_.registerCallback (bind (&SACSegmentation::indices_callback, this, _1));
++      sub_indices_filter_.registerCallback (bind (&SACSegmentation::indices_callback, this, boost::placeholders::_1));
+       // Subscribe to a callback that sets the header of the saved indices to the cloud header
+-      sub_input_filter_.registerCallback (bind (&SACSegmentation::input_callback, this, _1));
++      sub_input_filter_.registerCallback (bind (&SACSegmentation::input_callback, this, boost::placeholders::_1));
+ 
+       // Synchronize the two topics. No need for an approximate synchronizer here, as we'll
+       // match the timestamps exactly
+       sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ExactTime<PointCloud, PointIndices> > > (max_queue_size_);
+       sync_input_indices_e_->connectInput (sub_input_filter_, nf_pi_);
+-      sync_input_indices_e_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, _1, _2));
++      sync_input_indices_e_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+     // "latched_indices" not set, proceed with regular <input,indices> pairs
+     else
+@@ -161,19 +161,19 @@ pcl_ros::SACSegmentation::subscribe ()
+       {
+         sync_input_indices_a_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ApproximateTime<PointCloud, PointIndices> > > (max_queue_size_);
+         sync_input_indices_a_->connectInput (sub_input_filter_, sub_indices_filter_);
+-        sync_input_indices_a_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, _1, _2));
++        sync_input_indices_a_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+       }
+       else
+       {
+         sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ExactTime<PointCloud, PointIndices> > > (max_queue_size_);
+         sync_input_indices_e_->connectInput (sub_input_filter_, sub_indices_filter_);
+-        sync_input_indices_e_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, _1, _2));
++        sync_input_indices_e_->registerCallback (bind (&SACSegmentation::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+       }
+     }
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<PointCloud> ("input", max_queue_size_,  bind (&SACSegmentation::input_indices_callback, this, _1, PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<PointCloud> ("input", max_queue_size_,  bind (&SACSegmentation::input_indices_callback, this, boost::placeholders::_1, PointIndicesConstPtr ()));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+@@ -367,7 +367,7 @@ pcl_ros::SACSegmentationFromNormals::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<SACSegmentationFromNormalsConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<SACSegmentationFromNormalsConfig>::CallbackType f = boost::bind (&SACSegmentationFromNormals::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<SACSegmentationFromNormalsConfig>::CallbackType f = boost::bind (&SACSegmentationFromNormals::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   // Advertise the output topics
+@@ -471,7 +471,7 @@ pcl_ros::SACSegmentationFromNormals::subscribe ()
+   else
+   {
+     // Create a different callback for copying over the timestamp to fake indices
+-    sub_input_filter_.registerCallback (bind (&SACSegmentationFromNormals::input_callback, this, _1));
++    sub_input_filter_.registerCallback (bind (&SACSegmentationFromNormals::input_callback, this, boost::placeholders::_1));
+ 
+     if (approximate_sync_)
+       sync_input_normals_indices_a_->connectInput (sub_input_filter_, sub_normals_filter_, nf_);
+@@ -480,9 +480,9 @@ pcl_ros::SACSegmentationFromNormals::subscribe ()
+   }
+ 
+   if (approximate_sync_)
+-    sync_input_normals_indices_a_->registerCallback (bind (&SACSegmentationFromNormals::input_normals_indices_callback, this, _1, _2, _3));
++    sync_input_normals_indices_a_->registerCallback (bind (&SACSegmentationFromNormals::input_normals_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+   else
+-    sync_input_normals_indices_e_->registerCallback (bind (&SACSegmentationFromNormals::input_normals_indices_callback, this, _1, _2, _3));
++    sync_input_normals_indices_e_->registerCallback (bind (&SACSegmentationFromNormals::input_normals_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/segmentation/segment_differences.cpp b/src/pcl_ros/segmentation/segment_differences.cpp
+index e3979549..1066ea3f 100644
+--- a/src/pcl_ros/segmentation/segment_differences.cpp
++++ b/src/pcl_ros/segmentation/segment_differences.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/segmentation/segment_differences.h"
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@@ -65,20 +65,20 @@ pcl_ros::SegmentDifferences::subscribe ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared <dynamic_reconfigure::Server<SegmentDifferencesConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<SegmentDifferencesConfig>::CallbackType f =  boost::bind (&SegmentDifferences::config_callback, this, _1, _2);
++  dynamic_reconfigure::Server<SegmentDifferencesConfig>::CallbackType f =  boost::bind (&SegmentDifferences::config_callback, this, boost::placeholders::_1, boost::placeholders::_2);
+   srv_->setCallback (f);
+ 
+   if (approximate_sync_)
+   {
+     sync_input_target_a_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ApproximateTime<PointCloud, PointCloud> > > (max_queue_size_);
+     sync_input_target_a_->connectInput (sub_input_filter_, sub_target_filter_);
+-    sync_input_target_a_->registerCallback (bind (&SegmentDifferences::input_target_callback, this, _1, _2));
++    sync_input_target_a_->registerCallback (bind (&SegmentDifferences::input_target_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+   }
+   else
+   {
+     sync_input_target_e_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ExactTime<PointCloud, PointCloud> > > (max_queue_size_);
+     sync_input_target_e_->connectInput (sub_input_filter_, sub_target_filter_);
+-    sync_input_target_e_->registerCallback (bind (&SegmentDifferences::input_target_callback, this, _1, _2));
++    sync_input_target_e_->registerCallback (bind (&SegmentDifferences::input_target_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+   }
+ }
+ 
+diff --git a/src/pcl_ros/surface/convex_hull.cpp b/src/pcl_ros/surface/convex_hull.cpp
+index 75903889..08f52f42 100644
+--- a/src/pcl_ros/surface/convex_hull.cpp
++++ b/src/pcl_ros/surface/convex_hull.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/surface/convex_hull.h"
+ #include <geometry_msgs/PolygonStamped.h>
+ 
+@@ -76,19 +76,19 @@ pcl_ros::ConvexHull2D::subscribe()
+       sync_input_indices_a_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ApproximateTime<PointCloud, PointIndices> > >(max_queue_size_);
+       // surface not enabled, connect the input-indices duo and register
+       sync_input_indices_a_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_a_->registerCallback (bind (&ConvexHull2D::input_indices_callback, this, _1, _2));
++      sync_input_indices_a_->registerCallback (bind (&ConvexHull2D::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+     else
+     {
+       sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<sync_policies::ExactTime<PointCloud, PointIndices> > >(max_queue_size_);
+       // surface not enabled, connect the input-indices duo and register
+       sync_input_indices_e_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_e_->registerCallback (bind (&ConvexHull2D::input_indices_callback, this, _1, _2));
++      sync_input_indices_e_->registerCallback (bind (&ConvexHull2D::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<PointCloud> ("input", 1,  bind (&ConvexHull2D::input_indices_callback, this, _1, PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<PointCloud> ("input", 1,  bind (&ConvexHull2D::input_indices_callback, this, boost::placeholders::_1, PointIndicesConstPtr ()));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/pcl_ros/surface/moving_least_squares.cpp b/src/pcl_ros/surface/moving_least_squares.cpp
+index 9fd2e348..8baa9cb6 100644
+--- a/src/pcl_ros/surface/moving_least_squares.cpp
++++ b/src/pcl_ros/surface/moving_least_squares.cpp
+@@ -35,7 +35,7 @@
+  *
+  */
+ 
+-#include <pluginlib/class_list_macros.h>
++#include <pluginlib/class_list_macros.hpp>
+ #include "pcl_ros/surface/moving_least_squares.h"
+ //////////////////////////////////////////////////////////////////////////////////////////////
+ void
+@@ -62,7 +62,7 @@ pcl_ros::MovingLeastSquares::onInit ()
+ 
+   // Enable the dynamic reconfigure service
+   srv_ = boost::make_shared<dynamic_reconfigure::Server<MLSConfig> > (*pnh_);
+-  dynamic_reconfigure::Server<MLSConfig>::CallbackType f = boost::bind (&MovingLeastSquares::config_callback, this, _1, _2 );
++  dynamic_reconfigure::Server<MLSConfig>::CallbackType f = boost::bind (&MovingLeastSquares::config_callback, this, boost::placeholders::_1, boost::placeholders::_2 );
+   srv_->setCallback (f); 
+ 
+   // ---[ Optional parameters
+@@ -93,19 +93,19 @@ pcl_ros::MovingLeastSquares::subscribe ()
+       sync_input_indices_a_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<PointCloudIn, PointIndices> > >(max_queue_size_);
+       // surface not enabled, connect the input-indices duo and register
+       sync_input_indices_a_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_a_->registerCallback (bind (&MovingLeastSquares::input_indices_callback, this, _1, _2));
++      sync_input_indices_a_->registerCallback (bind (&MovingLeastSquares::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+     else
+     {
+       sync_input_indices_e_ = boost::make_shared <message_filters::Synchronizer<message_filters::sync_policies::ExactTime<PointCloudIn, PointIndices> > >(max_queue_size_);
+       // surface not enabled, connect the input-indices duo and register
+       sync_input_indices_e_->connectInput (sub_input_filter_, sub_indices_filter_);
+-      sync_input_indices_e_->registerCallback (bind (&MovingLeastSquares::input_indices_callback, this, _1, _2));
++      sync_input_indices_e_->registerCallback (bind (&MovingLeastSquares::input_indices_callback, this, boost::placeholders::_1, boost::placeholders::_2));
+     }
+   }
+   else
+     // Subscribe in an old fashion to input only (no filters)
+-    sub_input_ = pnh_->subscribe<PointCloudIn> ("input", 1,  bind (&MovingLeastSquares::input_indices_callback, this, _1, PointIndicesConstPtr ()));
++    sub_input_ = pnh_->subscribe<PointCloudIn> ("input", 1,  bind (&MovingLeastSquares::input_indices_callback, this, boost::placeholders::_1, PointIndicesConstPtr ()));
+ }
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/src/test/test_tf_message_filter_pcl.cpp b/src/test/test_tf_message_filter_pcl.cpp
+index 073e358c..b324fc8a 100644
+--- a/src/test/test_tf_message_filter_pcl.cpp
++++ b/src/test/test_tf_message_filter_pcl.cpp
+@@ -37,7 +37,7 @@
+ #include <tf/message_filter.h>
+ #include <tf/transform_listener.h>
+ 
+-#include <boost/bind.hpp>
++#include <boost/bind/bind.hpp>
+ #include <boost/scoped_ptr.hpp>
+ 
+ #include <pcl_ros/point_cloud.h>
+@@ -104,7 +104,7 @@ TEST(MessageFilter, noTransforms)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+ 
+   boost::shared_ptr<PCDType> msg(new PCDType);
+   ros::Time stamp = ros::Time::now();
+@@ -120,7 +120,7 @@ TEST(MessageFilter, noTransformsSameFrame)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+ 
+   boost::shared_ptr<PCDType> msg(new PCDType);
+   ros::Time stamp = ros::Time::now();
+@@ -136,7 +136,7 @@ TEST(MessageFilter, preexistingTransforms)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+ 
+   boost::shared_ptr<PCDType> msg(new PCDType);
+ 
+@@ -157,7 +157,7 @@ TEST(MessageFilter, postTransforms)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+ 
+   ros::Time stamp = ros::Time::now();
+   boost::shared_ptr<PCDType> msg(new PCDType);
+@@ -182,8 +182,8 @@ TEST(MessageFilter, queueSize)
+   tf::TransformListener tf_client;
+   Notification n(10);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 10);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
+-  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, _1, _2));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
++  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, boost::placeholders::_1, boost::placeholders::_2));
+ 
+   ros::Time stamp = ros::Time::now();
+   std::uint64_t pcl_stamp;
+@@ -215,7 +215,7 @@ TEST(MessageFilter, setTargetFrame)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+   filter.setTargetFrame("frame1000");
+ 
+   ros::Time stamp = ros::Time::now();
+@@ -237,7 +237,7 @@ TEST(MessageFilter, multipleTargetFrames)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+ 
+   std::vector<std::string> target_frames;
+   target_frames.push_back("frame1");
+@@ -276,7 +276,7 @@ TEST(MessageFilter, tolerance)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerCallback(boost::bind(&Notification::notify, &n, _1));
++  filter.registerCallback(boost::bind(&Notification::notify, &n, boost::placeholders::_1));
+   filter.setTolerance(offset);
+ 
+   ros::Time stamp = ros::Time::now();
+@@ -316,7 +316,7 @@ TEST(MessageFilter, outTheBackFailure)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, _1, _2));
++  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, boost::placeholders::_1, boost::placeholders::_2));
+ 
+   ros::Time stamp = ros::Time::now();
+   boost::shared_ptr<PCDType> msg(new PCDType);
+@@ -339,7 +339,7 @@ TEST(MessageFilter, emptyFrameIDFailure)
+   tf::TransformListener tf_client;
+   Notification n(1);
+   MessageFilter<PCDType> filter(tf_client, "frame1", 1);
+-  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, _1, _2));
++  filter.registerFailureCallback(boost::bind(&Notification::failure, &n, boost::placeholders::_1, boost::placeholders::_2));
+ 
+   boost::shared_ptr<PCDType> msg(new PCDType);
+   msg->header.frame_id = "";

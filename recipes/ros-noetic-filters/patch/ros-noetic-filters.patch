@@ -1,0 +1,14 @@
+diff --git a/include/filters/median.hpp b/include/filters/median.hpp
+index 1043109..5b684c5 100644
+--- a/include/filters/median.hpp
++++ b/include/filters/median.hpp
+@@ -40,6 +40,9 @@
+ 
+ #include "filters/realtime_circular_buffer.hpp"
+ 
++#if __cplusplus > 199711L
++#define register      // Deprecated in C++11.
++#endif  // #if __cplusplus > 199711L
+ 
+ /*********************************************************************/
+ /*

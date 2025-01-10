@@ -1,0 +1,22 @@
+diff --git a/src/joint_state_publisher_gui/__init__.py b/src/joint_state_publisher_gui/__init__.py
+index b4aa139..71b2ca1 100644
+--- a/src/joint_state_publisher_gui/__init__.py
++++ b/src/joint_state_publisher_gui/__init__.py
+@@ -100,7 +100,7 @@ class JointStatePublisherGui(QWidget):
+ 
+             slider.setFont(font)
+             slider.setRange(0, RANGE)
+-            slider.setValue(RANGE/2)
++            slider.setValue(int(RANGE/2))
+ 
+             joint_layout.addWidget(slider)
+ 
+@@ -222,7 +222,7 @@ class JointStatePublisherGui(QWidget):
+         self.update_sliders()
+ 
+     def valueToSlider(self, value, joint):
+-        return (value - joint['min']) * float(RANGE) / (joint['max'] - joint['min'])
++        return int((value - joint['min']) * float(RANGE) / (joint['max'] - joint['min']))
+ 
+     def sliderToValue(self, slider, joint):
+         pctvalue = slider / float(RANGE)

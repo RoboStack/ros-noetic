@@ -1,0 +1,26 @@
+diff --git a/pluginlib_tutorials/CMakeLists.txt b/pluginlib_tutorials/CMakeLists.txt
+index 6a9b5ec..370d6d9 100644
+--- a/pluginlib_tutorials/CMakeLists.txt
++++ b/pluginlib_tutorials/CMakeLists.txt
+@@ -3,6 +3,7 @@ project(pluginlib_tutorials)
+ 
+ ## Find catkin dependencies
+ find_package(catkin REQUIRED COMPONENTS pluginlib roscpp)
++find_package(console_bridge)
+ 
+ ## Find Boost (headers only)
+ find_package(Boost REQUIRED)
+@@ -19,11 +20,11 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+ 
+ ## pluginlib_tutorials library
+ add_library(pluginlib_tutorials src/polygon_plugins.cpp)
+-target_link_libraries(pluginlib_tutorials ${catkin_LIBRARIES})
++target_link_libraries(pluginlib_tutorials ${catkin_LIBRARIES} console_bridge::console_bridge)
+ 
+ ## polygon_loader executable
+ add_executable(polygon_loader src/polygon_loader.cpp)
+-target_link_libraries(polygon_loader ${catkin_LIBRARIES})
++target_link_libraries(polygon_loader ${catkin_LIBRARIES} console_bridge::console_bridge)
+ 
+ ## Mark executables and/or libraries for installation
+ install(TARGETS pluginlib_tutorials polygon_loader

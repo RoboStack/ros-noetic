@@ -1,0 +1,20 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1b1ef70..1c37fbb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,9 +11,13 @@ catkin_package(DEPENDS geometry_msgs sensor_msgs)
+ 
+ roslint_cpp()
+ 
++find_library(SPNAV_LIBRARY
++    NAMES spnav
++)
++
+ include_directories(${catkin_INCLUDE_DIRS})
+ add_executable(spacenav_node src/spacenav_node.cpp)
+-target_link_libraries (spacenav_node spnav X11 ${catkin_LIBRARIES})
++target_link_libraries (spacenav_node ${SPNAV_LIBRARY} X11 ${catkin_LIBRARIES})
+ 
+ if(CATKIN_ENABLE_TESTING)
+   roslint_add_test()
+

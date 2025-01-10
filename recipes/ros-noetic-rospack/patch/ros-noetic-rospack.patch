@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 91dc79d..3d74661 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,12 +7,19 @@ set(Python_ADDITIONAL_VERSIONS "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}"
+ find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}" REQUIRED)
+ find_package(TinyXML2 REQUIRED)
+ 
+-catkin_package(
+-  INCLUDE_DIRS include
+-  LIBRARIES rospack ${PYTHON_LIBRARIES}
+-  DEPENDS Boost TinyXML2
++if(NOT APPLE)
++  catkin_package(
++    INCLUDE_DIRS include
++    LIBRARIES rospack ${PYTHON_LIBRARIES}
++    DEPENDS Boost TinyXML2
++  )
++else()
++  catkin_package(
++    INCLUDE_DIRS include
++    LIBRARIES rospack
++    DEPENDS Boost TinyXML2
+ )
+-
++endif()
+ #add_definitions(-Wall)
+ 
+ set(API_BACKCOMPAT_V1 "YES" CACHE BOOL "Whether to enable backwards compatibility with old C++ API")

@@ -1,0 +1,50 @@
+diff --git a/CMake/unix_config.cmake b/CMake/unix_config.cmake
+index 4ec81bbf..7822b692 100644
+--- a/CMake/unix_config.cmake
++++ b/CMake/unix_config.cmake
+@@ -7,9 +7,12 @@ macro(os_set_flags)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-switch -Wno-multichar -Wsequence-point -Wformat -Wformat-security")
+ 
+     execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE MACHINE)
+-    if(${MACHINE} MATCHES "arm-*")
++    if(${MACHINE} MATCHES "arm-*" AND NOT APPLE)
+         set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon -mfloat-abi=hard -ftree-vectorize -latomic")
++    elseif(${MACHINE} MATCHES "arm-*" AND APPLE)
++        set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -ftree-vectorize")
++        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftree-vectorize")
+     elseif(${MACHINE} MATCHES "aarch64-*")
+         set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mstrict-align -ftree-vectorize")
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mstrict-align -ftree-vectorize")
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 902e549..b16f92f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,6 +2,10 @@
+ cmake_minimum_required(VERSION 3.1.0)
+ project(librealsense2 LANGUAGES CXX C)
+ 
++if (WIN32)
++  file(COPY ${CMAKE_SOURCE_DIR}/src/win7/drivers/IntelRealSense_D400_series_win7.inf DESTINATION ${CMAKE_SOURCE_DIR})
++endif()
++
+ include(CMake/lrs_options.cmake)
+ include(CMake/connectivity_check.cmake)
+ #Deprecation message, should be removed in future releases
+diff --git a/tools/rs-server/CMakeLists.txt b/tools/rs-server/CMakeLists.txt
+index 617a723..8594e3f 100644
+--- a/tools/rs-server/CMakeLists.txt
++++ b/tools/rs-server/CMakeLists.txt
+@@ -14,7 +14,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+ 
+ set(DEPENDENCIES ${DEPENDENCIES} realsense2 Threads::Threads)
+ 
+-set(CMAKE_CXX_FLAGS "-DNEWLOCALE_NOT_USED=1 -DBSD=1 -DSOCKLEN_T=socklen_t -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1 -DALLOW_RTSP_SERVER_PORT_REUSE=1 -DNO_OPENSSL=1 -latomic")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNEWLOCALE_NOT_USED=1 -DBSD=1 -DSOCKLEN_T=socklen_t -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1 -DALLOW_RTSP_SERVER_PORT_REUSE=1 -DNO_OPENSSL=1")
++
++if(NOT APPLE)
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -latomic"
++endif()
+ 
+ SET(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-pthread")
+ 
