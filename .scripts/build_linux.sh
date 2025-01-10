@@ -7,23 +7,18 @@
 
 set -xeuo pipefail
 export PYTHONUNBUFFERED=1
-export FEEDSTOCK_ROOT="${FEEDSTOCK_ROOT:-/home/conda/feedstock_root}"
-export RECIPE_ROOT="${RECIPE_ROOT:-/home/conda/recipe_root}"
+
+export FEEDSTOCK_ROOT=`pwd`
+export "CONDA_BLD_PATH=$HOME/conda-bld/"
 
 curl -fsSL https://pixi.sh/install.sh | bash
 export PATH="$HOME/.pixi/bin:$PATH"
-
-export CONDA_BLD_PATH="/opt/conda/build_artifacts"
-
-pwd
-
-cd ${FEEDSTOCK_ROOT}
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	pixi run -v rattler-build build \
 		--recipe ${FEEDSTOCK_ROOT}/recipes/${recipe} \
 		-m ${FEEDSTOCK_ROOT}/conda_build_config.yaml \
-		-c robostack-jazzy -c conda-forge \
+		-c robostack-staging -c conda-forge \
 		--output-dir $CONDA_BLD_PATH
 
 		# -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
