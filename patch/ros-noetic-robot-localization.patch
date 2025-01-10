@@ -2,7 +2,10 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index cc7f334..bb20912 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -52,6 +52,3 @@ if(NOT EIGEN3_FOUND)
+@@ -49,9 +49,6 @@ if(NOT EIGEN3_FOUND)
+   set(EIGEN_PACKAGE Eigen)
+ endif()
+ 
 -if(NOT MSVC)
 -  set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Werror")
 -endif()
