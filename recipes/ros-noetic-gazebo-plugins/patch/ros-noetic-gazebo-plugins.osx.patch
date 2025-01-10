@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0404e94..24c72cc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -58,6 +58,8 @@ generate_dynamic_reconfigure_options(
+   cfg/Hokuyo.cfg
+ )
+ 
++add_definitions(-D_LIBCPP_DISABLE_AVAILABILITY)
++
+ include_directories(include
+   ${Boost_INCLUDE_DIRS}
+   ${catkin_INCLUDE_DIRS}

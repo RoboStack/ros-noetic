@@ -1,0 +1,76 @@
+diff --git a/collision_detection/include/moveit/collision_detection/collision_common.h b/collision_detection/include/moveit/collision_detection/collision_common.h
+index 7ff4596bf..32d04be20 100644
+--- a/collision_detection/include/moveit/collision_detection/collision_common.h
++++ b/collision_detection/include/moveit/collision_detection/collision_common.h
+@@ -324,18 +324,46 @@ using DistanceMap = std::map<const std::pair<std::string, std::string>, std::vec
+ /** \brief Result of a distance request. */
+ struct DistanceResult
+ {
+-  DistanceResult() : collision(false)
++  DistanceResult() : collision(false) {}
++
++  /// Copy constructor
++  DistanceResult(const DistanceResult& other)
++      : collision(other.collision),
++        minimum_distance(other.minimum_distance),
++        distances(other.distances) {}
++
++  /// Move constructor
++  DistanceResult(DistanceResult&& other) noexcept
++      : collision(other.collision),
++        minimum_distance(std::move(other.minimum_distance)),
++        distances(std::move(other.distances)) {}
++
++  /// Copy assignment operator
++  DistanceResult& operator=(const DistanceResult& other)
+   {
++    if (this != &other)
++    {
++      collision = other.collision;
++      minimum_distance = other.minimum_distance;
++
++      // Clear and copy distances map
++      distances.clear();
++      distances.insert(other.distances.begin(), other.distances.end());
++    }
++    return *this;
+   }
+ 
+-  /// Indicates if two objects were in collision
+-  bool collision;
+-
+-  /// ResultsData for the two objects with the minimum distance
+-  DistanceResultsData minimum_distance;
+-
+-  /// A map of distance data for each link in the req.active_components_only
+-  DistanceMap distances;
++  /// Move assignment operator
++  DistanceResult& operator=(DistanceResult&& other) noexcept
++  {
++    if (this != &other)
++    {
++      collision = other.collision;
++      minimum_distance = std::move(other.minimum_distance);
++      distances = std::move(other.distances); // Move map contents
++    }
++    return *this;
++  }
+ 
+   /// Clear structure data
+   void clear()
+@@ -344,6 +372,15 @@ struct DistanceResult
+     minimum_distance.clear();
+     distances.clear();
+   }
++
++  /// Indicates if two objects were in collision
++  bool collision;
++
++  /// Results data for the two objects with the minimum distance
++  DistanceResultsData minimum_distance;
++
++  /// A map of distance data for each link in the req.active_components_only
++  DistanceMap distances;
+ };
+ 
+ /** \brief Representation of a collision checking result */

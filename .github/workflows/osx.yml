@@ -1,0 +1,539 @@
+jobs:
+  stage_0_job_0:
+    name: rviz moveit-resources-fanuc-moveit-config costmap-2d laser-filters rqt-robot-dashboard
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-rviz ros-noetic-moveit-resources-fanuc-moveit-config
+        ros-noetic-costmap-2d ros-noetic-laser-filters ros-noetic-rqt-robot-dashboard
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz ros-noetic-moveit-resources-fanuc-moveit-config
+          ros-noetic-costmap-2d ros-noetic-laser-filters ros-noetic-rqt-robot-dashboard
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_0_job_1:
+    name: gazebo-ros-control hector-gazebo-plugins gazebo-plugins effort-controllers
+      ackermann-steering-controller
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-gazebo-ros-control ros-noetic-hector-gazebo-plugins ros-noetic-gazebo-plugins
+        ros-noetic-effort-controllers ros-noetic-ackermann-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-gazebo-ros-control ros-noetic-hector-gazebo-plugins
+          ros-noetic-gazebo-plugins ros-noetic-effort-controllers ros-noetic-ackermann-steering-controller
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_0_job_2:
+    name: robot-localization interactive-marker-twist-server ros-base geometry diagnostics
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-robot-localization ros-noetic-interactive-marker-twist-server
+        ros-noetic-ros-base ros-noetic-geometry ros-noetic-diagnostics
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-robot-localization ros-noetic-interactive-marker-twist-server
+          ros-noetic-ros-base ros-noetic-geometry ros-noetic-diagnostics
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_0_job_3:
+    name: rqt-common-plugins pointgrey-camera-description perception-pcl image-pipeline
+      geometry-tutorials
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-rqt-common-plugins ros-noetic-pointgrey-camera-description
+        ros-noetic-perception-pcl ros-noetic-image-pipeline ros-noetic-geometry-tutorials
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rqt-common-plugins ros-noetic-pointgrey-camera-description
+          ros-noetic-perception-pcl ros-noetic-image-pipeline ros-noetic-geometry-tutorials
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_0_job_4:
+    name: velodyne-simulator turtlebot3-fake turtlebot3-slam turtlebot3-example jackal-base
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-velodyne-simulator ros-noetic-turtlebot3-fake ros-noetic-turtlebot3-slam
+        ros-noetic-turtlebot3-example ros-noetic-jackal-base
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-velodyne-simulator ros-noetic-turtlebot3-fake
+          ros-noetic-turtlebot3-slam ros-noetic-turtlebot3-example ros-noetic-jackal-base
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_0_job_5:
+    name: slam-gmapping
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-slam-gmapping
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-slam-gmapping
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_6:
+    name: moveit-resources-panda-moveit-config nav-core rqt-rviz ros-controllers rviz-python-tutorial
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-resources-panda-moveit-config ros-noetic-nav-core
+        ros-noetic-rqt-rviz ros-noetic-ros-controllers ros-noetic-rviz-python-tutorial
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-resources-panda-moveit-config ros-noetic-nav-core
+          ros-noetic-rqt-rviz ros-noetic-ros-controllers ros-noetic-rviz-python-tutorial
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_7:
+    name: rviz-plugin-tutorials librviz-tutorial costmap-converter urdf-tutorial robot
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-rviz-plugin-tutorials ros-noetic-librviz-tutorial ros-noetic-costmap-converter
+        ros-noetic-urdf-tutorial ros-noetic-robot
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz-plugin-tutorials ros-noetic-librviz-tutorial
+          ros-noetic-costmap-converter ros-noetic-urdf-tutorial ros-noetic-robot
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_8:
+    name: gazebo-ros-pkgs laser-pipeline jackal-control jackal-description rviz-imu-plugin
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-gazebo-ros-pkgs ros-noetic-laser-pipeline ros-noetic-jackal-control
+        ros-noetic-jackal-description ros-noetic-rviz-imu-plugin
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-gazebo-ros-pkgs ros-noetic-laser-pipeline ros-noetic-jackal-control
+          ros-noetic-jackal-description ros-noetic-rviz-imu-plugin
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_9:
+    name: rviz-visual-tools jackal-viz turtlebot3-simulations
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    - stage_0_job_4
+    - stage_0_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-rviz-visual-tools ros-noetic-jackal-viz ros-noetic-turtlebot3-simulations
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rviz-visual-tools ros-noetic-jackal-viz ros-noetic-turtlebot3-simulations
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_2_job_10:
+    name: moveit-core base-local-planner navfn clear-costmap-recovery rqt-robot-plugins
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-core ros-noetic-base-local-planner ros-noetic-navfn
+        ros-noetic-clear-costmap-recovery ros-noetic-rqt-robot-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-core ros-noetic-base-local-planner ros-noetic-navfn
+          ros-noetic-clear-costmap-recovery ros-noetic-rqt-robot-plugins
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_2_job_11:
+    name: mbf-costmap-core visualization-tutorials urdf-sim-tutorial perception jackal-gazebo
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-mbf-costmap-core ros-noetic-visualization-tutorials ros-noetic-urdf-sim-tutorial
+        ros-noetic-perception ros-noetic-jackal-gazebo
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-mbf-costmap-core ros-noetic-visualization-tutorials
+          ros-noetic-urdf-sim-tutorial ros-noetic-perception ros-noetic-jackal-gazebo
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_2_job_12:
+    name: jackal-desktop imu-tools
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-jackal-desktop ros-noetic-imu-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-jackal-desktop ros-noetic-imu-tools
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_3_job_13:
+    name: moveit-ros-occupancy-map-monitor rotate-recovery moveit-resources-prbt-ikfast-manipulator-plugin
+      moveit-simple-controller-manager chomp-motion-planner
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-ros-occupancy-map-monitor ros-noetic-rotate-recovery
+        ros-noetic-moveit-resources-prbt-ikfast-manipulator-plugin ros-noetic-moveit-simple-controller-manager
+        ros-noetic-chomp-motion-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-occupancy-map-monitor ros-noetic-rotate-recovery
+          ros-noetic-moveit-resources-prbt-ikfast-manipulator-plugin ros-noetic-moveit-simple-controller-manager
+          ros-noetic-chomp-motion-planner
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_3_job_14:
+    name: viz teb-local-planner simulators jackal-simulator
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-viz ros-noetic-teb-local-planner ros-noetic-simulators
+        ros-noetic-jackal-simulator
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-viz ros-noetic-teb-local-planner ros-noetic-simulators
+          ros-noetic-jackal-simulator
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_4_job_15:
+    name: moveit-ros-planning move-base moveit-resources-prbt-moveit-config moveit-ros-control-interface
+      desktop
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_13
+    - stage_3_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-ros-planning ros-noetic-move-base ros-noetic-moveit-resources-prbt-moveit-config
+        ros-noetic-moveit-ros-control-interface ros-noetic-desktop
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-planning ros-noetic-move-base ros-noetic-moveit-resources-prbt-moveit-config
+          ros-noetic-moveit-ros-control-interface ros-noetic-desktop
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_16:
+    name: moveit-kinematics moveit-ros-warehouse moveit-ros-robot-interaction moveit-ros-perception
+      moveit-fake-controller-manager
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-kinematics ros-noetic-moveit-ros-warehouse ros-noetic-moveit-ros-robot-interaction
+        ros-noetic-moveit-ros-perception ros-noetic-moveit-fake-controller-manager
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-kinematics ros-noetic-moveit-ros-warehouse
+          ros-noetic-moveit-ros-robot-interaction ros-noetic-moveit-ros-perception
+          ros-noetic-moveit-fake-controller-manager
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_17:
+    name: moveit-resources-prbt-pg70-support moveit-planners-ompl turtlebot3-navigation
+      desktop-full moveit-visual-tools
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-resources-prbt-pg70-support ros-noetic-moveit-planners-ompl
+        ros-noetic-turtlebot3-navigation ros-noetic-desktop-full ros-noetic-moveit-visual-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-resources-prbt-pg70-support ros-noetic-moveit-planners-ompl
+          ros-noetic-turtlebot3-navigation ros-noetic-desktop-full ros-noetic-moveit-visual-tools
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_5_job_18:
+    name: jackal-navigation
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-jackal-navigation
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-jackal-navigation
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_6_job_19:
+    name: moveit-ros-move-group moveit-plugins moveit-ros-benchmarks turtlebot3
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_16
+    - stage_5_job_17
+    - stage_5_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-ros-move-group ros-noetic-moveit-plugins ros-noetic-moveit-ros-benchmarks
+        ros-noetic-turtlebot3
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-move-group ros-noetic-moveit-plugins
+          ros-noetic-moveit-ros-benchmarks ros-noetic-turtlebot3
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_7_job_20:
+    name: moveit-ros-manipulation moveit-ros-planning-interface
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_19
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-ros-manipulation ros-noetic-moveit-ros-planning-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-ros-manipulation ros-noetic-moveit-ros-planning-interface
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_8_job_21:
+    name: moveit-commander moveit-ros-visualization moveit-planners-chomp
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_20
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-moveit-commander ros-noetic-moveit-ros-visualization
+        ros-noetic-moveit-planners-chomp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-moveit-commander ros-noetic-moveit-ros-visualization
+          ros-noetic-moveit-planners-chomp
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_9_job_22:
+    name: pilz-industrial-motion-planner-testutils moveit-setup-assistant moveit-ros
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_21
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-pilz-industrial-motion-planner-testutils ros-noetic-moveit-setup-assistant
+        ros-noetic-moveit-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-pilz-industrial-motion-planner-testutils ros-noetic-moveit-setup-assistant
+          ros-noetic-moveit-ros
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_10_job_23:
+    name: pilz-industrial-motion-planner panda-moveit-config moveit-planners moveit
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-pilz-industrial-motion-planner ros-noetic-panda-moveit-config
+        ros-noetic-moveit-planners ros-noetic-moveit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-pilz-industrial-motion-planner ros-noetic-panda-moveit-config
+          ros-noetic-moveit-planners ros-noetic-moveit
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+name: build_osx
+on:
+  push:
+    branches:
+    - buildbranch_osx

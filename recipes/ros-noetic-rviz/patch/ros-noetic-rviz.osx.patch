@@ -1,0 +1,229 @@
+diff --git a/src/rviz/default_plugin/camera_display.cpp b/src/rviz/default_plugin/camera_display.cpp
+index e092e196..a06cacd9 100644
+--- a/src/rviz/default_plugin/camera_display.cpp
++++ b/src/rviz/default_plugin/camera_display.cpp
+@@ -34,6 +34,7 @@
+ #include <OgreRectangle2D.h>
+ #include <OgreRenderSystem.h>
+ #include <OgreRenderWindow.h>
++#include <OgreRoot.h>
+ #include <OgreSceneManager.h>
+ #include <OgreSceneNode.h>
+ #include <OgreTextureManager.h>
+@@ -103,6 +104,8 @@ CameraDisplay::CameraDisplay()
+       &CameraDisplay::forceRender);
+   zoom_property_->setMin(0.00001);
+   zoom_property_->setMax(100000);
++
++  has_run_once_ = false;
+ }
+ 
+ CameraDisplay::~CameraDisplay()
+@@ -128,8 +131,16 @@ void CameraDisplay::onInitialize()
+ {
+   ImageDisplayBase::onInitialize();
+ 
+-  bg_scene_node_ = scene_node_->createChildSceneNode();
+-  fg_scene_node_ = scene_node_->createChildSceneNode();
++  {
++    static uint32_t count = 0;
++    std::stringstream ss;
++    ss << "CameraDisplay" << count++;
++    camera_scene_manager_ = Ogre::Root::getSingleton().createSceneManager(Ogre::ST_GENERIC, ss.str());
++  }
++
++  bg_scene_node_ = camera_scene_manager_->getRootSceneNode()->createChildSceneNode();
++  fg_scene_node_ = camera_scene_manager_->getRootSceneNode()->createChildSceneNode();
++
+ 
+   {
+     static int count = 0;
+@@ -215,8 +226,16 @@ void CameraDisplay::onInitialize()
+ void CameraDisplay::preRenderTargetUpdate(const Ogre::RenderTargetEvent& /*evt*/)
+ {
+   QString image_position = image_position_property_->getString();
+-  bg_scene_node_->setVisible(caminfo_ok_ && (image_position == BACKGROUND || image_position == BOTH));
+-  fg_scene_node_->setVisible(caminfo_ok_ && (image_position == OVERLAY || image_position == BOTH));
++
++  if (has_run_once_)
++  {
++    fg_scene_node_->setVisible(caminfo_ok_ && (image_position == OVERLAY || image_position == BOTH));
++    bg_scene_node_->setVisible(caminfo_ok_ && (image_position == BACKGROUND || image_position == BOTH));
++  }
++  else
++  {
++    has_run_once_ = true;
++  }
+ 
+   // set view flags on all displays
+   visibility_property_->update();
+diff --git a/src/rviz/default_plugin/camera_display.h b/src/rviz/default_plugin/camera_display.h
+index 175a3a24..ccd4d6f3 100644
+--- a/src/rviz/default_plugin/camera_display.h
++++ b/src/rviz/default_plugin/camera_display.h
+@@ -96,6 +96,8 @@ protected:
+   ROSImageTexture texture_;
+   RenderPanel* render_panel_;
+ 
++  Ogre::SceneManager* camera_scene_manager_;
++
+ private Q_SLOTS:
+   void forceRender();
+   void updateAlpha();
+@@ -135,6 +137,8 @@ private:
+   bool force_render_;
+ 
+   uint32_t vis_bit_;
++
++  bool has_run_once_;
+ };
+ 
+ } // namespace rviz
+diff --git a/src/rviz/default_plugin/image_display.cpp b/src/rviz/default_plugin/image_display.cpp
+index e460a8db..4624c996 100644
+--- a/src/rviz/default_plugin/image_display.cpp
++++ b/src/rviz/default_plugin/image_display.cpp
+@@ -73,6 +73,7 @@ ImageDisplay::ImageDisplay() : ImageDisplayBase(), texture_()
+                       this, &ImageDisplay::updateNormalizeOptions);
+ 
+   got_float_image_ = false;
++  has_run_once_ = false;
+ }
+ 
+ void ImageDisplay::onInitialize()
+@@ -121,9 +122,11 @@ void ImageDisplay::onInitialize()
+     screen_rect_->setBoundingBox(aabInf);
+     setMaterial(*screen_rect_, material_);
+     img_scene_node_->attachObject(screen_rect_);
++    img_scene_node_->setVisible(false);
+   }
+ 
+   render_panel_ = new RenderPanel();
++  render_panel_->getRenderWindow()->addListener(this);
+   render_panel_->getRenderWindow()->setAutoUpdated(false);
+   render_panel_->getRenderWindow()->setActive(false);
+ 
+@@ -146,12 +149,32 @@ ImageDisplay::~ImageDisplay()
+ {
+   if (initialized())
+   {
++    render_panel_->getRenderWindow()->removeListener(this);
++
+     delete render_panel_;
+     delete screen_rect_;
+     removeAndDestroyChildNode(img_scene_node_->getParentSceneNode(), img_scene_node_);
+   }
+ }
+ 
++void ImageDisplay::preRenderTargetUpdate(const Ogre::RenderTargetEvent& /*evt*/)
++{
++  if (has_run_once_)
++  {
++    img_scene_node_->setVisible(true);
++  }
++  else
++  {
++    has_run_once_ = true;
++    img_scene_node_->setVisible(false);
++  }
++}
++
++void ImageDisplay::postRenderTargetUpdate(const Ogre::RenderTargetEvent& /*evt*/)
++{
++  img_scene_node_->setVisible(false);
++}
++
+ void ImageDisplay::onEnable()
+ {
+   ImageDisplayBase::subscribe();
+diff --git a/src/rviz/default_plugin/image_display.h b/src/rviz/default_plugin/image_display.h
+index 21a4e1b0..ae11d3e4 100644
+--- a/src/rviz/default_plugin/image_display.h
++++ b/src/rviz/default_plugin/image_display.h
+@@ -60,7 +60,7 @@ namespace rviz
+  * \class ImageDisplay
+  *
+  */
+-class ImageDisplay : public ImageDisplayBase
++class ImageDisplay : public ImageDisplayBase, public Ogre::RenderTargetListener
+ {
+   Q_OBJECT
+ public:
+@@ -72,6 +72,10 @@ public:
+   void update(float wall_dt, float ros_dt) override;
+   void reset() override;
+ 
++  // Overrides from Ogre::RenderTargetListener
++  void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt) override;
++  void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt) override;
++
+ public Q_SLOTS:
+   virtual void updateNormalizeOptions();
+ 
+@@ -100,6 +104,7 @@ private:
+   FloatProperty* max_property_;
+   IntProperty* median_buffer_size_property_;
+   bool got_float_image_;
++  bool has_run_once_;
+ 
+   MouseClick* mouse_click_;
+ };
+diff --git a/src/rviz/ogre_helpers/render_system.cpp b/src/rviz/ogre_helpers/render_system.cpp
+index 4005f982..8515e7b8 100644
+--- a/src/rviz/ogre_helpers/render_system.cpp
++++ b/src/rviz/ogre_helpers/render_system.cpp
+@@ -444,7 +444,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(WindowIDType window_id,
+         // Created a non-stereo window.  Discard it and try again (below)
+         // without the stereo parameter.
+         ogre_root_->detachRenderTarget(window);
+-        window->destroy();
++        ogre_root_->destroyRenderTarget(window);
+         window = nullptr;
+         stream << "x";
+         is_stereo = false;
+@@ -501,6 +501,7 @@ Ogre::RenderWindow* RenderSystem::tryMakeRenderWindow(const std::string& name,
+       if (x_baddrawable_error)
+       {
+         ogre_root_->detachRenderTarget(window);
++        ogre_root_->destroyRenderTarget(window);
+         window = nullptr;
+         x_baddrawable_error = false;
+       }
+diff --git a/src/rviz/render_panel.cpp b/src/rviz/render_panel.cpp
+index c52c0180..88b07e39 100644
+--- a/src/rviz/render_panel.cpp
++++ b/src/rviz/render_panel.cpp
+@@ -35,6 +35,7 @@
+ 
+ #include <OgreSceneManager.h>
+ #include <OgreCamera.h>
++#include <OgreRenderWindow.h>
+ 
+ #include <rviz/display.h>
+ #include <rviz/view_controller.h>
+@@ -100,6 +101,12 @@ void RenderPanel::leaveEvent(QEvent* /*event*/)
+   }
+ }
+ 
++void RenderPanel::resizeEvent(QResizeEvent* event)
++{
++  QWidget::resizeEvent(event);
++  render_window_->windowMovedOrResized();
++}
++
+ void RenderPanel::onRenderWindowMouseEvents(QMouseEvent* event)
+ {
+   int last_x = mouse_x_;
+diff --git a/src/rviz/render_panel.h b/src/rviz/render_panel.h
+index 2ce29c6f..e1ef904e 100644
+--- a/src/rviz/render_panel.h
++++ b/src/rviz/render_panel.h
+@@ -118,6 +118,8 @@ protected:
+   /// Called when any mouse event happens inside the render window
+   void onRenderWindowMouseEvents(QMouseEvent* event);
+ 
++  void resizeEvent(QResizeEvent* event) override;
++
+   // QWidget mouse events all get sent to onRenderWindowMouseEvents().
+   // QMouseEvent.type() distinguishes them later.
+   void mouseMoveEvent(QMouseEvent* event) override
