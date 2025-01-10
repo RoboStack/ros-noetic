@@ -1,0 +1,54 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a67a3318c..e6e07c89b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -109,7 +109,7 @@ add_library(planning_context_loader_ptp
+             src/joint_limits_container.cpp
+             )
+ target_link_libraries(planning_context_loader_ptp
+-                      ${catkin_LIBRARIES})
++                      ${catkin_LIBRARIES} ${PROJECT_NAME})
+ 
+ add_library(planning_context_loader_lin
+             src/planning_context_loader_lin.cpp
+@@ -120,7 +120,7 @@ add_library(planning_context_loader_lin
+             src/velocity_profile_atrap.cpp
+             )
+ target_link_libraries(planning_context_loader_lin
+-                      ${catkin_LIBRARIES})
++                      ${catkin_LIBRARIES} ${PROJECT_NAME})
+ 
+ add_library(planning_context_loader_circ
+             src/planning_context_loader_circ.cpp
+@@ -131,13 +131,16 @@ add_library(planning_context_loader_circ
+             src/path_circle_generator.cpp
+             )
+ target_link_libraries(planning_context_loader_circ
+-                      ${catkin_LIBRARIES})
++            ${PROJECT_NAME} ${catkin_LIBRARIES} ${PROJECT_NAME})
+ 
+ add_library(command_list_manager
+             src/command_list_manager.cpp
+-            src/plan_components_builder.cpp)
++            src/plan_components_builder.cpp
++            src/trajectory_functions.cpp
++            src/trajectory_blender_transition_window.cpp
++            )
+ target_link_libraries(command_list_manager
+-            ${catkin_LIBRARIES})
++            ${PROJECT_NAME} ${catkin_LIBRARIES})
+ add_dependencies(command_list_manager
+             ${catkin_EXPORTED_TARGETS})
+ 
+@@ -152,9 +155,10 @@ add_library(sequence_capability
+             src/limits_container.cpp
+             src/cartesian_limit.cpp
+             src/cartesian_limits_aggregator.cpp
++            src/trajectory_functions.cpp
+             )
+ target_link_libraries(sequence_capability
+-                      ${catkin_LIBRARIES})
++                      ${catkin_LIBRARIES} ${PROJECT_NAME})
+ add_dependencies(sequence_capability
+            ${catkin_EXPORTED_TARGETS})
+ 
