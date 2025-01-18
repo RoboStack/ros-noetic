@@ -14,7 +14,7 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
-          - os: cirun-linux-aarch64--${{ github.run_id }}
+          - os: ubuntu-24.04-arm
             platform: linux-aarch64
           - os: macos-13
             platform: osx-64
