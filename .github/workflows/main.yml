@@ -20,7 +20,7 @@ jobs:
         python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     - name: Install vinca
       run: |
-        pip install git+https://github.com/RoboStack/vinca.git@rattler-build-humble
+        pip install git+https://github.com/RoboStack/vinca.git
 
     - name: Generate recipes for linux-64
       run: |
