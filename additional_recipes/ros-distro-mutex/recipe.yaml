@@ -3,10 +3,10 @@ package:
   version: 0.6.0
 
 build:
-  number: 0
+  number: 1
   # Note: keep in sync with build number
   # Cannot be done automatically, see https://github.com/mamba-org/boa/issues/278
-  string: noetic_0
+  string: noetic_1
 
 requirements:
   # NOTE:
@@ -36,9 +36,7 @@ requirements:
     - gazebo 11.*
     - libprotobuf 5.28.3.*
     - ogre 1.10.12.*
-    - libpqxx 7.8.*
-    - sip 6.7.*
-    - harfbuzz 10.*
+
 
   run_exports:
     weak:

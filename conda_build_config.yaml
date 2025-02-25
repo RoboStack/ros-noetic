@@ -1,9 +1,5 @@
-harfbuzz:
-  - '10'
 gazebo:
   - '11'
-libpqxx:
-  - 6
 ogre:
   - 1.10.12
 setuptools:
