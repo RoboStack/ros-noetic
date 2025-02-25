@@ -1,12 +1,12 @@
 package:
   name: ros-distro-mutex
-  version: 0.6.0
+  version: 0.7.0
 
 build:
-  number: 1
+  number: 0
   # Note: keep in sync with build number
   # Cannot be done automatically, see https://github.com/mamba-org/boa/issues/278
-  string: noetic_1
+  string: noetic_0
 
 requirements:
   # NOTE:
