@@ -6,6 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
+# Reminder for next full rebuild, the next build number should be 23
 build_number: 12
 
 # Ignore all dependencies of selected packages
@@ -186,3 +187,4 @@ packages_select_by_deps:
   # - velodyne_pointcloud
 
 patch_dir: patch
+rosdistro_snapshot: rosdistro_snapshot.yaml

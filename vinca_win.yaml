@@ -6,6 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
+# Reminder for next full rebuild, the next build number should be 23
 build_number: 17
 
 # Ignore all dependencies of selected packages
@@ -527,3 +528,4 @@ packages_select_by_deps:
   # - franka_ros
 
 patch_dir: patch
+rosdistro_snapshot: rosdistro_snapshot.yaml

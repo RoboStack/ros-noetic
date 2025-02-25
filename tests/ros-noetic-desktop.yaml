@@ -1,0 +1,8 @@
+tests:
+  - script:
+    - cmake-package-check catkin
+    requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
