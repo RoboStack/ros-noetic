@@ -9,6 +9,11 @@ conda_index:
 # Reminder for next full rebuild, the next build number should be 23
 build_number: 18
 
+# Specify that exactly the build_number used vinca*.yaml or pkg_additional_info.yaml
+# should be used, not some build number obtained by checking the maximum
+# of all build numbers used in the target channel
+use_explicit_build_number: true
+
 # Ignore all dependencies of selected packages
 skip_all_deps: false
 
