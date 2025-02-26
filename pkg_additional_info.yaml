@@ -1,4 +1,6 @@
 desktop:
   build_number: 22
+desktop_full:
+  build_number: 22
 rqt_common_plugins:
   build_number: 22

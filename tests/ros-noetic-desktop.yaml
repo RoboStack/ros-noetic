@@ -1,8 +1,4 @@
 tests:
-  - script:
-    - cmake-package-check catkin
-    requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
+  - package_contents:
+      files: 
+        - ${{ "Library" if win }}/share/desktop/package.xml
