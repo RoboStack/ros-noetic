@@ -33,6 +33,9 @@ packages_remove_from_deps:
   - stage
   - roseus
   - jskeus
+  # See https://github.com/RoboStack/ros-noetic/pull/507#issuecomment-2686401205
+  - rqt_web
+  - webkit_dependency
 
 skip_existing:
   # - https://conda.anaconda.org/robostack/
