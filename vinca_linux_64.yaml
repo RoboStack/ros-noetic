@@ -37,6 +37,9 @@ packages_remove_from_deps:
   - libpointmatcher
   - roseus
   - jskeus
+  # See https://github.com/RoboStack/ros-noetic/pull/507#issuecomment-2686401205
+  - rqt_web
+  - webkit_dependency
 
 build_in_own_azure_stage:
   - ros-noetic-jsk-pcl-ros-utils
