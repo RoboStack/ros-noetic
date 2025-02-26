@@ -1,4 +1,4 @@
 tests:
   - package_contents:
       files: 
-        - ${{ "Library" if win }}/share/desktop_full/package.xml
+        - ${{ "Library/" if win }}share/desktop_full/package.xml
