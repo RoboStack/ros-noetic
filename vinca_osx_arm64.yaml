@@ -164,6 +164,14 @@ packages_select_by_deps:
   - slam-gmapping
   - openslam-gmapping
   - tf2_web_republisher
+  - ros-noetic-four-wheel-steering-msgs
+  - ros-noetic-ira-laser-tools
+  - ros-noetic-libuvc-camera
+  - ros-noetic-moveit-chomp-optimizer-adapter
+  - ros-noetic-roboticsgroup-upatras-gazebo-plugins
+  - ros-noetic-sick-tim
+  - ros-noetic-spatio-temporal-voxel-layer
+  - ros-noetic-urdf-geometry-parser
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

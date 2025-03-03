@@ -171,6 +171,14 @@ packages_select_by_deps:
   - pid
   - husky-simulator
   - tf2_web_republisher
+  - ros-noetic-four-wheel-steering-msgs
+  - ros-noetic-ira-laser-tools
+  - ros-noetic-libuvc-camera
+  - ros-noetic-moveit-chomp-optimizer-adapter
+  - ros-noetic-roboticsgroup-upatras-gazebo-plugins
+  - ros-noetic-sick-tim
+  - ros-noetic-spatio-temporal-voxel-layer
+  - ros-noetic-urdf-geometry-parser
 
 
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
