@@ -1,0 +1,4 @@
+ros-distro-mutex
+ros-noetic-rqt-common-plugins
+ros-noetic-desktop
+ros-noetic-desktop-full
