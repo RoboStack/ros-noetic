@@ -1,0 +1,27 @@
+jobs:
+  stage_0_job_0:
+    name: mutex rqt-common-plugins desktop desktop-full
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-distro-mutex ros-noetic-rqt-common-plugins ros-noetic-desktop
+        ros-noetic-desktop-full
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-distro-mutex ros-noetic-rqt-common-plugins ros-noetic-desktop
+          ros-noetic-desktop-full
+        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_linux.sh
+name: build_linux
+on:
+  push:
+    branches:
+    - buildbranch_linux_aarch64
