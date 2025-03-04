@@ -137,3 +137,6 @@ resource_retriever:
   add_run: ["libcurl"]
 plotjuggler:
   add_host: ["${{ 'elfutils' if linux }}", "protobuf"]
+# See https://github.com/SteveMacenski/spatio_temporal_voxel_layer/pull/300
+spatio_temporal_voxel_layer:
+  add_host: ["libpcl-all-dev"]
