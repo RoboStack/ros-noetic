@@ -380,8 +380,14 @@ libopencv-dev:
   robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
 libopencv-imgproc-dev:
   robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
+libopenexr-dev:
+  robostack: [openexr]
 libopenni-dev:
   robostack: []
+libopenvdb:
+  robostack: [openvdb]
+libopenvdb-dev:
+  robostack: [openvdb]
 liborocos-kdl:
   robostack: [orocos-kdl]
 liborocos-kdl-dev:
