@@ -18,6 +18,8 @@ pyqtwebengine:
   - 5.15
 pyqtchart:
   - 5.15
+tinyxml2:
+  - 10.0
 
 cdt_name:
   - ${{ "cos7" if linux }}
