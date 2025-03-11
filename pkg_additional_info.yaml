@@ -4,3 +4,15 @@ desktop_full:
   build_number: 22
 rqt_common_plugins:
   build_number: 22
+rospack:
+  build_number: 22
+kdl_parser:
+  build_number: 22
+pluginlib:
+  build_number: 22
+rviz:
+  build_number: 22
+srdfdom:
+  build_number: 22
+urdf:
+  build_number: 22
