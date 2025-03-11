@@ -1,0 +1,43 @@
+jobs:
+  stage_0_job_0:
+    name: rospack pluginlib urdf
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-rospack ros-noetic-pluginlib ros-noetic-urdf
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-rospack ros-noetic-pluginlib ros-noetic-urdf
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+  stage_1_job_1:
+    name: kdl-parser rviz srdfdom
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-kdl-parser ros-noetic-rviz ros-noetic-srdfdom
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-kdl-parser ros-noetic-rviz ros-noetic-srdfdom
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+name: build_osx
+on:
+  push:
+    branches:
+    - buildbranch_osx
