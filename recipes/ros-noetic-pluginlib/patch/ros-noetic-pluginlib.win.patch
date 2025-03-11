@@ -1,0 +1,37 @@
+diff --git a/include/pluginlib/class_loader_imp.hpp b/include/pluginlib/class_loader_imp.hpp
+index d45b591..6b18c37 100644
+--- a/include/pluginlib/class_loader_imp.hpp
++++ b/include/pluginlib/class_loader_imp.hpp
+@@ -357,12 +357,32 @@ std::vector<std::string> ClassLoader<T>::getAllLibraryPathsToTry(
+   std::string stripped_library_name = stripAllButFileFromPath(library_name);
+   std::string stripped_library_name_with_extension = stripped_library_name + non_debug_suffix;
+ 
++  #ifdef _WIN32
++  boost::filesystem::path winlib(library_name);
++  std::string additional_lib, stripped_additional_lib;
++  std::string win_filename = winlib.filename().string();
++  if (win_filename.size() >= 3 && win_filename.substr(0, 3) == "lib")
++  {
++    additional_lib = (winlib.remove_filename() / win_filename.substr(3)).string() + non_debug_suffix;
++    stripped_additional_lib = win_filename.substr(3) + non_debug_suffix;
++  }
++  #endif
++
+   const std::string path_separator = getPathSeparator();
+ 
+   for (unsigned int c = 0; c < all_paths_without_extension.size(); c++) {
+     std::string current_path = all_paths_without_extension.at(c);
+     all_paths.push_back(current_path + path_separator + library_name_with_extension);
+     all_paths.push_back(current_path + path_separator + stripped_library_name_with_extension);
++
++    #ifdef _WIN32
++    if (!additional_lib.empty())
++    {
++      all_paths.push_back(current_path + path_separator + additional_lib);
++      all_paths.push_back(current_path + path_separator + stripped_additional_lib);
++    }
++    #endif
++
+     // We're in debug mode, try debug libraries as well
+     if (debug_library_suffix) {
+       all_paths.push_back(
