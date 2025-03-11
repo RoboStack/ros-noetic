@@ -1,0 +1,6 @@
+ros-noetic-rospack
+ros-noetic-pluginlib
+ros-noetic-urdf
+ros-noetic-kdl-parser
+ros-noetic-rviz
+ros-noetic-srdfdom
