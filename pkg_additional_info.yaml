@@ -5,14 +5,14 @@ desktop_full:
 rqt_common_plugins:
   build_number: 22
 rospack:
-  build_number: 22
+  build_number: 23
 kdl_parser:
-  build_number: 22
+  build_number: 23
 pluginlib:
-  build_number: 22
+  build_number: 23
 rviz:
-  build_number: 22
+  build_number: 23
 srdfdom:
-  build_number: 22
+  build_number: 23
 urdf:
-  build_number: 22
+  build_number: 23

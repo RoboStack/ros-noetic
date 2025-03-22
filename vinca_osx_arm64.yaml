@@ -6,7 +6,7 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
+# Reminder for next full rebuild, the next build number should be 24
 build_number: 9
 
 # Specify that exactly the build_number used vinca*.yaml or pkg_additional_info.yaml
