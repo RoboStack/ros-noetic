@@ -20,7 +20,8 @@ jobs:
         python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     - name: Install vinca
       run: |
-        pip install git+https://github.com/RoboStack/vinca.git
+        # Workaround for https://github.com/RoboStack/ros-noetic/issues/521
+        pip install git+https://github.com/RoboStack/vinca.git@v0.1.0
 
     - name: Generate recipes for linux-64
       run: |
