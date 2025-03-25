@@ -148,6 +148,7 @@ packages_select_by_deps:
   - diff-drive-controller
   - joint-state-controller
   - joy
+  - joystick-drivers
   - velodyne-gazebo-plugins
   - velodyne-simulator
   - effort-controllers

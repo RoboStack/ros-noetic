@@ -196,6 +196,7 @@ packages_select_by_deps:
   - hector-gazebo-plugins
   - depthimage-to-laserscan
   - joy
+  - joystick-drivers
   - nmea-msgs
   - rosmon
 
@@ -273,7 +274,7 @@ packages_select_by_deps:
   - pr2-teleop
   - rqt-ez-publisher
   - slam-gmapping
-
+  
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
   # Not compatible with recent libabsl
@@ -595,7 +596,6 @@ packages_select_by_deps:
   # - joint-trajectory-action
   # - joint-trajectory-action-tools
   # - joint-trajectory-generator
-  # - joystick-drivers
   # - jsk-interactive
   # - jsk-interactive-test
   # - jsk-recognition
