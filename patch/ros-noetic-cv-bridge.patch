@@ -2,7 +2,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index ef804b91..4ef849c4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -3,28 +3,8 @@ project(cv_bridge)
+@@ -3,29 +3,8 @@ project(cv_bridge)
  
  find_package(catkin REQUIRED COMPONENTS rosconsole sensor_msgs)
  
@@ -28,7 +28,8 @@ index ef804b91..4ef849c4 100644
 -endif()
 -
 -find_package(OpenCV ${_opencv_version} REQUIRED
-+find_package(Boost REQUIRED CONFIG)
++find_package(Boost REQUIRED CONFIG COMPONENTS python)
++message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 +find_package(OpenCV REQUIRED
    COMPONENTS
      opencv_core
