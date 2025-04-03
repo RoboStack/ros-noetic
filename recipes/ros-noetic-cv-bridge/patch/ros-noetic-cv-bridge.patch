@@ -1,0 +1,115 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ef804b91..4ef849c4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,28 +3,8 @@ project(cv_bridge)
+ 
+ find_package(catkin REQUIRED COMPONENTS rosconsole sensor_msgs)
+ 
+-if(NOT ANDROID)
+-  find_package(PythonLibs)
+-
+-  if(PYTHONLIBS_VERSION_STRING VERSION_LESS "3.8")
+-    # Debian Buster
+-    find_package(Boost REQUIRED python37)
+-  else()
+-    # Ubuntu Focal
+-    find_package(Boost REQUIRED python)
+-  endif()
+-else()
+-find_package(Boost REQUIRED)
+-endif()
+-
+-set(_opencv_version 4)
+-find_package(OpenCV 4 QUIET)
+-if(NOT OpenCV_FOUND)
+-  message(STATUS "Did not find OpenCV 4, trying OpenCV 3")
+-  set(_opencv_version 3)
+-endif()
+-
+-find_package(OpenCV ${_opencv_version} REQUIRED
++find_package(Boost REQUIRED CONFIG COMPONENTS python)
++find_package(OpenCV REQUIRED
+   COMPONENTS
+     opencv_core
+     opencv_imgproc
+@@ -43,7 +23,6 @@ catkin_package(
+ catkin_python_setup()
+ 
+ include_directories(include ${Boost_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+-link_directories(${Boost_LIBRARY_DIRS})
+ 
+ if(NOT ANDROID)
+ add_subdirectory(python)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index d1046922c..57ec2a26c 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -1,8 +1,7 @@
+ # add library
+-include_directories(./)
+ add_library(${PROJECT_NAME} cv_bridge.cpp rgb_colors.cpp)
+ add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
+-target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
++target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${Boost_LIBRARIES} ${catkin_LIBRARIES})
+ 
+ install(TARGETS ${PROJECT_NAME}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+@@ -12,38 +11,18 @@ install(TARGETS ${PROJECT_NAME}
+ 
+ if(NOT ANDROID)
+ # add a Boost Python library
+-find_package(PythonInterp REQUIRED)
+-find_package(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+-
+-#Get the numpy include directory from its python module
+-if(NOT PYTHON_NUMPY_INCLUDE_DIR)
+-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.get_include())"
+-                    RESULT_VARIABLE PYTHON_NUMPY_PROCESS
+-                    OUTPUT_VARIABLE PYTHON_NUMPY_INCLUDE_DIR
+-                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+-
+-    if(PYTHON_NUMPY_PROCESS EQUAL 0)
+-       file(TO_CMAKE_PATH "${PYTHON_NUMPY_INCLUDE_DIR}" PYTHON_NUMPY_INCLUDE_CMAKE_PATH)
+-       set(PYTHON_NUMPY_INCLUDE_DIR ${PYTHON_NUMPY_INCLUDE_CMAKE_PATH} CACHE PATH "Numpy include directory")
+-    else(PYTHON_NUMPY_PROCESS EQUAL 0)
+-        message(SEND_ERROR "Could not determine the NumPy include directory, verify that NumPy was installed correctly.")
+-    endif(PYTHON_NUMPY_PROCESS EQUAL 0)
+- endif(NOT PYTHON_NUMPY_INCLUDE_DIR)
+-
+-include_directories(${PYTHON_INCLUDE_PATH} ${Boost_INCLUDE_DIRS} ${PYTHON_NUMPY_INCLUDE_DIR})
+-
+-if (PYTHON_VERSION_MAJOR VERSION_EQUAL 3)
+-  add_definitions(-DPYTHON3)
+-endif()
++find_package(Python COMPONENTS Interpreter Development NumPy)
++add_definitions(-DPYTHON3)
+ 
+ add_library(${PROJECT_NAME}_boost module.cpp module_opencv4.cpp)
++target_include_directories(${PROJECT_NAME}_boost PUBLIC ${Python_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
+ target_link_libraries(${PROJECT_NAME}_boost ${Boost_LIBRARIES}
+                                             ${catkin_LIBRARIES}
+                                             ${PROJECT_NAME}
+ )
+ 
+ if(NOT APPLE)
+-  target_link_libraries(${PROJECT_NAME}_boost ${PYTHON_LIBRARIES})
++  target_link_libraries(${PROJECT_NAME}_boost ${Python_LIBRARIES})
+ endif()
+ 
+ set_target_properties(${PROJECT_NAME}_boost PROPERTIES
+diff --git a/src/cv_bridge.cpp b/src/cv_bridge.cpp
+index 44f23a32..8de258f7 100644
+--- a/src/cv_bridge.cpp
++++ b/src/cv_bridge.cpp
+@@ -33,7 +33,9 @@
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
+ 
+-#include "boost/endian/conversion.hpp"
++#include <boost/predef/make.h>
++
++#include <boost/endian/conversion.hpp>
+ 
+ #include <map>
+ 
