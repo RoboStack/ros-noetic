@@ -28,7 +28,7 @@ index ef804b91..4ef849c4 100644
 -endif()
 -
 -find_package(OpenCV ${_opencv_version} REQUIRED
-+find_package(Boost REQUIRED CONFIG)
++find_package(Boost REQUIRED CONFIG COMPONENTS python)
 +find_package(OpenCV REQUIRED
    COMPONENTS
      opencv_core
