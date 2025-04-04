@@ -171,7 +171,15 @@ packages_select_by_deps:
   - slam-gmapping
   - openslam-gmapping
   - rqt-ez-publisher
-
+  - four-wheel-steering-msgs
+  - ira-laser-tools
+  - libuvc-camera
+  - moveit-chomp-optimizer-adapter
+  - roboticsgroup-upatras-gazebo-plugins
+  - sick-tim
+  - spatio-temporal-voxel-layer
+  - urdf-geometry-parser
+  
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
   #  TODO OSX

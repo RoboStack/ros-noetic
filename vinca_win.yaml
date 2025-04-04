@@ -138,6 +138,14 @@ packages_select_by_deps:
   - hector-gazebo-plugins
   # Required by jackal-navigation
   - gmapping
+  - four-wheel-steering-msgs
+  - ira-laser-tools
+  - libuvc-camera
+  - moveit-chomp-optimizer-adapter
+  - roboticsgroup-upatras-gazebo-plugins
+  - sick-tim
+  - spatio-temporal-voxel-layer
+  - urdf-geometry-parser
 
   ##
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
