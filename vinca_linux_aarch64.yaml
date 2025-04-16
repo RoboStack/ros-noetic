@@ -136,6 +136,7 @@ packages_select_by_deps:
   - desktop_full
   - audio-common-msgs
   - sound-play
+  - plotjuggler-ros
 
   # For jackal
   - hector-gazebo-plugins
