@@ -18,3 +18,5 @@ urdf:
   build_number: 23
 cv_bridge:
   build_number: 22
+rosbash:
+  build_number: 22

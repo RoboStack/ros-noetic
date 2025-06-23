@@ -2,6 +2,7 @@ on:
   pull_request:
     paths:
       - '*.yaml'
+      - '*.patch'
 
 env:
   ROS_VERSION: 1
