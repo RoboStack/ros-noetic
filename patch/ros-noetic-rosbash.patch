@@ -14,3 +14,168 @@ index e6c2fb353..d3bbb0803 100644
  ) else (
    call %rosrun_prefix% %exepath% %rosrun_args%
  )
+diff --git a/rosbash b/rosbash
+index 11725263..727ed27b 100644
+--- a/rosbash
++++ b/rosbash
+@@ -358,7 +358,7 @@ function _roscomplete_sub_dir {
+         unset _rosbash_roscomplete_sub_dir_IFS
+     else
+         if [ -e ${rosvals[1]}${rosvals[2]} ]; then
+-          opts=$(find -L ${rosvals[1]}${rosvals[2]} -maxdepth 1 -mindepth 1 -type d ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
++          opts=$(find -L ${rosvals[1]}${rosvals[2]} -maxdepth 1 -mindepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
+         else
+           opts=''
+         fi
+@@ -392,7 +392,7 @@ function _msg_opts {
+     else
+         path=$(rospack find ${pkgname})
+         if [ -d ${path}/msg ]; then
+-            echo $(find -L ${path}/msg -maxdepth 1 -mindepth 1 -name '*.msg' ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/${pkgname}\/\1/g")
++            echo $(find -L ${path}/msg -maxdepth 1 -mindepth 1 -name '*.msg' ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/${pkgname}\/\1/g")
+         fi
+     fi
+ }
+@@ -431,7 +431,7 @@ function _srv_opts {
+     path=$(rospack find ${pkgname} 2> /dev/null)
+ 
+     if [ $? -eq 0 ] && [ -d ${path}/srv ]; then
+-      echo $(find -L ${path}/srv -maxdepth 1 -mindepth 1 -name *.srv ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/${pkgname}\/\1/g")
++      echo $(find -L ${path}/srv -maxdepth 1 -mindepth 1 -name *.srv ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/${pkgname}\/\1/g")
+     fi
+ }
+ 
+@@ -481,7 +481,7 @@ function _roscomplete_find {
+     fi
+     pkgdir=$(_ros_package_find ${pkg})
+     if [[ -n "$catkin_package_libexec_dir" || -n "$pkgdir" ]]; then
+-        opts=$(_rosfind -L $catkin_package_libexec_dir "$pkgdir" ${1} ! -regex ".*/[.][^./].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
++        opts=$(_rosfind -L $catkin_package_libexec_dir "$pkgdir" ${1} ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
+     else
+         opts=""
+     fi
+@@ -511,7 +511,7 @@ function _roscomplete_search_dir {
+            path=.
+         fi
+         if [[ -e ${path} ]]; then
+-           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+         else
+            opts=""
+         fi
+@@ -523,7 +523,7 @@ function _roscomplete_search_dir {
+         if [[ ${#COMPREPLY[*]} = 1 ]]; then
+             newpath=${COMPREPLY[0]%/*}
+             if [[ -d ${newpath} ]]; then
+-               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+                _rosbash_roscomplete_search_dir_IFS="$IFS"
+                IFS=$'\n'
+                COMPREPLY=($(compgen -W "$opts" -- ${arg}))
+@@ -914,7 +914,7 @@ function _msg_opts {
+     path=$(rospack find ${pkgname} 2> /dev/null)
+ 
+     if [ $? -eq 0 ] && [ -d ${path}/msg ]; then
+-        echo $(find -L ${path}/msg -maxdepth 1 -mindepth 1 -name '*.msg' ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/${pkgname}\/\1/g")
++        echo $(find -L ${path}/msg -maxdepth 1 -mindepth 1 -name '*.msg' ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/${pkgname}\/\1/g")
+     fi
+ }
+ 
+@@ -1034,7 +1034,7 @@ function _roscompletemv_search_dir {
+            path=.
+         fi
+         if [[ -e ${path} ]]; then
+-           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+         else
+            opts=""
+         fi
+@@ -1046,7 +1046,7 @@ function _roscompletemv_search_dir {
+         if [[ ${#COMPREPLY[*]} = 1 ]]; then
+             newpath=${COMPREPLY[0]%/*}
+             if [[ -d ${newpath} ]]; then
+-               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+                _rosbash_roscomplete_search_dir_IFS="$IFS"
+                IFS=$'\n'
+                COMPREPLY=($(compgen -W "$opts" -- ${arg}))
+diff --git a/rosfish b/rosfish
+index de15b8b4..e1e1b9a0 100644
+--- a/rosfish
++++ b/rosfish
+@@ -388,7 +388,7 @@ function _roscomplete_sub_dir
+         # The first section is a full ROS location, so we complete from it's subdirs
+         set -l opts
+         if test -e "$rosvals[2]$rosvals[3]"
+-            set opts (_rosfind -L "$rosvals[2]$rosvals[3]" -maxdepth 1 -mindepth 1 -type d ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
++            set opts (_rosfind -L ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
+         end
+ 
+         for i in $opts
+@@ -406,7 +406,7 @@ function _msg_opts
+         set -l path (rospack find $pkgname)
+ 
+         if test -d "$path/msg"
+-            set -l opts (_rosfind -L $path/msg -maxdepth 1 -mindepth 1 -name "*.msg" ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/$pkgname\/\1/g")
++            set -l opts (_rosfind -L $path/msg -maxdepth 1 -mindepth 1 -name ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/$pkgname\/\1/g")
+             for i in $opts
+                 echo -- $i
+             end
+@@ -459,7 +459,7 @@ function _srv_opts
+     set -l path (rospack find $pkgname 2> /dev/null)
+ 
+     if test $status -eq 0 -a -d $path/srv
+-        set -l opts (_rosfind -L $path/srv -maxdepth 1 -mindepth 1 -name "*.srv" ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/$pkgname\/\1/g")
++        set -l opts (_rosfind -L $path/srv -maxdepth 1 -mindepth 1 -name ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/$pkgname\/\1/g")
+         for i in $opts
+             echo -- $i
+         end
+@@ -509,7 +509,7 @@ function _roscomplete_find
+     set -l opts
+     if test -n "$catkin_package_libexec_dir" -o -n "$pkgdir"
+         set -l args (echo -n -- $argv[1] | sed -e 's/ /\\n/g')
+-        set opts (_rosfind -L $catkin_package_libexec_dir "$pkgdir" $args ! -regex ".*/[.][^./].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
++        set opts (_rosfind -L $catkin_package_libexec_dir ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
+     else
+         set opts ""
+     end
+@@ -547,7 +547,7 @@ function _roscompletemv_search_dir
+ 
+         set -l opts
+         if test -e $path
+-            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+             set opts $opts (find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+             for i in $opts
+                 echo -- $i
+@@ -582,7 +582,7 @@ function _roscomplete_search_dir
+ 
+         set -l opts
+         if test -e $path
+-            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+             set opts $opts (find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+             for i in $opts
+                 echo -- $i
+diff --git a/roszsh b/roszsh
+index f33553d6..502734d0 100644
+--- a/roszsh
++++ b/roszsh
+@@ -810,7 +810,7 @@ function _roscompletemv_search_dir {
+            path=.
+         fi
+         if [[ -e ${path} ]]; then
+-           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++           opts=$(find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+         else
+            opts=""
+         fi
+@@ -822,7 +822,7 @@ function _roscompletemv_search_dir {
+         if [[ ${#COMPREPLY[*]} = 1 ]]; then
+             newpath=${COMPREPLY[0]%/*}
+             if [[ -d ${newpath} ]]; then
+-               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++               opts=$(find -L $newpath -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")$'\n'$(find -L $newpath -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g"  -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
+                _rosbash_roscomplete_search_dir_IFS="$IFS"
+                IFS=$'\n'
+                COMPREPLY=($(compgen -W "$opts" -- ${arg}))
