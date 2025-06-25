@@ -11,9 +11,6 @@ platforms = ["osx-arm64", "linux-64", "osx-64", "linux-aarch64", "win-64"]
 # 2.17 is the glibc version used in centos 7
 libc = { family="glibc", version="2.17" }
 
-[tasks]
-upload = "anaconda -t $ANACONDA_API_TOKEN upload"
-
 [dependencies]
 python = ">=3.11.0,<3.12"
 rattler-build = ">=0.33.2"
@@ -25,23 +22,21 @@ m2-patch = "*"
 # git is required by rattler-build
 git = "*"
 
-[feature.beta.pypi-dependencies]
+[pypi-dependencies]
 # This is tipically the latest commit on main branch
-vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "cbb8eba834ce3834df552977d6b08c325a30768e" }
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "8c56fc3e47a988f1c05132f8db61cfc812552dcb" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 #vinca = { path = "../vinca", editable = true }
 
-[feature.beta.tasks]
+[tasks]
 generate-recipes = { cmd = "vinca -m", depends-on = ["rename-file"] }
 remove-file = { cmd = "rm vinca.yaml; rm -rf recipes" }
 copy_additional_recipes = { cmd = "sh -c 'find additional_recipes/* -maxdepth 0 -type d -exec ln -s ../{} recipes/ \\;'" }
 build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes", "copy_additional_recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-noetic-ros-base" } }
 create_snapshot = { cmd = "vinca-snapshot -d noetic -o snapshot_$(date +\"%Y-%m-%d-%H-%M-%S\").yaml" }
-
-[environments]
-beta = ["beta"]
+upload = "anaconda -t $ANACONDA_API_TOKEN upload"
 
 [target.linux-64.tasks]
 rename-file = { cmd = "ln -s vinca_linux_64.yaml vinca.yaml", depends-on = ["remove-file"] }
