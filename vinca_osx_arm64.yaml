@@ -166,6 +166,10 @@ packages_select_by_deps:
   - openslam-gmapping
   - tf2_web_republisher
 
+  - velodyne
+  - velodyne-msgs
+  - velodyne-pcl 
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 

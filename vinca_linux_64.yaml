@@ -275,6 +275,10 @@ packages_select_by_deps:
   - rqt-ez-publisher
   - slam-gmapping
 
+  - velodyne
+  - velodyne-msgs
+  - velodyne-pcl 
+
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ## TODO AFTER REBUILD
   # Not compatible with recent libabsl

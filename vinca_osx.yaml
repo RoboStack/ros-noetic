@@ -172,6 +172,10 @@ packages_select_by_deps:
   - openslam-gmapping
   - rqt-ez-publisher
 
+  - velodyne
+  - velodyne-msgs
+  - velodyne-pcl 
+
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
   #  TODO OSX
