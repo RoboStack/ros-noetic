@@ -108,7 +108,7 @@ index de15b8b4..e1e1b9a0 100644
          set -l opts
          if test -e "$rosvals[2]$rosvals[3]"
 -            set opts (_rosfind -L "$rosvals[2]$rosvals[3]" -maxdepth 1 -mindepth 1 -type d ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
-+            set opts (_rosfind -L ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
++            set opts (_rosfind -L "$rosvals[2]$rosvals[3]" -maxdepth 1 -mindepth 1 -type d \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1\//g")
          end
  
          for i in $opts
@@ -117,7 +117,7 @@ index de15b8b4..e1e1b9a0 100644
  
          if test -d "$path/msg"
 -            set -l opts (_rosfind -L $path/msg -maxdepth 1 -mindepth 1 -name "*.msg" ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/$pkgname\/\1/g")
-+            set -l opts (_rosfind -L $path/msg -maxdepth 1 -mindepth 1 -name ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/$pkgname\/\1/g")
++            set -l opts (_rosfind -L $path/msg -maxdepth 1 -mindepth 1 -name "*.msg" \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.msg/$pkgname\/\1/g")
              for i in $opts
                  echo -- $i
              end
@@ -126,7 +126,7 @@ index de15b8b4..e1e1b9a0 100644
  
      if test $status -eq 0 -a -d $path/srv
 -        set -l opts (_rosfind -L $path/srv -maxdepth 1 -mindepth 1 -name "*.srv" ! -regex ".*/[.][^./].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/$pkgname\/\1/g")
-+        set -l opts (_rosfind -L $path/srv -maxdepth 1 -mindepth 1 -name ".*/\.\(?!pixi(/|$)\)[^/].*" -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/$pkgname\/\1/g")
++        set -l opts (_rosfind -L $path/srv -maxdepth 1 -mindepth 1 -name "*.srv" \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)\.srv/$pkgname\/\1/g")
          for i in $opts
              echo -- $i
          end
@@ -135,7 +135,7 @@ index de15b8b4..e1e1b9a0 100644
      if test -n "$catkin_package_libexec_dir" -o -n "$pkgdir"
          set -l args (echo -n -- $argv[1] | sed -e 's/ /\\n/g')
 -        set opts (_rosfind -L $catkin_package_libexec_dir "$pkgdir" $args ! -regex ".*/[.][^./].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
-+        set opts (_rosfind -L $catkin_package_libexec_dir ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
++        set opts (_rosfind -L $catkin_package_libexec_dir "$pkgdir" $args \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o ! -regex ".*$pkgdir\/build\/.*"  -print0 | tr '\000' '\n' | sed -e "s/.*\/\(.*\)/\1/g")
      else
          set opts ""
      end
@@ -144,7 +144,7 @@ index de15b8b4..e1e1b9a0 100644
          set -l opts
          if test -e $path
 -            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
-+            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++            set opts (find -L $path -maxdepth 1 -type d \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
              set opts $opts (find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
              for i in $opts
                  echo -- $i
@@ -153,7 +153,7 @@ index de15b8b4..e1e1b9a0 100644
          set -l opts
          if test -e $path
 -            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/[.][^./].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
-+            set opts (find -L $path -maxdepth 1 -type d ! -regex ".*/\.\(?!pixi(/|$)\)[^/].*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
++            set opts (find -L $path -maxdepth 1 -type d \( -path '*/.*' -a ! -path '*/.pixi' -a ! -path '*/.pixi/*' \) -prune -o ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/\$/\//g" -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
              set opts $opts (find -L $path -maxdepth 1 -type f ! -regex ".*/[.][^.]*" ! -regex "^[.]/" -print0 | tr '\000' '\n' | sed -e "s/^[.]\///g" -e "s/'/\\\\\'/g" -e "s/ /\\\\\ /g")
              for i in $opts
                  echo -- $i
