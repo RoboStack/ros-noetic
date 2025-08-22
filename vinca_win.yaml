@@ -126,6 +126,8 @@ packages_select_by_deps:
   # Required by jackal-navigation
   - gmapping
 
+  - genmypy
+
   ##
   ## PREVIOUSLY SUPPORTED PACKAGES, NOW NOT PACKAGED ANYMORE UNTIL REQUESTED
   ##
