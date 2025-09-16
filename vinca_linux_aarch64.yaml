@@ -161,6 +161,7 @@ packages_select_by_deps:
   - pid
   - husky-simulator
   - husky-desktop
+  - husky-navigation
   - tf2_web_republisher
 
   - velodyne
