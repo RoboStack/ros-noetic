@@ -232,6 +232,7 @@ packages_select_by_deps:
   - pid
   - rosfmt
   - husky-simulator
+  - husky-desktop
   - lanelet2
 
   - ros-ign

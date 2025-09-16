@@ -160,6 +160,7 @@ packages_select_by_deps:
   - turtlebot3_fake
   - pid
   - husky-simulator
+  - husky-desktop
   - tf2_web_republisher
 
   - velodyne

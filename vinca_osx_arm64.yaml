@@ -160,6 +160,9 @@ packages_select_by_deps:
 
   - genmypy
 
+  - husky-simulator
+  - husky-desktop
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 
