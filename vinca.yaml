@@ -1,0 +1,169 @@
+ros_distro: noetic
+mutex_package: ros-distro-mutex 0.6.* noetic_*
+
+
+# mapping for package keys
+conda_index:
+  - robostack.yaml
+  - packages-ignore.yaml
+
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 9
+
+packages_skip_by_deps:
+  # - rviz
+  - eigenpy
+  - hpp-fcl
+  - pinocchio
+  - gtsam
+
+packages_remove_from_deps:
+  - stage-ros
+  - stage
+  - roseus
+  - jskeus
+  # See https://github.com/RoboStack/ros-noetic/pull/507#issuecomment-2686401205
+  - rqt_web
+  - webkit_dependency
+
+skip_existing:
+  # - https://conda.anaconda.org/robostack/
+  - https://conda.anaconda.org/robostack-staging/
+  # - /Users/fischert/mambaforge/envs/devenv/conda-bld
+
+# This list contains lots of commented-out package names. That is okay.
+# Not all packages need to be rebuilt with every pull request.
+# Do not be afraid if you see a package commented out after some time - it just means it is not being built now.
+# For sure it will be uncommented and built with next full rebuild. Full rebuilds happen occasionally (few times a year).
+# The list of all maintained packages is at https://robostack.github.io/noetic.html .
+packages_select_by_deps:
+  ##
+  #  TODO OSX-ARM64
+  ##
+  - desktop
+  - perception
+  - desktop-full
+  - roslisp
+  - geometry2
+  - navigation
+  - ros-controllers
+
+  - moveit
+  - moveit-servo
+  - moveit_visual_tools
+  - webots-ros
+
+  - microstrain-inertial-driver
+  - microstrain-inertial-msgs
+
+  - rospack
+  - octomap-ros
+  - ackermann-msgs
+  - fake-localization
+  - realsense2-description
+
+  - rviz
+  - rviz_visual_tools
+  - python-qt-binding
+  - qt-gui-cpp
+  - actionlib
+  - ros-babel-fish
+  - ros-babel-fish-test-msgs
+  - rgbd-launch
+
+  - pcl-ros
+  - pcl-conversions
+
+  - plotjuggler
+  - plotjuggler_ros
+
+  - sick-tim
+  - python-qt-binding
+  - qt-gui
+  - rqt-gui
+  - rqt-gui-py
+  - rqt-gui-cpp
+  - rqt-ez-publisher
+  - qt-gui-cpp  # needs manual build
+
+  - turtlebot3
+  - turtlebot3-simulations
+  - realsense2_camera
+  - realsense2_description
+  - kdl-parser-py
+  - imu-tools
+  - rqt-controller-manager
+  - dynamixel-sdk
+  - hector-map-tools
+  - hector-nav-msgs
+  - hector-trajectory-server
+  - radar-msgs
+  - tf2
+  - tf2_bullet
+  - tf2_eigen
+  - tf2_geometry_msgs
+  - tf2_kdl
+  - tf2_msgs
+  - tf2_py
+  - tf2_ros
+  - tf2_sensor_msgs
+  - tf2_tools
+  - gps-common
+  - rosbridge_suite
+  - sound-play
+  - pid
+  - teleop-twist-keyboard
+  - laser-proc
+  - rosserial-arduino
+  - rosserial-client
+
+  - gazebo-dev
+  - hector-gazebo-plugins
+  - gazebo-ros
+  - gazebo-ros-control
+  - gazebo-plugins
+
+  - lms1xx
+  - controller-manager
+  - interactive_marker_twist_server
+  - diff-drive-controller
+  - joint-state-controller
+  - joy
+  - robot-localization
+  - teleop-twist-joy
+  - twist-mux
+  - pointgrey-camera-description
+  - nmea-msgs
+  - geometry-msgs
+  - nmea-navsat-driver
+  - rosserial-server
+  - imu-filter-madgwick
+  - rosserial-python
+  - gmapping
+  - velodyne-description
+  - velodyne-simulator
+  - effort-controllers
+  - velocity-controllers
+  - teb-local-planner
+  - slam-toolbox
+  - turtlebot3-teleop
+  - move-base
+  - rosfmt
+  - mavros-extras
+  - slam-gmapping
+  - openslam-gmapping
+  - tf2_web_republisher
+
+  - velodyne
+  - velodyne-msgs
+  - velodyne-pcl 
+
+  - genmypy
+
+  - husky-simulator
+  - husky-desktop
+  - husky-navigation
+
+patch_dir: patch
+rosdistro_snapshot: rosdistro_snapshot.yaml
+
