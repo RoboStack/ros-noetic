@@ -233,6 +233,7 @@ packages_select_by_deps:
   - rosfmt
   - husky-simulator
   - husky-desktop
+  - husky-navigation
   - lanelet2
 
   - ros-ign
