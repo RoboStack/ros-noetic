@@ -1,8 +1,8 @@
 diff --git a/joy/CMakeLists.txt b/joy/CMakeLists.txt
-index d06f9b0..2c85f43 100644
+index d06f9b0..4311bee 100644
 --- a/joy/CMakeLists.txt
 +++ b/joy/CMakeLists.txt
-@@ -4,33 +4,60 @@ project(joy)
+@@ -4,33 +4,61 @@ project(joy)
  # Load catkin and all dependencies required for this package
  set(CATKIN_DEPS roscpp diagnostic_updater sensor_msgs roslint)
  find_package(catkin REQUIRED ${CATKIN_DEPS})
@@ -66,6 +66,7 @@ index d06f9b0..2c85f43 100644
 +  install(DIRECTORY launch/
 +    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 +    FILES_MATCHING PATTERN "*.launch"
++    FILES_MATCHING PATTERN "gamecontrollerdb.txt"
 +  )    
  endif()
  
