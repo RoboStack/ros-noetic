@@ -137,3 +137,5 @@ resource_retriever:
   add_run: ["libcurl"]
 plotjuggler:
   add_host: ["${{ 'elfutils' if linux }}", "protobuf"]
+joy:
+  add_host: ["sdl2"]
