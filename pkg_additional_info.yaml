@@ -17,6 +17,6 @@ srdfdom:
 urdf:
   build_number: 23
 cv_bridge:
-  build_number: 22
+  build_number: 23
 rosbash:
   build_number: 23
