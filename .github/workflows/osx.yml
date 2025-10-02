@@ -1,0 +1,25 @@
+jobs:
+  stage_0_job_0:
+    name: cv-bridge
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-noetic-cv-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-noetic-cv-bridge
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_osx_64
+on:
+  push:
+    branches:
+    - buildbranch_osx
