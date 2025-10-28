@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-noetic"
 # Just a convention, this is the same as the mutex package
 version = "0.6.0"
@@ -17,8 +17,6 @@ rattler-build = ">=0.33.2"
 anaconda-client = ">=1.12"
 
 [target.win-64.dependencies]
-# patch is required by rattler-build
-m2-patch = "*"
 # git is required by rattler-build
 git = "*"
 
