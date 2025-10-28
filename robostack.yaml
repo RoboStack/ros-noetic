@@ -155,9 +155,16 @@ gtest:
 gtk2:
   robostack: [gtk2]
 gtk3:
-  robostack: [libglib, glib, gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi,
-    xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage,
-    xorg-libxinerama, xorg-xineramaproto, epoxy, REQUIRE_GL]
+  robostack:
+    linux: [libglib, glib, gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi,
+      xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage,
+      xorg-libxinerama, xorg-xineramaproto, epoxy, libgl-devel]
+    osx: [libglib, glib, gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi,
+      xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage,
+      xorg-libxinerama, xorg-xineramaproto, epoxy]
+    win64: [libglib, glib, gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi,
+      xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage,
+      xorg-libxinerama, xorg-xineramaproto, epoxy]
 ignition-common4:
   robostack: [libignition-common4]
 ignition-cmake2:
@@ -333,7 +340,10 @@ libhdf5-dev:
 libi2c-dev:
   robostack: [libi2c]
 liblttng-ust-dev:
-  robostack: ["${{ \"lttng-ust\" if linux }}"]
+  robostack:
+    linux: ["lttng-ust"]
+    osx: []
+    win64: []
 libjpeg:
   robostack: [libjpeg-turbo]
 libjsoncpp:
@@ -377,9 +387,15 @@ libomp-dev:
 libopenblas-dev:
   robostack: [libblas]
 libopencv-dev:
-  robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
+  robostack:
+    linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
+    osx: [py-opencv, libopencv]
+    win64: [py-opencv, libopencv]
 libopencv-imgproc-dev:
-  robostack: [py-opencv, libopencv, REQUIRE_OPENGL]
+  robostack:
+    linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
+    osx: [py-opencv, libopencv]
+    win64: [py-opencv, libopencv]
 libopenni-dev:
   robostack: []
 liborocos-kdl:
@@ -391,7 +407,10 @@ libpcap:
 libpcl-all:
   robostack: [pcl]
 libpcl-all-dev:
-  robostack: [pcl, libboost-devel, vtk-base, REQUIRE_OPENGL]
+  robostack:
+    linux: [pcl, libboost-devel, vtk-base, libopengl-devel, libgl-devel]
+    osx: [pcl, libboost-devel, vtk-base]
+    win64: [pcl, libboost-devel, vtk-base]
 libpng-dev:
   robostack: [libpng]
 libpoco-dev:
@@ -407,23 +426,50 @@ libqglviewer-dev-qt5:
 libqhull:
   robostack: [qhull]
 libqt5-core:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-gui:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-opengl:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-opengl-dev:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-svg:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-svg-dev:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-websockets-dev:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5-widgets:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libqt5x11extras5-dev:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 libreadline:
   robostack: [readline]
 libreadline-dev:
@@ -482,14 +528,20 @@ libvtk:
 libvtk-qt:
   robostack: [vtk]
 libvulkan-dev:
-  robostack: 
+  robostack:
     linux: [libvulkan-headers, libvulkan-loader]
     osx: []
     win64: [libvulkan-headers, libvulkan-loader]
 libx11:
-  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
+  robostack:
+    linux: [xorg-libx11, xorg-xorgproto, libopengl-devel, libgl-devel]
+    osx: [xorg-libx11, xorg-xorgproto]
+    win64: [xorg-libx11, xorg-xorgproto]
 libx11-dev:
-  robostack: [xorg-libx11, xorg-xorgproto, REQUIRE_OPENGL]
+  robostack:
+    linux: [xorg-libx11, xorg-xorgproto, libopengl-devel, libgl-devel]
+    osx: [xorg-libx11, xorg-xorgproto]
+    win64: [xorg-libx11, xorg-xorgproto]
 libxaw:
   robostack:
     linux: [xorg-libxaw]
@@ -515,7 +567,10 @@ libxrandr:
 libxt-dev:
   robostack: [xorg-libxt]
 libxxf86vm:
-  robostack: [REQUIRE_OPENGL]
+  robostack:
+    linux: [libopengl-devel, libgl-devel]
+    osx: []
+    win64: []
 libyaml:
   robostack: [yaml]
 libyaml-dev:
@@ -559,8 +614,8 @@ ocl-icd-opencl-dev:
   robostack: [ocl-icd]
 opengl:
   robostack:
-    linux: [REQUIRE_OPENGL]
-    osx: [REQUIRE_OPENGL]
+    linux: [libopengl-devel, libgl-devel]
+    osx: []
     win64: []
 openssl:
   robostack: [openssl]
@@ -645,7 +700,10 @@ python-numpy:
 python-opencv:
   robostack: [py-opencv, libopencv]
 python-opengl:
-  robostack: [pyopengl, REQUIRE_OPENGL]
+  robostack:
+    linux: [pyopengl, libopengl-devel, libgl-devel]
+    osx: [pyopengl]
+    win64: [pyopengl]
 python-paramiko:
   robostack: [paramiko]
 python-psutil:
@@ -797,7 +855,10 @@ python3-numpy:
 python3-opencv:
   robostack: [py-opencv, libopencv]
 python3-opengl:
-  robostack: [pyopengl, REQUIRE_OPENGL]
+  robostack:
+    linux: [pyopengl, libopengl-devel, libgl-devel]
+    osx: [pyopengl]
+    win64: [pyopengl]
 python3-packaging:
   robostack: [packaging]
 python3-pandas:
@@ -921,11 +982,20 @@ python3-yaml:
 python3-zmq:
   robostack: [pyzmq]
 qt5-image-formats-plugins:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 qt5-qmake:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 qtbase5-dev:
-  robostack: [qt-main, REQUIRE_OPENGL]
+  robostack:
+    linux: [qt-main, libopengl-devel, libgl-devel]
+    osx: [qt-main]
+    win64: [qt-main]
 rapidjson-dev:
   robostack: [rapidjson]
 roboticstoolbox-python:
@@ -1012,7 +1082,10 @@ wxpython:
 wxwidgets:
   robostack: [wxpython]
 x11-dev:
-  robostack: [xorg-libx11, REQUIRE_OPENGL]
+  robostack:
+    linux: [xorg-libx11, libopengl-devel, libgl-devel]
+    osx: [xorg-libx11]
+    win64: [xorg-libx11]
 yaml:
   robostack: [yaml, yaml-cpp]
 yaml-cpp:
