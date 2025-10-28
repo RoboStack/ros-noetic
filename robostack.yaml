@@ -377,9 +377,9 @@ libomp-dev:
 libopenblas-dev:
   robostack: [libblas]
 libopencv-dev:
-  robostack: [py-opencv, libopencv, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [py-opencv, libopencv, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libopencv-imgproc-dev:
-  robostack: [py-opencv, libopencv, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [py-opencv, libopencv, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libopenni-dev:
   robostack: []
 liborocos-kdl:
@@ -391,7 +391,7 @@ libpcap:
 libpcl-all:
   robostack: [pcl]
 libpcl-all-dev:
-  robostack: [pcl, libboost-devel, vtk-base, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [pcl, libboost-devel, vtk-base, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libpng-dev:
   robostack: [libpng]
 libpoco-dev:
@@ -407,23 +407,23 @@ libqglviewer-dev-qt5:
 libqhull:
   robostack: [qhull]
 libqt5-core:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-gui:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-opengl:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-opengl-dev:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-svg:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-svg-dev:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-websockets-dev:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5-widgets:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libqt5x11extras5-dev:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libreadline:
   robostack: [readline]
 libreadline-dev:
@@ -487,9 +487,9 @@ libvulkan-dev:
     osx: []
     win64: [libvulkan-headers, libvulkan-loader]
 libx11:
-  robostack: [xorg-libx11, xorg-xorgproto, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [xorg-libx11, xorg-xorgproto, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libx11-dev:
-  robostack: [xorg-libx11, xorg-xorgproto, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [xorg-libx11, xorg-xorgproto, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libxaw:
   robostack:
     linux: [xorg-libxaw]
@@ -515,7 +515,7 @@ libxrandr:
 libxt-dev:
   robostack: [xorg-libxt]
 libxxf86vm:
-  robostack: ["${{ \"libopengl-devel\" if linux }}"]
+  robostack: ["${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 libyaml:
   robostack: [yaml]
 libyaml-dev:
@@ -559,8 +559,8 @@ ocl-icd-opencl-dev:
   robostack: [ocl-icd]
 opengl:
   robostack:
-    linux: ["${{ \"libopengl-devel\" if linux }}"]
-    osx: ["${{ \"libopengl-devel\" if linux }}"]
+    linux: ["${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
+    osx: ["${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
     win64: []
 openssl:
   robostack: [openssl]
@@ -645,7 +645,7 @@ python-numpy:
 python-opencv:
   robostack: [py-opencv, libopencv]
 python-opengl:
-  robostack: [pyopengl, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [pyopengl, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 python-paramiko:
   robostack: [paramiko]
 python-psutil:
@@ -797,7 +797,7 @@ python3-numpy:
 python3-opencv:
   robostack: [py-opencv, libopencv]
 python3-opengl:
-  robostack: [pyopengl, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [pyopengl, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 python3-packaging:
   robostack: [packaging]
 python3-pandas:
@@ -921,11 +921,11 @@ python3-yaml:
 python3-zmq:
   robostack: [pyzmq]
 qt5-image-formats-plugins:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 qt5-qmake:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 qtbase5-dev:
-  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [qt-main, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 rapidjson-dev:
   robostack: [rapidjson]
 roboticstoolbox-python:
@@ -1012,7 +1012,7 @@ wxpython:
 wxwidgets:
   robostack: [wxpython]
 x11-dev:
-  robostack: [xorg-libx11, "${{ \"libopengl-devel\" if linux }}"]
+  robostack: [xorg-libx11, "${{ \"libopengl-devel\" if linux }}", "${{ \"libgl-devel\" if linux }}"]
 yaml:
   robostack: [yaml, yaml-cpp]
 yaml-cpp:
