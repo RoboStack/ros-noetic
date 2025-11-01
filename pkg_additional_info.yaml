@@ -40,6 +40,12 @@ hpp_fcl:
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
     override_version: '3.0.1'
+fcl:
+  generate_dummy_package_with_run_deps:
+    dep_name: fcl
+    max_pin: 'x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '7.0.0'
 coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
@@ -64,4 +70,5 @@ librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+
 
