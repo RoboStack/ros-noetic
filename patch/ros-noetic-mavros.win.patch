@@ -215,10 +215,11 @@ diff --git a/src/plugins/sys_time.cpp b/src/plugins/sys_time.cpp
 index 09103a5b5..78dad23dc 100644
 --- a/src/plugins/sys_time.cpp
 +++ b/src/plugins/sys_time.cpp
-@@ -19,6 +19,9 @@
+@@ -19,7 +19,10 @@
  #include <sensor_msgs/TimeReference.h>
  #include <std_msgs/Duration.h>
  #include <mavros_msgs/TimesyncStatus.h>
+ #include <rosgraph_msgs/Clock.h>
 +#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 +#include <time.h>
 +#endif
