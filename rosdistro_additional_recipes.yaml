@@ -1,0 +1,39 @@
+# This file is used to add additional recipes to the ROS 2 distribution, not contained in the
+# upstream rosdistro. Differently from rosdistro_snapshot.yaml, this file is not
+# automatically generated, but manually maintained.
+jackal_base:
+  tag: release/noetic/jackal_base/0.7.11-1
+  url: https://github.com/clearpath-gbp/jackal_robot-release.git
+  version: 0.7.11
+jackal_control:
+  tag: release/noetic/jackal_control/0.8.10-1
+  url: https://github.com/clearpath-gbp/jackal-release.git
+  version: 0.8.10
+jackal_description:
+  tag: release/noetic/jackal_description/0.8.10-1
+  url: https://github.com/clearpath-gbp/jackal-release.git
+  version: 0.8.10
+jackal_desktop:
+  tag: release/noetic/jackal_desktop/0.4.1-2
+  url: https://github.com/clearpath-gbp/jackal_desktop-release.git
+  version: 0.4.1
+jackal_gazebo:
+  tag: release/noetic/jackal_gazebo/0.4.0-1
+  url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  version: 0.4.0
+jackal_msgs:
+  tag: release/noetic/jackal_msgs/0.8.10-1
+  url: https://github.com/clearpath-gbp/jackal-release.git
+  version: 0.8.10
+jackal_navigation:
+  tag: release/noetic/jackal_navigation/0.8.10-1
+  url: https://github.com/clearpath-gbp/jackal-release.git
+  version: 0.8.10
+jackal_simulator:
+  tag: release/noetic/jackal_simulator/0.4.0-1
+  url: https://github.com/clearpath-gbp/jackal_simulator-release.git
+  version: 0.4.0
+jackal_viz:
+  tag: release/noetic/jackal_viz/0.4.1-1
+  url: https://github.com/clearpath-gbp/jackal_desktop-release.git
+  version: 0.4.1

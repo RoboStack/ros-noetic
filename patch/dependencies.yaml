@@ -20,13 +20,13 @@ sick_tim:
 class_loader:
   add_host: ["${{ 'libcxx-devel 19.*' if osx }}"]
 moveit_visual_tools:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 pcl_conversions:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 pcl_ros:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 grid_map_demos:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 moveit_setup_assistant:
   add_host: ["ompl"]
 gazebo_dev:
@@ -40,48 +40,48 @@ gazebo_ros_control:
 gazebo_pkgs:
   add_host: [tbb, tbb-devel]
 ros_ign_gazebo:
-  add_host: ["REQUIRE_OPENGL", "${{ 'libuuid' if linux }}"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "${{ 'libuuid' if linux }}"]
 apriltag:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 lvr2:
   add_host: ["libgdal", "cgal-cpp"]
 rtabmap:
-  add_host: ["REQUIRE_OPENGL", "pybind11", "tbb-devel", "liblzma-devel"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "pybind11", "tbb-devel", "liblzma-devel"]
 rtabmap_ros:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 rtabmap_conversions:
-  add_host: ["REQUIRE_OPENGL", "libnetcdf", "liblzma-devel"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "libnetcdf", "liblzma-devel"]
 rtabmap_rviz_plugins:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 rtabmap_viz:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 image_view2:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 swri_image_util:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 posedetection_msgs:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 libcmt:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 checkerboard_detector:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 imagesift:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_rviz_plugins:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_perception:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_interactive_marker:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_pcl_ros_utils:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_pcl_ros:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 jsk_recognition_utils:
   add_host: ["glew", "cython"]
   add_run: ["glew"]
 robot_self_filter:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 ur_client_library:
   add_host: ["ros-noetic-catkin"]
 mqtt_bridge:
@@ -91,41 +91,41 @@ mrpt2:
   add_run:   ["tinyxml2", "libboost-devel", "jsoncpp", "gtest", "libboost-python-devel", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_build: ["${{ cdt('libxcomposite-devel') if linux }}"]
 image_view:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 rosserial_python:
   add_run: ["pyserial"]
 mesh_client:
-  add_host: ["REQUIRE_OPENGL", "cgal-cpp"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "cgal-cpp"]
 map_organizer:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 libuvc_camera:
   add_host: ["pkgconfig"]
 toposens_markers:
-  add_host: [REQUIRE_OPENGL, libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", libglib, glib, libxcb, pthread-stubs, xorg-libxau, xorg-libxi, xorg-libxrandr, xorg-libxcursor, xorg-libxtst, xorg-libxcomposite, xorg-libxdamage, xorg-libxinerama, xorg-xineramaproto]
 audio_capture:
   add_host: ["libglib", "glib"]
 audio_play:
   add_host: ["libglib", "glib"]
 cob_object_detection_visualizer:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 grid_map_pcl:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 laser_scan_matcher:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 moveit_calibration_plugins:
   add_host: ["libopencv"]
 multisense_ros:
   add_host: ["libjpeg-turbo"]
 obj_to_pointcloud:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 rc_roi_manager_gui:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 simple_grasping:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 face_detector:
   add_host: ["yaml-cpp"]
 safety_limiter:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 ifopt:
   add_host: ["ipopt"]
 tesseract_collision:
