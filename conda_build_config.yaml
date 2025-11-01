@@ -7,11 +7,11 @@ setuptools:
 numpy:
   - 1.26
 libprotobuf:
-  - 5.28.3
+  - 5.29.3
 protobuf:
-  - 5.28.3
+  - 5.29.3
 spdlog:
-  - 1.14
+  - 1.15
 pyqt:
   - 5.15
 pyqtwebengine:
@@ -23,10 +23,14 @@ tinyxml2:
 cmake:
   - 3.*
 libopencv:
-  - 4.10.0
+  - 4.11.0
+libxml2:
+  - 2.13.*
+graphviz:
+  - 13.*
 
-cdt_name:
-  - ${{ "cos7" if linux }}
+cdt_name:  # [linux]
+  - conda  # [linux]
 
 python:
   - 3.11.* *_cpython
@@ -36,8 +40,7 @@ python_impl:
 c_compiler:
   - gcc                        # [linux]
   - clang                      # [osx]
-  - vs2019                     # [win and x86_64]
-  - vs2022                     # [win and arm64]
+  - vs2022                     # [win]
 c_compiler_version:            # [unix]
   - 13                         # [linux]
   - 18                         # [osx]
@@ -52,8 +55,7 @@ c_stdlib_version:              # [unix]
 cxx_compiler:
   - gxx                        # [linux]
   - clangxx                    # [osx]
-  - vs2019                     # [win and x86_64]
-  - vs2022                     # [win and arm64]
+  - vs2022                     # [win]
 cxx_compiler_version:          # [unix]
   - 13                         # [linux]
   - 18                         # [osx]

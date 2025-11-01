@@ -1,22 +1,74 @@
-desktop:
-  build_number: 22
-desktop_full:
-  build_number: 22
-rqt_common_plugins:
-  build_number: 22
-rospack:
-  build_number: 23
-kdl_parser:
-  build_number: 23
-pluginlib:
-  build_number: 23
-rviz:
-  build_number: 23
-srdfdom:
-  build_number: 23
-urdf:
-  build_number: 23
-cv_bridge:
-  build_number: 23
-rosbash:
-  build_number: 23
+libcamera:
+  generate_dummy_package_with_run_deps:
+    dep_name: libcamera
+    # see https://git.libcamera.org/libcamera/libcamera.git/tree/meson.build?h=v0.5.1#n65
+    max_pin: 'x.x'
+    # jazzy is on 0.3.0, but we stick to 0.5.0 for compat
+    override_version: '0.5.0'
+octomap:
+  generate_dummy_package_with_run_deps:
+    dep_name: octomap
+    max_pin: 'x.x'
+ompl:
+  generate_dummy_package_with_run_deps:
+    dep_name: ompl
+    max_pin: 'x.x'
+urdfdom_py:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom-py
+    max_pin: 'x.x'
+urdfdom_headers:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom_headers
+    max_pin: 'x.x'
+urdfdom:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom
+    max_pin: 'x.x'
+    # jazzy is on 4.0.2, but we stick to 4.0.1 for compat
+    # with the rest of conda-forge
+    override_version: '4.0.1'
+cartographer:
+  generate_dummy_package_with_run_deps:
+    dep_name: cartographer
+    max_pin: 'x.x'
+    # ROS uses a custom versioning scheme currently at 2.0.9004
+    override_version: '2.0.0'
+hpp_fcl:
+  generate_dummy_package_with_run_deps:
+    dep_name: hpp-fcl
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '3.0.1'
+fcl:
+  generate_dummy_package_with_run_deps:
+    dep_name: fcl
+    max_pin: 'x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '7.0.0'
+coal:
+  generate_dummy_package_with_run_deps:
+    dep_name: coal
+    max_pin: 'x.x.x'
+eigenpy:
+  generate_dummy_package_with_run_deps:
+    dep_name: eigenpy
+    max_pin: 'x.x.x'
+    # the version in ros is not compatible with conda-forge's coal and hpp_fcl builds
+    override_version: '3.10.3'
+pinocchio:
+  generate_dummy_package_with_run_deps:
+    dep_name: pinocchio
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '3.7.0'
+gtsam:
+  generate_dummy_package_with_run_deps:
+    dep_name: gtsam
+    max_pin: 'x.x'
+librealsense2:
+  generate_dummy_package_with_run_deps:
+    dep_name: librealsense
+    max_pin: 'x.x'
+
+

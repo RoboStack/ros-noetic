@@ -26,8 +26,15 @@ if [[ "$target" == *"osx"* ]]; then
     export PATH=$(echo $PATH | tr ":" "\n" | grep -v 'homebrew' | xargs | tr ' ' ':')
 fi
 
-extra_channel=""
-cross_compile=""
+if [[ "$target" == "emscripten-wasm32" ]]; then
+    extra_channel="-c https://repo.mamba.pm/emscripten-forge"
+    cross_compile="--target-platform emscripten-wasm32 --test skip"
+
+else
+    extra_channel=""
+    cross_compile=""
+fi
+
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	pixi run -v rattler-build build \
@@ -41,4 +48,10 @@ for recipe in ${CURRENT_RECIPES[@]}; do
 
 done
 
-pixi run upload ${CONDA_BLD_PATH}/${target}*/*.conda --force
+# Check if it build something, this is a hotfix for the skips inside additional_recipes 
+if compgen -G "${CONDA_BLD_PATH}/${target}*/*.conda" > /dev/null; then
+    pixi run upload "${CONDA_BLD_PATH}/${target}"*/*.conda --force
+else
+    echo "Warning: No .conda files found in ${CONDA_BLD_PATH}/${target}"
+    echo "This might be due to all the packages being skipped"
+fi

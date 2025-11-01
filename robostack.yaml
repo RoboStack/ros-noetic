@@ -43,6 +43,8 @@ cartographer:
   robostack: [cartographer]
 ca-certificates:
   robostack: [ca-certificates]
+cargo:
+  robostack: [rust]
 clang-format:
   robostack: [clang-format]
 clang-tidy:
@@ -133,7 +135,11 @@ glut:
     osx: []
     win64: [freeglut]
 google-mock:
-  robostack: [gmock]
+  robostack:
+    linux: [gmock]
+    osx: [gmock]
+    win64: [gmock]
+    emscripten: []
 graphicsmagick:
   robostack: [graphicsmagick]
 graphviz:
@@ -274,6 +280,8 @@ libcurl-dev:
   robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
+libdraco-dev:
+  robostack: [draco]
 libdw-dev:
   robostack:
     linux: [elfutils]
@@ -358,6 +366,8 @@ liblz4-dev:
   robostack: [lz4]
 libmicrohttpd:
   robostack: [libmicrohttpd]
+libnanoflann-dev:
+  robostack: [nanoflann]
 libncurses-dev:
   robostack:
     linux: [ncurses]
@@ -717,7 +727,7 @@ python-pydot:
 python-pygithub3:
   robostack: [pygithub]
 python-pygraphviz:
-  robostack: [pygraphviz]
+  robostack: [graphviz, pygraphviz]
 python-pyusb-pip:
   robostack: [pyusb]
 python-qt5-bindings:
@@ -996,6 +1006,8 @@ qtbase5-dev:
     linux: [qt-main, libopengl-devel, libgl-devel]
     osx: [qt-main]
     win64: [qt-main]
+range-v3:
+  robostack: [range-v3]
 rapidjson-dev:
   robostack: [rapidjson]
 roboticstoolbox-python:
@@ -1034,7 +1046,7 @@ sshpass:
 subversion:
   robostack: [subversion]
 suitesparse:
-  robostack: [suitesparse]
+  robostack: [suitesparse, blas-devel]
 sqlite3:
   robostack: [sqlite 3.*]
 swig:

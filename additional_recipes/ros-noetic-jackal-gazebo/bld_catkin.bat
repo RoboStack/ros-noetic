@@ -1,1 +1,0 @@
-../bld_catkin.bat
