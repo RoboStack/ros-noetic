@@ -1097,6 +1097,14 @@ packages_select_by_deps:
   # #
   # # DONE Linux
   # #
+  - depthai
+  - depthai-ros-msgs
+  - depthai-filters
+  - depthai-descriptions
+  - depthai-bridge
+  - depthai-examples
+  - depthai-ros-driver
+  - depthai-ros
   # - jsk_rqt_plugins
   # - jsk_common_msgs
   # - rviz_satellite
