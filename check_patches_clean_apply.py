@@ -147,7 +147,7 @@ def run_rattler_build_individually(recipes: List[Path]) -> None:
         ]
         print("\n Running:", " ".join(cmd), "\n", flush=True)
         try:
-            proc = subprocess.run(cmd, text=True, capture_output=True)
+            proc = subprocess.run(cmd, text=True, capture_output=True, errors="replace")
             success = proc.returncode == 0
             results.append(
                 {
