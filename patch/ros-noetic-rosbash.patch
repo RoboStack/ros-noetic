@@ -18,7 +18,7 @@ diff --git a/rosbash b/rosbash
 index 11725263..727ed27b 100644
 --- a/rosbash
 +++ b/rosbash
-@@ -358,7 +358,7 @@ function _roscomplete_sub_dir {
+@@ -361,7 +361,7 @@ function _roscomplete_sub_dir {
          unset _rosbash_roscomplete_sub_dir_IFS
      else
          if [ -e ${rosvals[1]}${rosvals[2]} ]; then
@@ -27,7 +27,7 @@ index 11725263..727ed27b 100644
          else
            opts=''
          fi
-@@ -392,7 +392,7 @@ function _msg_opts {
+@@ -395,7 +395,7 @@ function _msg_opts {
      else
          path=$(rospack find ${pkgname})
          if [ -d ${path}/msg ]; then
@@ -36,7 +36,7 @@ index 11725263..727ed27b 100644
          fi
      fi
  }
-@@ -431,7 +431,7 @@ function _srv_opts {
+@@ -434,7 +434,7 @@ function _srv_opts {
      path=$(rospack find ${pkgname} 2> /dev/null)
  
      if [ $? -eq 0 ] && [ -d ${path}/srv ]; then
@@ -45,7 +45,7 @@ index 11725263..727ed27b 100644
      fi
  }
  
-@@ -481,7 +481,7 @@ function _roscomplete_find {
+@@ -484,7 +484,7 @@ function _roscomplete_find {
      fi
      pkgdir=$(_ros_package_find ${pkg})
      if [[ -n "$catkin_package_libexec_dir" || -n "$pkgdir" ]]; then
@@ -54,7 +54,7 @@ index 11725263..727ed27b 100644
      else
          opts=""
      fi
-@@ -511,7 +511,7 @@ function _roscomplete_search_dir {
+@@ -514,7 +514,7 @@ function _roscomplete_search_dir {
             path=.
          fi
          if [[ -e ${path} ]]; then
@@ -63,7 +63,7 @@ index 11725263..727ed27b 100644
          else
             opts=""
          fi
-@@ -523,7 +523,7 @@ function _roscomplete_search_dir {
+@@ -526,7 +526,7 @@ function _roscomplete_search_dir {
          if [[ ${#COMPREPLY[*]} = 1 ]]; then
              newpath=${COMPREPLY[0]%/*}
              if [[ -d ${newpath} ]]; then
@@ -72,7 +72,7 @@ index 11725263..727ed27b 100644
                 _rosbash_roscomplete_search_dir_IFS="$IFS"
                 IFS=$'\n'
                 COMPREPLY=($(compgen -W "$opts" -- ${arg}))
-@@ -914,7 +914,7 @@ function _msg_opts {
+@@ -917,7 +917,7 @@ function _msg_opts {
      path=$(rospack find ${pkgname} 2> /dev/null)
  
      if [ $? -eq 0 ] && [ -d ${path}/msg ]; then
@@ -81,7 +81,7 @@ index 11725263..727ed27b 100644
      fi
  }
  
-@@ -1034,7 +1034,7 @@ function _roscompletemv_search_dir {
+@@ -1037,7 +1037,7 @@ function _roscompletemv_search_dir {
             path=.
          fi
          if [[ -e ${path} ]]; then
@@ -90,7 +90,7 @@ index 11725263..727ed27b 100644
          else
             opts=""
          fi
-@@ -1046,7 +1046,7 @@ function _roscompletemv_search_dir {
+@@ -1049,7 +1049,7 @@ function _roscompletemv_search_dir {
          if [[ ${#COMPREPLY[*]} = 1 ]]; then
              newpath=${COMPREPLY[0]%/*}
              if [[ -d ${newpath} ]]; then
