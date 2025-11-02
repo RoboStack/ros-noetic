@@ -44,6 +44,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Union
 import yaml
 
+# Make console writes UTF-8 and never crash on unknown glyphs (Windows-safe)
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 ROOT_DIR = Path.cwd()
 RECIPES_DIR = ROOT_DIR / "recipes"
