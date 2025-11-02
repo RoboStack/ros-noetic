@@ -26,6 +26,12 @@ Implementation details
   *source* and a stub *build* section remain.
 * Automatically invokes ``rattler-build build`` if *--dry* is **not**
   given.
+
+Modification summary
+--------------------
+* Each recipe is built individually (not batch)
+* All outputs collected; failures reported with summary and details
+* No early stopping; CI-friendly non-zero exit if any failures
 """
 
 from __future__ import annotations
@@ -130,15 +136,68 @@ def prepare_patch_recipes() -> List[Path]:
     return recreated
 
 
-def run_rattler_build() -> None:
-    cmd = [
-        "rattler-build",
-        "build",
-        "--recipe-dir",
-        str(PATCH_RECIPES_DIR)
-    ]
-    print("\n Running:", " ".join(cmd), "\n", flush=True)
-    subprocess.run(cmd, check=True)
+def run_rattler_build_individually(recipes: List[Path]) -> None:
+    results = []
+    for recipe_file in recipes:
+        cmd = [
+            "rattler-build",
+            "build",
+            "--recipe-dir",
+            str(recipe_file.parent),
+        ]
+        print("\n Running:", " ".join(cmd), "\n", flush=True)
+        try:
+            proc = subprocess.run(cmd, text=True, capture_output=True)
+            success = proc.returncode == 0
+            results.append(
+                {
+                    "recipe": str(recipe_file.parent.relative_to(PATCH_RECIPES_DIR)),
+                    "ok": success,
+                    "stdout": proc.stdout,
+                    "stderr": proc.stderr,
+                    "rc": proc.returncode,
+                }
+            )
+            print("   ->", "OK" if success else f"FAIL (rc={proc.returncode})", flush=True)
+        except Exception as e:
+            results.append(
+                {
+                    "recipe": str(recipe_file.parent.relative_to(PATCH_RECIPES_DIR)),
+                    "ok": False,
+                    "stdout": "",
+                    "stderr": str(e),
+                    "rc": -1,
+                }
+            )
+            print("   -> EXCEPTION:", e, flush=True)
+
+    # Summary
+    failed = [r for r in results if not r["ok"]]
+    print("\n================ Patch Application Summary ================\n")
+    print(f"Total recipes tested: {len(results)}")
+    print(f"Passed: {len(results) - len(failed)}")
+    print(f"Failed: {len(failed)}")
+
+    if not failed:
+        print("\nAll patches applied cleanly.\n")
+        return
+
+    print("\n---------------- Failures (Summary) ----------------")
+    for r in failed:
+        print(f"- {r['recipe']} (rc={r['rc']})")
+
+    print("\n---------------- Failures (Details) ----------------")
+    for r in failed:
+        print(f"\n### {r['recipe']} (rc={r['rc']})")
+        if r["stdout"]:
+            print("\n[stdout]")
+            print(r["stdout"].rstrip())
+        if r["stderr"]:
+            print("\n[stderr]")
+            print(r["stderr"].rstrip())
+        print("\n----------------------------------------------------\n")
+
+    sys.exit(2 if failed else 0)
 
 
 def main() -> None:
@@ -165,11 +224,10 @@ def main() -> None:
     print(f"Prepared {len(recreated)} minimal recipe(s) in {PATCH_RECIPES_DIR}/")
 
     if not args.dry:
-        run_rattler_build()
+        run_rattler_build_individually(recreated)
     else:
         print("--dry given – rattler-build not executed.")
 
 
 if __name__ == "__main__":
     main()
-
