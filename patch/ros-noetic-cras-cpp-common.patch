@@ -1,0 +1,44 @@
+diff --git a/cras_cpp_common/src/thread_utils.cpp b/cras_cpp_common/src/thread_utils.cpp
+index 448ed53..849a506 100644
+--- a/cras_cpp_common/src/thread_utils.cpp
++++ b/cras_cpp_common/src/thread_utils.cpp
+@@ -40,7 +40,11 @@ void setThreadName(const std::string& name)
+     memcpy(nameBuf + 8, name.c_str() + (name.length() - 7), 7);
+     nameBuf[15] = '\0';
+   }
++#ifdef __APPLE__
++  pthread_setname_np(nameBuf);
++#else
+   pthread_setname_np(pthread_self(), nameBuf);
++#endif
+ }
+ 
+ }
+diff --git a/cras_cpp_common/CMakeLists.txt b/cras_cpp_common/CMakeLists.txt
+index 4a15c8a..a4b8447 100644
+--- a/cras_cpp_common/CMakeLists.txt
++++ b/cras_cpp_common/CMakeLists.txt
+@@ -36,6 +36,8 @@ find_package(Eigen3 REQUIRED)
+ 
+ find_package(urdfdom_headers REQUIRED)
+ 
++find_package(Iconv REQUIRED)
++
+ # Require https://github.com/ros/filters/pull/60 in the filters package (added in 1.8.3 and 1.9.2)
+ #catkin_lint: ignore_once duplicate_find
+ find_package(filters QUIET)
+@@ -228,12 +230,12 @@ add_library(cras_tf2_utils
+ target_sources(cras_tf2_utils INTERFACE $<BUILD_INTERFACE:${CCC_INCLUDE_BASE}/tf2_utils/message_filter.hpp>)
+ add_dependencies(cras_tf2_utils ${catkin_EXPORTED_TARGETS})
+ target_link_libraries(cras_tf2_utils
+-  PUBLIC cras_log_utils cras_thread_utils cras_time_utils ${catkin_LIBRARIES})
++  PUBLIC cras_log_utils cras_thread_utils cras_time_utils cras_semaphore ${catkin_LIBRARIES})
+ 
+ add_library(cras_string_utils src/string_utils.cpp src/string_utils/from_chars.cpp src/string_utils/ros.cpp)
+ add_dependencies(cras_string_utils ${catkin_EXPORTED_TARGETS})
+ target_link_libraries(cras_string_utils
+-  PUBLIC cras_time_utils cras_type_traits ${catkin_LIBRARIES})
++  PUBLIC cras_time_utils cras_type_traits ${catkin_LIBRARIES} Iconv::Iconv)
+ if (HAS_FROM_CHARS_FLOAT)
+   target_compile_definitions(cras_string_utils PRIVATE HAS_FROM_CHARS_FLOAT=1)
+ endif()
