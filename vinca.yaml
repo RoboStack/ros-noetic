@@ -15,10 +15,10 @@ mutex_package:
   run_constraints:
     - libboost 1.86.*
     - libboost-devel 1.86.*
-    - pcl 1.15.0.*
+    - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 5.29.3.*
-    - libxml2 2.13.*
+    - libprotobuf 6.31.1.*
+    - libxml2 2.14.*
     - ogre 1.10.12.*
 
 
