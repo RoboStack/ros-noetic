@@ -7,11 +7,11 @@ setuptools:
 numpy:
   - 1.26
 libprotobuf:
-  - 5.29.3
+  - 6.31.1
 protobuf:
-  - 5.29.3
+  - 6.31.1
 spdlog:
-  - 1.15
+  - 1.16
 pyqt:
   - 5.15
 pyqtwebengine:
@@ -19,13 +19,13 @@ pyqtwebengine:
 pyqtchart:
   - 5.15
 tinyxml2:
-  - 10.0
+  - 11.0
 cmake:
   - 3.*
 libopencv:
-  - 4.11.0
+  - 4.12.0
 libxml2:
-  - 2.13.*
+  - 2.14.*
 graphviz:
   - 13.*
 
