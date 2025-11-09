@@ -32,6 +32,7 @@ packages_skip_by_deps:
 
 
 packages_remove_from_deps:
+  - libpointmatcher
   - if: not linux
     then:
       - pendulum_control
