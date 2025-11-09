@@ -326,23 +326,26 @@ packages_select_by_deps:
   # Robot body filter and sensor filters
   - robot-body-filter
   - sensor-filters
-  
-  # CRAS (CTU Robot Autonomy Stack) packages - maintainer peci1
-  - cras-cpp-common
-  - cras-py-common
-  - cras-docs-common
-  - cras-topic-tools
-  - cras-relative-positional-controller
-  - cras-msgs
-  - magnetometer-compass
-  - electronic-io
-  - rosmsg-cpp
-  - snmp-ros
-  - static-transform-mux
-  - rosbash-params
-  - dynamic-robot-state-publisher
-  - tf-static-publisher
-  - movie-publisher
+
+  - if: linux
+    then:
+    # CRAS (CTU Robot Autonomy Stack) packages - maintainer peci1
+    - cras-cpp-common
+    - cras-py-common
+    - cras-docs-common
+    - cras-topic-tools
+    - cras-relative-positional-controller
+    - cras-msgs
+    - magnetometer-compass
+    - electronic-io
+    - rosmsg-cpp
+    - snmp-ros
+    - static-transform-mux
+    - rosbash-params
+    - dynamic-robot-state-publisher
+    - tf-static-publisher
+    - movie-publisher
+
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
