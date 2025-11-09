@@ -743,7 +743,7 @@ python-rospkg-modules:
 python-setuptools:
   robostack: [setuptools]
 python-sip:
-  robostack: [sip 6.7.*]
+  robostack: [sip]
 python-six:
   robostack: [six]
 python-slacker-cli:
