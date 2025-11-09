@@ -13,8 +13,8 @@ mutex_package:
   version: "0.7.0"
   upper_bound: "x.x"
   run_constraints:
-    - libboost 1.86.*
-    - libboost-devel 1.86.*
+    - libboost 1.88.*
+    - libboost-devel 1.88.*
     - pcl 1.15.1.*
     - gazebo 11.*
     - libprotobuf 6.31.1.*
