@@ -76,7 +76,7 @@ index 0000000..9353bab
 +
 +[tool.sip.builder]
 +qmake = "@QMAKE_EXECUTABLE@"
-+
++qmake-settings = ["CONFIG += c++14"]
 +[tool.sip.project]
 +sip-files-dir = "@SIP_FILES_DIR@"
 +build-dir = "@SIP_BUILD_DIR@"
