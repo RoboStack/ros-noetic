@@ -23,7 +23,7 @@ tinyxml2:
 cmake:
   - 3.*
 libopencv:
-  - 4.12.0 * qt6*
+  - 4.12.0
 libxml2:
   - 2.14.*
 graphviz:
