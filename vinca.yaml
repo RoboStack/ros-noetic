@@ -20,6 +20,7 @@ mutex_package:
     - libprotobuf 6.31.1.*
     - libxml2 2.14.*
     - ogre 1.10.12.*
+    - libopencv * qt6*
 
 
 packages_skip_by_deps:
