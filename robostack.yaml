@@ -398,14 +398,14 @@ libopenblas-dev:
   robostack: [libblas]
 libopencv-dev:
   robostack:
-    linux: [py-opencv, libopencv * qt6*, libopengl-devel, libgl-devel]
-    osx: [py-opencv, libopencv * qt6*]
-    win64: [py-opencv, libopencv * qt6*]
+    linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
+    osx: [py-opencv, libopencv]
+    win64: [py-opencv, libopencv]
 libopencv-imgproc-dev:
   robostack:
-    linux: [py-opencv, libopencv * qt6*, libopengl-devel, libgl-devel]
-    osx: [py-opencv, libopencv * qt6*]
-    win64: [py-opencv, libopencv * qt6*]
+    linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
+    osx: [py-opencv, libopencv]
+    win64: [py-opencv, libopencv]
 libopenni-dev:
   robostack: []
 liborocos-kdl:
@@ -708,7 +708,7 @@ python-nose:
 python-numpy:
   robostack: [numpy]
 python-opencv:
-  robostack: [py-opencv, libopencv * qt6*]
+  robostack: [py-opencv, libopencv]
 python-opengl:
   robostack:
     linux: [pyopengl, libopengl-devel, libgl-devel]
@@ -863,7 +863,7 @@ python3-nose:
 python3-numpy:
   robostack: [numpy]
 python3-opencv:
-  robostack: [py-opencv, libopencv * qt6*]
+  robostack: [py-opencv, libopencv]
 python3-opengl:
   robostack:
     linux: [pyopengl, libopengl-devel, libgl-devel]
