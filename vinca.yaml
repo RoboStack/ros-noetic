@@ -227,8 +227,6 @@ packages_select_by_deps:
   - audio-common-msgs
   - ur-msgs
   - franka-msgs
-  - mavros-msgs
-  - mavlink
   - four-wheel-steering-msgs
   - compass-msgs
   - electronic-io-msgs
@@ -251,10 +249,13 @@ packages_select_by_deps:
   - lanelet2
   
   # MAVROS
-  - mavros
-  - mavros-extras
-  - libmavconn
-  
+  # November 2025: Fails due to incompatibility with boost 1.88; should be easy to fix
+  # - mavros
+  # - mavros-extras
+  # - libmavconn
+  # - mavros-msgs
+  # - mavlink
+
   # Dataspeed
   - dataspeed-can-msg-filters
   - dataspeed-can-tools
