@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0553c74..69fd9a7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,7 +21,7 @@ catkin_package(
+ include_directories(include ${catkin_INCLUDE_DIRS})
+ 
+ add_library(${PROJECT_NAME} src/tf2_client/tf2_client.cpp)
+-link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
++target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+ 
+ install(DIRECTORY include/${PROJECT_NAME}/
+     DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
