@@ -5,7 +5,7 @@ ogre:
 setuptools:
   - 69
 numpy:
-  - 1.26
+  - 2
 libprotobuf:
   - 6.31.1
 protobuf:
