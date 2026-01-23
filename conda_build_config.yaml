@@ -1,17 +1,43 @@
-gazebo:
-  - '11'
-ogre:
-  - 1.10.12
-setuptools:
-  - 69
 numpy:
   - 2
+assimp:
+  - 5
 libprotobuf:
   - 6.31.1
 protobuf:
   - 6.31.1
 spdlog:
-  - 1.16
+  - 1.17
+pugixml:
+  - '1.15'
+libopencv:
+  - 4.12.0
+libxml2:
+  - 2.14.*
+graphviz:
+  - 14.*
+# Mitigation for
+# https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
+libcap:
+  - 2.77
+fmt:
+  - 12.1
+lua:
+  - 5.4
+tbb:
+  - '2022'
+tbb_devel:
+  - '2022'
+
+# Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
+cmake:
+  - 3.*
+
+# ROS1 stuff
+ogre:
+  - 1.10.12
+setuptools:
+  - 69
 pyqt:
   - 5.15
 pyqtwebengine:
@@ -20,14 +46,8 @@ pyqtchart:
   - 5.15
 tinyxml2:
   - 11.0
-cmake:
-  - 3.*
-libopencv:
-  - 4.12.0
-libxml2:
-  - 2.14.*
-graphviz:
-  - 13.*
+gazebo:
+  - '11'
 
 cdt_name:  # [linux]
   - conda  # [linux]
