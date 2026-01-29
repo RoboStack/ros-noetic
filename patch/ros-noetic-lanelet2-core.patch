@@ -1,0 +1,31 @@
+From ab7d2f4dee299563c6313336c070ed99635aba3f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20=C5=A0koudlil?= <skoudmar@cvut.cz>
+Date: Fri, 16 May 2025 14:40:54 +0200
+Subject: [PATCH] Fix compilation with Boost 1.87
+
+Boost 1.87 removed deprecated rescaling code
+which was deprecated since Boost 1.79.
+---
+ include/lanelet2_core/geometry/Point.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/lanelet2_core/geometry/Point.h b/include/lanelet2_core/geometry/Point.h
+index 080539ed..a37da11f 100644
+--- a/include/lanelet2_core/geometry/Point.h
++++ b/include/lanelet2_core/geometry/Point.h
+@@ -22,6 +22,7 @@ BOOST_GEOMETRY_REGISTER_POINT_2D_CONST(lanelet::ConstPoint2d, double, cs::cartes
+ BOOST_GEOMETRY_REGISTER_POINT_3D(lanelet::Point3d, double, cs::cartesian, x(), y(), z())
+ BOOST_GEOMETRY_REGISTER_POINT_3D_CONST(lanelet::ConstPoint3d, double, cs::cartesian, x(), y(), z())
+ 
++#if BOOST_VERSION < 108700
+ namespace boost {
+ namespace geometry {
+ // Help boost with type deduction for proxies
+@@ -37,6 +38,7 @@ struct robust_point_type<const lanelet::BasicPoint2d, detail::no_rescale_policy>
+ 
+ }  // namespace geometry
+ }  // namespace boost
++#endif
+ 
+ namespace lanelet {
+ namespace geometry {
