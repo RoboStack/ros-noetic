@@ -5,9 +5,9 @@ on:
 env:
   ROS_VERSION: 1
   # Change to 'true' to enable the cache upload as artifacts
-  SAVE_CACHE_AS_ARTIFACT: 'false'
+  SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
 jobs:
   build:
     strategy:
@@ -20,10 +20,10 @@ jobs:
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
             folder_cache: 'output/linux-aarch64'
-          - os: macos-13
+          - os: macos-15-intel
             platform: osx-64
             folder_cache: 'output/osx-64'
-          - os: macos-14
+          - os: macos-15
             platform: osx-arm64
             folder_cache: 'output/osx-arm64'
           - os: windows-2022
