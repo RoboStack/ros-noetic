@@ -14,7 +14,7 @@ ompl:
   generate_dummy_package_with_run_deps:
     dep_name: ompl
     max_pin: 'x.x'
-    override_version: '1.8.0'
+    override_version: '1.7.0'
 # Do not unvendor urdfdom_py as the ROS1 required version is not on conda-forge
 # urdfdom_py:
 #   generate_dummy_package_with_run_deps:
@@ -73,6 +73,7 @@ librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+
 
 
 
