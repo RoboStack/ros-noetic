@@ -17,7 +17,7 @@ mutex_package:
     - libboost-devel 1.88.*
     - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 6.31.1.*
+    - libprotobuf 6.33.5.*
     - libxml2 2.14.*
     - ogre 1.10.12.*
     - libopencv * qt6*
