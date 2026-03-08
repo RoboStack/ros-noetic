@@ -73,6 +73,7 @@ librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+    override_version: '2.56.5'
 
 
 
