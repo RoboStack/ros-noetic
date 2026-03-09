@@ -119,6 +119,27 @@ rattler-build create-patch \
 
 Then move/merge patch into repo package patch file and ensure recipe uses it.
 
+## Validate that patches still apply
+
+Use the patch checker before/after large patch edits:
+
+```bash
+# prepare minimal patch-only recipes and run checks
+python check_patches_clean_apply.py
+
+# prepare only (no build execution)
+python check_patches_clean_apply.py --dry
+
+# cleanup generated check directory
+python check_patches_clean_apply.py --clean
+```
+
+What it does:
+- scans all `recipes/**/recipe.yaml`
+- keeps only recipes that declare `source.patches`
+- creates `recipes_only_patch/` with minimal patch-check recipes
+- runs patch application checks recipe-by-recipe and prints a pass/fail summary
+
 ## Patch placement and recipe wiring
 
 - Canonical patch location: `patch/ros-$DISTRO-<pkg>.patch`
@@ -130,6 +151,17 @@ source:
   patches:
     - patch/ros-$DISTRO-<pkg>.patch
 ```
+
+## Parallelization and dependency-aware scheduling
+
+It is worth splitting work across multiple agents, but only for independent packages.
+
+Rules:
+- Do not build dependent packages in parallel.
+- Infer dependency relationships from `recipes/ros-$DISTRO-<pkg>/recipe.yaml` (`requirements.host` and `requirements.run`).
+- If package A depends on package B (for example `rosmon` -> `rosmon-core`), build/fix B first.
+- Run parallel lanes only for packages that do not depend on each other.
+- If unsure, serialize the builds.
 
 ## Inspect a built conda package
 
