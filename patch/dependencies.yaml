@@ -1,5 +1,7 @@
 euslisp:
   add_host: ["${{ 'xorg-libx11' if linux }}"]
+stage:
+  add_host: ["zlib", "libpng"]
 qt_gui_cpp:
   add_build: ["pyqt-builder", "pyqt5-sip", "sip"]
   add_host: ["sip"]

@@ -1,0 +1,234 @@
+diff --git a/src/composers/CameraInfoComposer.cpp b/src/composers/CameraInfoComposer.cpp
+index d6c9f3f..3cb7f22 100644
+--- a/src/composers/CameraInfoComposer.cpp
++++ b/src/composers/CameraInfoComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/CameraIntrinsicsComposer.cpp b/src/composers/CameraIntrinsicsComposer.cpp
+index 45df7e4..6f73944 100644
+--- a/src/composers/CameraIntrinsicsComposer.cpp
++++ b/src/composers/CameraIntrinsicsComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/CameraNameComposer.cpp b/src/composers/CameraNameComposer.cpp
+index 398d0f7..06b4c32 100644
+--- a/src/composers/CameraNameComposer.cpp
++++ b/src/composers/CameraNameComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/ImuComposer.cpp b/src/composers/ImuComposer.cpp
+index e4df54d..8f14b9b 100644
+--- a/src/composers/ImuComposer.cpp
++++ b/src/composers/ImuComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/OpticalFrameTFComposer.cpp b/src/composers/OpticalFrameTFComposer.cpp
+index c8ec880..c1482f8 100644
+--- a/src/composers/OpticalFrameTFComposer.cpp
++++ b/src/composers/OpticalFrameTFComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/RollPitchComposer.cpp b/src/composers/RollPitchComposer.cpp
+index f37ece6..302034d 100644
+--- a/src/composers/RollPitchComposer.cpp
++++ b/src/composers/RollPitchComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/composers/ZeroRollPitchTFComposer.cpp b/src/composers/ZeroRollPitchTFComposer.cpp
+index 74947cc..3c309be 100644
+--- a/src/composers/ZeroRollPitchTFComposer.cpp
++++ b/src/composers/ZeroRollPitchTFComposer.cpp
+@@ -7,6 +7,7 @@
+  * \author Martin Pecka
+  */
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata_manager.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/metadata/ExifBaseMetadataExtractor.cpp b/src/metadata/ExifBaseMetadataExtractor.cpp
+index 961a2bd..c3f9be9 100644
+--- a/src/metadata/ExifBaseMetadataExtractor.cpp
++++ b/src/metadata/ExifBaseMetadataExtractor.cpp
+@@ -10,6 +10,7 @@
+ #include <limits>
+ 
+ #include <compass_conversions/compass_converter.h>
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata/ExifBaseMetadataExtractor.h>
+ #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+diff --git a/src/metadata/FileMetadataExtractor.cpp b/src/metadata/FileMetadataExtractor.cpp
+index 46ad036..05917e4 100644
+--- a/src/metadata/FileMetadataExtractor.cpp
++++ b/src/metadata/FileMetadataExtractor.cpp
+@@ -9,6 +9,7 @@
+ 
+ #include <sys/stat.h>
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata/FileMetadataExtractor.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/metadata/FilenameMetadataExtractor.cpp b/src/metadata/FilenameMetadataExtractor.cpp
+index 83e5401..4fbdc56 100644
+--- a/src/metadata/FilenameMetadataExtractor.cpp
++++ b/src/metadata/FilenameMetadataExtractor.cpp
+@@ -9,6 +9,7 @@
+ 
+ #include <regex>
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata/FilenameMetadataExtractor.h>
+ #include <pluginlib/class_list_macros.h>
+diff --git a/src/metadata/LibavStreamMetadataExtractor.cpp b/src/metadata/LibavStreamMetadataExtractor.cpp
+index a78c50f..5d50cf5 100644
+--- a/src/metadata/LibavStreamMetadataExtractor.cpp
++++ b/src/metadata/LibavStreamMetadataExtractor.cpp
+@@ -17,6 +17,7 @@ extern "C"
+ #include <libavutil/parseutils.h>
+ }
+ 
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <movie_publisher/metadata/LibavStreamMetadataExtractor.h>
+ #include <pluginlib/class_list_macros.h>
+@@ -121,7 +122,9 @@ cras::optional<int> LibavStreamMetadataExtractor::getRotation()
+ 
+   if (!rotation.has_value())
+   {
+-    const auto displayMatrix = av_stream_get_side_data(this->data->stream, AV_PKT_DATA_DISPLAYMATRIX, nullptr);
++    const auto displayMatrixSideData = av_packet_side_data_get(this->data->stream->codecpar->coded_side_data,
++      this->data->stream->codecpar->nb_coded_side_data, AV_PKT_DATA_DISPLAYMATRIX);
++    const auto displayMatrix = displayMatrixSideData != nullptr ? displayMatrixSideData->data : nullptr;
+     if (displayMatrix)
+     {
+       rotation = -av_display_rotation_get(reinterpret_cast<int32_t*>(displayMatrix));
+diff --git a/src/metadata_manager.cpp b/src/metadata_manager.cpp
+index 42e868e..62f6073 100644
+--- a/src/metadata_manager.cpp
++++ b/src/metadata_manager.cpp
+@@ -15,6 +15,7 @@
+ #include <cras_cpp_common/log_utils.h>
+ #include <cras_cpp_common/optional.hpp>
+ #include <cras_cpp_common/suppress_warnings.h>
++#include <typeinfo>
+ #include <cras_cpp_common/type_utils.hpp>
+ #include <geometry_msgs/Quaternion.h>
+ #include <movie_publisher/metadata_cache.h>
+diff --git a/src/movie.cpp b/src/movie.cpp
+index a5d0902..025a219 100644
+--- a/src/movie.cpp
++++ b/src/movie.cpp
+@@ -30,6 +30,7 @@ extern "C" {
+ #include <libavfilter/buffersrc.h>
+ #include <libavformat/avformat.h>
+ #include <libavutil/display.h>
++#include <libavutil/cpu.h>
+ #include <libavutil/imgutils.h>
+ #include <libswscale/swscale.h>
+ }
+diff --git a/src/movie_private.cpp b/src/movie_private.cpp
+index a1ee6ee..3bd2ae5 100644
+--- a/src/movie_private.cpp
++++ b/src/movie_private.cpp
+@@ -51,7 +51,9 @@ extern "C" {
+ #include <libavfilter/buffersrc.h>
+ #include <libavformat/avformat.h>
+ #include <libavutil/display.h>
++#include <libavutil/cpu.h>
+ #include <libavutil/imgutils.h>
++#include <libavutil/opt.h>
+ #include <libavutil/pixdesc.h>
+ #include <libavutil/parseutils.h>
+ #include <libswscale/swscale.h>
+@@ -579,13 +581,13 @@ ros::Time MoviePrivate::getTimestamp(const StreamTime& ptsTime) const
+   return result;
+ }
+ 
+-cras::expected<std::pair<AVCodec*, int>, std::string> MoviePrivate::selectStream()
++cras::expected<std::pair<const AVCodec*, int>, std::string> MoviePrivate::selectStream()
+ {
+   int res = avformat_find_stream_info(this->formatContext, nullptr);
+   if (res < 0)
+     return cras::make_unexpected(cras::format("Could not get the stream info: %s", av_err2str(res)));
+ 
+-  AVCodec* codec {nullptr};
++  const AVCodec* codec {nullptr};
+ 
+   int selectedStreamIndex {0};
+   if (this->config->forceStreamIndex().has_value())
+@@ -760,16 +762,17 @@ cras::expected<void, std::string> MoviePrivate::addRotationFilter()
+     return cras::make_unexpected("Error creating filter source buffer");
+   }
+ 
+-  AVPixelFormat pix_fmts[] = {this->targetPixelFormat, AV_PIX_FMT_NONE};
+-  auto buffersinkParams = av_buffersink_params_alloc();
+-  buffersinkParams->pixel_fmts = pix_fmts;
+   if (avfilter_graph_create_filter(
+-    &this->filterBuffersinkContext, buffersink, "out", nullptr, buffersinkParams, this->filterGraph) < 0)
++    &this->filterBuffersinkContext, buffersink, "out", nullptr, nullptr, this->filterGraph) < 0)
+   {
+-    av_free(buffersinkParams);
+     return cras::make_unexpected("Error creating filter sink buffer");
+   }
+-  av_free(buffersinkParams);
++  const AVPixelFormat pixFmts[] = {this->targetPixelFormat, AV_PIX_FMT_NONE};
++  if (av_opt_set_int_list(this->filterBuffersinkContext, "pix_fmts", pixFmts, AV_PIX_FMT_NONE,
++      AV_OPT_SEARCH_CHILDREN) < 0)
++  {
++    return cras::make_unexpected("Error configuring filter sink pixel formats");
++  }
+ 
+   AVFilterInOut* filterOutputs = avfilter_inout_alloc();
+   AVFilterInOut* filterInputs = avfilter_inout_alloc();
+diff --git a/src/movie_private.h b/src/movie_private.h
+index 97d7003..b34c2cb 100644
+--- a/src/movie_private.h
++++ b/src/movie_private.h
+@@ -208,7 +208,7 @@ struct MoviePrivate : public cras::HasLogger
+    * \brief Select the best quality stream and open it for decoding.
+    * \return Open stream with the best quality and its index in the list of streams.
+    */
+-  cras::expected<std::pair<AVCodec*, int>, std::string> selectStream();
++  cras::expected<std::pair<const AVCodec*, int>, std::string> selectStream();
+   /**
+    * \brief Open the given codec for decoding.
+    * \param[in] codec The codec to open.

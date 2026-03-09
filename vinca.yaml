@@ -24,6 +24,7 @@ mutex_package:
 
 
 packages_skip_by_deps:
+  - openni2-camera
   - if: not linux
     then:
       - pendulum_control
@@ -33,13 +34,13 @@ packages_skip_by_deps:
       - euslisp
       - jskeus
       - roseus
-      - openni2-camera
-      - openni2-launch
       - usb-cam
+      - openni2-launch
 
 
 packages_remove_from_deps:
   - libpointmatcher
+  - openni2-camera
   - if: not linux
     then:
       - pendulum_control
@@ -48,6 +49,7 @@ packages_remove_from_deps:
       - tlsf_cpp
       - euslisp
       - jskeus
+      - openni2-launch
 
 skip_existing:
   # - output
@@ -364,7 +366,7 @@ packages_select_by_deps:
     - dataspeed-can-usb
     - dataspeed-ulc-can
     - dbw-mkz-can
-    - openni2-camera
+    # - openni2-camera
     - openni2-launch
     - usb-cam
 

@@ -1,15 +1,26 @@
 diff --git a/include/socketcan_interface/asio_base.h b/include/socketcan_interface/asio_base.h
-index 64b8d06..e0e4e7a 100644
+index 8bd2eeb..fbdae2c 100644
 --- a/include/socketcan_interface/asio_base.h
 +++ b/include/socketcan_interface/asio_base.h
 @@ -22,7 +22,7 @@ template<typename Socket> class AsioDriver : public DriverInterface{
+     boost::mutex socket_mutex_;
+ 
  protected:
 -    boost::asio::io_service io_service_;
 +    boost::asio::io_context io_service_;
  #if BOOST_ASIO_VERSION >= 101200 // Boost 1.66+
      boost::asio::io_context::strand strand_;
  #else
-@@ -89,8 +89,8 @@ public:
+@@ -35,7 +35,7 @@ protected:
+     virtual bool enqueue(const Frame & msg) = 0;
+ 
+     void dispatchFrame(const Frame &msg){
+-        strand_.post([this, msg]{ frame_dispatcher_.dispatch(msg.key(), msg);} ); // copies msg
++        boost::asio::post(strand_, [this, msg]{ frame_dispatcher_.dispatch(msg.key(), msg);} ); // copies msg
+     }
+     void setErrorCode(const boost::system::error_code& error){
+         boost::mutex::scoped_lock lock(state_mutex_);
+@@ -88,8 +88,8 @@ public:
          setNotReady();
  
          if(getState().driver_state == State::open){
@@ -20,3 +31,16 @@ index 64b8d06..e0e4e7a 100644
              setDriverState(State::ready);
  
              boost::thread post_thread([this]() { io_service_.run(); });
+@@ -97,7 +97,11 @@ public:
+             triggerReadSome();
+ 
+             boost::system::error_code ec;
+-            io_service_.run(ec);
++            try {
++                io_service_.run();
++            } catch (const boost::system::system_error& e) {
++                ec = e.code();
++            }
+             setErrorCode(ec);
+ 
+             setNotReady();

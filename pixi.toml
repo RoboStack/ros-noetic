@@ -11,7 +11,7 @@ libc = { family="glibc", version="2.17" }
 
 [dependencies]
 python = ">=3.12.0,<3.13"
-rattler-build = ">=0.44.0"
+rattler-build = ">=0.57.0,<0.58"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 

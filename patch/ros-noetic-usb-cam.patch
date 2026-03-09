@@ -1,0 +1,14 @@
+diff --git a/src/usb_cam.cpp b/src/usb_cam.cpp
+index 0fefb6a..32efa25 100644
+--- a/src/usb_cam.cpp
++++ b/src/usb_cam.cpp
+@@ -1217,8 +1217,7 @@ void UsbCam::shutdown(void)
+ 
+   if (avcodec_context_)
+   {
+-    avcodec_close(avcodec_context_);
+-    av_free(avcodec_context_);
++    avcodec_free_context(&avcodec_context_);
+     avcodec_context_ = NULL;
+   }
+   if (avframe_camera_)

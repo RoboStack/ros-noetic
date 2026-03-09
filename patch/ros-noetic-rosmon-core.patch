@@ -32,6 +32,64 @@ index 7441df6..9bff2c0 100644
  )
  
  add_executable(abort_really_long_executable
+diff --git a/src/logger.cpp b/src/logger.cpp
+index 881339c..9d9fb5f 100644
+--- a/src/logger.cpp
++++ b/src/logger.cpp
+@@ -4,6 +4,7 @@
+ #include "logger.h"
+ #include "fmt/format.h"
+ 
++#include <array>
+ #include <cerrno>
+ #include <cstdio>
+ #include <cstring>
+diff --git a/src/main.cpp b/src/main.cpp
+index 8332470..22985ba 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -16,6 +16,7 @@
+ #include <getopt.h>
+ #include <csignal>
+ 
++#include <ctime>
+ #include <iostream>
+ 
+ #include <fmt/format.h>
+@@ -45,7 +46,7 @@ static fs::path findFile(const fs::path& base, const std::string& name)
+ 			if(!p.empty())
+ 				return p;
+ 		}
+-		else if(it->path().leaf() == name)
++		else if(it->path().filename() == name)
+ 			return *it;
+ 	}
+ 
+@@ -373,12 +374,12 @@ int main(int argc, char** argv)
+ 			// Try systemd journal first
+ 			try
+ 			{
+-				logger.reset(new rosmon::SystemdLogger(fs::basename(launchFilePath)));
++				logger.reset(new rosmon::SystemdLogger(fs::path(launchFilePath).stem().string()));
+ 			}
+ 			catch(rosmon::SystemdLogger::NotAvailable& e)
+ 			{
+ 				fmt::print(stderr, "Systemd Journal not available: {}\n", e.what());
+-				logger.reset(new rosmon::SyslogLogger(fs::basename(launchFilePath)));
++				logger.reset(new rosmon::SyslogLogger(fs::path(launchFilePath).stem().string()));
+ 			}
+ 		}
+ 		else
+@@ -389,7 +390,8 @@ int main(int argc, char** argv)
+ 
+ 				// Create log file in /tmp
+ 				std::time_t t = std::time(nullptr);
+-				std::tm currentTime = fmt::localtime(t);
++				std::tm currentTime {};
++				localtime_r(&t, &currentTime);
+ 
+ 				logFile = fmt::format("/tmp/rosmon_{:%Y_%m_%d_%H_%M_%S}.log", currentTime);
+ 			}
 diff --git a/src/monitor/shim.cpp b/src/monitor/shim.cpp
 index 7dec1cc..da51913 100644
 --- a/src/monitor/shim.cpp
@@ -56,43 +114,3 @@ index 7dec1cc..da51913 100644
  static const struct option OPTIONS[] = {
  	{"help", no_argument, nullptr, 'h'},
  	{"namespace", required_argument, nullptr, 'n'},
-diff --git a/src/logger.cpp b/src/logger.cpp
-index 881339c..9d9fb5f 100644
---- a/src/logger.cpp
-+++ b/src/logger.cpp
-@@ -4,6 +4,7 @@
- #include "logger.h"
- #include "fmt/format.h"
- 
-+#include <array>
- #include <cerrno>
- #include <cstdio>
- #include <cstring>
-diff --git a/src/main.cpp b/src/main.cpp
-index ae0e733..3422d76 100644
---- a/src/main.cpp
-+++ b/src/main.cpp
-@@ -45,7 +45,7 @@ static fs::path findFile(const fs::path& base, const std::string& name)
- 			if(!p.empty())
- 				return p;
- 		}
--		else if(it->path().leaf() == name)
-+		else if(it->path().filename() == name)
- 			return *it;
- 	}
- 
-@@ -373,12 +373,12 @@ int main(int argc, char** argv)
- 			// Try systemd journal first
- 			try
- 			{
--				logger.reset(new rosmon::SystemdLogger(fs::basename(launchFilePath)));
-+				logger.reset(new rosmon::SystemdLogger(fs::path(launchFilePath).stem().string()));
- 			}
- 			catch(rosmon::SystemdLogger::NotAvailable& e)
- 			{
- 				fmt::print(stderr, "Systemd Journal not available: {}\n", e.what());
--				logger.reset(new rosmon::SyslogLogger(fs::basename(launchFilePath)));
-+				logger.reset(new rosmon::SyslogLogger(fs::path(launchFilePath).stem().string()));
- 			}
- 		}
- 		else
