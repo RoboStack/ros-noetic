@@ -1,7 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1b1ef70..1c37fbb 100644
+index 1b1ef70..ece7764 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -1,7 +1,7 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(spacenav_node)
+ 
+-set(CMAKE_CXX_STANDARD 11)
++set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+ # Load catkin and all dependencies required for this package
 @@ -11,9 +11,13 @@ catkin_package(DEPENDS geometry_msgs sensor_msgs)
  
  roslint_cpp()
@@ -17,4 +26,3 @@ index 1b1ef70..1c37fbb 100644
  
  if(CATKIN_ENABLE_TESTING)
    roslint_add_test()
-

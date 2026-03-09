@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dbe5107..9c630e7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8.3)
+ project(turtlebot3_bringup)
+ 
+ ## Compile as C++11, supported in ROS Kinetic and newer
+-add_compile_options(-std=c++11)
++add_compile_options(-std=c++14)
+ 
+ ################################################################################
+ # Find catkin packages and libraries for catkin and system dependencies

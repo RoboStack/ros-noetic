@@ -604,3 +604,44 @@ index f399fdad..4c89c787 100644
  
  if( Protobuf_FOUND)
  
+diff --git a/plotjuggler_plugins/ParserProtobuf/protobuf_factory.cpp b/plotjuggler_plugins/ParserProtobuf/protobuf_factory.cpp
+index 57fdd022..12f66e80 100644
+--- a/plotjuggler_plugins/ParserProtobuf/protobuf_factory.cpp
++++ b/plotjuggler_plugins/ParserProtobuf/protobuf_factory.cpp
+@@ -83,7 +83,8 @@ void ParserFactoryProtobuf::importFile(QString filename)
+ 
+   for (int i = 0; i < info.file_descriptor->message_type_count(); i++)
+   {
+-    const std::string& type_name = info.file_descriptor->message_type(i)->name();
++    const std::string type_name =
++        std::string(info.file_descriptor->message_type(i)->name());
+     auto descriptor = info.file_descriptor->FindMessageTypeByName(type_name);
+     QString type_qname = QString::fromStdString(type_name);
+     info.descriptors.insert({ type_qname, descriptor });
+diff --git a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
+index 5d2ae73a..f8fca4ff 100644
+--- a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
++++ b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
+@@ -60,7 +60,8 @@ bool ProtobufParser::parseMessage(const MessageRef serialized_msg, double& times
+       auto field = descriptor->field(index);
+ 
+       std::string key =
+-          prefix.empty() ? field->name() : fmt::format("{}/{}", prefix, field->name());
++          prefix.empty() ? std::string(field->name()) :
++                           fmt::format("{}/{}", prefix, field->name());
+       if (is_map)
+       {
+         // Map messages only have 2 fields: key and value. The key will be represented in
+diff --git a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
+index f8fca4ff..2ff1367c 100644
+--- a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
++++ b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
+@@ -161,7 +161,7 @@ bool ProtobufParser::parseMessage(const MessageRef serialized_msg, double& times
+                                    reflection->GetRepeatedEnum(msg, field, index);
+ 
+             auto& series = this->getStringSeries(key + suffix);
+-            series.pushBack({ timestamp, tmp->name() });
++            series.pushBack({ timestamp, std::string(tmp->name()) });
+             is_double = false;
+           }
+           break;

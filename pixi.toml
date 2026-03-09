@@ -32,6 +32,7 @@ generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
 build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
+build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-noetic-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d noetic -o rosdistro_snapshot.yaml" }
 # upload = "anaconda -t $ANACONDA_API_TOKEN upload"

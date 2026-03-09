@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b7e3dc5..8015642 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -44,11 +44,11 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+ target_compile_definitions(${PROJECT_NAME} PRIVATE COMPRESSED_DEPTH_HAS_RVL=${compressed_depth_has_rvl})
+ 
+ add_library(compressed_codec src/codecs/compressed_codec.cpp)
+-target_link_libraries(compressed_codec ${catkin_LIBRARIES} ${TurboJPEG_LIBRARIES})
++target_link_libraries(compressed_codec ${PROJECT_NAME} ${catkin_LIBRARIES} ${TurboJPEG_LIBRARIES})
+ target_compile_definitions(compressed_codec PRIVATE COMPRESSED_HAS_JPEG_OPTIONS=${compressed_has_jpeg_options})
+ 
+ add_library(compressed_depth_codec src/codecs/compressed_depth_codec.cpp)
+-target_link_libraries(compressed_depth_codec ${catkin_LIBRARIES})
++target_link_libraries(compressed_depth_codec ${PROJECT_NAME} ${catkin_LIBRARIES})
+ target_compile_definitions(compressed_depth_codec PRIVATE COMPRESSED_DEPTH_HAS_RVL=${compressed_depth_has_rvl})
+ 
+ add_library(raw_codec_plugin src/plugins/raw_codec_plugin.cpp)

@@ -1,0 +1,127 @@
+diff --git a/include/rosserial_server/serial_session.h b/include/rosserial_server/serial_session.h
+index 2a0bc156..4b9c543d 100644
+--- a/include/rosserial_server/serial_session.h
++++ b/include/rosserial_server/serial_session.h
+@@ -48,7 +48,7 @@ namespace rosserial_server
+ class SerialSession : public Session<boost::asio::serial_port>
+ {
+ public:
+-  SerialSession(boost::asio::io_service& io_service, std::string port, int baud)
++  SerialSession(boost::asio::io_context& io_service, std::string port, int baud)
+     : Session(io_service), port_(port), baud_(baud), timer_(io_service)
+   {
+     ROS_INFO_STREAM("rosserial_server session configured for " << port_ << " at " << baud << "bps.");
+diff --git a/include/rosserial_server/session.h b/include/rosserial_server/session.h
+index 30f97a60..1a5555f8 100644
+--- a/include/rosserial_server/session.h
++++ b/include/rosserial_server/session.h
+@@ -60,7 +60,7 @@ template<typename Socket>
+ class Session : boost::noncopyable
+ {
+ public:
+-  Session(boost::asio::io_service& io_service)
++  Session(boost::asio::io_context& io_service)
+     : io_service_(io_service),
+       socket_(io_service),
+       sync_timer_(io_service),
+@@ -500,7 +500,7 @@ private:
+     set_sync_timeout(timeout_interval_);
+   }
+ 
+-  boost::asio::io_service& io_service_;
++  boost::asio::io_context& io_service_;
+   Socket socket_;
+   AsyncReadBuffer<Socket> async_read_buffer_;
+   enum { buffer_max = 1023 };
+diff --git a/include/rosserial_server/tcp_server.h b/include/rosserial_server/tcp_server.h
+index 1dff9c54..ff955d64 100644
+--- a/include/rosserial_server/tcp_server.h
++++ b/include/rosserial_server/tcp_server.h
+@@ -52,7 +52,7 @@ template< typename Session = rosserial_server::Session<tcp::socket> >
+ class TcpServer
+ {
+ public:
+-  TcpServer(boost::asio::io_service& io_service, short port)
++  TcpServer(boost::asio::io_context& io_service, short port)
+     : io_service_(io_service),
+       acceptor_(io_service, tcp::endpoint(tcp::v4(), port))
+   {
+@@ -83,7 +83,7 @@ private:
+     start_accept();
+   }
+ 
+-  boost::asio::io_service& io_service_;
++  boost::asio::io_context& io_service_;
+   tcp::acceptor acceptor_;
+ };
+ 
+diff --git a/include/rosserial_server/udp_socket_session.h b/include/rosserial_server/udp_socket_session.h
+index 6e38dae0..559a1d93 100644
+--- a/include/rosserial_server/udp_socket_session.h
++++ b/include/rosserial_server/udp_socket_session.h
+@@ -52,7 +52,7 @@ using boost::asio::ip::udp;
+ class UdpSocketSession : public Session<UdpStream>
+ {
+ public:
+-  UdpSocketSession(boost::asio::io_service& io_service,
++  UdpSocketSession(boost::asio::io_context& io_service,
+                    udp::endpoint server_endpoint,
+                    udp::endpoint client_endpoint)
+     : Session(io_service), timer_(io_service),
+diff --git a/include/rosserial_server/udp_stream.h b/include/rosserial_server/udp_stream.h
+index 30034cbf..dc68605d 100644
+--- a/include/rosserial_server/udp_stream.h
++++ b/include/rosserial_server/udp_stream.h
+@@ -56,7 +56,7 @@ using boost::asio::handler_type;
+ class UdpStream : public udp::socket
+ {
+ public:
+-  explicit UdpStream(boost::asio::io_service& io_service) : udp::socket(io_service)
++  explicit UdpStream(boost::asio::io_context& io_service) : udp::socket(io_service)
+   {
+   }
+ 
+diff --git a/src/serial_node.cpp b/src/serial_node.cpp
+index 8fcd8907..9b23c801 100644
+--- a/src/serial_node.cpp
++++ b/src/serial_node.cpp
+@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
+   ros::param::param<std::string>("~port", port, "/dev/ttyACM0");
+   ros::param::param<int>("~baud", baud, 57600);
+ 
+-  boost::asio::io_service io_service;
++  boost::asio::io_context io_service;
+   rosserial_server::SerialSession serial_session(io_service, port, baud);
+   io_service.run();
+   return 0;
+diff --git a/src/socket_node.cpp b/src/socket_node.cpp
+index e803b6da..2ee3f5bd 100644
+--- a/src/socket_node.cpp
++++ b/src/socket_node.cpp
+@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
+   int port;
+   ros::param::param<int>("~port", port, 11411);
+ 
+-  boost::asio::io_service io_service;
++  boost::asio::io_context io_service;
+   rosserial_server::TcpServer<> tcp_server(io_service, port);
+ 
+   ROS_INFO_STREAM("Listening for rosserial TCP connections on port " << port);
+diff --git a/src/udp_socket_node.cpp b/src/udp_socket_node.cpp
+index 1ff7718c..dd659439 100644
+--- a/src/udp_socket_node.cpp
++++ b/src/udp_socket_node.cpp
+@@ -54,11 +54,11 @@ int main(int argc, char* argv[])
+   ros::param::param<int>("~client_port", client_port, 11411);
+   ros::param::param<std::string>("~client_addr", client_addr, "127.0.0.1");
+ 
+-  boost::asio::io_service io_service;
++  boost::asio::io_context io_service;
+   rosserial_server::UdpSocketSession udp_socket_session(
+       io_service,
+       udp::endpoint(udp::v4(), server_port),
+-      udp::endpoint(address::from_string(client_addr), client_port));
++      udp::endpoint(boost::asio::ip::make_address(client_addr), client_port));
+   io_service.run();
+ 
+   return 0;

@@ -1,0 +1,15 @@
+diff --git a/src/silverhammer_highspeed_internal_receiver.cpp b/src/silverhammer_highspeed_internal_receiver.cpp
+index 02cb9f238c..01e231970a 100644
+--- a/src/silverhammer_highspeed_internal_receiver.cpp
++++ b/src/silverhammer_highspeed_internal_receiver.cpp
+@@ -90,8 +90,8 @@ namespace jsk_network_tools
+       nh.param("expected_rate", expected_rate_, 2.0);
+       pub_ = nh.advertise<SilverhammerInternalBuffer>("input", 1);
+       // nh.param("packet_size", packet_size_, 1400);
+-      boost::asio::io_service io_service;
+-      socket_.reset(new boost::asio::ip::udp::socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), receive_port_)));
++      boost::asio::io_context io_context;
++      socket_.reset(new boost::asio::ip::udp::socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), receive_port_)));
+       thread_ = boost::thread(boost::bind(&SilverhammerHighspeedInternalReceiver::threadFunc, this));
+       pub_thread_ = boost::thread(boost::bind(&SilverhammerHighspeedInternalReceiver::publishPacketsFunc, this));
+       

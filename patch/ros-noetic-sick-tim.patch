@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 36cee0a..4cf01f5 100644
+index cde5172..c2d83aa 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -11,6 +11,7 @@ find_package(catkin REQUIRED
+@@ -12,6 +12,7 @@ find_package(catkin REQUIRED
  )
  
  find_package(PkgConfig REQUIRED)
@@ -10,7 +10,7 @@ index 36cee0a..4cf01f5 100644
  pkg_check_modules(libusb libusb-1.0)
  
  find_package(Boost REQUIRED COMPONENTS system)
-@@ -23,7 +24,7 @@ catkin_package(
+@@ -24,7 +25,7 @@ catkin_package(
      LIBRARIES sick_tim_3xx
      INCLUDE_DIRS include)
  
@@ -19,7 +19,7 @@ index 36cee0a..4cf01f5 100644
  
  add_library(sick_tim_3xx
      src/sick_tim_common.cpp
-@@ -33,6 +34,7 @@ add_library(sick_tim_3xx
+@@ -34,6 +35,7 @@ add_library(sick_tim_3xx
  add_dependencies(sick_tim_3xx ${PROJECT_NAME}_gencfg ${catkin_EXPORTED_TARGETS})
  target_link_libraries(sick_tim_3xx
      ${catkin_LIBRARIES}
@@ -27,3 +27,61 @@ index 36cee0a..4cf01f5 100644
      ${libusb_LIBRARIES})
  
  add_executable(sick_tim310s01
+diff --git a/include/sick_tim/sick_tim_common_tcp.h b/include/sick_tim/sick_tim_common_tcp.h
+index 08263a9..9a94ae7 100644
+--- a/include/sick_tim/sick_tim_common_tcp.h
++++ b/include/sick_tim/sick_tim_common_tcp.h
+@@ -72,7 +72,7 @@ protected:
+   void checkDeadline();
+ 
+ private:
+-  boost::asio::io_service io_service_;
++  boost::asio::io_context io_service_;
+   boost::asio::ip::tcp::socket socket_;
+   boost::asio::deadline_timer deadline_;
+   boost::asio::streambuf input_buffer_;
+@@ -92,4 +92,3 @@ inline void SickTimCommonTcp::handleRead(boost::system::error_code error, size_t
+ 
+ } /* namespace sick_tim */
+ #endif /* SICK_TIM3XX_COMMON_TCP_H */
+-
+diff --git a/src/sick_tim_common_tcp.cpp b/src/sick_tim_common_tcp.cpp
+index 346acf4..0c40367 100644
+--- a/src/sick_tim_common_tcp.cpp
++++ b/src/sick_tim_common_tcp.cpp
+@@ -71,12 +71,11 @@ using boost::lambda::_1;
+ int SickTimCommonTcp::init_device()
+ {
+     // Resolve the supplied hostname
+-    tcp::resolver::iterator iterator;
++    tcp::resolver::results_type results;
+     try
+     {
+         tcp::resolver resolver(io_service_);
+-        tcp::resolver::query query(hostname_, port_);
+-        iterator = resolver.resolve(query);
++        results = resolver.resolve(hostname_, port_);
+     }
+     catch (boost::system::system_error &e)
+     {
+@@ -88,9 +87,9 @@ int SickTimCommonTcp::init_device()
+     // Try to connect to all possible endpoints
+     boost::system::error_code ec;
+     bool success = false;
+-    for ( ; iterator != tcp::resolver::iterator(); ++iterator)
++    for (const auto& endpoint : results)
+     {
+-        std::string repr = boost::lexical_cast<std::string>(iterator->endpoint());
++        std::string repr = boost::lexical_cast<std::string>(endpoint.endpoint());
+         socket_.close();
+ 
+         // Set the time out length
+@@ -99,7 +98,7 @@ int SickTimCommonTcp::init_device()
+ 
+         ec = boost::asio::error::would_block;
+         ROS_DEBUG("Attempting to connect to %s", repr.c_str());
+-        socket_.async_connect(iterator->endpoint(), boost::lambda::var(ec) = _1);
++        socket_.async_connect(endpoint.endpoint(), boost::lambda::var(ec) = _1);
+ 
+         // Wait until timeout
+         do io_service_.run_one(); while (ec == boost::asio::error::would_block);

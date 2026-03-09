@@ -1,0 +1,40 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d84e4305..ce876f94 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,11 +19,11 @@ catkin_package(
+ 
+ include_directories(${catkin_INCLUDE_DIRS})
+ 
+-IF(NOT WIN32)
++IF(UNIX AND NOT APPLE)
+   add_executable(rtabmap_wifi_signal_pub src/WifiSignalPubNode.cpp)
+   target_link_libraries(rtabmap_wifi_signal_pub ${catkin_LIBRARIES})
+   set_target_properties(rtabmap_wifi_signal_pub PROPERTIES OUTPUT_NAME "wifi_signal_pub")
+-ENDIF(NOT WIN32)
++ENDIF(UNIX AND NOT APPLE)
+ 
+ add_executable(rtabmap_wifi_signal_sub src/WifiSignalSubNode.cpp)
+ target_link_libraries(rtabmap_wifi_signal_sub ${catkin_LIBRARIES})
+@@ -47,14 +47,14 @@ catkin_install_python(PROGRAMS
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+ 
+-IF(NOT WIN32)
++IF(UNIX AND NOT APPLE)
+ install(TARGETS 
+    rtabmap_wifi_signal_pub
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+-ENDIF(NOT WIN32)
++ENDIF(UNIX AND NOT APPLE)
+ 
+ install(TARGETS 
+    rtabmap_wifi_signal_sub
+@@ -75,4 +75,3 @@ ENDIF(find_object_2d_FOUND)
+ install(DIRECTORY launch
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ )
+-

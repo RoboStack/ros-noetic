@@ -1,0 +1,31 @@
+diff --git a/src/benchmarks/CMakeLists.txt b/src/benchmarks/CMakeLists.txt
+index 82d51b7d5..ad99796ec 100644
+--- a/src/benchmarks/CMakeLists.txt
++++ b/src/benchmarks/CMakeLists.txt
+@@ -17,7 +17,9 @@ ecl_add_benchmark(files)
+ ecl_add_benchmark(flops)
+ ecl_add_benchmark(exceptions)
+ ecl_add_benchmark(snooze)
+-ecl_add_benchmark(streams)
++if(NOT APPLE)
++  ecl_add_benchmark(streams)
++endif()
+ ecl_add_benchmark(string_conversions)
+ 
+ # Sparse is still unstable...and got modified in quantal, comment out for now.
+diff --git a/src/utils/CMakeLists.txt b/src/utils/CMakeLists.txt
+index 43e82cba6..e2261a64f 100644
+--- a/src/utils/CMakeLists.txt
++++ b/src/utils/CMakeLists.txt
+@@ -22,7 +22,9 @@ endmacro()
+ ecl_add_utility(process_statistics)
+ ecl_add_utility(hex)
+ ecl_add_utility(serial)
+-ecl_add_utility(socket_client)
+-ecl_add_utility(socket_server)
++if(NOT APPLE)
++  ecl_add_utility(socket_client)
++  ecl_add_utility(socket_server)
++endif()
+ ecl_add_global_utility(yaw2quaternion)
+ ecl_add_global_utility(quaternion2yaw)

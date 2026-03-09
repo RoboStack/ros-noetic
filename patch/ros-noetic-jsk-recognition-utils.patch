@@ -703,3 +703,56 @@ index d3feba4f5..496ca09dc 100644
  set_target_properties(nms PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION})
  install(TARGETS nms
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION}
+diff --git a/python/jsk_recognition_utils/CMakeLists.txt b/python/jsk_recognition_utils/CMakeLists.txt
+index 496ca09dc..8a63ef6a1 100644
+--- a/python/jsk_recognition_utils/CMakeLists.txt
++++ b/python/jsk_recognition_utils/CMakeLists.txt
+@@ -1,12 +1,12 @@
+ # Get NumPy and Cython versions
+ execute_process(
+-  COMMAND python$ENV{ROS_PYTHON_VERSION} -c "import numpy; print(numpy.__version__)"
++  COMMAND ${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.__version__)"
+   OUTPUT_VARIABLE NUMPY_VERSION
+   OUTPUT_STRIP_TRAILING_WHITESPACE
+ )
+ 
+ execute_process(
+-  COMMAND python$ENV{ROS_PYTHON_VERSION} -c "import Cython; print(Cython.__version__)"
++  COMMAND ${PYTHON_EXECUTABLE} -c "import Cython; print(Cython.__version__)"
+   OUTPUT_VARIABLE CYTHON_VERSION
+   OUTPUT_STRIP_TRAILING_WHITESPACE
+ )
+diff --git a/python/jsk_recognition_utils/nms.pyx b/python/jsk_recognition_utils/nms.pyx
+index 70a03f94a..0760a2d8a 100644
+--- a/python/jsk_recognition_utils/nms.pyx
++++ b/python/jsk_recognition_utils/nms.pyx
+@@ -30,11 +30,11 @@ def nms(np.ndarray[np.float32_t, ndim=2] dets, np.float thresh):
+     cdef np.ndarray[np.float32_t, ndim=1] scores = dets[:, 4]
+ 
+     cdef np.ndarray[np.float32_t, ndim=1] areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+-    cdef np.ndarray[np.int_t, ndim=1] order = scores.argsort()[::-1]
++    cdef np.ndarray[np.intp_t, ndim=1] order = scores.argsort()[::-1]
+ 
+     cdef int ndets = dets.shape[0]
+-    cdef np.ndarray[np.int_t, ndim=1] suppressed = \
+-            np.zeros((ndets), dtype=np.int)
++    cdef np.ndarray[np.intp_t, ndim=1] suppressed = \
++            np.zeros((ndets), dtype=np.intp)
+ 
+     # nominal indices
+     cdef int _i, _j
+diff --git a/python/jsk_recognition_utils/CMakeLists.txt b/python/jsk_recognition_utils/CMakeLists.txt
+index 8a63ef6a1..fbc89c858 100644
+--- a/python/jsk_recognition_utils/CMakeLists.txt
++++ b/python/jsk_recognition_utils/CMakeLists.txt
+@@ -61,6 +61,11 @@ include_directories(${Python_NumPy_INCLUDE_DIRS} ${Python_INCLUDE_DIRS} ${Pytho
+ add_cython_target(nms nms.pyx)
+ add_library(nms MODULE ${nms})
++if( APPLE )
++  set_target_properties( nms PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" )
++else()
++  target_link_libraries( nms ${PYTHON_LIBRARIES} )
++endif()
+ set_target_properties(nms PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION})
+ install(TARGETS nms
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION}

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 68c07a8..1f08c4c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -6,7 +6,7 @@ project(turtlebot3_gazebo)
+ cmake_policy(SET CMP0054 NEW)
+ 
+ ## Compile as C++11, supported in ROS Kinetic and newer
+-add_compile_options(-std=c++11)
++add_compile_options(-std=c++14)
+ 
+ ################################################################################
+ # Find catkin packages and libraries for catkin and system dependencies

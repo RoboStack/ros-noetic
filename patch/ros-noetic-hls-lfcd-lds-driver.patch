@@ -1,0 +1,70 @@
+diff --git a/include/hls_lfcd_lds_driver/hlds_laser_segment_publisher.h b/include/hls_lfcd_lds_driver/hlds_laser_segment_publisher.h
+index 944e21b..8fcbc93 100644
+--- a/include/hls_lfcd_lds_driver/hlds_laser_segment_publisher.h
++++ b/include/hls_lfcd_lds_driver/hlds_laser_segment_publisher.h
+@@ -49,7 +49,7 @@ public:
+ 	* @param baud_rate The baud rate to open the serial port at.
+ 	* @param io Boost ASIO IO Service to use when creating the serial port object
+ 	*/
+-	LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_service& io);
++	LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_context& io);
+ 
+ 	/**
+ 	* @brief Default destructor
+diff --git a/include/hls_lfcd_lds_driver/lfcd_laser.h b/include/hls_lfcd_lds_driver/lfcd_laser.h
+index 944e21b..8fcbc93 100644
+--- a/include/hls_lfcd_lds_driver/lfcd_laser.h
++++ b/include/hls_lfcd_lds_driver/lfcd_laser.h
+@@ -49,7 +49,7 @@ public:
+ 	* @param baud_rate The baud rate to open the serial port at.
+ 	* @param io Boost ASIO IO Service to use when creating the serial port object
+ 	*/
+-	LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_service& io);
++	LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_context& io);
+ 
+ 	/**
+ 	* @brief Default destructor
+diff --git a/src/hlds_laser_publisher.cpp b/src/hlds_laser_publisher.cpp
+index 69afb6c..8c436f9 100644
+--- a/src/hlds_laser_publisher.cpp
++++ b/src/hlds_laser_publisher.cpp
+@@ -40,7 +40,7 @@
+ 
+ namespace hls_lfcd_lds
+ {
+-LFCDLaser::LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_service& io)
++LFCDLaser::LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_context& io)
+   : port_(port), baud_rate_(baud_rate), shutting_down_(false), serial_(io, port_)
+ {
+   serial_.set_option(boost::asio::serial_port_base::baud_rate(baud_rate_));
+@@ -155,7 +155,7 @@ int main(int argc, char **argv)
+   priv_nh.param("baud_rate", baud_rate, 230400);
+   priv_nh.param("frame_id", frame_id, std::string("laser"));
+ 
+-  boost::asio::io_service io;
++  boost::asio::io_context io;
+ 
+   try
+   {
+diff --git a/src/hlds_laser_segment_publisher.cpp b/src/hlds_laser_segment_publisher.cpp
+index 7c3ff46..e76fe75 100644
+--- a/src/hlds_laser_segment_publisher.cpp
++++ b/src/hlds_laser_segment_publisher.cpp
+@@ -40,7 +40,7 @@
+ 
+ namespace hls_lfcd_lds
+ {
+-LFCDLaser::LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_service& io)
++LFCDLaser::LFCDLaser(const std::string& port, uint32_t baud_rate, boost::asio::io_context& io)
+   : port_(port), baud_rate_(baud_rate), shutting_down_(false), serial_(io, port_)
+ {
+   serial_.set_option(boost::asio::serial_port_base::baud_rate(baud_rate_));
+@@ -128,7 +128,7 @@ int main(int argc, char **argv)
+   priv_nh.param("baud_rate", baud_rate, 230400);
+   priv_nh.param("frame_id", frame_id, std::string("laser"));
+ 
+-  boost::asio::io_service io;
++  boost::asio::io_context io;
+ 
+   try
+   {

@@ -1,33 +1,16 @@
-diff --git a/cras_cpp_common/src/thread_utils.cpp b/cras_cpp_common/src/thread_utils.cpp
-index 448ed53..849a506 100644
---- a/cras_cpp_common/src/thread_utils.cpp
-+++ b/cras_cpp_common/src/thread_utils.cpp
-@@ -40,7 +40,11 @@ void setThreadName(const std::string& name)
-     memcpy(nameBuf + 8, name.c_str() + (name.length() - 7), 7);
-     nameBuf[15] = '\0';
-   }
-+#ifdef __APPLE__
-+  pthread_setname_np(nameBuf);
-+#else
-   pthread_setname_np(pthread_self(), nameBuf);
-+#endif
- }
- 
- }
-diff --git a/cras_cpp_common/CMakeLists.txt b/cras_cpp_common/CMakeLists.txt
-index 4a15c8a..a4b8447 100644
---- a/cras_cpp_common/CMakeLists.txt
-+++ b/cras_cpp_common/CMakeLists.txt
-@@ -36,6 +36,8 @@ find_package(Eigen3 REQUIRED)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3f0729f..461cb05 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,6 +35,7 @@ find_package(Boost REQUIRED COMPONENTS thread)
+ find_package(Eigen3 REQUIRED)
  
  find_package(urdfdom_headers REQUIRED)
- 
 +find_package(Iconv REQUIRED)
-+
+ 
  # Require https://github.com/ros/filters/pull/60 in the filters package (added in 1.8.3 and 1.9.2)
  #catkin_lint: ignore_once duplicate_find
- find_package(filters QUIET)
-@@ -228,12 +230,12 @@ add_library(cras_tf2_utils
+@@ -220,12 +221,12 @@ add_library(cras_tf2_utils
  target_sources(cras_tf2_utils INTERFACE $<BUILD_INTERFACE:${CCC_INCLUDE_BASE}/tf2_utils/message_filter.hpp>)
  add_dependencies(cras_tf2_utils ${catkin_EXPORTED_TARGETS})
  target_link_libraries(cras_tf2_utils
@@ -42,3 +25,79 @@ index 4a15c8a..a4b8447 100644
  if (HAS_FROM_CHARS_FLOAT)
    target_compile_definitions(cras_string_utils PRIVATE HAS_FROM_CHARS_FLOAT=1)
  endif()
+diff --git a/cmake/cras_cpp_common-node_from_nodelet.cmake.em b/cmake/cras_cpp_common-node_from_nodelet.cmake.em
+index 99977e9..49b835e 100644
+--- a/cmake/cras_cpp_common-node_from_nodelet.cmake.em
++++ b/cmake/cras_cpp_common-node_from_nodelet.cmake.em
+@@ -71,10 +71,12 @@ function(cras_node_from_nodelet target include_file_or_class_name #[=[class_name
+   if(NODE_IGNORE_HEADER)
+     # In convention 2) (without a header file), we need to force the linker to include the nodelet library as normally
+     # it would not link it as there is no code directly linking to its code.
+-    if(CMAKE_VERSION VERSION_LESS "3.13.0")
+-      set_property(TARGET ${NODE_TARGET_NAME} APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--no-as-needed")
+-    else()
+-      target_link_options(${NODE_TARGET_NAME} PUBLIC "LINKER:--no-as-needed")
++    if(NOT APPLE)
++      if(CMAKE_VERSION VERSION_LESS "3.13.0")
++        set_property(TARGET ${NODE_TARGET_NAME} APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--no-as-needed")
++      else()
++        target_link_options(${NODE_TARGET_NAME} PUBLIC "LINKER:--no-as-needed")
++      endif()
+     endif()
+   endif()
+   
+diff --git a/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_diagnostics.hpp b/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_diagnostics.hpp
+index f177aae..24a5b11 100644
+--- a/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_diagnostics.hpp
++++ b/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_diagnostics.hpp
+@@ -463,7 +463,7 @@ template <typename NodeletType>
+       this->data->log = params->getLogger();
+     else
+       this->data->log = ::std::make_shared<::cras::NodeletLogHelper>(
+-        ::std::bind(&NodeletWithDiagnostics<NodeletType>::getName, this));
++        [this]() { return this->getName(); });
+   }
+ 
+   auto paramAdapter = ::std::make_shared<::cras::NodeHandleGetParamAdapter>(nh);
+diff --git a/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_shared_tf_buffer.hpp b/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_shared_tf_buffer.hpp
+index ed03498..1e7b542 100644
+--- a/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_shared_tf_buffer.hpp
++++ b/include/cras_cpp_common/nodelet_utils/impl/nodelet_with_shared_tf_buffer.hpp
+@@ -54,7 +54,7 @@ struct NodeletWithSharedTfBufferPrivate
+ template <typename NodeletType>
+ NodeletWithSharedTfBuffer<NodeletType>::NodeletWithSharedTfBuffer() :
+   cras::TimeJumpResettable(::std::make_shared<cras::NodeletLogHelper>(
+-    ::std::bind(&NodeletWithSharedTfBuffer<NodeletType>::getName, this))),
++    [this]() { return this->getName(); })),
+   data(new ::cras::impl::NodeletWithSharedTfBufferPrivate)
+ {
+ }
+diff --git a/include/cras_cpp_common/nodelet_utils/impl/param_helper.hpp b/include/cras_cpp_common/nodelet_utils/impl/param_helper.hpp
+index f4ce255..600fd1d 100644
+--- a/include/cras_cpp_common/nodelet_utils/impl/param_helper.hpp
++++ b/include/cras_cpp_common/nodelet_utils/impl/param_helper.hpp
+@@ -26,7 +26,7 @@ namespace cras
+ 
+ template <typename NodeletType>
+ NodeletParamHelper<NodeletType>::NodeletParamHelper() : ParamHelper(::std::make_shared<NodeletLogHelper>(
+-  ::std::bind(&NodeletParamHelper<NodeletType>::getName, this)))
++  [this]() { return this->getName(); }))
+ {
+ }
+ 
+diff --git a/src/thread_utils.cpp b/src/thread_utils.cpp
+index 448ed53..849a506 100644
+--- a/src/thread_utils.cpp
++++ b/src/thread_utils.cpp
+@@ -40,7 +40,11 @@ void setThreadName(const std::string& name)
+     memcpy(nameBuf + 8, name.c_str() + (name.length() - 7), 7);
+     nameBuf[15] = '\0';
+   }
++#ifdef __APPLE__
++  pthread_setname_np(nameBuf);
++#else
+   pthread_setname_np(pthread_self(), nameBuf);
++#endif
+ }
+ 
+ }

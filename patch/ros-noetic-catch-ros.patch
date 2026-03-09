@@ -1,8 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e8e8f70..fa1f242 100644
+index e8e8f70..242aeaf 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -20,6 +20,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+@@ -16,10 +16,11 @@ catkin_package(
+ 
+ include_directories(include ${catkin_INCLUDE_DIRS})
+ 
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
  
  add_library(catch_ros_standalone
  	src/standalone_main.cpp

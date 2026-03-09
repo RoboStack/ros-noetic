@@ -1,8 +1,34 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 338528c..1755efa 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ cmake_minimum_required(VERSION 2.8.3)
+ project(realsense2_camera)
+-add_compile_options(-std=c++11)
++add_compile_options(-std=c++14)
+ 
+ option(BUILD_WITH_OPENMP "Use OpenMP" OFF)
+ option(SET_USER_BREAK_AT_STARTUP "Set user wait point in startup (for debug)" OFF)
+@@ -62,7 +62,7 @@ endif()
+ 
+ if (WIN32)
+ else()
+-set(CMAKE_CXX_FLAGS "-fPIE -fPIC -std=c++11 -D_FORTIFY_SOURCE=2 -fstack-protector -Wformat -Wformat-security -Wall ${CMAKE_CXX_FLAGS}")
++set(CMAKE_CXX_FLAGS "-fPIE -fPIC -std=c++14 -D_FORTIFY_SOURCE=2 -fstack-protector -Wformat -Wformat-security -Wall ${CMAKE_CXX_FLAGS}")
+ endif()
+ 
+ add_message_files(
+@@ -158,4 +158,3 @@ install(DIRECTORY rviz/
+ install(FILES nodelet_plugins.xml
+     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+     )
+-
 diff --git a/src/base_realsense_node.cpp b/src/base_realsense_node.cpp
-index f918500..531a2e9 100644
+index 1ea3595..6554ceb 100644
 --- a/src/base_realsense_node.cpp
 +++ b/src/base_realsense_node.cpp
-@@ -2153,7 +2153,7 @@ void BaseRealSenseNode::publishPointCloud(rs2::points pc, const ros::Time& t, co
+@@ -2170,7 +2170,7 @@ void BaseRealSenseNode::publishPointCloud(rs2::points pc, const ros::Time& t, co
          return;
      ROS_INFO_STREAM_ONCE("publishing " << (_ordered_pc ? "" : "un") << "ordered pointcloud.");
  

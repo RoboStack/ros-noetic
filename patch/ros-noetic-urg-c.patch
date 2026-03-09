@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3563831..7d139fd 100644
+index 64201d9..55383c6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -32,19 +32,19 @@ include_directories(${LIBRARY_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
@@ -33,3 +33,36 @@ index 3563831..7d139fd 100644
  
  add_library(open_urg_sensor ${LIBRARY_SAMPLE_DIR}/open_urg_sensor.c)
  target_link_libraries(open_urg_sensor -lm liburg_c ${catkin_LIBRARIES})
+diff --git a/current/src/urg_time.c b/current/src/urg_time.c
+index 68824e1..3e0212a 100644
+--- a/current/src/urg_time.c
++++ b/current/src/urg_time.c
+@@ -20,8 +20,8 @@ void urg_walltime(unsigned long *sec, unsigned long *nsec)
+ #else
+     struct timeval timeofday;
+     gettimeofday(&timeofday,NULL);
+-    sec  = timeofday.tv_sec;
+-    nsec = timeofday.tv_usec * 1000;
++    *sec  = timeofday.tv_sec;
++    *nsec = timeofday.tv_usec * 1000;
+ #endif
+ #else
+     // Win32 implementation
+@@ -76,8 +76,8 @@ void urg_walltime(unsigned long *sec, unsigned long *nsec)
+     // Throws an exception if we go out of 32-bit range
+     normalizeSecNSecUnsigned(sec_sum, nsec_sum);
+ 
+-    sec = sec_sum;
+-    nsec = nsec_sum;
++    *sec = sec_sum;
++    *nsec = nsec_sum;
+ #endif
+   }
+ 
+@@ -86,4 +86,4 @@ void urg_get_walltime(unsigned long long *nsecs){
+     unsigned long nsec;
+     urg_walltime(&sec, &nsec);
+     *nsecs = (unsigned long long)sec*1000000000ll + (unsigned long long)nsec;
+-}
+\ No newline at end of file
++}

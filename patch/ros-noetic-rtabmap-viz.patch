@@ -1,62 +1,57 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,14 +1,10 @@
+@@ -1,4 +1,4 @@
 -cmake_minimum_required(VERSION 3.5)
 +cmake_minimum_required(VERSION 3.20)
- project(rtabmap_rviz_plugins)
+ project(rtabmap_viz)
  
--# For rviz plugins, look for Qt5 before Qt4
+ find_package(catkin REQUIRED COMPONENTS
+@@ -17,27 +17,33 @@
+ # catkin is not using cmake targets for dependencies,
+ # so we should explcitly look for Qt to get compilation
+ # flags (-fPIC missing)
 -FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Gui QUIET)
 -IF(NOT Qt5_FOUND)
 -    FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 -    INCLUDE(${QT_USE_FILE})
 -ENDIF(NOT Qt5_FOUND)
-+# For rviz plugins, prefer Qt5.
 +find_package(QT NAMES Qt5 QUIET COMPONENTS Widgets Core Gui)
 +find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui)
  
--
- find_package(catkin REQUIRED COMPONENTS
-              roscpp sensor_msgs std_msgs pcl_conversions pluginlib rviz tf rtabmap_conversions rtabmap_msgs)
- 
-@@ -22,9 +18,16 @@
+ ###########
  ## Build ##
  ###########
  
 +set(_catkin_include_dirs ${catkin_INCLUDE_DIRS})
 +set(_catkin_libraries ${catkin_LIBRARIES})
-+# rviz/catkin may leak Qt6 include paths/targets; force Qt5 toolchain consistency.
++# Some transitive catkin deps may leak Qt6 include paths/targets.
 +list(FILTER _catkin_include_dirs EXCLUDE REGEX "/qt6($|/)")
 +list(FILTER _catkin_libraries EXCLUDE REGEX "^Qt6::")
 +list(FILTER _catkin_libraries EXCLUDE REGEX "/qt6/")
 +
+ # include_directories(include)
  include_directories(
    ${CMAKE_CURRENT_SOURCE_DIR}/include
 -  ${catkin_INCLUDE_DIRS}
 +  ${_catkin_include_dirs}
  )
  
- ## We also use Ogre for rviz plugins
-@@ -35,7 +38,7 @@
- link_directories( ${OGRE_LIBRARY_DIRS} )
- 
- SET(Libraries
--  ${catkin_LIBRARIES}
+ add_executable(rtabmap_viz src/GuiNode.cpp src/GuiWrapper.cpp src/PreferencesDialogROS.cpp include/${PROJECT_NAME}/PreferencesDialogROS.h)
+-IF(Qt5_FOUND)
+-    QT5_USE_MODULES(rtabmap_viz Widgets Core Gui)
+-ENDIF(Qt5_FOUND)
+-target_link_libraries(rtabmap_viz ${catkin_LIBRARIES})
++target_link_libraries(rtabmap_viz
 +  ${_catkin_libraries}
-   ${rviz_DEFAULT_PLUGIN_LIBRARIES}
- )
- 
-@@ -101,10 +104,10 @@
- )
- target_link_libraries(rtabmap_rviz_plugins
-   ${Libraries}
 +  Qt5::Core
 +  Qt5::Widgets
 +  Qt5::Gui
++)
+ SET_TARGET_PROPERTIES(
+   rtabmap_viz
+    PROPERTIES
+@@ -63,4 +69,3 @@
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
  )
--IF(Qt5_FOUND)
--    QT5_USE_MODULES(rtabmap_rviz_plugins Widgets Core Gui)
--ENDIF(Qt5_FOUND)
- 
- #############
- ## Install ##
+-

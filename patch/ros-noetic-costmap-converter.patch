@@ -75,3 +75,25 @@ index c7352f4..564cb0c 100755
    return cv::Ptr<BlobDetector> (new BlobDetector(params)); // compatibility with older versions
    //return cv::makePtr<BlobDetector>(params);
 
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ae9e9a..a37846d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,12 +34,15 @@ endif()
+ ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
+ # catkin_python_setup()
+ 
+-## C++11 support
++## C++14 support
+ IF(NOT MSVC)
+   include(CheckCXXCompilerFlag)
++  CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
+   CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+   CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+-if(COMPILER_SUPPORTS_CXX11)
++if(COMPILER_SUPPORTS_CXX14)
++  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
++elseif(COMPILER_SUPPORTS_CXX11)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ elseif(COMPILER_SUPPORTS_CXX0X)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")

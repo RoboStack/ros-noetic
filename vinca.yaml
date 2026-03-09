@@ -30,6 +30,12 @@ packages_skip_by_deps:
       - rttest
       - tlsf
       - tlsf_cpp
+      - euslisp
+      - jskeus
+      - roseus
+      - openni2-camera
+      - openni2-launch
+      - usb-cam
 
 
 packages_remove_from_deps:
@@ -40,7 +46,8 @@ packages_remove_from_deps:
       - rttest
       - tlsf
       - tlsf_cpp
-
+      - euslisp
+      - jskeus
 
 skip_existing:
   # - output
@@ -152,6 +159,7 @@ packages_select_by_deps:
   - rqt-gui-py
   - rqt-controller-manager
   - rqt-ez-publisher
+  - rqt-rosmon
   - python-qt-binding
   - qt-gui
   - qt-gui-cpp
@@ -160,7 +168,6 @@ packages_select_by_deps:
   - robot-localization
   
   # Sensors and drivers
-  - usb-cam
   - microstrain-inertial-driver
   - microstrain-inertial-msgs
   - imu-tools
@@ -181,10 +188,6 @@ packages_select_by_deps:
   - librealsense2
   - realsense2-camera
   - realsense2-description
-  
-  # OpenNI
-  - openni2-camera
-  - openni2-launch
   
   # Gazebo
   - gazebo-dev
@@ -242,6 +245,7 @@ packages_select_by_deps:
   - rosserial-server
   - rosserial-msgs
   - rosserial-windows
+  - rosmon-msgs
   
   # GPS and navigation
   - gps-common
@@ -257,27 +261,18 @@ packages_select_by_deps:
   # - mavros-msgs
   # - mavlink
 
-  # Dataspeed
+  # CAN bus
+  - can-msgs
+  - lusb
   - dataspeed-can-msg-filters
   - dataspeed-can-tools
-  - dataspeed-can-usb
   - dataspeed-ulc-msgs
-  - dataspeed-ulc-can
-  
-  # DBW (Drive-by-Wire)
   - dbw-fca-description
   - dbw-fca-msgs
   - dbw-mkz-description
   - dbw-mkz-msgs
-  - dbw-mkz-can
   - dbw-polaris-description
   - dbw-polaris-msgs
-  
-  # CAN bus
-  - can-msgs
-  - socketcan-interface
-  - socketcan-bridge
-  - lusb
   
   # Hector
   - hector-map-tools
@@ -297,14 +292,28 @@ packages_select_by_deps:
   - ros-babel-fish-test-msgs
   - genmypy
   - rosdoc-lite
-  - rosmon
   - rosfmt
   - roslint
   - roslisp
   - cv-camera
   - fcl
+  - ecl-command-line
+  - ecl-containers
+  - ecl-converters
   - ecl-core
+  - ecl-core-apps
+  - ecl-devices
+  - ecl-eigen
+  - ecl-formatters
+  - ecl-geometry
+  - ecl-ipc
+  - ecl-linear-algebra
+  - ecl-math
+  - ecl-sigslots
+  - ecl-statistics
+  - ecl-streams
   - ecl-threads
+  - sophus
   - urdf-geometry-parser
   
   # Camera descriptions
@@ -348,6 +357,16 @@ packages_select_by_deps:
     - dynamic-robot-state-publisher
     - tf-static-publisher
     - movie-publisher
+    - socketcan-interface
+    - socketcan-bridge
+    - rosmon
+    - rosmon-core
+    - dataspeed-can-usb
+    - dataspeed-ulc-can
+    - dbw-mkz-can
+    - openni2-camera
+    - openni2-launch
+    - usb-cam
 
 
 patch_dir: patch

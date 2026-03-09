@@ -531,3 +531,18 @@ index 2f640e3..512fe34 100644
 +template class ValueMessage<std::string>;
 +
  }
+diff --git a/ros_babel_fish/CMakeLists.txt b/ros_babel_fish/CMakeLists.txt
+index d625e0f..6cdb14f 100644
+--- a/ros_babel_fish/CMakeLists.txt
++++ b/ros_babel_fish/CMakeLists.txt
+@@ -8,8 +8,8 @@ if (WARN_ON_INCOMPATIBLE_TYPE)
+   add_definitions(-DRBF_WARN_ON_INCOMPATIBLE_TYPE)
+ endif ()
+ 
+-## Compile as C++11, supported in ROS Kinetic and newer
+-set(CMAKE_CXX_STANDARD 11)
++## Compile as C++14 to support current Boost headers
++set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+ 

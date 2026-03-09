@@ -1,0 +1,49 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 97fe249..ca462ef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -56,7 +56,7 @@ set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
+ # catkin_python_setup()
+ 
+ 
+-## C++11 support
++## C++14 support
+ ## Unfortunately, the 3d-party dependency libg2o requires c++11 starting from ROS Jade.
+ ## Even if the ROS Jade specifications do not want c++11-only packages,
+ ## we cannot compile without c++11 enabled. Another option would be to downgrade  
+@@ -64,9 +64,12 @@ set(EXTERNAL_LIBS ${SUITESPARSE_LIBRARIES} ${G2O_LIBRARIES})
+ ## By now, if you do not want c++11, please refer to the ros indigo version.
+ IF(NOT MSVC)
+   include(CheckCXXCompilerFlag)
++  CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
+   CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+   CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+-if(COMPILER_SUPPORTS_CXX11)
++if(COMPILER_SUPPORTS_CXX14)
++  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
++elseif(COMPILER_SUPPORTS_CXX11)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ elseif(COMPILER_SUPPORTS_CXX0X)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+diff --git a/include/teb_local_planner/graph_search.h b/include/teb_local_planner/graph_search.h
+index d99284f..f345580 100644
+--- a/include/teb_local_planner/graph_search.h
++++ b/include/teb_local_planner/graph_search.h
+@@ -39,18 +39,7 @@
+ #ifndef GRAPH_SEARCH_INTERFACE_H
+ #define GRAPH_SEARCH_INTERFACE_H
+ 
+-#ifdef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+-  #include <boost/graph/adjacency_list.hpp>
+-#else
+-  // Workaround for a bug in boost graph library (concerning directed graphs), boost version 1.48:
+-  // boost::add_vertex requires a move constructor/assignment operator in one of the underlying boost objects if C++11 is activated,
+-  // but they are missing. The compiler fails due to an implicit deletion. We just deactivate C++11 default functions for now.
+-  #define BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+-  #include <boost/graph/adjacency_list.hpp>
+-  #undef BOOST_NO_CXX11_DEFAULTED_FUNCTIONS
+-#endif
++#include <boost/graph/adjacency_list.hpp>
+ 
+ #include <boost/graph/graph_traits.hpp>
+ #include <boost/graph/depth_first_search.hpp>

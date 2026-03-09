@@ -137,3 +137,23 @@ resource_retriever:
   add_run: ["libcurl"]
 plotjuggler:
   add_host: ["${{ 'elfutils' if linux }}", "protobuf"]
+lanelet2_core:
+  add_host: ["gtest"]
+lanelet2_io:
+  add_host: ["gtest"]
+lanelet2_maps:
+  add_host: ["gtest"]
+lanelet2_matching:
+  add_host: ["gtest"]
+lanelet2_projection:
+  add_host: ["gtest"]
+lanelet2_routing:
+  add_host: ["gtest"]
+lanelet2_traffic_rules:
+  add_host: ["gtest"]
+lanelet2_examples:
+  add_host: ["gtest"]
+lanelet2_python:
+  add_host: ["gtest"]
+lanelet2_validation:
+  add_host: ["gtest"]

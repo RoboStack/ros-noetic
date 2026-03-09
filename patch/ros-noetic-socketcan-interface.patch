@@ -1,0 +1,22 @@
+diff --git a/include/socketcan_interface/asio_base.h b/include/socketcan_interface/asio_base.h
+index 64b8d06..e0e4e7a 100644
+--- a/include/socketcan_interface/asio_base.h
++++ b/include/socketcan_interface/asio_base.h
+@@ -22,7 +22,7 @@ template<typename Socket> class AsioDriver : public DriverInterface{
+ protected:
+-    boost::asio::io_service io_service_;
++    boost::asio::io_context io_service_;
+ #if BOOST_ASIO_VERSION >= 101200 // Boost 1.66+
+     boost::asio::io_context::strand strand_;
+ #else
+@@ -89,8 +89,8 @@ public:
+         setNotReady();
+ 
+         if(getState().driver_state == State::open){
+-            io_service_.reset();
+-            boost::asio::io_service::work work(io_service_);
++            io_service_.restart();
++            auto work = boost::asio::make_work_guard(io_service_);
+             setDriverState(State::ready);
+ 
+             boost::thread post_thread([this]() { io_service_.run(); });
