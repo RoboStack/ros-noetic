@@ -124,14 +124,7 @@ Then move/merge patch into repo package patch file and ensure recipe uses it.
 Use the patch checker before/after large patch edits:
 
 ```bash
-# prepare minimal patch-only recipes and run checks
-python check_patches_clean_apply.py
-
-# prepare only (no build execution)
-python check_patches_clean_apply.py --dry
-
-# cleanup generated check directory
-python check_patches_clean_apply.py --clean
+pixi run check-patches
 ```
 
 What it does:

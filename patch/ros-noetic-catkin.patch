@@ -266,3 +266,50 @@ index b19f4c8aa..de8fd2d1f 100644
              endif()
            endforeach()
          endif()
+diff --git a/cmake/test/gtest.cmake b/cmake/test/gtest.cmake
+index 7cb79bbf..9f2e4138 100644
+--- a/cmake/test/gtest.cmake
++++ b/cmake/test/gtest.cmake
+@@ -338,6 +338,26 @@ if(TARGET gtest AND TARGET gtest_main AND TARGET gmock AND TARGET gmock_main)
+   endif()
+ else()
+   find_package(GTest QUIET)
++  # CMake's modern FindGTest populates GTest_FOUND and imported targets
++  # (GTest::gtest / GTest::gtest_main). Catkin expects legacy GTEST_* vars.
++  if(NOT GTEST_FOUND AND GTest_FOUND)
++    set(GTEST_FOUND TRUE)
++  endif()
++  if(NOT GTEST_INCLUDE_DIRS AND TARGET GTest::gtest)
++    get_target_property(_gtest_include_dirs GTest::gtest INTERFACE_INCLUDE_DIRECTORIES)
++    if(_gtest_include_dirs)
++      set(GTEST_INCLUDE_DIRS ${_gtest_include_dirs})
++    endif()
++  endif()
++  if(NOT GTEST_LIBRARIES AND TARGET GTest::gtest)
++    set(GTEST_LIBRARIES GTest::gtest)
++  endif()
++  if(NOT GTEST_MAIN_LIBRARIES AND TARGET GTest::gtest_main)
++    set(GTEST_MAIN_LIBRARIES GTest::gtest_main)
++  endif()
++  if(GTEST_FOUND AND NOT GTEST_BOTH_LIBRARIES)
++    set(GTEST_BOTH_LIBRARIES ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
++  endif()
+ endif()
+ if(NOT GMOCK_FOUND OR NOT GTEST_FOUND)
+   # If we find one but not the other, see if we can get both from source
+diff --git a/cmake/test/gtest.cmake b/cmake/test/gtest.cmake
+index 9f2e4138..7ecf5e7a 100644
+--- a/cmake/test/gtest.cmake
++++ b/cmake/test/gtest.cmake
+@@ -320,6 +320,11 @@ function(catkin_find_google_test_source googletest_path gtest_found
+                              gmock_main_libs base_dir)
+ endfunction()
+ 
++if(DEFINED CATKIN_ENABLE_TESTING AND NOT CATKIN_ENABLE_TESTING)
++  # Binary package builds disable tests; skip gtest/gmock probing entirely.
++  return()
++endif()
++
+ find_package(GMock QUIET)
+ # the GMockConfig.cmake from the Debian package cmake-extras provides all targets
+ if(TARGET gtest AND TARGET gtest_main AND TARGET gmock AND TARGET gmock_main)
