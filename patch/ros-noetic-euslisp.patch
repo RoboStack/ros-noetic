@@ -1,16 +1,43 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index addf33f2..c53e7ed0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,7 +5,7 @@ project(euslisp)
+ find_package(catkin)
+ 
+ # check arch and os
+-execute_process(COMMAND bash -c "gcc -dumpmachine" OUTPUT_VARIABLE gcc_dump_machine OUTPUT_STRIP_TRAILING_WHITESPACE)
++execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE gcc_dump_machine OUTPUT_STRIP_TRAILING_WHITESPACE)
+ message("-- gcc dumpmachine returns ${gcc_dump_machine}")
+ if(gcc_dump_machine MATCHES "x86_64-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
+   set(ARCHDIR "Linux64")
 diff --git a/lisp/Makefile.Linux64 b/lisp/Makefile.Linux64
-index e12ed082..ce35ee40 100644
+index e12ed082..cf129cd0 100644
 --- a/lisp/Makefile.Linux64
 +++ b/lisp/Makefile.Linux64
-@@ -50,7 +50,7 @@ CFLAGS= $(WFLAGS) -fPIC -D$(MACHINE) -DLinux -D_REENTRANT -DVERSION=\"$(VERSION)
+@@ -29,8 +29,8 @@ XVERSION=X_V11R6_1
+ #
+ # for Linux
+ 
+-GCC_MAJOR_VERSION=$(shell gcc -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\+\).*/\1/')
+-GCC_MINOR_VERSION=$(shell gcc -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\+\).*/\2/')
++GCC_MAJOR_VERSION=$(shell $(CC) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\+\).*/\1/')
++GCC_MINOR_VERSION=$(shell $(CC) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\+\).*/\2/')
+ # GCC_PATCH_VERSION=$(shell gcc -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\.\([0-9]\)/\3/')
+ 
+ ADD_LDFLAGS=
+@@ -50,9 +50,9 @@ CFLAGS= $(WFLAGS) -fPIC -D$(MACHINE) -DLinux -D_REENTRANT -DVERSION=\"$(VERSION)
  	-DLIB6 $(ALIGN_FUNCTIONS) \
          $(DEBUG) $(CPU_OPTIMIZE) $(THREAD) -D$(XVERSION) \
  	-DGCC $(GCC3) \
 -	        -I/usr/include -I/usr/X11R6/include -I$(EUSDIR)/include
-+	    -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
++	        -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
  
- CC=gcc
+-CC=gcc
++CC=$(BUILD_PREFIX)/bin/$(BUILD)-gcc
  
+ #
+ # L I B R A R I E S
 @@ -68,7 +68,7 @@ CC=gcc
  
  # Linux
@@ -21,18 +48,40 @@ index e12ed082..ce35ee40 100644
  # specify directories where euslisp's libraries are located.
  EUSRPATH=-R$(ADLIBDIR)
 diff --git a/lisp/Makefile.LinuxARM b/lisp/Makefile.LinuxARM
-index e49262b3..b9290d8c 100644
+index e49262b3..6273d45f 100644
 --- a/lisp/Makefile.LinuxARM
 +++ b/lisp/Makefile.LinuxARM
-@@ -72,7 +72,7 @@ CFLAGS=$(WFLAGS) -D$(MACHINE) -DLinux -DARM -D_REENTRANT -DVERSION=\"$(VERSION)\
+@@ -37,10 +37,10 @@ XVERSION=X_V11R6_1
+ #MACHINE=armv6
+ #MACHINE=armv5te
+ # gcc -dumpmachine retruns target triplet consists of three fields separated by a hyphen (-).
+-MACHINE=$(shell gcc -dumpmachine | sed 's/\(.*\)-.*-.*/\1/')
++MACHINE=$(shell $(CC) -dumpmachine | sed 's/-.*//')
+ 
+-GCC_MAJOR_VERSION=$(shell gcc -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\([\.0-9]*\)/\1/')
+-GCC_MINOR_VERSION=$(shell gcc -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\([\.0-9]*\)/\2/')
++GCC_MAJOR_VERSION=$(shell $(CC) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\([\.0-9]*\)/\1/')
++GCC_MINOR_VERSION=$(shell $(CC) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\([\.0-9]*\)/\2/')
+ ifeq ($(GCC_MAJOR_VERSION), 2)
+  CPU_OPTIMIZE=
+  ALIGN_FUNCTIONS="-malign-functions=4"
+@@ -72,13 +72,13 @@ CFLAGS=$(WFLAGS) -D$(MACHINE) -DLinux -DARM -D_REENTRANT -DVERSION=\"$(VERSION)\
  	-DLIB6 $(ALIGN_FUNCTIONS) $(ADD_CFLAGS) \
          $(DEBUG) $(CPU_OPTIMIZE) $(THREAD) -D$(XVERSION) \
  	-DGCC $(GCC3) \
 -	        -I/usr/include -I/usr/X11R6/include -I$(EUSDIR)/include
-+	      -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
++	        -I$(PREFIX)/include -I$(PREFIX)/X11R6/include -I$(EUSDIR)/include
  
  # Use gcc for C-compiling on SunOS4. Sun's cc is ok on Solaris.
  # /usr/ucb/cc cannot compile because of its incapability of recognizing
+ # prototype declarations.
+-CC=gcc
+-LD=gcc
++CC=$(BUILD_PREFIX)/bin/$(BUILD)-gcc
++LD=$(CC)
+ 
+ #
+ # L I B R A R I E S
 @@ -94,7 +94,7 @@ LD=gcc
  
  # Linux
@@ -42,3 +91,87 @@ index e49262b3..b9290d8c 100644
  
  # specify directories where euslisp's libraries are located.
  EUSLIB= -Xlinker -R$(ADLIBDIR):$(EUSDIR)/lib/LinuxARM -L$(ADLIBDIR)
+diff --git a/lisp/comp/comp.l b/lisp/comp/comp.l
+index dfb72595..5cdec7a8 100644
+--- a/lisp/comp/comp.l
++++ b/lisp/comp/comp.l
+@@ -34,15 +34,16 @@
+ (defparameter *pic* t)
+ (defparameter *kernel* nil)
+ ;(defparameter *cc* (if (member :gcc *features*) "gcc" "cc"))
+-(defparameter *cc* 
+-  (cond ((member :sh4 *features*)
++(defparameter *cc*
++  (or (unix:getenv "CC")
++      (cond ((member :sh4 *features*)
+ 	 "sh4-linux-gcc -g")
+ 	((member :ia32 *features*) 
+ 	 "gcc -g -m32")
+ 	((member :gcc *features*)
+ 	   "gcc -g")
+ 	((member :alpha *features*) "cc -ieee_with_inexact" )
+-	(t "cc")))
++	(t "cc"))))
+ 
+ (defvar comp nil "$Id$")
+ (defvar trans)
+@@ -1390,7 +1391,10 @@
+ 				      ((memq :i386 *features*)
+ 				       "; gcc -shared -Xlinker -build-id -o ")
+ 				      (t
+-				       "; ld -shared -build-id -o "))
++				       (concatenate string
++						    "; "
++						    (or (unix:getenv "CC") "gcc")
++						    " -shared -Wl,-build-id -o ")))
+ 				(namestring file.so)
+ 				" "
+ 				(namestring file.o))
+diff --git a/lisp/image/jpeg/makefile b/lisp/image/jpeg/makefile
+--- a/lisp/image/jpeg/makefile
++++ b/lisp/image/jpeg/makefile
+@@ -1,10 +1,12 @@
+ # jpeg compression/decompression for euslisp
+ # copyright (c) 1997, Toshihiro Matsui, Electrotechnical Laboratory
+ 
+-ifeq ($(shell gcc -dumpmachine | sed 's/.*-\(.*\)-.*/\1/'), linux)
++CC ?= gcc
++
++ifeq ($(shell $(CC) -dumpmachine | sed 's/.*-\(.*\)-.*/\1/'), linux)
+   OS=Linux
+-else ifeq ($(shell gcc -dumpmachine | sed 's/.*-.*-\([a-zA-Z]*\).*/\1/'), darwin)
++else ifeq ($(shell $(CC) -dumpmachine | sed 's/.*-.*-\([a-zA-Z]*\).*/\1/'), darwin)
+   OS=Darwin
+-else ifeq ($(shell gcc -dumpmachine | sed 's/.*-.*-\(.*\)/\1/'), cygwin)
++else ifeq ($(shell $(CC) -dumpmachine | sed 's/.*-.*-\(.*\)/\1/'), cygwin)
+   OS=Cygwin
+ endif
+ ifeq ($(OS), Linux)
+@@ -17,14 +19,14 @@ else
+ endif
+ 
+ ifneq ($(OS), Darwin)
+- LD = gcc -shared 
++ LD = $(CC) -shared
+ else
+- LD = gcc -dynamiclib
++ LD = $(CC) -dynamiclib
+ endif
+ 
+-ifeq ($(shell gcc -dumpmachine | sed 's/\(.*\)-.*-.*/\1/'), x86_64)
++ifeq ($(shell $(CC) -dumpmachine | sed 's/\(.*\)-.*-.*/\1/'), x86_64)
+ ifneq ($(ARCHDIR), Linux64)
+ ifneq ($(ARCHDIR), Darwin)
+-CC += -m32
++ CC += -m32
+ else
+ CC += -fPIC
+ endif
+@@ -43,6 +45,7 @@ endif
+ endif
+ ifeq ($(ARCHDIR), LinuxARM)
+ CC += -fPIC
++CFLAGS += -I$(PREFIX)/include
+ endif
+ CC += -fsigned-char
+ ARCH=$(ARCHDIR)
