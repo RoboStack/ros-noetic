@@ -101,6 +101,7 @@ jobs:
       shell: bash -l {0}
       run: |
         rm -rf ${{ matrix.folder_cache }}/ros-noetic-draco* || true
+        rm -rf ${{ matrix.folder_cache }}/draco* || true
 
     - name: See packages restored by cache
       shell: bash -l {0}
