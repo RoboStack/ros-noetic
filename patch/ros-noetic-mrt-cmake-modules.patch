@@ -1,8 +1,8 @@
-diff --git a/cmake/Modules/FindGTest.cmake b/cmake/Modules/FindGTest.cmake
-index 52aa104d..d4c93a6f 100644
---- a/cmake/Modules/FindGTest.cmake
-+++ b/cmake/Modules/FindGTest.cmake
-@@ -3,5 +3,7 @@ if(CATKIN_ENABLE_TESTING)
+diff --git a/cmake/Modules/Findgtest.cmake b/cmake/Modules/Findgtest.cmake
+index c4d854c..1654a24 100644
+--- a/cmake/Modules/Findgtest.cmake
++++ b/cmake/Modules/Findgtest.cmake
+@@ -4,5 +4,8 @@ if(CATKIN_ENABLE_TESTING)
      set(gtest_INCLUDE_DIRS "")
      set(gtest_LIBRARIES gtest)
  else()
