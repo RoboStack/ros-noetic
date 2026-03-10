@@ -23,3 +23,23 @@ index f3f0e79..9c7a61e 100644
  
  print('EXT_SUFFIX', end=';')
  ext_suffix = '.so'
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b57915b..fa6336a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -48,8 +48,12 @@ add_library(${PROJECT_NAME} ${APRILTAG_SRCS} ${COMMON_SRC} ${TAG_FILES})
+ if (MSVC)
+     # FindThreads will not find pthread.h with MSVC
+     # winmm is necessary for __imp_timeGetTime
+-    find_library(PTHREAD_LIBRARIES NAMES pthreads)
+-    target_link_libraries(${PROJECT_NAME} ${PTHREAD_LIBRARIES} winmm)
++    find_library(PTHREAD_LIBRARIES NAMES pthreads pthread pthreadVC3 pthreadVC2)
++    if (PTHREAD_LIBRARIES)
++        target_link_libraries(${PROJECT_NAME} ${PTHREAD_LIBRARIES} winmm)
++    else()
++        message(FATAL_ERROR "Could not find a pthreads library on Windows")
++    endif()
+ else()
+     find_package(Threads REQUIRED)
+     target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads m)

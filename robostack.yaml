@@ -78,8 +78,6 @@ cython:
   robostack: [cython]
 doxygen:
   robostack: [doxygen, graphviz]
-draco:
-  robostack: [draco]
 eigen:
   robostack: [eigen]
 emacs:
@@ -280,8 +278,6 @@ libcurl-dev:
   robostack: [libcurl]
 libdc1394-dev:
   robostack: [libdc1394]
-libdraco-dev:
-  robostack: [draco]
 libdw-dev:
   robostack:
     linux: [elfutils]

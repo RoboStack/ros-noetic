@@ -44,7 +44,7 @@ gazebo_pkgs:
 ros_ign_gazebo:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "${{ 'libuuid' if linux }}"]
 apriltag:
-  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
+  add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}", "${{ 'pthreads-win32' if win }}"]
 lvr2:
   add_host: ["libgdal", "cgal-cpp"]
 rtabmap:

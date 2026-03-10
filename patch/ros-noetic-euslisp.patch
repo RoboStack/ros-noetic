@@ -9,7 +9,8 @@ index addf33f2..c53e7ed0 100644
 -execute_process(COMMAND bash -c "gcc -dumpmachine" OUTPUT_VARIABLE gcc_dump_machine OUTPUT_STRIP_TRAILING_WHITESPACE)
 +execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE gcc_dump_machine OUTPUT_STRIP_TRAILING_WHITESPACE)
  message("-- gcc dumpmachine returns ${gcc_dump_machine}")
- if(gcc_dump_machine MATCHES "x86_64-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
+-if(gcc_dump_machine MATCHES "x86_64-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
++if(gcc_dump_machine MATCHES "x86_64(-.*)?-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
    set(ARCHDIR "Linux64")
 diff --git a/lisp/Makefile.Linux64 b/lisp/Makefile.Linux64
 index e12ed082..cf129cd0 100644

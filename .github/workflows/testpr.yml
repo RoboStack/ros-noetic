@@ -7,7 +7,7 @@ env:
   # Change to 'true' to enable the cache upload as artifacts
   SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
 jobs:
   build:
     strategy:
@@ -69,12 +69,6 @@ jobs:
         rm -rf /c/Strawberry
         rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
-    # Regression for https://github.com/RoboStack/ros-jazzy/issues/44
-    - name: Check that anaconda-client command works fine
-      shell: bash -l {0}
-      run: |
-        pixi run anaconda --version
-
     - name: Generate recipes
       shell: bash -l {0}
       run: |
@@ -84,7 +78,7 @@ jobs:
     - name: Check patches
       shell: bash -l {0}
       run: |
-        pixi run python check_patches_clean_apply.py
+        pixi run check-patches
 
     - name: Restore build cache
       id: cache-restore
@@ -102,6 +96,11 @@ jobs:
       shell: bash -l {0}
       run: |
         rm -rf ${{ matrix.folder_cache }}/*
+
+    - name: Delete specific outdated cache entries
+      shell: bash -l {0}
+      run: |
+        rm -rf ${{ matrix.folder_cache }}/ros-noetic-draco* || true
 
     - name: See packages restored by cache
       shell: bash -l {0}

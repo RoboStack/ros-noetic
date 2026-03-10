@@ -199,6 +199,7 @@ For full rebuilds also remember:
 - bump `build_number`
 - bump mutex minor and update hardcoded mutex refs where needed
 - clear stale `pkg_additional_info.yaml` build-number overrides unless intentional
+- remember that in CI there is a build cache, if you fix a problem in an already built package you need to delete the cache for this package in the .github/workflows/testpr.yml under "Delete specific outdated cache entries"
 
 ## Practical triage order
 
