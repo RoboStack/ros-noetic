@@ -10,6 +10,11 @@ octomap:
     dep_name: octomap
     max_pin: 'x.x'
     override_version: '1.10.0'
+draco:
+  generate_dummy_package_with_run_deps:
+    dep_name: draco
+    max_pin: 'x.x.x'
+    override_version: '1.5.7'
 ompl:
   generate_dummy_package_with_run_deps:
     dep_name: ompl

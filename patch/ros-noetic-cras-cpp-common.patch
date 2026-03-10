@@ -55,7 +55,7 @@ index f177aae..24a5b11 100644
      else
        this->data->log = ::std::make_shared<::cras::NodeletLogHelper>(
 -        ::std::bind(&NodeletWithDiagnostics<NodeletType>::getName, this));
-+        [this]() { return this->getName(); });
++        [this]() -> const ::std::string& { return this->getName(); });
    }
  
    auto paramAdapter = ::std::make_shared<::cras::NodeHandleGetParamAdapter>(nh);
@@ -68,7 +68,7 @@ index ed03498..1e7b542 100644
  NodeletWithSharedTfBuffer<NodeletType>::NodeletWithSharedTfBuffer() :
    cras::TimeJumpResettable(::std::make_shared<cras::NodeletLogHelper>(
 -    ::std::bind(&NodeletWithSharedTfBuffer<NodeletType>::getName, this))),
-+    [this]() { return this->getName(); })),
++    [this]() -> const ::std::string& { return this->getName(); })),
    data(new ::cras::impl::NodeletWithSharedTfBufferPrivate)
  {
  }
@@ -81,7 +81,7 @@ index f4ce255..600fd1d 100644
  template <typename NodeletType>
  NodeletParamHelper<NodeletType>::NodeletParamHelper() : ParamHelper(::std::make_shared<NodeletLogHelper>(
 -  ::std::bind(&NodeletParamHelper<NodeletType>::getName, this)))
-+  [this]() { return this->getName(); }))
++  [this]() -> const ::std::string& { return this->getName(); }))
  {
  }
  
