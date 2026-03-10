@@ -1,0 +1,128 @@
+diff --git a/src/dynamic_reconfigure/parameter_generator.py b/src/dynamic_reconfigure/parameter_generator.py
+index 4810fa8..4071bbb 100644
+--- a/src/dynamic_reconfigure/parameter_generator.py
++++ b/src/dynamic_reconfigure/parameter_generator.py
+@@ -51,6 +51,12 @@ import re
+ # LINEDEBUG="#line"
+ LINEDEBUG = "//#line"
+ 
++
++def _normalize_linedebug_path(path):
++    if path is None:
++        return ""
++    return path.replace("\\", "/")
++
+ # Convenience names for types
+ str_t = "str"
+ bool_t = "bool"
+@@ -109,7 +115,7 @@ class ParameterGenerator:
+             self.state = state
+ 
+             self.srcline = inspect.currentframe().f_back.f_lineno
+-            self.srcfile = inspect.getsourcefile(inspect.currentframe().f_back.f_code)
++            self.srcfile = _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code))
+ 
+             self.instances[self.id] = self
+ 
+@@ -133,7 +139,7 @@ class ParameterGenerator:
+                 'min': min,
+                 'max': max,
+                 'srcline': inspect.currentframe().f_back.f_lineno,
+-                'srcfile': inspect.getsourcefile(inspect.currentframe().f_back.f_code),
++                'srcfile': _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code)),
+                 'edit_method': edit_method,
+             }
+             if type == str_t and (max is not None or min is not None):
+@@ -252,7 +258,7 @@ class ParameterGenerator:
+             'type': type,
+             'value': value,
+             'srcline': inspect.currentframe().f_back.f_lineno,
+-            'srcfile': inspect.getsourcefile(inspect.currentframe().f_back.f_code),
++            'srcfile': _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code)),
+             'description': descr
+         }
+         check_description(descr)
+@@ -442,7 +448,9 @@ class ParameterGenerator:
+             val = ""
+         else:
+             val = self.crepr(param, param[value])
+-        list.append(Template('${doline} $srcline "$srcfile"\n      ' + text).safe_substitute(param, v=val, doline=LINEDEBUG, configname=self.name))
++        param_normalized = dict(param)
++        param_normalized['srcfile'] = _normalize_linedebug_path(param_normalized.get('srcfile'))
++        list.append(Template('${doline} $srcline "$srcfile"\n      ' + text).safe_substitute(param_normalized, v=val, doline=LINEDEBUG, configname=self.name))
+ 
+     def appendgroup(self, list, group):
+         subgroups = []
+@@ -464,7 +472,7 @@ class ParameterGenerator:
+         # Read the configuration manipulator template and insert line numbers and file name into template.
+         templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.h.template")
+         templatelines = []
+-        templatefilesafe = templatefile.replace('\\', '\\\\')  # line directive does backslash expansion.
++        templatefilesafe = _normalize_linedebug_path(templatefile)
+         curline = 1
+         f = open(templatefile)
+         for line in f:
+diff --git a/src/dynamic_reconfigure/parameter_generator_catkin.py b/src/dynamic_reconfigure/parameter_generator_catkin.py
+index eed790c..642dab7 100644
+--- a/src/dynamic_reconfigure/parameter_generator_catkin.py
++++ b/src/dynamic_reconfigure/parameter_generator_catkin.py
+@@ -54,6 +54,12 @@ import textwrap
+ # LINEDEBUG="#line"
+ LINEDEBUG = "//#line"
+ 
++
++def _normalize_linedebug_path(path):
++    if path is None:
++        return ""
++    return path.replace("\\", "/")
++
+ # Convenience names for types
+ str_t = "str"
+ bool_t = "bool"
+@@ -113,7 +119,7 @@ class ParameterGenerator(object):
+             self.state = state
+ 
+             self.srcline = inspect.currentframe().f_back.f_lineno
+-            self.srcfile = inspect.getsourcefile(inspect.currentframe().f_back.f_code)
++            self.srcfile = _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code))
+ 
+             self.instances[self.id] = self
+ 
+@@ -137,7 +143,7 @@ class ParameterGenerator(object):
+                 'min': min,
+                 'max': max,
+                 'srcline': inspect.currentframe().f_back.f_lineno,
+-                'srcfile': inspect.getsourcefile(inspect.currentframe().f_back.f_code),
++                'srcfile': _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code)),
+                 'edit_method': edit_method,
+             }
+             if (paramtype == str_t or paramtype == bool_t) and (max is not None or min is not None):
+@@ -272,7 +278,7 @@ class ParameterGenerator(object):
+             'type': type,
+             'value': value,
+             'srcline': inspect.currentframe().f_back.f_lineno,
+-            'srcfile': inspect.getsourcefile(inspect.currentframe().f_back.f_code),
++            'srcfile': _normalize_linedebug_path(inspect.getsourcefile(inspect.currentframe().f_back.f_code)),
+             'description': descr
+         }
+         check_description(descr)
+@@ -435,7 +441,9 @@ class ParameterGenerator(object):
+             val = ""
+         else:
+             val = self.crepr(param, param[value])
+-        list.append(Template('${doline} $srcline "$srcfile"\n      ' + text).safe_substitute(param, v=val, doline=LINEDEBUG, configname=self.name))
++        param_normalized = dict(param)
++        param_normalized['srcfile'] = _normalize_linedebug_path(param_normalized.get('srcfile'))
++        list.append(Template('${doline} $srcline "$srcfile"\n      ' + text).safe_substitute(param_normalized, v=val, doline=LINEDEBUG, configname=self.name))
+ 
+     def appendgroup(self, list, group):
+         subgroups = []
+@@ -457,7 +465,7 @@ class ParameterGenerator(object):
+         # Read the configuration manipulator template and insert line numbers and file name into template.
+         templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.h.template")
+         templatelines = []
+-        templatefilesafe = templatefile.replace('\\', '\\\\')  # line directive does backslash expansion.
++        templatefilesafe = _normalize_linedebug_path(templatefile)
+         curline = 1
+         with open(templatefile) as f:
+             for line in f:
