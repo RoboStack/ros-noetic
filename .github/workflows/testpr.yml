@@ -7,7 +7,7 @@ env:
   # Change to 'true' to enable the cache upload as artifacts
   SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
 jobs:
   build:
     strategy:
