@@ -1,5 +1,5 @@
 euslisp:
-  add_host: ["${{ 'xorg-libx11' if linux }}"]
+  add_host: ["${{ 'xorg-libx11' if linux }}", "${{ 'libglu' if linux }}", "${{ 'libgl-devel' if linux }}", "${{ 'glew' if linux }}"]
 stage:
   add_host: ["zlib", "libpng"]
 qt_gui_cpp:
