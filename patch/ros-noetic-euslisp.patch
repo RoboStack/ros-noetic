@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index addf33f2..c53e7ed0 100644
+index addf33f2..ccbdd1b9 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -5,7 +5,7 @@ project(euslisp)
+@@ -5,9 +5,9 @@ project(euslisp)
  find_package(catkin)
  
  # check arch and os
@@ -12,8 +12,10 @@ index addf33f2..c53e7ed0 100644
 -if(gcc_dump_machine MATCHES "x86_64-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
 +if(gcc_dump_machine MATCHES "x86_64(-.*)?-linux-.*" OR gcc_dump_machine MATCHES "x86_64-redhat-linux")
    set(ARCHDIR "Linux64")
+   set(MAKEFILE "Makefile.Linux64")
+ elseif(gcc_dump_machine MATCHES "i686-linux-.*" OR gcc_dump_machine MATCHES "i686-redhat-linux")
 diff --git a/lisp/Makefile.Linux64 b/lisp/Makefile.Linux64
-index e12ed082..cf129cd0 100644
+index e12ed082..52232f17 100644
 --- a/lisp/Makefile.Linux64
 +++ b/lisp/Makefile.Linux64
 @@ -29,8 +29,8 @@ XVERSION=X_V11R6_1
@@ -48,8 +50,13 @@ index e12ed082..cf129cd0 100644
  
  # specify directories where euslisp's libraries are located.
  EUSRPATH=-R$(ADLIBDIR)
+@@ -95,4 +95,3 @@ MAPOPTION=  $(OBJDIR)/par.o
+ 
+ #include Makefile.rgc
+ include Makefile.generic2
+-
 diff --git a/lisp/Makefile.LinuxARM b/lisp/Makefile.LinuxARM
-index e49262b3..6273d45f 100644
+index e49262b3..5ecd5aa0 100644
 --- a/lisp/Makefile.LinuxARM
 +++ b/lisp/Makefile.LinuxARM
 @@ -37,10 +37,10 @@ XVERSION=X_V11R6_1
@@ -92,6 +99,11 @@ index e49262b3..6273d45f 100644
  
  # specify directories where euslisp's libraries are located.
  EUSLIB= -Xlinker -R$(ADLIBDIR):$(EUSDIR)/lib/LinuxARM -L$(ADLIBDIR)
+@@ -120,4 +120,3 @@ MAPOPTION=$(OBJDIR)/par.o
+ 
+ #include Makefile.rgc
+ include Makefile.generic2
+-
 diff --git a/lisp/comp/comp.l b/lisp/comp/comp.l
 index dfb72595..5cdec7a8 100644
 --- a/lisp/comp/comp.l
@@ -129,9 +141,10 @@ index dfb72595..5cdec7a8 100644
  				" "
  				(namestring file.o))
 diff --git a/lisp/image/jpeg/makefile b/lisp/image/jpeg/makefile
+index 223f9055..f073c5c7 100644
 --- a/lisp/image/jpeg/makefile
 +++ b/lisp/image/jpeg/makefile
-@@ -1,10 +1,12 @@
+@@ -1,11 +1,13 @@
  # jpeg compression/decompression for euslisp
  # copyright (c) 1997, Toshihiro Matsui, Electrotechnical Laboratory
  
@@ -148,7 +161,7 @@ diff --git a/lisp/image/jpeg/makefile b/lisp/image/jpeg/makefile
    OS=Cygwin
  endif
  ifeq ($(OS), Linux)
-@@ -17,14 +19,14 @@ else
+@@ -17,12 +19,12 @@ else
  endif
  
  ifneq ($(OS), Darwin)
@@ -163,16 +176,20 @@ diff --git a/lisp/image/jpeg/makefile b/lisp/image/jpeg/makefile
 +ifeq ($(shell $(CC) -dumpmachine | sed 's/\(.*\)-.*-.*/\1/'), x86_64)
  ifneq ($(ARCHDIR), Linux64)
  ifneq ($(ARCHDIR), Darwin)
--CC += -m32
-+ CC += -m32
- else
- CC += -fPIC
- endif
-@@ -43,6 +45,7 @@ endif
- endif
+ CC += -m32
+@@ -42,6 +44,10 @@ endif
  ifeq ($(ARCHDIR), LinuxARM)
  CC += -fPIC
-+CFLAGS += -I$(PREFIX)/include
  endif
++ifneq ($(PREFIX),)
++CFLAGS += -I$(PREFIX)/include
++LDFLAGS += -L$(PREFIX)/lib
++endif
  CC += -fsigned-char
  ARCH=$(ARCHDIR)
+ LIBDIR=$(EUSDIR)/$(ARCH)/lib
+@@ -58,4 +64,3 @@ $(OBJDIR)/jmemdst.o:	jmemdst.c
+ 	$(CC) $(CFLAGS) -c -o $@ $^
+ clean:
+ 	rm -f $(OBJFILES) $(LIBDIR)/jpegmemcd.$(LSFX) eusjpeg.c eusjpeg.h
+-
