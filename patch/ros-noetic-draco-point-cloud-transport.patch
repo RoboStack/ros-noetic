@@ -1,13 +1,55 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 224a0d9..c6cf319 100644
+index 3edb39a..7e7672b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -49,7 +49,7 @@ add_library(${PROJECT_NAME}
-         src/PC2toDraco.cpp)
+@@ -17,13 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
+ # variables defined, draco_INCLUDE_DIR and draco_LIBRARY_DIR. In that case we
+ # try to reconstruct the rest from FindDraco.cmake (module mode).
+ find_package(Draco REQUIRED)
+-if(draco_INCLUDE_DIR)
+-  set(draco_FOUND TRUE)
+-  set(draco_LIBRARY_DIRS "${draco_LIBRARY_DIR}")
+-  find_path(draco_INCLUDE_DIRS draco/point_cloud/point_cloud.h PATHS "${draco_INCLUDE_DIR}/..")
+-  find_library(draco_LIBRARIES NAMES draco PATHS "${draco_LIBRARY_DIR}")
+-  message("Draco found: ${draco_INCLUDE_DIRS}, ${draco_LIBRARIES}")
+-endif()
  
- add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg draco_point_cloud_transport_generate_messages_cpp draco)
--target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} libdraco.so)
-+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} draco::draco)
+ add_message_files(FILES
+   CompressedPointCloud2.msg
+@@ -42,8 +35,6 @@ catkin_package(
+   CATKIN_DEPENDS message_runtime point_cloud_transport sensor_msgs std_msgs
+ )
  
- class_loader_hide_library_symbols(${PROJECT_NAME})
+-include_directories(include ${catkin_INCLUDE_DIRS} SYSTEM ${draco_INCLUDE_DIRS})
+-
+ set(SOURCE_FILES
+   src/draco_publisher.cpp
+   src/draco_subscriber.cpp
+@@ -53,14 +44,24 @@ add_library(${PROJECT_NAME}
+   ${SOURCE_FILES}
+ )
+ add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS})
+-target_link_libraries(${PROJECT_NAME} PUBLIC ${catkin_LIBRARIES} PRIVATE ${draco_LIBRARIES})
+-
++target_link_libraries(${PROJECT_NAME} PUBLIC ${catkin_LIBRARIES} PRIVATE draco::draco)
++# we need ./include and catkin include dirs for pluginlib to find the headers when building the plugin
++target_include_directories(${PROJECT_NAME} PUBLIC
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++  $<INSTALL_INTERFACE:include>
++  ${catkin_INCLUDE_DIRS}
++)
+ add_library(${PROJECT_NAME}_plugin
+   ${SOURCE_FILES}
+   src/manifest.cpp
+ )
+ add_dependencies(${PROJECT_NAME}_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS})
+-target_link_libraries(${PROJECT_NAME}_plugin PUBLIC ${catkin_LIBRARIES} PRIVATE ${draco_LIBRARIES})
++target_link_libraries(${PROJECT_NAME}_plugin PUBLIC ${catkin_LIBRARIES} PRIVATE draco::draco)
++target_include_directories(${PROJECT_NAME}_plugin PUBLIC
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++  $<INSTALL_INTERFACE:include>
++  ${catkin_INCLUDE_DIRS}
++)
+ class_loader_hide_library_symbols(${PROJECT_NAME}_plugin)
  
+ install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_plugin
