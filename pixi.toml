@@ -14,6 +14,7 @@ python = ">=3.12.0,<3.13"
 rattler-build = ">=0.57.0,<0.58"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
+rattler-index = ">=0.27.16"
 
 [target.win-64.dependencies]
 # git is required by rattler-build
