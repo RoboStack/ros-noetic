@@ -49,6 +49,8 @@ packages_remove_from_deps:
       - tlsf_cpp
       - euslisp
       - jskeus
+      - roseus
+      - usb-cam
       - openni2-launch
 
 skip_existing:
