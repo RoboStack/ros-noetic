@@ -80,9 +80,5 @@ librealsense2:
     max_pin: 'x.x'
     override_version: '2.56.5'
 
-
-
-
-
-
-
+apriltag:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
