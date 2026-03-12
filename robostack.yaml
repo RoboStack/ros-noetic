@@ -496,7 +496,10 @@ libssl-dev:
 libtheora:
   robostack: [libtheora]
 libtool:
-  robostack: [libtool]
+  robostack:
+    linux: [libtool]
+    osx: [libtool]
+    win64: []
 libturbojpeg:
   robostack: [libjpeg-turbo]
 libtins-dev:
