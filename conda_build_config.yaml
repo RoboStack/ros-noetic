@@ -1,3 +1,5 @@
+krb5:
+  - 1.21
 numpy:
   - 2
 assimp:
