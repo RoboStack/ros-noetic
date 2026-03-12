@@ -132,8 +132,6 @@ packages_select_by_deps:
   - octomap-ros
   - octomap-mapping
   - octomap-server
-  - rtabmap
-  - rtabmap-ros
   - geometric-shapes
   - depthimage-to-laserscan
   - laser-proc
@@ -373,6 +371,8 @@ packages_select_by_deps:
 
   - if: not win
     then:
+    - rtabmap
+    - rtabmap-ros
     - apriltag
     - apriltag-ros
 
