@@ -37,7 +37,10 @@ packages_skip_by_deps:
       - roseus
       - usb-cam
       - openni2-launch
-
+  - if win:
+    then:
+      - stage
+      - stage-ros
 
 packages_remove_from_deps:
   - libpointmatcher
@@ -53,6 +56,10 @@ packages_remove_from_deps:
       - roseus
       - usb-cam
       - openni2-launch
+  - if win:
+    then:
+      - stage
+      - stage-ros
 
 skip_existing:
   # - output
