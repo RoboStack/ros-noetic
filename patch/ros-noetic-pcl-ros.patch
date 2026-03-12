@@ -36,6 +36,26 @@ index 1e038276..26e36c1b 100644
  #include <boost/mpl/size.hpp>
  #include <boost/ref.hpp>
  #include <boost/thread/mutex.hpp>
+diff --git a/include/pcl_ros/transforms.h b/include/pcl_ros/transforms.h
+index e996b157..d58d8fef 100644
+--- a/include/pcl_ros/transforms.h
++++ b/include/pcl_ros/transforms.h
+@@ -40,6 +40,16 @@
+ #include <pcl/common/transforms.h>
+ #include <tf/transform_datatypes.h>
+ #include <tf/transform_listener.h>
++
++// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
++// Forward declare these templates before tf2_ros pulls in impl/convert.h.
++namespace tf2
++{
++template<typename A, typename B> B toMsg(const A& a);
++template<typename A, typename B> void fromMsg(const A&, B& b);
++}
++
+ #include <tf2_ros/buffer.h>
+ 
+ namespace pcl_ros
 diff --git a/src/pcl_ros/features/boundary.cpp b/src/pcl_ros/features/boundary.cpp
 index 26ee07c1..61ae786a 100644
 --- a/src/pcl_ros/features/boundary.cpp
