@@ -36,6 +36,46 @@ index 1e038276..26e36c1b 100644
  #include <boost/mpl/size.hpp>
  #include <boost/ref.hpp>
  #include <boost/thread/mutex.hpp>
+diff --git a/include/pcl_ros/pcl_nodelet.h b/include/pcl_ros/pcl_nodelet.h
+index ebd94e06..f01a3524 100644
+--- a/include/pcl_ros/pcl_nodelet.h
++++ b/include/pcl_ros/pcl_nodelet.h
+@@ -60,6 +60,15 @@
+ #include <message_filters/sync_policies/approximate_time.h>
+ 
+ // Include TF
++// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
++// Forward declare these templates before tf/transform_listener transitively
++// pulls in tf2 conversion internals.
++namespace tf2
++{
++template<typename A, typename B> B toMsg(const A& a);
++template<typename A, typename B> void fromMsg(const A&, B& b);
++}
++
+ #include <tf/transform_listener.h>
+ 
+ using pcl_conversions::fromPCL;
+diff --git a/include/pcl_ros/io/concatenate_data.h b/include/pcl_ros/io/concatenate_data.h
+index 911761ad..587a57d2 100644
+--- a/include/pcl_ros/io/concatenate_data.h
++++ b/include/pcl_ros/io/concatenate_data.h
+@@ -39,6 +39,15 @@
+ #define PCL_IO_CONCATENATE_DATA_H_
+ 
+ // ROS includes
++// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
++// Forward declare these templates before tf/transform_listener transitively
++// pulls in tf2 conversion internals.
++namespace tf2
++{
++template<typename A, typename B> B toMsg(const A& a);
++template<typename A, typename B> void fromMsg(const A&, B& b);
++}
++
+ #include <tf/transform_listener.h>
+ #include <nodelet_topic_tools/nodelet_lazy.h>
+ #include <message_filters/subscriber.h>
 diff --git a/include/pcl_ros/transforms.h b/include/pcl_ros/transforms.h
 index e996b157..d58d8fef 100644
 --- a/include/pcl_ros/transforms.h
