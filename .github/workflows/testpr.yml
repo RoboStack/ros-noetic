@@ -33,12 +33,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
-    - uses: prefix-dev/setup-pixi@v0.8.10
+    - uses: prefix-dev/setup-pixi@v0.9.4
       with:
         frozen: true
 
@@ -82,7 +82,7 @@ jobs:
 
     - name: Restore build cache
       id: cache-restore
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: |
           ${{ matrix.folder_cache }}
@@ -121,7 +121,7 @@ jobs:
         ls ${{ matrix.folder_cache }} || true
 
     - name: Save build cache
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       if: always()
       with:
         path: |
@@ -135,7 +135,7 @@ jobs:
 
     - name: Upload build cache as artifact
       if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: cache-${{ matrix.platform }}-${{ github.run_id }}
         path: ${{ matrix.folder_cache }}
