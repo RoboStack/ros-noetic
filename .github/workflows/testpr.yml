@@ -7,7 +7,10 @@ env:
   # Change to 'true' to enable the cache upload as artifacts
   SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
+  # Retries for transient DNS/git-fetch failures in CI (see Could not resolve host: github.com)
+  CI_TRANSIENT_NET_MAX_RETRIES: '6'
+  CI_TRANSIENT_NET_BASE_DELAY_SEC: '20'
 jobs:
   build:
     strategy:
@@ -78,7 +81,33 @@ jobs:
     - name: Check patches
       shell: bash -l {0}
       run: |
-        pixi run check-patches
+        attempt=1
+        while true; do
+          echo "check-patches attempt ${attempt}/${CI_TRANSIENT_NET_MAX_RETRIES}"
+          set +e
+          pixi run check-patches 2>&1 | tee /tmp/check-patches.log
+          rc=${PIPESTATUS[0]}
+          set -e
+
+          if [ "${rc}" -eq 0 ]; then
+            break
+          fi
+
+          if ! grep -Eiq "Could not resolve host|Temporary failure in name resolution|failed to git fetch refs from origin|unable to access 'https://github.com/" /tmp/check-patches.log; then
+            echo "check-patches failed for a non-transient reason; not retrying."
+            exit "${rc}"
+          fi
+
+          if [ "${attempt}" -ge "${CI_TRANSIENT_NET_MAX_RETRIES}" ]; then
+            echo "Transient network failure persisted after ${CI_TRANSIENT_NET_MAX_RETRIES} attempts."
+            exit "${rc}"
+          fi
+
+          sleep_for=$(( CI_TRANSIENT_NET_BASE_DELAY_SEC * attempt ))
+          echo "Transient network/git fetch failure detected. Retrying in ${sleep_for}s..."
+          sleep "${sleep_for}"
+          attempt=$((attempt + 1))
+        done
 
     - name: Restore build cache
       id: cache-restore
@@ -114,7 +143,33 @@ jobs:
     - name: Build recipes
       shell: bash -l {0}
       run: |
-        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-staging --skip-existing
+        attempt=1
+        while true; do
+          echo "build attempt ${attempt}/${CI_TRANSIENT_NET_MAX_RETRIES}"
+          set +e
+          pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-staging --skip-existing 2>&1 | tee /tmp/build-recipes.log
+          rc=${PIPESTATUS[0]}
+          set -e
+
+          if [ "${rc}" -eq 0 ]; then
+            break
+          fi
+
+          if ! grep -Eiq "Could not resolve host|Temporary failure in name resolution|failed to git fetch refs from origin|unable to access 'https://github.com/" /tmp/build-recipes.log; then
+            echo "Build failed for a non-transient reason; not retrying."
+            exit "${rc}"
+          fi
+
+          if [ "${attempt}" -ge "${CI_TRANSIENT_NET_MAX_RETRIES}" ]; then
+            echo "Transient network failure persisted after ${CI_TRANSIENT_NET_MAX_RETRIES} attempts."
+            exit "${rc}"
+          fi
+
+          sleep_for=$(( CI_TRANSIENT_NET_BASE_DELAY_SEC * attempt ))
+          echo "Transient network/git fetch failure detected. Retrying in ${sleep_for}s..."
+          sleep "${sleep_for}"
+          attempt=$((attempt + 1))
+        done
 
     - name: See packages that will be saved in cache
       shell: bash -l {0}
