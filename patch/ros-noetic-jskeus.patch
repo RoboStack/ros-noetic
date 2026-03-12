@@ -81,6 +81,29 @@ index 8b04f2f..fa376c5 100644
  CXXFLAGS=$(CFLAGS)
  
  CFLAGS+= -g -falign-functions=4
+diff --git a/irteus/Makefile.Linux64 b/irteus/Makefile.Linux64
+index e749f16..f95bfd7 100644
+--- a/irteus/Makefile.Linux64
++++ b/irteus/Makefile.Linux64
+@@ -54,8 +54,8 @@ ESFX=
+ SOFLAGS=-g -falign-functions=8 -Xlinker --unresolved-symbols=ignore-all
+ IMPLIB=-L$(EUSDIR)/$(ARCHDIR)/lib -leusgeo -L$(INSTALLLIBDIR) -lnr
+-IMPLIBGL=-L$(EUSDIR)/$(ARCHDIR)/lib -leusgl -L/usr/X11R6/lib -lGLU -lGL -lXext
+-IMPLIBIMG=-ljpeg -lpng
++IMPLIBGL=-L$(EUSDIR)/$(ARCHDIR)/lib -leusgl -L$(PREFIX)/lib -lGLU -lGL -lXext
++IMPLIBIMG=-L$(PREFIX)/lib -ljpeg -lpng
+ EXPLIB=
+ RAPID=-LRAPID/$(ARCHDIR) -lRAPID-static
+ RAPIDLIB=RAPID/$(ARCHDIR)/$(LPFX)RAPID-static.a
+@@ -67,7 +67,7 @@ ARCH=Linux
+ MACHINE=x86_64
+ THREAD= -DTHREADED -DPTHREAD
+ 
+-CFLAGS=-O2 -D$(MACHINE) -D$(ARCH) -D_REENTRANT -DGCC -I$(EUSDIR)/include $(THREAD)  -DSVNVERSION=$(SVNVERSION)
++CFLAGS=-O2 -D$(MACHINE) -D$(ARCH) -D_REENTRANT -DGCC -I$(PREFIX)/include -I$(PREFIX)/include/libpng16 -I$(EUSDIR)/include $(THREAD)  -DSVNVERSION=$(SVNVERSION)
+ CXXFLAGS=$(CFLAGS)
+ 
+ CFLAGS+= -g -falign-functions=8 -fPIC
 diff --git a/irteus/PQP/Makefile.LinuxARM b/irteus/PQP/Makefile.LinuxARM
 index 85efe19..74ecd4b 100644
 --- a/irteus/PQP/Makefile.LinuxARM
