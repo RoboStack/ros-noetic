@@ -12,6 +12,7 @@ Usage
     # From repository root
     python .scripts/check_patches_clean_apply.py          # prepare + run
     python .scripts/check_patches_clean_apply.py --dry    # prepare only
+    python .scripts/check_patches_clean_apply.py --dry --recipe ros-noetic-rviz
     python .scripts/check_patches_clean_apply.py --clean  # delete output
 
 The script creates (or refreshes) a sibling folder named
@@ -68,11 +69,45 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Remove recipes_only_patch/ and exit",
     )
+    ap.add_argument(
+        "--recipe",
+        action="append",
+        default=[],
+        metavar="RECIPE",
+        help=(
+            "Only check the specified recipe directory under recipes/. "
+            "Repeat for multiple recipes, e.g. --recipe ros-noetic-rviz "
+            "--recipe ros-noetic-jskeus"
+        ),
+    )
     return ap.parse_args()
 
 
 def find_recipe_files() -> List[Path]:
     return sorted(RECIPES_DIR.rglob("recipe.yaml"))
+
+
+def resolve_requested_recipe_files(requested: List[str]) -> List[Path]:
+    if not requested:
+        return find_recipe_files()
+
+    resolved: List[Path] = []
+    missing: List[str] = []
+    for name in requested:
+        recipe_file = RECIPES_DIR / name / "recipe.yaml"
+        if recipe_file.is_file():
+            resolved.append(recipe_file)
+        else:
+            missing.append(name)
+
+    if missing:
+        print("The following requested recipe(s) were not found under recipes/:")
+        for m in missing:
+            print(f" - {m}")
+        sys.exit(1)
+
+    # Keep deterministic order and remove duplicates.
+    return sorted(set(resolved))
 
 
 def filter_sources(src: Union[Dict[str, Any], List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
@@ -113,9 +148,9 @@ def write_minimal_recipe(
         yaml.dump(minimal, fh, sort_keys=False)
 
 
-def prepare_patch_recipes() -> List[Path]:
+def prepare_patch_recipes(recipe_files: List[Path]) -> List[Path]:
     recreated: List[Path] = []
-    for recipe_file in find_recipe_files():
+    for recipe_file in recipe_files:
         with recipe_file.open("r", encoding="utf-8") as fh:
             recipe = yaml.safe_load(fh) or {}
 
@@ -222,7 +257,11 @@ def main() -> None:
         print("Refreshing recipes_only_patch/ …")
         shutil.rmtree(PATCH_RECIPES_DIR)
 
-    recreated = prepare_patch_recipes()
+    recipe_files = resolve_requested_recipe_files(args.recipe)
+    if args.recipe:
+        print(f"Selected {len(recipe_files)} recipe(s) via --recipe.")
+
+    recreated = prepare_patch_recipes(recipe_files)
     if not recreated:
         print("No recipes with patches found – nothing to test.")
         return

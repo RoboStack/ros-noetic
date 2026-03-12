@@ -127,6 +127,19 @@ Use the patch checker before/after large patch edits:
 pixi run check-patches
 ```
 
+For faster iteration on one package patch, run the script directly with a recipe filter:
+
+```bash
+# prepare + check only one recipe
+python check_patches_clean_apply.py --recipe ros-$DISTRO-<pkg>
+
+# prepare only (no build), useful while editing
+python check_patches_clean_apply.py --dry --recipe ros-$DISTRO-<pkg>
+
+# multiple focused recipes
+python check_patches_clean_apply.py --recipe ros-$DISTRO-<pkg1> --recipe ros-$DISTRO-<pkg2>
+```
+
 What it does:
 - scans all `recipes/**/recipe.yaml`
 - keeps only recipes that declare `source.patches`

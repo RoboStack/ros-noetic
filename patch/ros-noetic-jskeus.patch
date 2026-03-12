@@ -86,6 +86,7 @@ index e749f16..f95bfd7 100644
 --- a/irteus/Makefile.Linux64
 +++ b/irteus/Makefile.Linux64
 @@ -54,8 +54,8 @@ ESFX=
+ ESFX=
  SOFLAGS=-g -falign-functions=8 -Xlinker --unresolved-symbols=ignore-all
  IMPLIB=-L$(EUSDIR)/$(ARCHDIR)/lib -leusgeo -L$(INSTALLLIBDIR) -lnr
 -IMPLIBGL=-L$(EUSDIR)/$(ARCHDIR)/lib -leusgl -L/usr/X11R6/lib -lGLU -lGL -lXext
@@ -95,7 +96,8 @@ index e749f16..f95bfd7 100644
  EXPLIB=
  RAPID=-LRAPID/$(ARCHDIR) -lRAPID-static
  RAPIDLIB=RAPID/$(ARCHDIR)/$(LPFX)RAPID-static.a
-@@ -67,7 +67,7 @@ ARCH=Linux
+@@ -64,7 +64,7 @@ SVNVERSION=\"$(shell git rev-parse --short HEAD)\"
+ ARCH=Linux
  MACHINE=x86_64
  THREAD= -DTHREADED -DPTHREAD
  
