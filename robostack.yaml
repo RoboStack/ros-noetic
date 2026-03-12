@@ -157,7 +157,10 @@ gstreamer1.0-plugins-ugly:
 gtest:
   robostack: [gtest]
 gtk2:
-  robostack: [gtk2]
+  robostack:
+    linux: [gtk2]
+    osx: [gtk2]
+    win64: []
 gtk3:
   robostack:
     linux: [libglib, glib, gtk3, harfbuzz, libxcb, pthread-stubs, xorg-libxau, xorg-libxi,
