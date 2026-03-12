@@ -56,7 +56,7 @@ jobs:
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
     - name: Clean up PATH
       if: contains(matrix.os, 'windows')
-      uses: egor-tensin/cleanup-path@v4
+      uses: egor-tensin/cleanup-path@v5
       with:
         # cygpath in C:\Program Files\Git\usr\bin is used by install micromamba
         # git in C:\Program Files\Git\bin is used by pip install git+
