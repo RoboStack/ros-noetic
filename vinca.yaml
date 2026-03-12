@@ -37,7 +37,7 @@ packages_skip_by_deps:
       - roseus
       - usb-cam
       - openni2-launch
-  - if win:
+  - if: win
     then:
       - stage
       - stage-ros
@@ -56,7 +56,7 @@ packages_remove_from_deps:
       - roseus
       - usb-cam
       - openni2-launch
-  - if win:
+  - if: win
     then:
       - stage
       - stage-ros
