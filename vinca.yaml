@@ -21,6 +21,7 @@ mutex_package:
     - libxml2 2.14.*
     - ogre 1.10.12.*
     - libopencv * qt6*
+    - krb5 1.21.*
 
 
 packages_skip_by_deps:
