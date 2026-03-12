@@ -2,10 +2,14 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 2466227d..6230e32e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,15 +1,6 @@
+@@ -1,15 +1,10 @@
  cmake_minimum_required(VERSION 3.0.2)
  project(pcl_ros)
  
++if(MSVC)
++  add_compile_options("/FI${CMAKE_CURRENT_SOURCE_DIR}/include/pcl_ros/tf2_msvc_compat.h")
++endif()
++
 -# CMake 3.1 added support for CMAKE_CXX_STANDARD to manage the C++ standard version
 -# Use CMake C++ standard management where possible for better interoperability
 -# with dependencies that export target standards and/or features
@@ -18,6 +22,24 @@ index 2466227d..6230e32e 100644
  ## Find catkin packages
  find_package(catkin REQUIRED COMPONENTS
    dynamic_reconfigure
+diff --git a/include/pcl_ros/tf2_msvc_compat.h b/include/pcl_ros/tf2_msvc_compat.h
+new file mode 100644
+index 00000000..18532253
+--- /dev/null
++++ b/include/pcl_ros/tf2_msvc_compat.h
+@@ -0,0 +1,12 @@
++#ifndef PCL_ROS_TF2_MSVC_COMPAT_H_
++#define PCL_ROS_TF2_MSVC_COMPAT_H_
++
++#ifdef _MSC_VER
++namespace tf2
++{
++template<typename A, typename B> B toMsg(const A& a);
++template<typename A, typename B> void fromMsg(const A&, B& b);
++}
++#endif
++
++#endif  // PCL_ROS_TF2_MSVC_COMPAT_H_
 diff --git a/include/pcl_ros/point_cloud.h b/include/pcl_ros/point_cloud.h
 index 1e038276..26e36c1b 100644
 --- a/include/pcl_ros/point_cloud.h
@@ -40,19 +62,11 @@ diff --git a/include/pcl_ros/pcl_nodelet.h b/include/pcl_ros/pcl_nodelet.h
 index ebd94e06..f01a3524 100644
 --- a/include/pcl_ros/pcl_nodelet.h
 +++ b/include/pcl_ros/pcl_nodelet.h
-@@ -60,6 +60,15 @@
+@@ -60,6 +60,7 @@
  #include <message_filters/sync_policies/approximate_time.h>
  
  // Include TF
-+// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
-+// Forward declare these templates before tf/transform_listener transitively
-+// pulls in tf2 conversion internals.
-+namespace tf2
-+{
-+template<typename A, typename B> B toMsg(const A& a);
-+template<typename A, typename B> void fromMsg(const A&, B& b);
-+}
-+
++#include <pcl_ros/tf2_msvc_compat.h>
  #include <tf/transform_listener.h>
  
  using pcl_conversions::fromPCL;
@@ -60,19 +74,11 @@ diff --git a/include/pcl_ros/io/concatenate_data.h b/include/pcl_ros/io/concaten
 index 911761ad..587a57d2 100644
 --- a/include/pcl_ros/io/concatenate_data.h
 +++ b/include/pcl_ros/io/concatenate_data.h
-@@ -39,6 +39,15 @@
+@@ -39,6 +39,7 @@
  #define PCL_IO_CONCATENATE_DATA_H_
  
  // ROS includes
-+// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
-+// Forward declare these templates before tf/transform_listener transitively
-+// pulls in tf2 conversion internals.
-+namespace tf2
-+{
-+template<typename A, typename B> B toMsg(const A& a);
-+template<typename A, typename B> void fromMsg(const A&, B& b);
-+}
-+
++#include <pcl_ros/tf2_msvc_compat.h>
  #include <tf/transform_listener.h>
  #include <nodelet_topic_tools/nodelet_lazy.h>
  #include <message_filters/subscriber.h>
@@ -80,19 +86,12 @@ diff --git a/include/pcl_ros/transforms.h b/include/pcl_ros/transforms.h
 index e996b157..d58d8fef 100644
 --- a/include/pcl_ros/transforms.h
 +++ b/include/pcl_ros/transforms.h
-@@ -40,6 +40,16 @@
+@@ -39,6 +39,7 @@
+ #include <sensor_msgs/PointCloud2.h>
  #include <pcl/common/transforms.h>
++#include <pcl_ros/tf2_msvc_compat.h>
  #include <tf/transform_datatypes.h>
  #include <tf/transform_listener.h>
-+
-+// tf2/impl/convert.h uses qualified tf2::fromMsg/toMsg on MSVC.
-+// Forward declare these templates before tf2_ros pulls in impl/convert.h.
-+namespace tf2
-+{
-+template<typename A, typename B> B toMsg(const A& a);
-+template<typename A, typename B> void fromMsg(const A&, B& b);
-+}
-+
  #include <tf2_ros/buffer.h>
  
  namespace pcl_ros
@@ -1043,3 +1042,15 @@ index 073e358c..b324fc8a 100644
  
    boost::shared_ptr<PCDType> msg(new PCDType);
    msg->header.frame_id = "";
+diff --git a/src/transforms.cpp b/src/transforms.cpp
+index aa00aa00..bb00bb00 100644
+--- a/src/transforms.cpp
++++ b/src/transforms.cpp
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include <sensor_msgs/PointCloud2.h>
++#include "pcl_ros/tf2_msvc_compat.h"
+ #include <tf2_eigen/tf2_eigen.h>
+ #include <pcl_conversions/pcl_conversions.h>
+ #include "pcl_ros/transforms.h"
