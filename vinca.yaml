@@ -149,8 +149,6 @@ packages_select_by_deps:
   - rgbd-launch
   - find-object-2d
   - convex-decomposition
-  - apriltag
-  - apriltag-ros
   - aruco-ros
   
   # Visualization
@@ -372,6 +370,11 @@ packages_select_by_deps:
     # - openni2-camera
     - openni2-launch
     - usb-cam
+
+  - if: not win
+    then:
+    - apriltag
+    - apriltag-ros
 
 
 patch_dir: patch

@@ -129,7 +129,7 @@ jobs:
     - name: Delete specific outdated cache entries
       shell: bash -l {0}
       run: |
-        rm -rf ${{ matrix.folder_cache }}/ros-noetic-ecl-build* || true
+        # rm -rf ${{ matrix.folder_cache }}/ros-noetic-ecl-build* || true
         pixi run rattler-index fs output --force
         exit 0
 
