@@ -201,8 +201,7 @@ packages_select_by_deps:
   # Utilities
   - kdl-parser-py
   - ros-numpy
-  - ros-babel-fish
-  - ros-babel-fish-test-msgs
+
   - genmypy
   - fcl
   
@@ -382,7 +381,8 @@ packages_select_by_deps:
     - p2os-driver
     - robot-body-filter
     - sensor-filters
-
+    - ros-babel-fish
+    - ros-babel-fish-test-msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
