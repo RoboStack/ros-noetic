@@ -1,10 +1,3 @@
-libcamera:
-  generate_dummy_package_with_run_deps:
-    dep_name: libcamera
-    # see https://git.libcamera.org/libcamera/libcamera.git/tree/meson.build?h=v0.5.1#n65
-    max_pin: 'x.x'
-    # jazzy is on 0.3.0, but we stick to 0.5.0 for compat
-    override_version: '0.5.0'
 octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
@@ -29,13 +22,6 @@ urdfdom_headers:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom_headers
     max_pin: 'x.x'
-urdfdom:
-  generate_dummy_package_with_run_deps:
-    dep_name: urdfdom
-    max_pin: 'x.x'
-    # jazzy is on 4.0.2, but we stick to 4.0.1 for compat
-    # with the rest of conda-forge
-    override_version: '4.0.1'
 cartographer:
   generate_dummy_package_with_run_deps:
     dep_name: cartographer

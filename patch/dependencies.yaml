@@ -96,7 +96,7 @@ mqtt_bridge:
 mrpt2:
   add_host:  ["tinyxml2", "libboost-devel", "jsoncpp", "gtest", "libboost-python-devel", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
   add_run:   ["tinyxml2", "libboost-devel", "jsoncpp", "gtest", "libboost-python-devel", "libdc1394", "xorg-libxcomposite", "ros-noetic-octomap", "libftdi"]
-  add_build: ["${{ 'xorg-libxcomposite') if linux }}"]
+  add_build: ["${{ 'xorg-libxcomposite' if linux }}"]
 image_view:
   add_host: ["${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
 rosserial_python:
