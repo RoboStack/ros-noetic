@@ -72,6 +72,12 @@ jobs:
         rm -rf /c/Strawberry
         rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
+    # Regression for https://github.com/RoboStack/ros-jazzy/issues/44
+    - name: Check that anaconda-client command works fine
+      shell: bash -l {0}
+      run: |
+        pixi run anaconda --version
+
     - name: Generate recipes
       shell: bash -l {0}
       run: |

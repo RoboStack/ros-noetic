@@ -17,6 +17,8 @@ cmake = "<4.0"
 rattler-index = ">=0.27.16"
 
 [target.win-64.dependencies]
+# patch is required by rattler-build
+m2-patch = "*"
 # git is required by rattler-build
 git = "*"
 
