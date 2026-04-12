@@ -76,7 +76,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
       linux-aarch64:
       - conda: https://repo.prefix.dev/conda-forge/linux-aarch64/_openmp_mutex-4.5-20_gnu.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-aarch64/bzip2-1.0.8-h4777abc_9.conda
@@ -145,7 +145,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
       osx-64:
       - conda: https://repo.prefix.dev/conda-forge/osx-64/bzip2-1.0.8-h500dc9f_9.conda
       - conda: https://repo.prefix.dev/conda-forge/osx-64/c-ares-1.34.6-hb5e19a0_0.conda
@@ -203,7 +203,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
       osx-arm64:
       - conda: https://repo.prefix.dev/conda-forge/osx-arm64/bzip2-1.0.8-hd037594_9.conda
       - conda: https://repo.prefix.dev/conda-forge/osx-arm64/c-ares-1.34.6-hc919400_0.conda
@@ -262,7 +262,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/win-64/bzip2-1.0.8-h0ad9c76_9.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.2.25-h4c7d964_0.conda
@@ -317,7 +317,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
-      - pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+      - pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
 packages:
 - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -2563,7 +2563,7 @@ packages:
   purls: []
   size: 115235
   timestamp: 1767320173250
-- pypi: git+https://github.com/RoboStack/vinca.git?rev=b5e03d1f397c576232effd48dd1dd4b790d90ea7#b5e03d1f397c576232effd48dd1dd4b790d90ea7
+- pypi: git+https://github.com/RoboStack/vinca.git?rev=0e75b9673808de3917292341550aabe1d5bac85d#0e75b9673808de3917292341550aabe1d5bac85d
   name: vinca
   version: 0.2.0
   requires_dist:
