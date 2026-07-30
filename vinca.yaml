@@ -216,6 +216,7 @@ packages_select_by_deps:
   
   # Additional tools
   - lms1xx
+  - mrt_cmake_modules
   
   # Robot body filter and sensor filters
 
