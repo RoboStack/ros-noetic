@@ -1,0 +1,14 @@
+diff --git a/cmake/Modules/Findgtest.cmake b/cmake/Modules/Findgtest.cmake
+index c4d854c..1654a24 100644
+--- a/cmake/Modules/Findgtest.cmake
++++ b/cmake/Modules/Findgtest.cmake
+@@ -4,5 +4,8 @@ if(CATKIN_ENABLE_TESTING)
+     set(gtest_INCLUDE_DIRS "")
+     set(gtest_LIBRARIES gtest)
+ else()
+-    message(FATAL_ERROR "CMake script only implemented for gtest as test_depend")
++    # Binary builds set CATKIN_ENABLE_TESTING=OFF. In that mode, avoid a hard
++    # failure and expose empty gtest vars so non-test targets can configure.
++    set(gtest_INCLUDE_DIRS "")
++    set(gtest_LIBRARIES "")
+ endif()
