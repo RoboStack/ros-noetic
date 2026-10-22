@@ -30,12 +30,12 @@ vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "0e75b9673808de3
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
-build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-staging -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
+build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-noetic -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
 create_snapshot = { cmd = "vinca-snapshot -d noetic -o rosdistro_snapshot.yaml" }
-upload = "rattler-build upload anaconda -o robostack-staging -a $ANACONDA_API_TOKEN"
+upload = "rattler-build upload anaconda -o robostack-noetic -a $ANACONDA_API_TOKEN"
 
 [tasks.build]
-cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-staging -c https://prefix.dev/conda-forge --skip-existing"
+cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-noetic -c https://prefix.dev/conda-forge --skip-existing"
 depends-on = ["generate-recipes"]
 description = "Build all packages, from the ./recipes dir. This will skip already existing packages, so it can be used to build only a subset of packages by first removing the recipes of the packages you want to rebuild (see `pixi remove-recipes`)."
 
@@ -44,6 +44,6 @@ cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
 description = "Remove all generated recipes, before regenerating them."
 
 [tasks.build-one]
-cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-staging -c https://prefix.dev/conda-forge"
+cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-noetic -c https://prefix.dev/conda-forge"
 args = [{ arg = "PACKAGE", default = "ros-noetic-ros-workspace" }]
 description = "Build a single package, from the ./recipes dir. Add the `ros-noetic-` prefix to the package name, e.g. `pixi build-one --package ros-noetic-ros-workspace`"
